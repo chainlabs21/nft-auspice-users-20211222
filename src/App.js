@@ -36,6 +36,30 @@ import Nftsell04Off from "./router/Nftsell04Off";
 import Nftsell05 from "./router/Nftsell05";
 import Nftsell05Off from "./router/Nftsell05Off";
 import Buynft01 from "./router/Buynft01";
+import Buynft02 from "./router/Buynft02";
+import Buynft03 from "./router/Buynft03";
+import Buynft04 from "./router/Buynft04";
+import Profile01 from "./router/Profile01";
+import Profile02 from "./router/Profile02";
+import Profile03 from "./router/Profile03";
+import Profile04 from "./router/Profile04";
+import Profile05 from "./router/Profile05";
+import Profile06 from "./router/Profile06";
+import Profile07 from "./router/Profile07";
+import Profile07Off from "./router/Profile07Off";
+import Profile09 from "./router/Profile09";
+import Profile12 from "./router/Profile12";
+import Profile13 from "./router/Profile13";
+import Profile14 from "./router/Profile14";
+import Profile15 from "./router/Profile15";
+import Profile16 from "./router/Profile16";
+import Profile17 from "./router/Profile17";
+import Profile18 from "./router/Profile18";
+import Profile19 from "./router/Profile19";
+import Profile21 from "./router/Profile21";
+import MProfileMenu from "./router/MProfileMenu";
+import ExploreDeal from "./router/ExploreDeal";
+import Explore from "./router/Explore";
 
 function App({ store, setHref, setConnect }) {
   return (
@@ -99,6 +123,30 @@ function App({ store, setHref, setConnect }) {
           <Route path="/nftsell05" element={<Nftsell05 />} />
           <Route path="/nftsell05off" element={<Nftsell05Off />} />
           <Route path="/buynft01" element={<Buynft01 />} />
+          <Route path="/buynft02" element={<Buynft02 />} />
+          <Route path="/buynft03" element={<Buynft03 />} />
+          <Route path="/buynft04" element={<Buynft04 />} />
+          <Route path="/profile01" element={<Profile01 />} />
+          <Route path="/profile02" element={<Profile02 />} />
+          <Route path="/profile03" element={<Profile03 />} />
+          <Route path="/profile04" element={<Profile04 />} />
+          <Route path="/profile05" element={<Profile05 />} />
+          <Route path="/profile06" element={<Profile06 />} />
+          <Route path="/profile07" element={<Profile07 />} />
+          <Route path="/profile07off" element={<Profile07Off />} />
+          <Route path="/profile09" element={<Profile09 />} />
+          <Route path="/profile12" element={<Profile12 />} />
+          <Route path="/profile13" element={<Profile13 />} />
+          <Route path="/profile14" element={<Profile14 />} />
+          <Route path="/profile15" element={<Profile15 />} />
+          <Route path="/profile16" element={<Profile16 />} />
+          <Route path="/profile17" element={<Profile17 />} />
+          <Route path="/profile18" element={<Profile18 />} />
+          <Route path="/profile19" element={<Profile19 />} />
+          <Route path="/profile21" element={<Profile21 />} />
+          <Route path="/mprofilemenu" element={<MProfileMenu />} />
+          <Route path="/exploredeal" element={<ExploreDeal />} />
+          <Route path="/explore" element={<Explore />} />
         </Routes>
       </HashRouter>
     </AppBox>

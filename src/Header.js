@@ -46,12 +46,15 @@ function Main({ store, setConnect }) {
 
       <nav>
         <ul>
-          <li onClick={()=>navigate('/marketplace')}>
+          <li onClick={() => navigate("/marketplace")}>
             <a>Marketplace</a>
             <ol>
               <li>
                 <a>
-                  <img src={"./img/header/menu_all.png"} class="on" />
+                  <img
+                    src={require("./img/header/menu_all.png").default}
+                    class="on"
+                  />
                   <img
                     src={require("./img/header/menu_all_off.png").default}
                     class="off"
