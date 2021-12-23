@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import styled from "styled-components";
@@ -15,6 +15,7 @@ import users_list01 from "./img/main/users_list01.png";
 import users_list02 from "./img/main/users_list02.png";
 import users_list03 from "./img/main/users_list03.png";
 import users_list04 from "./img/main/users_list04.png";
+import I_rtArw3 from "./img/main/I_rtArw3.svg";
 import sample from "./img/sub/sample.png";
 import "./css/common.css";
 import "./css/font.css";
@@ -28,24 +29,43 @@ import "./css/header.css";
 import "./css/footer.css";
 import "./css/swiper.min.css";
 
+import title from "./img/main/title.svg";
+
 function Main({ store, setConnect }) {
+  const swiperRef = useRef();
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
 
   let pathArray = pathname.split("/");
   let pathAddress = pathArray[pathArray.length - 1];
 
-  function onMouseEnterNav(target) {
-    const parent = target.parentNode;
-    const popup = parent.querySelector("ol");
-    if (popup) popup.style.display = "block";
+  const [intervalId, setIntervalId] = useState();
+  const [swiperIndex, setSwiperIndex] = useState(0);
+
+  function featuredIntervalFunc() {
+    if (swiperRef.current?.scrollTo) {
+      if (swiperIndex < swiperRef.current.children.length - 1) {
+        swiperRef.current.scrollTo({
+          left: swiperRef.current.children[0].offsetWidth * (swiperIndex + 1),
+          behavior: "smooth",
+        });
+        setSwiperIndex(swiperIndex + 1);
+      } else {
+        setSwiperIndex(0);
+        swiperRef.current.scrollTo({ left: 0, behavior: "smooth" });
+      }
+    }
   }
 
-  function onMouseLeaveNav(target) {
-    const parent = target.parentNode;
-    const popup = parent.querySelector("ol");
-    if (popup) popup.style.display = "none";
-  }
+  useEffect(() => {
+    if (swiperRef.current.children.length) {
+      if (intervalId) clearInterval(intervalId);
+
+      setIntervalId(setInterval(featuredIntervalFunc, 3000));
+    }
+
+    return clearInterval(intervalId);
+  }, [swiperIndex]);
 
   return (
     <IndexBox>
@@ -53,7 +73,7 @@ function Main({ store, setConnect }) {
         <article class="visual">
           <div class="title">
             <h2>
-              <img src={require("./img/main/title.png").default} />
+              <img src={title} />
             </h2>
             <p>
               Make money with NFTs that are easily issued and managed. Only in
@@ -64,155 +84,163 @@ function Main({ store, setConnect }) {
               <a href="#">NFT Publication</a>
             </div>
           </div>
-          <div class="swiper">
-            <div class="swiper-container swiper-container-visual">
-              <ol class="swiper-wrapper">
-                <li class="swiper-slide">
-                  <div
-                    style={{
-                      backgroundImage: `url(${image01})`,
-                    }}
-                  ></div>
-                  <div>
-                    <h3>Irregular Shape</h3>
-                    <p>Guzuman</p>
-                    <div class="info">
-                      <dl>
-                        <dt>Current Bid</dt>
-                        <dd>
-                          2.867<span>AUSP</span>
-                        </dd>
-                      </dl>
-                      <dl>
-                        <dt>Auction ending in</dt>
-                        <dd>05:32:21</dd>
-                      </dl>
-                    </div>
-                    <div class="history">
-                      <span>Offer History</span>
-                      <ul>
-                        <li>
-                          <img
-                            src={
-                              require("./img/main/image_person01.png").default
-                            }
-                          />
-                          <strong>5.44 AUSP</strong>
-                          <span>21:54</span>
-                        </li>
-                        <li>
-                          <img
-                            src={
-                              require("./img/main/image_person01.png").default
-                            }
-                          />
-                          <strong>5.44 AUSP</strong>
-                          <span>21:54</span>
-                        </li>
-                        <li>
-                          <img
-                            src={
-                              require("./img/main/image_person01.png").default
-                            }
-                          />
-                          <strong>5.44 AUSP</strong>
-                          <span>21:54</span>
-                        </li>
-                        <li>
-                          <img
-                            src={
-                              require("./img/main/image_person01.png").default
-                            }
-                          />
-                          <strong>5.44 AUSP</strong>
-                          <span>21:54</span>
-                        </li>
-                        <li>
-                          <img
-                            src={
-                              require("./img/main/image_person01.png").default
-                            }
-                          />
-                          <strong>5.44 AUSP</strong>
-                          <span>21:54</span>
-                        </li>
-                        <li>
-                          <img
-                            src={
-                              require("./img/main/image_person01.png").default
-                            }
-                          />
-                          <strong>5.44 AUSP</strong>
-                          <span>21:54</span>
-                        </li>
-                        <li>
-                          <img
-                            src={
-                              require("./img/main/image_person01.png").default
-                            }
-                          />
-                          <strong>5.44 AUSP</strong>
-                          <span>21:54</span>
-                        </li>
-                        <li>
-                          <img
-                            src={
-                              require("./img/main/image_person01.png").default
-                            }
-                          />
-                          <strong>5.44 AUSP</strong>
-                          <span>21:54</span>
-                        </li>
-                        <li>
-                          <img
-                            src={
-                              require("./img/main/image_person01.png").default
-                            }
-                          />
-                          <strong>5.44 AUSP</strong>
-                          <span>21:54</span>
-                        </li>
-                        <li>
-                          <img
-                            src={
-                              require("./img/main/image_person01.png").default
-                            }
-                          />
-                          <strong>5.44 AUSP</strong>
-                          <span>21:54</span>
-                        </li>
-                        <li>
-                          <img
-                            src={
-                              require("./img/main/image_person01.png").default
-                            }
-                          />
-                          <strong>5.44 AUSP</strong>
-                          <span>21:54</span>
-                        </li>
-                        <li>
-                          <img
-                            src={
-                              require("./img/main/image_person01.png").default
-                            }
-                          />
-                          <strong>5.44 AUSP</strong>
-                          <span>21:54</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="button">
-                      <a href="#">View Item</a>
-                      <a href="#">Place a Bid</a>
+
+          <div className="swiperBox">
+            <button className="rightBtn" onClick={() => {}}>
+              <img src={I_rtArw3} alt="" />
+            </button>
+            <ul className="swiper" ref={swiperRef}>
+              {[1, 2, 3].map((cont, index) => (
+                <li class="swiper-slide" key={index}>
+                  <div className="innerBox">
+                    <img src={image01} alt="" />
+
+                    <div>
+                      <h3>Irregular Shape</h3>
+                      <p>Guzuman</p>
+                      <div class="info">
+                        <dl>
+                          <dt>Current Bid</dt>
+                          <dd>
+                            2.867<span>AUSP</span>
+                          </dd>
+                        </dl>
+                        <dl>
+                          <dt>Auction ending in</dt>
+                          <dd>05:32:21</dd>
+                        </dl>
+                      </div>
+                      <div class="history">
+                        <span>Offer History</span>
+                        <ul>
+                          <li>
+                            <img
+                              src={
+                                require("./img/main/image_person01.png").default
+                              }
+                            />
+                            <strong>5.44 AUSP</strong>
+                            <span>21:54</span>
+                          </li>
+                          <li>
+                            <img
+                              src={
+                                require("./img/main/image_person01.png").default
+                              }
+                            />
+                            <strong>5.44 AUSP</strong>
+                            <span>21:54</span>
+                          </li>
+                          <li>
+                            <img
+                              src={
+                                require("./img/main/image_person01.png").default
+                              }
+                            />
+                            <strong>5.44 AUSP</strong>
+                            <span>21:54</span>
+                          </li>
+                          <li>
+                            <img
+                              src={
+                                require("./img/main/image_person01.png").default
+                              }
+                            />
+                            <strong>5.44 AUSP</strong>
+                            <span>21:54</span>
+                          </li>
+                          <li>
+                            <img
+                              src={
+                                require("./img/main/image_person01.png").default
+                              }
+                            />
+                            <strong>5.44 AUSP</strong>
+                            <span>21:54</span>
+                          </li>
+                          <li>
+                            <img
+                              src={
+                                require("./img/main/image_person01.png").default
+                              }
+                            />
+                            <strong>5.44 AUSP</strong>
+                            <span>21:54</span>
+                          </li>
+                          <li>
+                            <img
+                              src={
+                                require("./img/main/image_person01.png").default
+                              }
+                            />
+                            <strong>5.44 AUSP</strong>
+                            <span>21:54</span>
+                          </li>
+                          <li>
+                            <img
+                              src={
+                                require("./img/main/image_person01.png").default
+                              }
+                            />
+                            <strong>5.44 AUSP</strong>
+                            <span>21:54</span>
+                          </li>
+                          <li>
+                            <img
+                              src={
+                                require("./img/main/image_person01.png").default
+                              }
+                            />
+                            <strong>5.44 AUSP</strong>
+                            <span>21:54</span>
+                          </li>
+                          <li>
+                            <img
+                              src={
+                                require("./img/main/image_person01.png").default
+                              }
+                            />
+                            <strong>5.44 AUSP</strong>
+                            <span>21:54</span>
+                          </li>
+                          <li>
+                            <img
+                              src={
+                                require("./img/main/image_person01.png").default
+                              }
+                            />
+                            <strong>5.44 AUSP</strong>
+                            <span>21:54</span>
+                          </li>
+                          <li>
+                            <img
+                              src={
+                                require("./img/main/image_person01.png").default
+                              }
+                            />
+                            <strong>5.44 AUSP</strong>
+                            <span>21:54</span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="button">
+                        <a href="#">View Item</a>
+                        <a href="#">Place a Bid</a>
+                      </div>
                     </div>
                   </div>
                 </li>
-              </ol>
+              ))}
+            </ul>
+          </div>
+          {/* <div class="swiper">
+            <div class="swiper-container swiper-container-visual">
+              <ol class="swiper-wrapper"></ol>
             </div>
 
             <div class="swiper-button-prev swiper-button-visual-prev"></div>
             <div class="swiper-button-next swiper-button-visual-next"></div>
-          </div>
+          </div> */}
         </article>
 
         <article class="collection">
@@ -762,6 +790,61 @@ function Main({ store, setConnect }) {
 
 const IndexBox = styled.div`
   width: 100%;
+
+  #main {
+    .visual {
+      display: flex;
+      justify-content: space-between;
+      overflow: hidden;
+      user-select: none;
+
+      .swiperBox {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .rightBtn {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          background: #000;
+          position: absolute;
+          z-index: 1;
+          transform: translate(-50%, 0);
+        }
+
+        .swiper {
+          display: flex;
+          align-items: center;
+
+          padding: 4px;
+          overflow-x: scroll;
+          scroll-snap-type: x mandatory;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+
+          .swiper-slide {
+            scroll-snap-align: center;
+            padding: 0 70px 0 0;
+            
+            .innerBox {
+              display: flex;
+              width: 840px;
+              height: 750px;
+              border-radius: 20px;
+              box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+            }
+          }
+        }
+      }
+    }
+  }
 `;
 
 function mapStateToProps(state) {

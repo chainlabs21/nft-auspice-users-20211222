@@ -24,9 +24,9 @@ const GlobalStyle = createGlobalStyle`
     color:unset;
   }
   
-  *::-webkit-scrollbar {
+  /* *::-webkit-scrollbar {
     display: none;
-  }
+  } */
   
   *:focus{
     outline:none;

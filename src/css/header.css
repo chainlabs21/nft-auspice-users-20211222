@@ -1,4 +1,4 @@
-#header { height:120px; position:fixed; top:0; left:0; right:0; box-shadow:0 3px 20px 0 rgba(0, 0, 0, 0.1); z-index:1000; background-color:#fff; }
+/* #header { height:120px; position:fixed; top:0; left:0; right:0; box-shadow:0 3px 20px 0 rgba(0, 0, 0, 0.1); z-index:1000; background-color:#fff; }
 #header h1 { position:absolute; top:50%; left:50px; transform:translate(0, -50%); }
 #header h1 a { display:block; }
 #header h1 a img { vertical-align:top; width:195.2px; }
@@ -38,7 +38,7 @@
 #header nav ul > li.wallet a { padding:12px 36px; background-color:#222; border-radius:24px; color:#fff; width:auto; margin:0 0 0 30px; }
 #header nav ul > li ol { position:absolute; top:100%; left:50%; transform:translate(-50%, 0); min-width:100%; border-radius:8px; background-color:#fff; box-shadow:0 0 10px 0 rgba(0, 0, 0, 0.16); overflow:hidden; display:none; }
 #header nav ul > li ol li { padding:0 10px; width:140px; }
-#header nav ul > li ol li a { display:block; font-size:15px; font-weight:500; color:#000; white-space:nowrap; height:48px; line-height:48px; padding:0 10px; }
+#header nav ul > li ol li a { display:block; font-size:15px; font-weight:500; color:#000; white-space:nowrap; height:48px; line-height:48px; }
 #header nav ul > li ol li a img { vertical-align:middle; margin:0 10px 0 0; }
 #header nav ul > li ol li a img.on { display:none; }
 #header nav ul > li ol li a img.off { display:inline; }
@@ -141,7 +141,6 @@
 
 #header nav { height:calc(100vh - 85px); }
 
-/* #header nav { right:25px; } */
 }
 
 @media screen and (max-width:640px) {
@@ -162,5 +161,4 @@
 #header #mobile:before { margin-top:-7px; }
 #header #mobile:after { margin-top:7px; }
 
-/* #header nav { right:20px; } */
-}
+} */

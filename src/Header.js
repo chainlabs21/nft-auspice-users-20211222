@@ -10,47 +10,52 @@ import "./css/style.css";
 // import "./css/style01.css";
 // import "./css/style02.css";
 
-import "./css/header.css";
+// import "./css/header.css";
 import "./css/footer.css";
 import "./css/swiper.min.css";
+import { useState } from "react";
+
+import I_dnArw from "./img/header/I_dnArw.svg";
+import I_menu from "./img/header/I_menu.svg";
 
 function Main({ store, setConnect }) {
   const navigate = useNavigate();
 
+  const [search, setSearch] = useState("");
+
   return (
     <HeaderBox id="header">
-      <h1>
-        <a href="./">
+      <section className="leftBox">
+        <button className="logo" onClick={() => navigate("/")}>
           <img src={require("./img/header/logo.png").default} />
-        </a>
-      </h1>
-
-      <form>
-        <input
-          type="text"
-          name="text"
-          value=""
-          placeholder="Search items, collections, creators"
-        />
-        <button type="submit">
-          <img src={require("./img/header/search_form.png").default} />
         </button>
-      </form>
 
-      <a id="search" href="#">
-        <img src={require("./img/header/search_icon.png").default} />
-      </a>
-      <a id="mobile" href="javascript:void(0); ">
-        <span></span>
-      </a>
+        <article className="searchBox">
+          <button onClick={() => setSearch("")}>
+            <img src={require("./img/header/search_form.png").default} />
+          </button>
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search items, collections, creators"
+          />
+        </article>
+      </section>
 
-      <nav>
-        <ul>
-          <li onClick={() => navigate("/marketplace")}>
-            <a>Marketplace</a>
-            <ol>
-              <li>
-                <a>
+      <section className="rightBox">
+        <nav className="mNav">
+          <img src={require("./img/header/search_icon.png").default} />
+
+          <img src={I_menu} alt="" />
+        </nav>
+
+        <nav className="pcNav">
+          <ul className="categoryList">
+            <li onClick={() => navigate("/marketplace")}>
+              <p>Marketplace</p>
+              <ol>
+                <li>
                   <img
                     src={require("./img/header/menu_all.png").default}
                     class="on"
@@ -60,10 +65,8 @@ function Main({ store, setConnect }) {
                     class="off"
                   />
                   All
-                </a>
-              </li>
-              <li>
-                <a>
+                </li>
+                <li>
                   <img
                     src={require("./img/header/menu_collectibles.png").default}
                     class="on"
@@ -75,10 +78,8 @@ function Main({ store, setConnect }) {
                     class="off"
                   />
                   Collectibles
-                </a>
-              </li>
-              <li>
-                <a>
+                </li>
+                <li>
                   <img
                     src={require("./img/header/menu_digitalart.png").default}
                     class="on"
@@ -90,10 +91,8 @@ function Main({ store, setConnect }) {
                     class="off"
                   />
                   Digital Art
-                </a>
-              </li>
-              <li>
-                <a>
+                </li>
+                <li>
                   <img
                     src={require("./img/header/menu_tradingcard.png").default}
                     class="on"
@@ -105,10 +104,8 @@ function Main({ store, setConnect }) {
                     class="off"
                   />
                   Trading Card
-                </a>
-              </li>
-              <li>
-                <a>
+                </li>
+                <li>
                   <img
                     src={require("./img/header/menu_music.png").default}
                     class="on"
@@ -118,10 +115,8 @@ function Main({ store, setConnect }) {
                     class="off"
                   />
                   Music
-                </a>
-              </li>
-              <li>
-                <a>
+                </li>
+                <li>
                   <img
                     src={require("./img/header/menu_virtualworlds.png").default}
                     class="on"
@@ -133,10 +128,8 @@ function Main({ store, setConnect }) {
                     class="off"
                   />
                   Virtual Worlds
-                </a>
-              </li>
-              <li>
-                <a>
+                </li>
+                <li>
                   <img
                     src={require("./img/header/menu_sports.png").default}
                     class="on"
@@ -146,60 +139,227 @@ function Main({ store, setConnect }) {
                     class="off"
                   />
                   Sports
-                </a>
-              </li>
-            </ol>
-          </li>
-          <li>
-            <a href="#">Explore</a>
-            <ol>
-              <li>
-                <a href="#">Transaction details</a>
-              </li>
-              <li>
-                <a href="#">Ranking</a>
-              </li>
-            </ol>
-          </li>
-          <li>
-            <a href="#">Mypage</a>
-            <ol>
-              <li>
-                <a href="#">My Profile</a>
-              </li>
-              <li>
-                <a href="#">Bookmark</a>
-              </li>
-              <li>
-                <a href="#">Account Setting</a>
-              </li>
-            </ol>
-          </li>
-          <li class="country">
-            <a href="#">ENG</a>
-          </li>
-          <li class="wallet">
-            <a onClick={() => navigate("/signup")}>Connect Wallet</a>
-          </li>
-        </ul>
-      </nav>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <p href="#">Explore</p>
+              <ol>
+                <li>Transaction details</li>
+                <li>Ranking</li>
+              </ol>
+            </li>
+            <li>
+              <p href="#">Mypage</p>
+              <ol>
+                <li>My Profile</li>
+                <li>Bookmark</li>
+                <li>Account Setting</li>
+              </ol>
+            </li>
+            <li class="country">
+              <p>ENG</p>
+              <img src={I_dnArw} alt="" />
+            </li>
+          </ul>
+          <button class="wallet" onClick={() => navigate("/signup")}>
+            <p>Connect Wallet</p>
+          </button>
+        </nav>
+      </section>
     </HeaderBox>
   );
 }
 
 const HeaderBox = styled.header`
-  nav {
-    ul {
-      li {
-        ol {
-          display: none;
-        }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  height: 120px;
+  padding: 0 50px;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.1);
+  z-index: 2;
 
-        &:hover {
+  .leftBox {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    max-width: 730px;
+
+    .logo {
+      img {
+        min-width: 195px;
+      }
+    }
+
+    .searchBox {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      max-width: 480px;
+      height: 56px;
+      padding: 0 25px;
+      border-radius: 28px;
+      border: solid 1px #bbb;
+
+      input {
+        flex: 1;
+        height: 100%;
+        font-size: 16px;
+        border: none;
+
+        &::placeholder {
+          color: #bbb;
+        }
+      }
+    }
+  }
+
+  .rightBox {
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    .mNav {
+      display: none;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      height: 100%;
+
+      .categoryList {
+        display: flex;
+        align-items: center;
+        height: 100%;
+
+        & > li {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 120px;
+          height: 100%;
+          cursor: pointer;
+          position: relative;
+
+          &:nth-of-type(1) {
+            margin: 0 10px 0 0;
+          }
+
+          p {
+            font-size: 20px;
+            font-weight: 500;
+          }
+
+          &.country {
+            img {
+              right: 8px;
+              position: absolute;
+            }
+          }
+
           ol {
-            display: block !important;
+            display: none;
+            width: 160px;
+            background: #fff;
+            border-radius: 8px;
+            z-index: 6;
+            top: 90px;
+            position: absolute;
+            overflow: hidden;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+
+            li {
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              width: 100%;
+              height: 48px;
+              padding: 0 10px;
+
+              &:hover {
+                color: #fff;
+                background: #222;
+
+                img {
+                  &:nth-of-type(1) {
+                    display: block;
+                  }
+                  &:nth-of-type(2) {
+                    display: none;
+                  }
+                }
+              }
+
+              img {
+                &:nth-of-type(1) {
+                  display: none;
+                }
+                &:nth-of-type(2) {
+                  display: block;
+                }
+              }
+            }
+          }
+
+          &:hover {
+            ol {
+              display: block;
+            }
           }
         }
+      }
+
+      .wallet {
+        width: 218px;
+        height: 48px;
+        border-radius: 28px;
+        font-size: 20px;
+        font-weight: 500;
+        color: #fff;
+        background: #222;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1280px) {
+    height: 100px;
+    box-shadow: unset;
+
+    .leftBox {
+      .logo {
+        img {
+          width: 150px;
+        }
+      }
+    }
+
+    .rightBox {
+      .mNav {
+        display: flex;
+      }
+
+      .pcNav {
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .leftBox {
+      .searchBox {
+        display: none;
       }
     }
   }

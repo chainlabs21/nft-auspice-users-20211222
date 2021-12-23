@@ -84,7 +84,7 @@ function App({ store, setHref, setConnect }) {
         type="text/css"
       />
 
-      {/* <GlobalStyle /> */}
+      <GlobalStyle />
       <HashRouter>
         <Header />
 
