@@ -155,8 +155,13 @@ function App({ store, setHref, setConnect }) {
 
 const AppBox = styled.div`
   width: 100%;
+  padding: 120px 0 0 0;
   background: #fff;
   position: relative;
+
+  @media screen and (max-width: 1280px) {
+    padding: 100px 0 0 0;
+  }
 `;
 
 function mapStateToProps(state) {

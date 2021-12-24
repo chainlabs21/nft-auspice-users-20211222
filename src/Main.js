@@ -15,8 +15,18 @@ import users_list01 from "./img/main/users_list01.png";
 import users_list02 from "./img/main/users_list02.png";
 import users_list03 from "./img/main/users_list03.png";
 import users_list04 from "./img/main/users_list04.png";
-import I_rtArw3 from "./img/main/I_rtArw3.svg";
+import item_list01 from "./img/main/item_list01.png";
+import item_list02 from "./img/main/item_list02.png";
+import item_list03 from "./img/main/item_list03.png";
+import item_list04 from "./img/main/item_list04.png";
+import item_list05 from "./img/main/item_list05.png";
+import I_nextBtn from "./img/main/I_nextBtn.svg";
+import I_prevBtn from "./img/main/I_prevBtn.svg";
 import sample from "./img/sub/sample.png";
+import I_heartO from "./img/main/I_heartO.svg";
+import I_heart from "./img/main/I_heart.svg";
+import I_starO from "./img/main/I_starO.svg";
+import I_star from "./img/main/I_star.svg";
 import "./css/common.css";
 import "./css/font.css";
 import "./css/layout.css";
@@ -31,8 +41,14 @@ import "./css/swiper.min.css";
 
 import title from "./img/main/title.svg";
 
+import { putCommaAtPrice } from "./util/Util";
+
 function Main({ store, setConnect }) {
   const swiperRef = useRef();
+  const collectionRef = useRef();
+  const trendingItemRef = useRef();
+  const itemRef = useRef();
+
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
 
@@ -40,54 +56,200 @@ function Main({ store, setConnect }) {
   let pathAddress = pathArray[pathArray.length - 1];
 
   const [intervalId, setIntervalId] = useState();
-  const [swiperIndex, setSwiperIndex] = useState(0);
+  const [titleswiperIndex, setTitleSwiperIndex] = useState(0);
+  const [collectionIndex, setCollectionIndex] = useState(0);
+  const [trendingItemIndex, setTrendingItemIndex] = useState(0);
+  const [itemIndex, setItemIndex] = useState(0);
 
-  function featuredIntervalFunc() {
+  function onclickTitleSwiper() {
     if (swiperRef.current?.scrollTo) {
-      if (swiperIndex < swiperRef.current.children.length - 1) {
+      if (titleswiperIndex < swiperRef.current.children.length - 1) {
         swiperRef.current.scrollTo({
-          left: swiperRef.current.children[0].offsetWidth * (swiperIndex + 1),
+          left:
+            swiperRef.current.children[0].offsetWidth * (titleswiperIndex + 1),
           behavior: "smooth",
         });
-        setSwiperIndex(swiperIndex + 1);
+        setTitleSwiperIndex(titleswiperIndex + 1);
       } else {
-        setSwiperIndex(0);
+        setTitleSwiperIndex(0);
         swiperRef.current.scrollTo({ left: 0, behavior: "smooth" });
       }
     }
+  }
+
+  function onclickCollectionPreBtn() {
+    const wrapWidth = collectionRef.current.offsetWidth;
+    const contWidth = collectionRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(collectionList.length / itemNumByPage);
+
+    if (collectionIndex > 0) setCollectionIndex(collectionIndex - 1);
+    else setCollectionIndex(pageNum - 1);
+  }
+
+  function onclickCollectionNextBtn() {
+    const wrapWidth = collectionRef.current.offsetWidth;
+    const contWidth = collectionRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(collectionList.length / itemNumByPage);
+
+    if (collectionIndex < pageNum - 1) setCollectionIndex(collectionIndex + 1);
+    else setCollectionIndex(0);
+  }
+
+  function onclickTrendingItemPreBtn() {
+    const wrapWidth = trendingItemRef.current.offsetWidth;
+    const contWidth = trendingItemRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(trendingItemList.length / itemNumByPage);
+
+    if (trendingItemIndex > 0) setTrendingItemIndex(trendingItemIndex - 1);
+    else setTrendingItemIndex(pageNum - 1);
+  }
+
+  function onclickTrendingItemNextBtn() {
+    const wrapWidth = trendingItemRef.current.offsetWidth;
+    const contWidth = trendingItemRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(trendingItemList.length / itemNumByPage);
+
+    if (trendingItemIndex < pageNum - 1)
+      setTrendingItemIndex(trendingItemIndex + 1);
+    else setTrendingItemIndex(0);
+  }
+
+  function onclickItemPreBtn() {
+    const wrapWidth = itemRef.current.offsetWidth;
+    const contWidth = itemRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(itemList.length / itemNumByPage);
+
+    if (itemIndex > 0) setItemIndex(itemIndex - 1);
+    else setItemIndex(pageNum - 1);
+  }
+
+  function onclickItemNextBtn() {
+    const wrapWidth = itemRef.current.offsetWidth;
+    const contWidth = itemRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(itemList.length / itemNumByPage);
+
+    if (itemIndex < pageNum - 1) setItemIndex(itemIndex + 1);
+    else setItemIndex(0);
   }
 
   useEffect(() => {
     if (swiperRef.current.children.length) {
       if (intervalId) clearInterval(intervalId);
 
-      setIntervalId(setInterval(featuredIntervalFunc, 3000));
+      setIntervalId(setInterval(onclickTitleSwiper, 3000));
     }
 
     return clearInterval(intervalId);
-  }, [swiperIndex]);
+  }, [titleswiperIndex]);
+
+  useEffect(() => {
+    const wrapWidth = collectionRef.current.offsetWidth;
+    const contWidth = collectionRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(collectionList.length / itemNumByPage);
+
+    if (collectionRef.current?.scrollTo) {
+      if (collectionIndex < pageNum) {
+        console.log(collectionRef.current);
+        console.log(collectionIndex, pageNum);
+
+        collectionRef.current.scrollTo({
+          left: contWidth * itemNumByPage * collectionIndex,
+          behavior: "smooth",
+        });
+
+        console.log(contWidth * itemNumByPage * collectionIndex);
+        console.log(collectionRef.current.scrollLeft);
+      } else {
+        collectionRef.current.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [collectionIndex]);
+
+  useEffect(() => {
+    const wrapWidth = trendingItemRef.current.offsetWidth;
+    const contWidth = trendingItemRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(collectionList.length / itemNumByPage);
+
+    if (trendingItemRef.current?.scrollTo) {
+      if (trendingItemIndex < pageNum) {
+        console.log(trendingItemRef.current);
+        console.log(trendingItemIndex, pageNum);
+
+        trendingItemRef.current.scrollTo({
+          left: contWidth * itemNumByPage * trendingItemIndex,
+          behavior: "smooth",
+        });
+
+        console.log(contWidth * itemNumByPage * trendingItemIndex);
+        console.log(trendingItemRef.current.scrollLeft);
+      } else {
+        trendingItemRef.current.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [trendingItemIndex]);
+
+  useEffect(() => {
+    const wrapWidth = itemRef.current.offsetWidth;
+    const contWidth = itemRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(itemList.length / itemNumByPage);
+
+    if (itemRef.current?.scrollTo) {
+      if (itemIndex < pageNum) {
+        console.log(itemRef.current);
+        console.log(itemIndex, pageNum);
+
+        itemRef.current.scrollTo({
+          left: contWidth * itemNumByPage * itemIndex,
+          behavior: "smooth",
+        });
+
+        console.log(contWidth * itemNumByPage * itemIndex);
+        console.log(itemRef.current.scrollLeft);
+      } else {
+        itemRef.current.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [itemIndex]);
 
   return (
     <IndexBox>
       <section id="main">
         <article class="visual">
-          <div class="title">
-            <h2>
+          <div class="titleBox">
+            <div className="topBox">
               <img src={title} />
-            </h2>
-            <p>
-              Make money with NFTs that are easily issued and managed. Only in
-              your own NFT gallery
-            </p>
-            <div>
-              <a href="#">NFT Navigation</a>
-              <a href="#">NFT Publication</a>
+              <p>
+                Make money with NFTs that are easily issued and managed.
+                <br /> Only in your own NFT gallery
+              </p>
+            </div>
+            <div className="btnBox">
+              <button className="navBtn">NFT Navigation</button>
+              <button className="pubBtn">NFT Publication</button>
             </div>
           </div>
 
           <div className="swiperBox">
-            <button className="rightBtn" onClick={() => {}}>
-              <img src={I_rtArw3} alt="" />
+            <button className="rightBtn" onClick={onclickTitleSwiper}>
+              <img src={I_nextBtn} alt="" />
             </button>
             <ul className="swiper" ref={swiperRef}>
               {[1, 2, 3].map((cont, index) => (
@@ -95,137 +257,58 @@ function Main({ store, setConnect }) {
                   <div className="innerBox">
                     <img src={image01} alt="" />
 
-                    <div>
-                      <h3>Irregular Shape</h3>
-                      <p>Guzuman</p>
-                      <div class="info">
-                        <dl>
-                          <dt>Current Bid</dt>
-                          <dd>
-                            2.867<span>AUSP</span>
-                          </dd>
-                        </dl>
-                        <dl>
-                          <dt>Auction ending in</dt>
-                          <dd>05:32:21</dd>
-                        </dl>
+                    <div className="textBox">
+                      <div className="topBox">
+                        <h3 className="title">Irregular Shape</h3>
+                        <p className="creator">Guzuman</p>
                       </div>
-                      <div class="history">
-                        <span>Offer History</span>
-                        <ul>
-                          <li>
-                            <img
-                              src={
-                                require("./img/main/image_person01.png").default
-                              }
-                            />
-                            <strong>5.44 AUSP</strong>
-                            <span>21:54</span>
-                          </li>
-                          <li>
-                            <img
-                              src={
-                                require("./img/main/image_person01.png").default
-                              }
-                            />
-                            <strong>5.44 AUSP</strong>
-                            <span>21:54</span>
-                          </li>
-                          <li>
-                            <img
-                              src={
-                                require("./img/main/image_person01.png").default
-                              }
-                            />
-                            <strong>5.44 AUSP</strong>
-                            <span>21:54</span>
-                          </li>
-                          <li>
-                            <img
-                              src={
-                                require("./img/main/image_person01.png").default
-                              }
-                            />
-                            <strong>5.44 AUSP</strong>
-                            <span>21:54</span>
-                          </li>
-                          <li>
-                            <img
-                              src={
-                                require("./img/main/image_person01.png").default
-                              }
-                            />
-                            <strong>5.44 AUSP</strong>
-                            <span>21:54</span>
-                          </li>
-                          <li>
-                            <img
-                              src={
-                                require("./img/main/image_person01.png").default
-                              }
-                            />
-                            <strong>5.44 AUSP</strong>
-                            <span>21:54</span>
-                          </li>
-                          <li>
-                            <img
-                              src={
-                                require("./img/main/image_person01.png").default
-                              }
-                            />
-                            <strong>5.44 AUSP</strong>
-                            <span>21:54</span>
-                          </li>
-                          <li>
-                            <img
-                              src={
-                                require("./img/main/image_person01.png").default
-                              }
-                            />
-                            <strong>5.44 AUSP</strong>
-                            <span>21:54</span>
-                          </li>
-                          <li>
-                            <img
-                              src={
-                                require("./img/main/image_person01.png").default
-                              }
-                            />
-                            <strong>5.44 AUSP</strong>
-                            <span>21:54</span>
-                          </li>
-                          <li>
-                            <img
-                              src={
-                                require("./img/main/image_person01.png").default
-                              }
-                            />
-                            <strong>5.44 AUSP</strong>
-                            <span>21:54</span>
-                          </li>
-                          <li>
-                            <img
-                              src={
-                                require("./img/main/image_person01.png").default
-                              }
-                            />
-                            <strong>5.44 AUSP</strong>
-                            <span>21:54</span>
-                          </li>
-                          <li>
-                            <img
-                              src={
-                                require("./img/main/image_person01.png").default
-                              }
-                            />
-                            <strong>5.44 AUSP</strong>
-                            <span>21:54</span>
-                          </li>
-                        </ul>
-                      </div>
-                      <div class="button">
-                        <a href="#">View Item</a>
-                        <a href="#">Place a Bid</a>
+
+                      <div className="bottomBox">
+                        <div className="infoBox">
+                          <dl className="price">
+                            <dt>Current Bid</dt>
+                            <dd>
+                              2.867<span>AUSP</span>
+                            </dd>
+                          </dl>
+                          <dl className="time">
+                            <dt>Auction ending in</dt>
+                            <dd>05:32:21</dd>
+                          </dl>
+                        </div>
+
+                        <div class="history pc">
+                          <span className="label">Offer History</span>
+                          <ul className="historyList">
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map((cont, index) => (
+                              <li key={index}>
+                                <span>
+                                  <img
+                                    src={
+                                      require("./img/main/image_person01.png")
+                                        .default
+                                    }
+                                  />
+                                  <strong>5.44 AUSP</strong>
+                                </span>
+
+                                <span>
+                                  <span>21:54</span>
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div class="buttonBox pc">
+                          <button className="viewBtn">View Item</button>
+                          <button className="placeBtn">Place a Bid</button>
+                        </div>
+
+                        <div class="buttonBox m">
+                          <button className="placeBtn">Place a Bid</button>
+                          <button className="viewBtn">View Artwork</button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -233,441 +316,213 @@ function Main({ store, setConnect }) {
               ))}
             </ul>
           </div>
-          {/* <div class="swiper">
-            <div class="swiper-container swiper-container-visual">
-              <ol class="swiper-wrapper"></ol>
-            </div>
-
-            <div class="swiper-button-prev swiper-button-visual-prev"></div>
-            <div class="swiper-button-next swiper-button-visual-next"></div>
-          </div> */}
         </article>
 
         <article class="collection">
           <div class="wrap">
             <h4 class="t">Trending Collection</h4>
-            <div class="swiper">
-              <div class="swiper-container swiper-container-collection">
-                <ol class="list swiper-wrapper">
-                  <li class="swiper-slide">
-                    <a href="#">
-                      <div
-                        style={{ backgroundImage: `url(${collection_list01})` }}
-                      ></div>
-                      <div>
-                        <span
-                          style={{
-                            backgroundImage: `url(${collection_person01})`,
-                          }}
-                        ></span>
-                        <dl>
-                          <dt>Lalaredtu's Collection</dt>
-                          <dd>
-                            <strong>Lalaredtu</strong>
-                            <p>
-                              This collection is a collection of 80 individual
-                              works and has been exhibited at the Museum of
-                              Modern Art.
-                            </p>
-                          </dd>
-                        </dl>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#">
-                      <div
-                        style={{ backgroundImage: `url(${collection_list02})` }}
-                      ></div>
-                      <div>
-                        <span
-                          style={{
-                            backgroundImage: `url(${collection_person02})`,
-                          }}
-                        ></span>
-                        <dl>
-                          <dt>Emilie</dt>
-                          <dd>
-                            <strong>Antoin</strong>
-                            <p>
-                              dot image collection It was made for game
-                              development and was very popular.
-                            </p>
-                          </dd>
-                        </dl>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#">
-                      <div
-                        style={{ backgroundImage: `url(${collection_list03})` }}
-                      ></div>
-                      <div>
-                        <span
-                          style={{
-                            backgroundImage: `url(${collection_person03})`,
-                          }}
-                        ></span>
-                        <dl>
-                          <dt>la piscine</dt>
-                          <dd>
-                            <strong>Antoin</strong>
-                            <p>
-                              This collection pays homage to the works of Bead
-                              Hockney, allowing you to appreciate David's work
-                              with a different feel.
-                            </p>
-                          </dd>
-                        </dl>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#">
-                      <div
-                        style={{ backgroundImage: `url(${collection_list04})` }}
-                      ></div>
-                      <div>
-                        <span
-                          style={{
-                            backgroundImage: `url(${collection_person04})`,
-                          }}
-                        ></span>
-                        <dl>
-                          <dt>Bleu</dt>
-                          <dd>
-                            <strong>Henry junior</strong>
-                            <p>
-                              It is a work made with thickly pressed paint, and
-                              you can appreciate the collection in a variety of
-                              beautiful colors.
-                            </p>
-                          </dd>
-                        </dl>
-                      </div>
-                    </a>
-                  </li>
-                </ol>
-              </div>
 
-              <div class="swiper-button-prev swiper-button-collection-prev"></div>
-              <div class="swiper-button-next swiper-button-collection-next"></div>
+            <div className="swiperBox">
+              <ul className="swiper" ref={collectionRef}>
+                {collectionList.map((cont, index) => (
+                  <li key={index}>
+                    <div className="innerBox">
+                      <img className="item" src={cont.item} alt="" />
+
+                      <div className="infoBox">
+                        <img className="profImg" src={cont.person} alt="" />
+
+                        <div className="titleBox">
+                          <strong className="title">{cont.title}</strong>
+                          <p className="creator">{cont.creator}</p>
+                        </div>
+
+                        <div className="description">{cont.description}</div>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <button className="prevBtn" onClick={onclickCollectionPreBtn}>
+                <img src={I_prevBtn} alt="" />
+              </button>
+
+              <button className="nextBtn" onClick={onclickCollectionNextBtn}>
+                <img src={I_nextBtn} alt="" />
+              </button>
             </div>
           </div>
         </article>
 
         <article class="category">
-          <div class="wrap">
-            <h4 class="t">Market Category</h4>
+          <h4 class="t">Market Category</h4>
 
-            <ol class="list">
-              <li>
-                <a href="#">
-                  <img src={require("./img/main/category_art.png").default} />
-                  Art
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <img src={require("./img/main/category_music.png").default} />
-                  Music
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <img
-                    src={
-                      require("./img/main/category_virtualworld.png").default
-                    }
-                  />
-                  Virtual World
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <img
-                    src={
-                      require("./img/main/category_tradingcards.png").default
-                    }
-                  />
-                  Trading Cards
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <img
-                    src={
-                      require("./img/main/category_collectibles.png").default
-                    }
-                  />
-                  Collectibles
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <img
-                    src={require("./img/main/category_sports.png").default}
-                  />
-                  Sports
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <img
-                    src={require("./img/main/category_utility.png").default}
-                  />
-                  Utility
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <img src={require("./img/main/category_etc.png").default} />
-                  etc
-                </a>
-              </li>
-            </ol>
+          <ol class="list">
+            <li>
+              <img src={require("./img/main/category_art.png").default} />
+              Art
+            </li>
+            <li>
+              <img src={require("./img/main/category_music.png").default} />
+              Music
+            </li>
+            <li>
+              <img
+                src={require("./img/main/category_virtualworld.png").default}
+              />
+              Virtual World
+            </li>
+            <li>
+              <img
+                src={require("./img/main/category_tradingcards.png").default}
+              />
+              Trading Cards
+            </li>
+            <li>
+              <img
+                src={require("./img/main/category_collectibles.png").default}
+              />
+              Collectibles
+            </li>
+            <li>
+              <img src={require("./img/main/category_sports.png").default} />
+              Sports
+            </li>
+            <li>
+              <img src={require("./img/main/category_utility.png").default} />
+              Utility
+            </li>
+            <li>
+              <img src={require("./img/main/category_etc.png").default} />
+              ETC
+            </li>
+          </ol>
+        </article>
+
+        <article class="item">
+          <h4 class="t">Trending NFT Item</h4>
+
+          <div className="swiperBox">
+            <ul className="swiper" ref={trendingItemRef}>
+              {trendingItemList.map((cont, index) => (
+                <li key={index}>
+                  <div className="innerBox">
+                    <div
+                      className="item"
+                      style={{
+                        backgroundImage: `url(${cont.img})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                      }}
+                    >
+                      <div className="infoBox">
+                        <div className="topBar">
+                          <span className="like">
+                            <img src={cont.like ? I_heartO : I_heart} alt="" />
+
+                            <p>{putCommaAtPrice(cont.likeCount)}</p>
+                          </span>
+
+                          <span className="favorite">
+                            <img
+                              src={cont.favorite ? I_starO : I_star}
+                              alt=""
+                            />
+                          </span>
+                        </div>
+
+                        <div className="titleBox">
+                          <p className="title">{cont.title}</p>
+                          <p className="creator">{cont.creator}</p>
+                        </div>
+
+                        <div className="info">
+                          <p className="time">{cont.time}</p>
+                          <p className="price">{cont.price}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button className="buyBtn" onClick={() => {}}>
+                      Buy Now
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <button className="prevBtn" onClick={onclickTrendingItemPreBtn}>
+              <img src={I_prevBtn} alt="" />
+            </button>
+
+            <button className="nextBtn" onClick={onclickTrendingItemNextBtn}>
+              <img src={I_nextBtn} alt="" />
+            </button>
           </div>
         </article>
 
         <article class="item">
-          <div class="wrap">
-            <h4 class="t">Trending NFT Item</h4>
+          <h4 class="t">NEW NFT Item</h4>
 
-            <div class="swiper">
-              <div class="swiper-container swiper-container-trendingitem">
-                <ol class="item item5 buy swiper-wrapper">
-                  <li class="swiper-slide">
-                    <a href="#" style={{ backgroundImage: `url(${sample})` }}>
-                      <div class="on">
-                        <ul>
-                          <li class="heart off">1,389</li>
-                          <li class="star off"></li>
-                        </ul>
-                        <div>Summer Pool</div>
-                        <span>David</span>
-                        <ol>
-                          <li>6 minutes left</li>
-                          <li>1.67 AUSP</li>
-                        </ol>
-                        <p>Buy Now</p>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#" style={{ backgroundImage: `url(${sample})` }}>
-                      <div class="on">
-                        <ul>
-                          <li class="heart on">1,389</li>
-                          <li class="star on"></li>
-                        </ul>
-                        <div>Summer Pool</div>
-                        <span>David</span>
-                        <ol>
-                          <li>6 minutes left</li>
-                          <li>1.67 AUSP</li>
-                        </ol>
-                        <p>Buy Now</p>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#" style={{ backgroundImage: `url(${sample})` }}>
-                      <div class="on">
-                        <ul>
-                          <li class="heart on">1,389</li>
-                          <li class="star on"></li>
-                        </ul>
-                        <div>Summer Pool</div>
-                        <span>David</span>
-                        <ol>
-                          <li>6 minutes left</li>
-                          <li>1.67 AUSP</li>
-                        </ol>
-                        <p>Buy Now</p>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#" style={{ backgroundImage: `url(${sample})` }}>
-                      <div class="on">
-                        <ul>
-                          <li class="heart on">1,389</li>
-                          <li class="star on"></li>
-                        </ul>
-                        <div>Summer Pool</div>
-                        <span>David</span>
-                        <ol>
-                          <li>6 minutes left</li>
-                          <li>1.67 AUSP</li>
-                        </ol>
-                        <p>Buy Now</p>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#" style={{ backgroundImage: `url(${sample})` }}>
-                      <div class="on">
-                        <ul>
-                          <li class="heart on">1,389</li>
-                          <li class="star on"></li>
-                        </ul>
-                        <div>Summer Pool</div>
-                        <span>David</span>
-                        <ol>
-                          <li>6 minutes left</li>
-                          <li>1.67 AUSP</li>
-                        </ol>
-                        <p>Buy Now</p>
-                      </div>
-                    </a>
-                  </li>
-                </ol>
-              </div>
+          <div className="swiperBox">
+            <ul className="swiper" ref={itemRef}>
+              {itemList.map((cont, index) => (
+                <li key={index}>
+                  <div className="innerBox">
+                    <div
+                      className="item"
+                      style={{
+                        backgroundImage: `url(${cont.img})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                      }}
+                    >
+                      <div className="infoBox">
+                        <div className="topBar">
+                          <span className="like">
+                            <img src={cont.like ? I_heartO : I_heart} alt="" />
 
-              <div class="swiper-button-prev swiper-button-trendingitem-prev"></div>
-              <div class="swiper-button-next swiper-button-trendingitem-next"></div>
-            </div>
-          </div>
-        </article>
+                            <p>{putCommaAtPrice(cont.likeCount)}</p>
+                          </span>
 
-        <article class="item">
-          <div class="wrap">
-            <h4 class="t">NEW NFT Item</h4>
+                          <span className="favorite">
+                            <img
+                              src={cont.favorite ? I_starO : I_star}
+                              alt=""
+                            />
+                          </span>
+                        </div>
 
-            <div class="swiper">
-              <div class="swiper-container swiper-container-newitem">
-                <ol class="item item4 summary swiper-wrapper">
-                  <li class="swiper-slide">
-                    <a href="#" style={{ backgroundImage: `url(${sample})` }}>
-                      <div class="on">
-                        <ul>
-                          <li class="heart off">1,389</li>
-                          <li class="star off"></li>
-                        </ul>
-                        <div>Summer Pool</div>
-                        <span>David</span>
-                        <ol>
-                          <li>6 minutes left</li>
-                          <li>1.67 AUSP</li>
-                        </ol>
+                        <div className="titleBox">
+                          <p className="title">{cont.title}</p>
+                          <p className="creator">{cont.creator}</p>
+                        </div>
+
+                        <div className="info">
+                          <p className="time">{cont.time}</p>
+                          <p className="price">{cont.price}</p>
+                        </div>
                       </div>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#" style={{ backgroundImage: `url(${sample})` }}>
-                      <div class="on">
-                        <ul>
-                          <li class="heart on">1,389</li>
-                          <li class="star on"></li>
-                        </ul>
-                        <div>Summer Pool</div>
-                        <span>David</span>
-                        <ol>
-                          <li>6 minutes left</li>
-                          <li>1.67 AUSP</li>
-                        </ol>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#" style={{ backgroundImage: `url(${sample})` }}>
-                      <div class="on">
-                        <ul>
-                          <li class="heart on">1,389</li>
-                          <li class="star on"></li>
-                        </ul>
-                        <div>Summer Pool</div>
-                        <span>David</span>
-                        <ol>
-                          <li>6 minutes left</li>
-                          <li>1.67 AUSP</li>
-                        </ol>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#" style={{ backgroundImage: `url(${sample})` }}>
-                      <div class="on">
-                        <ul>
-                          <li class="heart on">1,389</li>
-                          <li class="star on"></li>
-                        </ul>
-                        <div>Summer Pool</div>
-                        <span>David</span>
-                        <ol>
-                          <li>6 minutes left</li>
-                          <li>1.67 AUSP</li>
-                        </ol>
-                      </div>
-                    </a>
-                  </li>
-                </ol>
-              </div>
+                    </div>
 
-              <div class="swiper-button-prev swiper-button-newitem-prev"></div>
-              <div class="swiper-button-next swiper-button-newitem-next"></div>
-            </div>
-          </div>
-        </article>
+                    <button className="buyBtn" onClick={() => {}}>
+                      Buy Now
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
 
-        <article class="users">
-          <div class="wrap">
-            <h4 class="t">Tips for Auspice users</h4>
+            <button className="prevBtn" onClick={onclickItemPreBtn}>
+              <img src={I_prevBtn} alt="" />
+            </button>
 
-            <div class="swiper">
-              <div class="swiper-container swiper-container-users">
-                <ol class="list swiper-wrapper">
-                  <li class="swiper-slide">
-                    <a href="#">
-                      <div
-                        style={{ backgroundImage: `url(${users_list01})` }}
-                      ></div>
-                      <dl>
-                        <dt>Basic Guide</dt>
-                        <dd>Before Participating in NFT Collection</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#">
-                      <div
-                        style={{ backgroundImage: `url(${users_list02})` }}
-                      ></div>
-                      <dl>
-                        <dt>Buy NFTs</dt>
-                        <dd>Discover and buy promising NFTs</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#">
-                      <div
-                        style={{ backgroundImage: `url(${users_list03})` }}
-                      ></div>
-                      <dl>
-                        <dt>production and sales</dt>
-                        <dd>Easy-to-follow NFT production and sales</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="#">
-                      <div
-                        style={{ backgroundImage: `url(${users_list04})` }}
-                      ></div>
-                      <dl>
-                        <dt>Auspice Market</dt>
-                        <dd>5 reasons to sell your NFTs on Auspice</dd>
-                      </dl>
-                    </a>
-                  </li>
-                </ol>
-              </div>
-
-              <div class="swiper-button-prev swiper-button-users-prev"></div>
-              <div class="swiper-button-next swiper-button-users-next"></div>
-            </div>
+            <button className="nextBtn" onClick={onclickItemNextBtn}>
+              <img src={I_nextBtn} alt="" />
+            </button>
           </div>
         </article>
       </section>
@@ -677,9 +532,9 @@ function Main({ store, setConnect }) {
           <div class="info">
             <div>
               <h5>
-                <a href="./">
+                <button href="./">
                   <img src={require("./img/footer/logo.png").default} />
-                </a>
+                </button>
               </h5>
               <p>
                 Decentralized NFT marketplace AUSPICE makes it easy and
@@ -688,10 +543,10 @@ function Main({ store, setConnect }) {
               </p>
               <div>
                 <span>
-                  <a href="mailto:contact@Auspice.com">Contact us</a>
+                  <button href="mailto:contact@Auspice.com">Contact us</button>
                 </span>
                 <span>
-                  <a href="#">English</a>
+                  <button href="#">English</button>
                 </span>
               </div>
             </div>
@@ -701,28 +556,28 @@ function Main({ store, setConnect }) {
                   <h6>MARKET</h6>
                   <ol>
                     <li>
-                      <a href="#">all about NFT</a>
+                      <button href="#">all about NFT</button>
                     </li>
                     <li>
-                      <a href="#">Digital art</a>
+                      <button href="#">Digital art</button>
                     </li>
                     <li>
-                      <a href="#">Trading cards</a>
+                      <button href="#">Trading cards</button>
                     </li>
                     <li>
-                      <a href="#">Music</a>
+                      <button href="#">Music</button>
                     </li>
                     <li>
-                      <a href="#">Virtual Worlds</a>
+                      <button href="#">Virtual Worlds</button>
                     </li>
                     <li>
-                      <a href="#">Utility</a>
+                      <button href="#">Utility</button>
                     </li>
                     <li>
-                      <a href="#">Sports</a>
+                      <button href="#">Sports</button>
                     </li>
                     <li>
-                      <a href="#">ETC</a>
+                      <button href="#">ETC</button>
                     </li>
                   </ol>
                 </li>
@@ -730,16 +585,16 @@ function Main({ store, setConnect }) {
                   <h6>MY ACCOUNT</h6>
                   <ol>
                     <li>
-                      <a href="#">Profile setting</a>
+                      <button href="#">Profile setting</button>
                     </li>
                     <li>
-                      <a href="#">My Collectiont</a>
+                      <button href="#">My Collectiont</button>
                     </li>
                     <li>
-                      <a href="#">My Favourite</a>
+                      <button href="#">My Favourite</button>
                     </li>
                     <li>
-                      <a href="#">account setting</a>
+                      <button href="#">account setting</button>
                     </li>
                   </ol>
                 </li>
@@ -747,10 +602,10 @@ function Main({ store, setConnect }) {
                   <h6>EXPLORE</h6>
                   <ol>
                     <li>
-                      <a href="#">User Ranking</a>
+                      <button href="#">User Ranking</button>
                     </li>
                     <li>
-                      <a href="#">Transaction details</a>
+                      <button href="#">Transaction details</button>
                     </li>
                   </ol>
                 </li>
@@ -758,9 +613,9 @@ function Main({ store, setConnect }) {
                   <h6>CONTACT US</h6>
                   <ol>
                     <li>
-                      <a href="mailto:contact@Auspice.com">
+                      <button href="mailto:contact@Auspice.com">
                         contact@Auspice.com
-                      </a>
+                      </button>
                     </li>
                   </ol>
                 </li>
@@ -771,10 +626,10 @@ function Main({ store, setConnect }) {
             <div>
               <ul>
                 <li>
-                  <a href="#">Privacy Policy</a>
+                  <button href="#">Privacy Policy</button>
                 </li>
                 <li>
-                  <a href="#">Terms of Service</a>
+                  <button href="#">Terms of Service</button>
                 </li>
               </ul>
             </div>
@@ -792,11 +647,90 @@ const IndexBox = styled.div`
   width: 100%;
 
   #main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .swiperBox {
+      .swiper {
+        display: flex;
+        align-items: center;
+        overflow-x: scroll;
+        /* scroll-snap-type: x mandatory; */
+        position: relative;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        li {
+          /* scroll-snap-align: center; */
+        }
+      }
+
+      .prevBtn,
+      .nextBtn {
+        position: absolute;
+        z-index: 3;
+
+        &.prevBtn {
+          transform: translate(-8px, 0);
+        }
+
+        &.nextBtn {
+          right: 0;
+          transform: translate(8px, 0);
+        }
+      }
+    }
+
     .visual {
       display: flex;
       justify-content: space-between;
+      gap: 6.6%;
+      padding: 100px 0 120px 120px;
       overflow: hidden;
-      user-select: none;
+
+      & > .titleBox {
+        display: flex;
+        flex-direction: column;
+        gap: 100px;
+        max-width: 670px;
+        padding: 20px 0 0 0;
+
+        .topBox {
+          display: flex;
+          flex-direction: column;
+          gap: 34px;
+
+          p {
+            font-size: 24px;
+            line-height: 42px;
+          }
+        }
+
+        .btnBox {
+          display: flex;
+          gap: 28px;
+
+          button {
+            width: 320px;
+            height: 90px;
+            font-size: 32px;
+            font-weight: bold;
+            border-radius: 60px;
+
+            &.navBtn {
+              border: solid 2px #000;
+            }
+
+            &.pubBtn {
+              color: #fff;
+              background: #000;
+            }
+          }
+        }
+      }
 
       .swiperBox {
         flex: 1;
@@ -805,40 +739,796 @@ const IndexBox = styled.div`
         position: relative;
 
         .rightBtn {
-          display: flex;
-          justify-content: center;
-          align-items: center;
           width: 64px;
           height: 64px;
           border-radius: 50%;
           background: #000;
           position: absolute;
           z-index: 1;
-          transform: translate(-50%, 0);
+          transform: translate(-12px, 0);
+
+          img {
+            width: 100%;
+          }
         }
 
         .swiper {
           display: flex;
           align-items: center;
-
-          padding: 4px;
           overflow-x: scroll;
-          scroll-snap-type: x mandatory;
+          /* scroll-snap-type: x mandatory; */
 
           &::-webkit-scrollbar {
             display: none;
           }
 
           .swiper-slide {
-            scroll-snap-align: center;
-            padding: 0 70px 0 0;
-            
+            /* scroll-snap-align: center; */
+            padding: 20px;
+
             .innerBox {
               display: flex;
-              width: 840px;
-              height: 750px;
+              max-width: 840px;
+              max-height: 750px;
               border-radius: 20px;
               box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+              overflow: hidden;
+
+              & > img {
+                width: 63%;
+                object-fit: cover;
+              }
+
+              .textBox {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 37%;
+                padding: 6.66% 3% 3% 3%;
+                overflow: hidden;
+
+                .topBox {
+                  .title {
+                    font-size: 40px;
+                    font-weight: bold;
+                  }
+
+                  .creator {
+                    font-size: 22px;
+                    font-weight: bold;
+                  }
+                }
+
+                .bottomBox {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 34px;
+                  overflow: hidden;
+
+                  .infoBox {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 34px;
+
+                    .price,
+                    .time {
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+
+                      dt {
+                        font-size: 14px;
+                        font-weight: 500;
+                      }
+
+                      dd {
+                        font-size: 30px;
+                        font-weight: bold;
+
+                        span {
+                          font-size: 16px;
+                        }
+                      }
+                    }
+                  }
+
+                  .history {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    overflow: hidden;
+
+                    .label {
+                      font-size: 14px;
+                      font-weight: 500;
+                    }
+
+                    .historyList {
+                      display: flex;
+                      flex-direction: column;
+                      gap: 12px;
+                      height: 184px;
+                      padding: 14px 16px;
+                      background: #f8f8f8;
+                      border-radius: 8px;
+                      overflow-y: scroll;
+
+                      &::-webkit-scrollbar {
+                        width: 12px;
+                        background-color: #f8f8f8;
+                      }
+
+                      &::-webkit-scrollbar-thumb {
+                        border-radius: 12px;
+                        background-color: #b7b7b7;
+                        background-clip: padding-box;
+                        border: 4px solid transparent;
+                      }
+
+                      li {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        height: 30px;
+                        font-size: 14px;
+
+                        span {
+                          display: flex;
+                          align-items: center;
+                          gap: 10px;
+                        }
+                      }
+                    }
+                  }
+
+                  .buttonBox {
+                    display: flex;
+                    gap: 8px;
+
+                    &.m {
+                      display: none;
+                    }
+
+                    button {
+                      flex: 1;
+                      height: 42px;
+                      font-size: 16px;
+                      font-weight: bold;
+                      border-radius: 8px;
+                      border: solid 1px #000;
+
+                      &.placeBtn {
+                        color: #fff;
+                        background: #000;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .collection {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 1720px;
+
+      .wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+
+        .t {
+          padding: 0 20px;
+        }
+
+        .swiperBox {
+          display: flex;
+          align-items: center;
+          position: relative;
+
+          .swiper {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            overflow-x: scroll;
+
+            li {
+              padding: 0 40px 0 0;
+              .innerBox {
+                min-width: 390px;
+                width: 390px;
+                height: 628px;
+                border-radius: 20px;
+                box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.16);
+                overflow: hidden;
+                position: relative;
+
+                .item {
+                  width: 100%;
+                  height: 380px;
+                  object-fit: cover;
+                  position: relative;
+                }
+
+                .infoBox {
+                  flex: 1;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 19px;
+                  padding: 0 20px;
+                  position: relative;
+                  z-index: 1;
+
+                  .profImg {
+                    width: 85px;
+                    height: 85px;
+                    border-radius: 50%;
+                    position: absolute;
+                    transform: translate(0, -55%);
+                  }
+
+                  .titleBox {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 13px;
+                    padding: 62px 0 0 0;
+
+                    .title {
+                      font-size: 24px;
+                    }
+
+                    .creator {
+                      font-size: 18px;
+                      font-weight: 500;
+                    }
+                  }
+
+                  .description {
+                    flex: 1;
+                    font-size: 14px;
+                    text-align: center;
+                    line-height: 2;
+                    overflow-y: scroll;
+
+                    &::-webkit-scrollbar {
+                      display: none;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .prevBtn,
+          .nextBtn {
+            position: absolute;
+            z-index: 3;
+
+            &.prevBtn {
+              transform: translate(-8px, 0);
+            }
+
+            &.nextBtn {
+              right: 0;
+              transform: translate(8px, 0);
+            }
+          }
+        }
+      }
+    }
+
+    .category {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      max-width: 1720px;
+      width: 100%;
+      padding: 0 20px;
+
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        overflow: unset;
+
+        li {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-width: 192px;
+          width: 192px;
+          height: 64px;
+          margin: 0;
+          letter-spacing: -0.2px;
+          font-size: 20px;
+          font-weight: bold;
+          cursor: pointer;
+          position: relative;
+
+          img {
+            width: 20px;
+            height: 20px;
+            left: 20px;
+            position: absolute;
+          }
+
+          &:nth-of-type(n + 3):nth-of-type(-n + 5) {
+            justify-content: space-between;
+            padding: 0 20px;
+
+            img {
+              left: 0;
+              position: relative;
+            }
+          }
+        }
+      }
+    }
+
+    & > .item {
+      display: flex;
+      flex-direction: column;
+      max-width: 1720px;
+      width: 100%;
+
+      .t {
+        padding: 0 20px;
+      }
+
+      .swiperBox {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .swiper {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          overflow-x: scroll;
+          padding: 0 20px;
+
+          li {
+            padding: 0 20px 0 0;
+
+            .innerBox {
+              display: flex;
+              flex-direction: column;
+              width: 320px;
+              height: 520px;
+              border-radius: 20px;
+              overflow: hidden;
+
+              .item {
+                display: flex;
+                align-items: flex-end;
+                width: 100%;
+                height: 456px;
+                object-fit: contain;
+
+                .infoBox {
+                  width: 100%;
+                  height: 150px;
+                  color: #fff;
+                  padding: 10px 20px 16px 20px;
+                  background: rgba(0, 0, 0, 0.3);
+                  -webkit-backdrop-filter: blur(6px);
+                  backdrop-filter: blur(6px);
+
+                  .topBar {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .like {
+                      display: flex;
+                      align-items: center;
+                      gap: 10px;
+                      color: #fff;
+                      font-weight: 500;
+
+                      img {
+                        width: 20px;
+                      }
+                    }
+
+                    .favorite {
+                      width: 20px;
+                    }
+                  }
+
+                  .titleBox {
+                    display: flex;
+                    flex-direction: column;
+                    margin: 10px 0 0 0;
+                    font-weight: 500;
+
+                    .title {
+                      font-size: 26px;
+                      line-height: 36px;
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                    }
+
+                    .creator {
+                      font-size: 18px;
+                      line-height: 22px;
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                    }
+                  }
+
+                  .info {
+                    display: flex;
+                    justify-content: space-between;
+                    margin: 12px 0 0 0;
+
+                    .time {
+                      font-size: 14px;
+                      color: #e5e5e5;
+                    }
+
+                    .price {
+                      font-size: 18px;
+                    }
+                  }
+                }
+              }
+
+              .buyBtn {
+                flex: 1;
+                font-size: 18px;
+                font-weight: 500;
+                color: #fff;
+                background: #222;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1800px) and (min-width: 1440px) {
+    #main {
+      .visual {
+        .swiperBox {
+          .swiper {
+            .swiper-slide {
+              .innerBox {
+                .textBox {
+                  .bottomBox {
+                    gap: 20px;
+
+                    .infoBox {
+                      .price,
+                      .time {
+                        flex-direction: column;
+                        align-items: unset;
+
+                        dd {
+                          text-align: end;
+                        }
+                      }
+                    }
+
+                    .history {
+                      .historyList {
+                        height: 100px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .collection,
+      .category,
+      .item {
+        max-width: 1290px;
+
+        &.item {
+          .swiperBox {
+            width: 1040px;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1440px) {
+    #main {
+      .visual {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+        padding: 100px 0 0 0;
+        margin: 0 0 50px 0;
+
+        .titleBox {
+          padding: 0;
+        }
+
+        .swiperBox {
+          max-width: 920px;
+          padding: 0 0 0 20px;
+
+          .swiper {
+            .swiper-slide {
+              .innerBox {
+                height: 1140px;
+              }
+            }
+          }
+        }
+      }
+
+      .collection,
+      .category,
+      .item {
+        max-width: 860px;
+
+        &.category {
+          .list {
+            justify-content: center;
+          }
+        }
+
+        &.item {
+          .swiperBox {
+            width: 700px;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 920px) {
+    #main {
+      .nextBtn,
+      .prevBtn {
+        width: 36px;
+        transform: translate(-5px, 0);
+
+        &.prevBtn {
+          display: none;
+        }
+      }
+
+      .visual {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 0;
+
+        .titleBox {
+          align-items: center;
+          gap: 26px;
+          width: 310px;
+
+          .topBox {
+            align-items: center;
+
+            img {
+              width: 262px;
+            }
+
+            p {
+              font-size: 12px;
+              line-height: 1.67;
+            }
+          }
+
+          .btnBox {
+            gap: 10px;
+
+            button {
+              width: 150px;
+              height: 42px;
+              font-size: 16px;
+            }
+          }
+        }
+
+        .swiperBox {
+          max-width: 360px;
+
+          .rightBtn {
+            width: 36px;
+            height: 36px;
+            right: 0;
+            transform: translate(-7px, 0);
+          }
+
+          .swiper {
+            .swiper-slide {
+              .innerBox {
+                display: flex;
+                flex-direction: column;
+                height: 570px;
+
+                img {
+                  width: 100%;
+                  height: 56%;
+                }
+
+                .textBox {
+                  flex: 1;
+                  width: 100%;
+                  padding: 15px 15px 25px 15px;
+
+                  .topBox {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+
+                    .title {
+                      font-size: 24px;
+                    }
+
+                    .creator {
+                      font-size: 14px;
+                      color: #555;
+                    }
+                  }
+
+                  .bottomBox {
+                    height: unset;
+
+                    .infoBox {
+                      flex-direction: row;
+                      gap: unset;
+                      justify-content: space-between;
+
+                      .price,
+                      .time {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+
+                        dt {
+                          font-size: 12px;
+                          font-weight: bold;
+                          color: #000;
+                        }
+
+                        dd {
+                          font-size: 24px;
+                          font-weight: 900;
+
+                          span {
+                            font-size: 24px;
+                          }
+                        }
+                      }
+                    }
+
+                    .history {
+                      display: none;
+                    }
+
+                    .buttonBox {
+                      &.pc {
+                        display: none;
+                      }
+
+                      &.m {
+                        display: flex;
+
+                        button {
+                          font-size: 14px;
+                          font-weight: 500;
+                          border-radius: 21px;
+                        }
+
+                        .placeBtn {
+                        }
+
+                        .viewBtn {
+                          border: solid 2px #000;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .collection {
+        max-width: 340px;
+
+        .wrap {
+          .swiperBox {
+            .swiper {
+              li {
+                width: 340px;
+
+                .innerBox {
+                  min-width: 320px;
+                  width: 320px;
+                  height: 498px;
+
+                  .item {
+                    height: 300px;
+                  }
+
+                  .infoBox {
+                    gap: 22px;
+
+                    .profImg {
+                      width: 44px;
+                      height: 44px;
+                    }
+
+                    .titleBox {
+                      gap: 8px;
+                      padding: 38px 0 0 0;
+                    }
+
+                    .description {
+                      font-size: 12px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .category {
+        max-width: 320px;
+
+        .list {
+          gap: 8px;
+
+          li {
+            width: 156px;
+            min-width: 156px;
+            height: 42px;
+            font-size: 16px;
+
+            img {
+              display: none;
+            }
+          }
+        }
+      }
+
+      .item {
+        max-width: 340px;
+
+        .swiperBox {
+          max-width: 340px;
+
+          .list {
+            gap: 8px;
+
+            li {
+              width: 156px;
+              min-width: 156px;
+              height: 42px;
+              font-size: 16px;
+
+              img {
+                display: none;
+              }
             }
           }
         }
@@ -858,3 +1548,301 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
+const collectionList = [
+  {
+    item: collection_list01,
+    person: collection_person01,
+    title: "Lalaredtu's Collection",
+    creator: "Lalaredtu",
+    description: (
+      <p>
+        This collection is a collection of 80 individual works and has been
+        exhibited at the Museum of Modern Art.
+      </p>
+    ),
+  },
+  {
+    item: collection_list02,
+    person: collection_person02,
+    title: "Emilie",
+    creator: "Antoin",
+    description: (
+      <p>
+        dot image collection It was made for game
+        <br /> development and was very popular.
+      </p>
+    ),
+  },
+  {
+    item: collection_list03,
+    person: collection_person03,
+    title: "la piscine",
+    creator: "Antoin",
+    description: (
+      <p>
+        This collection pays homage to the works of
+        <br /> Bead Hockney, allowing you to appreciate
+        <br /> David's work with a different feel.
+      </p>
+    ),
+  },
+  {
+    item: collection_list04,
+    person: collection_person04,
+    title: "Bleu",
+    creator: "Henry junior",
+    description: (
+      <p>
+        It is a work made with thickly pressed
+        <br /> paint, and you can appreciate the collection in
+        <br /> a variety of beautiful colors.
+      </p>
+    ),
+  },
+  {
+    item: collection_list01,
+    person: collection_person01,
+    title: "Lalaredtu's Collection",
+    creator: "Lalaredtu",
+    description:
+      "This collection is a collection of 80 individual works and has been exhibited at the Museum of Modern Art.",
+  },
+  {
+    item: collection_list02,
+    person: collection_person02,
+    title: "Emilie",
+    creator: "Antoin",
+    description:
+      "dot image collection It was made for game development and was very popular.",
+  },
+  {
+    item: collection_list03,
+    person: collection_person03,
+    title: "la piscine",
+    creator: "Antoin",
+    description:
+      "This collection pays homage to the works of Bead Hockney, allowing you to appreciate David's work with a different feel.",
+  },
+  {
+    item: collection_list04,
+    person: collection_person04,
+    title: "Bleu",
+    creator: "Henry junior",
+    description:
+      "It is a work made with thickly pressed paint, and you can appreciate the collection in a variety of beautiful colors.",
+  },
+  {
+    item: collection_list04,
+    person: collection_person04,
+    title: "Bleu",
+    creator: "Henry junior",
+    description:
+      "It is a work made with thickly pressed paint, and you can appreciate the collection in a variety of beautiful colors.",
+  },
+];
+
+const trendingItemList = [
+  {
+    img: item_list01,
+    like: true,
+    likeCount: 1389,
+    favorite: true,
+    title: "Summer Pool",
+    creator: "David",
+    time: "6 minutes left",
+    price: "0.35 AUSP",
+  },
+  {
+    img: item_list02,
+    like: false,
+    likeCount: 2865,
+    favorite: false,
+    title: "Donald Duck",
+    creator: "Carson",
+    time: "7 days left",
+    price: "1.67 AUSP",
+  },
+  {
+    img: item_list03,
+    like: true,
+    likeCount: 589,
+    favorite: false,
+    title: "A Girl",
+    creator: "Mark.X",
+    time: "3 days left",
+    price: "0.97 AUSP",
+  },
+  {
+    img: item_list04,
+    like: false,
+    likeCount: 713,
+    favorite: true,
+    title: "Crushed Heard and aaaaaa",
+    creator: "Alexandro Ambrosia",
+    time: "365 days left",
+    price: "12.62 AUSP",
+  },
+  {
+    img: item_list05,
+    like: false,
+    likeCount: 295,
+    favorite: false,
+    title: "With Dogs",
+    creator: "AP.GOD.Ryan",
+    time: "17 minutes left",
+    price: "1.02 AUSP",
+  },
+  {
+    img: item_list01,
+    like: true,
+    likeCount: 1389,
+    favorite: true,
+    title: "Summer Pool",
+    creator: "David",
+    time: "6 minutes left",
+    price: "0.35 AUSP",
+  },
+  {
+    img: item_list02,
+    like: false,
+    likeCount: 2865,
+    favorite: false,
+    title: "Donald Duck",
+    creator: "Carson",
+    time: "7 days left",
+    price: "1.67 AUSP",
+  },
+  {
+    img: item_list03,
+    like: true,
+    likeCount: 589,
+    favorite: false,
+    title: "A Girl",
+    creator: "Mark.X",
+    time: "3 days left",
+    price: "0.97 AUSP",
+  },
+  {
+    img: item_list04,
+    like: false,
+    likeCount: 713,
+    favorite: true,
+    title: "Crushed Heard and aaaaaa",
+    creator: "Alexandro Ambrosia",
+    time: "365 days left",
+    price: "12.62 AUSP",
+  },
+  {
+    img: item_list05,
+    like: false,
+    likeCount: 295,
+    favorite: false,
+    title: "With Dogs",
+    creator: "AP.GOD.Ryan",
+    time: "17 minutes left",
+    price: "1.02 AUSP",
+  },
+];
+const itemList = [
+  {
+    img: item_list01,
+    like: true,
+    likeCount: 1389,
+    favorite: true,
+    title: "Summer Pool",
+    creator: "David",
+    time: "6 minutes left",
+    price: "0.35 AUSP",
+  },
+  {
+    img: item_list02,
+    like: false,
+    likeCount: 2865,
+    favorite: false,
+    title: "Donald Duck",
+    creator: "Carson",
+    time: "7 days left",
+    price: "1.67 AUSP",
+  },
+  {
+    img: item_list03,
+    like: true,
+    likeCount: 589,
+    favorite: false,
+    title: "A Girl",
+    creator: "Mark.X",
+    time: "3 days left",
+    price: "0.97 AUSP",
+  },
+  {
+    img: item_list04,
+    like: false,
+    likeCount: 713,
+    favorite: true,
+    title: "Crushed Heard and aaaaaa",
+    creator: "Alexandro Ambrosia",
+    time: "365 days left",
+    price: "12.62 AUSP",
+  },
+  {
+    img: item_list05,
+    like: false,
+    likeCount: 295,
+    favorite: false,
+    title: "With Dogs",
+    creator: "AP.GOD.Ryan",
+    time: "17 minutes left",
+    price: "1.02 AUSP",
+  },
+  {
+    img: item_list01,
+    like: true,
+    likeCount: 1389,
+    favorite: true,
+    title: "Summer Pool",
+    creator: "David",
+    time: "6 minutes left",
+    price: "0.35 AUSP",
+  },
+  {
+    img: item_list02,
+    like: false,
+    likeCount: 2865,
+    favorite: false,
+    title: "Donald Duck",
+    creator: "Carson",
+    time: "7 days left",
+    price: "1.67 AUSP",
+  },
+  {
+    img: item_list03,
+    like: true,
+    likeCount: 589,
+    favorite: false,
+    title: "A Girl",
+    creator: "Mark.X",
+    time: "3 days left",
+    price: "0.97 AUSP",
+  },
+  {
+    img: item_list04,
+    like: false,
+    likeCount: 713,
+    favorite: true,
+    title: "Crushed Heard and aaaaaa",
+    creator: "Alexandro Ambrosia",
+    time: "365 days left",
+    price: "12.62 AUSP",
+  },
+  {
+    img: item_list05,
+    like: false,
+    likeCount: 295,
+    favorite: false,
+    title: "With Dogs",
+    creator: "AP.GOD.Ryan",
+    time: "17 minutes left",
+    price: "1.02 AUSP",
+  },
+];

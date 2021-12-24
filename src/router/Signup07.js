@@ -106,7 +106,11 @@ function Signup02({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  .box_wrap {
+    width: 800px;
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };

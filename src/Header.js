@@ -178,13 +178,13 @@ const HeaderBox = styled.header`
   gap: 20px;
   height: 120px;
   padding: 0 50px;
-  background-color: #fff;
+  background: #fff;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.1);
-  z-index: 2;
+  z-index: 4;
 
   .leftBox {
     flex: 1;
@@ -196,7 +196,7 @@ const HeaderBox = styled.header`
 
     .logo {
       img {
-        min-width: 195px;
+        width: 195px;
       }
     }
 
@@ -210,6 +210,13 @@ const HeaderBox = styled.header`
       padding: 0 25px;
       border-radius: 28px;
       border: solid 1px #bbb;
+
+      button {
+        img {
+          min-width: 20px;
+          width: 20px;
+        }
+      }
 
       input {
         flex: 1;
@@ -248,7 +255,8 @@ const HeaderBox = styled.header`
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 120px;
+          max-width: 120px;
+          min-width: 100px;
           height: 100%;
           cursor: pointer;
           position: relative;
@@ -334,7 +342,8 @@ const HeaderBox = styled.header`
   }
 
   @media screen and (max-width: 1280px) {
-    height: 100px;
+    height: 70px;
+    padding: 18px;
     box-shadow: unset;
 
     .leftBox {

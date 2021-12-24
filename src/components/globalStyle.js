@@ -11,7 +11,6 @@ const GlobalStyle = createGlobalStyle`
     border: none;
 
     user-select: none;
-    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
   }
   
   
