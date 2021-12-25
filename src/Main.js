@@ -1280,7 +1280,7 @@ const IndexBox = styled.div`
           padding: 20px;
 
           li {
-            padding: 0 20px 0 0;
+            padding: 0 40px 0 0;
 
             .innerBox {
               display: flex;
@@ -1370,6 +1370,12 @@ const IndexBox = styled.div`
         &.users {
           .swiperBox {
             width: 1250px;
+
+            .swiper {
+              li {
+                padding: 0 20px 0 0;
+              }
+            }
           }
         }
       }
