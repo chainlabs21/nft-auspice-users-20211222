@@ -218,7 +218,7 @@ function Signup02({ store, setConnect }) {
 
 const SignPopupBox = styled.div`
   .box_wrap.joinwidth {
-    width: 1000px;
+    max-width: 1000px;
 
     .box {
       form {

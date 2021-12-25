@@ -17,7 +17,7 @@ import { useState } from "react";
 
 import I_dnArw from "./img/header/I_dnArw.svg";
 import I_menu from "./img/header/I_menu.svg";
-import I_x from "./img/header/I_x.svg";
+import I_x from "./img/main/I_x.svg";
 import {setAllPopupOff, setMHeaderPopup } from "./util/store";
 
 function Main({ store, setAllPopupOff,setMHeaderPopup }) {

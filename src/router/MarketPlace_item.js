@@ -9,21 +9,56 @@ import collect_img3 from "../img/sub/collect_img3.png";
 import collect_img4 from "../img/sub/collect_img4.png";
 import s5 from "../img/sub/s5.png";
 import sample from "../img/sub/sample.png";
+import stone from "../img/sub/stone.png";
+import rock from "../img/sub/rock.png";
+import I_x from "../img/main/I_x.svg";
 
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
 import "../css/style.css";
 
-// import "./css/style01.css";
-// import "./css/style02.css";
-
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { useState } from "react";
 
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
+  const selectedList = [null, "a", "b"];
+
+  const [statusFilter, setStatusFilter] = useState(statusList[0]);
+  const [bundleFilter, setBundleFilter] = useState(bundleFilterList[0]);
+  const [categoryFilter, setCategoryFilter] = useState(categoryList[0]);
+  const [sortFilter, setSortFilter] = useState(sortList[0]);
+  const [filterObj, setFilterObj] = useState({});
+  const [filterList, setFilterList] = useState([]);
+
+  function editFilterList(category, cont) {
+    let dataObj = filterObj;
+    dataObj[category] = cont;
+
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
+
+  function onclickFilterReset() {
+    setFilterObj({});
+    setFilterList([]);
+  }
+
+  function onclickFilterCancel(cont) {
+    let dataObj = filterObj;
+
+    for (var key in dataObj) {
+      if (dataObj.hasOwnProperty(key) && dataObj[key] == cont) {
+        delete dataObj[key];
+      }
+    }
+
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
 
   return (
     <SignPopupBox>
@@ -62,10 +97,16 @@ function MarketPlace({ store, setConnect }) {
 
                     <div class="open status">
                       <ul>
-                        <li class="on">Buy Now</li>
-                        <li>On Auction</li>
-                        <li>New</li>
-                        <li>Has Offers</li>
+                        {statusList.map((cont, index) => (
+                          <li
+                            key={index}
+                            style={{ cursor: "pointer" }}
+                            className={statusFilter === cont && "on"}
+                            onClick={() => setStatusFilter(cont)}
+                          >
+                            {cont}
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -96,9 +137,7 @@ function MarketPlace({ store, setConnect }) {
                           <span class="usd">USD</span>
                         </div>
                       </div>
-                      <a href="" class="slide_btn">
-                        Apply
-                      </a>
+                      <a class="slide_btn">Apply</a>
                     </div>
                   </div>
 
@@ -157,22 +196,27 @@ function MarketPlace({ store, setConnect }) {
 
                     <div class="open">
                       <ul>
-                        <li class="ra">
-                          <input type="radio" id="rad" name="rad" />
-                          <label for="rad">
-                            <img
-                              src={require("../img/sub/stone.png").default}
-                            />
-                            Ethereum
-                          </label>
-                        </li>
-                        <li class="ra">
-                          <input type="radio" id="rad2" name="rad" />
-                          <label for="rad2">
-                            <img src={require("../img/sub/rock.png").default} />
-                            Klaytn
-                          </label>
-                        </li>
+                        {chainList.map((cont, index) => (
+                          <li
+                            key={index}
+                            class="ra"
+                            onClick={() => editFilterList("chain", cont.name)}
+                          >
+                            <span
+                              className="chkBtn"
+                              style={{
+                                background:
+                                  filterObj.chain === cont.name && "#000",
+                              }}
+                            >
+                              <span />
+                            </span>
+                            <label for={cont.name}>
+                              <img src={cont.img} />
+                              {cont.name}
+                            </label>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -193,14 +237,23 @@ function MarketPlace({ store, setConnect }) {
                         class="s_search"
                       />
                       <ul>
-                        <li class="ra">
-                          <input type="radio" id="rad3" name="rad2" />
-                          <label for="rad3">AUSP</label>
-                        </li>
-                        <li class="ra">
-                          <input type="radio" id="rad4" name="rad2" />
-                          <label for="rad4">WETH</label>
-                        </li>
+                        {coinList.map((cont, index) => (
+                          <li
+                            key={index}
+                            class="ra"
+                            onClick={() => editFilterList("coin", cont)}
+                          >
+                            <span
+                              className="chkBtn"
+                              style={{
+                                background: filterObj.coin === cont && "#000",
+                              }}
+                            >
+                              <span />
+                            </span>
+                            <label for={cont}>{cont}</label>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -217,109 +270,75 @@ function MarketPlace({ store, setConnect }) {
                     </div>
                     <div class="fr">
                       <div class="select">
-                        <div>Single item</div>
+                        <div>{bundleFilter}</div>
+
                         <ul>
-                          <li>
-                            <a href="">Single item</a>
-                          </li>
-                          <li>
-                            <a href="">All</a>
-                          </li>
-                          <li>
-                            <a href="">Bundle sales</a>
-                          </li>
+                          {bundleFilterList.map((cont, index) => (
+                            <li
+                              key={index}
+                              onClick={() => setBundleFilter(cont)}
+                            >
+                              <a>{cont}</a>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                       <div class="select metc">
-                        <div>All category</div>
+                        <div>{categoryFilter}</div>
                         <ul>
-                          <li>
-                            <a href="">All category</a>
-                          </li>
-                          <li>
-                            <a href="">All</a>
-                          </li>
-                          <li>
-                            <a href="">Art</a>
-                          </li>
-                          <li>
-                            <a href="">Music</a>
-                          </li>
-                          <li>
-                            <a href="">Virtual World</a>
-                          </li>
-                          <li>
-                            <a href="">Trading Cards</a>
-                          </li>
-                          <li>
-                            <a href="">Collectibles</a>
-                          </li>
-                          <li>
-                            <a href="">Sports</a>
-                          </li>
-                          <li>
-                            <a href="">Utility</a>
-                          </li>
-                          <li>
-                            <a href="">ETC</a>
-                          </li>
+                          {categoryList.map((cont, index) => (
+                            <li
+                              key={index}
+                              onClick={() => setCategoryFilter(cont)}
+                            >
+                              <a>{cont}</a>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                       <div class="select mselect">
-                        <div>Latest</div>
+                        <div>{sortFilter}</div>
                         <ul>
-                          <li>
-                            <a href="">Latest</a>
-                          </li>
-                          <li>
-                            <a href="">popularity</a>
-                          </li>
-                          <li>
-                            <a href="">Close to finish</a>
-                          </li>
-                          <li>
-                            <a href="">Low price</a>
-                          </li>
-                          <li>
-                            <a href="">high price</a>
-                          </li>
-                          <li>
-                            <a href="">A small bid</a>
-                          </li>
-                          <li>
-                            <a href="">A lot of bids</a>
-                          </li>
-                          <li>
-                            <a href="">Most seen</a>
-                          </li>
-                          <li>
-                            <a href="">oldest</a>
-                          </li>
+                          {sortList.map((cont, index) => (
+                            <li key={index} onClick={() => setSortFilter(cont)}>
+                              <a>{cont}</a>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
                   </div>
                   <div class="etc">
                     <ul>
-                      <li class="onnn">All</li>
-                      <li>Art</li>
-                      <li>Music</li>
-                      <li>Virtual World</li>
-                      <li>Trading Cards</li>
-                      <li>Collectibles</li>
-                      <li>Sports</li>
-                      <li>Utility</li>
-                      <li>ETC</li>
+                      {categoryList.map((cont, index) => (
+                        <li
+                          key={index}
+                          className={categoryFilter === cont && "onnn"}
+                          onClick={() => setCategoryFilter(cont)}
+                        >
+                          {cont}
+                        </li>
+                      ))}
                     </ul>
                   </div>
 
                   <div class="se_fi">
                     <p class="total">Selected Filter</p>
                     <ul>
-                      <li class="sef">Filter reset</li>
-                      <li>AUSP</li>
-                      <li>ETH</li>
-                      <li>Ethereum</li>
+                      <li class="sef" onClick={onclickFilterReset}>
+                        Filter reset
+                      </li>
+
+                      {filterList.map((cont, index) => (
+                        <li key={index}>
+                          {cont}
+                          <img
+                            src={I_x}
+                            alt=""
+                            onClick={() => onclickFilterCancel(cont)}
+                          />
+                        </li>
+                      ))}
                     </ul>
                   </div>
 
@@ -499,7 +518,25 @@ function MarketPlace({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  #sub {
+    .profile_home {
+      .move {
+        .right_move {
+          .pad {
+            .real_sec {
+              .slide_s {
+                .mtop {
+                  position: relative;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };
@@ -512,3 +549,44 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+
+const statusList = ["Buy Now", "On Auction", "New", "Has Offers"];
+
+const bundleFilterList = ["Single Item", "All", "Bundle sales"];
+
+const categoryList = [
+  "All",
+  "Art",
+  "Music",
+  "Virtual World",
+  "Trading Cards",
+  "Collectibles",
+  "Sports",
+  "Utility",
+  "ETC",
+];
+
+const sortList = [
+  "Latest",
+  "popularity",
+  "Close to finish",
+  "Low price",
+  "high price",
+  "A small bid",
+  "A lot of bids",
+  "Most seen",
+  "oldest",
+];
+
+const chainList = [
+  {
+    img: stone,
+    name: "Ethereum",
+  },
+  {
+    img: rock,
+    name: "Klaytn",
+  },
+];
+
+const coinList = ["AUSP", "WETH"];

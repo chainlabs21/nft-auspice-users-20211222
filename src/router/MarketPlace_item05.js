@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
 
@@ -8,6 +8,12 @@ import s2 from "../img/sub/s2.png";
 import s3 from "../img/sub/s3.png";
 import s4 from "../img/sub/s4.png";
 import s9 from "../img/sub/s9.png";
+
+import bun_slide_img0 from "../img/sub/bun_slide_img0.png";
+import bun_slide_img1 from "../img/sub/bun_slide_img1.png";
+import bun_slide_img2 from "../img/sub/bun_slide_img2.png";
+import bun_slide_img3 from "../img/sub/bun_slide_img3.png";
+import bun_slide_img4 from "../img/sub/bun_slide_img4.png";
 
 import "../css/common.css";
 import "../css/font.css";
@@ -20,9 +26,29 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { useState } from "react";
 
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
+
+  const [imgIndex, setImgIndex] = useState(0);
+
+  function onclickNextItemBtn() {
+    if (imgIndex > 0) setImgIndex(imgIndex - 1);
+  }
+
+  function onclickPreItemBtn() {
+    if (imgIndex < imgList.length - 1) setImgIndex(imgIndex + 1);
+  }
+
+  function onClickShare() {
+    const textArea = document.createElement("textarea");
+    document.body.appendChild(textArea);
+    textArea.value = window.location.href; // "0xD591aaaaaa55dsf12";
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+  }
 
   return (
     <SignPopupBox>
@@ -37,40 +63,59 @@ function MarketPlace({ store, setConnect }) {
                       <span></span>@Philip van Kouwenbergh
                     </h2>
                   </div>
-                  <div class="slidew">
-                    <h3>1/10</h3>
-                    <div class="arrows">
-                      <a href="">
+                  <div
+                    class="slidew"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <h3>
+                      {imgIndex + 1}/{imgList.length}
+                    </h3>
+                    <div
+                      class="arrows"
+                      style={{
+                        display: "flex",
+                        margin: 0,
+                      }}
+                    >
+                      <a onClick={onclickNextItemBtn}>
                         <img src={require("../img/sub/baleft.png").default} />
                       </a>
-                      <a href="">
+                      <a onClick={onclickPreItemBtn}>
                         <img src={require("../img/sub/baright.png").default} />
                       </a>
                     </div>
                   </div>
                 </div>
                 <div class="bun_slide_img swiper bun-slide-img-swiper">
-                  <ul class="swiper-wrapper">
-                    <li class="swiper-slide">
-                      <img
-                        src={require("../img/sub/bun_slide_img1.png").default}
-                      />
-                    </li>
-                    <li class="swiper-slide">
-                      <img
-                        src={require("../img/sub/bun_slide_img2.png").default}
-                      />
-                    </li>
-                    <li class="swiper-slide">
-                      <img
-                        src={require("../img/sub/bun_slide_img3.png").default}
-                      />
-                    </li>
-                    <li class="swiper-slide">
-                      <img
-                        src={require("../img/sub/bun_slide_img4.png").default}
-                      />
-                    </li>
+                  <ul
+                    className="imgList"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    {imgList.map((cont, index) => {
+                      if (index > imgIndex && index < imgIndex + 5)
+                        return (
+                          <li key={index}>
+                            <img src={cont} alt="" />
+                          </li>
+                        );
+                    })}
+
+                    {imgIndex > imgList.length - 5 &&
+                      imgList.map((cont, index) => {
+                        if (index < imgList.length + imgIndex - 15)
+                          return (
+                            <li key={index}>
+                              <img src={cont} alt="" />
+                            </li>
+                          );
+                      })}
                   </ul>
                 </div>
 
@@ -89,7 +134,7 @@ function MarketPlace({ store, setConnect }) {
                     It's an expression of modern art.
                   </p>
                   <div class="mcons">
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
@@ -98,17 +143,27 @@ function MarketPlace({ store, setConnect }) {
               <div class="bun_tr">
                 <div class="bun_right">
                   <div class="right_t">
-                    <div class="tt">
+                    <div
+                      class="tt"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        top: "1360px",
+                      }}
+                    >
                       <h2>
                         Blackman
                         <br />
                         with neon 4 items
                       </h2>
-                      <div class="icons">
-                        <a href="">
-                          <img src={require("../img/sub/share.png").default} />
-                        </a>
-                      </div>
+                      <img
+                        style={{
+                          width: "24px",
+                          height: "24px",
+                          cursor: "pointer",
+                        }}
+                        src={require("../img/sub/share.png").default}
+                      />
                     </div>
                     <div class="boxes">
                       <div class="black_box bb2">
@@ -125,7 +180,7 @@ function MarketPlace({ store, setConnect }) {
                             <h4>05:32:21</h4>
                           </li>
                         </ul>
-                        <a href="" class="bid">
+                        <a class="bid" style={{ color: "#000" }}>
                           Buy a bundle
                         </a>
                       </div>
@@ -239,7 +294,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -257,7 +312,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>4 days later</td>
@@ -275,7 +330,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>1 days later</td>
@@ -293,7 +348,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -311,7 +366,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -329,7 +384,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -482,7 +537,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -500,7 +555,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>4 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -518,7 +573,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -536,7 +591,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -554,7 +609,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -572,7 +627,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -691,7 +746,7 @@ function MarketPlace({ store, setConnect }) {
                 <div class="swiper-container swiper-container-trendingitem">
                   <ol class="item item5 buy swiper-wrapper">
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s1})` }}>
+                      <a style={{ backgroundImage: `url(${s1})` }}>
                         <div class="on">
                           <ul>
                             <li class="heart off">1,389</li>
@@ -708,7 +763,7 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s2})` }}>
+                      <a style={{ backgroundImage: `url(${s2})` }}>
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -725,7 +780,7 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s4})` }}>
+                      <a style={{ backgroundImage: `url(${s4})` }}>
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -742,7 +797,7 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s3})` }}>
+                      <a style={{ backgroundImage: `url(${s3})` }}>
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -759,7 +814,7 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s9})` }}>
+                      <a style={{ backgroundImage: `url(${s9})` }}>
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -777,8 +832,8 @@ function MarketPlace({ store, setConnect }) {
                     </li>
                   </ol>
                 </div>
-                <div class="swiper-button-prev swiper-button-trendingitem-prev "></div>
-                <div class="swiper-button-next swiper-button-trendingitem-next"></div>
+                {/* <div class="swiper-button-prev swiper-button-trendingitem-prev "></div>
+                <div class="swiper-button-next swiper-button-trendingitem-next"></div> */}
               </div>
             </div>
 
@@ -933,7 +988,33 @@ function MarketPlace({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  .imgList {
+    display: flex;
+    gap: 10px;
+
+    li {
+      width: 240px;
+      height: 240px;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+  }
+
+  *::-webkit-scrollbar {
+    width: 4px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #222;
+    border-radius: 4px;
+    width: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background-color: #d8d8d8;
+    border-radius: 4px;
+    border: 1px solid #f6f6f6;
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };
@@ -946,3 +1027,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+
+const imgList = [
+  bun_slide_img0,
+  bun_slide_img1,
+  bun_slide_img2,
+  bun_slide_img3,
+  bun_slide_img4,
+  bun_slide_img0,
+  bun_slide_img1,
+  bun_slide_img2,
+  bun_slide_img3,
+  bun_slide_img4,
+];

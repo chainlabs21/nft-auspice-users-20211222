@@ -126,7 +126,9 @@ function MarketPlace({ store, setConnect }) {
                             <h4>05:32:21</h4>
                           </li>
                         </ul>
-                        <a class="bid">Place a Bid</a>
+                        <a class="bid" style={{ color: "#000" }}>
+                          Place a Bid
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -925,8 +927,8 @@ function MarketPlace({ store, setConnect }) {
                   </ol>
                 </div>
 
-                <div class="swiper-button-prev swiper-button-trendingitem-prev pcno"></div>
-                <div class="swiper-button-next swiper-button-trendingitem-next pcno"></div>
+                {/* <div class="swiper-button-prev swiper-button-trendingitem-prev pcno"></div>
+                <div class="swiper-button-next swiper-button-trendingitem-next pcno"></div> */}
               </div>
             </div>
           </div>
@@ -936,7 +938,21 @@ function MarketPlace({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  *::-webkit-scrollbar {
+    width: 4px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #222;
+    border-radius: 4px;
+    width: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background-color: #d8d8d8;
+    border-radius: 4px;
+    border: 1px solid #f6f6f6;
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };

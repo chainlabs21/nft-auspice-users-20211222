@@ -171,7 +171,7 @@ const AppBox = styled.div`
   position: relative;
 
   @media screen and (max-width: 1280px) {
-    padding: 100px 0 0 0;
+    padding: 70px 0 0 0;
   }
 `;
 
