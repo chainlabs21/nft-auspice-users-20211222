@@ -17,8 +17,10 @@ import { useState } from "react";
 
 import I_dnArw from "./img/header/I_dnArw.svg";
 import I_menu from "./img/header/I_menu.svg";
+import I_x from "./img/header/I_x.svg";
+import {setAllPopupOff, setMHeaderPopup } from "./util/store";
 
-function Main({ store, setConnect }) {
+function Main({ store, setAllPopupOff,setMHeaderPopup }) {
   const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
@@ -45,9 +47,19 @@ function Main({ store, setConnect }) {
 
       <section className="rightBox">
         <nav className="mNav">
-          <img src={require("./img/header/search_icon.png").default} />
+          <button className="" onClick={() => {}}>
+            <img src={require("./img/header/search_icon.png").default} />
+          </button>
 
-          <img src={I_menu} alt="" />
+          {store.mHeaderPopup ? (
+            <button className="" onClick={setAllPopupOff}>
+              <img src={I_x} alt="" />
+            </button>
+          ) : (
+            <button className="" onClick={setMHeaderPopup}>
+              <img src={I_menu} alt="" />
+            </button>
+          )}
         </nav>
 
         <nav className="pcNav">
@@ -238,6 +250,14 @@ const HeaderBox = styled.header`
 
     .mNav {
       display: none;
+
+      button{
+        width: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
     }
 
     nav {
@@ -380,7 +400,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    // setHeaderPopup: () => dispatch(setHeaderPopup()),
+    setAllPopupOff: () => dispatch(setAllPopupOff()),
+    setMHeaderPopup: () => dispatch(setMHeaderPopup()),
   };
 }
 

@@ -1,5 +1,5 @@
 /* 공통 */
-/* #main {
+#main {
   padding: 120px 0 0;
 }
 #sub {
@@ -7,6 +7,7 @@
 }
 
 .wrap {
+  padding: 0 120px;
 }
 
 @media screen and (max-width: 1440px) {
@@ -18,6 +19,7 @@
   }
 
   .wrap {
+    padding: 0 100px;
   }
 }
 
@@ -30,6 +32,7 @@
   }
 
   .wrap {
+    padding: 0 80px;
   }
 }
 
@@ -42,6 +45,7 @@
   }
 
   .wrap {
+    padding: 0 60px;
   }
 }
 
@@ -54,6 +58,7 @@
   }
 
   .wrap {
+    padding: 0 40px;
   }
 }
 
@@ -68,7 +73,7 @@
   .wrap {
     padding: 0 20px;
   }
-} */
+}
 
 /* 메인 */
 #main .t {
@@ -76,30 +81,35 @@
   color: #000;
   font-size: 30px;
   font-family: "Poppins";
+  margin: 0 0 40px;
 }
 #main article {
 }
 @media screen and (max-width: 1440px) {
   #main .t {
     font-size: 28px;
+    margin: 0 0 38px;
   }
 }
 
 @media screen and (max-width: 1280px) {
   #main .t {
     font-size: 26px;
+    margin: 0 0 36px;
   }
 }
 
 @media screen and (max-width: 1024px) {
   #main .t {
     font-size: 24px;
+    margin: 0 0 34px;
   }
 }
 
 @media screen and (max-width: 768px) {
   #main .t {
     font-size: 21px;
+    margin: 0 0 32px;
     text-align: center;
   }
 }
@@ -107,128 +117,472 @@
 @media screen and (max-width: 640px) {
   #main .t {
     font-size: 18px;
+    margin: 0 0 30px;
   }
 }
 
-/*
 #main article.visual {
-  padding: 100px 0 120px 120px;
+  padding: 100px 0 120px;
   overflow: hidden;
 }
-#main article.visual > div { width:50%; box-sizing:border-box; float:left; }
-#main article.visual .title {}
-#main article.visual .title h2 {  }
-#main article.visual .title h2 img { width:100%; max-width:672px; }
-#main article.visual .title p { color:#000; font-size:24px; font-weight:400; line-height:1.67; margin:45px 0 0; max-width:710px; }
-#main article.visual .title div { overflow:hidden; margin:100px 0 0; }
-#main article.visual .title div button { display:block; float:left; width:47%; max-width:320px; box-sizing:border-box; text-align:center; font-size:32px; background-color:#000; border:2px solid #000; color:#fff; line-height:89px; height:89px; border-radius:45px; font-weight:700; }
-#main article.visual .title div button:first-child { margin:0 28px 0 0; background-color:#fff; color:#000; } */
+#main article.visual > div {
+  width: 50%;
+  box-sizing: border-box;
+  float: left;
+}
+#main article.visual .title {
+  padding: 0 2% 0 120px;
+}
+#main article.visual .title h2 {
+}
+#main article.visual .title h2 img {
+  max-width: 672px;
+}
+#main article.visual .title p {
+  color: #000;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.67;
+  margin: 45px 0 0;
+  max-width: 710px;
+}
+#main article.visual .title div {
+  overflow: hidden;
+  margin: 100px 0 0;
+}
+#main article.visual .title div a {
+  display: block;
+  float: left;
+  width: 47%;
+  max-width: 320px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 32px;
+  background-color: #000;
+  border: 2px solid #000;
+  color: #fff;
+  line-height: 89px;
+  height: 89px;
+  border-radius: 45px;
+  font-weight: 700;
+}
+#main article.visual .title div a:first-child {
+  margin: 0 28px 0 0;
+  background-color: #fff;
+  color: #000;
+}
 
-/* #main article.visual .swiperaaa-container-visual { margin:-35px; }
-#main article.visual .swiperaaa .swiperaaa-button-visual-prev { display:none; }
-#main article.visual .swiperaaa .swiperaaa-button-visual-next { width:64px; height:64px; left:-32px; background-image:url('../img/main/arrow_main.png'); background-repeat:no-repeat; background-size:cover; background-position:center; }
-#main article.visual .swiperaaa .swiperaaa-button-visual-prev:after ,
-#main article.visual .swiperaaa .swiperaaa-button-visual-next:after { display:none; }
-#main article.visual .swiperaaa { position:relative; }
-#main article.visual .swiperaaa {  }
-#main article.visual .swiperaaa > li { float:left; width:calc(100% - 120px - 70px); margin:35px; position:relative; border-radius:20px; overflow:hidden; box-shadow:0 0 20px 0 rgba(0, 0, 0, 0.2); }
-#main article.visual .swiperaaa > li > div { box-sizing:border-box; padding:50px 25px 25px; margin:0 0 0 63%; }
-#main article.visual .swiperaaa > li > div:first-child { margin:0; width:63%; position:absolute; top:0; left:0; height:100%; background-repeat:no-repeat; background-size:cover; background-position:center; }
-#main article.visual .swiperaaa > li > div h3 { font-size:40px; font-family:'Poppins'; font-weight:700; line-height:1.3; }
-#main article.visual .swiperaaa > li > div p { font-size:22px; font-weight:700; margin:17px 0 80px; }
-#main article.visual .swiperaaa > li > div .info { overflow:hidden; }
-#main article.visual .swiperaaa > li > div .info dl { overflow:hidden; margin:33px 0; line-height:30px; }
-#main article.visual .swiperaaa > li > div .info dl dt { float:left; font-size:14px; font-weight:500; color:#000; }
-#main article.visual .swiperaaa > li > div .info dl dd { float:right; font-size:30px; font-weight:900; }
-#main article.visual .swiperaaa > li > div .info dl dd span { font-size:16px; }
-#main article.visual .swiperaaa > li > div .history > span { font-size:14px; font-weight:500; color:#000; }
-#main article.visual .swiperaaa > li > div .history ul { margin:13px 0 0; background-color:#f8f8f8; overflow-y:scroll; padding:4px 14px; box-sizing:border-box; border-radius:8px; height:184px; }
-#main article.visual .swiperaaa > li > div .history ul::-webkit-scrollbar { width:12px; background-color:#f8f8f8; }
-#main article.visual .swiperaaa > li > div .history ul::-webkit-scrollbar-thumb { border-radius:12px; background-color:#b7b7b7; background-clip:padding-box; border:4px solid transparent; }
-#main article.visual .swiperaaa > li > div .history ul li { height:20px; position:relative; overflow:hidden; height:30px; line-height:30px; margin:12px 0; }
-#main article.visual .swiperaaa > li > div .history ul li img { position:absolute; top:50%; left:0; transform:translate(0, -50%); }
-#main article.visual .swiperaaa > li > div .history ul li strong { float:left; font-weight:900; font-size:14px; color:#000; padding:0 0 0 40px; }
-#main article.visual .swiperaaa > li > div .history ul li span { float:right; font-size:14px; color:#000; }
-#main article.visual .swiperaaa > li > div .button { overflow:hidden; margin:20px 0 0; }
-#main article.visual .swiperaaa > li > div .button button { display:block; float:left; width:49%; box-sizing:border-box; text-align:center; font-size:16px; background-color:#000; border:1px solid #000; color:#fff; line-height:42px; height:42px; border-radius:8px; }
-#main article.visual .swiperaaa > li > div .button button:first-child { margin:0 2% 0 0; background-color:#fff; color:#000; } */
-/* 
-#sub .item { overflow:visible; margin:0; }
-.item .swiperaaa { position:relative; }
-#sub .item .swiperaaa-container-trendingitem { margin:-0.5%; }
-#sub .item .swiperaaa .swiperaaa-button-trendingitem-prev { width:56px; height:56px; left:-28px; background-image:url('../img/main/arrow_prev.png'); background-repeat:no-repeat; background-size:cover; background-position:center; }
-#sub .item .swiperaaa .swiperaaa-button-trendingitem-next { width:56px; height:56px; right:-28px; background-image:url('../img/main/arrow_next.png'); background-repeat:no-repeat; background-size:cover; background-position:center; }
-#sub .item .swiperaaa .swiperaaa-button-trendingitem-prev:after ,
-#sub .item .swiperaaa .swiperaaa-button-trendingitem-next:after { display:none; }
-#sub .item .swiperaaa-container-newitem { margin:-1%; }
-#sub .item .swiperaaa .swiperaaa-button-newitem-prev { width:56px; height:56px; left:-28px; background-image:url('../img/main/arrow_prev.png'); background-repeat:no-repeat; background-size:cover; background-position:center; }
-#sub .item .swiperaaa .swiperaaa-button-newitem-next { width:56px; height:56px; right:-28px; background-image:url('../img/main/arrow_next.png'); background-repeat:no-repeat; background-size:cover; background-position:center; }
-#sub .item .swiperaaa .swiperaaa-button-newitem-prev:after ,
-#sub .item .swiperaaa .swiperaaa-button-newitem-next:after { display:none; }
+#main article.visual .swiper-container-visual {
+  margin: -35px;
+}
+#main article.visual .swiper .swiper-button-visual-prev {
+  display: none;
+}
+#main article.visual .swiper .swiper-button-visual-next {
+  width: 64px;
+  height: 64px;
+  left: -32px;
+  background-image: url("../img/main/arrow_main.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+#main article.visual .swiper .swiper-button-visual-prev:after,
+#main article.visual .swiper .swiper-button-visual-next:after {
+  display: none;
+}
+#main article.visual .swiper {
+  position: relative;
+}
+#main article.visual .swiper ol {
+}
+#main article.visual .swiper ol > li {
+  float: left;
+  width: calc(100% - 120px - 70px);
+  margin: 35px;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+}
+#main article.visual .swiper ol > li > div {
+  box-sizing: border-box;
+  padding: 50px 25px 25px;
+  margin: 0 0 0 63%;
+}
+#main article.visual .swiper ol > li > div:first-child {
+  margin: 0;
+  width: 63%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+#main article.visual .swiper ol > li > div h3 {
+  font-size: 40px;
+  font-family: "Poppins";
+  font-weight: 700;
+  line-height: 1.3;
+}
+#main article.visual .swiper ol > li > div p {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 17px 0 80px;
+}
+#main article.visual .swiper ol > li > div .info {
+  overflow: hidden;
+}
+#main article.visual .swiper ol > li > div .info dl {
+  overflow: hidden;
+  margin: 33px 0;
+  line-height: 30px;
+}
+#main article.visual .swiper ol > li > div .info dl dt {
+  float: left;
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+}
+#main article.visual .swiper ol > li > div .info dl dd {
+  float: right;
+  font-size: 30px;
+  font-weight: 900;
+}
+#main article.visual .swiper ol > li > div .info dl dd span {
+  font-size: 16px;
+}
+#main article.visual .swiper ol > li > div .history > span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+}
+#main article.visual .swiper ol > li > div .history ul {
+  margin: 13px 0 0;
+  background-color: #f8f8f8;
+  overflow-y: scroll;
+  padding: 4px 14px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  height: 184px;
+}
+#main article.visual .swiper ol > li > div .history ul::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f8f8f8;
+}
+#main
+  article.visual
+  .swiper
+  ol
+  > li
+  > div
+  .history
+  ul::-webkit-scrollbar-thumb {
+  border-radius: 12px;
+  background-color: #b7b7b7;
+  background-clip: padding-box;
+  border: 4px solid transparent;
+}
+#main article.visual .swiper ol > li > div .history ul li {
+  height: 20px;
+  position: relative;
+  overflow: hidden;
+  height: 30px;
+  line-height: 30px;
+  margin: 12px 0;
+}
+#main article.visual .swiper ol > li > div .history ul li img {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+}
+#main article.visual .swiper ol > li > div .history ul li strong {
+  float: left;
+  font-weight: 900;
+  font-size: 14px;
+  color: #000;
+  padding: 0 0 0 40px;
+}
+#main article.visual .swiper ol > li > div .history ul li span {
+  float: right;
+  font-size: 14px;
+  color: #000;
+}
+#main article.visual .swiper ol > li > div .button {
+  overflow: hidden;
+  margin: 20px 0 0;
+}
+#main article.visual .swiper ol > li > div .button a {
+  display: block;
+  float: left;
+  width: 49%;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 16px;
+  background-color: #000;
+  border: 1px solid #000;
+  color: #fff;
+  line-height: 42px;
+  height: 42px;
+  border-radius: 8px;
+}
+#main article.visual .swiper ol > li > div .button a:first-child {
+  margin: 0 2% 0 0;
+  background-color: #fff;
+  color: #000;
+}
 
+#sub .item {
+  overflow: visible;
+  margin: 0;
+}
+.item .swiper {
+  position: relative;
+}
+#sub .item .swiper-container-trendingitem {
+  margin: -0.5%;
+}
+#sub .item .swiper .swiper-button-trendingitem-prev {
+  width: 56px;
+  height: 56px;
+  left: -28px;
+  background-image: url("../img/main/arrow_prev.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+#sub .item .swiper .swiper-button-trendingitem-next {
+  width: 56px;
+  height: 56px;
+  right: -28px;
+  background-image: url("../img/main/arrow_next.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+#sub .item .swiper .swiper-button-trendingitem-prev:after,
+#sub .item .swiper .swiper-button-trendingitem-next:after {
+  display: none;
+}
+#sub .item .swiper-container-newitem {
+  margin: -1%;
+}
+#sub .item .swiper .swiper-button-newitem-prev {
+  width: 56px;
+  height: 56px;
+  left: -28px;
+  background-image: url("../img/main/arrow_prev.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+#sub .item .swiper .swiper-button-newitem-next {
+  width: 56px;
+  height: 56px;
+  right: -28px;
+  background-image: url("../img/main/arrow_next.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+#sub .item .swiper .swiper-button-newitem-prev:after,
+#sub .item .swiper .swiper-button-newitem-next:after {
+  display: none;
+}
 
-@media screen and (max-width:1800px) {
-#main article.visual .swiperaaa ol > li > div .info dl dt { float:none; }
-#main article.visual .swiperaaa ol > li > div .info dl dd { float:none; margin:5px 0 0; }
-#main article.visual .swiperaaa ol > li > div .history ul { height:142px; }
-} */
+@media screen and (max-width: 1800px) {
+  #main article.visual .swiper ol > li > div .info dl dt {
+    float: none;
+  }
+  #main article.visual .swiper ol > li > div .info dl dd {
+    float: none;
+    margin: 5px 0 0;
+  }
+  #main article.visual .swiper ol > li > div .history ul {
+    height: 142px;
+  }
+}
 
-/* @media screen and (max-width:1440px) {
-#main article.visual { padding:90px 0 110px; }
-#main article.visual .title { padding:0 2% 0 100px; }
+@media screen and (max-width: 1440px) {
+  #main article.visual {
+    padding: 90px 0 110px;
+  }
+  #main article.visual .title {
+    padding: 0 2% 0 100px;
+  }
 
-#main article.visual .title p { font-size:22px; margin:40px 0 0; }
-#main article.visual .title div button { width:48%; max-width:none; font-size:29px; line-height:80px; height:80px; border-radius:40px; }
-#main article.visual .title div button:first-child { margin:0 3% 0 0; background-color:#fff; color:#000; }
+  #main article.visual .title p {
+    font-size: 22px;
+    margin: 40px 0 0;
+  }
+  #main article.visual .title div a {
+    width: 48%;
+    max-width: none;
+    font-size: 29px;
+    line-height: 80px;
+    height: 80px;
+    border-radius: 40px;
+  }
+  #main article.visual .title div a:first-child {
+    margin: 0 3% 0 0;
+    background-color: #fff;
+    color: #000;
+  }
 
-#main article.visual .swiperaaa .swiperaaa-button-visual-next { width:59px; height:59px; left:-29.5px; }
-#main article.visual .swiperaaa ol > li { width:calc(100% - 100px - 70px); }
-#main article.visual .swiperaaa ol > li > div { padding:43px 23px 23px; margin:0 0 0 60%; }
-#main article.visual .swiperaaa ol > li > div:first-child { width:60%; }
-#main article.visual .swiperaaa ol > li > div h3 { font-size:37px; }
-#main article.visual .swiperaaa ol > li > div p { font-size:21px; margin:15px 0 76px; }
-#main article.visual .swiperaaa ol > li > div .info dl { margin:32px 0; line-height:29px; }
-#main article.visual .swiperaaa ol > li > div .info dl dd { font-size:29px; }
-} */
-/* 
-@media screen and (max-width:1280px) {
-#main article.visual { padding:70px 80px 100px; }
-#main article.visual > div { width:auto; float:none; }
-#main article.visual .title ,
-#main article.visual .swiperaaa { padding:0; }
+  #main article.visual .swiper .swiper-button-visual-next {
+    width: 59px;
+    height: 59px;
+    left: -29.5px;
+  }
+  #main article.visual .swiper ol > li {
+    width: calc(100% - 100px - 70px);
+  }
+  #main article.visual .swiper ol > li > div {
+    padding: 43px 23px 23px;
+    margin: 0 0 0 60%;
+  }
+  #main article.visual .swiper ol > li > div:first-child {
+    width: 60%;
+  }
+  #main article.visual .swiper ol > li > div h3 {
+    font-size: 37px;
+  }
+  #main article.visual .swiper ol > li > div p {
+    font-size: 21px;
+    margin: 15px 0 76px;
+  }
+  #main article.visual .swiper ol > li > div .info dl {
+    margin: 32px 0;
+    line-height: 29px;
+  }
+  #main article.visual .swiper ol > li > div .info dl dd {
+    font-size: 29px;
+  }
+}
 
-#main article.visual .title h2 { text-align:center; max-width:72.77%; margin:0 auto; }
-#main article.visual .title p { font-size:19px; text-align:center; max-width:72.77%; margin:35px auto 0; }
-#main article.visual .title div { max-width:72.77%; margin:56px auto; }
-#main article.visual .title div button { font-size:26px; border:1px solid #000; line-height:71px; height:71px; border-radius:35.5px; }
+@media screen and (max-width: 1280px) {
+  #main article.visual {
+    padding: 70px 80px 100px;
+  }
+  #main article.visual > div {
+    width: auto;
+    float: none;
+  }
+  #main article.visual .title,
+  #main article.visual .swiper {
+    padding: 0;
+  }
 
-#main article.visual .swiperaaa .swiperaaa-button-visual-next { width:53px; height:53px; left:-26.5px; }
-#main article.visual .swiperaaa-container-visual { margin:-3%; }
-#main article.visual .swiperaaa ol > li { width:94%; margin:3%; box-shadow:0 6px 10px 0 rgba(0, 0, 0, 0.1); }
-#main article.visual .swiperaaa ol > li > div { padding:36px 21px 21px; }
+  #main article.visual .title h2 {
+    text-align: center;
+    max-width: 72.77%;
+    margin: 0 auto;
+  }
+  #main article.visual .title p {
+    font-size: 19px;
+    text-align: center;
+    max-width: 72.77%;
+    margin: 35px auto 0;
+  }
+  #main article.visual .title div {
+    max-width: 72.77%;
+    margin: 56px auto;
+  }
+  #main article.visual .title div a {
+    font-size: 26px;
+    border: 1px solid #000;
+    line-height: 71px;
+    height: 71px;
+    border-radius: 35.5px;
+  }
 
-#main article.visual .swiperaaa ol > li > div h3 { font-size:34px; }
-#main article.visual .swiperaaa ol > li > div p { font-size:19px; margin:13px 0 62px; }
-#main article.visual .swiperaaa ol > li > div .info dl { margin:31px 0; line-height:28px; }
-#main article.visual .swiperaaa ol > li > div .info dl dt { font-size:13px; float:left; }
-#main article.visual .swiperaaa ol > li > div .info dl dd { font-size:28px; float:right; margin:0; }
-} */
+  #main article.visual .swiper .swiper-button-visual-next {
+    width: 53px;
+    height: 53px;
+    left: -26.5px;
+  }
+  #main article.visual .swiper-container-visual {
+    margin: -3%;
+  }
+  #main article.visual .swiper ol > li {
+    width: 94%;
+    margin: 3%;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.1);
+  }
+  #main article.visual .swiper ol > li > div {
+    padding: 36px 21px 21px;
+  }
 
-/* @media screen and (max-width:1024px) {
-#main article.visual { padding:60px 60px 90px; }
+  #main article.visual .swiper ol > li > div h3 {
+    font-size: 34px;
+  }
+  #main article.visual .swiper ol > li > div p {
+    font-size: 19px;
+    margin: 13px 0 62px;
+  }
+  #main article.visual .swiper ol > li > div .info dl {
+    margin: 31px 0;
+    line-height: 28px;
+  }
+  #main article.visual .swiper ol > li > div .info dl dt {
+    font-size: 13px;
+    float: left;
+  }
+  #main article.visual .swiper ol > li > div .info dl dd {
+    font-size: 28px;
+    float: right;
+    margin: 0;
+  }
+}
 
-#main article.visual .title p { font-size:17px; margin:30px auto 0; }
-#main article.visual .title div { margin:46px auto; }
-#main article.visual .title div button { font-size:23px; line-height:62px; height:62px; border-radius:31px; }
+@media screen and (max-width: 1024px) {
+  #main article.visual {
+    padding: 60px 60px 90px;
+  }
 
-#main article.visual .swiperaaa .swiperaaa-button-visual-next { width:48px; height:48px; left:-24px; }
-#main article.visual .swiperaaa ol > li > div { padding:29px 19px 19px; }
-#main article.visual .swiperaaa ol > li > div h3 { font-size:31px; }
-#main article.visual .swiperaaa ol > li > div p { font-size:18px; margin:11px 0 47px; }
-#main article.visual .swiperaaa ol > li > div .info dl { margin:30px 0; line-height:27px; }
-#main article.visual .swiperaaa ol > li > div .info dl dt { font-weight:700; }
-#main article.visual .swiperaaa ol > li > div .info dl dd { font-size:27px; }
-} */
+  #main article.visual .title p {
+    font-size: 17px;
+    margin: 30px auto 0;
+  }
+  #main article.visual .title div {
+    margin: 46px auto;
+  }
+  #main article.visual .title div a {
+    font-size: 23px;
+    line-height: 62px;
+    height: 62px;
+    border-radius: 31px;
+  }
+
+  #main article.visual .swiper .swiper-button-visual-next {
+    width: 48px;
+    height: 48px;
+    left: -24px;
+  }
+  #main article.visual .swiper ol > li > div {
+    padding: 29px 19px 19px;
+  }
+  #main article.visual .swiper ol > li > div h3 {
+    font-size: 31px;
+  }
+  #main article.visual .swiper ol > li > div p {
+    font-size: 18px;
+    margin: 11px 0 47px;
+  }
+  #main article.visual .swiper ol > li > div .info dl {
+    margin: 30px 0;
+    line-height: 27px;
+  }
+  #main article.visual .swiper ol > li > div .info dl dt {
+    font-weight: 700;
+  }
+  #main article.visual .swiper ol > li > div .info dl dd {
+    font-size: 27px;
+  }
+}
 
 @media screen and (max-width: 768px) {
   #main article.visual {
@@ -243,40 +597,40 @@
     max-width: none;
     margin: 36px 0;
   }
-  #main article.visual .title div button {
+  #main article.visual .title div a {
     font-size: 19px;
     line-height: 52px;
     height: 52px;
     border-radius: 26px;
   }
 
-  #main article.visual .swiperaaa .swiperaaa-button-visual-next {
+  #main article.visual .swiper .swiper-button-visual-next {
     width: 42px;
     height: 42px;
     left: -21px;
   }
-  #main article.visual .swiperaaa ol > li > div {
+  #main article.visual .swiper ol > li > div {
     padding: 22px 17px 17px;
   }
-  #main article.visual .swiperaaa ol > li > div h3 {
+  #main article.visual .swiper ol > li > div h3 {
     font-size: 27px;
     line-height: 1.25;
   }
-  #main article.visual .swiperaaa ol > li > div p {
+  #main article.visual .swiper ol > li > div p {
     font-size: 16px;
     font-weight: 400;
     margin: 8px 0 23px;
   }
-  #main article.visual .swiperaaa ol > li > div .info dl {
+  #main article.visual .swiper ol > li > div .info dl {
     margin: 28px 0;
     line-height: 26px;
   }
-  #main article.visual .swiperaaa ol > li > div .info dl dt {
+  #main article.visual .swiper ol > li > div .info dl dt {
     font-size: 12px;
     font-weight: 700;
     float: none;
   }
-  #main article.visual .swiperaaa ol > li > div .info dl dd {
+  #main article.visual .swiper ol > li > div .info dl dd {
     font-size: 26px;
     float: none;
     margin: 5px 0 0;
@@ -295,62 +649,62 @@
   #main article.visual .title div {
     margin: 26px 0;
   }
-  #main article.visual .title div button {
+  #main article.visual .title div a {
     font-size: 16px;
     line-height: 42px;
     height: 42px;
     border-radius: 21px;
   }
 
-  #main article.visual .swiperaaa .swiperaaa-button-visual-next {
+  #main article.visual .swiper .swiper-button-visual-next {
     width: 36px;
     height: 36px;
     left: auto;
     right: -18px;
   }
-  #main article.visual .swiperaaa ol > li > div {
+  #main article.visual .swiper ol > li > div {
     padding: 15px;
     margin: 0;
   }
-  #main article.visual .swiperaaa ol > li > div:first-child {
+  #main article.visual .swiper ol > li > div:first-child {
     width: auto;
     position: static;
     top: auto;
     left: auto;
     height: 319px;
   }
-  #main article.visual .swiperaaa ol > li > div h3 {
+  #main article.visual .swiper ol > li > div h3 {
     font-size: 24px;
   }
-  #main article.visual .swiperaaa ol > li > div p {
+  #main article.visual .swiper ol > li > div p {
     font-size: 14px;
     margin: 6px 0 10px;
   }
-  #main article.visual .swiperaaa ol > li > div .info dl {
+  #main article.visual .swiper ol > li > div .info dl {
     margin: 26px 0;
     line-height: 25px;
     float: left;
     width: 49%;
   }
-  #main article.visual .swiperaaa ol > li > div .info dl:first-child {
+  #main article.visual .swiper ol > li > div .info dl:first-child {
     margin: 26px 2% 26px 0;
   }
-  #main article.visual .swiperaaa ol > li > div .info dl dt {
+  #main article.visual .swiper ol > li > div .info dl dt {
     font-weight: 700;
   }
-  #main article.visual .swiperaaa ol > li > div .info dl dd {
+  #main article.visual .swiper ol > li > div .info dl dd {
     font-size: 24px;
   }
-  #main article.visual .swiperaaa ol > li > div .info dl dd span {
+  #main article.visual .swiper ol > li > div .info dl dd span {
     font-size: 24px;
   }
-  #main article.visual .swiperaaa ol > li > div .history {
+  #main article.visual .swiper ol > li > div .history {
     display: none;
   }
-  #main article.visual .swiperaaa ol > li > div .button {
+  #main article.visual .swiper ol > li > div .button {
     margin: 0;
   }
-  #main article.visual .swiperaaa ol > li > div .button button {
+  #main article.visual .swiper ol > li > div .button a {
     width: 49%;
     font-size: 14px;
     border: 2px solid #000;
@@ -359,13 +713,13 @@
   }
 }
 
-#main article.collection .swiperaaa {
+#main article.collection .swiper {
   position: relative;
 }
-#main article.collection .swiperaaa-container-collection {
+#main article.collection .swiper-container-collection {
   margin: -1%;
 }
-#main article.collection .swiperaaa .swiperaaa-button-collection-prev {
+#main article.collection .swiper .swiper-button-collection-prev {
   width: 56px;
   height: 56px;
   left: -28px;
@@ -374,7 +728,7 @@
   background-size: cover;
   background-position: center;
 }
-#main article.collection .swiperaaa .swiperaaa-button-collection-next {
+#main article.collection .swiper .swiper-button-collection-next {
   width: 56px;
   height: 56px;
   right: -28px;
@@ -383,8 +737,8 @@
   background-size: cover;
   background-position: center;
 }
-#main article.collection .swiperaaa .swiperaaa-button-collection-prev:after,
-#main article.collection .swiperaaa .swiperaaa-button-collection-next:after {
+#main article.collection .swiper .swiper-button-collection-prev:after,
+#main article.collection .swiper .swiper-button-collection-next:after {
   display: none;
 }
 #main article.collection {
@@ -400,22 +754,22 @@
   overflow: hidden;
   box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.16);
 }
-#main article.collection .list li button {
+#main article.collection .list li a {
   display: block;
 }
-#main article.collection .list li button div {
+#main article.collection .list li a div {
   position: relative;
   text-align: center;
   padding: 20px;
   box-sizing: border-box;
 }
-#main article.collection .list li button div:first-child {
+#main article.collection .list li a div:first-child {
   height: 380px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
-#main article.collection .list li button div span {
+#main article.collection .list li a div span {
   border-radius: 50%;
   width: 85px;
   height: 85px;
@@ -428,25 +782,25 @@
   left: 50%;
   transform: translate(-50%, 0);
 }
-#main article.collection .list li button div dl {
+#main article.collection .list li a div dl {
   box-sizing: border-box;
 }
-#main article.collection .list li button div dl dt {
+#main article.collection .list li a div dl dt {
   color: #000;
   font-weight: 700;
   font-size: 24px;
   margin: 42px 0 0;
 }
-#main article.collection .list li button div dl dd {
+#main article.collection .list li a div dl dd {
   color: #000;
 }
-#main article.collection .list li button div dl dd strong {
+#main article.collection .list li a div dl dd strong {
   font-size: 18px;
   font-weight: 500;
   display: block;
   margin: 13px 0 0;
 }
-#main article.collection .list li button div dl dd p {
+#main article.collection .list li a div dl dd p {
   font-size: 14px;
   line-height: 2;
   height: 84px;
@@ -463,13 +817,13 @@
   #main article.collection {
     margin: 0 0 90px;
   }
-  #main article.collection .swiperaaa .swiperaaa-button-collection-prev {
+  #main article.collection .swiper .swiper-button-collection-prev {
     width: 52px;
     height: 52px;
     left: -26px;
     display: block;
   }
-  #main article.collection .swiperaaa .swiperaaa-button-collection-next {
+  #main article.collection .swiper .swiper-button-collection-next {
     width: 52px;
     height: 52px;
     right: -26px;
@@ -479,23 +833,23 @@
   #main article.collection .list li {
     width: 31.33%;
   }
-  #main article.collection .list li button div:first-child {
+  #main article.collection .list li a div:first-child {
     height: 370px;
   }
-  #main article.collection .list li button div span {
+  #main article.collection .list li a div span {
     width: 78px;
     height: 78px;
     top: -39px;
   }
-  #main article.collection .list li button div dl dt {
+  #main article.collection .list li a div dl dt {
     font-size: 23px;
     margin: 41px 0 0;
   }
-  #main article.collection .list li button div dl dd strong {
+  #main article.collection .list li a div dl dd strong {
     font-size: 17px;
     margin: 12px 0 0;
   }
-  #main article.collection .list li button div dl dd p {
+  #main article.collection .list li a div dl dd p {
     width: 90%;
   }
 }
@@ -504,34 +858,34 @@
   #main article.collection {
     margin: 0 0 80px;
   }
-  #main article.collection .swiperaaa .swiperaaa-button-collection-prev {
+  #main article.collection .swiper .swiper-button-collection-prev {
     width: 48px;
     height: 48px;
     left: -24px;
   }
-  #main article.collection .swiperaaa .swiperaaa-button-collection-next {
+  #main article.collection .swiper .swiper-button-collection-next {
     width: 48px;
     height: 48px;
     right: -24px;
   }
 
-  #main article.collection .list li button div:first-child {
+  #main article.collection .list li a div:first-child {
     height: 355px;
   }
-  #main article.collection .list li button div span {
+  #main article.collection .list li a div span {
     width: 70px;
     height: 70px;
     top: -35px;
   }
-  #main article.collection .list li button div dl dt {
+  #main article.collection .list li a div dl dt {
     font-size: 21px;
     margin: 40px 0 0;
   }
-  #main article.collection .list li button div dl dd strong {
+  #main article.collection .list li a div dl dd strong {
     font-size: 16px;
     margin: 11px 0 0;
   }
-  #main article.collection .list li button div dl dd p {
+  #main article.collection .list li a div dl dd p {
     font-size: 13px;
     line-height: 1.85;
     height: 75px;
@@ -542,37 +896,37 @@
   #main article.collection {
     margin: 0 0 70px;
   }
-  #main article.collection .swiperaaa .swiperaaa-button-collection-prev {
+  #main article.collection .swiper .swiper-button-collection-prev {
     width: 44px;
     height: 44px;
     left: -22px;
   }
-  #main article.collection .swiperaaa .swiperaaa-button-collection-next {
+  #main article.collection .swiper .swiper-button-collection-next {
     width: 44px;
     height: 44px;
     right: -22px;
   }
 
-  #main article.collection .swiperaaa-container-collection {
+  #main article.collection .swiper-container-collection {
     margin: -20px -2%;
   }
   #main article.collection .list li {
     width: 46%;
     margin: 20px 2%;
   }
-  #main article.collection .list li button div:first-child {
+  #main article.collection .list li a div:first-child {
     height: 345px;
   }
-  #main article.collection .list li button div span {
+  #main article.collection .list li a div span {
     width: 62px;
     height: 62px;
     top: -31px;
   }
-  #main article.collection .list li button div dl dt {
+  #main article.collection .list li a div dl dt {
     font-size: 20px;
     margin: 39px 0 0;
   }
-  #main article.collection .list li button div dl dd strong {
+  #main article.collection .list li a div dl dd strong {
     font-size: 15px;
     margin: 10px 0 0;
   }
@@ -582,34 +936,34 @@
   #main article.collection {
     margin: 0 0 60px;
   }
-  #main article.collection .swiperaaa .swiperaaa-button-collection-prev {
+  #main article.collection .swiper .swiper-button-collection-prev {
     width: 40px;
     height: 40px;
     left: -20px;
   }
-  #main article.collection .swiperaaa .swiperaaa-button-collection-next {
+  #main article.collection .swiper .swiper-button-collection-next {
     width: 40px;
     height: 40px;
     right: -20px;
   }
 
-  #main article.collection .list li button div:first-child {
+  #main article.collection .list li a div:first-child {
     height: 330px;
   }
-  #main article.collection .list li button div span {
+  #main article.collection .list li a div span {
     width: 52px;
     height: 52px;
     top: -27px;
   }
-  #main article.collection .list li button div dl dt {
+  #main article.collection .list li a div dl dt {
     font-size: 18px;
     margin: 38px 0 0;
   }
-  #main article.collection .list li button div dl dd strong {
+  #main article.collection .list li a div dl dd strong {
     font-size: 13px;
     margin: 9px 0 0;
   }
-  #main article.collection .list li button div dl dd p {
+  #main article.collection .list li a div dl dd p {
     font-size: 12px;
     line-height: 1.67;
     height: 65px;
@@ -621,36 +975,36 @@
   #main article.collection {
     margin: 0 0 50px;
   }
-  #main article.collection .swiperaaa .swiperaaa-button-collection-prev {
+  #main article.collection .swiper .swiper-button-collection-prev {
     width: 36px;
     height: 36px;
     left: -18px;
   }
-  #main article.collection .swiperaaa .swiperaaa-button-collection-next {
+  #main article.collection .swiper .swiper-button-collection-next {
     width: 36px;
     height: 36px;
     right: -18px;
   }
 
-  #main article.collection .swiperaaa-container-collection {
+  #main article.collection .swiper-container-collection {
     margin: -20px -4%;
   }
   #main article.collection .list li {
     width: 92%;
     margin: 20px 4%;
   }
-  #main article.collection .list li button div:first-child {
+  #main article.collection .list li a div:first-child {
     height: 310px;
   }
-  #main article.collection .list li button div span {
+  #main article.collection .list li a div span {
     width: 44px;
     height: 44px;
     top: -22px;
   }
-  #main article.collection .list li button div dl dt {
+  #main article.collection .list li a div dl dt {
     font-size: 16px;
   }
-  #main article.collection .list li button div dl dd strong {
+  #main article.collection .list li a div dl dd strong {
     font-size: 12px;
     margin: 8px 0 0;
   }
@@ -672,7 +1026,7 @@
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
 }
-#main article.category .list li button {
+#main article.category .list li a {
   display: block;
   box-sizing: border-box;
   height: 64px;
@@ -686,7 +1040,7 @@
   white-space: nowrap;
   overflow: hidden;
 }
-#main article.category .list li button img {
+#main article.category .list li a img {
   position: absolute;
   top: 50%;
   left: 15px;
@@ -702,7 +1056,7 @@
     width: 24%;
     border-radius: 30px;
   }
-  #main article.category .list li button {
+  #main article.category .list li a {
     height: 60px;
     line-height: 60px;
     font-size: 19px;
@@ -721,21 +1075,20 @@
     margin: 1%;
     border-radius: 28px;
   }
-  #main article.category .list li button {
+  #main article.category .list li a {
     height: 56px;
     line-height: 56px;
   }
 }
 
 @media screen and (max-width: 1024px) {
-  /*
   #main article.category {
     margin: 0 0 80px;
   }
   #main article.category .list li {
     border-radius: 26px;
   }
-  #main article.category .list li button {
+  #main article.category .list li a {
     height: 52px;
     line-height: 52px;
     font-size: 18px;
@@ -743,7 +1096,7 @@
 }
 
 @media screen and (max-width: 768px) {
-   #main article.category {
+  #main article.category {
     margin: 0 0 75px;
   }
   #main article.category .list li {
@@ -753,14 +1106,14 @@
     border: solid 2px #ebebeb;
     box-shadow: 0 3px 5px 0 rgba(21, 85, 96, 0.1);
   }
-  #main article.category .list li button {
+  #main article.category .list li a {
     height: 46px;
     line-height: 46px;
     font-size: 17px;
   }
 }
 
-@media screen and (max-width: 640px) { */
+@media screen and (max-width: 640px) {
   #main article.category {
     margin: 0 0 70px;
   }
@@ -773,13 +1126,13 @@
     margin: 2% 1.5%;
     border-radius: 21px;
   }
-  #main article.category .list li button {
+  #main article.category .list li a {
     height: 42px;
     line-height: 42px;
     padding: 0;
     font-size: 16px;
   }
-  #main article.category .list li button img {
+  #main article.category .list li a img {
     display: none;
   }
 }
@@ -791,14 +1144,14 @@
 #main article.item {
   margin: 0 0 120px;
 }
-#main article.item .swiperaaa {
+#main article.item .swiper {
   position: relative;
 }
 
-#main article.item .swiperaaa-container-trendingitem {
+#main article.item .swiper-container-trendingitem {
   margin: -0.5%;
 }
-#main article.item .swiperaaa .swiperaaa-button-trendingitem-prev {
+#main article.item .swiper .swiper-button-trendingitem-prev {
   width: 56px;
   height: 56px;
   left: -28px;
@@ -807,7 +1160,7 @@
   background-size: cover;
   background-position: center;
 }
-#main article.item .swiperaaa .swiperaaa-button-trendingitem-next {
+#main article.item .swiper .swiper-button-trendingitem-next {
   width: 56px;
   height: 56px;
   right: -28px;
@@ -816,15 +1169,15 @@
   background-size: cover;
   background-position: center;
 }
-#main article.item .swiperaaa .swiperaaa-button-trendingitem-prev:after,
-#main article.item .swiperaaa .swiperaaa-button-trendingitem-next:after {
+#main article.item .swiper .swiper-button-trendingitem-prev:after,
+#main article.item .swiper .swiper-button-trendingitem-next:after {
   display: none;
 }
 
-#main article.item .swiperaaa-container-newitem {
+#main article.item .swiper-container-newitem {
   margin: -1%;
 }
-#main article.item .swiperaaa .swiperaaa-button-newitem-prev {
+#main article.item .swiper .swiper-button-newitem-prev {
   width: 56px;
   height: 56px;
   left: -28px;
@@ -833,7 +1186,7 @@
   background-size: cover;
   background-position: center;
 }
-#main article.item .swiperaaa .swiperaaa-button-newitem-next {
+#main article.item .swiper .swiper-button-newitem-next {
   width: 56px;
   height: 56px;
   right: -28px;
@@ -842,8 +1195,8 @@
   background-size: cover;
   background-position: center;
 }
-#main article.item .swiperaaa .swiperaaa-button-newitem-prev:after,
-#main article.item .swiperaaa .swiperaaa-button-newitem-next:after {
+#main article.item .swiper .swiper-button-newitem-prev:after,
+#main article.item .swiper .swiper-button-newitem-next:after {
   display: none;
 }
 
@@ -851,26 +1204,26 @@
   #main article.item {
     margin: 0 0 110px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-trendingitem-prev {
+  #main article.item .swiper .swiper-button-trendingitem-prev {
     width: 52px;
     height: 52px;
     left: -26px;
     display: block;
   }
-  #main article.item .swiperaaa .swiperaaa-button-trendingitem-next {
+  #main article.item .swiper .swiper-button-trendingitem-next {
     width: 52px;
     height: 52px;
     right: -26px;
     display: block;
   }
 
-  #main article.item .swiperaaa .swiperaaa-button-newitem-prev {
+  #main article.item .swiper .swiper-button-newitem-prev {
     width: 52px;
     height: 52px;
     left: -26px;
     display: block;
   }
-  #main article.item .swiperaaa .swiperaaa-button-newitem-next {
+  #main article.item .swiper .swiper-button-newitem-next {
     width: 52px;
     height: 52px;
     right: -26px;
@@ -882,23 +1235,23 @@
   #main article.item {
     margin: 0 0 100px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-trendingitem-prev {
+  #main article.item .swiper .swiper-button-trendingitem-prev {
     width: 48px;
     height: 48px;
     left: -24px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-trendingitem-next {
+  #main article.item .swiper .swiper-button-trendingitem-next {
     width: 48px;
     height: 48px;
     right: -24px;
   }
 
-  #main article.item .swiperaaa .swiperaaa-button-newitem-prev {
+  #main article.item .swiper .swiper-button-newitem-prev {
     width: 48px;
     height: 48px;
     left: -24px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-newitem-next {
+  #main article.item .swiper .swiper-button-newitem-next {
     width: 48px;
     height: 48px;
     right: -24px;
@@ -909,23 +1262,23 @@
   #main article.item {
     margin: 0 0 90px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-trendingitem-prev {
+  #main article.item .swiper .swiper-button-trendingitem-prev {
     width: 44px;
     height: 44px;
     left: -22px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-trendingitem-next {
+  #main article.item .swiper .swiper-button-trendingitem-next {
     width: 44px;
     height: 44px;
     right: -22px;
   }
 
-  #main article.item .swiperaaa .swiperaaa-button-newitem-prev {
+  #main article.item .swiper .swiper-button-newitem-prev {
     width: 44px;
     height: 44px;
     left: -22px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-newitem-next {
+  #main article.item .swiper .swiper-button-newitem-next {
     width: 44px;
     height: 44px;
     right: -22px;
@@ -936,23 +1289,23 @@
   #main article.item {
     margin: 0 0 80px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-trendingitem-prev {
+  #main article.item .swiper .swiper-button-trendingitem-prev {
     width: 40px;
     height: 40px;
     left: -20px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-trendingitem-next {
+  #main article.item .swiper .swiper-button-trendingitem-next {
     width: 40px;
     height: 40px;
     right: -20px;
   }
 
-  #main article.item .swiperaaa .swiperaaa-button-newitem-prev {
+  #main article.item .swiper .swiper-button-newitem-prev {
     width: 40px;
     height: 40px;
     left: -20px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-newitem-next {
+  #main article.item .swiper .swiper-button-newitem-next {
     width: 40px;
     height: 40px;
     right: -20px;
@@ -963,36 +1316,36 @@
   #main article.item {
     margin: 0 0 70px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-trendingitem-prev {
+  #main article.item .swiper .swiper-button-trendingitem-prev {
     width: 36px;
     height: 36px;
     left: -18px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-trendingitem-next {
+  #main article.item .swiper .swiper-button-trendingitem-next {
     width: 36px;
     height: 36px;
     right: -18px;
   }
 
-  #main article.item .swiperaaa .swiperaaa-button-newitem-prev {
+  #main article.item .swiper .swiper-button-newitem-prev {
     width: 36px;
     height: 36px;
     left: -18px;
   }
-  #main article.item .swiperaaa .swiperaaa-button-newitem-next {
+  #main article.item .swiper .swiper-button-newitem-next {
     width: 36px;
     height: 36px;
     right: -18px;
   }
 }
 
-#main article.users .swiperaaa {
+#main article.users .swiper {
   position: relative;
 }
-#main article.users .swiperaaa-container-users {
+#main article.users .swiper-container-users {
   margin: -20px -1%;
 }
-#main article.users .swiperaaa .swiperaaa-button-users-prev {
+#main article.users .swiper .swiper-button-users-prev {
   width: 56px;
   height: 56px;
   left: -28px;
@@ -1002,7 +1355,7 @@
   background-position: center;
   display: none;
 }
-#main article.users .swiperaaa .swiperaaa-button-users-next {
+#main article.users .swiper .swiper-button-users-next {
   width: 56px;
   height: 56px;
   right: -28px;
@@ -1012,8 +1365,8 @@
   background-position: center;
   display: none;
 }
-#main article.users .swiperaaa .swiperaaa-button-users-prev:after,
-#main article.users .swiperaaa .swiperaaa-button-users-next:after {
+#main article.users .swiper .swiper-button-users-prev:after,
+#main article.users .swiper .swiper-button-users-next:after {
   display: none;
 }
 #main article.users {
@@ -1029,38 +1382,38 @@
   overflow: hidden;
   box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.1);
 }
-#main article.users .list li button {
+#main article.users .list li a {
   display: block;
 }
-#main article.users .list li button div {
+#main article.users .list li a div {
   height: 300px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
-#main article.users .list li button dl {
+#main article.users .list li a dl {
   box-sizing: border-box;
   padding: 21px 20px 35px;
 }
-#main article.users .list li button dl dt {
+#main article.users .list li a dl dt {
   color: #000;
   font-weight: 500;
   font-size: 26px;
 }
-#main article.users .list li button dl dd {
+#main article.users .list li a dl dd {
   color: #555;
   font-size: 18px;
   margin: 9px 0 0;
 }
 
 @media screen and (max-width: 1440px) {
-  #main article.users .swiperaaa .swiperaaa-button-users-prev {
+  #main article.users .swiper .swiper-button-users-prev {
     width: 52px;
     height: 52px;
     left: -26px;
     display: block;
   }
-  #main article.users .swiperaaa .swiperaaa-button-users-next {
+  #main article.users .swiper .swiper-button-users-next {
     width: 52px;
     height: 52px;
     right: -26px;
@@ -1072,24 +1425,24 @@
   #main article.users .list li {
     width: 31.33%;
   }
-  #main article.users .list li button div {
+  #main article.users .list li a div {
     height: 290px;
   }
-  #main article.users .list li button dl dt {
+  #main article.users .list li a dl dt {
     font-size: 25px;
   }
-  #main article.users .list li button dl dd {
+  #main article.users .list li a dl dd {
     font-size: 17px;
   }
 }
 
 @media screen and (max-width: 1280px) {
-  #main article.users .swiperaaa .swiperaaa-button-users-prev {
+  #main article.users .swiper .swiper-button-users-prev {
     width: 48px;
     height: 48px;
     left: -24px;
   }
-  #main article.users .swiperaaa .swiperaaa-button-users-next {
+  #main article.users .swiper .swiper-button-users-next {
     width: 48px;
     height: 48px;
     right: -24px;
@@ -1097,24 +1450,24 @@
   #main article.users {
     margin: 0 0 150px;
   }
-  #main article.users .list li button div {
+  #main article.users .list li a div {
     height: 280px;
   }
-  #main article.users .list li button dl dt {
+  #main article.users .list li a dl dt {
     font-size: 24px;
   }
-  #main article.users .list li button dl dd {
+  #main article.users .list li a dl dd {
     font-size: 16px;
   }
 }
 
 @media screen and (max-width: 1024px) {
-  #main article.users .swiperaaa .swiperaaa-button-users-prev {
+  #main article.users .swiper .swiper-button-users-prev {
     width: 44px;
     height: 44px;
     left: -22px;
   }
-  #main article.users .swiperaaa .swiperaaa-button-users-next {
+  #main article.users .swiper .swiper-button-users-next {
     width: 44px;
     height: 44px;
     right: -22px;
@@ -1122,31 +1475,31 @@
   #main article.users {
     margin: 0 0 140px;
   }
-  #main article.users .swiperaaa-container-users {
+  #main article.users .swiper-container-users {
     margin: -20px -2%;
   }
   #main article.users .list li {
     width: 46%;
     margin: 20px 2%;
   }
-  #main article.users .list li button div {
+  #main article.users .list li a div {
     height: 270px;
   }
-  #main article.users .list li button dl dt {
+  #main article.users .list li a dl dt {
     font-size: 23px;
   }
-  #main article.users .list li button dl dd {
+  #main article.users .list li a dl dd {
     font-size: 16px;
   }
 }
 
 @media screen and (max-width: 768px) {
-  #main article.users .swiperaaa .swiperaaa-button-users-prev {
+  #main article.users .swiper .swiper-button-users-prev {
     width: 40px;
     height: 40px;
     left: -20px;
   }
-  #main article.users .swiperaaa .swiperaaa-button-users-next {
+  #main article.users .swiper .swiper-button-users-next {
     width: 40px;
     height: 40px;
     right: -20px;
@@ -1154,25 +1507,25 @@
   #main article.users {
     margin: 0 0 120px;
   }
-  #main article.users .list li button div {
+  #main article.users .list li a div {
     height: 256px;
   }
-  #main article.users .list li button dl dt {
+  #main article.users .list li a dl dt {
     font-size: 21px;
   }
-  #main article.users .list li button dl dd {
+  #main article.users .list li a dl dd {
     font-size: 15px;
     margin: 8px 0 0;
   }
 }
 
 @media screen and (max-width: 640px) {
-  #main article.users .swiperaaa .swiperaaa-button-users-prev {
+  #main article.users .swiper .swiper-button-users-prev {
     width: 36px;
     height: 36px;
     left: -18px;
   }
-  #main article.users .swiperaaa .swiperaaa-button-users-next {
+  #main article.users .swiper .swiper-button-users-next {
     width: 36px;
     height: 36px;
     right: -18px;
@@ -1180,20 +1533,20 @@
   #main article.users {
     margin: 0 0 99px;
   }
-  #main article.users .swiperaaa-container-users {
+  #main article.users .swiper-container-users {
     margin: -20px -4%;
   }
   #main article.users .list li {
     width: 92%;
     margin: 20px 4%;
   }
-  #main article.users .list li button div {
+  #main article.users .list li a div {
     height: 246px;
   }
-  #main article.users .list li button dl dt {
+  #main article.users .list li a dl dt {
     font-size: 20px;
   }
-  #main article.users .list li button dl dd {
+  #main article.users .list li a dl dd {
     font-size: 14px;
   }
 }
@@ -1224,10 +1577,10 @@
   border-radius: 25px;
   box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.16);
 }
-.item > li.click button {
+.item > li.click a {
   border: 6px solid #fcc921;
 }
-.item > li button {
+.item > li a {
   display: block;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1238,7 +1591,7 @@
   overflow: hidden;
   box-sizing: border-box;
 }
-.item > li button > div {
+.item > li a > div {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -1248,18 +1601,18 @@
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
-.item > li button > div.top {
+.item > li a > div.top {
   padding: 12px 20px;
   top: 0;
   height: 45px !important;
 }
-.item > li button > div.blk {
+.item > li a > div.blk {
   background-color: rgba(0, 0, 0, 0.2);
 }
-.item > li button > div ul {
+.item > li a > div ul {
   font-size: 0;
 }
-.item > li button > div ul li {
+.item > li a > div ul li {
   display: inline-block;
   width: 50%;
   height: 20px;
@@ -1269,51 +1622,51 @@
   font-weight: 500;
   box-sizing: border-box;
 }
-.item > li button > div ul li.heart {
+.item > li a > div ul li.heart {
   background-position: center left;
   background-repeat: no-repeat;
   padding: 0 0 0 30px;
 }
-.item > li button > div ul li.heart.off {
+.item > li a > div ul li.heart.off {
   background-image: url("../img/sub/heart_off.png");
 }
-.item > li button > div ul li.heart.on {
+.item > li a > div ul li.heart.on {
   background-image: url("../img/sub/heart_on.png");
 }
-.item > li button > div ul li.star {
+.item > li a > div ul li.star {
   background-position: center right;
   background-repeat: no-repeat;
 }
-.item > li button > div ul li.star.off {
+.item > li a > div ul li.star.off {
   background-image: url("../img/sub/star_off.png");
 }
-.item > li button > div ul li.star.on {
+.item > li a > div ul li.star.on {
   background-image: url("../img/sub/star_on.png");
 }
-.item > li button > div ul li.dot {
+.item > li a > div ul li.dot {
   background-position: center right;
   background-repeat: no-repeat;
   background-image: url("../img/sub/dotdotdot.png");
   position: relative;
 }
-.item > li button > div ul li.dot .choose {
+.item > li a > div ul li.dot .choose {
   position: absolute;
   top: -190px;
   right: 0px;
   width: 150px;
   display: none;
 }
-.item > li button > div ul li.dot .choose.choose2 {
+.item > li a > div ul li.dot .choose.choose2 {
   top: -89px;
   width: 166px;
 }
-.item > li button > div ul li.dot.on .choose {
+.item > li a > div ul li.dot.on .choose {
   display: block;
 }
-.item > li button > div ul li.dot .choose ul {
+.item > li a > div ul li.dot .choose ul {
   border-radius: 10px;
 }
-.item > li button > div ul li.dot .choose ul li {
+.item > li a > div ul li.dot .choose ul li {
   width: 100%;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   box-sizing: border-box;
@@ -1323,39 +1676,39 @@
   backdrop-filter: blur(6px);
   background-color: rgba(0, 0, 0, 0.45);
 }
-.item > li button > div ul li.dot .choose ul li:hover {
+.item > li a > div ul li.dot .choose ul li:hover {
   background-color: #fff;
   color: #000;
 }
-.item > li button > div ul li.dot .choose ul li p {
+.item > li a > div ul li.dot .choose ul li p {
   line-height: 32px;
   font-size: 14px;
   color: #fff;
   font-weight: 400;
 }
-.item > li button > div ul li.dot .choose ul li:first-child {
+.item > li a > div ul li.dot .choose ul li:first-child {
   border-radius: 10px 10px 0 0;
 }
-.item > li button > div ul li.dot .choose ul li:last-child {
+.item > li a > div ul li.dot .choose ul li:last-child {
   border-bottom: 0px;
   border-radius: 0 0 10px 10px;
 }
-.item > li button > div.top ul li.dot .choose {
+.item > li a > div.top ul li.dot .choose {
   top: 40px;
 }
 
-.item > li button > div div {
+.item > li a > div div {
   font-size: 26px;
   color: #fff;
   font-weight: 500;
 }
-.item > li button > div span {
+.item > li a > div span {
   display: block;
   font-size: 18px;
   color: #fff;
   font-weight: 500;
 }
-.item > li button > div span.nft {
+.item > li a > div span.nft {
   font-size: 14px;
   color: #e5e5e5;
   width: 100%;
@@ -1366,26 +1719,26 @@
   display: block;
   font-weight: 400;
 }
-.item > li button > div ol {
+.item > li a > div ol {
   overflow: hidden;
 }
-.item > li button > div ol li {
+.item > li a > div ol li {
   float: left;
   width: 50%;
   height: 22px;
   line-height: 22px;
   color: #fff;
 }
-.item > li button > div ol li:first-child {
+.item > li a > div ol li:first-child {
   font-size: 14px;
   opacity: 0.6;
 }
-.item > li button > div ol li:last-child {
+.item > li a > div ol li:last-child {
   font-size: 18px;
   font-weight: 700;
   text-align: right;
 }
-.item > li button > div p {
+.item > li a > div p {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -1402,14 +1755,14 @@
 .move_item .tem {
   padding: 0 33px;
 }
-.move_item .move_li > li button > div {
+.move_item .move_li > li a > div {
   padding: 20px;
   box-sizing: border-box;
 }
-.move_item .move_li > li button {
+.move_item .move_li > li a {
   height: 453px;
 }
-.move_item .move_li > li button > div span {
+.move_item .move_li > li a > div span {
   padding: 17px 0 5px;
   box-sizing: border-box;
 }
@@ -1418,56 +1771,56 @@
 }
 
 /* 아이템 목록 (메인, 상세) */
-.item.buy > li button {
+.item.buy > li a {
   height: 519px;
 }
-.item.buy > li button > div {
+.item.buy > li a > div {
   height: 213px;
 }
-.item.buy > li button > div ul {
+.item.buy > li a > div ul {
   margin: 0 0 12px;
 }
-.item.buy > li button > div div {
+.item.buy > li a > div div {
   margin: 0 0 4px;
 }
-.item.buy > li button > div span {
+.item.buy > li a > div span {
   margin: 0 0 9px;
 }
 
 /* 아이템 목록 (메인) */
-.item.summary > li button {
+.item.summary > li a {
   height: 530px;
 }
-.item.summary > li button > div {
+.item.summary > li a > div {
   height: 172px;
 }
-.item.summary > li button > div ul {
+.item.summary > li a > div ul {
   margin: 0 0 19px;
 }
-.item.summary > li button > div div {
+.item.summary > li a > div div {
   margin: 0 0 4px;
 }
-.item.summary > li button > div span {
+.item.summary > li a > div span {
   margin: 0 0 13px;
 }
-.item.summary2 > li button > div span {
+.item.summary2 > li a > div span {
   padding: 0px;
 }
 
 /* 아이템 목록 (리스트) */
-.item.list > li button {
+.item.list > li a {
   height: 453px;
 }
-.item.list > li button > div {
+.item.list > li a > div {
   height: 172px;
 }
-.item.list > li button > div ul {
+.item.list > li a > div ul {
   margin: 0 0 17px;
 }
-.item.list > li button > div div {
+.item.list > li a > div div {
   margin: 0 0 3px;
 }
-.item.list > li button > div span {
+.item.list > li a > div span {
   margin: 0 0 10px;
 }
 
@@ -1482,10 +1835,10 @@
   }
 
   /* 아이템 목록 (메인) */
-  .item.summary > li button {
+  .item.summary > li a {
     height: 520px;
   }
-  .item.summary > li button > div {
+  .item.summary > li a > div {
     height: 171px;
   }
 }
@@ -1496,10 +1849,10 @@
   }
 
   /* 아이템 목록 (메인) */
-  .item.summary > li button {
+  .item.summary > li a {
     height: 510px;
   }
-  .item.summary > li button > div {
+  .item.summary > li a > div {
     height: 170px;
   }
 }
@@ -1513,20 +1866,20 @@
   }
 
   /* 아이템 목록 (메인) */
-  .item.summary > li button {
+  .item.summary > li a {
     height: 490px;
   }
-  .item.summary > li button > div {
+  .item.summary > li a > div {
     height: 169px;
   }
 }
 
 @media screen and (max-width: 768px) {
   /* 아이템 목록 (메인) */
-  .item.summary > li button {
+  .item.summary > li a {
     height: 470px;
   }
-  .item.summary > li button > div {
+  .item.summary > li a > div {
     height: 167px;
   }
 }
@@ -1540,10 +1893,10 @@
   }
 
   /* 아이템 목록 (메인) */
-  .item.summary > li button {
+  .item.summary > li a {
     height: 453px;
   }
-  .item.summary > li button > div {
+  .item.summary > li a > div {
     height: 166px;
   }
 }

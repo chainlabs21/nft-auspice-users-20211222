@@ -23,7 +23,7 @@ function Signup02({ store, setConnect }) {
     <SignPopupBox>
       <div class="popup info" id="info_popup">
         <div class="box_wrap">
-          <a href="javascript:void(0);" class="close" id="info_close">
+          <a onClick={() => navigate(-1)} class="close" id="info_close">
             <img src={require("../img/sub/exit_48.png").default} alt="" />
           </a>
           <div class="box bot2">
@@ -108,7 +108,7 @@ function Signup02({ store, setConnect }) {
 
 const SignPopupBox = styled.div`
   .box_wrap {
-    width: 800px;
+    /* width: 800px; */
   }
 `;
 

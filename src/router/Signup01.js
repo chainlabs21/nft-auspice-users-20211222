@@ -13,58 +13,9 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import WalletConnectSDK from "walletconnect";
-import axios from "axios";
 
-function Signup02({ store, setConnect }) {
+function Signup02({ store }) {
   const navigate = useNavigate();
-
-  async function connetMetaMask() {
-    return new Promise((resolve, reject) => {
-      let { ethereum } = window;
-
-      if (ethereum) {
-        ethereum
-          .request({ method: "eth_requestAccounts" })
-          .then((res) => {
-            sessionStorage.setItem("wallet", "metamask");
-            sessionStorage.setItem("address", res[0]);
-
-            setConnect(res[0]);
-          })
-          .catch((err) => console.log(err));
-      } else {
-        // SetErrorBar("지갑이 지원되지 않는 환경입니다");
-        // setTimeout(() => window.open(installMetaMaskUrl, "_blank"), 2000);
-      }
-    });
-  }
-
-  async function connectCoinbase() {
-    axios
-      .get(
-        "https://www.coinbase.com/oauth/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URL&state=SECURE_RANDOM&scope=wallet:accounts:read"
-      )
-      .then((res) => console.log(res));
-  }
-
-  async function connectkWalletConnect() {
-    await localStorage.removeItem("walletconnect");
-
-    const wc = new WalletConnectSDK();
-    try {
-      wc.connect()
-        .then((res) => {
-          console.log(res);
-          sessionStorage.setItem("wallet", "walletconnect");
-          sessionStorage.setItem("address", res.accounts);
-          setConnect(res[0]);
-        })
-        .catch((err) => console.error(err));
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
   return (
     <SignPopupBox>

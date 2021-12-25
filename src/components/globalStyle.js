@@ -12,6 +12,10 @@ const GlobalStyle = createGlobalStyle`
 
     user-select: none;
   }
+
+  a{
+    cursor: pointer;
+  }
   
   
   u{

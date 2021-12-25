@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter,  Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyle from "./components/globalStyle";
 import Main from "./Main";
@@ -60,6 +60,8 @@ import Profile21 from "./router/Profile21";
 import MProfileMenu from "./router/MProfileMenu";
 import ExploreDeal from "./router/ExploreDeal";
 import Explore from "./router/Explore";
+import MheaderPopup from "./components/MheaderPopup";
+import List from "./util/List";
 
 function App({ store, setHref, setConnect }) {
   return (
@@ -89,7 +91,10 @@ function App({ store, setHref, setConnect }) {
         <Header />
 
         <Routes>
+          <Route path="/index" element={<List />} />
+
           <Route path="/" element={<Main />} />
+
           <Route path="/signup" element={<Signup />} />
           <Route path="/signup01" element={<Signup01 />} />
           <Route path="/signup02" element={<Signup02 />} />
@@ -111,10 +116,12 @@ function App({ store, setHref, setConnect }) {
           <Route path="/marketplace12" element={<MarketPlaceItem12 />} />
           <Route path="/marketplace13" element={<MarketPlaceItem13 />} />
           <Route path="/marketplace14" element={<MarketPlaceItem14 />} />
+
           <Route path="/iteminfo01" element={<ItemInfo01 />} />
           <Route path="/iteminfo02" element={<ItemInfo02 />} />
           <Route path="/iteminfo03" element={<ItemInfo03 />} />
           <Route path="/iteminfo04" element={<ItemInfo04 />} />
+
           <Route path="/nftsell" element={<Nftsell />} />
           <Route path="/nftsell02" element={<Nftsell02 />} />
           <Route path="/nftsell03" element={<Nftsell03 />} />
@@ -122,10 +129,12 @@ function App({ store, setHref, setConnect }) {
           <Route path="/nftsell04off" element={<Nftsell04Off />} />
           <Route path="/nftsell05" element={<Nftsell05 />} />
           <Route path="/nftsell05off" element={<Nftsell05Off />} />
+
           <Route path="/buynft01" element={<Buynft01 />} />
           <Route path="/buynft02" element={<Buynft02 />} />
           <Route path="/buynft03" element={<Buynft03 />} />
           <Route path="/buynft04" element={<Buynft04 />} />
+
           <Route path="/profile01" element={<Profile01 />} />
           <Route path="/profile02" element={<Profile02 />} />
           <Route path="/profile03" element={<Profile03 />} />
@@ -148,6 +157,8 @@ function App({ store, setHref, setConnect }) {
           <Route path="/exploredeal" element={<ExploreDeal />} />
           <Route path="/explore" element={<Explore />} />
         </Routes>
+
+        {store.mHeaderPopup && <MheaderPopup />}
       </HashRouter>
     </AppBox>
   );

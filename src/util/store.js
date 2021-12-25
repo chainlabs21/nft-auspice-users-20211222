@@ -4,12 +4,21 @@ const store = createSlice({
   name: "storeReducer",
   initialState: {
     walletAddress: "",
+
+    mHeaderPopup: false,
   },
   reducers: {
     setAllPopupOff: (state, action) => {
       return {
         ...state,
-        headerPopup: false,
+        mHeaderPopup: false,
+      };
+    },
+
+    setMHeaderPopup: (state, action) => {
+      return {
+        ...state,
+        mHeaderPopup: true,
       };
     },
 
@@ -22,5 +31,5 @@ const store = createSlice({
   },
 });
 
-export const { setAllPopupOff, setConnect } = store.actions;
+export const { setAllPopupOff, setMHeaderPopup, setConnect } = store.actions;
 export default configureStore({ reducer: store.reducer });

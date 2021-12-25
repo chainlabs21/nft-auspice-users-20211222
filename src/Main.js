@@ -27,10 +27,10 @@ import I_heartO from "./img/main/I_heartO.svg";
 import I_heart from "./img/main/I_heart.svg";
 import I_starO from "./img/main/I_starO.svg";
 import I_star from "./img/main/I_star.svg";
-import "./css/common.css";
-import "./css/font.css";
-import "./css/layout.css";
-import "./css/style.css";
+// import "./css/common.css";
+// import "./css/font.css";
+// import "./css/layout.css";
+// import "./css/style.css";
 
 // import "./css/style01.css";
 // import "./css/style02.css";
@@ -43,11 +43,12 @@ import title from "./img/main/title.svg";
 
 import { putCommaAtPrice } from "./util/Util";
 
-function Main({ store, setConnect }) {
+function Main({ store }) {
   const swiperRef = useRef();
   const collectionRef = useRef();
   const trendingItemRef = useRef();
   const itemRef = useRef();
+  const userRef = useRef();
 
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
@@ -60,6 +61,7 @@ function Main({ store, setConnect }) {
   const [collectionIndex, setCollectionIndex] = useState(0);
   const [trendingItemIndex, setTrendingItemIndex] = useState(0);
   const [itemIndex, setItemIndex] = useState(0);
+  const [userIndex, setUserIndex] = useState(0);
 
   function onclickTitleSwiper() {
     if (swiperRef.current?.scrollTo) {
@@ -138,6 +140,26 @@ function Main({ store, setConnect }) {
     else setItemIndex(0);
   }
 
+  function onclickUserPreBtn() {
+    const wrapWidth = userRef.current.offsetWidth;
+    const contWidth = userRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(userList.length / itemNumByPage);
+
+    if (userIndex > 0) setUserIndex(userIndex - 1);
+    else setUserIndex(pageNum - 1);
+  }
+
+  function onclickUserNextBtn() {
+    const wrapWidth = userRef.current.offsetWidth;
+    const contWidth = userRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(userList.length / itemNumByPage);
+
+    if (userIndex < pageNum - 1) setUserIndex(userIndex + 1);
+    else setUserIndex(0);
+  }
+
   useEffect(() => {
     if (swiperRef.current.children.length) {
       if (intervalId) clearInterval(intervalId);
@@ -156,16 +178,10 @@ function Main({ store, setConnect }) {
 
     if (collectionRef.current?.scrollTo) {
       if (collectionIndex < pageNum) {
-        console.log(collectionRef.current);
-        console.log(collectionIndex, pageNum);
-
         collectionRef.current.scrollTo({
           left: contWidth * itemNumByPage * collectionIndex,
           behavior: "smooth",
         });
-
-        console.log(contWidth * itemNumByPage * collectionIndex);
-        console.log(collectionRef.current.scrollLeft);
       } else {
         collectionRef.current.scrollTo({
           left: 0,
@@ -183,16 +199,10 @@ function Main({ store, setConnect }) {
 
     if (trendingItemRef.current?.scrollTo) {
       if (trendingItemIndex < pageNum) {
-        console.log(trendingItemRef.current);
-        console.log(trendingItemIndex, pageNum);
-
         trendingItemRef.current.scrollTo({
           left: contWidth * itemNumByPage * trendingItemIndex,
           behavior: "smooth",
         });
-
-        console.log(contWidth * itemNumByPage * trendingItemIndex);
-        console.log(trendingItemRef.current.scrollLeft);
       } else {
         trendingItemRef.current.scrollTo({
           left: 0,
@@ -210,16 +220,10 @@ function Main({ store, setConnect }) {
 
     if (itemRef.current?.scrollTo) {
       if (itemIndex < pageNum) {
-        console.log(itemRef.current);
-        console.log(itemIndex, pageNum);
-
         itemRef.current.scrollTo({
           left: contWidth * itemNumByPage * itemIndex,
           behavior: "smooth",
         });
-
-        console.log(contWidth * itemNumByPage * itemIndex);
-        console.log(itemRef.current.scrollLeft);
       } else {
         itemRef.current.scrollTo({
           left: 0,
@@ -228,6 +232,27 @@ function Main({ store, setConnect }) {
       }
     }
   }, [itemIndex]);
+
+  useEffect(() => {
+    const wrapWidth = userRef.current.offsetWidth;
+    const contWidth = userRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(userList.length / itemNumByPage);
+
+    if (userRef.current?.scrollTo) {
+      if (userIndex < pageNum) {
+        userRef.current.scrollTo({
+          left: contWidth * itemNumByPage * userIndex,
+          behavior: "smooth",
+        });
+      } else {
+        userRef.current.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [userIndex]);
 
   return (
     <IndexBox>
@@ -319,7 +344,7 @@ function Main({ store, setConnect }) {
         </article>
 
         <article class="collection">
-          <div class="wrap">
+          <div class="wrap" style={{ padding: 0 }}>
             <h4 class="t">Trending Collection</h4>
 
             <div className="swiperBox">
@@ -348,7 +373,11 @@ function Main({ store, setConnect }) {
                 <img src={I_prevBtn} alt="" />
               </button>
 
-              <button className="nextBtn" onClick={onclickCollectionNextBtn}>
+              <button
+                className="nextBtn"
+                id="locShadow"
+                onClick={onclickCollectionNextBtn}
+              >
                 <img src={I_nextBtn} alt="" />
               </button>
             </div>
@@ -521,6 +550,34 @@ function Main({ store, setConnect }) {
             </button>
 
             <button className="nextBtn" onClick={onclickItemNextBtn}>
+              <img src={I_nextBtn} alt="" />
+            </button>
+          </div>
+        </article>
+
+        <article class="users">
+          <h4 class="t">Tips for Auspice users</h4>
+
+          <div className="swiperBox">
+            <ul className="swiper" ref={userRef}>
+              {userList.map((cont, index) => (
+                <li key={index}>
+                  <div className="innerBox">
+                    <img src={cont.img} alt="" />
+                    <div className="infoBox">
+                      <p className="title">{cont.title}</p>
+                      <p className="explain">{cont.explain}</p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <button className="prevBtn" onClick={onclickUserPreBtn}>
+              <img src={I_prevBtn} alt="" />
+            </button>
+
+            <button className="nextBtn" onClick={onclickUserNextBtn}>
               <img src={I_nextBtn} alt="" />
             </button>
           </div>
@@ -1077,6 +1134,7 @@ const IndexBox = styled.div`
     & > .item {
       display: flex;
       flex-direction: column;
+      gap: 40px;
       max-width: 1720px;
       width: 100%;
 
@@ -1197,6 +1255,68 @@ const IndexBox = styled.div`
         }
       }
     }
+
+    .users {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 1720px;
+      width: 100%;
+
+      .t {
+        padding: 0 20px;
+      }
+
+      .swiperBox {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .swiper {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          overflow-x: scroll;
+          padding: 20px;
+
+          li {
+            padding: 0 20px 0 0;
+
+            .innerBox {
+              display: flex;
+              flex-direction: column;
+              width: 390px;
+              height: 416px;
+              border-radius: 20px;
+              overflow: hidden;
+              box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.1);
+
+              img {
+                height: 300px;
+              }
+
+              .infoBox {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 9px;
+                padding: 20px;
+
+                .title {
+                  font-size: 26px;
+                  font-weight: 500;
+                }
+
+                .explain {
+                  font-size: 18px;
+                  color: #555;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   @media screen and (max-width: 1800px) and (min-width: 1440px) {
@@ -1237,12 +1357,19 @@ const IndexBox = styled.div`
 
       .collection,
       .category,
-      .item {
+      .item,
+      .users {
         max-width: 1290px;
 
         &.item {
           .swiperBox {
             width: 1040px;
+          }
+        }
+
+        &.users {
+          .swiperBox {
+            width: 1250px;
           }
         }
       }
@@ -1278,7 +1405,8 @@ const IndexBox = styled.div`
 
       .collection,
       .category,
-      .item {
+      .item,
+      .users {
         max-width: 860px;
 
         &.category {
@@ -1292,19 +1420,29 @@ const IndexBox = styled.div`
             width: 700px;
           }
         }
+        &.users {
+          .swiperBox {
+            width: 840px;
+          }
+        }
       }
     }
   }
 
   @media screen and (max-width: 920px) {
     #main {
-      .nextBtn,
-      .prevBtn {
-        width: 36px;
-        transform: translate(-5px, 0);
+      .swiperBox {
+        .nextBtn,
+        .prevBtn {
+          width: 36px;
 
-        &.prevBtn {
-          display: none;
+          &.nextBtn {
+            transform: translate(-7px, 0);
+          }
+
+          &.prevBtn {
+            display: none;
+          }
         }
       }
 
@@ -1451,13 +1589,14 @@ const IndexBox = styled.div`
       }
 
       .collection {
-        max-width: 340px;
+        max-width: 360px;
 
         .wrap {
           .swiperBox {
             .swiper {
               li {
                 width: 340px;
+                padding: 0 20px 0 0;
 
                 .innerBox {
                   min-width: 320px;
@@ -1490,19 +1629,26 @@ const IndexBox = styled.div`
             }
           }
         }
+        .nextBtn#locShadow {
+          transform: translate(-5px, 0);
+        }
       }
 
       .category {
-        max-width: 320px;
+        max-width: 360px;
 
         .list {
-          gap: 8px;
+          gap: 12px;
 
           li {
             width: 156px;
             min-width: 156px;
             height: 42px;
             font-size: 16px;
+
+            &:nth-of-type(n + 3):nth-of-type(-n + 5) {
+              justify-content: center;
+            }
 
             img {
               display: none;
@@ -1512,14 +1658,13 @@ const IndexBox = styled.div`
       }
 
       .item {
-        max-width: 340px;
+        gap: 30px;
+        max-width: 360px;
 
         .swiperBox {
-          max-width: 340px;
+          max-width: 360px;
 
           .list {
-            gap: 8px;
-
             li {
               width: 156px;
               min-width: 156px;
@@ -1533,6 +1678,47 @@ const IndexBox = styled.div`
           }
         }
       }
+
+      .users {
+        gap: 10px;
+        max-width: 360px;
+
+        .swiperBox {
+          max-width: 360px;
+
+          .swiper {
+            li {
+              .innerBox {
+                width: 320px;
+                height: 340px;
+
+                img {
+                  height: 246px;
+                }
+
+                .infoBox {
+                  gap: 8px;
+                  padding: 15px 17px;
+
+                  .title {
+                    font-size: 20px;
+                  }
+
+                  .explain {
+                    font-size: 14px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #footer {
+    button {
+      text-align: start;
     }
   }
 `;
@@ -1844,5 +2030,48 @@ const itemList = [
     creator: "AP.GOD.Ryan",
     time: "17 minutes left",
     price: "1.02 AUSP",
+  },
+];
+
+const userList = [
+  {
+    img: users_list01,
+    title: "Basic Guide",
+    explain: "Before Participating in NFT Collection",
+  },
+  {
+    img: users_list02,
+    title: "Buy NFTs",
+    explain: "Discover and buy promising NFTs",
+  },
+  {
+    img: users_list03,
+    title: "production and sales",
+    explain: "Easy-to-follow NFT production and sales",
+  },
+  {
+    img: users_list04,
+    title: "Auspice Market",
+    explain: "5 reasons to sell your NFTs on Auspice",
+  },
+  {
+    img: users_list01,
+    title: "Basic Guide",
+    explain: "Before Participating in NFT Collection",
+  },
+  {
+    img: users_list02,
+    title: "Buy NFTs",
+    explain: "Discover and buy promising NFTs",
+  },
+  {
+    img: users_list03,
+    title: "production and sales",
+    explain: "Easy-to-follow NFT production and sales",
+  },
+  {
+    img: users_list04,
+    title: "Auspice Market",
+    explain: "5 reasons to sell your NFTs on Auspice",
   },
 ];
