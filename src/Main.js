@@ -22,7 +22,6 @@ import item_list04 from "./img/main/item_list04.png";
 import item_list05 from "./img/main/item_list05.png";
 import I_nextBtn from "./img/main/I_nextBtn.svg";
 import I_prevBtn from "./img/main/I_prevBtn.svg";
-import sample from "./img/sub/sample.png";
 import I_heartO from "./img/main/I_heartO.svg";
 import I_heart from "./img/main/I_heart.svg";
 import I_starO from "./img/main/I_starO.svg";

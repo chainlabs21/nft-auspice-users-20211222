@@ -345,7 +345,7 @@ function MarketPlace({ store, setConnect }) {
                   <div class="move_item">
                     <div class="swiper-container">
                       <ol class="item move_li summary summary2">
-                        <li onClick={() => navigate("/marketplace04")}>
+                        <li onClick={() => navigate("/singleitem")}>
                           <a style={{ backgroundImage: `url(${s5})` }}>
                             <div class="on">
                               <ul>
@@ -361,7 +361,7 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </a>
                         </li>
-                        <li onClick={() => navigate("/marketplace04")}>
+                        <li onClick={() => navigate("/singleitem")}>
                           <a style={{ backgroundImage: `url(${sample})` }}>
                             <div class="on">
                               <ul>
@@ -377,7 +377,7 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </a>
                         </li>
-                        <li onClick={() => navigate("/marketplace04")}>
+                        <li onClick={() => navigate("/singleitem")}>
                           <a style={{ backgroundImage: `url(${sample})` }}>
                             <div class="on">
                               <ul>
@@ -393,7 +393,7 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </a>
                         </li>
-                        <li onClick={() => navigate("/marketplace04")}>
+                        <li onClick={() => navigate("/singleitem")}>
                           <a style={{ backgroundImage: `url(${sample})` }}>
                             <div class="on">
                               <ul>
@@ -409,7 +409,7 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </a>
                         </li>
-                        <li onClick={() => navigate("/marketplace04")}>
+                        <li onClick={() => navigate("/singleitem")}>
                           <a style={{ backgroundImage: `url(${sample})` }}>
                             <div class="on">
                               <ul>
@@ -425,7 +425,7 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </a>
                         </li>
-                        <li onClick={() => navigate("/marketplace04")}>
+                        <li onClick={() => navigate("/singleitem")}>
                           <a style={{ backgroundImage: `url(${sample})` }}>
                             <div class="on">
                               <ul>
@@ -441,7 +441,7 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </a>
                         </li>
-                        <li onClick={() => navigate("/marketplace04")}>
+                        <li onClick={() => navigate("/singleitem")}>
                           <a style={{ backgroundImage: `url(${sample})` }}>
                             <div class="on">
                               <ul>
@@ -457,7 +457,7 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </a>
                         </li>
-                        <li onClick={() => navigate("/marketplace04")}>
+                        <li onClick={() => navigate("/singleitem")}>
                           <a style={{ backgroundImage: `url(${sample})` }}>
                             <div class="on">
                               <ul>
@@ -473,7 +473,7 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </a>
                         </li>
-                        <li onClick={() => navigate("/marketplace04")}>
+                        <li onClick={() => navigate("/singleitem")}>
                           <a style={{ backgroundImage: `url(${sample})` }}>
                             <div class="on">
                               <ul>
@@ -489,7 +489,7 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </a>
                         </li>
-                        <li onClick={() => navigate("/marketplace04")}>
+                        <li onClick={() => navigate("/singleitem")}>
                           <a style={{ backgroundImage: `url(${sample})` }}>
                             <div class="on">
                               <ul>

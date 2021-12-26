@@ -16,30 +16,29 @@ import "../css/swiper.min.css";
 import WalletConnectSDK from "walletconnect";
 import axios from "axios";
 
-function Signup02({ store, setConnect }) {
+function RecentEmail({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
     <SignPopupBox>
       <div class="popup info" id="info_popup">
         <div class="box_wrap">
-          <div class="box bot3">
+          <a onClick={() => navigate(-1)} class="close" id="info_close">
+            <img src={require("../img/sub/icon_close.png").default} alt="" />
+          </a>
+          <div class="box">
             <div class="top0 p2">
-              <h2>Sign up is complete.</h2>
+              <h2>A verification email has been sent</h2>
               <p>
-                Email verification is complete and you can use
-                <br class="m_br" /> all functions.
+                If you do not receive an email, please check
                 <br />
-                Create your own NFT collection.
+                your spam mailbox.
               </p>
             </div>
-            <div class="btn">
+            <div class="btn one">
               <ul>
                 <li>
-                  <a onClick={() => navigate("/")}>Home</a>
-                </li>
-                <li>
-                  <a onClick={() => navigate("/signup07")}>Issuing NFTs</a>
+                  <a onClick={() => navigate("/")}>OK</a>
                 </li>
               </ul>
             </div>
@@ -66,4 +65,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup02);
+export default connect(mapStateToProps, mapDispatchToProps)(RecentEmail);

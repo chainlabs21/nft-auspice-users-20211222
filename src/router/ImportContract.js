@@ -16,9 +16,12 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { useState } from "react";
 
-function MarketPlace({ store, setConnect }) {
+function ImportContract({ store, setConnect }) {
   const navigate = useNavigate();
+
+  const [address, setAddress] = useState();
 
   return (
     <SignPopupBox>
@@ -27,7 +30,7 @@ function MarketPlace({ store, setConnect }) {
           <div class="sellbg">
             <div class="ntfsell_con">
               <div class="top1">
-                <a href="">
+                <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
                     alt=""
@@ -54,14 +57,20 @@ function MarketPlace({ store, setConnect }) {
                               <textarea
                                 type="text"
                                 placeholder="Please enter an ERC721 or ERC 1155 address"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
                                 class="text2"
                               ></textarea>
                             </div>
                           </div>
-                          <h4 class="realert">
-                            No valid contract found. Make sure the publication
-                            is complete
-                          </h4>
+                          {address ? (
+                            <h4 class="realert">
+                              No valid contract found. Make sure the publication
+                              is complete
+                            </h4>
+                          ) : (
+                            <h4 class="realert">&nbsp;</h4>
+                          )}
                         </li>
                       </ul>
                     </div>
@@ -69,7 +78,7 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </div>
               <div class="create_btn mcrea">
-                <a href="">Import contract</a>
+                <a>Import contract</a>
               </div>
             </div>
           </div>
@@ -91,4 +100,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(ImportContract);

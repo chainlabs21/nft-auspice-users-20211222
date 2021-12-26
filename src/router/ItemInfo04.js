@@ -59,7 +59,7 @@ function MarketPlace({ store, setConnect }) {
           </form>
         </div>
       </div>
-      ;
+      
       <section id="sub">
         <article class="bundle_box box2">
           <div class="wrap">

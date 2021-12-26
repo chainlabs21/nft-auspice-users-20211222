@@ -7,15 +7,9 @@ import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
 import collect_img4 from "../img/sub/collect_img4.png";
-import s2 from "../img/sub/s2.png";
-import s3 from "../img/sub/s3.png";
-import s4 from "../img/sub/s4.png";
-import s5 from "../img/sub/s5.png";
-import s9 from "../img/sub/s9.png";
-import s8 from "../img/sub/s8.png";
-import sample from "../img/sub/sample.png";
-import rstone from "../img/sub/rstone.png";
-import dollar from "../img/sub/rstone.png";
+
+import stone from "../img/sub/stone.png";
+import rock from "../img/sub/rock.png";
 
 import "../css/common.css";
 import "../css/font.css";
@@ -28,9 +22,35 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { useState } from "react";
 
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
+
+  const [filterObj, setFilterObj] = useState({});
+  const [filterList, setFilterList] = useState([]);
+  
+
+  function editFilterList(category, cont) {
+    let dataObj = filterObj;
+    dataObj[category] = cont;
+
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
+
+  function onclickFilterCancel(cont) {
+    let dataObj = filterObj;
+
+    for (var key in dataObj) {
+      if (dataObj.hasOwnProperty(key) && dataObj[key] == cont) {
+        delete dataObj[key];
+      }
+    }
+
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
 
   return (
     <SignPopupBox>
@@ -64,10 +84,16 @@ function MarketPlace({ store, setConnect }) {
 
                     <div class="open status">
                       <ul>
-                        <li class="on">Listing</li>
-                        <li>Sale</li>
-                        <li>Bid</li>
-                        <li>Send</li>
+                        {statusList.map((cont, index) => (
+                          <li
+                            key={index}
+                            style={{ cursor: "pointer" }}
+                            className={filterObj.eventType === cont && "on"}
+                            onClick={() => editFilterList("eventType", cont)}
+                          >
+                            {cont}
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -126,22 +152,27 @@ function MarketPlace({ store, setConnect }) {
 
                     <div class="open">
                       <ul>
-                        <li class="ra">
-                          <input type="radio" id="rad" name="rad" />
-                          <label for="rad">
-                            <img
-                              src={require("../img/sub/stone.png").default}
-                            />
-                            Ethereum
-                          </label>
-                        </li>
-                        <li class="ra">
-                          <input type="radio" id="rad2" name="rad" />
-                          <label for="rad2">
-                            <img src={require("../img/sub/rock.png").default} />
-                            Klaytn
-                          </label>
-                        </li>
+                        {chainList.map((cont, index) => (
+                          <li
+                            key={index}
+                            class="ra"
+                            onClick={() => editFilterList("chain", cont.name)}
+                          >
+                            <span
+                              className="chkBtn"
+                              style={{
+                                background:
+                                  filterObj.chain === cont.name && "#000",
+                              }}
+                            >
+                              <span />
+                            </span>
+                            <label for={cont.name}>
+                              <img src={cont.img} />
+                              {cont.name}
+                            </label>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -155,23 +186,25 @@ function MarketPlace({ store, setConnect }) {
                   <div class="filter_list ex_d">
                     <div class="filter_left">
                       <div class="fl">
-                        <a href="">
+                        <a>
                           <span>Filter reset</span>
                         </a>
                       </div>
-                      <div class="select_f">
-                        <p>Sale</p>
-                        <a href="">
-                          <img
-                            src={require("../img/sub/close_24.png").default}
-                            alt=""
-                          />
-                        </a>
-                      </div>
+                      {filterList.map((cont, index) => (
+                        <div class="select_f" key={index}>
+                          <p>{cont}</p>
+                          <a onClick={() => onclickFilterCancel(cont)}>
+                            <img
+                              src={require("../img/sub/close_24.png").default}
+                              alt=""
+                            />
+                          </a>
+                        </div>
+                      ))}
                     </div>
                     <div class="filter_right">
                       <div class="fr">
-                        <a href="">
+                        <a>
                           <img
                             src={require("../img/sub/exchange.png").default}
                             alt=""
@@ -188,7 +221,7 @@ function MarketPlace({ store, setConnect }) {
                           <ul class="swiper-wrapper">
                             <li class="swiper-slide">
                               <div class="fl">
-                                <a href="">
+                                <a>
                                   <span>Filter reset</span>
                                 </a>
                               </div>
@@ -196,7 +229,7 @@ function MarketPlace({ store, setConnect }) {
                             <li class="swiper-slide">
                               <div class="select_f">
                                 <p>Sale</p>
-                                <a href="">
+                                <a>
                                   <img
                                     src={
                                       require("../img/sub/close_24.png").default
@@ -209,7 +242,7 @@ function MarketPlace({ store, setConnect }) {
                             <li class="swiper-slide">
                               <div class="select_f">
                                 <p>Sale</p>
-                                <a href="">
+                                <a>
                                   <img
                                     src={
                                       require("../img/sub/close_24.png").default
@@ -222,7 +255,7 @@ function MarketPlace({ store, setConnect }) {
                             <li class="swiper-slide">
                               <div class="select_f">
                                 <p>Sale</p>
-                                <a href="">
+                                <a>
                                   <img
                                     src={
                                       require("../img/sub/close_24.png").default
@@ -235,7 +268,7 @@ function MarketPlace({ store, setConnect }) {
                             <li class="swiper-slide">
                               <div class="select_f">
                                 <p>Sale</p>
-                                <a href="">
+                                <a>
                                   <img
                                     src={
                                       require("../img/sub/close_24.png").default
@@ -248,7 +281,7 @@ function MarketPlace({ store, setConnect }) {
                             <li class="swiper-slide">
                               <div class="select_f">
                                 <p>Sale</p>
-                                <a href="">
+                                <a>
                                   <img
                                     src={
                                       require("../img/sub/close_24.png").default
@@ -261,7 +294,7 @@ function MarketPlace({ store, setConnect }) {
                             <li class="swiper-slide">
                               <div class="select_f">
                                 <p>Sale</p>
-                                <a href="">
+                                <a>
                                   <img
                                     src={
                                       require("../img/sub/close_24.png").default
@@ -277,7 +310,7 @@ function MarketPlace({ store, setConnect }) {
                     </div>
                     <div class="f_right">
                       <div class="fr">
-                        <a href="">
+                        <a>
                           <img
                             src={require("../img/sub/exchange.png").default}
                             alt=""
@@ -853,7 +886,7 @@ function MarketPlace({ store, setConnect }) {
                             <div class="txt">
                               <h4>Sale</h4>
                               <p>Summer Pool</p>
-                              <a href="">
+                              <a>
                                 <span class="more">+ More</span>
                                 <span class="less">- Less</span>
                               </a>
@@ -916,7 +949,7 @@ function MarketPlace({ store, setConnect }) {
                             <div class="txt">
                               <h4>Sale</h4>
                               <p>Summer Pool</p>
-                              <a href="">
+                              <a>
                                 <span class="more">+ More</span>
                                 <span class="less">- Less</span>
                               </a>
@@ -961,7 +994,7 @@ function MarketPlace({ store, setConnect }) {
                             <div class="txt">
                               <h4>Sale</h4>
                               <p>Summer Pool</p>
-                              <a href="">
+                              <a>
                                 <span class="more">+ More</span>
                                 <span class="less">- Less</span>
                               </a>
@@ -1006,7 +1039,7 @@ function MarketPlace({ store, setConnect }) {
                             <div class="txt">
                               <h4>Sale</h4>
                               <p>Summer Pool</p>
-                              <a href="">
+                              <a>
                                 <span class="more">+ More</span>
                                 <span class="less">- Less</span>
                               </a>
@@ -1062,3 +1095,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+
+const statusList = ["Buy Now", "On Auction", "New", "Has Offers"];
+
+const chainList = [
+  {
+    img: stone,
+    name: "Ethereum",
+  },
+  {
+    img: rock,
+    name: "Klaytn",
+  },
+];

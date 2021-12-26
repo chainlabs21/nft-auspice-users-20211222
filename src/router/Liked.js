@@ -29,7 +29,7 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 
-function MarketPlace({ store, setConnect }) {
+function Liked({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
@@ -233,7 +233,7 @@ function MarketPlace({ store, setConnect }) {
                     <li>Referals</li>
                   </ul>
 
-                  <div class="slide_s">
+                  {/* <div class="slide_s">
                     <div class="fl">
                       <input
                         type="text"
@@ -288,7 +288,7 @@ function MarketPlace({ store, setConnect }) {
                         </ul>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div class="move_item" style={{ marginBottom: "100px" }}>
                     <ol class="item move_li">
@@ -386,4 +386,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(Liked);

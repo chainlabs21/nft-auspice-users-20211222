@@ -1,19 +1,14 @@
 import { connect } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
 
-import s1 from "../img/sub/s1.png";
-import s2 from "../img/sub/s2.png";
-import s3 from "../img/sub/s3.png";
-import s4 from "../img/sub/s4.png";
-import s9 from "../img/sub/s9.png";
-
-import bun_slide_img0 from "../img/sub/bun_slide_img0.png";
-import bun_slide_img1 from "../img/sub/bun_slide_img1.png";
-import bun_slide_img2 from "../img/sub/bun_slide_img2.png";
-import bun_slide_img3 from "../img/sub/bun_slide_img3.png";
-import bun_slide_img4 from "../img/sub/bun_slide_img4.png";
+import collect_img from "../img/sub/collect_img.png";
+import collect_img2 from "../img/sub/collect_img2.png";
+import collect_img3 from "../img/sub/collect_img3.png";
+import collect_img4 from "../img/sub/collect_img4.png";
+import s5 from "../img/sub/s5.png";
+import sample from "../img/sub/sample.png";
 
 import "../css/common.css";
 import "../css/font.css";
@@ -28,34 +23,332 @@ import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useState } from "react";
 
-function MarketPlace({ store, setConnect }) {
+function SingleItem({ store, setConnect }) {
   const navigate = useNavigate();
 
-  const [imgIndex, setImgIndex] = useState(0);
-
-  function onclickNextItemBtn() {
-    if (imgIndex > 0) setImgIndex(imgIndex - 1);
-  }
-
-  function onclickPreItemBtn() {
-    if (imgIndex < imgList.length - 1) setImgIndex(imgIndex + 1);
-  }
-
-  function onClickShare() {
-    const textArea = document.createElement("textarea");
-    document.body.appendChild(textArea);
-    textArea.value = window.location.href; // "0xD591aaaaaa55dsf12";
-    textArea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textArea);
-  }
+  const [ownerPopup, setOwnerPopup] = useState(false);
+  const [likePopup, setLikePopup] = useState(false);
+  const [reportPopup, setReportPopup] = useState(false);
+  const [reportDesc, setReportDesc] = useState("");
+  const [bidPopup, setBidPopup] = useState(false);
 
   return (
     <SignPopupBox>
+      {likePopup && (
+        <div class="popup info" id="info_popup" style={{ display: "block" }}>
+          <div class="box_wrap wrap2">
+            <a
+              onClick={() => setLikePopup(false)}
+              class="close close2"
+              id="info_close"
+            >
+              <img
+                src={require("../img/sub/icon_close.png").default}
+                alt="close"
+              />
+            </a>
+            <div class="poptitle">
+              <h2>Liked by</h2>
+            </div>
+            <div class="list_bottom">
+              <ul class="container popcon">
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    cryptopunks
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    art book
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    good Friends
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    ZED Run
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    Meebits
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    Sandbox
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    cryptopunks
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {reportPopup && (
+        <div class="popup info" id="info_popup" style={{ display: "block" }}>
+          <div class="box_wrap wrap3">
+            <a
+              onClick={() => setReportPopup(false)}
+              class="close close2"
+              id="info_close"
+            >
+              <img
+                src={require("../img/sub/icon_close.png").default}
+                alt="close"
+              />
+            </a>
+            <div class="poptitle">
+              <h2>Report inappropriate items</h2>
+            </div>
+            <form>
+              <div class="list_bottom bottom2">
+                <h3>Category</h3>
+                <select>
+                  <option disable selected hidden>
+                    Please select a reason for reporting
+                  </option>
+                  <option>Similar to another artist's work</option>
+                </select>
+                <h3>Detailed description</h3>
+
+                <textarea
+                  value={reportDesc}
+                  onChange={(e) => setReportDesc(e.target.value)}
+                  placeholder="Please describe in detail why you would like to report the item."
+                ></textarea>
+              </div>
+              <div class="report_wrap">
+                <button
+                  href=""
+                  class="reportit"
+                  disabled={!reportDesc}
+                  onClick={() => setReportPopup(false)}
+                >
+                  Report it
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {ownerPopup && (
+        <div class="popup info" id="info_popup" style={{ display: "block" }}>
+          <div class="box_wrap wrap2">
+            <a
+              onClick={() => setOwnerPopup(false)}
+              class="close close2"
+              id="info_close"
+            >
+              <img
+                src={require("../img/sub/icon_close.png").default}
+                alt="close"
+              />
+            </a>
+            <div class="poptitle">
+              <h2>Owner List</h2>
+            </div>
+            <div class="list_bottom">
+              <ul class="container popcon">
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    cryptopunks
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>22 Items</a>
+                  </p>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    art book
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>1 Items</a>
+                  </p>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    good Friends
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>10 Items</a>
+                  </p>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    ZED Run
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>37 Items</a>
+                  </p>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    Meebits
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>16 Items</a>
+                  </p>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    Sandbox
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>76 Items</a>
+                  </p>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    cryptopunks
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>22 Items</a>
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {bidPopup && (
+        <div class="popup info" id="info_popup" style={{ display: "block" }}>
+          <div class="box_wrap buynft">
+            <a
+              onClick={() => setBidPopup(false)}
+              class="close close2"
+              id="info_close"
+            >
+              <img
+                src={require("../img/sub/icon_close.png").default}
+                alt="close"
+              />
+            </a>
+            <div class="poptitle nob">
+              <h2>Purchase receipt</h2>
+            </div>
+            <div class="list_bottom buy_nft">
+              <p class="warn">
+                Warning! Contains items
+                <br /> that have not been reviewed and approved
+              </p>
+              <div class="receipt_section">
+                <div class="receipt_title">
+                  <p class="rec_t">Item</p>
+                  <p class="rec_t right">Subtotal</p>
+                </div>
+                <div class="receipt_item">
+                  <ul>
+                    <li>
+                      <span class="pic"></span>
+                      <div class="right_price">
+                        <h3>
+                          Philip van Kouwenbergh
+                          <br />
+                          <span>Blackman with neon 4 items</span>
+                        </h3>
+                        <h4 class="m_sub">
+                          <img src={require("../img/sub/stone.png").default} />
+                          25<span class="pri">($58,282.50)</span>
+                        </h4>
+                      </div>
+                    </li>
+                  </ul>
+                  <ul>
+                    <li>
+                      <p class="rec_t">
+                        Total<span class="red">Insufficient ETH balance</span>
+                      </p>
+                      <div class="right_price m_left">
+                        <h4 class="blue">
+                          <img src={require("../img/sub/stone.png").default} />
+                          25<span class="pri">($58,282.50)</span>
+                        </h4>
+                      </div>
+                    </li>
+                    <li></li>
+                  </ul>
+                </div>
+                <form class="ckb_wrap">
+                  <div class="ckb">
+                    <input type="checkbox" id="chk" name="chk1" />
+                    <label for="chk">
+                      Aware that Auspice contains one item that has not been
+                      reviewed and approved
+                    </label>
+                  </div>
+                  <div class="ckb">
+                    <input type="checkbox" id="chk2" name="chk1" />
+                    <label for="chk2">
+                      I agree to Auspice's <b>Terms of Service</b>
+                    </label>
+                  </div>
+                </form>
+              </div>
+              <button class="reportit on" onClick={() => setBidPopup(false)}>
+                Make a payment
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <section id="sub">
         <article class="bundle_box box2">
           <div class="wrap">
-            <div class="bundle_top bundle_top2">
+            <div class="bundle_top">
               <div class="bun_tl">
                 <div class="bun_tl_img">
                   <div class="bt artist">
@@ -63,62 +356,31 @@ function MarketPlace({ store, setConnect }) {
                       <span></span>@Philip van Kouwenbergh
                     </h2>
                   </div>
-                  <div
-                    class="slidew"
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <h3>
-                      {imgIndex + 1}/{imgList.length}
-                    </h3>
-                    <div
-                      class="arrows"
-                      style={{
-                        display: "flex",
-                        margin: 0,
-                      }}
-                    >
-                      <a onClick={onclickNextItemBtn}>
-                        <img src={require("../img/sub/baleft.png").default} />
-                      </a>
-                      <a onClick={onclickPreItemBtn}>
-                        <img src={require("../img/sub/baright.png").default} />
-                      </a>
-                    </div>
+                  <div class="bt likes" onClick={() => setLikePopup(true)}>
+                    <a class="like_heart off">
+                      <h2>1,486 Likes</h2>
+                    </a>
+                  </div>
+                  <div class="views">
+                    <ul>
+                      <li
+                        onClick={() => setOwnerPopup(true)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <h3>21</h3>
+                        <h4>Owner</h4>
+                      </li>
+                      <li>
+                        <h3>30</h3>
+                        <h4>Fragment</h4>
+                      </li>
+                      <li>
+                        <h3>1.1M</h3>
+                        <h4>views</h4>
+                      </li>
+                    </ul>
                   </div>
                 </div>
-                <div class="bun_slide_img swiper bun-slide-img-swiper">
-                  <ul
-                    className="imgList"
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    {imgList.map((cont, index) => {
-                      if (index > imgIndex && index < imgIndex + 5)
-                        return (
-                          <li key={index}>
-                            <img src={cont} alt="" />
-                          </li>
-                        );
-                    })}
-
-                    {imgIndex > imgList.length - 5 &&
-                      imgList.map((cont, index) => {
-                        if (index < imgList.length + imgIndex - 15)
-                          return (
-                            <li key={index}>
-                              <img src={cont} alt="" />
-                            </li>
-                          );
-                      })}
-                  </ul>
-                </div>
-
                 <div class="desc">
                   <h2 class="i_title">Description</h2>
                   <p>
@@ -135,6 +397,12 @@ function MarketPlace({ store, setConnect }) {
                   </p>
                   <div class="mcons">
                     <a>
+                      <img src={require("../img/sub/refresh.png").default} />
+                    </a>
+                    <a>
+                      <img src={require("../img/sub/alert.png").default} />
+                    </a>
+                    <a>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
@@ -143,30 +411,29 @@ function MarketPlace({ store, setConnect }) {
               <div class="bun_tr">
                 <div class="bun_right">
                   <div class="right_t">
-                    <div
-                      class="tt"
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        top: "1360px",
-                      }}
-                    >
+                    <div class="tt">
                       <h2>
                         Blackman
                         <br />
-                        with neon 4 items
+                        with neon
                       </h2>
-                      <img
-                        style={{
-                          width: "24px",
-                          height: "24px",
-                          cursor: "pointer",
-                        }}
-                        src={require("../img/sub/share.png").default}
-                      />
+                      <div class="icons">
+                        <a>
+                          <img
+                            src={require("../img/sub/refresh.png").default}
+                          />
+                        </a>
+                        <a onClick={() => setReportPopup(true)}>
+                          <img src={require("../img/sub/alert.png").default} />
+                        </a>
+                        <a>
+                          <img src={require("../img/sub/share.png").default} />
+                        </a>
+                      </div>
                     </div>
                     <div class="boxes">
-                      <div class="black_box bb2">
+                      <h2>Owner public content include</h2>
+                      <div class="black_box">
                         <ul>
                           <li>
                             <h3>Current Bid</h3>
@@ -180,8 +447,12 @@ function MarketPlace({ store, setConnect }) {
                             <h4>05:32:21</h4>
                           </li>
                         </ul>
-                        <a class="bid" style={{ color: "#000" }}>
-                          Buy a bundle
+                        <a
+                          class="bid"
+                          style={{ color: "#000" }}
+                          onClick={() => setBidPopup(true)}
+                        >
+                          Place a Bid
                         </a>
                       </div>
                     </div>
@@ -237,6 +508,7 @@ function MarketPlace({ store, setConnect }) {
                             <br />
                             <span>TIMOTHY</span>
                           </h3>
+                          <h4></h4>
                           <h5>20:00</h5>
                         </li>
                         <li>
@@ -246,6 +518,7 @@ function MarketPlace({ store, setConnect }) {
                             <br />
                             <span>PT_WORK</span>
                           </h3>
+                          <h4></h4>
                           <h5>17:33</h5>
                         </li>
                         <li>
@@ -255,6 +528,7 @@ function MarketPlace({ store, setConnect }) {
                             <br />
                             <span>PT_WORK</span>
                           </h3>
+                          <h4></h4>
                           <h5>17:33</h5>
                         </li>
                       </ul>
@@ -361,9 +635,7 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>
-                                0.010 ETH <span>($30.11)</span>
-                              </p>
+                              <p>0.015 ETH ($0,000,000.50)</p>
                             </div>
                             <div class="pur">
                               <a>Purchase</a>
@@ -739,105 +1011,7 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </div>
             </div>
-
-            <div class="item sitem_wrap">
-              <h4 class="t">Other works in this collection</h4>
-              <div class="swiper">
-                <div class="swiper-container swiper-container-trendingitem">
-                  <ol class="item item5 buy swiper-wrapper">
-                    <li class="swiper-slide">
-                      <a style={{ backgroundImage: `url(${s1})` }}>
-                        <div class="on">
-                          <ul>
-                            <li class="heart off">1,389</li>
-                            <li class="star off"></li>
-                          </ul>
-                          <div>Summer Pool</div>
-                          <span>David</span>
-                          <ol>
-                            <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
-                          </ol>
-                          <p>Buy Now</p>
-                        </div>
-                      </a>
-                    </li>
-                    <li class="swiper-slide">
-                      <a style={{ backgroundImage: `url(${s2})` }}>
-                        <div class="on">
-                          <ul>
-                            <li class="heart on">1,389</li>
-                            <li class="star on"></li>
-                          </ul>
-                          <div>Summer Pool</div>
-                          <span>David</span>
-                          <ol>
-                            <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
-                          </ol>
-                          <p>Buy Now</p>
-                        </div>
-                      </a>
-                    </li>
-                    <li class="swiper-slide">
-                      <a style={{ backgroundImage: `url(${s4})` }}>
-                        <div class="on">
-                          <ul>
-                            <li class="heart on">1,389</li>
-                            <li class="star on"></li>
-                          </ul>
-                          <div>Summer Pool</div>
-                          <span>David</span>
-                          <ol>
-                            <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
-                          </ol>
-                          <p>Buy Now</p>
-                        </div>
-                      </a>
-                    </li>
-                    <li class="swiper-slide">
-                      <a style={{ backgroundImage: `url(${s3})` }}>
-                        <div class="on">
-                          <ul>
-                            <li class="heart on">1,389</li>
-                            <li class="star on"></li>
-                          </ul>
-                          <div>Summer Pool</div>
-                          <span>David</span>
-                          <ol>
-                            <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
-                          </ol>
-                          <p>Buy Now</p>
-                        </div>
-                      </a>
-                    </li>
-                    <li class="swiper-slide">
-                      <a style={{ backgroundImage: `url(${s9})` }}>
-                        <div class="on">
-                          <ul>
-                            <li class="heart on">1,389</li>
-                            <li class="star on"></li>
-                          </ul>
-                          <div>Summer Pool</div>
-                          <span>David</span>
-                          <ol>
-                            <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
-                          </ol>
-                          <p>Buy Now</p>
-                        </div>
-                      </a>
-                    </li>
-                  </ol>
-                </div>
-                {/* <div class="swiper-button-prev swiper-button-trendingitem-prev "></div>
-                <div class="swiper-button-next swiper-button-trendingitem-next"></div> */}
-              </div>
-            </div>
-
-            <div class="basic plustab">
+            <div class="basic plustab ml2">
               <div class="tab">
                 <ul>
                   <li class="on">Transaction History</li>
@@ -982,6 +1156,107 @@ function MarketPlace({ store, setConnect }) {
               </div>
             </div>
           </div>
+
+          <div class="item">
+            <div class="wrap">
+              <h4 class="t">Other works in this collection</h4>
+
+              <div class="swiper">
+                <div class="swiper-container swiper-container-trendingitem">
+                  <ol class="item item5 buy swiper-wrapper">
+                    <li class="swiper-slide">
+                      <a style={{ backgroundImage: `url(${sample})` }}>
+                        <div class="on">
+                          <ul>
+                            <li class="heart off">1,389</li>
+                            <li class="star off"></li>
+                          </ul>
+                          <div>Summer Pool</div>
+                          <span>David</span>
+                          <ol>
+                            <li>6 minutes left</li>
+                            <li>1.67 AUSP</li>
+                          </ol>
+                          <p>Buy Now</p>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="swiper-slide">
+                      <a style={{ backgroundImage: `url(${sample})` }}>
+                        <div class="on">
+                          <ul>
+                            <li class="heart on">1,389</li>
+                            <li class="star on"></li>
+                          </ul>
+                          <div>Summer Pool</div>
+                          <span>David</span>
+                          <ol>
+                            <li>6 minutes left</li>
+                            <li>1.67 AUSP</li>
+                          </ol>
+                          <p>Buy Now</p>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="swiper-slide">
+                      <a style={{ backgroundImage: `url(${sample})` }}>
+                        <div class="on">
+                          <ul>
+                            <li class="heart on">1,389</li>
+                            <li class="star on"></li>
+                          </ul>
+                          <div>Summer Pool</div>
+                          <span>David</span>
+                          <ol>
+                            <li>6 minutes left</li>
+                            <li>1.67 AUSP</li>
+                          </ol>
+                          <p>Buy Now</p>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="swiper-slide">
+                      <a style={{ backgroundImage: `url(${sample})` }}>
+                        <div class="on">
+                          <ul>
+                            <li class="heart on">1,389</li>
+                            <li class="star on"></li>
+                          </ul>
+                          <div>Summer Pool</div>
+                          <span>David</span>
+                          <ol>
+                            <li>6 minutes left</li>
+                            <li>1.67 AUSP</li>
+                          </ol>
+                          <p>Buy Now</p>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="swiper-slide">
+                      <a style={{ backgroundImage: `url(${sample})` }}>
+                        <div class="on">
+                          <ul>
+                            <li class="heart on">1,389</li>
+                            <li class="star on"></li>
+                          </ul>
+                          <div>Summer Pool</div>
+                          <span>David</span>
+                          <ol>
+                            <li>6 minutes left</li>
+                            <li>1.67 AUSP</li>
+                          </ol>
+                          <p>Buy Now</p>
+                        </div>
+                      </a>
+                    </li>
+                  </ol>
+                </div>
+
+                {/* <div class="swiper-button-prev swiper-button-trendingitem-prev pcno"></div>
+                <div class="swiper-button-next swiper-button-trendingitem-next pcno"></div> */}
+              </div>
+            </div>
+          </div>
         </article>
       </section>
     </SignPopupBox>
@@ -989,18 +1264,6 @@ function MarketPlace({ store, setConnect }) {
 }
 
 const SignPopupBox = styled.div`
-  .imgList {
-    display: flex;
-    gap: 10px;
-
-    li {
-      width: 240px;
-      height: 240px;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-  }
-
   *::-webkit-scrollbar {
     width: 4px;
   }
@@ -1026,17 +1289,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
-
-const imgList = [
-  bun_slide_img0,
-  bun_slide_img1,
-  bun_slide_img2,
-  bun_slide_img3,
-  bun_slide_img4,
-  bun_slide_img0,
-  bun_slide_img1,
-  bun_slide_img2,
-  bun_slide_img3,
-  bun_slide_img4,
-];
+export default connect(mapStateToProps, mapDispatchToProps)(SingleItem);

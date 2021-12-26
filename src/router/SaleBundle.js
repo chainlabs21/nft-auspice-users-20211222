@@ -22,83 +22,17 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { useState } from "react";
+import VerifyAccountPopup from "./VerifyAccountPopup";
 
-function MarketPlace({ store, setConnect }) {
+function SaleBundle({ store, setConnect }) {
   const navigate = useNavigate();
+
+  const [verifyPopup, setVerifyPopup] = useState(false);
 
   return (
     <SignPopupBox>
-      <div class="popup info" id="info_popup">
-        <div class="box_wrap guidance">
-          <div class="top4">
-            <strong>Guidance on how to verify your account</strong>
-            <a onClick={() => navigate(-1)} class="close" id="info_close">
-              <img src={require("../img/sub/icon_close.png").default} alt="" />
-            </a>
-          </div>
-          <div class="howto">
-            <p>
-              Please check the connected external wallet and complete the
-              transaction.
-              <br />
-              The contract approval process is performed only once per account
-              <br />
-              for the first time.
-            </p>
-            <div class="img_m">
-              <img src={require("../img/sub/img_process.png").default} alt="" />
-            </div>
-            <div class="inst_con">
-              <div class="instrucion line1">
-                <div class="dropdown on">
-                  <a href="">
-                    <span></span>
-                  </a>
-                  <div class="bot_title">
-                    <strong>Instruction</strong>
-                    <p>
-                      When you sell items for the first time in your account,
-                      you need to go
-                      <br />
-                      through the contract approval process.
-                    </p>
-                  </div>
-                  <div class="info">
-                    <p>
-                      - If you are trading for the first time, you will need to
-                      reset your account. The process
-                      <br /> &nbsp;&nbsp;of sending 0 Ether to verify that the
-                      account is a valid account proceeds.
-                      <br />
-                    </p>
-                    <p>
-                      - Please complete the signature to create a sales list.
-                      <br />
-                    </p>
-                    <p>
-                      - Gas fee is paid only for the first time, and subsequent
-                      listings are supported
-                      <br />
-                      &nbsp; free of charge.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="img_pc">
-              <img src={require("../img/sub/img_process.png").default} alt="" />
-            </div>
-            <p>
-              Please wait until this process is complete. Depending on the
-              Ethereum
-              <br />
-              mainnet and gas
-              <br /> price quotes, it can take from a few minutes to
-              <br /> several hours.
-            </p>
-          </div>
-        </div>
-      </div>
+      {verifyPopup && <VerifyAccountPopup off={setVerifyPopup} />}
 
       <section id="sub">
         <article class="ntfsell_box">
@@ -106,7 +40,7 @@ function MarketPlace({ store, setConnect }) {
             <div class="sellbg left">
               <div class="ntfsell_con">
                 <div class="top1 profile">
-                  <a href="">
+                  <a onClick={() => navigate(-1)}>
                     <img
                       src={require("../img/sub/nft_arrow.png").default}
                       alt=""
@@ -134,8 +68,8 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </li>
                           <li>
-                            <div class="price_info">
-                              <div class="top2 m2">
+                            <div class="price_info_pc">
+                              <div class="top2">
                                 <h3>Price</h3>
                                 <div class="toggle border_1">
                                   <div class="select_left">
@@ -164,6 +98,36 @@ function MarketPlace({ store, setConnect }) {
                                 </div>
                               </div>
                               <p>Items sold until canceled</p>
+                            </div>
+                            <div class="price_info_m">
+                              <div class="top2">
+                                <h3>Price</h3>
+                                <p>Items sold until canceled</p>
+                              </div>
+                              <div class="toggle border_1">
+                                <div class="select_left">
+                                  <img
+                                    src={
+                                      require("../img/sub/eth_icon.png").default
+                                    }
+                                    alt=""
+                                  />
+                                  <select name="" id="">
+                                    <option>ETH</option>
+                                    <option>ETH</option>
+                                    <option>ETH</option>
+                                    <option>ETH</option>
+                                    <option>ETH</option>
+                                  </select>
+                                </div>
+                                <div class="input_right">
+                                  <input
+                                    type="number"
+                                    placeholder=""
+                                    onkeydown="onlyNumber(this)"
+                                  />
+                                </div>
+                              </div>
                             </div>
                           </li>
                           <li>
@@ -198,8 +162,10 @@ function MarketPlace({ store, setConnect }) {
                                           <div class="toggle border_1">
                                             <div class="select_left">
                                               <img
-                                                src={require("../img/sub/eth_icon.png")
-                                                  .default}
+                                                src={
+                                                  require("../img/sub/eth_icon.png")
+                                                    .default
+                                                }
                                                 alt=""
                                               />
                                               <select name="" id="">
@@ -274,38 +240,33 @@ function MarketPlace({ store, setConnect }) {
                             <div class="inst_con">
                               <div class="instrucion line1">
                                 <div class="dropdown on">
-                                  <a href="">
+                                  <a>
                                     <span></span>
                                   </a>
                                   <div class="bot_title">
                                     <strong>Instruction</strong>
                                     <p>
-                                      When you sell items for the first time in
-                                      your account, you need to go
-                                      <br />
-                                      through the contract approval process.
+                                      We need a process for listing without gas
+                                      fees
                                     </p>
                                   </div>
                                   <div class="info">
                                     <p>
                                       - If you are trading for the first time,
-                                      you will need to reset your account. The
-                                      process
-                                      <br /> &nbsp;&nbsp;of sending 0 Ether to
-                                      verify that the account is a valid account
-                                      proceeds.
+                                      you will need to reset your account.
                                       <br />
+                                      &nbsp;&nbsp;The process of sending 0 Ether
+                                      to verify that the account is a valid
+                                      account proceeds.
                                     </p>
                                     <p>
                                       - Please complete the signature to create
                                       a sales list.
-                                      <br />
                                     </p>
                                     <p>
                                       - Gas fee is paid only for the first time,
-                                      and subsequent listings are supported
-                                      <br />
-                                      &nbsp; free of charge.
+                                      and subsequent listings are supported free
+                                      of charge.
                                     </p>
                                   </div>
                                 </div>
@@ -317,8 +278,8 @@ function MarketPlace({ store, setConnect }) {
                               <ul>
                                 <li>
                                   <div class="two_bundle">
-                                    <div class="dropdown">
-                                      <a href="">
+                                    <div class="dropdown on">
+                                      <a>
                                         <span class="drop2"></span>
                                       </a>
                                       <div class="bundle2">
@@ -343,8 +304,8 @@ function MarketPlace({ store, setConnect }) {
                                 </li>
                                 <li>
                                   <div class="two_bundle">
-                                    <div class="dropdown">
-                                      <a href="">
+                                    <div class="dropdown on">
+                                      <a>
                                         <span class="drop2"></span>
                                       </a>
                                       <div class="bundle2">
@@ -377,15 +338,10 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </div>
             </div>
-            <div class="sellbg2">
+            <div class="sellbg2_pc">
               <div class="sell_wrap">
-                <div class="top3">
+                <div class="top3 h3p">
                   <h3>Transaction information</h3>
-                  <span class="basic">
-                    The item is posted for sale
-                    <br />
-                    at 3,339 ETH
-                  </span>
                 </div>
                 <div class="referral">
                   <h3>Referral Fee</h3>
@@ -411,9 +367,43 @@ function MarketPlace({ store, setConnect }) {
                     </li>
                   </ul>
                 </div>
-                <div class="sales_btn">
-                  <a href="">Sales start</a>
+                <div class="sales_btn" onClick={() => setVerifyPopup(true)}>
+                  <a>Sales start</a>
                 </div>
+              </div>
+            </div>
+            <div class="sellbg2_m">
+              <div class="sell_wrap">
+                <div class="top3">
+                  <h3>Transaction information</h3>
+                </div>
+                <div class="referral">
+                  <h3>Referral Fee</h3>
+                  <p>
+                    If you purchase through a referral link, 1% of the sales
+                    amount will be rewarded.
+                  </p>
+                </div>
+                <div class="fees">
+                  <h3>Fees</h3>
+                  <ul>
+                    <li>
+                      <p>Platform Fee</p>
+                      <span>2.5%</span>
+                    </li>
+                    <li>
+                      <p>Royalty</p>
+                      <span>5%</span>
+                    </li>
+                    <li>
+                      <strong>Total</strong>
+                      <strong>7.5%</strong>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="sales_btn">
+                <a>Sales start</a>
               </div>
             </div>
           </div>
@@ -435,4 +425,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(SaleBundle);

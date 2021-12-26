@@ -22,19 +22,25 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { useState } from "react";
+import VerifyAccountPopup from "./VerifyAccountPopup";
 
-function MarketPlace({ store, setConnect }) {
+function SaleFixed({ store, setConnect }) {
   const navigate = useNavigate();
+
+  const [verifyPopup, setVerifyPopup] = useState(false);
 
   return (
     <SignPopupBox>
+      {verifyPopup && <VerifyAccountPopup off={setVerifyPopup} />}
+
       <section id="sub">
         <article class="ntfsell_box">
           <div class="choose_wrap">
             <div class="sellbg left">
               <div class="ntfsell_con">
                 <div class="top1 profile">
-                  <a href="">
+                  <a onClick={() => navigate(-1)}>
                     <img
                       src={require("../img/sub/nft_arrow.png").default}
                       alt=""
@@ -52,7 +58,7 @@ function MarketPlace({ store, setConnect }) {
                             <h3>Choose a sales method</h3>
                             <ol>
                               <li class="on">
-                                <a href="">
+                                <a>
                                   <h4>Fixed Price</h4>
                                   <span>
                                     Sell ​​at a fixed or declining
@@ -61,14 +67,14 @@ function MarketPlace({ store, setConnect }) {
                                   </span>
                                 </a>
                               </li>
-                              <li>
-                                <a href="">
+                              <li onClick={() => navigate("/auctionbid")}>
+                                <a>
                                   <h4>Auction Bid</h4>
                                   <span>Sell ​​to the highest bidder</span>
                                 </a>
                               </li>
                               <li>
-                                <a href="">
+                                <a>
                                   <h4>
                                     Bundle Sale
                                     <img
@@ -261,7 +267,7 @@ function MarketPlace({ store, setConnect }) {
                             <div class="inst_con">
                               <div class="instrucion line1">
                                 <div class="dropdown">
-                                  <a href="">
+                                  <a>
                                     <span></span>
                                   </a>
                                   <div class="bot_title">
@@ -338,8 +344,8 @@ function MarketPlace({ store, setConnect }) {
                     </li>
                   </ul>
                 </div>
-                <div class="sales_btn">
-                  <a href="">Sales start</a>
+                <div class="sales_btn" onClick={() => setVerifyPopup(true)}>
+                  <a>Sales start</a>
                 </div>
               </div>
             </div>
@@ -382,7 +388,7 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </div>
               <div class="sales_btn">
-                <a href="">Sales start</a>
+                <a>Sales start</a>
               </div>
             </div>
           </div>
@@ -404,4 +410,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(SaleFixed);

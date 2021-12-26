@@ -16,7 +16,7 @@ import "../css/swiper.min.css";
 import WalletConnectSDK from "walletconnect";
 import axios from "axios";
 
-function Signup02({ store, setConnect }) {
+function EmailFailed({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
@@ -34,7 +34,7 @@ function Signup02({ store, setConnect }) {
                   <a onClick={() => navigate("/")}>Cancel</a>
                 </li>
                 <li>
-                  <a onClick={()=>navigate('/signup06')}>Resend Email</a>
+                  <a onClick={()=>navigate('/')}>Resend Email</a>
                 </li>
               </ul>
             </div>
@@ -61,4 +61,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup02);
+export default connect(mapStateToProps, mapDispatchToProps)(EmailFailed);

@@ -18,9 +18,9 @@ import { useState } from "react";
 import I_dnArw from "./img/header/I_dnArw.svg";
 import I_menu from "./img/header/I_menu.svg";
 import I_x from "./img/main/I_x.svg";
-import {setAllPopupOff, setMHeaderPopup } from "./util/store";
+import { setAllPopupOff, setMHeaderPopup } from "./util/store";
 
-function Main({ store, setAllPopupOff,setMHeaderPopup }) {
+function Main({ store, setAllPopupOff, setMHeaderPopup }) {
   const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
@@ -155,16 +155,17 @@ function Main({ store, setAllPopupOff,setMHeaderPopup }) {
               </ol>
             </li>
             <li>
-              <p href="#">Explore</p>
+              <p>Explore</p>
               <ol>
                 <li>Transaction details</li>
                 <li>Ranking</li>
               </ol>
             </li>
             <li>
-              <p href="#">Mypage</p>
+              <p>Mypage</p>
               <ol>
                 <li>My Profile</li>
+                <li onClick={()=>navigate('/mycollection')}>My Collection</li>
                 <li>Bookmark</li>
                 <li>Account Setting</li>
               </ol>
@@ -174,7 +175,7 @@ function Main({ store, setAllPopupOff,setMHeaderPopup }) {
               <img src={I_dnArw} alt="" />
             </li>
           </ul>
-          <button class="wallet" onClick={() => navigate("/signup")}>
+          <button class="wallet" onClick={() => navigate("/connectwallet")}>
             <p>Connect Wallet</p>
           </button>
         </nav>
@@ -251,7 +252,7 @@ const HeaderBox = styled.header`
     .mNav {
       display: none;
 
-      button{
+      button {
         width: 24px;
         display: flex;
         justify-content: center;

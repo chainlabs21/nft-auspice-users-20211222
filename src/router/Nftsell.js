@@ -22,9 +22,21 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { useState } from "react";
 
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
+
+  const [item, setItem] = useState("");
+
+  function onChangeItem(file) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = function () {
+      setItem(reader.result);
+    };
+  }
 
   return (
     <SignPopupBox>
@@ -33,7 +45,7 @@ function MarketPlace({ store, setConnect }) {
           <div class="sellbg">
             <div class="ntfsell_con">
               <div class="top1">
-                <a href="">
+                <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
                     alt=""
@@ -57,14 +69,33 @@ function MarketPlace({ store, setConnect }) {
                           </h3>
                           <div class="img">
                             <div class="line">
-                              <input type="file" name id="file" />
-                              <label for="file">
-                                <p>
-                                  JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV,
-                                  <br />
-                                  OGG etc. (Up to 40mb)
-                                </p>
-                                <button>Choose File</button>
+                              <input
+                                type="file"
+                                name
+                                id="file"
+                                onChange={(e) =>
+                                  onChangeItem(e.target.files[0])
+                                }
+                              />
+
+                              <label
+                                for="file"
+                                style={{
+                                  padding: item && 0,
+                                }}
+                              >
+                                {item ? (
+                                  <img src={item} alt="" />
+                                ) : (
+                                  <>
+                                    <p>
+                                      JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV,
+                                      <br />
+                                      OGG etc. (Up to 40mb)
+                                    </p>
+                                    <button>Choose File</button>
+                                  </>
+                                )}
                               </label>
                             </div>
                           </div>
@@ -164,7 +195,7 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </div>
               <div class="create_btn">
-                <a href="">Create Item</a>
+                <a onClick={() => navigate(-1)}>Create Item</a>
               </div>
             </div>
           </div>

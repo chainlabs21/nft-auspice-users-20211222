@@ -13,32 +13,26 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import WalletConnectSDK from "walletconnect";
-import axios from "axios";
 
-function Signup02({ store, setConnect }) {
+function EmailRequired({ store }) {
   const navigate = useNavigate();
 
   return (
     <SignPopupBox>
       <div class="popup info" id="info_popup">
         <div class="box_wrap">
-          <a onClick={() => navigate(-1)} class="close" id="info_close">
-            <img src={require("../img/sub/icon_close.png").default} alt="" />
-          </a>
           <div class="box">
             <div class="top0 p2">
-              <h2>A verification email has been sent</h2>
-              <p>
-                If you do not receive an email, please check
-                <br />
-                your spam mailbox.
-              </p>
+              <h2>Email verification required</h2>
+              <p>Please complete email verification to continue</p>
             </div>
-            <div class="btn one">
+            <div class="btn">
               <ul>
                 <li>
-                  <a onClick={() => navigate("/signup03")}>OK</a>
+                  <a onClick={() => navigate(-1)}>Cancel</a>
+                </li>
+                <li>
+                  <a onClick={() => navigate("/resent")}>Send Email</a>
                 </li>
               </ul>
             </div>
@@ -65,4 +59,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup02);
+export default connect(mapStateToProps, mapDispatchToProps)(EmailRequired);

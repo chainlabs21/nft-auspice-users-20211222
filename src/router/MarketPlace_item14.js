@@ -22,29 +22,263 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { useState } from "react";
 
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
 
+  const [ownerPopup, setOwnerPopup] = useState(false);
+  const [likePopup, setLikePopup] = useState(false);
+  const [reportPopup, setReportPopup] = useState(false);
+  const [reportDesc, setReportDesc] = useState("");
+  const [bidPopup, setBidPopup] = useState(false);
+
   return (
     <SignPopupBox>
+      {likePopup && (
+        <div class="popup info" id="info_popup" style={{ display: "block" }}>
+          <div class="box_wrap wrap2">
+            <a
+              onClick={() => setLikePopup(false)}
+              class="close close2"
+              id="info_close"
+            >
+              <img
+                src={require("../img/sub/icon_close.png").default}
+                alt="close"
+              />
+            </a>
+            <div class="poptitle">
+              <h2>Liked by</h2>
+            </div>
+            <div class="list_bottom">
+              <ul class="container popcon">
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    cryptopunks
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    art book
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    good Friends
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    ZED Run
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    Meebits
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    Sandbox
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    cryptopunks
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {reportPopup && (
+        <div class="popup info" id="info_popup" style={{ display: "block" }}>
+          <div class="box_wrap wrap3">
+            <a
+              onClick={() => setReportPopup(false)}
+              class="close close2"
+              id="info_close"
+            >
+              <img
+                src={require("../img/sub/icon_close.png").default}
+                alt="close"
+              />
+            </a>
+            <div class="poptitle">
+              <h2>Report inappropriate items</h2>
+            </div>
+            <form>
+              <div class="list_bottom bottom2">
+                <h3>Category</h3>
+                <select>
+                  <option disable selected hidden>
+                    Please select a reason for reporting
+                  </option>
+                  <option>Similar to another artist's work</option>
+                </select>
+                <h3>Detailed description</h3>
+
+                <textarea
+                  value={reportDesc}
+                  onChange={(e) => setReportDesc(e.target.value)}
+                  placeholder="Please describe in detail why you would like to report the item."
+                ></textarea>
+              </div>
+              <div class="report_wrap">
+                <button
+                  href=""
+                  class="reportit"
+                  disabled={!reportDesc}
+                  onClick={() => setReportPopup(false)}
+                >
+                  Report it
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {ownerPopup && (
+        <div class="popup info" id="info_popup" style={{ display: "block" }}>
+          <div class="box_wrap wrap2">
+            <a
+              onClick={() => setOwnerPopup(false)}
+              class="close close2"
+              id="info_close"
+            >
+              <img
+                src={require("../img/sub/icon_close.png").default}
+                alt="close"
+              />
+            </a>
+            <div class="poptitle">
+              <h2>Owner List</h2>
+            </div>
+            <div class="list_bottom">
+              <ul class="container popcon">
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    cryptopunks
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>22 Items</a>
+                  </p>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    art book
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>1 Items</a>
+                  </p>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    good Friends
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>10 Items</a>
+                  </p>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    ZED Run
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>37 Items</a>
+                  </p>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    Meebits
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>16 Items</a>
+                  </p>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    Sandbox
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>76 Items</a>
+                  </p>
+                </li>
+                <li>
+                  <span class="pop_profile"></span>
+                  <h3>
+                    cryptopunks
+                    <br />
+                    <span>0x6bc...1sad</span>
+                  </h3>
+                  <p>
+                    <a>22 Items</a>
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+
+      
+
       <section id="sub">
         <article class="bundle_box box2">
           <div class="wrap">
             <div class="back">
               <div class="bt">
-                <a href="" class="backic">
+                <a class="backic">
                   <img src={require("../img/sub/icon_back.png").default} />
                 </a>
                 <h2>Philip van Kouwenbergh's collection</h2>
               </div>
               <div class="seed">
-                <a href="" class="sell">
-                  SELL
-                </a>
-                <a href="" class="edit">
-                  EDIT
-                </a>
+                <a class="sell">SELL</a>
+                <a class="edit">EDIT</a>
               </div>
             </div>
             <div class="bundle_top">
@@ -55,14 +289,17 @@ function MarketPlace({ store, setConnect }) {
                       <span></span>@Philip van Kouwenbergh
                     </h2>
                   </div>
-                  <div class="bt likes">
-                    <a href="" class="like_heart off">
+                  <div class="bt likes" onClick={() => setLikePopup(true)}>
+                    <a class="like_heart off">
                       <h2>1,486 Likes</h2>
                     </a>
                   </div>
                   <div class="views">
                     <ul>
-                      <li>
+                      <li
+                        onClick={() => setOwnerPopup(true)}
+                        style={{ cursor: "pointer" }}
+                      >
                         <h3>21</h3>
                         <h4>Owner</h4>
                       </li>
@@ -92,13 +329,13 @@ function MarketPlace({ store, setConnect }) {
                     It's an expression of modern art.
                   </p>
                   <div class="mcons">
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/refresh.png").default} />
                     </a>
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/alert.png").default} />
                     </a>
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
@@ -115,15 +352,15 @@ function MarketPlace({ store, setConnect }) {
                         with neon
                       </h2>
                       <div class="icons">
-                        <a href="">
+                        <a>
                           <img
                             src={require("../img/sub/refresh.png").default}
                           />
                         </a>
-                        <a href="">
+                        <a onClick={() => setReportPopup(true)}>
                           <img src={require("../img/sub/alert.png").default} />
                         </a>
-                        <a href="">
+                        <a>
                           <img src={require("../img/sub/share.png").default} />
                         </a>
                       </div>
@@ -144,9 +381,7 @@ function MarketPlace({ store, setConnect }) {
                             <h4>05:32:21</h4>
                           </li>
                         </ul>
-                        <a href="" class="bid">
-                          Participate in bidding
-                        </a>
+                        <a class="bid">Participate in bidding</a>
                       </div>
                     </div>
                   </div>
@@ -261,7 +496,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -279,7 +514,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>4 days later</td>
@@ -297,7 +532,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>1 days later</td>
@@ -315,7 +550,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -333,7 +568,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -351,7 +586,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -504,7 +739,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -522,7 +757,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>4 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -540,7 +775,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -558,7 +793,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -576,7 +811,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -594,7 +829,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -955,7 +1190,21 @@ function MarketPlace({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  *::-webkit-scrollbar {
+    width: 4px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #222;
+    border-radius: 4px;
+    width: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background-color: #d8d8d8;
+    border-radius: 4px;
+    border: 1px solid #f6f6f6;
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };

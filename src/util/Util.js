@@ -54,4 +54,8 @@ function splitTime(time, length = 3) {
     return `${timeArray[0]}-${timeArray[1]}-${timeArray[2]} ${timeArray[3]}:${timeArray[4]}:${timeArray[5]} `;
 }
 
-export { putCommaAtPrice, strDot, displayTime, splitTime };
+function isUserMobile() {
+  return navigator.userAgent.indexOf("Mobi") > -1;
+}
+
+export { putCommaAtPrice, strDot, displayTime, splitTime, isUserMobile };

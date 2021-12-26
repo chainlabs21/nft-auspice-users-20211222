@@ -26,9 +26,18 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { useRef, useState } from "react";
 
-function MarketPlace({ store, setConnect }) {
+function MyProf({ store, setConnect }) {
   const navigate = useNavigate();
+  const itemListRef = useRef();
+
+  const [morePopupIndex, setMorePopupIndex] = useState(-1);
+
+  function onClickMoreBtn(index) {
+    if (morePopupIndex === index) setMorePopupIndex(-1);
+    else setMorePopupIndex(index);
+  }
 
   return (
     <SignPopupBox>
@@ -42,10 +51,10 @@ function MarketPlace({ store, setConnect }) {
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
                   <div class="home_icons">
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
@@ -128,9 +137,7 @@ function MarketPlace({ store, setConnect }) {
                             <span class="usd">USD</span>
                           </div>
                         </div>
-                        <a href="" class="slide_btn">
-                          Apply
-                        </a>
+                        <a class="slide_btn">Apply</a>
                       </div>
                     </div>
 
@@ -265,13 +272,13 @@ function MarketPlace({ store, setConnect }) {
                           <div>Single item</div>
                           <ul>
                             <li>
-                              <a href="">Single item</a>
+                              <a>Single item</a>
                             </li>
                             <li>
-                              <a href="">All</a>
+                              <a>All</a>
                             </li>
                             <li>
-                              <a href="">Bundle sales</a>
+                              <a>Bundle sales</a>
                             </li>
                           </ul>
                         </div>
@@ -279,31 +286,31 @@ function MarketPlace({ store, setConnect }) {
                           <div>Latest</div>
                           <ul>
                             <li>
-                              <a href="">Latest</a>
+                              <a>Latest</a>
                             </li>
                             <li>
-                              <a href="">popularity</a>
+                              <a>popularity</a>
                             </li>
                             <li>
-                              <a href="">Close to finish</a>
+                              <a>Close to finish</a>
                             </li>
                             <li>
-                              <a href="">Low price</a>
+                              <a>Low price</a>
                             </li>
                             <li>
-                              <a href="">high price</a>
+                              <a>high price</a>
                             </li>
                             <li>
-                              <a href="">A small bid</a>
+                              <a>A small bid</a>
                             </li>
                             <li>
-                              <a href="">A lot of bids</a>
+                              <a>A lot of bids</a>
                             </li>
                             <li>
-                              <a href="">Most seen</a>
+                              <a>Most seen</a>
                             </li>
                             <li>
-                              <a href="">oldest</a>
+                              <a>oldest</a>
                             </li>
                           </ul>
                         </div>
@@ -312,16 +319,18 @@ function MarketPlace({ store, setConnect }) {
 
                     <div class="move_item">
                       <div class="swiper_container">
-                        <ol class="item move_li">
+                        <ol class="item move_li" ref={itemListRef}>
                           <li>
-                            <a
-                              href="#"
-                              style={{ backgroundImage: `url(${s5})` }}
-                            >
+                            <a style={{ backgroundImage: `url(${s5})` }}>
                               <div class="on">
                                 <ul>
                                   <li class="heart off">1,389</li>
-                                  <li class="dot on">
+                                  <li
+                                    class={
+                                      morePopupIndex === 0 ? "dot on" : "dot"
+                                    }
+                                    onClick={() => onClickMoreBtn(0)}
+                                  >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
@@ -339,14 +348,16 @@ function MarketPlace({ store, setConnect }) {
                             </a>
                           </li>
                           <li>
-                            <a
-                              href="#"
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
+                            <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
                                   <li class="heart on">1,389</li>
-                                  <li class="dot">
+                                  <li
+                                    class={
+                                      morePopupIndex === 1 ? "dot on" : "dot"
+                                    }
+                                    onClick={() => onClickMoreBtn(1)}
+                                  >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
@@ -364,14 +375,16 @@ function MarketPlace({ store, setConnect }) {
                             </a>
                           </li>
                           <li>
-                            <a
-                              href="#"
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
+                            <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
                                   <li class="heart on">1,389</li>
-                                  <li class="dot">
+                                  <li
+                                    class={
+                                      morePopupIndex === 3 ? "dot on" : "dot"
+                                    }
+                                    onClick={() => onClickMoreBtn(3)}
+                                  >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
@@ -389,14 +402,16 @@ function MarketPlace({ store, setConnect }) {
                             </a>
                           </li>
                           <li>
-                            <a
-                              href="#"
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
+                            <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
                                   <li class="heart on">1,389</li>
-                                  <li class="dot">
+                                  <li
+                                    class={
+                                      morePopupIndex === 4 ? "dot on" : "dot"
+                                    }
+                                    onClick={() => onClickMoreBtn(4)}
+                                  >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
@@ -414,14 +429,16 @@ function MarketPlace({ store, setConnect }) {
                             </a>
                           </li>
                           <li>
-                            <a
-                              href="#"
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
+                            <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
                                   <li class="heart on">1,389</li>
-                                  <li class="dot">
+                                  <li
+                                    class={
+                                      morePopupIndex === 5 ? "dot on" : "dot"
+                                    }
+                                    onClick={() => onClickMoreBtn(5)}
+                                  >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
@@ -439,14 +456,16 @@ function MarketPlace({ store, setConnect }) {
                             </a>
                           </li>
                           <li>
-                            <a
-                              href="#"
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
+                            <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
                                   <li class="heart on">1,389</li>
-                                  <li class="dot">
+                                  <li
+                                    class={
+                                      morePopupIndex === 6 ? "dot on" : "dot"
+                                    }
+                                    onClick={() => onClickMoreBtn(6)}
+                                  >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
@@ -464,14 +483,16 @@ function MarketPlace({ store, setConnect }) {
                             </a>
                           </li>
                           <li>
-                            <a
-                              href="#"
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
+                            <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
                                   <li class="heart on">1,389</li>
-                                  <li class="dot">
+                                  <li
+                                    class={
+                                      morePopupIndex === 7 ? "dot on" : "dot"
+                                    }
+                                    onClick={() => onClickMoreBtn(7)}
+                                  >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
@@ -514,4 +535,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(MyProf);

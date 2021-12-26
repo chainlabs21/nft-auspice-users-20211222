@@ -13,26 +13,31 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import WalletConnectSDK from "walletconnect";
+import axios from "axios";
 
-function Signup02({ store }) {
+function JoinMemberShip({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
     <SignPopupBox>
       <div class="popup info" id="info_popup">
         <div class="box_wrap">
-          <div class="box">
+          <div class="box bot2">
             <div class="top0 p2">
-              <h2>Email verification required</h2>
-              <p>Please complete email verification to continue</p>
+              <h2>Join the membership</h2>
+              <p>
+                Membership registration is required
+                <br /> to continue using it.
+              </p>
             </div>
             <div class="btn">
               <ul>
                 <li>
-                  <a onClick={() => navigate(-1)}>Cancel</a>
+                  <a onClick={() => navigate("/")}>Cancel</a>
                 </li>
                 <li>
-                  <a onClick={() => navigate("/signup02")}>Send Email</a>
+                  <a onClick={() => navigate("/signup")}>Sign Up</a>
                 </li>
               </ul>
             </div>
@@ -59,4 +64,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup02);
+export default connect(mapStateToProps, mapDispatchToProps)(JoinMemberShip);

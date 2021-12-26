@@ -16,28 +16,30 @@ import "../css/swiper.min.css";
 import WalletConnectSDK from "walletconnect";
 import axios from "axios";
 
-function Signup02({ store, setConnect }) {
+function SignupComplete({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
     <SignPopupBox>
       <div class="popup info" id="info_popup">
         <div class="box_wrap">
-          <div class="box bot2">
+          <div class="box bot3">
             <div class="top0 p2">
-              <h2>Join the membership</h2>
+              <h2>Sign up is complete.</h2>
               <p>
-                Membership registration is required
-                <br /> to continue using it.
+                Email verification is complete and you can use
+                <br class="m_br" /> all functions.
+                <br />
+                Create your own NFT collection.
               </p>
             </div>
             <div class="btn">
               <ul>
                 <li>
-                  <a onClick={() => navigate("/")}>Cancel</a>
+                  <a onClick={() => navigate("/")}>Home</a>
                 </li>
                 <li>
-                  <a onClick={() => navigate("/signup04")}>Sign Up</a>
+                  <a onClick={() => navigate("/")}>Issuing NFTs</a>
                 </li>
               </ul>
             </div>
@@ -64,4 +66,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup02);
+export default connect(mapStateToProps, mapDispatchToProps)(SignupComplete);

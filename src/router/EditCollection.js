@@ -16,9 +16,44 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { useRef, useState } from "react";
 
-function MarketPlace({ store, setConnect }) {
+function EditCollection({ store, setConnect }) {
   const navigate = useNavigate();
+  const logoRef = useRef();
+
+  const [logo, setLogo] = useState("");
+  const [banner, setBanner] = useState("");
+  const [categoryObj, setCategoryObj] = useState({});
+  const [flag, setFlag] = useState(false);
+
+  function onChangeLogo(file) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = function () {
+      setLogo(reader.result);
+    };
+  }
+
+  function onChangeBanner(file) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = function () {
+      setBanner(reader.result);
+    };
+  }
+
+  function onClickCategory(category) {
+    let dataObj = categoryObj;
+
+    if (dataObj[category]) delete dataObj[category];
+    else dataObj[category] = true;
+
+    setCategoryObj(dataObj);
+    setFlag(!flag);
+  }
 
   return (
     <SignPopupBox>
@@ -27,7 +62,7 @@ function MarketPlace({ store, setConnect }) {
           <div class="sellbg">
             <div class="ntfsell_con">
               <div class="top1">
-                <a href="">
+                <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
                     alt=""
@@ -37,7 +72,7 @@ function MarketPlace({ store, setConnect }) {
               </div>
               <div class="sell_wrap">
                 <div class="create">
-                  <h2>Create a new collection</h2>
+                  <h2>Edit Collection</h2>
                   <form action="">
                     <div class="form">
                       <ul>
@@ -57,14 +92,26 @@ function MarketPlace({ store, setConnect }) {
                           </p>
                           <div class="img logo_img">
                             <div class="line">
-                              <input type="file" name="" id="file" />
-                              <label for="file">
+                              <input
+                                type="file"
+                                ref={logoRef}
+                                onChange={(e) =>
+                                  onChangeLogo(e.target.files[0])
+                                }
+                              />
+                              <button
+                                onClick={() => logoRef.current.click()}
+                                for="file"
+                              >
                                 <img
                                   src={
-                                    require("../img/sub/logo_img.png").default
+                                    logo
+                                      ? logo
+                                      : require("../img/sub/logo_img.png")
+                                          .default
                                   }
                                 />
-                              </label>
+                              </button>
                             </div>
                           </div>
                         </li>
@@ -97,12 +144,32 @@ function MarketPlace({ store, setConnect }) {
                           </p>
                           <div class="img">
                             <div class="line">
-                              <input type="file" name id="file" />
-                              <label for="file" class="file_he">
-                                <p>
-                                  JPG , PNG, ICO etc. Image file (Up to 10mb)
-                                </p>
-                                <button>Choose File</button>
+                              <input
+                                type="file"
+                                name
+                                id="file"
+                                onChange={(e) =>
+                                  onChangeBanner(e.target.files[0])
+                                }
+                              />
+                              <label
+                                for="file"
+                                class="file_he"
+                                style={{
+                                  padding: banner && 0,
+                                }}
+                              >
+                                {banner ? (
+                                  <img src={banner} alt="" />
+                                ) : (
+                                  <>
+                                    <p>
+                                      JPG , PNG, ICO etc. Image file (Up to
+                                      10mb)
+                                    </p>
+                                    <button>Choose File</button>
+                                  </>
+                                )}
                               </label>
                             </div>
                           </div>
@@ -123,30 +190,18 @@ function MarketPlace({ store, setConnect }) {
                           <p>You can easily search by selecting a category.</p>
                           <div class="cat">
                             <ul>
-                              <li>
-                                <span>Art</span>
-                              </li>
-                              <li>
-                                <span>Music</span>
-                              </li>
-                              <li>
-                                <span>Vitual World</span>
-                              </li>
-                              <li>
-                                <span>Trading Cards</span>
-                              </li>
-                              <li>
-                                <span>Collectibles</span>
-                              </li>
-                              <li>
-                                <span>Sports</span>
-                              </li>
-                              <li>
-                                <span>Utility</span>
-                              </li>
-                              <li>
-                                <span>ETC</span>
-                              </li>
+                              {categoryList.map((cont, index) => (
+                                <li
+                                  key={index}
+                                  onClick={() => onClickCategory(cont)}
+                                  style={{
+                                    color: categoryObj[cont] && "#fff",
+                                    background: categoryObj[cont] && "#000",
+                                  }}
+                                >
+                                  <span>{cont}</span>
+                                </li>
+                              ))}
                             </ul>
                           </div>
                         </li>
@@ -175,8 +230,13 @@ function MarketPlace({ store, setConnect }) {
                   </form>
                 </div>
               </div>
-              <div class="create_btn mcrea">
-                <a href="">Create Item</a>
+              <div class="create_btn side">
+                <a href="" class="ls">
+                  Save
+                </a>
+                <a href="" class="rs">
+                  Delete collection
+                </a>
               </div>
             </div>
           </div>
@@ -198,4 +258,15 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(EditCollection);
+
+const categoryList = [
+  "Art",
+  "Music",
+  "Vitual World",
+  "Trading Cards",
+  "Collectibles",
+  "Sports",
+  "Utility",
+  "ETC",
+];
