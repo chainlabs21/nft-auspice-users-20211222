@@ -96,9 +96,9 @@ function MarketPlace({ store, setConnect }) {
               </div>
             </div>
 
-            <div class="move on deal">
+            <div class={toggleFilter ? "move on deal" : "move off deal"}>
               <div class="cw ucl">
-                <span class="close">
+                <span class="close" onClick={() => setToggleFilter(true)}>
                   <img src={require("../img/sub/side_close.png").default} />
                   <b class="mclose">
                     Filter<span>1</span>
@@ -116,6 +116,10 @@ function MarketPlace({ store, setConnect }) {
                       <img
                         src={require("../img/sub/filter_close.png").default}
                         class="fc"
+                        onClick={() => setToggleFilter(false)}
+                        style={{
+                          cursor: "pointer",
+                        }}
                       />
                     </div>
                     <div class="fold status">

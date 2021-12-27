@@ -70,7 +70,7 @@ function Mywallet({ store, setConnect }) {
                       <div>
                         <input
                           disabled
-                          value={store.walletAddress}
+                          value={sessionStorage.getItem("address")}
                           type="text"
                         />
                         <a>copy</a>
