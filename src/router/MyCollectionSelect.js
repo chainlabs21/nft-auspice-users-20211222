@@ -177,10 +177,10 @@ function MyFavorite({ store }) {
                     {mMenuPopup && isUserMobile() && (
                       <div class="mhome_wrap">
                         <ul onClick={() => setMMenuPopup(false)}>
-                          <li onClick={() => navigate("/editcollection")}>
+                          <li onClick={() => navigate("/exploredeal")}>
                             <a>Transaction History</a>
                           </li>
-                          <li onClick={() => navigate("/exploredeal")}>
+                          <li onClick={() => navigate("/editcollection")}>
                             <a>Changing information</a>
                           </li>
                           <li onClick={() => navigate("/loyaltycheck")}>
