@@ -76,7 +76,7 @@ function Referals({ store, setConnect }) {
                   <div class="referals">
                     <div class="re_text">
                       <span class="refe">Referals</span>
-                      <h2>Auspice Friend Recommendation</h2>
+                      <h2>Itemverse Friend Recommendation</h2>
                       <h3>
                         Share your referral link! When a new user who accesses
                         this link purchases a product,

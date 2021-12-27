@@ -248,7 +248,7 @@ function MyFavorite({ store }) {
                   <div class="item marbo">
                     <div class="full">
                       <h4 class="t releft">Recently Listed</h4>
-                      <a class="replus" onClick={() => navigate("/salefixed")}>
+                      <a class="replus" onClick={() => navigate("/createitem")}>
                         Register a new item
                       </a>
                     </div>

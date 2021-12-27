@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
 
@@ -25,10 +25,11 @@ import { useState } from "react";
 
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
+  const param = useParams();
 
   const [toggleFilter, setToggleFilter] = useState(false);
   const [bundleFilter, setBundleFilter] = useState(bundleFilterList[0]);
-  const [categoryFilter, setCategoryFilter] = useState(categoryList[0]);
+  const [categoryFilter, setCategoryFilter] = useState(param.category);
   const [sortFilter, setSortFilter] = useState(sortList[0]);
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
@@ -276,7 +277,10 @@ function MarketPlace({ store, setConnect }) {
                           {categoryList.map((cont, index) => (
                             <li
                               key={index}
-                              onClick={() => setCategoryFilter(cont)}
+                              onClick={() => {
+                                navigate(`/marketplace/${cont}`);
+                                setCategoryFilter(cont);
+                              }}
                             >
                               <a>{cont}</a>
                             </li>
@@ -301,7 +305,10 @@ function MarketPlace({ store, setConnect }) {
                         <li
                           key={index}
                           className={categoryFilter === cont && "onnn"}
-                          onClick={() => setCategoryFilter(cont)}
+                          onClick={() => {
+                            navigate(`/marketplace/${cont}`);
+                            setCategoryFilter(cont);
+                          }}
                         >
                           {cont}
                         </li>
@@ -543,13 +550,12 @@ const bundleFilterList = ["Single Item", "All", "Bundle sales"];
 
 const categoryList = [
   "All",
-  "Art",
-  "Music",
-  "Virtual World",
-  "Trading Cards",
   "Collectibles",
+  "Digital Art",
+  "Trading Cards",
+  "Music",
+  "Virtual Worlds",
   "Sports",
-  "Utility",
   "ETC",
 ];
 

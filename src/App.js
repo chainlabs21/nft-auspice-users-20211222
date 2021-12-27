@@ -102,7 +102,7 @@ function App({ store, setHref, setConnect }) {
           <Route path="/emailrequired" element={<EmailRequired />} />
           <Route path="/recentemail" element={<RecentEmail />} />
 
-          <Route path="/marketplace" element={<MarketPlace />} />
+          <Route path="/marketplace/:category" element={<MarketPlace />} />
           <Route path="/singleitem" element={<SingleItem />} />
           <Route path="/bundleitem" element={<BundleItem />} />
 

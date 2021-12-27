@@ -7,6 +7,8 @@ import "../css/font.css";
 import "../css/layout.css";
 import "../css/style.css";
 
+import I_klaytn from "../img/sub/I_klaytn.svg";
+
 // import "./css/style01.css";
 // import "./css/style02.css";
 
@@ -15,75 +17,15 @@ import "../css/footer.css";
 import "../css/swiper.min.css";
 import WalletConnectSDK from "walletconnect";
 import axios from "axios";
+import { useEffect } from "react";
 
 function ConnectWallet({ store, setConnect }) {
   const navigate = useNavigate();
 
-  async function connetMetaMask() {
-    return new Promise((resolve, reject) => {
-      let { ethereum } = window;
-
-      if (ethereum) {
-        ethereum
-          .request({ method: "eth_requestAccounts" })
-          .then((res) => {
-            sessionStorage.setItem("wallet", "metamask");
-            sessionStorage.setItem("address", res[0]);
-
-            setConnect(res[0]);
-            navigate("/joinmembership");
-
-          })
-          .catch((err) => console.log(err));
-      } else {
-        // SetErrorBar("지갑이 지원되지 않는 환경입니다");
-        // setTimeout(() => window.open(installMetaMaskUrl, "_blank"), 2000);
-      }
-    });
-  }
-
-  async function connectCoinbase() {
-    let { ethereum } = window;
-
-    if (ethereum) {
-      ethereum
-        .request({ method: "eth_requestAccounts" })
-        .then((res) => {
-          sessionStorage.setItem("wallet", "metamask");
-          sessionStorage.setItem("address", res[0]);
-
-          setConnect(res[0]);
-          navigate("/joinmembership");
-        })
-        .catch((err) => console.log(err));
-    } else {
-      // SetErrorBar("지갑이 지원되지 않는 환경입니다");
-      // setTimeout(() => window.open(installMetaMaskUrl, "_blank"), 2000);
-    }
-    axios
-      .get(
-        "https://www.coinbase.com/oauth/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URL&state=SECURE_RANDOM&scope=wallet:accounts:read"
-      )
-      .then((res) => console.log(res));
-  }
-
-  async function connectkWalletConnect() {
-    await localStorage.removeItem("walletconnect");
-
-    const wc = new WalletConnectSDK();
-    try {
-      wc.connect()
-        .then((res) => {
-          sessionStorage.setItem("wallet", "walletconnect");
-          sessionStorage.setItem("address", res.accounts);
-
-          setConnect(res[0]);
-          navigate("/joinmembership");
-        })
-        .catch((err) => console.error(err));
-    } catch (err) {
-      console.log(err);
-    }
+  async function connectKaikas() {
+    const accounts = await window.klaytn.enable();
+    setConnect(accounts[0]);
+    navigate("/joinmembership");
   }
 
   return (
@@ -101,31 +43,9 @@ function ConnectWallet({ store, setConnect }) {
             <div class="wallet_pc">
               <ul>
                 <li>
-                  <span>BEST</span>
-                  <a onClick={connetMetaMask}>
-                    <img
-                      src={require("../img/sub/join_1.png").default}
-                      alt=""
-                    />
-                    <p>Metamask</p>
-                  </a>
-                </li>
-                <li>
-                  <a onClick={connectCoinbase}>
-                    <img
-                      src={require("../img/sub/join_2.png").default}
-                      alt=""
-                    />
-                    <p>Coinbase</p>
-                  </a>
-                </li>
-                <li>
-                  <a onClick={connectkWalletConnect}>
-                    <img
-                      src={require("../img/sub/join_3.png").default}
-                      alt=""
-                    />
-                    <p>Walletconnect</p>
+                  <a onClick={connectKaikas}>
+                    <img src={I_klaytn} alt="" />
+                    <p>klaytn</p>
                   </a>
                 </li>
               </ul>
@@ -134,40 +54,16 @@ function ConnectWallet({ store, setConnect }) {
             <div class="wallet_m">
               <ul>
                 <li>
-                  <a onClick={connetMetaMask}>
-                    <div class="txt">
-                      <img
-                        src={require("../img/sub/join_1.png").default}
-                        alt=""
-                      />
-                      <p>Metamask</p>
-                    </div>
-                    <span>BEST</span>
-                  </a>
-                </li>
-                <li>
-                  <a onClick={connectCoinbase}>
-                    <img
-                      src={require("../img/sub/join_2.png").default}
-                      alt=""
-                    />
-                    <p>Coinbase</p>
-                  </a>
-                </li>
-                <li>
-                  <a onClick={connectkWalletConnect}>
-                    <img
-                      src={require("../img/sub/join_3.png").default}
-                      alt=""
-                    />
-                    <p>Walletconnect</p>
+                  <a onClick={connectKaikas}>
+                    <img src={I_klaytn} alt="" />
+                    <p>klaytn</p>
                   </a>
                 </li>
               </ul>
             </div>
           </div>
           <div class="bottom">
-            <p>Copyright © 2021 AUSPICE. All rights reserved.</p>
+            <p>Copyright © 2021 Itemverse. All rights reserved.</p>
             <ul>
               <li>Privacy Policy</li>
               <li>Terms of Service</li>
@@ -183,7 +79,15 @@ function ConnectWallet({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  .wallet_pc {
+    ul {
+      img {
+        width: 96px;
+      }
+    }
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };
@@ -191,7 +95,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setConnect: () => dispatch(setConnect()),
+    setConnect: (walletAddress) => dispatch(setConnect(walletAddress)),
   };
 }
 

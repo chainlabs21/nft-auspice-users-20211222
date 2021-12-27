@@ -38,14 +38,10 @@ function GeneralSettings({ store, setConnect }) {
           <div class="move on">
             <div class="left_move wallet_left">
               <div class="mwallet">
-                <a >Account settings</a>
+                <a>Account settings</a>
               </div>
               <form>
-                <div
-                  class="w1"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => navigate("/mywallet")}
-                >
+                <div class="w1">
                   <h3>
                     My wallet<span>0x9bb...carfb</span>
                   </h3>
@@ -53,11 +49,7 @@ function GeneralSettings({ store, setConnect }) {
                 <div class="w2">
                   <h3>General settings</h3>
                 </div>
-                <div
-                  class="w3"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => navigate("/notificationsettings")}
-                >
+                <div class="w3">
                   <h3>Notification settings</h3>
                 </div>
               </form>
@@ -87,9 +79,7 @@ function GeneralSettings({ store, setConnect }) {
                       <input type="text" placeholder="Input email address" />
                     </li>
                   </ul>
-                  <a  class="wbtn">
-                    Save
-                  </a>
+                  <a class="wbtn">Save</a>
                 </div>
               </div>
             </div>
@@ -100,7 +90,11 @@ function GeneralSettings({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  .wr {
+    padding: 52px 0 0 0;
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };

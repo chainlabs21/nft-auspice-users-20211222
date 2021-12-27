@@ -64,10 +64,10 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
 
         <nav className="pcNav">
           <ul className="categoryList">
-            <li onClick={() => navigate("/marketplace")}>
-              <p>Marketplace</p>
+            <li>
+              <p onClick={() => navigate("/marketplace/All")}>Marketplace</p>
               <ol>
-                <li>
+                <li onClick={() => navigate("/marketplace/All")}>
                   <img
                     src={require("./img/header/menu_all.png").default}
                     class="on"
@@ -78,7 +78,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                   />
                   All
                 </li>
-                <li>
+                <li onClick={() => navigate("/marketplace/Collectibles")}>
                   <img
                     src={require("./img/header/menu_collectibles.png").default}
                     class="on"
@@ -91,7 +91,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                   />
                   Collectibles
                 </li>
-                <li>
+                <li onClick={() => navigate("/marketplace/Digital Art")}>
                   <img
                     src={require("./img/header/menu_digitalart.png").default}
                     class="on"
@@ -104,7 +104,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                   />
                   Digital Art
                 </li>
-                <li>
+                <li onClick={() => navigate("/marketplace/Trading Card")}>
                   <img
                     src={require("./img/header/menu_tradingcard.png").default}
                     class="on"
@@ -117,7 +117,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                   />
                   Trading Card
                 </li>
-                <li>
+                <li onClick={() => navigate("/marketplace/Music")}>
                   <img
                     src={require("./img/header/menu_music.png").default}
                     class="on"
@@ -128,7 +128,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                   />
                   Music
                 </li>
-                <li>
+                <li onClick={() => navigate("/marketplace/Virtual Worlds")}>
                   <img
                     src={require("./img/header/menu_virtualworlds.png").default}
                     class="on"
@@ -141,7 +141,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                   />
                   Virtual Worlds
                 </li>
-                <li>
+                <li onClick={() => navigate("/marketplace/Sports")}>
                   <img
                     src={require("./img/header/menu_sports.png").default}
                     class="on"

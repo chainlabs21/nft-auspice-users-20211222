@@ -62,7 +62,7 @@ function Main({ store }) {
   const [itemIndex, setItemIndex] = useState(0);
   const [userIndex, setUserIndex] = useState(0);
 
-  function onclickTitleSwiper() {
+  function onClickTitleSwiper() {
     if (swiperRef.current?.scrollTo) {
       if (titleswiperIndex < swiperRef.current.children.length - 1) {
         swiperRef.current.scrollTo({
@@ -78,7 +78,7 @@ function Main({ store }) {
     }
   }
 
-  function onclickCollectionPreBtn() {
+  function onClickCollectionPreBtn() {
     const wrapWidth = collectionRef.current.offsetWidth;
     const contWidth = collectionRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -88,7 +88,7 @@ function Main({ store }) {
     else setCollectionIndex(pageNum - 1);
   }
 
-  function onclickCollectionNextBtn() {
+  function onClickCollectionNextBtn() {
     const wrapWidth = collectionRef.current.offsetWidth;
     const contWidth = collectionRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -98,7 +98,7 @@ function Main({ store }) {
     else setCollectionIndex(0);
   }
 
-  function onclickTrendingItemPreBtn() {
+  function onClickTrendingItemPreBtn() {
     const wrapWidth = trendingItemRef.current.offsetWidth;
     const contWidth = trendingItemRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -108,7 +108,7 @@ function Main({ store }) {
     else setTrendingItemIndex(pageNum - 1);
   }
 
-  function onclickTrendingItemNextBtn() {
+  function onClickTrendingItemNextBtn() {
     const wrapWidth = trendingItemRef.current.offsetWidth;
     const contWidth = trendingItemRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -119,7 +119,7 @@ function Main({ store }) {
     else setTrendingItemIndex(0);
   }
 
-  function onclickItemPreBtn() {
+  function onClickItemPreBtn() {
     const wrapWidth = itemRef.current.offsetWidth;
     const contWidth = itemRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -129,7 +129,7 @@ function Main({ store }) {
     else setItemIndex(pageNum - 1);
   }
 
-  function onclickItemNextBtn() {
+  function onClickItemNextBtn() {
     const wrapWidth = itemRef.current.offsetWidth;
     const contWidth = itemRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -139,7 +139,7 @@ function Main({ store }) {
     else setItemIndex(0);
   }
 
-  function onclickUserPreBtn() {
+  function onClickUserPreBtn() {
     const wrapWidth = userRef.current.offsetWidth;
     const contWidth = userRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -149,7 +149,7 @@ function Main({ store }) {
     else setUserIndex(pageNum - 1);
   }
 
-  function onclickUserNextBtn() {
+  function onClickUserNextBtn() {
     const wrapWidth = userRef.current.offsetWidth;
     const contWidth = userRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -163,7 +163,7 @@ function Main({ store }) {
     if (swiperRef.current.children.length) {
       if (intervalId) clearInterval(intervalId);
 
-      setIntervalId(setInterval(onclickTitleSwiper, 3000));
+      setIntervalId(setInterval(onClickTitleSwiper, 3000));
     }
 
     return clearInterval(intervalId);
@@ -272,7 +272,7 @@ function Main({ store }) {
           </div>
 
           <div className="swiperBox">
-            <button className="rightBtn" onClick={onclickTitleSwiper}>
+            <button className="rightBtn" onClick={onClickTitleSwiper}>
               <img src={I_nextBtn} alt="" />
             </button>
             <ul className="swiper" ref={swiperRef}>
@@ -283,7 +283,14 @@ function Main({ store }) {
 
                     <div className="textBox">
                       <div className="topBox">
-                        <h3 className="title">Irregular Shape</h3>
+                        <h3
+                          className="title"
+                          style={{
+                            padding: 0,
+                          }}
+                        >
+                          Irregular Shape
+                        </h3>
                         <p className="creator">Guzuman</p>
                       </div>
 
@@ -325,8 +332,18 @@ function Main({ store }) {
                         </div>
 
                         <div class="buttonBox pc">
-                          <button className="viewBtn">View Item</button>
-                          <button className="placeBtn">Place a Bid</button>
+                          <button
+                            className="viewBtn"
+                            onClick={() => navigate("/singleitem")}
+                          >
+                            View Item
+                          </button>
+                          <button
+                            className="placeBtn"
+                            onClick={() => navigate("/singleitem")}
+                          >
+                            Place a Bid
+                          </button>
                         </div>
 
                         <div class="buttonBox m">
@@ -349,7 +366,13 @@ function Main({ store }) {
             <div className="swiperBox">
               <ul className="swiper" ref={collectionRef}>
                 {collectionList.map((cont, index) => (
-                  <li key={index}>
+                  <li
+                    key={index}
+                    onClick={() => navigate("/bundleitem")}
+                    style={{
+                      cursor: "pointer",
+                    }}
+                  >
                     <div className="innerBox">
                       <img className="item" src={cont.item} alt="" />
 
@@ -368,14 +391,14 @@ function Main({ store }) {
                 ))}
               </ul>
 
-              <button className="prevBtn" onClick={onclickCollectionPreBtn}>
+              <button className="prevBtn" onClick={onClickCollectionPreBtn}>
                 <img src={I_prevBtn} alt="" />
               </button>
 
               <button
                 className="nextBtn"
                 id="locShadow"
-                onClick={onclickCollectionNextBtn}
+                onClick={onClickCollectionNextBtn}
               >
                 <img src={I_nextBtn} alt="" />
               </button>
@@ -387,41 +410,67 @@ function Main({ store }) {
           <h4 class="t">Market Category</h4>
 
           <ol class="list">
-            <li>
-              <img src={require("./img/main/category_art.png").default} />
-              Art
+            <li
+              onClick={() => navigate("/marketplace/All")}
+              style={{ cursor: "pointer" }}
+            >
+              <img src={require("./img/header/menu_all_off.png").default} />
+              All
             </li>
-            <li>
-              <img src={require("./img/main/category_music.png").default} />
-              Music
-            </li>
-            <li>
+            <li
+              onClick={() => navigate("/marketplace/Collectibles")}
+              style={{ cursor: "pointer" }}
+            >
               <img
-                src={require("./img/main/category_virtualworld.png").default}
-              />
-              Virtual World
-            </li>
-            <li>
-              <img
-                src={require("./img/main/category_tradingcards.png").default}
-              />
-              Trading Cards
-            </li>
-            <li>
-              <img
-                src={require("./img/main/category_collectibles.png").default}
+                src={require("./img/header/menu_collectibles_off.png").default}
               />
               Collectibles
             </li>
-            <li>
-              <img src={require("./img/main/category_sports.png").default} />
+            <li
+              onClick={() => navigate("/marketplace/Digital Art")}
+              style={{ cursor: "pointer" }}
+            >
+              <img
+                src={require("./img/header/menu_digitalart_off.png").default}
+              />
+              Digital Art
+            </li>
+            <li
+              onClick={() => navigate("/marketplace/Trading Card")}
+              style={{ cursor: "pointer" }}
+            >
+              <img
+                src={require("./img/header/menu_tradingcard_off.png").default}
+              />
+              Trading Cards
+            </li>
+            <li
+              onClick={() => navigate("/marketplace/Music")}
+              style={{ cursor: "pointer" }}
+            >
+              <img src={require("./img/header/menu_music_off.png").default} />
+              Music
+            </li>
+            <li
+              onClick={() => navigate("/marketplace/Virtual Worlds")}
+              style={{ cursor: "pointer" }}
+            >
+              <img
+                src={require("./img/header/menu_virtualworlds_off.png").default}
+              />
+              Virtual Worlds
+            </li>
+            <li
+              onClick={() => navigate("/marketplace/Sports")}
+              style={{ cursor: "pointer" }}
+            >
+              <img src={require("./img/header/menu_sports_off.png").default} />
               Sports
             </li>
-            <li>
-              <img src={require("./img/main/category_utility.png").default} />
-              Utility
-            </li>
-            <li>
+            <li
+              onClick={() => navigate("/marketplace/ETC")}
+              style={{ cursor: "pointer" }}
+            >
               <img src={require("./img/main/category_etc.png").default} />
               ETC
             </li>
@@ -434,7 +483,11 @@ function Main({ store }) {
           <div className="swiperBox">
             <ul className="swiper" ref={trendingItemRef}>
               {trendingItemList.map((cont, index) => (
-                <li key={index}>
+                <li
+                  key={index}
+                  onClick={() => navigate("/singleitem")}
+                  style={{ cursor: "pointer" }}
+                >
                   <div className="innerBox">
                     <div
                       className="item"
@@ -481,11 +534,11 @@ function Main({ store }) {
               ))}
             </ul>
 
-            <button className="prevBtn" onClick={onclickTrendingItemPreBtn}>
+            <button className="prevBtn" onClick={onClickTrendingItemPreBtn}>
               <img src={I_prevBtn} alt="" />
             </button>
 
-            <button className="nextBtn" onClick={onclickTrendingItemNextBtn}>
+            <button className="nextBtn" onClick={onClickTrendingItemNextBtn}>
               <img src={I_nextBtn} alt="" />
             </button>
           </div>
@@ -497,7 +550,11 @@ function Main({ store }) {
           <div className="swiperBox">
             <ul className="swiper" ref={itemRef}>
               {itemList.map((cont, index) => (
-                <li key={index}>
+                <li
+                  key={index}
+                  onClick={() => navigate("/singleitem")}
+                  style={{ cursor: "pointer" }}
+                >
                   <div className="innerBox">
                     <div
                       className="item"
@@ -544,18 +601,18 @@ function Main({ store }) {
               ))}
             </ul>
 
-            <button className="prevBtn" onClick={onclickItemPreBtn}>
+            <button className="prevBtn" onClick={onClickItemPreBtn}>
               <img src={I_prevBtn} alt="" />
             </button>
 
-            <button className="nextBtn" onClick={onclickItemNextBtn}>
+            <button className="nextBtn" onClick={onClickItemNextBtn}>
               <img src={I_nextBtn} alt="" />
             </button>
           </div>
         </article>
 
         <article class="users">
-          <h4 class="t">Tips for Auspice users</h4>
+          <h4 class="t">Tips for Itemverse users</h4>
 
           <div className="swiperBox">
             <ul className="swiper" ref={userRef}>
@@ -572,11 +629,11 @@ function Main({ store }) {
               ))}
             </ul>
 
-            <button className="prevBtn" onClick={onclickUserPreBtn}>
+            <button className="prevBtn" onClick={onClickUserPreBtn}>
               <img src={I_prevBtn} alt="" />
             </button>
 
-            <button className="nextBtn" onClick={onclickUserNextBtn}>
+            <button className="nextBtn" onClick={onClickUserNextBtn}>
               <img src={I_nextBtn} alt="" />
             </button>
           </div>
@@ -593,13 +650,15 @@ function Main({ store }) {
                 </button>
               </h5>
               <p>
-                Decentralized NFT marketplace AUSPICE makes it easy and
+                Decentralized NFT marketplace Itemverse makes it easy and
                 convenient to trade non-fungible tokens (NFTs) and crypto
                 collectibles.
               </p>
               <div>
                 <span>
-                  <button href="mailto:contact@Auspice.com">Contact us</button>
+                  <button href="mailto:contact@Itemverse.com">
+                    Contact us
+                  </button>
                 </span>
                 <span>
                   <button href="#">English</button>
@@ -669,8 +728,8 @@ function Main({ store }) {
                   <h6>CONTACT US</h6>
                   <ol>
                     <li>
-                      <button href="mailto:contact@Auspice.com">
-                        contact@Auspice.com
+                      <button href="mailto:contact@Itemverse.com">
+                        contact@Itemverse.com
                       </button>
                     </li>
                   </ol>
@@ -690,7 +749,9 @@ function Main({ store }) {
               </ul>
             </div>
             <div>
-              <address>Copyright © 2021 AUSPICE. All rights reserved.</address>
+              <address>
+                Copyright © 2021 Itemverse. All rights reserved.
+              </address>
             </div>
           </div>
         </div>
@@ -1117,7 +1178,9 @@ const IndexBox = styled.div`
             position: absolute;
           }
 
-          &:nth-of-type(n + 3):nth-of-type(-n + 5) {
+          &:nth-of-type(2),
+          &:nth-of-type(4),
+          &:nth-of-type(6) {
             justify-content: space-between;
             padding: 0 20px;
 
@@ -1748,8 +1811,8 @@ const collectionList = [
     creator: "Lalaredtu",
     description: (
       <p>
-        This item is a item of 80 individual works and has been
-        exhibited at the Museum of Modern Art.
+        This item is a item of 80 individual works and has been exhibited at the
+        Museum of Modern Art.
       </p>
     ),
   },
@@ -2056,8 +2119,8 @@ const userList = [
   },
   {
     img: users_list04,
-    title: "Auspice Market",
-    explain: "5 reasons to sell your NFTs on Auspice",
+    title: "Itemverse Market",
+    explain: "5 reasons to sell your NFTs on Itemverse",
   },
   {
     img: users_list01,
@@ -2076,7 +2139,7 @@ const userList = [
   },
   {
     img: users_list04,
-    title: "Auspice Market",
-    explain: "5 reasons to sell your NFTs on Auspice",
+    title: "Itemverse Market",
+    explain: "5 reasons to sell your NFTs on Itemverse",
   },
 ];

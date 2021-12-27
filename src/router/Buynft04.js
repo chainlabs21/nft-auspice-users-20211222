@@ -85,14 +85,14 @@ function MarketPlace({ store, setConnect }) {
                 <div class="ckb">
                   <input type="checkbox" id="chk" name="chk1" />
                   <label for="chk">
-                    Aware that Auspice contains one item that has not been
+                    Aware that Itemverse contains one item that has not been
                     reviewed and approved
                   </label>
                 </div>
                 <div class="ckb">
                   <input type="checkbox" id="chk2" name="chk1" />
                   <label for="chk2">
-                    I agree to Auspice's <b>Terms of Service</b>
+                    I agree to Itemverse's <b>Terms of Service</b>
                   </label>
                 </div>
               </form>

@@ -663,7 +663,8 @@
   text-align: center;
 }
 .popup .box .wallet_pc ul {
-  display: block;
+  display: flex;
+  justify-content: center;
 }
 .popup .box .wallet_pc ul:after {
   display: block;
@@ -4677,7 +4678,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   margin: -38px 0 40px;
 }
 #sub .wallet_wrap .wallet_right .togpad {
-  padding: 0 40px 68px;
+  padding: 52px 40px 68px;
 }
 #sub .wallet_wrap .wallet_right .wr ul li h5 {
   font-size: 22px;

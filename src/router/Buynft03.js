@@ -79,7 +79,7 @@ function MarketPlace({ store, setConnect }) {
                 <div class="ckb">
                   <input type="checkbox" id="chk2" name="chk1" />
                   <label for="chk2">
-                    I agree to Auspice's <b>Terms of Service</b>
+                    I agree to Itemverse's <b>Terms of Service</b>
                   </label>
                 </div>
               </form>

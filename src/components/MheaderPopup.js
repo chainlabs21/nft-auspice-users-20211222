@@ -20,7 +20,7 @@ function Main({ store, setAllPopupOff }) {
 
   function onclickWallet() {
     setAllPopupOff();
-    navigate("/signup");
+    navigate("/connectwallet");
   }
 
   return (
@@ -45,12 +45,14 @@ function Main({ store, setAllPopupOff }) {
 
           {category === 1 && (
             <ul className="categoryLink" onClick={setAllPopupOff}>
-              <li>All</li>
-              <li>collectibles</li>
-              <li>Digital Art</li>
-              <li>music</li>
-              <li>virtual worlds</li>
-              <li>sports</li>
+              {marketList.map((cont, index) => (
+                <li
+                  key={index}
+                  onClick={() => navigate(`/marketplace/${cont}`)}
+                >
+                  {cont}
+                </li>
+              ))}
             </ul>
           )}
         </li>
@@ -74,8 +76,10 @@ function Main({ store, setAllPopupOff }) {
 
           {category === 2 && (
             <ul className="categoryLink" onClick={setAllPopupOff}>
-              <li>Transaction details</li>
-              <li>Ranking</li>
+              <li onClick={() => navigate("/exploredeal")}>
+                Transaction details
+              </li>
+              <li onClick={() => navigate("/ranking")}>Ranking</li>
             </ul>
           )}
         </li>
@@ -99,10 +103,10 @@ function Main({ store, setAllPopupOff }) {
 
           {category === 3 && (
             <ul className="categoryLink" onClick={setAllPopupOff}>
-              <li>My Profile</li>
-              <li>My Item</li>
+              <li onClick={() => navigate("/myprof")}>My Profile</li>
+              <li onClick={() => navigate("/mycollection")}>My Item</li>
               <li>Bookmark</li>
-              <li>Account Setting</li>
+              <li onClick={() => navigate("/mywallet")}>Account Setting</li>
             </ul>
           )}
         </li>
@@ -199,3 +203,13 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
+const marketList = [
+  "All",
+  "collectibles",
+  "Digital Art",
+  "Trading Card",
+  "music",
+  "Virtual Worlds",
+  "sports",
+];

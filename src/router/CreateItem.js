@@ -195,7 +195,7 @@ function CreateItem({ store, setConnect }) {
                 </div>
               </div>
               <div class="create_btn">
-                <a onClick={() => navigate(-1)}>Create Item</a>
+                <a onClick={() => navigate('/salefixed')}>Create Item</a>
               </div>
             </div>
           </div>
