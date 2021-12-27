@@ -28,7 +28,7 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 
-function MarketPlace({ store, setConnect }) {
+function Referals({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
@@ -43,15 +43,15 @@ function MarketPlace({ store, setConnect }) {
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
                   <div class="home_icons">
-                    <a href="">
+                    <a >
                       <img src={require("../img/sub/re.png").default} />
                     </a>
-                    <a href="">
+                    <a >
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Collection</h2>
+                <h2 class="notop">Henry junior's Item</h2>
                 <h3>0x97bc...8cad2</h3>
                 <h4>
                   Henry is a mixed-media artist living in the Bay Area and uses
@@ -64,11 +64,13 @@ function MarketPlace({ store, setConnect }) {
               <div class="right_move">
                 <div class="real_sec">
                   <ul class="tab">
-                    <li>Search Wallet</li>
-                    <li>Transaction history</li>
-                    <li>Offers</li>
-                    <li>Liked</li>
-                    <li>Hidden item</li>
+                    <li onClick={() => navigate("/myprof")}>Search Wallet</li>
+                    <li onClick={() => navigate("/transactionhistory")}>
+                      Transaction history
+                    </li>
+                    <li onClick={() => navigate("/offers")}>Offers</li>
+                    <li onClick={() => navigate("/liked")}>Liked</li>
+                    <li onClick={() => navigate("/hiddenitem")}>Hidden item</li>
                     <li class="onn">Referals</li>
                   </ul>
                   <div class="referals">
@@ -83,7 +85,7 @@ function MarketPlace({ store, setConnect }) {
                         rewards are paid in lump sum every month.
                         <br />
                         However, due to gas cost, only referrals exceeding 0.005
-                        ETH will be processed.
+                        KLAY will be processed.
                       </h3>
                     </div>
                     <div class="link">
@@ -93,7 +95,7 @@ function MarketPlace({ store, setConnect }) {
                         <span>
                           https://ausp.io/market/?ref=0x97b155a698d4bdec4c4bf3a92e9071190093cafb
                         </span>
-                        <a href="" class="copybtn">
+                        <a  class="copybtn">
                           <img
                             src={require("../img/sub/btn_copy.png").default}
                           />
@@ -142,12 +144,12 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH<span>($30.11)</span>
+                                  0.010 KLAY<span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -166,7 +168,7 @@ function MarketPlace({ store, setConnect }) {
                             </td>
                             <td>2021.01.01</td>
                             <td>2021.06</td>
-                            <td>0.0001 ETH</td>
+                            <td>0.0001 KLAY</td>
                           </tr>
                           <tr>
                             <td>
@@ -185,12 +187,12 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.5000 ETH<span>($30.11)</span>
+                                  0.5000 KLAY<span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -209,7 +211,7 @@ function MarketPlace({ store, setConnect }) {
                             </td>
                             <td>11 days later</td>
                             <td>2021.06</td>
-                            <td>0.0005 ETH</td>
+                            <td>0.0005 KLAY</td>
                           </tr>
                         </tbody>
                       </table>
@@ -237,4 +239,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(Referals);

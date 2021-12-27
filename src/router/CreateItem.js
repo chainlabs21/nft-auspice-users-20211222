@@ -24,7 +24,7 @@ import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useState } from "react";
 
-function MarketPlace({ store, setConnect }) {
+function CreateItem({ store, setConnect }) {
   const navigate = useNavigate();
 
   const [item, setItem] = useState("");
@@ -51,7 +51,7 @@ function MarketPlace({ store, setConnect }) {
                     alt=""
                   />
                 </a>
-                <strong>Collection home</strong>
+                <strong>Items home</strong>
               </div>
               <div class="sell_wrap">
                 <div class="create">
@@ -111,7 +111,7 @@ function MarketPlace({ store, setConnect }) {
                           <div class="inputbox">
                             <input
                               type="text"
-                              placeholder="Example: A collection of atmospheric night view photos"
+                              placeholder="Example: A item of atmospheric night view photos"
                             />
                           </div>
                         </li>
@@ -217,4 +217,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateItem);

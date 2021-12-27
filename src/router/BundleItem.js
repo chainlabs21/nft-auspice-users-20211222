@@ -90,7 +90,8 @@ function BundleItem({ store, setConnect }) {
                           <span>Blackman with neon 4 items</span>
                         </h3>
                         <h4 class="m_sub">
-                          <img src={require("../img/sub/stone.png").default} />
+                          <img src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }} />
                           125<span class="pri">($58,282.50)</span>
                         </h4>
                       </div>
@@ -101,7 +102,8 @@ function BundleItem({ store, setConnect }) {
                       <p class="rec_t">Total</p>
                       <div class="right_price m_left">
                         <h4 class="blue nored">
-                          <img src={require("../img/sub/stone.png").default} />
+                          <img src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }} />
                           125<span class="pri">($58,282.50)</span>
                         </h4>
                       </div>
@@ -125,7 +127,7 @@ function BundleItem({ store, setConnect }) {
                   </div>
                 </form>
               </div>
-              <a href="" class="reportit on ">
+              <a  class="reportit on ">
                 Make a payment
               </a>
             </div>
@@ -203,7 +205,7 @@ function BundleItem({ store, setConnect }) {
                 <div class="desc">
                   <h2 class="i_title">Description</h2>
                   <p>
-                    This is a collection of digitals produced on April 28th,
+                    This is a item of digitals produced on April 28th,
                     with beautiful night views. It's about the
                     <br />
                     harmony of neon signs. It's an expression of modern art.
@@ -252,7 +254,7 @@ function BundleItem({ store, setConnect }) {
                           <li>
                             <h3>Current Bid</h3>
                             <h4>
-                              2.867<span>AUSP</span>
+                              2.867<span>KLAY</span>
                             </h4>
                             <h5>$1,234.25</h5>
                           </li>
@@ -308,7 +310,7 @@ function BundleItem({ store, setConnect }) {
                         <li>
                           <span class="profile_img"></span>
                           <h3>
-                            5.44 ETH
+                            5.44 KLAY
                             <br />
                             <span>T.WD</span>
                           </h3>
@@ -318,7 +320,7 @@ function BundleItem({ store, setConnect }) {
                         <li>
                           <span class="profile_img"></span>
                           <h3>
-                            4.23 ETH
+                            4.23 KLAY
                             <br />
                             <span>TIMOTHY</span>
                           </h3>
@@ -327,7 +329,7 @@ function BundleItem({ store, setConnect }) {
                         <li>
                           <span class="profile_img"></span>
                           <h3>
-                            4.00 ETH
+                            4.00 KLAY
                             <br />
                             <span>PT_WORK</span>
                           </h3>
@@ -336,7 +338,7 @@ function BundleItem({ store, setConnect }) {
                         <li>
                           <span class="profile_img"></span>
                           <h3>
-                            4.00 ETH
+                            4.00 KLAY
                             <br />
                             <span>PT_WORK</span>
                           </h3>
@@ -371,11 +373,12 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
@@ -389,11 +392,12 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
@@ -407,11 +411,12 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
@@ -425,11 +430,12 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
@@ -443,11 +449,12 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
@@ -461,11 +468,12 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
@@ -502,11 +510,12 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -517,11 +526,12 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -532,11 +542,12 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -547,11 +558,12 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -562,11 +574,12 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
                               <p>
-                                0.015 ETH <span>($0,000,000.50)</span>
+                                0.015 KLAY <span>($0,000,000.50)</span>
                               </p>
                             </div>
                           </td>
@@ -577,11 +590,12 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -615,10 +629,11 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
@@ -633,10 +648,11 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>4 days later</span>
                             </div>
                             <div class="pur">
@@ -651,10 +667,11 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
@@ -669,10 +686,11 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
@@ -687,10 +705,11 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
@@ -705,10 +724,11 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
@@ -744,10 +764,11 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                           </td>
@@ -757,10 +778,11 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>4 days later</span>
                             </div>
                           </td>
@@ -770,10 +792,11 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>1 days later</span>
                             </div>
                           </td>
@@ -783,10 +806,11 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                           </td>
@@ -796,10 +820,11 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
-                              <p>0.015 ETH ($0,000,000.50)</p>
+                              <p>0.015 KLAY ($0,000,000.50)</p>
                               <span>3 days later</span>
                             </div>
                           </td>
@@ -809,10 +834,11 @@ function BundleItem({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/stone.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ height: 24 }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                           </td>
@@ -826,7 +852,7 @@ function BundleItem({ store, setConnect }) {
             </div>
 
             <div class="item sitem_wrap">
-              <h4 class="t">Other works in this collection</h4>
+              <h4 class="t">Other works in this item</h4>
               <div class="swiper">
                 <div class="swiper-container swiper-container-trendingitem">
                   <ol class="item item5 buy swiper-wrapper">
@@ -841,7 +867,7 @@ function BundleItem({ store, setConnect }) {
                           <span>David</span>
                           <ol>
                             <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
+                            <li>1.67 KLAY</li>
                           </ol>
                           <p>Buy Now</p>
                         </div>
@@ -858,7 +884,7 @@ function BundleItem({ store, setConnect }) {
                           <span>David</span>
                           <ol>
                             <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
+                            <li>1.67 KLAY</li>
                           </ol>
                           <p>Buy Now</p>
                         </div>
@@ -875,7 +901,7 @@ function BundleItem({ store, setConnect }) {
                           <span>David</span>
                           <ol>
                             <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
+                            <li>1.67 KLAY</li>
                           </ol>
                           <p>Buy Now</p>
                         </div>
@@ -892,7 +918,7 @@ function BundleItem({ store, setConnect }) {
                           <span>David</span>
                           <ol>
                             <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
+                            <li>1.67 KLAY</li>
                           </ol>
                           <p>Buy Now</p>
                         </div>
@@ -909,7 +935,7 @@ function BundleItem({ store, setConnect }) {
                           <span>David</span>
                           <ol>
                             <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
+                            <li>1.67 KLAY</li>
                           </ol>
                           <p>Buy Now</p>
                         </div>
@@ -952,7 +978,7 @@ function BundleItem({ store, setConnect }) {
                   <tbody class="body">
                     <tr>
                       <td>sale</td>
-                      <td class="bold">0.0020 ETH</td>
+                      <td class="bold">0.0020 KLAY</td>
                       <td class="blue">
                         0xb9e83064c381bd64cb2b2f8406203e584b81a7e1
                       </td>
@@ -966,7 +992,7 @@ function BundleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>purchase</td>
-                      <td class="bold">0.0022 ETH</td>
+                      <td class="bold">0.0022 KLAY</td>
                       <td class="blue">
                         0x86b5226a351ffa2088a58b16c274aea8dc2ef912
                       </td>
@@ -980,7 +1006,7 @@ function BundleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>sale</td>
-                      <td class="bold">0.0023 ETH</td>
+                      <td class="bold">0.0023 KLAY</td>
                       <td class="blue">
                         0xe8bd396947a5ff690634aa2f66985b103b6911ba
                       </td>
@@ -994,7 +1020,7 @@ function BundleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>sale</td>
-                      <td class="bold">0.0020 ETH</td>
+                      <td class="bold">0.0020 KLAY</td>
                       <td class="blue">
                         0x86b5226a351ffa2088a58b16c274aea8dc2ef912
                       </td>
@@ -1008,7 +1034,7 @@ function BundleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>purchase</td>
-                      <td class="bold">0.0001 ETH</td>
+                      <td class="bold">0.0001 KLAY</td>
                       <td class="blue">
                         0x1e425a95aecdc4d1b2c4987e914de35ede716852
                       </td>
@@ -1022,7 +1048,7 @@ function BundleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>purchase</td>
-                      <td class="bold">0.0001 ETH</td>
+                      <td class="bold">0.0001 KLAY</td>
                       <td class="blue">
                         0x1e425a95aecdc4d1b2c4987e914de35ede716852
                       </td>
@@ -1036,7 +1062,7 @@ function BundleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>purchase</td>
-                      <td class="bold">0.0001 ETH</td>
+                      <td class="bold">0.0001 KLAY</td>
                       <td class="blue">
                         0x1e425a95aecdc4d1b2c4987e914de35ede716852
                       </td>
@@ -1050,7 +1076,7 @@ function BundleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>sale</td>
-                      <td class="bold">0.0020 ETH</td>
+                      <td class="bold">0.0020 KLAY</td>
                       <td class="blue">
                         0xb9e83064c381bd64cb2b2f8406203e584b81a7e1
                       </td>

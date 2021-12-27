@@ -37,18 +37,18 @@ function LoyaltyCheck({ store, setConnect }) {
                     alt=""
                   />
                 </a>
-                <strong>Collection home</strong>
+                <strong>Item home</strong>
               </div>
               <div class="sell_wrap sell_wrap2">
                 <div class="create">
                   <p class="loyal">Loyalty check</p>
-                  <h2 class="notop">Collection 1</h2>
+                  <h2 class="notop">Item 1</h2>
                   <form action="">
                     <div class="form">
                       <ul>
                         <li>
                           <p>
-                            The payment is only paid when more than 0.1 ETH has
+                            The payment is only paid when more than 0.1 KLAY has
                             been accumulated, and deposits are made in batches
                             every month. Deposit date and time are subject to
                             change.

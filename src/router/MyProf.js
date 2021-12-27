@@ -13,6 +13,7 @@ import s4 from "../img/sub/s4.png";
 import s5 from "../img/sub/s5.png";
 import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
+import rock from "../img/sub/rock.png";
 import sample from "../img/sub/sample.png";
 
 import "../css/common.css";
@@ -29,10 +30,26 @@ import "../css/swiper.min.css";
 import { useRef, useState } from "react";
 
 function MyProf({ store, setConnect }) {
-  const navigate = useNavigate();
   const itemListRef = useRef();
+  const navigate = useNavigate();
 
   const [morePopupIndex, setMorePopupIndex] = useState(-1);
+  const [toggleFilter, setToggleFilter] = useState(false);
+  const [filterObj, setFilterObj] = useState({});
+  const [filterList, setFilterList] = useState([]);
+
+  function editFilterList(category, cont) {
+    let dataObj = filterObj;
+    dataObj[category] = cont;
+
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
+
+  function onclickFilterReset() {
+    setFilterObj({});
+    setFilterList([]);
+  }
 
   function onClickMoreBtn(index) {
     if (morePopupIndex === index) setMorePopupIndex(-1);
@@ -59,7 +76,7 @@ function MyProf({ store, setConnect }) {
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Collection</h2>
+                <h2 class="notop">Henry junior's Item</h2>
                 <h3>0x97bc...8cad2</h3>
                 <h4>
                   Henry is a mixed-media artist living in the
@@ -70,9 +87,9 @@ function MyProf({ store, setConnect }) {
               </div>
             </div>
 
-            <div class="move off">
+            <div class={toggleFilter ? "move on deal" : "move off"}>
               <div class="cw ucl">
-                <span class="close">
+                <span class="close" onClick={() => setToggleFilter(true)}>
                   <img src={require("../img/sub/side_close.png").default} />
                   <b class="mclose">
                     Filter<span>1</span>
@@ -90,6 +107,10 @@ function MyProf({ store, setConnect }) {
                       <img
                         src={require("../img/sub/filter_close.png").default}
                         class="fc"
+                        onClick={() => setToggleFilter(false)}
+                        style={{
+                          cursor: "pointer",
+                        }}
                       />
                     </div>
                     <div class="fold status">
@@ -103,10 +124,16 @@ function MyProf({ store, setConnect }) {
 
                       <div class="open status">
                         <ul>
-                          <li class="on">Buy Now</li>
-                          <li>On Auction</li>
-                          <li>New</li>
-                          <li>Has Offers</li>
+                          {statusList.map((cont, index) => (
+                            <li
+                              key={index}
+                              style={{ cursor: "pointer" }}
+                              className={filterObj.eventType === cont && "on"}
+                              onClick={() => editFilterList("eventType", cont)}
+                            >
+                              {cont}
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -143,7 +170,7 @@ function MyProf({ store, setConnect }) {
 
                     <div class="fold">
                       <h3 class="slide_tt">
-                        Collections
+                        Items
                         <img
                           src={require("../img/sub/slide_up.png").default}
                           class="slide_up"
@@ -161,25 +188,25 @@ function MyProf({ store, setConnect }) {
                             class="collec_img"
                             style={{ backgroundImage: `url(${collect_img})` }}
                           >
-                            <span>Collection 01</span>
+                            <span>Item 01</span>
                           </li>
                           <li
                             class="collec_img"
                             style={{ backgroundImage: `url(${collect_img2})` }}
                           >
-                            <span>Collection 02</span>
+                            <span>Item 02</span>
                           </li>
                           <li
                             class="collec_img"
                             style={{ backgroundImage: `url(${collect_img3})` }}
                           >
-                            <span>Collection 03</span>
+                            <span>Item 03</span>
                           </li>
                           <li
                             class="collec_img"
                             style={{ backgroundImage: `url(${collect_img4})` }}
                           >
-                            <span>Collection 04</span>
+                            <span>Item 04</span>
                           </li>
                         </ul>
                       </div>
@@ -196,29 +223,32 @@ function MyProf({ store, setConnect }) {
 
                       <div class="open">
                         <ul>
-                          <li class="ra">
-                            <input type="radio" id="rad" name="rad" />
-                            <label for="rad">
-                              <img
-                                src={require("../img/sub/stone.png").default}
-                              />
-                              Ethereum
-                            </label>
-                          </li>
-                          <li class="ra">
-                            <input type="radio" id="rad2" name="rad" />
-                            <label for="rad2">
-                              <img
-                                src={require("../img/sub/rock.png").default}
-                              />
-                              Klaytn
-                            </label>
-                          </li>
+                          {chainList.map((cont, index) => (
+                            <li
+                              key={index}
+                              class="ra"
+                              onClick={() => editFilterList("chain", cont.name)}
+                            >
+                              <span
+                                className="chkBtn"
+                                style={{
+                                  background:
+                                    filterObj.chain === cont.name && "#000",
+                                }}
+                              >
+                                <span />
+                              </span>
+                              <label for={cont.name}>
+                                <img src={cont.img} />
+                                {cont.name}
+                              </label>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
 
-                    <div class="fold">
+                    {/* <div class="fold">
                       <h3 class="slide_tt">
                         Sales Coin
                         <img
@@ -234,17 +264,26 @@ function MyProf({ store, setConnect }) {
                           class="s_search"
                         />
                         <ul>
-                          <li class="ra">
-                            <input type="radio" id="rad3" name="rad2" />
-                            <label for="rad3">AUSP</label>
-                          </li>
-                          <li class="ra">
-                            <input type="radio" id="rad4" name="rad2" />
-                            <label for="rad4">WETH</label>
-                          </li>
+                          {coinList.map((cont, index) => (
+                            <li
+                              key={index}
+                              class="ra"
+                              onClick={() => editFilterList("coin", cont)}
+                            >
+                              <span
+                                className="chkBtn"
+                                style={{
+                                  background: filterObj.coin === cont && "#000",
+                                }}
+                              >
+                                <span />
+                              </span>
+                              <label for={cont}>{cont}</label>
+                            </li>
+                          ))}
                         </ul>
                       </div>
-                    </div>
+                    </div> */}
                   </form>
                 </div>
               </div>
@@ -253,18 +292,20 @@ function MyProf({ store, setConnect }) {
                 <div class="real_sec">
                   <ul class="tab">
                     <li class="onn">Search Wallet</li>
-                    <li>Transaction history</li>
-                    <li>Offers</li>
-                    <li>Liked</li>
-                    <li>Hidden item</li>
-                    <li>Referals</li>
+                    <li onClick={() => navigate("/transactionhistory")}>
+                      Transaction history
+                    </li>
+                    <li onClick={() => navigate("/offers")}>Offers</li>
+                    <li onClick={() => navigate("/liked")}>Liked</li>
+                    <li onClick={() => navigate("/hiddenitem")}>Hidden item</li>
+                    <li onClick={() => navigate("/referals")}>Referals</li>
                   </ul>
                   <div class="pad">
                     <div class="slide_s">
                       <div class="fl">
                         <input
                           type="text"
-                          placeholder="Search items, collections, creators"
+                          placeholder="Search items, creators"
                         />
                       </div>
                       <div class="fr">
@@ -320,7 +361,7 @@ function MyProf({ store, setConnect }) {
                     <div class="move_item">
                       <div class="swiper_container">
                         <ol class="item move_li" ref={itemListRef}>
-                          <li>
+                          <li onClick={() => navigate("/edititem")}>
                             <a style={{ backgroundImage: `url(${s5})` }}>
                               <div class="on">
                                 <ul>
@@ -329,25 +370,36 @@ function MyProf({ store, setConnect }) {
                                     class={
                                       morePopupIndex === 0 ? "dot on" : "dot"
                                     }
-                                    onClick={() => onClickMoreBtn(0)}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onClickMoreBtn(0);
+                                    }}
                                   >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
-                                        <li>Hand Over</li>
+                                        <li
+                                          onClick={() => navigate("/handover")}
+                                        >
+                                          Hand Over
+                                        </li>
                                         <li>Edit</li>
-                                        <li>Collection Change</li>
+                                        <li
+                                          onClick={() => navigate("/moveitem")}
+                                        >
+                                          Item Change
+                                        </li>
                                         <li>Unhide</li>
                                       </ul>
                                     </div>
                                   </li>
                                 </ul>
-                                <span>Mark.X collection</span>
+                                <span>Mark.X item</span>
                                 <div>Place Saint-Marc</div>
                               </div>
                             </a>
                           </li>
-                          <li>
+                          <li onClick={() => navigate("/edititem")}>
                             <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
@@ -356,25 +408,38 @@ function MyProf({ store, setConnect }) {
                                     class={
                                       morePopupIndex === 1 ? "dot on" : "dot"
                                     }
-                                    onClick={() => onClickMoreBtn(1)}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onClickMoreBtn(1);
+                                    }}
                                   >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
-                                        <li>Hand Over</li>
+                                        <li
+                                          onClick={() => navigate("/handover")}
+                                        >
+                                          Hand Over
+                                        </li>
                                         <li>Edit</li>
-                                        <li>Collection Change</li>
+                                        <li
+                                          onClick={() =>
+                                            navigate("/movecollection")
+                                          }
+                                        >
+                                          Item Change
+                                        </li>
                                         <li>Unhide</li>
                                       </ul>
                                     </div>
                                   </li>
                                 </ul>
-                                <span>Mark.X collection</span>
+                                <span>Mark.X item</span>
                                 <div>Place Saint-Marc</div>
                               </div>
                             </a>
                           </li>
-                          <li>
+                          <li onClick={() => navigate("/edititem")}>
                             <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
@@ -383,14 +448,27 @@ function MyProf({ store, setConnect }) {
                                     class={
                                       morePopupIndex === 3 ? "dot on" : "dot"
                                     }
-                                    onClick={() => onClickMoreBtn(3)}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onClickMoreBtn(3);
+                                    }}
                                   >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
-                                        <li>Hand Over</li>
+                                        <li
+                                          onClick={() => navigate("/handover")}
+                                        >
+                                          Hand Over
+                                        </li>
                                         <li>Edit</li>
-                                        <li>Collection Change</li>
+                                        <li
+                                          onClick={() =>
+                                            navigate("/movecollection")
+                                          }
+                                        >
+                                          Item Change
+                                        </li>
                                         <li>Unhide</li>
                                       </ul>
                                     </div>
@@ -401,7 +479,7 @@ function MyProf({ store, setConnect }) {
                               </div>
                             </a>
                           </li>
-                          <li>
+                          <li onClick={() => navigate("/edititem")}>
                             <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
@@ -410,14 +488,27 @@ function MyProf({ store, setConnect }) {
                                     class={
                                       morePopupIndex === 4 ? "dot on" : "dot"
                                     }
-                                    onClick={() => onClickMoreBtn(4)}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onClickMoreBtn(4);
+                                    }}
                                   >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
-                                        <li>Hand Over</li>
+                                        <li
+                                          onClick={() => navigate("/handover")}
+                                        >
+                                          Hand Over
+                                        </li>
                                         <li>Edit</li>
-                                        <li>Collection Change</li>
+                                        <li
+                                          onClick={() =>
+                                            navigate("/movecollection")
+                                          }
+                                        >
+                                          Item Change
+                                        </li>
                                         <li>Unhide</li>
                                       </ul>
                                     </div>
@@ -428,7 +519,7 @@ function MyProf({ store, setConnect }) {
                               </div>
                             </a>
                           </li>
-                          <li>
+                          <li onClick={() => navigate("/edititem")}>
                             <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
@@ -437,14 +528,27 @@ function MyProf({ store, setConnect }) {
                                     class={
                                       morePopupIndex === 5 ? "dot on" : "dot"
                                     }
-                                    onClick={() => onClickMoreBtn(5)}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onClickMoreBtn(5);
+                                    }}
                                   >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
-                                        <li>Hand Over</li>
+                                        <li
+                                          onClick={() => navigate("/handover")}
+                                        >
+                                          Hand Over
+                                        </li>
                                         <li>Edit</li>
-                                        <li>Collection Change</li>
+                                        <li
+                                          onClick={() =>
+                                            navigate("/movecollection")
+                                          }
+                                        >
+                                          Item Change
+                                        </li>
                                         <li>Unhide</li>
                                       </ul>
                                     </div>
@@ -455,7 +559,7 @@ function MyProf({ store, setConnect }) {
                               </div>
                             </a>
                           </li>
-                          <li>
+                          <li onClick={() => navigate("/edititem")}>
                             <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
@@ -464,14 +568,27 @@ function MyProf({ store, setConnect }) {
                                     class={
                                       morePopupIndex === 6 ? "dot on" : "dot"
                                     }
-                                    onClick={() => onClickMoreBtn(6)}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onClickMoreBtn(6);
+                                    }}
                                   >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
-                                        <li>Hand Over</li>
+                                        <li
+                                          onClick={() => navigate("/handover")}
+                                        >
+                                          Hand Over
+                                        </li>
                                         <li>Edit</li>
-                                        <li>Collection Change</li>
+                                        <li
+                                          onClick={() =>
+                                            navigate("/movecollection")
+                                          }
+                                        >
+                                          Item Change
+                                        </li>
                                         <li>Unhide</li>
                                       </ul>
                                     </div>
@@ -482,7 +599,7 @@ function MyProf({ store, setConnect }) {
                               </div>
                             </a>
                           </li>
-                          <li>
+                          <li onClick={() => navigate("/edititem")}>
                             <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
@@ -491,14 +608,27 @@ function MyProf({ store, setConnect }) {
                                     class={
                                       morePopupIndex === 7 ? "dot on" : "dot"
                                     }
-                                    onClick={() => onClickMoreBtn(7)}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onClickMoreBtn(7);
+                                    }}
                                   >
                                     <div class="choose">
                                       <ul>
                                         <li>Sale</li>
-                                        <li>Hand Over</li>
+                                        <li
+                                          onClick={() => navigate("/handover")}
+                                        >
+                                          Hand Over
+                                        </li>
                                         <li>Edit</li>
-                                        <li>Collection Change</li>
+                                        <li
+                                          onClick={() =>
+                                            navigate("/movecollection")
+                                          }
+                                        >
+                                          Item Change
+                                        </li>
                                         <li>Unhide</li>
                                       </ul>
                                     </div>
@@ -523,7 +653,8 @@ function MyProf({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+`;
 
 function mapStateToProps(state) {
   return { store: state };
@@ -536,3 +667,14 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProf);
+
+const statusList = ["Buy Now", "On Auction", "New", "Has Offers"];
+
+const chainList = [
+  {
+    img: rock,
+    name: "Klaytn",
+  },
+];
+
+// const coinList = ["Klay"];

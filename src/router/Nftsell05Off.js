@@ -51,7 +51,7 @@ function MarketPlace({ store, setConnect }) {
             <div class="inst_con">
               <div class="instrucion line1">
                 <div class="dropdown">
-                  <a href="">
+                  <a >
                     <span></span>
                   </a>
                   <div class="bot_title">
@@ -106,7 +106,7 @@ function MarketPlace({ store, setConnect }) {
             <div class="sellbg left">
               <div class="ntfsell_con">
                 <div class="top1 profile">
-                  <a href="">
+                  <a >
                     <img
                       src={require("../img/sub/nft_arrow.png").default}
                       alt=""
@@ -141,17 +141,17 @@ function MarketPlace({ store, setConnect }) {
                                   <div class="select_left">
                                     <img
                                       src={
-                                        require("../img/sub/eth_icon.png")
+                                        require("../img/sub/I_klaytn.svg")
                                           .default
                                       }
                                       alt=""
                                     />
                                     <select name="" id="">
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
                                     </select>
                                   </div>
                                   <div class="input_right">
@@ -199,17 +199,17 @@ function MarketPlace({ store, setConnect }) {
                                             <div class="select_left">
                                               <img
                                                 src={
-                                                  require("../img/sub/eth_icon.png")
+                                                  require("../img/sub/I_klaytn.svg")
                                                     .default
                                                 }
                                                 alt=""
                                               />
                                               <select name="" id="">
-                                                <option>ETH</option>
-                                                <option>ETH</option>
-                                                <option>ETH</option>
-                                                <option>ETH</option>
-                                                <option>ETH</option>
+                                                <option>KLAY</option>
+                                                <option>KLAY</option>
+                                                <option>KLAY</option>
+                                                <option>KLAY</option>
+                                                <option>KLAY</option>
                                               </select>
                                             </div>
                                             <div class="input_right">
@@ -276,7 +276,7 @@ function MarketPlace({ store, setConnect }) {
                             <div class="inst_con">
                               <div class="instrucion line1">
                                 <div class="dropdown on">
-                                  <a href="">
+                                  <a >
                                     <span></span>
                                   </a>
                                   <div class="bot_title">
@@ -320,7 +320,7 @@ function MarketPlace({ store, setConnect }) {
                                 <li>
                                   <div class="two_bundle">
                                     <div class="dropdown">
-                                      <a href="">
+                                      <a >
                                         <span class="drop2"></span>
                                       </a>
                                       <div class="bundle2">
@@ -346,7 +346,7 @@ function MarketPlace({ store, setConnect }) {
                                 <li>
                                   <div class="two_bundle">
                                     <div class="dropdown">
-                                      <a href="">
+                                      <a >
                                         <span class="drop2"></span>
                                       </a>
                                       <div class="bundle2">
@@ -386,7 +386,7 @@ function MarketPlace({ store, setConnect }) {
                   <span class="basic">
                     The item is posted for sale
                     <br />
-                    at 3,339 ETH
+                    at 3,339 KLAY
                   </span>
                 </div>
                 <div class="referral">
@@ -414,7 +414,7 @@ function MarketPlace({ store, setConnect }) {
                   </ul>
                 </div>
                 <div class="sales_btn">
-                  <a href="">Sales start</a>
+                  <a >Sales start</a>
                 </div>
               </div>
             </div>

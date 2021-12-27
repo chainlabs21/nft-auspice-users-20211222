@@ -182,7 +182,7 @@ function Signup({ store, setConnect }) {
                         <label for="agree3">
                           <h4>
                             <a>
-                              Personal Information Collection
+                              Personal Information Item
                               <br /> and Usage
                             </a>{" "}
                             Agreement (required)

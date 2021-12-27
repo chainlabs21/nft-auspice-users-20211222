@@ -29,7 +29,7 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 
-function MarketPlace({ store, setConnect }) {
+function HandOver({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
@@ -39,7 +39,7 @@ function MarketPlace({ store, setConnect }) {
         <div class="sellbg">
           <div class="ntfsell_con">
             <div class="top1">
-                <a href="">
+                <a >
                     <img src={require("../img/sub/nft_arrow.png").default} alt=""/>
                 </a>
                 <strong>Profile home</strong>
@@ -56,17 +56,17 @@ function MarketPlace({ store, setConnect }) {
                               <li>
                                 <span class="hoimg" style={{backgroundImage:`url(${ho_img})`}}></span>
                                 <div class="ho_info">
-                                  <h3>renoir collection</h3>
+                                  <h3>renoir item</h3>
                                   <h4>Verger de pommiers</h4>
-                                  <h5>Register the collection logo. Please select an image file.<br/>Square image (recommended size 350 x 350)</h5>
+                                  <h5>Register the item logo. Please select an image file.<br/>Square image (recommended size 350 x 350)</h5>
                                 </div>
                               </li>
                               <li>
                                 <span class="hoimg" style={{backgroundImage:`url(${ho_img})`}}></span>
                                 <div class="ho_info">
-                                  <h3>renoir collection</h3>
+                                  <h3>renoir item</h3>
                                   <h4>Au parc</h4>
-                                  <h5>Register the collection logo. Please select an image file.<br/>Square image (recommended size 350 x 350)</h5>
+                                  <h5>Register the item logo. Please select an image file.<br/>Square image (recommended size 350 x 350)</h5>
                                 </div>
                               </li>
                             </ol>
@@ -85,7 +85,7 @@ function MarketPlace({ store, setConnect }) {
               </div>
             </div>
             <div class="create_btn send_btn">
-              <a href="" class="send">Send</a>
+              <a  class="send">Send</a>
             </div>
           </div>
         </div>
@@ -107,4 +107,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(HandOver);

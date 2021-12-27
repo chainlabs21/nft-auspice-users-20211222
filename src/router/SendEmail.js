@@ -91,7 +91,7 @@ function SentEmail({ store, setConnect }) {
             <div class="btn one2">
               <ul>
                 <li>
-                  <a href="">Resend Email</a>
+                  <a >Resend Email</a>
                 </li>
               </ul>
             </div>

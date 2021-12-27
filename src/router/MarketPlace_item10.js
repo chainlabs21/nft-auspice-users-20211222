@@ -27,13 +27,13 @@ function MarketPlace({ store, setConnect }) {
           <div class="sellbg">
             <div class="ntfsell_con">
               <div class="top1">
-                <a href="">
+                <a >
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
                     alt=""
                   />
                 </a>
-                <strong>Collection home</strong>
+                <strong>Item home</strong>
               </div>
               <div class="sell_wrap sell_wrap2">
                 <div class="create">
@@ -65,7 +65,7 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </div>
               <div class="create_btn mcrea">
-                <a href="">Import contract</a>
+                <a >Import contract</a>
               </div>
             </div>
           </div>

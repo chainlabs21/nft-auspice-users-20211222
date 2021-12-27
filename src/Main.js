@@ -292,7 +292,7 @@ function Main({ store }) {
                           <dl className="price">
                             <dt>Current Bid</dt>
                             <dd>
-                              2.867<span>AUSP</span>
+                              2.867<span>KLAY</span>
                             </dd>
                           </dl>
                           <dl className="time">
@@ -313,7 +313,7 @@ function Main({ store }) {
                                         .default
                                     }
                                   />
-                                  <strong>5.44 AUSP</strong>
+                                  <strong>5.44 KLAY</strong>
                                 </span>
 
                                 <span>
@@ -344,7 +344,7 @@ function Main({ store }) {
 
         <article class="collection">
           <div class="wrap" style={{ padding: 0 }}>
-            <h4 class="t">Trending Collection</h4>
+            <h4 class="t">Trending Item</h4>
 
             <div className="swiperBox">
               <ul className="swiper" ref={collectionRef}>
@@ -589,7 +589,7 @@ function Main({ store }) {
             <div>
               <h5>
                 <button href="./">
-                  <img src={require("./img/footer/logo.png").default} />
+                  <img src={require("./img/header/logo.png").default} />
                 </button>
               </h5>
               <p>
@@ -644,7 +644,7 @@ function Main({ store }) {
                       <button href="#">Profile setting</button>
                     </li>
                     <li>
-                      <button href="#">My Collectiont</button>
+                      <button href="#">My Item</button>
                     </li>
                     <li>
                       <button href="#">My Favourite</button>
@@ -1748,7 +1748,7 @@ const collectionList = [
     creator: "Lalaredtu",
     description: (
       <p>
-        This collection is a collection of 80 individual works and has been
+        This item is a item of 80 individual works and has been
         exhibited at the Museum of Modern Art.
       </p>
     ),
@@ -1760,7 +1760,7 @@ const collectionList = [
     creator: "Antoin",
     description: (
       <p>
-        dot image collection It was made for game
+        dot image item It was made for game
         <br /> development and was very popular.
       </p>
     ),
@@ -1772,7 +1772,7 @@ const collectionList = [
     creator: "Antoin",
     description: (
       <p>
-        This collection pays homage to the works of
+        This item pays homage to the works of
         <br /> Bead Hockney, allowing you to appreciate
         <br /> David's work with a different feel.
       </p>
@@ -1786,7 +1786,7 @@ const collectionList = [
     description: (
       <p>
         It is a work made with thickly pressed
-        <br /> paint, and you can appreciate the collection in
+        <br /> paint, and you can appreciate the item in
         <br /> a variety of beautiful colors.
       </p>
     ),
@@ -1794,10 +1794,10 @@ const collectionList = [
   {
     item: collection_list01,
     person: collection_person01,
-    title: "Lalaredtu's Collection",
+    title: "Lalaredtu's Item",
     creator: "Lalaredtu",
     description:
-      "This collection is a collection of 80 individual works and has been exhibited at the Museum of Modern Art.",
+      "This item is a item of 80 individual works and has been exhibited at the Museum of Modern Art.",
   },
   {
     item: collection_list02,
@@ -1805,7 +1805,7 @@ const collectionList = [
     title: "Emilie",
     creator: "Antoin",
     description:
-      "dot image collection It was made for game development and was very popular.",
+      "dot image item It was made for game development and was very popular.",
   },
   {
     item: collection_list03,
@@ -1813,7 +1813,7 @@ const collectionList = [
     title: "la piscine",
     creator: "Antoin",
     description:
-      "This collection pays homage to the works of Bead Hockney, allowing you to appreciate David's work with a different feel.",
+      "This item pays homage to the works of Bead Hockney, allowing you to appreciate David's work with a different feel.",
   },
   {
     item: collection_list04,
@@ -1842,7 +1842,7 @@ const trendingItemList = [
     title: "Summer Pool",
     creator: "David",
     time: "6 minutes left",
-    price: "0.35 AUSP",
+    price: "0.35 KLAY",
   },
   {
     img: item_list02,
@@ -1852,7 +1852,7 @@ const trendingItemList = [
     title: "Donald Duck",
     creator: "Carson",
     time: "7 days left",
-    price: "1.67 AUSP",
+    price: "1.67 KLAY",
   },
   {
     img: item_list03,
@@ -1862,7 +1862,7 @@ const trendingItemList = [
     title: "A Girl",
     creator: "Mark.X",
     time: "3 days left",
-    price: "0.97 AUSP",
+    price: "0.97 KLAY",
   },
   {
     img: item_list04,
@@ -1872,7 +1872,7 @@ const trendingItemList = [
     title: "Crushed Heard and aaaaaa",
     creator: "Alexandro Ambrosia",
     time: "365 days left",
-    price: "12.62 AUSP",
+    price: "12.62 KLAY",
   },
   {
     img: item_list05,
@@ -1882,7 +1882,7 @@ const trendingItemList = [
     title: "With Dogs",
     creator: "AP.GOD.Ryan",
     time: "17 minutes left",
-    price: "1.02 AUSP",
+    price: "1.02 KLAY",
   },
   {
     img: item_list01,
@@ -1892,7 +1892,7 @@ const trendingItemList = [
     title: "Summer Pool",
     creator: "David",
     time: "6 minutes left",
-    price: "0.35 AUSP",
+    price: "0.35 KLAY",
   },
   {
     img: item_list02,
@@ -1902,7 +1902,7 @@ const trendingItemList = [
     title: "Donald Duck",
     creator: "Carson",
     time: "7 days left",
-    price: "1.67 AUSP",
+    price: "1.67 KLAY",
   },
   {
     img: item_list03,
@@ -1912,7 +1912,7 @@ const trendingItemList = [
     title: "A Girl",
     creator: "Mark.X",
     time: "3 days left",
-    price: "0.97 AUSP",
+    price: "0.97 KLAY",
   },
   {
     img: item_list04,
@@ -1922,7 +1922,7 @@ const trendingItemList = [
     title: "Crushed Heard and aaaaaa",
     creator: "Alexandro Ambrosia",
     time: "365 days left",
-    price: "12.62 AUSP",
+    price: "12.62 KLAY",
   },
   {
     img: item_list05,
@@ -1932,7 +1932,7 @@ const trendingItemList = [
     title: "With Dogs",
     creator: "AP.GOD.Ryan",
     time: "17 minutes left",
-    price: "1.02 AUSP",
+    price: "1.02 KLAY",
   },
 ];
 const itemList = [
@@ -1944,7 +1944,7 @@ const itemList = [
     title: "Summer Pool",
     creator: "David",
     time: "6 minutes left",
-    price: "0.35 AUSP",
+    price: "0.35 KLAY",
   },
   {
     img: item_list02,
@@ -1954,7 +1954,7 @@ const itemList = [
     title: "Donald Duck",
     creator: "Carson",
     time: "7 days left",
-    price: "1.67 AUSP",
+    price: "1.67 KLAY",
   },
   {
     img: item_list03,
@@ -1964,7 +1964,7 @@ const itemList = [
     title: "A Girl",
     creator: "Mark.X",
     time: "3 days left",
-    price: "0.97 AUSP",
+    price: "0.97 KLAY",
   },
   {
     img: item_list04,
@@ -1974,7 +1974,7 @@ const itemList = [
     title: "Crushed Heard and aaaaaa",
     creator: "Alexandro Ambrosia",
     time: "365 days left",
-    price: "12.62 AUSP",
+    price: "12.62 KLAY",
   },
   {
     img: item_list05,
@@ -1984,7 +1984,7 @@ const itemList = [
     title: "With Dogs",
     creator: "AP.GOD.Ryan",
     time: "17 minutes left",
-    price: "1.02 AUSP",
+    price: "1.02 KLAY",
   },
   {
     img: item_list01,
@@ -1994,7 +1994,7 @@ const itemList = [
     title: "Summer Pool",
     creator: "David",
     time: "6 minutes left",
-    price: "0.35 AUSP",
+    price: "0.35 KLAY",
   },
   {
     img: item_list02,
@@ -2004,7 +2004,7 @@ const itemList = [
     title: "Donald Duck",
     creator: "Carson",
     time: "7 days left",
-    price: "1.67 AUSP",
+    price: "1.67 KLAY",
   },
   {
     img: item_list03,
@@ -2014,7 +2014,7 @@ const itemList = [
     title: "A Girl",
     creator: "Mark.X",
     time: "3 days left",
-    price: "0.97 AUSP",
+    price: "0.97 KLAY",
   },
   {
     img: item_list04,
@@ -2024,7 +2024,7 @@ const itemList = [
     title: "Crushed Heard and aaaaaa",
     creator: "Alexandro Ambrosia",
     time: "365 days left",
-    price: "12.62 AUSP",
+    price: "12.62 KLAY",
   },
   {
     img: item_list05,
@@ -2034,7 +2034,7 @@ const itemList = [
     title: "With Dogs",
     creator: "AP.GOD.Ryan",
     time: "17 minutes left",
-    price: "1.02 AUSP",
+    price: "1.02 KLAY",
   },
 ];
 
@@ -2042,7 +2042,7 @@ const userList = [
   {
     img: users_list01,
     title: "Basic Guide",
-    explain: "Before Participating in NFT Collection",
+    explain: "Before Participating in NFT Items",
   },
   {
     img: users_list02,
@@ -2062,7 +2062,7 @@ const userList = [
   {
     img: users_list01,
     title: "Basic Guide",
-    explain: "Before Participating in NFT Collection",
+    explain: "Before Participating in NFT Items",
   },
   {
     img: users_list02,

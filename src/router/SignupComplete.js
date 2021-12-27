@@ -30,7 +30,7 @@ function SignupComplete({ store, setConnect }) {
                 Email verification is complete and you can use
                 <br class="m_br" /> all functions.
                 <br />
-                Create your own NFT collection.
+                Create your own NFT item.
               </p>
             </div>
             <div class="btn">

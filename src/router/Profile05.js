@@ -39,7 +39,7 @@ function MarketPlace({ store, setConnect }) {
           <div class="sellbg">
             <div class="ntfsell_con">
               <div class="top1">
-                <a href="">
+                <a >
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
                     alt=""
@@ -49,32 +49,32 @@ function MarketPlace({ store, setConnect }) {
               </div>
               <div class="sell_wrap">
                 <div class="create">
-                  <h2>Move Collection</h2>
-                  <h3>Please select a collection to move.</h3>
+                  <h2>Move Item</h2>
+                  <h3>Please select a item to move.</h3>
                   <form action="">
                     <div class="form">
                       <div class="movecollection">
                         <div class="select">
                           <div>
-                            <span>Henry junior's Collection 01</span>
+                            <span>Henry junior's Item 01</span>
                           </div>
                           <ul>
                             <li>
-                              <a href="">
-                                Henry junior's Collection 01
+                              <a >
+                                Henry junior's Item 01
                                 <span class="arrow"></span>
                               </a>
                             </li>
                             <li>
-                              <a href="">Henry junior's Collection 02</a>
+                              <a >Henry junior's Item 02</a>
                             </li>
                             <li>
-                              <a href="">Henry junior's Collection 03</a>
+                              <a >Henry junior's Item 03</a>
                             </li>
                           </ul>
                         </div>
                         <p class="sma">
-                          Collections may take up to an hour to move.
+                          Items may take up to an hour to move.
                         </p>
                       </div>
                     </div>
@@ -82,7 +82,7 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </div>
               <div class="move_btn">
-                <a href="" class="move">
+                <a  class="move">
                   Move
                 </a>
               </div>

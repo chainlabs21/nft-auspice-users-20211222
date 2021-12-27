@@ -100,7 +100,7 @@ function Main({ store, setAllPopupOff }) {
           {category === 3 && (
             <ul className="categoryLink" onClick={setAllPopupOff}>
               <li>My Profile</li>
-              <li>My Collection</li>
+              <li>My Item</li>
               <li>Bookmark</li>
               <li>Account Setting</li>
             </ul>

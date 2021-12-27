@@ -36,7 +36,7 @@ function ImportContract({ store, setConnect }) {
                     alt=""
                   />
                 </a>
-                <strong>Collection home</strong>
+                <strong>Item home</strong>
               </div>
               <div class="sell_wrap sell_wrap2">
                 <div class="create">

@@ -28,7 +28,7 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 
-function MarketPlace({ store, setConnect }) {
+function GeneralSettings({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
@@ -38,10 +38,14 @@ function MarketPlace({ store, setConnect }) {
           <div class="move on">
             <div class="left_move wallet_left">
               <div class="mwallet">
-                <a href="">Account settings</a>
+                <a >Account settings</a>
               </div>
               <form>
-                <div class="w1">
+                <div
+                  class="w1"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/mywallet")}
+                >
                   <h3>
                     My wallet<span>0x9bb...carfb</span>
                   </h3>
@@ -49,7 +53,11 @@ function MarketPlace({ store, setConnect }) {
                 <div class="w2">
                   <h3>General settings</h3>
                 </div>
-                <div class="w3">
+                <div
+                  class="w3"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/notificationsettings")}
+                >
                   <h3>Notification settings</h3>
                 </div>
               </form>
@@ -79,7 +87,7 @@ function MarketPlace({ store, setConnect }) {
                       <input type="text" placeholder="Input email address" />
                     </li>
                   </ul>
-                  <a href="" class="wbtn">
+                  <a  class="wbtn">
                     Save
                   </a>
                 </div>
@@ -104,4 +112,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(GeneralSettings);

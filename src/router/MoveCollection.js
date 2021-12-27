@@ -29,7 +29,7 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 
-function MarketPlace({ store, setConnect }) {
+function MoveCollection({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
@@ -39,34 +39,34 @@ function MarketPlace({ store, setConnect }) {
         <div class="sellbg">
           <div class="ntfsell_con">
             <div class="top1">
-                <a href="">
+                <a >
                     <img src={require("../img/sub/nft_arrow.png").default} alt=""/>
                 </a>
                 <strong>Profile home</strong>
             </div>
             <div class="sell_wrap">
               <div class="create">
-                  <h2>Move Collection</h2>
-                  <h3>Please select a collection to move.</h3>
+                  <h2>Move Item</h2>
+                  <h3>Please select a item to move.</h3>
                   <form action="">
                     <div class="form">
                       <div class="movecollection">
                         <div class="select on">
-                          <div><span>Henry junior's Collection 01</span></div>
+                          <div><span>Henry junior's Item 01</span></div>
                             <ul>
-                              <li><a href="">Henry junior's Collection 01<span class="arrow"></span></a></li>
-                              <li><a href="">Henry junior's Collection 02</a></li>
-                              <li><a href="">Henry junior's Collection 03</a></li>
+                              <li><a >Henry junior's Item 01<span class="arrow"></span></a></li>
+                              <li><a >Henry junior's Item 02</a></li>
+                              <li><a >Henry junior's Item 03</a></li>
                             </ul>
                         </div>
-                      <p class="sma">Collections may take up to an hour to move.</p>
+                      <p class="sma">Items may take up to an hour to move.</p>
                       </div>
                       </div>
                   </form>
               </div>
             </div>
             <div class="move_btn">
-              <a href="" class="move">Move</a>
+              <a  class="move">Move</a>
             </div>
           </div>
         </div>
@@ -88,4 +88,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(MoveCollection);

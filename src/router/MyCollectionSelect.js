@@ -207,7 +207,7 @@ function MyFavorite({ store }) {
                     )}
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Collection</h2>
+                <h2 class="notop">Henry junior's Item</h2>
                 <h4>
                   Henry is a mixed-media artist living in the
                   <br class="mo" /> Bay Area and uses
@@ -227,7 +227,7 @@ function MyFavorite({ store }) {
                     <li>
                       <h5>Avg price</h5>
                       <p>
-                        2.22<b>ETH</b>
+                        2.22<b>KLAY</b>
                         <span>$ 307.21</span>
                       </p>
                     </li>
@@ -271,7 +271,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -283,7 +283,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -303,7 +303,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -315,7 +315,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -335,7 +335,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -347,7 +347,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -367,7 +367,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -379,7 +379,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -399,7 +399,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -411,7 +411,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -431,7 +431,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -443,7 +443,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -488,7 +488,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -500,7 +500,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -520,7 +520,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -532,7 +532,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -552,7 +552,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -564,7 +564,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -584,7 +584,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -596,7 +596,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -616,7 +616,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -628,7 +628,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -648,7 +648,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -660,7 +660,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -705,7 +705,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -717,7 +717,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -737,7 +737,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -749,7 +749,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -769,7 +769,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -781,7 +781,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -801,7 +801,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -813,7 +813,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -833,7 +833,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -845,7 +845,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -865,7 +865,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -877,7 +877,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Collection Change</li>
+                                            <li>Item Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>

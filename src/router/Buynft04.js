@@ -69,7 +69,7 @@ function MarketPlace({ store, setConnect }) {
                 <ul>
                   <li>
                     <p class="rec_t">
-                      Total<span class="red">Insufficient ETH balance</span>
+                      Total<span class="red">Insufficient KLAY balance</span>
                     </p>
                     <div class="right_price m_left">
                       <h4 class="blue">
@@ -97,7 +97,7 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </form>
             </div>
-            <a href="" class="reportit on ">
+            <a  class="reportit on ">
               Make a payment
             </a>
           </div>
@@ -116,7 +116,7 @@ function MarketPlace({ store, setConnect }) {
                     </h2>
                   </div>
                   <div class="bt likes">
-                    <a href="" class="like_heart off">
+                    <a  class="like_heart off">
                       <h2>1,486 Likes</h2>
                     </a>
                   </div>
@@ -140,7 +140,7 @@ function MarketPlace({ store, setConnect }) {
                 <div class="desc">
                   <h2 class="i_title">Description</h2>
                   <p>
-                    This is a collection of digitals produced on April 28th,
+                    This is a item of digitals produced on April 28th,
                     with beautiful night views. It's about the
                     <br />
                     harmony of neon signs. It's an expression of modern art.
@@ -152,13 +152,13 @@ function MarketPlace({ store, setConnect }) {
                     It's an expression of modern art.
                   </p>
                   <div class="mcons">
-                    <a href="">
+                    <a >
                       <img src={require("../img/sub/refresh.png").default} />
                     </a>
-                    <a href="">
+                    <a >
                       <img src={require("../img/sub/alert.png").default} />
                     </a>
-                    <a href="">
+                    <a >
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
@@ -174,15 +174,15 @@ function MarketPlace({ store, setConnect }) {
                         with neon
                       </h2>
                       <div class="icons">
-                        <a href="">
+                        <a >
                           <img
                             src={require("../img/sub/refresh.png").default}
                           />
                         </a>
-                        <a href="">
+                        <a >
                           <img src={require("../img/sub/alert.png").default} />
                         </a>
-                        <a href="">
+                        <a >
                           <img src={require("../img/sub/share.png").default} />
                         </a>
                       </div>
@@ -194,7 +194,7 @@ function MarketPlace({ store, setConnect }) {
                           <li>
                             <h3>Current Bid</h3>
                             <h4>
-                              2.867<span>AUSP</span>
+                              2.867<span>KLAY</span>
                             </h4>
                             <h5>$1,234.25</h5>
                           </li>
@@ -203,7 +203,7 @@ function MarketPlace({ store, setConnect }) {
                             <h4>05:32:21</h4>
                           </li>
                         </ul>
-                        <a href="" class="bid">
+                        <a  class="bid">
                           Place a Bid
                         </a>
                       </div>
@@ -246,7 +246,7 @@ function MarketPlace({ store, setConnect }) {
                         <li>
                           <span class="profile_img"></span>
                           <h3>
-                            5.44 ETH
+                            5.44 KLAY
                             <br />
                             <span>T.WD</span>
                           </h3>
@@ -256,7 +256,7 @@ function MarketPlace({ store, setConnect }) {
                         <li>
                           <span class="profile_img"></span>
                           <h3>
-                            4.23 ETH
+                            4.23 KLAY
                             <br />
                             <span>TIMOTHY</span>
                           </h3>
@@ -266,7 +266,7 @@ function MarketPlace({ store, setConnect }) {
                         <li>
                           <span class="profile_img"></span>
                           <h3>
-                            4.00 ETH
+                            4.00 KLAY
                             <br />
                             <span>PT_WORK</span>
                           </h3>
@@ -276,7 +276,7 @@ function MarketPlace({ store, setConnect }) {
                         <li>
                           <span class="profile_img"></span>
                           <h3>
-                            4.00 ETH
+                            4.00 KLAY
                             <br />
                             <span>PT_WORK</span>
                           </h3>
@@ -316,11 +316,11 @@ function MarketPlace({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a >Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -334,11 +334,11 @@ function MarketPlace({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a >Purchase</a>
                             </div>
                           </td>
                           <td>4 days later</td>
@@ -352,11 +352,11 @@ function MarketPlace({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a >Purchase</a>
                             </div>
                           </td>
                           <td>1 days later</td>
@@ -370,11 +370,11 @@ function MarketPlace({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a >Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -388,11 +388,11 @@ function MarketPlace({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a >Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -406,11 +406,11 @@ function MarketPlace({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a >Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -447,7 +447,7 @@ function MarketPlace({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -462,7 +462,7 @@ function MarketPlace({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -477,7 +477,7 @@ function MarketPlace({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -492,7 +492,7 @@ function MarketPlace({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -507,7 +507,7 @@ function MarketPlace({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.015 ETH <span>($0,000,000.50)</span>
+                                0.015 KLAY <span>($0,000,000.50)</span>
                               </p>
                             </div>
                           </td>
@@ -522,7 +522,7 @@ function MarketPlace({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -559,11 +559,11 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a >Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -577,11 +577,11 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>4 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a >Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -595,11 +595,11 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a >Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -613,11 +613,11 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a >Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -631,11 +631,11 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a >Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -649,11 +649,11 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a >Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -688,7 +688,7 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                           </td>
@@ -701,7 +701,7 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>4 days later</span>
                             </div>
                           </td>
@@ -714,7 +714,7 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>1 days later</span>
                             </div>
                           </td>
@@ -727,7 +727,7 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                           </td>
@@ -740,7 +740,7 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>0.015 ETH ($0,000,000.50)</p>
+                              <p>0.015 KLAY ($0,000,000.50)</p>
                               <span>3 days later</span>
                             </div>
                           </td>
@@ -753,7 +753,7 @@ function MarketPlace({ store, setConnect }) {
                                 src={require("../img/sub/stone.png").default}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                           </td>
@@ -795,7 +795,7 @@ function MarketPlace({ store, setConnect }) {
                   <tbody class="body">
                     <tr>
                       <td>sale</td>
-                      <td class="bold">0.0020 ETH</td>
+                      <td class="bold">0.0020 KLAY</td>
                       <td class="blue">
                         0xb9e83064c381bd64cb2b2f8406203e584b81a7e1
                       </td>
@@ -809,7 +809,7 @@ function MarketPlace({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>purchase</td>
-                      <td class="bold">0.0022 ETH</td>
+                      <td class="bold">0.0022 KLAY</td>
                       <td class="blue">
                         0x86b5226a351ffa2088a58b16c274aea8dc2ef912
                       </td>
@@ -823,7 +823,7 @@ function MarketPlace({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>sale</td>
-                      <td class="bold">0.0023 ETH</td>
+                      <td class="bold">0.0023 KLAY</td>
                       <td class="blue">
                         0xe8bd396947a5ff690634aa2f66985b103b6911ba
                       </td>
@@ -837,7 +837,7 @@ function MarketPlace({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>sale</td>
-                      <td class="bold">0.0020 ETH</td>
+                      <td class="bold">0.0020 KLAY</td>
                       <td class="blue">
                         0x86b5226a351ffa2088a58b16c274aea8dc2ef912
                       </td>
@@ -851,7 +851,7 @@ function MarketPlace({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>purchase</td>
-                      <td class="bold">0.0001 ETH</td>
+                      <td class="bold">0.0001 KLAY</td>
                       <td class="blue">
                         0x1e425a95aecdc4d1b2c4987e914de35ede716852
                       </td>
@@ -865,7 +865,7 @@ function MarketPlace({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>purchase</td>
-                      <td class="bold">0.0001 ETH</td>
+                      <td class="bold">0.0001 KLAY</td>
                       <td class="blue">
                         0x1e425a95aecdc4d1b2c4987e914de35ede716852
                       </td>
@@ -879,7 +879,7 @@ function MarketPlace({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>purchase</td>
-                      <td class="bold">0.0001 ETH</td>
+                      <td class="bold">0.0001 KLAY</td>
                       <td class="blue">
                         0x1e425a95aecdc4d1b2c4987e914de35ede716852
                       </td>
@@ -893,7 +893,7 @@ function MarketPlace({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>sale</td>
-                      <td class="bold">0.0020 ETH</td>
+                      <td class="bold">0.0020 KLAY</td>
                       <td class="blue">
                         0xb9e83064c381bd64cb2b2f8406203e584b81a7e1
                       </td>
@@ -912,7 +912,7 @@ function MarketPlace({ store, setConnect }) {
           </div>
           <div class="item">
             <div class="wrap">
-              <h4 class="t">Other works in this collection</h4>
+              <h4 class="t">Other works in this item</h4>
 
               <div class="swiper">
                 <div class="swiper-container swiper-container-trendingitem">
@@ -928,7 +928,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>David</span>
                           <ol>
                             <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
+                            <li>1.67 KLAY</li>
                           </ol>
                           <p>Buy Now</p>
                         </div>
@@ -945,7 +945,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>David</span>
                           <ol>
                             <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
+                            <li>1.67 KLAY</li>
                           </ol>
                           <p>Buy Now</p>
                         </div>
@@ -962,7 +962,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>David</span>
                           <ol>
                             <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
+                            <li>1.67 KLAY</li>
                           </ol>
                           <p>Buy Now</p>
                         </div>
@@ -979,7 +979,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>David</span>
                           <ol>
                             <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
+                            <li>1.67 KLAY</li>
                           </ol>
                           <p>Buy Now</p>
                         </div>
@@ -996,7 +996,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>David</span>
                           <ol>
                             <li>6 minutes left</li>
-                            <li>1.67 AUSP</li>
+                            <li>1.67 KLAY</li>
                           </ol>
                           <p>Buy Now</p>
                         </div>

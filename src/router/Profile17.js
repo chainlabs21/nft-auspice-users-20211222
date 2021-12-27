@@ -28,7 +28,7 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 
-function MarketPlace({ store, setConnect }) {
+function Logout({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
@@ -41,11 +41,11 @@ function MarketPlace({ store, setConnect }) {
               <div class="emo">
                 <img src={require("../img/sub/join_1.png").default} />
               </div>
-              <a href="" class="log">
+              <a  class="log">
                 Login
               </a>
               <div class="below">
-                <a href="">
+                <a >
                   <h3>
                     Log in with another wallet
                     <img
@@ -60,13 +60,13 @@ function MarketPlace({ store, setConnect }) {
                 </a>
                 <ul>
                   <li>
-                    <a href="">
+                    <a >
                       <img src={require("../img/sub/join_3.png").default} />
                       <p>Wallet Connect</p>
                     </a>
                   </li>
                   <li>
-                    <a href="">
+                    <a >
                       <img src={require("../img/sub/join_2.png").default} />
                       <p>Conbase</p>
                     </a>
@@ -93,4 +93,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(Logout);

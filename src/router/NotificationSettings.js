@@ -29,7 +29,7 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 
-function MarketPlace({ store, setConnect }) {
+function NotificationSettings({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
@@ -39,15 +39,23 @@ function MarketPlace({ store, setConnect }) {
           <div class="move on">
             <div class="left_move wallet_left">
               <div class="mwallet">
-                <a href="">Account settings</a>
+                <a >Account settings</a>
               </div>
               <form>
-                <div class="w1">
+                <div
+                  class="w1"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/mywallet")}
+                >
                   <h3>
                     My wallet<span>0x9bb...carfb</span>
                   </h3>
                 </div>
-                <div class="w2">
+                <div
+                  class="w2"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/generalsettings")}
+                >
                   <h3>General settings</h3>
                 </div>
                 <div class="w3">
@@ -127,13 +135,13 @@ function MarketPlace({ store, setConnect }) {
                     <h5>Minimum bid criteria</h5>
                     <p class="tsub">
                       You will only be notified when you receive an offer above
-                      this ETH amount
+                      this KLAY amount
                     </p>
                     <div class="mbc">
                       <ol>
                         <li>
                           <h3 style={{ backgroundImage: `url(${rstone})` }}>
-                            ETH
+                            KLAY
                           </h3>
                           <span>0.005</span>
                         </li>
@@ -147,7 +155,7 @@ function MarketPlace({ store, setConnect }) {
                     </div>
                   </li>
                 </ul>
-                <a href="" class="wbtn mm">
+                <a  class="wbtn mm">
                   Save
                 </a>
               </div>
@@ -171,4 +179,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationSettings);

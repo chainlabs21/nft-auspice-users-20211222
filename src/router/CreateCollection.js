@@ -68,11 +68,11 @@ function CreateCollection({ store, setConnect }) {
                     alt=""
                   />
                 </a>
-                <strong>Collection home</strong>
+                <strong>Item home</strong>
               </div>
               <div class="sell_wrap">
                 <div class="create">
-                  <h2>Create a new collection</h2>
+                  <h2>Create a new item</h2>
                   <form action="">
                     <div class="form">
                       <ul>
@@ -85,7 +85,7 @@ function CreateCollection({ store, setConnect }) {
                             />
                           </h3>
                           <p>
-                            Register the collection logo. Please select an image
+                            Register the item logo. Please select an image
                             file.
                             <br />
                             Square image (recommended size 350 x 350)
@@ -117,7 +117,7 @@ function CreateCollection({ store, setConnect }) {
                         </li>
                         <li>
                           <h3>
-                            Collection name{" "}
+                            Item name{" "}
                             <img
                               src={require("../img/sub/star.png").default}
                               alt=""
@@ -126,17 +126,17 @@ function CreateCollection({ store, setConnect }) {
                           <div class="inputbox">
                             <input
                               type="text"
-                              placeholder="Example: A collection of atmospheric night view photos"
+                              placeholder="Example: A item of atmospheric night view photos"
                             />
                           </div>
                         </li>
                         <li>
-                          <h3>Add Collection Banner</h3>
+                          <h3>Add Item Banner</h3>
                           <p>
                             Register the banner that will appear at the top of
-                            the collection home page.
+                            the item home page.
                             <br />
-                            The image to characterize the collection is
+                            The image to characterize the item is
                             advantageous, and if there is a lot of text, it may
                             be hard to see
                             <br /> depending on the window size.(Recommended
@@ -175,7 +175,7 @@ function CreateCollection({ store, setConnect }) {
                           </div>
                         </li>
                         <li>
-                          <h3>Collection Description</h3>
+                          <h3>Item Description</h3>
                           <div class="inputbox">
                             <div class="txt">
                               <textarea
@@ -231,7 +231,7 @@ function CreateCollection({ store, setConnect }) {
                 </div>
               </div>
               <div class="create_btn mcrea">
-                <a>Create Collection</a>
+                <a>Create Item</a>
               </div>
             </div>
           </div>

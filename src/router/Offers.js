@@ -16,6 +16,7 @@ import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
 import click1 from "../img/sub/click1.png";
 import ho_img from "../img/sub/ho_img.png";
+import rock from "../img/sub/rock.png";
 
 import "../css/common.css";
 import "../css/font.css";
@@ -28,9 +29,41 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { useRef, useState } from "react";
 
-function MarketPlace({ store, setConnect }) {
+function Offers({ store, setConnect }) {
   const navigate = useNavigate();
+
+  const [toggleFilter, setToggleFilter] = useState(false);
+  const [offerCategory, setOfferCategory] = useState(0);
+  const [filterObj, setFilterObj] = useState({});
+  const [filterList, setFilterList] = useState([]);
+
+  function editFilterList(category, cont) {
+    let dataObj = filterObj;
+    dataObj[category] = cont;
+
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
+
+  function onclickFilterReset() {
+    setFilterObj({});
+    setFilterList([]);
+  }
+
+  function onclickFilterCancel(cont) {
+    let dataObj = filterObj;
+
+    for (var key in dataObj) {
+      if (dataObj.hasOwnProperty(key) && dataObj[key] == cont) {
+        delete dataObj[key];
+      }
+    }
+
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
 
   return (
     <SignPopupBox>
@@ -44,15 +77,15 @@ function MarketPlace({ store, setConnect }) {
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
                   <div class="home_icons">
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Collection</h2>
+                <h2 class="notop">Henry junior's Item</h2>
                 <h3>0x97bc...8cad2</h3>
                 <h4>
                   Henry is a mixed-media artist living in the Bay Area and uses
@@ -61,9 +94,9 @@ function MarketPlace({ store, setConnect }) {
               </div>
             </div>
 
-            <div class="move off deal">
+            <div class={toggleFilter ? "move on deal" : "move off deal"}>
               <div class="cw ucl">
-                <span class="close">
+                <span class="close" onClick={() => setToggleFilter(true)}>
                   <img src={require("../img/sub/side_close.png").default} />
                   <b class="mclose">
                     Filter<span>1</span>
@@ -81,6 +114,10 @@ function MarketPlace({ store, setConnect }) {
                       <img
                         src={require("../img/sub/filter_close.png").default}
                         class="fc"
+                        onClick={() => setToggleFilter(false)}
+                        style={{
+                          cursor: "pointer",
+                        }}
                       />
                     </div>
                     <div class="fold status">
@@ -94,10 +131,16 @@ function MarketPlace({ store, setConnect }) {
 
                       <div class="open status">
                         <ul>
-                          <li class="on">Buy Now</li>
-                          <li>On Auction</li>
-                          <li>New</li>
-                          <li>Has Offers</li>
+                          {statusList.map((cont, index) => (
+                            <li
+                              key={index}
+                              style={{ cursor: "pointer" }}
+                              className={filterObj[cont] === cont && "on"}
+                              onClick={() => editFilterList(cont, cont)}
+                            >
+                              {cont}
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -128,16 +171,17 @@ function MarketPlace({ store, setConnect }) {
                             <span class="usd">USD</span>
                           </div>
                         </div>
-                        <a href="" class="slide_btn">
-                          Apply
-                        </a>
+                        <a class="slide_btn">Apply</a>
                       </div>
                     </div>
 
                     <div class="fold">
                       <h3 class="slide_tt">
-                        Collections
-                        <img src="../img/sub/slide_up.png" class="slide_up" />
+                        Items
+                        <img
+                          src={require("../img/sub/slide_up.png").default}
+                          class="slide_up"
+                        />
                       </h3>
 
                       <div class="open collection">
@@ -151,25 +195,25 @@ function MarketPlace({ store, setConnect }) {
                             class="collec_img"
                             style={{ backgroundImage: `url(${collect_img})` }}
                           >
-                            <span>Collection 01</span>
+                            <span>Item 01</span>
                           </li>
                           <li
                             class="collec_img"
                             style={{ backgroundImage: `url(${collect_img2})` }}
                           >
-                            <span>Collection 02</span>
+                            <span>Item 02</span>
                           </li>
                           <li
                             class="collec_img"
                             style={{ backgroundImage: `url(${collect_img3})` }}
                           >
-                            <span>Collection 03</span>
+                            <span>Item 03</span>
                           </li>
                           <li
                             class="collec_img"
                             style={{ backgroundImage: `url(${collect_img4})` }}
                           >
-                            <span>Collection 04</span>
+                            <span>Item 04</span>
                           </li>
                         </ul>
                       </div>
@@ -186,24 +230,27 @@ function MarketPlace({ store, setConnect }) {
 
                       <div class="open">
                         <ul>
-                          <li class="ra">
-                            <input type="radio" id="rad" name="rad" />
-                            <label for="rad">
-                              <img
-                                src={require("../img/sub/stone.png").default}
-                              />
-                              Ethereum
-                            </label>
-                          </li>
-                          <li class="ra">
-                            <input type="radio" id="rad2" name="rad" />
-                            <label for="rad2">
-                              <img
-                                src={require("../img/sub/rock.png").default}
-                              />
-                              Klaytn
-                            </label>
-                          </li>
+                          {chainList.map((cont, index) => (
+                            <li
+                              key={index}
+                              class="ra"
+                              onClick={() => editFilterList("chain", cont.name)}
+                            >
+                              <span
+                                className="chkBtn"
+                                style={{
+                                  background:
+                                    filterObj.chain === cont.name && "#000",
+                                }}
+                              >
+                                <span />
+                              </span>
+                              <label for={cont.name}>
+                                <img src={cont.img} />
+                                {cont.name}
+                              </label>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -224,14 +271,23 @@ function MarketPlace({ store, setConnect }) {
                           class="s_search"
                         />
                         <ul>
-                          <li class="ra">
-                            <input type="radio" id="rad3" name="rad2" />
-                            <label for="rad3">AUSP</label>
-                          </li>
-                          <li class="ra">
-                            <input type="radio" id="rad4" name="rad2" />
-                            <label for="rad4">WETH</label>
-                          </li>
+                          {coinList.map((cont, index) => (
+                            <li
+                              key={index}
+                              class="ra"
+                              onClick={() => editFilterList("coin", cont)}
+                            >
+                              <span
+                                className="chkBtn"
+                                style={{
+                                  background: filterObj.coin === cont && "#000",
+                                }}
+                              >
+                                <span />
+                              </span>
+                              <label for={cont}>{cont}</label>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -242,19 +298,63 @@ function MarketPlace({ store, setConnect }) {
               <div class="right_move">
                 <div class="real_sec">
                   <ul class="tab tabb">
-                    <li>Search Wallet</li>
-                    <li>Transaction history</li>
+                    <li onClick={() => navigate("/myprof")}>Search Wallet</li>
+                    <li onClick={() => navigate("/transactionhistory")}>
+                      Transaction history
+                    </li>
                     <li class="onn">Offers</li>
-                    <li>Liked</li>
-                    <li>Hidden item</li>
-                    <li>Referals</li>
+                    <li onClick={() => navigate("/liked")}>Liked</li>
+                    <li onClick={() => navigate("/hiddenitem")}>Hidden item</li>
+                    <li onClick={() => navigate("/referals")}>Referals</li>
                   </ul>
                   <div class="pad">
                     <div class="etc">
                       <ul>
-                        <li class="onnn">Participation in auction</li>
-                        <li>Bid proposal</li>
+                        <li
+                          class={offerCategory === 0 && "onnn"}
+                          onClick={() => setOfferCategory(0)}
+                        >
+                          Participation in auction
+                        </li>
+                        <li
+                          class={offerCategory === 1 && "onnn"}
+                          onClick={() => setOfferCategory(1)}
+                        >
+                          Bid proposal
+                        </li>
                       </ul>
+                    </div>
+                    <div class="filter_list">
+                      <div class="filter_left">
+                        <div class="fl">
+                          <a onClick={onclickFilterReset}>
+                            <span>Filter reset</span>
+                          </a>
+                        </div>
+                        {filterList.map((cont, index) => (
+                          <div key={index} class="select_f">
+                            <p>{cont}</p>
+                            <a>
+                              <img
+                                src={require("../img/sub/close_24.png").default}
+                                alt=""
+                                onClick={() => onclickFilterCancel(cont)}
+                              />
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                      <div class="filter_right">
+                        <div class="fr">
+                          <a>
+                            <img
+                              src={require("../img/sub/exchange.png").default}
+                              alt=""
+                            />
+                            <span>transactional information</span>
+                          </a>
+                        </div>
+                      </div>
                     </div>
                     <div class="ranktable_pc p_th">
                       <table>
@@ -294,12 +394,12 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -336,12 +436,12 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -378,12 +478,12 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -420,12 +520,12 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -462,12 +562,12 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -504,12 +604,12 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -546,12 +646,12 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -588,12 +688,12 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -630,12 +730,12 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -672,12 +772,12 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -718,7 +818,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
-                                <a href="">
+                                <a>
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -729,7 +829,7 @@ function MarketPlace({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />
@@ -782,7 +882,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
-                                <a href="">
+                                <a>
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -793,7 +893,7 @@ function MarketPlace({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />
@@ -828,7 +928,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
-                                <a href="">
+                                <a>
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -839,7 +939,7 @@ function MarketPlace({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />
@@ -874,7 +974,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
-                                <a href="">
+                                <a>
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -885,7 +985,7 @@ function MarketPlace({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />
@@ -930,4 +1030,41 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(Offers);
+
+const statusList = ["Buy Now", "On Auction", "New", "Has Offers"];
+
+const bundleFilterList = ["Single Item", "All", "Bundle sales"];
+
+const categoryList = [
+  "All",
+  "Art",
+  "Music",
+  "Virtual World",
+  "Trading Cards",
+  "Collectibles",
+  "Sports",
+  "Utility",
+  "ETC",
+];
+
+const sortList = [
+  "Latest",
+  "popularity",
+  "Close to finish",
+  "Low price",
+  "high price",
+  "A small bid",
+  "A lot of bids",
+  "Most seen",
+  "oldest",
+];
+
+const chainList = [
+  {
+    img: rock,
+    name: "Klaytn",
+  },
+];
+
+const coinList = ["Klay"];

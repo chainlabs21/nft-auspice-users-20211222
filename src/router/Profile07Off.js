@@ -44,15 +44,15 @@ function MarketPlace({ store, setConnect }) {
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
                   <div class="home_icons">
-                    <a href="">
+                    <a >
                       <img src={require("../img/sub/re.png").default} />
                     </a>
-                    <a href="">
+                    <a >
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Collection</h2>
+                <h2 class="notop">Henry junior's Item</h2>
                 <h3>0x97bc...8cad2</h3>
                 <h4>
                   Henry is a mixed-media artist living in the Bay Area and uses
@@ -128,7 +128,7 @@ function MarketPlace({ store, setConnect }) {
                             <span class="usd">USD</span>
                           </div>
                         </div>
-                        <a href="" class="slide_btn">
+                        <a  class="slide_btn">
                           Apply
                         </a>
                       </div>
@@ -136,7 +136,7 @@ function MarketPlace({ store, setConnect }) {
 
                     <div class="fold">
                       <h3 class="slide_tt">
-                        Collections
+                        Items
                         <img
                           src={require("../img/sub/slide_up.png").default}
                           class="slide_up"
@@ -154,25 +154,25 @@ function MarketPlace({ store, setConnect }) {
                             class="collec_img"
                             style={{ backgroundImage: `url(${collect_img})` }}
                           >
-                            <span>Collection 01</span>
+                            <span>Item 01</span>
                           </li>
                           <li
                             class="collec_img"
                             style={{ backgroundImage: `url(${collect_img2})` }}
                           >
-                            <span>Collection 02</span>
+                            <span>Item 02</span>
                           </li>
                           <li
                             class="collec_img"
                             style={{ backgroundImage: `url(${collect_img3})` }}
                           >
-                            <span>Collection 03</span>
+                            <span>Item 03</span>
                           </li>
                           <li
                             class="collec_img"
                             style={{ backgroundImage: `url(${collect_img4})` }}
                           >
-                            <span>Collection 04</span>
+                            <span>Item 04</span>
                           </li>
                         </ul>
                       </div>
@@ -229,7 +229,7 @@ function MarketPlace({ store, setConnect }) {
                         <ul>
                           <li class="ra">
                             <input type="radio" id="rad3" name="rad2" />
-                            <label for="rad3">AUSP</label>
+                            <label for="rad3">KLAY</label>
                           </li>
                           <li class="ra">
                             <input type="radio" id="rad4" name="rad2" />
@@ -256,13 +256,13 @@ function MarketPlace({ store, setConnect }) {
                     <div class="filter_list">
                       <div class="filter_left">
                         <div class="fl">
-                          <a href="">
+                          <a >
                             <span>Filter reset</span>
                           </a>
                         </div>
                         <div class="select_f">
                           <p>Listing</p>
-                          <a href="">
+                          <a >
                             <img
                               src={require("../img/sub/close_24.png").default}
                               alt=""
@@ -272,7 +272,7 @@ function MarketPlace({ store, setConnect }) {
                       </div>
                       <div class="filter_right">
                         <div class="fr">
-                          <a href="">
+                          <a >
                             <img
                               src={require("../img/sub/exchange.png").default}
                               alt=""
@@ -289,7 +289,7 @@ function MarketPlace({ store, setConnect }) {
                             <ul class="swiper-wrapper">
                               <li class="swiper-slide">
                                 <div class="fl">
-                                  <a href="">
+                                  <a >
                                     <span>Filter reset</span>
                                   </a>
                                 </div>
@@ -297,7 +297,7 @@ function MarketPlace({ store, setConnect }) {
                               <li class="swiper-slide">
                                 <div class="select_f">
                                   <p>Sale</p>
-                                  <a href="">
+                                  <a >
                                     <img
                                       src={
                                         require("../img/sub/close_24.png")
@@ -311,7 +311,7 @@ function MarketPlace({ store, setConnect }) {
                               <li class="swiper-slide">
                                 <div class="select_f">
                                   <p>Sale</p>
-                                  <a href="">
+                                  <a >
                                     <img
                                       src={
                                         require("../img/sub/close_24.png")
@@ -325,7 +325,7 @@ function MarketPlace({ store, setConnect }) {
                               <li class="swiper-slide">
                                 <div class="select_f">
                                   <p>Sale</p>
-                                  <a href="">
+                                  <a >
                                     <img
                                       src={
                                         require("../img/sub/close_24.png")
@@ -339,7 +339,7 @@ function MarketPlace({ store, setConnect }) {
                               <li class="swiper-slide">
                                 <div class="select_f">
                                   <p>Sale</p>
-                                  <a href="">
+                                  <a >
                                     <img
                                       src={
                                         require("../img/sub/close_24.png")
@@ -353,7 +353,7 @@ function MarketPlace({ store, setConnect }) {
                               <li class="swiper-slide">
                                 <div class="select_f">
                                   <p>Sale</p>
-                                  <a href="">
+                                  <a >
                                     <img
                                       src={
                                         require("../img/sub/close_24.png")
@@ -367,7 +367,7 @@ function MarketPlace({ store, setConnect }) {
                               <li class="swiper-slide">
                                 <div class="select_f">
                                   <p>Sale</p>
-                                  <a href="">
+                                  <a >
                                     <img
                                       src={
                                         require("../img/sub/close_24.png")
@@ -384,7 +384,7 @@ function MarketPlace({ store, setConnect }) {
                       </div>
                       <div class="f_right">
                         <div class="fr">
-                          <a href="">
+                          <a >
                             <img
                               src={require("../img/sub/exchange.png").default}
                               alt=""
@@ -436,7 +436,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -497,7 +497,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -558,7 +558,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -618,7 +618,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -679,7 +679,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -740,7 +740,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -800,7 +800,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -861,7 +861,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -922,7 +922,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -985,7 +985,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Listing</h4>
                                 <p>Summer Pool</p>
-                                <a href="">
+                                <a >
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -996,7 +996,7 @@ function MarketPlace({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />
@@ -1049,7 +1049,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Listing</h4>
                                 <p>Summer Pool</p>
-                                <a href="">
+                                <a >
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -1060,7 +1060,7 @@ function MarketPlace({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />
@@ -1095,7 +1095,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Listing</h4>
                                 <p>Summer Pool</p>
-                                <a href="">
+                                <a >
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -1106,7 +1106,7 @@ function MarketPlace({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />
@@ -1141,7 +1141,7 @@ function MarketPlace({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Listing</h4>
                                 <p>Summer Pool</p>
-                                <a href="">
+                                <a >
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -1152,7 +1152,7 @@ function MarketPlace({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />

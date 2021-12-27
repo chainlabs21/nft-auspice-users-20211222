@@ -38,7 +38,7 @@ function MyCollection({ store, setConnect }) {
               <div class="right_move">
                 <div class="real_sec">
                   <ul class="tab tab4">
-                    <li class="onn">my collection</li>
+                    <li class="onn">my item</li>
                     <li onClick={() => navigate("/myprof")}>
                       Profile Management
                     </li>
@@ -53,16 +53,16 @@ function MyCollection({ store, setConnect }) {
             <div class="wrap">
               <div class="collection_detail noimg">
                 <div class="pro_img"></div>
-                <h2>Add Collection</h2>
+                <h2>Add Item</h2>
                 <h4>
-                  After creating a collection, register a new NFT.
+                  After creating a item, register a new NFT.
                   <br />
                   Organize your own gallery with different concepts for each
-                  collection.
+                  item.
                 </h4>
                 <div class="ad_btn">
                   <a onClick={() => navigate("/createcollection")}>
-                    Create a new collection
+                    Create a new item
                   </a>
                   <a class="line" onClick={() => navigate("/importcontract")}>
                     Load from contract
@@ -71,7 +71,7 @@ function MyCollection({ store, setConnect }) {
               </div>
 
               <div class="item">
-                <h4 class="t">My Collection</h4>
+                <h4 class="t">My Item</h4>
                 <div class="swiper-container">
                   <ol class="item item5 buy" ref={collectionRef}>
                     {collectionList.map((bottomText, index) => (
@@ -87,7 +87,10 @@ function MyCollection({ store, setConnect }) {
                                 className={
                                   popupIndex === index ? "dot on" : "dot"
                                 }
-                                onClick={() => onclickCollectionPopupBtn(index)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onclickCollectionPopupBtn(index);
+                                }}
                               >
                                 <div class="choose choose2">
                                   <ul onClick={() => setPopupIndex(-1)}>
@@ -110,7 +113,7 @@ function MyCollection({ store, setConnect }) {
                             <div>Summer Pool</div>
                             <span>David</span>
                             <span class="nft">
-                              This collection is a collection of 80 individual
+                              This item is a item of 80 individual
                               works and has been exhibited at the Museum of
                               Modern Art.
                             </span>

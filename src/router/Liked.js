@@ -43,15 +43,15 @@ function Liked({ store, setConnect }) {
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
                   <div class="home_icons">
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Collection</h2>
+                <h2 class="notop">Henry junior's Item</h2>
                 <h3>0x97bc...8cad2</h3>
                 <h4>
                   Henry is a mixed-media artist living in the
@@ -114,15 +114,13 @@ function Liked({ store, setConnect }) {
                         <input type="text" />
                         <input type="text" />
                       </div>
-                      <a href="" class="slide_btn">
-                        Apply
-                      </a>
+                      <a class="slide_btn">Apply</a>
                     </div>
                   </div>
 
                   <div class="fold">
                     <h3 class="slide_tt">
-                      Collections
+                      Items
                       <img
                         src={require("../img/sub/slide_up.png").default}
                         class="slide_up"
@@ -139,25 +137,25 @@ function Liked({ store, setConnect }) {
                           class="collec_img"
                           style={{ backgroundImage: `url(${collect_img})` }}
                         >
-                          <span>Collection 01</span>
+                          <span>Item 01</span>
                         </li>
                         <li
                           class="collec_img"
                           style={{ backgroundImage: `url(${collect_img2})` }}
                         >
-                          <span>Collection 02</span>
+                          <span>Item 02</span>
                         </li>
                         <li
                           class="collec_img"
                           style={{ backgroundImage: `url(${collect_img3})` }}
                         >
-                          <span>Collection 03</span>
+                          <span>Item 03</span>
                         </li>
                         <li
                           class="collec_img"
                           style={{ backgroundImage: `url(${collect_img4})` }}
                         >
-                          <span>Collection 04</span>
+                          <span>Item 04</span>
                         </li>
                       </ul>
                     </div>
@@ -174,15 +172,6 @@ function Liked({ store, setConnect }) {
 
                     <div class="open">
                       <ul>
-                        <li class="ra">
-                          <input type="radio" id="rad" name="rad" />
-                          <label for="rad">
-                            <img
-                              src={require("../img/sub/stone.png").default}
-                            />
-                            Ethereum
-                          </label>
-                        </li>
                         <li class="ra">
                           <input type="radio" id="rad2" name="rad" />
                           <label for="rad2">
@@ -211,11 +200,7 @@ function Liked({ store, setConnect }) {
                       <ul>
                         <li class="ra">
                           <input type="radio" id="rad3" name="rad2" />
-                          <label for="rad3">AUSP</label>
-                        </li>
-                        <li class="ra">
-                          <input type="radio" id="rad4" name="rad2" />
-                          <label for="rad4">WETH</label>
+                          <label for="rad3">KLAY</label>
                         </li>
                       </ul>
                     </div>
@@ -225,12 +210,14 @@ function Liked({ store, setConnect }) {
               <div class="right_move">
                 <div class="real_sec">
                   <ul class="tab">
-                    <li>Search Wallet</li>
-                    <li>Transaction history</li>
-                    <li>Offers</li>
+                    <li onClick={() => navigate("/myprof")}>Search Wallet</li>
+                    <li onClick={() => navigate("/transactionhistory")}>
+                      Transaction history
+                    </li>
+                    <li onClick={() => navigate("/offers")}>Offers</li>
                     <li class="onn">Liked</li>
-                    <li>Hidden item</li>
-                    <li>Referals</li>
+                    <li onClick={() => navigate("/hiddenitem")}>Hidden item</li>
+                    <li onClick={() => navigate("/referals")}>Referals</li>
                   </ul>
 
                   {/* <div class="slide_s">
@@ -245,13 +232,13 @@ function Liked({ store, setConnect }) {
                         <div>Single item</div>
                         <ul>
                           <li>
-                            <a href="">Single item</a>
+                            <a >Single item</a>
                           </li>
                           <li>
-                            <a href="">All</a>
+                            <a >All</a>
                           </li>
                           <li>
-                            <a href="">Bundle sales</a>
+                            <a >Bundle sales</a>
                           </li>
                         </ul>
                       </div>
@@ -259,31 +246,31 @@ function Liked({ store, setConnect }) {
                         <div>Latest</div>
                         <ul>
                           <li>
-                            <a href="">Latest</a>
+                            <a >Latest</a>
                           </li>
                           <li>
-                            <a href="">popularity</a>
+                            <a >popularity</a>
                           </li>
                           <li>
-                            <a href="">Close to finish</a>
+                            <a >Close to finish</a>
                           </li>
                           <li>
-                            <a href="">Low price</a>
+                            <a >Low price</a>
                           </li>
                           <li>
-                            <a href="">high price</a>
+                            <a >high price</a>
                           </li>
                           <li>
-                            <a href="">A small bid</a>
+                            <a >A small bid</a>
                           </li>
                           <li>
-                            <a href="">A lot of bids</a>
+                            <a >A lot of bids</a>
                           </li>
                           <li>
-                            <a href="">Most seen</a>
+                            <a >Most seen</a>
                           </li>
                           <li>
-                            <a href="">oldest</a>
+                            <a >oldest</a>
                           </li>
                         </ul>
                       </div>
@@ -301,7 +288,7 @@ function Liked({ store, setConnect }) {
                             <ul>
                               <li class="heart off">1,389</li>
                             </ul>
-                            <span>Mark.X collection</span>
+                            <span>Mark.X item</span>
                             <div>Place Saint-Marc</div>
                           </div>
                         </a>
@@ -315,7 +302,7 @@ function Liked({ store, setConnect }) {
                             <ul>
                               <li class="heart on">1,389</li>
                             </ul>
-                            <span>Mark.X collection</span>
+                            <span>Mark.X item</span>
                             <div>Place Saint-Marc</div>
                           </div>
                         </a>

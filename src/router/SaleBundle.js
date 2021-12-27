@@ -75,17 +75,17 @@ function SaleBundle({ store, setConnect }) {
                                   <div class="select_left">
                                     <img
                                       src={
-                                        require("../img/sub/eth_icon.png")
+                                        require("../img/sub/I_klaytn.svg")
                                           .default
                                       }
                                       alt=""
                                     />
                                     <select name="" id="">
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
                                     </select>
                                   </div>
                                   <div class="input_right">
@@ -108,16 +108,16 @@ function SaleBundle({ store, setConnect }) {
                                 <div class="select_left">
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />
                                   <select name="" id="">
-                                    <option>ETH</option>
-                                    <option>ETH</option>
-                                    <option>ETH</option>
-                                    <option>ETH</option>
-                                    <option>ETH</option>
+                                    <option>KLAY</option>
+                                    <option>KLAY</option>
+                                    <option>KLAY</option>
+                                    <option>KLAY</option>
+                                    <option>KLAY</option>
                                   </select>
                                 </div>
                                 <div class="input_right">
@@ -163,17 +163,17 @@ function SaleBundle({ store, setConnect }) {
                                             <div class="select_left">
                                               <img
                                                 src={
-                                                  require("../img/sub/eth_icon.png")
+                                                  require("../img/sub/I_klaytn.svg")
                                                     .default
                                                 }
                                                 alt=""
                                               />
                                               <select name="" id="">
-                                                <option>ETH</option>
-                                                <option>ETH</option>
-                                                <option>ETH</option>
-                                                <option>ETH</option>
-                                                <option>ETH</option>
+                                                <option>KLAY</option>
+                                                <option>KLAY</option>
+                                                <option>KLAY</option>
+                                                <option>KLAY</option>
+                                                <option>KLAY</option>
                                               </select>
                                             </div>
                                             <div class="input_right">

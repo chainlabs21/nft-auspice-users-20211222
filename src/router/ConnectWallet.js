@@ -31,7 +31,7 @@ function ConnectWallet({ store, setConnect }) {
             sessionStorage.setItem("address", res[0]);
 
             setConnect(res[0]);
-            navigate("/signup");
+            navigate("/joinmembership");
 
           })
           .catch((err) => console.log(err));
@@ -53,7 +53,7 @@ function ConnectWallet({ store, setConnect }) {
           sessionStorage.setItem("address", res[0]);
 
           setConnect(res[0]);
-          navigate("/signup");
+          navigate("/joinmembership");
         })
         .catch((err) => console.log(err));
     } else {
@@ -78,7 +78,7 @@ function ConnectWallet({ store, setConnect }) {
           sessionStorage.setItem("address", res.accounts);
 
           setConnect(res[0]);
-          navigate("/signup");
+          navigate("/joinmembership");
         })
         .catch((err) => console.error(err));
     } catch (err) {

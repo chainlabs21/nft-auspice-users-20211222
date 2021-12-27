@@ -40,7 +40,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search items, collections, creators"
+            placeholder="Search items, creators"
           />
         </article>
       </section>
@@ -157,17 +157,19 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
             <li>
               <p>Explore</p>
               <ol>
-                <li>Transaction details</li>
-                <li>Ranking</li>
+                <li onClick={() => navigate("/exploredeal")}>
+                  Transaction details
+                </li>
+                <li onClick={() => navigate("/ranking")}>Ranking</li>
               </ol>
             </li>
             <li>
               <p>Mypage</p>
               <ol>
-                <li>My Profile</li>
-                <li onClick={()=>navigate('/mycollection')}>My Collection</li>
+                <li onClick={() => navigate("/myprof")}>My Profile</li>
+                <li onClick={() => navigate("/mycollection")}>My Item</li>
                 <li>Bookmark</li>
-                <li>Account Setting</li>
+                <li onClick={() => navigate("/mywallet")}>Account Setting</li>
               </ol>
             </li>
             <li class="country">

@@ -24,9 +24,9 @@ import LoyaltyCheck from "./router/LoyaltyCheck";
 import MarketPlaceItem14 from "./router/MarketPlace_item14";
 import ItemInfo01 from "./router/ItemInfo01";
 import ItemInfo02 from "./router/ItemInfo02";
-import ItemInfo03 from "./router/ItemInfo03";
+import EditItem from "./router/EditItem";
 import ItemInfo04 from "./router/ItemInfo04";
-import Nftsell from "./router/Nftsell";
+import CreateItem from "./router/CreateItem";
 import SaleFixed from "./router/SaleFixed";
 import AuctionBid from "./router/AuctionBid";
 import Nftsell04 from "./router/Nftsell04";
@@ -40,24 +40,24 @@ import Buynft04 from "./router/Buynft04";
 import MyProf from "./router/MyProf";
 import Profile02 from "./router/SaleFixed";
 import Profile03 from "./router/Profile03";
-import Profile04 from "./router/Profile04";
+import HandOver from "./router/HandOver";
 import Profile05 from "./router/Profile05";
-import Profile06 from "./router/Profile06";
-import Profile07 from "./router/Profile07";
+import MoveCollection from "./router/MoveCollection";
+import TransactionHistory from "./router/TransactionHistory";
 import Profile07Off from "./router/Profile07Off";
-import Profile09 from "./router/Profile09";
+import Offers from "./router/Offers";
 import Liked from "./router/Liked";
 import Profile13 from "./router/Profile13";
-import Profile14 from "./router/Profile14";
-import Profile15 from "./router/Profile15";
+import HiddenItem from "./router/HiddenItem";
+import Referals from "./router/Referals";
 import Mywallet from "./router/Mywallet";
 import Profile17 from "./router/Profile17";
-import Profile18 from "./router/Profile18";
-import Profile19 from "./router/Profile19";
-import Profile21 from "./router/Profile21";
+import LogOut from "./router/LogOut";
+import GeneralSettings from "./router/GeneralSettings";
+import NotificationSettings from "./router/NotificationSettings";
 import MProfileMenu from "./router/MProfileMenu";
 import ExploreDeal from "./router/ExploreDeal";
-import Explore from "./router/Explore";
+import Ranking from "./router/Ranking";
 import MheaderPopup from "./components/MheaderPopup";
 import List from "./util/List";
 
@@ -112,39 +112,33 @@ function App({ store, setHref, setConnect }) {
           <Route path="/importcontract" element={<ImportContract />} />
           <Route path="/mycollectionselect" element={<MyCollectionSelect />} />
           <Route path="/loyaltycheck" element={<LoyaltyCheck />} />
-          {/* <Route path="/marketplace14" element={<MarketPlaceItem14 />} /> */}
 
-          <Route path="/nftsell" element={<Nftsell />} />
+          <Route path="/createitem" element={<CreateItem />} />
           <Route path="/salefixed" element={<SaleFixed />} />
           <Route path="/auctionbid" element={<AuctionBid />} />
           <Route path="/salebundle" element={<SaleBundle />} />
-          {/* <Route path="/nftsell04" element={<Nftsell04 />} />
-          <Route path="/nftsell05" element={<Nftsell05 />} />
-          <Route path="/nftsell05off" element={<Nftsell05Off />} /> */}
-
-          {/* <Route path="/buynft02" element={<Buynft02 />} /> */}
 
           <Route path="/myprof" element={<MyProf />} />
-          <Route path="/profile02" element={<Profile02 />} />
-          <Route path="/profile03" element={<Profile03 />} />
-          <Route path="/profile04" element={<Profile04 />} />
-          <Route path="/profile05" element={<Profile05 />} />
-          <Route path="/profile06" element={<Profile06 />} />
-          <Route path="/profile07" element={<Profile07 />} />
-          <Route path="/profile07off" element={<Profile07Off />} />
-          <Route path="/profile09" element={<Profile09 />} />
+          <Route path="/edititem" element={<EditItem />} />
+          <Route path="/transactionhistory" element={<TransactionHistory />} />
+          <Route path="/offers" element={<Offers />} />
+          <Route path="/hiddenitem" element={<HiddenItem />} />
           <Route path="/liked" element={<Liked />} />
-          <Route path="/profile13" element={<Profile13 />} />
-          <Route path="/profile14" element={<Profile14 />} />
-          <Route path="/profile15" element={<Profile15 />} />
-          <Route path="/mywallet" element={<Mywallet />} />
-          <Route path="/profile17" element={<Profile17 />} />
-          <Route path="/profile18" element={<Profile18 />} />
-          <Route path="/profile19" element={<Profile19 />} />
-          <Route path="/profile21" element={<Profile21 />} />
+          <Route path="/referals" element={<Referals />} />
+          <Route path="/handover" element={<HandOver />} />
+          <Route path="/movecollection" element={<MoveCollection />} />
+          <Route path="/logout" element={<LogOut />} />
           <Route path="/mprofilemenu" element={<MProfileMenu />} />
+
+          <Route path="/mywallet" element={<Mywallet />} />
+          <Route path="/generalsettings" element={<GeneralSettings />} />
+          <Route
+            path="/notificationsettings"
+            element={<NotificationSettings />}
+          />
+
           <Route path="/exploredeal" element={<ExploreDeal />} />
-          <Route path="/explore" element={<Explore />} />
+          <Route path="/ranking" element={<Ranking />} />
         </Routes>
 
         {store.mHeaderPopup && <MheaderPopup />}

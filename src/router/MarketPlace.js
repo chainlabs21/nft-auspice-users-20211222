@@ -25,9 +25,8 @@ import { useState } from "react";
 
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
-  const selectedList = [null, "a", "b"];
 
-  const [statusFilter, setStatusFilter] = useState(statusList[0]);
+  const [toggleFilter, setToggleFilter] = useState(false);
   const [bundleFilter, setBundleFilter] = useState(bundleFilterList[0]);
   const [categoryFilter, setCategoryFilter] = useState(categoryList[0]);
   const [sortFilter, setSortFilter] = useState(sortList[0]);
@@ -64,201 +63,189 @@ function MarketPlace({ store, setConnect }) {
     <SignPopupBox>
       <section id="sub">
         <article class="profile_home">
-          <div class="move on">
-            <div class="cw ucl">
-              <span class="close">
-                <img src={require("../img/sub/side_close.png").default} />
-                <b class="mclose">
-                  Filter<span>1</span>
-                </b>
-              </span>
-              <div class="left_move">
-                <form>
-                  <div class="filter">
-                    <h3 class="filt">
-                      <img
-                        src={require("../img/sub/filter_icon.png").default}
-                      />
-                      Filter
-                    </h3>
+          <div class={toggleFilter ? "move on deal" : "move off"}>
+            <span class="close" onClick={() => setToggleFilter(true)}>
+              <img src={require("../img/sub/side_close.png").default} />
+              <b class="mclose">
+                Filter<span>1</span>
+              </b>
+            </span>
+            <div class="left_move">
+              <form>
+                <div class="filter">
+                  <h3 class="filt">
+                    <img src={require("../img/sub/filter_icon.png").default} />
+                    Filter
+                  </h3>
+                  <img
+                    src={require("../img/sub/filter_close.png").default}
+                    class="fc"
+                  />
+                </div>
+                <div class="fold status">
+                  <h3 class="slide_tt">
+                    Status
                     <img
-                      src={require("../img/sub/filter_close.png").default}
-                      class="fc"
+                      src={require("../img/sub/slide_up.png").default}
+                      class="slide_up"
                     />
+                  </h3>
+
+                  <div class="open status">
+                    <ul>
+                      {statusList.map((cont, index) => (
+                        <li
+                          key={index}
+                          style={{ cursor: "pointer" }}
+                          className={filterObj[cont] === cont && "on"}
+                          onClick={() => editFilterList(cont, cont)}
+                        >
+                          {cont}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <div class="fold status">
-                    <h3 class="slide_tt">
-                      Status
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
-                      />
-                    </h3>
+                </div>
 
-                    <div class="open status">
-                      <ul>
-                        {statusList.map((cont, index) => (
-                          <li
-                            key={index}
-                            style={{ cursor: "pointer" }}
-                            className={statusFilter === cont && "on"}
-                            onClick={() => setStatusFilter(cont)}
-                          >
-                            {cont}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+                <div class="fold">
+                  <h3 class="slide_tt">
+                    Price
+                    <img
+                      src={require("../img/sub/slide_up.png").default}
+                      class="slide_up"
+                    />
+                  </h3>
 
-                  <div class="fold">
-                    <h3 class="slide_tt">
-                      Price
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
-                      />
-                    </h3>
-
-                    <div class="open">
-                      <select>
-                        <option disabled selected hidden>
-                          United States Dollars (USD)
-                        </option>
-                        <option>100</option>
-                      </select>
-                      <div class="price_area">
-                        <div class="price_wrap">
-                          <input type="text" placeholder="0.00" />
-                          <span class="usd">USD</span>
-                        </div>
-                        <div class="price_wrap">
-                          <input type="text" placeholder="0.00" />
-                          <span class="usd">USD</span>
-                        </div>
+                  <div class="open">
+                    <select>
+                      <option disabled selected hidden>
+                        United States Dollars (USD)
+                      </option>
+                      <option>100</option>
+                    </select>
+                    <div class="price_area">
+                      <div class="price_wrap">
+                        <input type="text" placeholder="0.00" />
+                        <span class="usd">USD</span>
                       </div>
-                      <a class="slide_btn">Apply</a>
+                      <div class="price_wrap">
+                        <input type="text" placeholder="0.00" />
+                        <span class="usd">USD</span>
+                      </div>
                     </div>
+                    <a class="slide_btn">Apply</a>
                   </div>
+                </div>
 
-                  <div class="fold">
-                    <h3 class="slide_tt">
-                      Collections
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
-                      />
-                    </h3>
+                <div class="fold">
+                  <h3 class="slide_tt">
+                    Items
+                    <img
+                      src={require("../img/sub/slide_up.png").default}
+                      class="slide_up"
+                    />
+                  </h3>
 
-                    <div class="open collection">
-                      <input
-                        type="text"
-                        placeholder="Filter"
-                        class="s_search"
-                      />
-                      <ul>
-                        <li
-                          class="collec_img"
-                          style={{ backgroundImage: `url(${collect_img})` }}
-                        >
-                          <span>Collection 01</span>
-                        </li>
-                        <li
-                          class="collec_img"
-                          style={{ backgroundImage: `url(${collect_img2})` }}
-                        >
-                          <span>Collection 02</span>
-                        </li>
-                        <li
-                          class="collec_img"
-                          style={{ backgroundImage: `url(${collect_img3})` }}
-                        >
-                          <span>Collection 03</span>
-                        </li>
-                        <li
-                          class="collec_img"
-                          style={{ backgroundImage: `url(${collect_img4})` }}
-                        >
-                          <span>Collection 04</span>
-                        </li>
-                      </ul>
-                    </div>
+                  <div class="open collection">
+                    <input type="text" placeholder="Filter" class="s_search" />
+                    <ul>
+                      <li
+                        class="collec_img"
+                        style={{ backgroundImage: `url(${collect_img})` }}
+                      >
+                        <span>Item 01</span>
+                      </li>
+                      <li
+                        class="collec_img"
+                        style={{ backgroundImage: `url(${collect_img2})` }}
+                      >
+                        <span>Item 02</span>
+                      </li>
+                      <li
+                        class="collec_img"
+                        style={{ backgroundImage: `url(${collect_img3})` }}
+                      >
+                        <span>Item 03</span>
+                      </li>
+                      <li
+                        class="collec_img"
+                        style={{ backgroundImage: `url(${collect_img4})` }}
+                      >
+                        <span>Item 04</span>
+                      </li>
+                    </ul>
                   </div>
+                </div>
 
-                  <div class="fold">
-                    <h3 class="slide_tt">
-                      Chains
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
-                      />
-                    </h3>
+                <div class="fold">
+                  <h3 class="slide_tt">
+                    Chains
+                    <img
+                      src={require("../img/sub/slide_up.png").default}
+                      class="slide_up"
+                    />
+                  </h3>
 
-                    <div class="open">
-                      <ul>
-                        {chainList.map((cont, index) => (
-                          <li
-                            key={index}
-                            class="ra"
-                            onClick={() => editFilterList("chain", cont.name)}
+                  <div class="open">
+                    <ul>
+                      {chainList.map((cont, index) => (
+                        <li
+                          key={index}
+                          class="ra"
+                          onClick={() => editFilterList("chain", cont.name)}
+                        >
+                          <span
+                            className="chkBtn"
+                            style={{
+                              background:
+                                filterObj.chain === cont.name && "#000",
+                            }}
                           >
-                            <span
-                              className="chkBtn"
-                              style={{
-                                background:
-                                  filterObj.chain === cont.name && "#000",
-                              }}
-                            >
-                              <span />
-                            </span>
-                            <label for={cont.name}>
-                              <img src={cont.img} />
-                              {cont.name}
-                            </label>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                            <span />
+                          </span>
+                          <label for={cont.name}>
+                            <img src={cont.img} />
+                            {cont.name}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
+                </div>
 
-                  <div class="fold">
-                    <h3 class="slide_tt">
-                      Sales Coin
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
-                      />
-                    </h3>
+                <div class="fold">
+                  <h3 class="slide_tt">
+                    Sales Coin
+                    <img
+                      src={require("../img/sub/slide_up.png").default}
+                      class="slide_up"
+                    />
+                  </h3>
 
-                    <div class="open">
-                      <input
-                        type="text"
-                        placeholder="Filter"
-                        class="s_search"
-                      />
-                      <ul>
-                        {coinList.map((cont, index) => (
-                          <li
-                            key={index}
-                            class="ra"
-                            onClick={() => editFilterList("coin", cont)}
+                  <div class="open">
+                    <input type="text" placeholder="Filter" class="s_search" />
+                    <ul>
+                      {coinList.map((cont, index) => (
+                        <li
+                          key={index}
+                          class="ra"
+                          onClick={() => editFilterList("coin", cont)}
+                        >
+                          <span
+                            className="chkBtn"
+                            style={{
+                              background: filterObj.coin === cont && "#000",
+                            }}
                           >
-                            <span
-                              className="chkBtn"
-                              style={{
-                                background: filterObj.coin === cont && "#000",
-                              }}
-                            >
-                              <span />
-                            </span>
-                            <label for={cont}>{cont}</label>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                            <span />
+                          </span>
+                          <label for={cont}>{cont}</label>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
 
             <div class="right_move">
@@ -356,7 +343,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 AUSP</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -372,7 +359,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 AUSP</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -388,7 +375,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 AUSP</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -404,7 +391,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 AUSP</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -420,7 +407,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 AUSP</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -436,7 +423,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 AUSP</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -452,7 +439,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 AUSP</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -468,7 +455,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 AUSP</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -484,7 +471,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 AUSP</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -500,7 +487,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 AUSP</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -580,13 +567,9 @@ const sortList = [
 
 const chainList = [
   {
-    img: stone,
-    name: "Ethereum",
-  },
-  {
     img: rock,
     name: "Klaytn",
   },
 ];
 
-const coinList = ["AUSP", "WETH"];
+const coinList = ["Klay"];

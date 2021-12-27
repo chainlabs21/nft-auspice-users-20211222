@@ -24,12 +24,11 @@ import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useState } from "react";
 
-function MarketPlace({ store, setConnect }) {
+function ExploreDeal({ store, setConnect }) {
   const navigate = useNavigate();
 
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
-  
 
   function editFilterList(category, cont) {
     let dataObj = filterObj;
@@ -37,6 +36,11 @@ function MarketPlace({ store, setConnect }) {
 
     setFilterObj(dataObj);
     setFilterList([...Object.values(dataObj)]);
+  }
+
+  function onclickFilterReset() {
+    setFilterObj({});
+    setFilterList([]);
   }
 
   function onclickFilterCancel(cont) {
@@ -88,8 +92,8 @@ function MarketPlace({ store, setConnect }) {
                           <li
                             key={index}
                             style={{ cursor: "pointer" }}
-                            className={filterObj.eventType === cont && "on"}
-                            onClick={() => editFilterList("eventType", cont)}
+                            className={filterObj[cont] === cont && "on"}
+                            onClick={() => editFilterList(cont, cont)}
                           >
                             {cont}
                           </li>
@@ -99,7 +103,7 @@ function MarketPlace({ store, setConnect }) {
                   </div>
                   <div class="fold">
                     <h3 class="slide_tt">
-                      Collections
+                      Items
                       <img
                         src={require("../img/sub/slide_up.png").default}
                         class="slide_up"
@@ -117,25 +121,25 @@ function MarketPlace({ store, setConnect }) {
                           class="collec_img"
                           style={{ backgroundImage: `url(${collect_img})` }}
                         >
-                          <span>Collection 01</span>
+                          <span>Item 01</span>
                         </li>
                         <li
                           class="collec_img"
                           style={{ backgroundImage: `url(${collect_img2})` }}
                         >
-                          <span>Collection 02</span>
+                          <span>Item 02</span>
                         </li>
                         <li
                           class="collec_img"
                           style={{ backgroundImage: `url(${collect_img3})` }}
                         >
-                          <span>Collection 03</span>
+                          <span>Item 03</span>
                         </li>
                         <li
                           class="collec_img"
                           style={{ backgroundImage: `url(${collect_img4})` }}
                         >
-                          <span>Collection 04</span>
+                          <span>Item 04</span>
                         </li>
                       </ul>
                     </div>
@@ -186,7 +190,7 @@ function MarketPlace({ store, setConnect }) {
                   <div class="filter_list ex_d">
                     <div class="filter_left">
                       <div class="fl">
-                        <a>
+                        <a onClick={onclickFilterReset}>
                           <span>Filter reset</span>
                         </a>
                       </div>
@@ -361,7 +365,7 @@ function MarketPlace({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/eth_icon.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
                                 alt=""
                               />
                               <p>0.00050</p>
@@ -419,7 +423,7 @@ function MarketPlace({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/eth_icon.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
                                 alt=""
                               />
                               <p>0.00050</p>
@@ -477,7 +481,7 @@ function MarketPlace({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/eth_icon.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
                                 alt=""
                               />
                               <p>0.00050</p>
@@ -535,7 +539,7 @@ function MarketPlace({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/eth_icon.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
                                 alt=""
                               />
                               <p>0.00050</p>
@@ -593,7 +597,7 @@ function MarketPlace({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/eth_icon.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
                                 alt=""
                               />
                               <p>0.00050</p>
@@ -651,7 +655,7 @@ function MarketPlace({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/eth_icon.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
                                 alt=""
                               />
                               <p>0.00050</p>
@@ -709,7 +713,7 @@ function MarketPlace({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/eth_icon.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
                                 alt=""
                               />
                               <p>0.00050</p>
@@ -767,7 +771,7 @@ function MarketPlace({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/eth_icon.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
                                 alt=""
                               />
                               <p>0.00050</p>
@@ -825,7 +829,7 @@ function MarketPlace({ store, setConnect }) {
                           <td>
                             <div class="name price">
                               <img
-                                src={require("../img/sub/eth_icon.png").default}
+                                src={require("../img/sub/I_klaytn.svg").default}
                                 alt=""
                               />
                               <p>0.00050</p>
@@ -897,7 +901,7 @@ function MarketPlace({ store, setConnect }) {
                               <p>
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -960,7 +964,7 @@ function MarketPlace({ store, setConnect }) {
                               <p>
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -1005,7 +1009,7 @@ function MarketPlace({ store, setConnect }) {
                               <p>
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -1050,7 +1054,7 @@ function MarketPlace({ store, setConnect }) {
                               <p>
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -1094,15 +1098,11 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default connect(mapStateToProps, mapDispatchToProps)(ExploreDeal);
 
 const statusList = ["Buy Now", "On Auction", "New", "Has Offers"];
 
 const chainList = [
-  {
-    img: stone,
-    name: "Ethereum",
-  },
   {
     img: rock,
     name: "Klaytn",

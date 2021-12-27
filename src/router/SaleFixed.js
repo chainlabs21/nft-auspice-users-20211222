@@ -102,17 +102,17 @@ function SaleFixed({ store, setConnect }) {
                                   <div class="select_left">
                                     <img
                                       src={
-                                        require("../img/sub/eth_icon.png")
+                                        require("../img/sub/I_klaytn.svg")
                                           .default
                                       }
                                       alt=""
                                     />
                                     <select name="" id="">
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
                                     </select>
                                   </div>
                                   <div class="input_right">
@@ -135,16 +135,16 @@ function SaleFixed({ store, setConnect }) {
                                 <div class="select_left">
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />
                                   <select name="" id="">
-                                    <option>ETH</option>
-                                    <option>ETH</option>
-                                    <option>ETH</option>
-                                    <option>ETH</option>
-                                    <option>ETH</option>
+                                    <option>KLAY</option>
+                                    <option>KLAY</option>
+                                    <option>KLAY</option>
+                                    <option>KLAY</option>
+                                    <option>KLAY</option>
                                   </select>
                                 </div>
                                 <div class="input_right">
@@ -190,17 +190,17 @@ function SaleFixed({ store, setConnect }) {
                                             <div class="select_left">
                                               <img
                                                 src={
-                                                  require("../img/sub/eth_icon.png")
+                                                  require("../img/sub/I_klaytn.svg")
                                                     .default
                                                 }
                                                 alt=""
                                               />
                                               <select name="" id="">
-                                                <option>ETH</option>
-                                                <option>ETH</option>
-                                                <option>ETH</option>
-                                                <option>ETH</option>
-                                                <option>ETH</option>
+                                                <option>KLAY</option>
+                                                <option>KLAY</option>
+                                                <option>KLAY</option>
+                                                <option>KLAY</option>
+                                                <option>KLAY</option>
                                               </select>
                                             </div>
                                             <div class="input_right">
@@ -314,7 +314,7 @@ function SaleFixed({ store, setConnect }) {
                   <span class="basic">
                     The item is posted for sale
                     <br />
-                    at 3,339 ETH
+                    at 3,339 KLAY
                   </span>
                   <span class="red">
                     End price must be less than start price
@@ -356,7 +356,7 @@ function SaleFixed({ store, setConnect }) {
                   <span class="basic">
                     The item is posted for sale
                     <br />
-                    at 3,339 ETH
+                    at 3,339 KLAY
                   </span>
                   <span class="red">
                     End price must be less than start price

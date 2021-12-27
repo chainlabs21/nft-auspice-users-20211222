@@ -34,39 +34,56 @@ function Mywallet({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-    <article class="wallet_wrap">
-      <div class="move on">
-        <div class="left_move wallet_left">
-          <form>
-            <div class="w1 on">
-              <h3>My wallet<span>0x9bb...carfb</span></h3>
+        <article class="wallet_wrap">
+          <div class="move on">
+            <div class="left_move wallet_left">
+              <form>
+                <div class="w1 on" style={{ cursor: "pointer" }}>
+                  <h3>
+                    My wallet<span>0x9bb...carfb</span>
+                  </h3>
+                </div>
+                <div
+                  class="w2"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/generalsettings")}
+                >
+                  <h3>General settings</h3>
+                </div>
+                <div
+                  class="w3"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/notificationsettings")}
+                >
+                  <h3>Notification settings</h3>
+                </div>
+              </form>
             </div>
-            <div class="w2">
-              <h3>General settings</h3>
-            </div>
-            <div class="w3">
-              <h3>Notification settings</h3>
-            </div>
-          </form>
-        </div>
 
-        <div class="right_move wallet_right">
-          <h2>My wallet</h2>
-          <div class="mwr">
-            <div class="wr">
-              <ul>
-                <li>
-                  <h4>Wallet address</h4>
-                  <div><input type="text" placeholder="Please enter your username"/><a href="">copy</a></div>
-                </li>
-              </ul>
-              <a href="" class="wbtn">Logout</a>
+            <div class="right_move wallet_right">
+              <h2>My wallet</h2>
+              <div class="mwr">
+                <div class="wr">
+                  <ul>
+                    <li>
+                      <h4>Wallet address</h4>
+                      <div>
+                        <input
+                          disabled
+                          value={store.walletAddress}
+                          type="text"
+                        />
+                        <a>copy</a>
+                      </div>
+                    </li>
+                  </ul>
+                  <a class="wbtn">Logout</a>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </article>
-  </section>
+        </article>
+      </section>
     </SignPopupBox>
   );
 }

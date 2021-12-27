@@ -133,17 +133,17 @@ function AuctionBid({ store, setConnect }) {
                                   <div class="select_left">
                                     <img
                                       src={
-                                        require("../img/sub/eth_icon.png")
+                                        require("../img/sub/I_klaytn.svg")
                                           .default
                                       }
                                       alt=""
                                     />
                                     <select name="" id="">
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
                                     </select>
                                   </div>
                                   <div class="input_right">
@@ -200,17 +200,17 @@ function AuctionBid({ store, setConnect }) {
                                   <div class="select_left">
                                     <img
                                       src={
-                                        require("../img/sub/eth_icon.png")
+                                        require("../img/sub/I_klaytn.svg")
                                           .default
                                       }
                                       alt=""
                                     />
                                     <select name="" id="">
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
-                                      <option>ETH</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
                                     </select>
                                   </div>
                                   <div class="input_right">
@@ -311,7 +311,7 @@ function AuctionBid({ store, setConnect }) {
                   <span class="basic">
                     The auction begins. If the bid is
                     <br />
-                    more than 1 ETH, the bid will be
+                    more than 1 KLAY, the bid will be
                     <br />
                     awarded at 17:58 on July 28, 2021.
                   </span>
@@ -321,7 +321,7 @@ function AuctionBid({ store, setConnect }) {
                     than the minimum bid
                   </span>
                   <span class="red2">Please enter your target bid</span>
-                  <span class="red2">Target bid must be at least 1 ETH</span>
+                  <span class="red2">Target bid must be at least 1 KLAY</span>
                 </div>
                 <div class="referral">
                   <h3>Referral Fee</h3>
@@ -359,7 +359,7 @@ function AuctionBid({ store, setConnect }) {
                   <span class="basic">
                     The item is posted for sale
                     <br />
-                    at 3,339 ETH
+                    at 3,339 KLAY
                   </span>
                   <span class="red">
                     End price must be less than start price
