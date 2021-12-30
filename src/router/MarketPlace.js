@@ -304,7 +304,10 @@ function MarketPlace({ store, setConnect }) {
                       {categoryList.map((cont, index) => (
                         <li
                           key={index}
-                          className={categoryFilter === cont && "onnn"}
+                          className={
+                            categoryFilter.toLowerCase() ===
+                              cont.toLowerCase() && "onnn"
+                          }
                           onClick={() => {
                             navigate(`/marketplace/${cont}`);
                             setCategoryFilter(cont);

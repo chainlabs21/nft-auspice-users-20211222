@@ -266,8 +266,18 @@ function Main({ store }) {
               </p>
             </div>
             <div className="btnBox">
-              <button className="navBtn">NFT Navigation</button>
-              <button className="pubBtn">NFT Publication</button>
+              <button
+                className="navBtn"
+                onClick={() => navigate("/marketplace/All")}
+              >
+                NFT Navigation
+              </button>
+              <button
+                className="pubBtn"
+                onClick={() => navigate("/createitem")}
+              >
+                NFT Publication
+              </button>
             </div>
           </div>
 
@@ -366,14 +376,14 @@ function Main({ store }) {
             <div className="swiperBox">
               <ul className="swiper" ref={collectionRef}>
                 {collectionList.map((cont, index) => (
-                  <li
-                    key={index}
-                    onClick={() => navigate("/bundleitem")}
-                    style={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    <div className="innerBox">
+                  <li key={index}>
+                    <div
+                      className="innerBox"
+                      onClick={() => navigate("/bundleitem")}
+                      style={{
+                        cursor: "pointer",
+                      }}
+                    >
                       <img className="item" src={cont.item} alt="" />
 
                       <div className="infoBox">
@@ -483,12 +493,12 @@ function Main({ store }) {
           <div className="swiperBox">
             <ul className="swiper" ref={trendingItemRef}>
               {trendingItemList.map((cont, index) => (
-                <li
-                  key={index}
-                  onClick={() => navigate("/singleitem")}
-                  style={{ cursor: "pointer" }}
-                >
-                  <div className="innerBox">
+                <li key={index}>
+                  <div
+                    className="innerBox"
+                    onClick={() => navigate("/singleitem")}
+                    style={{ cursor: "pointer" }}
+                  >
                     <div
                       className="item"
                       style={{
@@ -550,12 +560,12 @@ function Main({ store }) {
           <div className="swiperBox">
             <ul className="swiper" ref={itemRef}>
               {itemList.map((cont, index) => (
-                <li
-                  key={index}
-                  onClick={() => navigate("/singleitem")}
-                  style={{ cursor: "pointer" }}
-                >
-                  <div className="innerBox">
+                <li key={index}>
+                  <div
+                    className="innerBox"
+                    onClick={() => navigate("/singleitem")}
+                    style={{ cursor: "pointer" }}
+                  >
                     <div
                       className="item"
                       style={{
@@ -661,7 +671,7 @@ function Main({ store }) {
                   </button>
                 </span>
                 <span>
-                  <button href="#">English</button>
+                  <button>English</button>
                 </span>
               </div>
             </div>
@@ -671,28 +681,52 @@ function Main({ store }) {
                   <h6>MARKET</h6>
                   <ol>
                     <li>
-                      <button href="#">all about NFT</button>
+                      <button onClick={() => navigate("/marketplace/All")}>
+                        all about NFT
+                      </button>
                     </li>
                     <li>
-                      <button href="#">Digital art</button>
+                      <button
+                        onClick={() => navigate("/marketplace/Collectibles")}
+                      >
+                        Collectibles
+                      </button>
                     </li>
                     <li>
-                      <button href="#">Trading cards</button>
+                      <button
+                        onClick={() => navigate("/marketplace/Digital Art")}
+                      >
+                        Digital Art
+                      </button>
                     </li>
                     <li>
-                      <button href="#">Music</button>
+                      <button
+                        onClick={() => navigate("/marketplace/Trading Card")}
+                      >
+                        Trading Card
+                      </button>
                     </li>
                     <li>
-                      <button href="#">Virtual Worlds</button>
+                      <button onClick={() => navigate("/marketplace/Music")}>
+                        Music
+                      </button>
                     </li>
                     <li>
-                      <button href="#">Utility</button>
+                      <button
+                        onClick={() => navigate("/marketplace/Virtual Worlds")}
+                      >
+                        Virtual Worlds
+                      </button>
                     </li>
                     <li>
-                      <button href="#">Sports</button>
+                      <button onClick={() => navigate("/marketplace/Sports")}>
+                        Sports
+                      </button>
                     </li>
                     <li>
-                      <button href="#">ETC</button>
+                      <button onClick={() => navigate("/marketplace/ETC")}>
+                        ETC
+                      </button>
                     </li>
                   </ol>
                 </li>
@@ -700,16 +734,24 @@ function Main({ store }) {
                   <h6>MY ACCOUNT</h6>
                   <ol>
                     <li>
-                      <button href="#">Profile setting</button>
+                      <button onClick={() => navigate("/myprof")}>
+                        Profile setting
+                      </button>
                     </li>
                     <li>
-                      <button href="#">My Item</button>
+                      <button onClick={() => navigate("/mycollection")}>
+                        My Item
+                      </button>
                     </li>
                     <li>
-                      <button href="#">My Favourite</button>
+                      <button onClick={() => navigate("/liked")}>
+                        My Favourite
+                      </button>
                     </li>
                     <li>
-                      <button href="#">account setting</button>
+                      <button onClick={() => navigate("/mywallet")}>
+                        account setting
+                      </button>
                     </li>
                   </ol>
                 </li>
@@ -717,10 +759,14 @@ function Main({ store }) {
                   <h6>EXPLORE</h6>
                   <ol>
                     <li>
-                      <button href="#">User Ranking</button>
+                      <button onClick={() => navigate("/ranking")}>
+                        User Ranking
+                      </button>
                     </li>
                     <li>
-                      <button href="#">Transaction details</button>
+                      <button onClick={() => navigate("/exploredeal")}>
+                        Transaction details
+                      </button>
                     </li>
                   </ol>
                 </li>
@@ -741,10 +787,10 @@ function Main({ store }) {
             <div>
               <ul>
                 <li>
-                  <button href="#">Privacy Policy</button>
+                  <button>Privacy Policy</button>
                 </li>
                 <li>
-                  <button href="#">Terms of Service</button>
+                  <button>Terms of Service</button>
                 </li>
               </ul>
             </div>

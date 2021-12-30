@@ -25,6 +25,11 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
 
   const [search, setSearch] = useState("");
 
+  function onClickConnectWallet() {
+    if (window.klaytn.selectedAddress) navigate("/joinmembership");
+    else navigate("/connectwallet");
+  }
+
   return (
     <HeaderBox id="header">
       <section className="leftBox">
@@ -177,7 +182,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
               <img src={I_dnArw} alt="" />
             </li>
           </ul>
-          <button class="wallet" onClick={() => navigate("/connectwallet")}>
+          <button class="wallet" onClick={onClickConnectWallet}>
             <p>Connect Wallet</p>
           </button>
         </nav>

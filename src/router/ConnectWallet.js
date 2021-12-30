@@ -15,9 +15,6 @@ import I_klaytn from "../img/sub/I_klaytn.svg";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import WalletConnectSDK from "walletconnect";
-import axios from "axios";
-import { useEffect } from "react";
 
 function ConnectWallet({ store, setConnect }) {
   const navigate = useNavigate();
