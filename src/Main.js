@@ -1067,10 +1067,10 @@ function Main({ store }) {
             <div>
               <ul>
                 <li>
-                  <a >Privacy Policy</a>
+                  <a>Privacy Policy</a>
                 </li>
                 <li>
-                  <a >Terms of Service</a>
+                  <a>Terms of Service</a>
                 </li>
               </ul>
             </div>
@@ -1085,6 +1085,9 @@ function Main({ store }) {
 }
 
 const IndexBox = styled.div`
+  width: 100%;
+  overflow: hidden;
+
   .swiper-wrapper,
   .slideBox {
     overflow-x: scroll;
