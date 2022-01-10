@@ -298,6 +298,88 @@ function SelectItem({ store, setConnect }) {
         </div>
       )}
 
+      {bidPopup && (
+        <div class="popup info" id="info_popup" style={{ display: "block" }}>
+          <div class="box_wrap buynft">
+            <a
+              onClick={() => setBidPopup(false)}
+              class="close close2"
+              id="info_close"
+            >
+              <img
+                src={require("../img/sub/icon_close.png").default}
+                alt="close"
+              />
+            </a>
+            <div class="poptitle nob">
+              <h2>Purchase receipt</h2>
+            </div>
+            <div class="list_bottom buy_nft">
+              <p class="warn">
+                Warning! Contains items
+                <br /> that have not been reviewed and approved
+              </p>
+              <div class="receipt_section">
+                <div class="receipt_title">
+                  <p class="rec_t">Item</p>
+                  <p class="rec_t right">Subtotal</p>
+                </div>
+                <div class="receipt_item">
+                  <ul>
+                    <li>
+                      <span class="pic"></span>
+                      <div class="right_price">
+                        <h3>
+                          Philip van Kouwenbergh
+                          <br />
+                          <span>Blackman with neon</span>
+                        </h3>
+                        <h4 class="m_sub">
+                          <img src={require("../img/sub/stone.png").default} />
+                          25<span class="pri">($58,282.50)</span>
+                        </h4>
+                      </div>
+                    </li>
+                  </ul>
+                  <ul>
+                    <li>
+                      <p class="rec_t">
+                        Total<span class="red">Insufficient ETH balance</span>
+                      </p>
+                      <div class="right_price m_left">
+                        <h4 class="blue">
+                          <img src={require("../img/sub/stone.png").default} />
+                          25<span class="pri">($58,282.50)</span>
+                        </h4>
+                      </div>
+                    </li>
+                    <li></li>
+                  </ul>
+                </div>
+                <form class="ckb_wrap">
+                  <div class="ckb">
+                    <input type="checkbox" id="chk" name="chk1" />
+                    <label for="chk">
+                      Aware that Auspice contains one item that has not been
+                      reviewed and approved
+                    </label>
+                  </div>
+                  <div class="ckb">
+                    <input type="checkbox" id="chk2" name="chk1" />
+                    <label for="chk2">
+                      I agree to Auspice's <b>Terms of Service</b>
+                    </label>
+                  </div>
+                </form>
+              </div>
+              <a href="" class="reportit on ">
+                Make a payment
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
       <section id="sub">
         <article class="bundle_box box2">
           <div class="wrap">
@@ -417,7 +499,7 @@ function SelectItem({ store, setConnect }) {
                             <h4>05:32:21</h4>
                           </li>
                         </ul>
-                        <a href="" class="bid">
+                        <a onClick={() => setBidPopup(true)} class="bid">
                           Participate in bidding
                         </a>
                       </div>

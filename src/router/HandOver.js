@@ -35,17 +35,20 @@ function HandOver({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-    <article class="ntfsell_box">
-        <div class="sellbg">
-          <div class="ntfsell_con">
-            <div class="top1">
-                <a >
-                    <img src={require("../img/sub/nft_arrow.png").default} alt=""/>
+        <article class="ntfsell_box">
+          <div class="sellbg">
+            <div class="ntfsell_con">
+              <div class="top1">
+                <a href="">
+                  <img
+                    src={require("../img/sub/nft_arrow.png").default}
+                    alt=""
+                  />
                 </a>
                 <strong>Profile home</strong>
-            </div>
-            <div class="sell_wrap ho_wrap">
-              <div class="create">
+              </div>
+              <div class="sell_wrap ho_wrap">
+                <div class="create">
                   <h2>Hand Over</h2>
                   <form action="">
                     <div class="form">
@@ -54,43 +57,78 @@ function HandOver({ store, setConnect }) {
                           <div class="ho">
                             <ol>
                               <li>
-                                <span class="hoimg" style={{backgroundImage:`url(${ho_img})`}}></span>
+                                <span
+                                  class="hoimg"
+                                  style={{
+                                    backgroundImage: `url(${ho_img})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                ></span>
                                 <div class="ho_info">
-                                  <h3>renoir item</h3>
+                                  <h3>renoir collection</h3>
                                   <h4>Verger de pommiers</h4>
-                                  <h5>Register the item logo. Please select an image file.<br/>Square image (recommended size 350 x 350)</h5>
+                                  <h5>
+                                    Register the collection logo. Please select
+                                    an image file.
+                                    <br />
+                                    Square image (recommended size 350 x 350)
+                                  </h5>
                                 </div>
                               </li>
                               <li>
-                                <span class="hoimg" style={{backgroundImage:`url(${ho_img})`}}></span>
+                                <span
+                                  class="hoimg"
+                                  style={{
+                                    backgroundImage: `url(${ho_img})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                ></span>
                                 <div class="ho_info">
-                                  <h3>renoir item</h3>
+                                  <h3>renoir collection</h3>
                                   <h4>Au parc</h4>
-                                  <h5>Register the item logo. Please select an image file.<br/>Square image (recommended size 350 x 350)</h5>
+                                  <h5>
+                                    Register the collection logo. Please select
+                                    an image file.
+                                    <br />
+                                    Square image (recommended size 350 x 350)
+                                  </h5>
                                 </div>
                               </li>
                             </ol>
                           </div>
                         </li>
                         <li class="padline">
-                          <h3>Enter your ERC20 wallet address or ENS name to send.</h3>
-                          <p class="sma">Gas charges are incurred when transferring.</p>
+                          <h3>
+                            Enter your ERC20 wallet address or ENS name to send.
+                          </h3>
+                          <p class="sma">
+                            Gas charges are incurred when transferring.
+                          </p>
                           <div class="inputbox">
-                            <input type="text" placeholder="Ex) 0x8df35...   or   wallet001.eth"/>
+                            <input
+                              type="text"
+                              placeholder="Ex) 0x8df35...   or   wallet001.eth"
+                            />
                           </div>
                         </li>
                       </ul>
                     </div>
                   </form>
+                </div>
+              </div>
+              <div class="create_btn send_btn">
+                <a href="" class="send">
+                  Send
+                </a>
               </div>
             </div>
-            <div class="create_btn send_btn">
-              <a  class="send">Send</a>
-            </div>
           </div>
-        </div>
-    </article>
-</section>
+        </article>
+      </section>
     </SignPopupBox>
   );
 }

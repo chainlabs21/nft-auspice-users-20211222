@@ -294,7 +294,7 @@ function SingleItem({ store, setConnect }) {
                         <h3>
                           Philip van Kouwenbergh
                           <br />
-                          <span>Blackman with neon 4 items</span>
+                          <span>Blackman with neon</span>
                         </h3>
                         <h4 class="m_sub">
                           <img src={require("../img/sub/stone.png").default} />
@@ -304,10 +304,12 @@ function SingleItem({ store, setConnect }) {
                     </li>
                   </ul>
                   <ul>
-                    <li class="heig">
-                      <p class="rec_t">Total</p>
+                    <li>
+                      <p class="rec_t">
+                        Total<span class="red">Insufficient ETH balance</span>
+                      </p>
                       <div class="right_price m_left">
-                        <h4 class="blue nored">
+                        <h4 class="blue">
                           <img src={require("../img/sub/stone.png").default} />
                           25<span class="pri">($58,282.50)</span>
                         </h4>

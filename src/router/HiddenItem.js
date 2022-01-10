@@ -316,216 +316,258 @@ function HiddenItem({ store, setConnect }) {
                     <div class="move_item">
                       <div class="swiper_container">
                         <ol class="item move_li">
-                          <li>
-                            <a style={{ backgroundImage: `url(${s5})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart off">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 0 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(0);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li>Hand Over</li>
-                                        <li>Edit</li>
-                                        <li>Item Change</li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>Mark.X Item</span>
-                                <div>Place Saint-Marc</div>
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a style={{ backgroundImage: `url(${sample})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 1 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(1);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li>Hand Over</li>
-                                        <li>Edit</li>
-                                        <li>Item Change</li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>Mark.X item</span>
-                                <div>Place Saint-Marc</div>
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a style={{ backgroundImage: `url(${sample})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 2 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(2);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li>Hand Over</li>
-                                        <li>Edit</li>
-                                        <li>Item Change</li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a style={{ backgroundImage: `url(${sample})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 3 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(3);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li>Hand Over</li>
-                                        <li>Edit</li>
-                                        <li>Item Change</li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a style={{ backgroundImage: `url(${sample})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 4 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(4);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li>Hand Over</li>
-                                        <li>Edit</li>
-                                        <li>Item Change</li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a style={{ backgroundImage: `url(${sample})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 5 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(5);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li>Hand Over</li>
-                                        <li>Edit</li>
-                                        <li>Item Change</li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a style={{ backgroundImage: `url(${sample})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 6 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(6);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li>Hand Over</li>
-                                        <li>Edit</li>
-                                        <li>Item Change</li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
+                          <div>
+                            <span>
+                              <li>
+                                <a style={{ backgroundImage: `url(${s5})` }}>
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart off">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 0
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(0);
+                                        }}
+                                      >
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Item Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>Mark.X Item</span>
+                                    <div>Place Saint-Marc</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  style={{ backgroundImage: `url(${sample})` }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 1
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(1);
+                                        }}
+                                      >
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Item Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>Mark.X item</span>
+                                    <div>Place Saint-Marc</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  style={{ backgroundImage: `url(${sample})` }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 2
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(2);
+                                        }}
+                                      >
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Item Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  style={{ backgroundImage: `url(${sample})` }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 3
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(3);
+                                        }}
+                                      >
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Item Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  style={{ backgroundImage: `url(${sample})` }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 4
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(4);
+                                        }}
+                                      >
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Item Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  style={{ backgroundImage: `url(${sample})` }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 5
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(5);
+                                        }}
+                                      >
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Item Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  style={{ backgroundImage: `url(${sample})` }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 6
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(6);
+                                        }}
+                                      >
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Item Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                          </div>
                         </ol>
                       </div>
                     </div>

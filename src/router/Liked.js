@@ -279,76 +279,88 @@ function Liked({ store, setConnect }) {
 
                   <div class="move_item" style={{ marginBottom: "100px" }}>
                     <ol class="item move_li">
-                      <li>
-                        <a
-                          href="#"
-                          style={{ backgroundImage: `url(${sample})` }}
-                        >
-                          <div class="on">
-                            <ul>
-                              <li class="heart off">1,389</li>
-                            </ul>
-                            <span>Mark.X item</span>
-                            <div>Place Saint-Marc</div>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          style={{ backgroundImage: `url(${sample})` }}
-                        >
-                          <div class="on">
-                            <ul>
-                              <li class="heart on">1,389</li>
-                            </ul>
-                            <span>Mark.X item</span>
-                            <div>Place Saint-Marc</div>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          style={{ backgroundImage: `url(${sample})` }}
-                        >
-                          <div class="on">
-                            <ul>
-                              <li class="heart on">1,389</li>
-                            </ul>
-                            <span>David</span>
-                            <div>Summer Pool</div>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          style={{ backgroundImage: `url(${sample})` }}
-                        >
-                          <div class="on">
-                            <ul>
-                              <li class="heart on">1,389</li>
-                            </ul>
-                            <span>David</span>
-                            <div>Summer Pool</div>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          style={{ backgroundImage: `url(${sample})` }}
-                        >
-                          <div class="on">
-                            <ul>
-                              <li class="heart on">1,389</li>
-                            </ul>
-                            <span>David</span>
-                            <div>Summer Pool</div>
-                          </div>
-                        </a>
-                      </li>
+                      <div>
+                        <span>
+                          <li>
+                            <a
+                              href="#"
+                              style={{ backgroundImage: `url(${sample})` }}
+                            >
+                              <div class="on">
+                                <ul>
+                                  <li class="heart off">1,389</li>
+                                </ul>
+                                <span>Mark.X item</span>
+                                <div>Place Saint-Marc</div>
+                              </div>
+                            </a>
+                          </li>
+                        </span>
+                        <span>
+                          <li>
+                            <a
+                              href="#"
+                              style={{ backgroundImage: `url(${sample})` }}
+                            >
+                              <div class="on">
+                                <ul>
+                                  <li class="heart on">1,389</li>
+                                </ul>
+                                <span>Mark.X item</span>
+                                <div>Place Saint-Marc</div>
+                              </div>
+                            </a>
+                          </li>
+                        </span>
+                        <span>
+                          <li>
+                            <a
+                              href="#"
+                              style={{ backgroundImage: `url(${sample})` }}
+                            >
+                              <div class="on">
+                                <ul>
+                                  <li class="heart on">1,389</li>
+                                </ul>
+                                <span>David</span>
+                                <div>Summer Pool</div>
+                              </div>
+                            </a>
+                          </li>
+                        </span>
+                        <span>
+                          <li>
+                            <a
+                              href="#"
+                              style={{ backgroundImage: `url(${sample})` }}
+                            >
+                              <div class="on">
+                                <ul>
+                                  <li class="heart on">1,389</li>
+                                </ul>
+                                <span>David</span>
+                                <div>Summer Pool</div>
+                              </div>
+                            </a>
+                          </li>
+                        </span>
+                        <span>
+                          <li>
+                            <a
+                              href="#"
+                              style={{ backgroundImage: `url(${sample})` }}
+                            >
+                              <div class="on">
+                                <ul>
+                                  <li class="heart on">1,389</li>
+                                </ul>
+                                <span>David</span>
+                                <div>Summer Pool</div>
+                              </div>
+                            </a>
+                          </li>
+                        </span>
+                      </div>
                     </ol>
                   </div>
                 </div>

@@ -35,43 +35,61 @@ function MoveCollection({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-    <article class="ntfsell_box">
-        <div class="sellbg">
-          <div class="ntfsell_con">
-            <div class="top1">
-                <a >
-                    <img src={require("../img/sub/nft_arrow.png").default} alt=""/>
+        <article class="ntfsell_box">
+          <div class="sellbg">
+            <div class="ntfsell_con">
+              <div class="top1">
+                <a href="">
+                  <img
+                    src={require("../img/sub/nft_arrow.png").default}
+                    alt=""
+                  />
                 </a>
                 <strong>Profile home</strong>
-            </div>
-            <div class="sell_wrap">
-              <div class="create">
-                  <h2>Move Item</h2>
-                  <h3>Please select a item to move.</h3>
+              </div>
+              <div class="sell_wrap">
+                <div class="create">
+                  <h2>Move Collection</h2>
+                  <h3>Please select a collection to move.</h3>
                   <form action="">
                     <div class="form">
                       <div class="movecollection">
                         <div class="select on">
-                          <div><span>Henry junior's Item 01</span></div>
-                            <ul>
-                              <li><a >Henry junior's Item 01<span class="arrow"></span></a></li>
-                              <li><a >Henry junior's Item 02</a></li>
-                              <li><a >Henry junior's Item 03</a></li>
-                            </ul>
+                          <div>
+                            <span>Henry junior's Collection 01</span>
+                          </div>
+                          <ul>
+                            <li>
+                              <a href="">
+                                Henry junior's Collection 01
+                                <span class="arrow"></span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="">Henry junior's Collection 02</a>
+                            </li>
+                            <li>
+                              <a href="">Henry junior's Collection 03</a>
+                            </li>
+                          </ul>
                         </div>
-                      <p class="sma">Items may take up to an hour to move.</p>
+                        <p class="sma">
+                          Collections may take up to an hour to move.
+                        </p>
                       </div>
-                      </div>
+                    </div>
                   </form>
+                </div>
+              </div>
+              <div class="move_btn">
+                <a href="" class="move">
+                  Move
+                </a>
               </div>
             </div>
-            <div class="move_btn">
-              <a  class="move">Move</a>
-            </div>
           </div>
-        </div>
-    </article>
-</section>
+        </article>
+      </section>
     </SignPopupBox>
   );
 }

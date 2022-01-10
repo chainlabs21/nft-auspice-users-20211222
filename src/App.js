@@ -37,31 +37,33 @@ import SaleBundle from "./router/SaleBundle";
 // import Buynft02 from "./router/Buynft02";
 // import Buynft03 from "./router/Buynft03";
 // import Buynft04 from "./router/Buynft04";
-// import MyProf from "./router/MyProf";
+import MyProf from "./router/MyProf";
 // import Profile02 from "./router/SaleFixed";
 // import Profile03 from "./router/Profile03";
-// import HandOver from "./router/HandOver";
+import HandOver from "./router/HandOver";
 // import Profile05 from "./router/Profile05";
-// import MoveCollection from "./router/MoveCollection";
-// import TransactionHistory from "./router/TransactionHistory";
+import MoveCollection from "./router/MoveCollection";
+import TransactionHistory from "./router/TransactionHistory";
 // import Profile07Off from "./router/Profile07Off";
 // import Offers from "./router/Offers";
-// import Liked from "./router/Liked";
+import Liked from "./router/Liked";
 // import Profile13 from "./router/Profile13";
-// import HiddenItem from "./router/HiddenItem";
-// import Referals from "./router/Referals";
-// import Mywallet from "./router/Mywallet";
+import HiddenItem from "./router/HiddenItem";
+import Referals from "./router/Referals";
+import Mywallet from "./router/Mywallet";
 // import Profile17 from "./router/Profile17";
 // import LogOut from "./router/LogOut";
-// import GeneralSettings from "./router/GeneralSettings";
-// import NotificationSettings from "./router/NotificationSettings";
+import GeneralSettings from "./router/GeneralSettings";
+import NotificationSettings from "./router/NotificationSettings";
 // import MProfileMenu from "./router/MProfileMenu";
-// import ExploreDeal from "./router/ExploreDeal";
-// import Ranking from "./router/Ranking";
+import ExploreDeal from "./router/ExploreDeal";
+import Ranking from "./router/Ranking";
 import MheaderPopup from "./components/MheaderPopup";
 import List from "./util/List";
 import SentEmailDetail from "./router/SentEmailDetail";
 import SelectItem from "./router/SelectItem";
+import LogOut from "./router/LogOut";
+import MaccountPopup from "./components/MaccountPopup";
 
 function App({ store, setHref, setConnect }) {
   return (
@@ -119,32 +121,37 @@ function App({ store, setHref, setConnect }) {
           <Route path="/salefixed" element={<SaleFixed />} />
           <Route path="/auctionbid" element={<AuctionBid />} />
           <Route path="/salebundle" element={<SaleBundle />} />
-          {/*
 
           <Route path="/myprof" element={<MyProf />} />
-          <Route path="/edititem" element={<EditItem />} />
-          <Route path="/transactionhistory" element={<TransactionHistory />} />
-          <Route path="/offers" element={<Offers />} />
-          <Route path="/hiddenitem" element={<HiddenItem />} />
-          <Route path="/liked" element={<Liked />} />
-          <Route path="/referals" element={<Referals />} />
           <Route path="/handover" element={<HandOver />} />
           <Route path="/movecollection" element={<MoveCollection />} />
-          <Route path="/logout" element={<LogOut />} />
-          <Route path="/mprofilemenu" element={<MProfileMenu />} />
+          <Route path="/transactionhistory" element={<TransactionHistory />} />
+          <Route path="/liked" element={<Liked />} />
+          <Route path="/hiddenitem" element={<HiddenItem />} />
+          <Route path="/referals" element={<Referals />} />
 
           <Route path="/mywallet" element={<Mywallet />} />
+          <Route path="/logout" element={<LogOut />} />
           <Route path="/generalsettings" element={<GeneralSettings />} />
           <Route
             path="/notificationsettings"
             element={<NotificationSettings />}
           />
-
+          <Route path="/maccountpopup" element={<MaccountPopup />} />
           <Route path="/exploredeal" element={<ExploreDeal />} />
-          <Route path="/ranking" element={<Ranking />} /> */}
+          <Route path="/ranking" element={<Ranking />} /> 
+
+          {/*
+          <Route path="/edititem" element={<EditItem />} />
+          <Route path="/offers" element={<Offers />} />
+          <Route path="/mprofilemenu" element={<MProfileMenu />} />
+
+
+          */}
         </Routes>
 
         {store.mHeaderPopup && <MheaderPopup />}
+        {store.maccountPopup && <MaccountPopup />}
       </HashRouter>
     </AppBox>
   );

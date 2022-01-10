@@ -15,6 +15,7 @@ import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import rock from "../img/sub/rock.png";
 import sample from "../img/sub/sample.png";
+import click1 from "../img/sub/click1.png";
 
 import "../css/common.css";
 import "../css/font.css";
@@ -68,15 +69,15 @@ function MyProf({ store, setConnect }) {
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
                   <div class="home_icons">
-                    <a>
+                    <a href="">
                       <img src={require("../img/sub/re.png").default} />
                     </a>
-                    <a>
+                    <a href="">
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Item</h2>
+                <h2 class="notop">Henry junior's Collection</h2>
                 <h3>0x97bc...8cad2</h3>
                 <h4>
                   Henry is a mixed-media artist living in the
@@ -87,9 +88,9 @@ function MyProf({ store, setConnect }) {
               </div>
             </div>
 
-            <div class={toggleFilter ? "move on deal" : "move off"}>
+            <div class="move off">
               <div class="cw ucl">
-                <span class="close" onClick={() => setToggleFilter(true)}>
+                <span class="close">
                   <img src={require("../img/sub/side_close.png").default} />
                   <b class="mclose">
                     Filter<span>1</span>
@@ -107,10 +108,6 @@ function MyProf({ store, setConnect }) {
                       <img
                         src={require("../img/sub/filter_close.png").default}
                         class="fc"
-                        onClick={() => setToggleFilter(false)}
-                        style={{
-                          cursor: "pointer",
-                        }}
                       />
                     </div>
                     <div class="fold status">
@@ -124,16 +121,10 @@ function MyProf({ store, setConnect }) {
 
                       <div class="open status">
                         <ul>
-                          {statusList.map((cont, index) => (
-                            <li
-                              key={index}
-                              style={{ cursor: "pointer" }}
-                              className={filterObj.eventType === cont && "on"}
-                              onClick={() => editFilterList("eventType", cont)}
-                            >
-                              {cont}
-                            </li>
-                          ))}
+                          <li class="on">Buy Now</li>
+                          <li>On Auction</li>
+                          <li>New</li>
+                          <li>Has Offers</li>
                         </ul>
                       </div>
                     </div>
@@ -164,13 +155,15 @@ function MyProf({ store, setConnect }) {
                             <span class="usd">USD</span>
                           </div>
                         </div>
-                        <a class="slide_btn">Apply</a>
+                        <a href="" class="slide_btn">
+                          Apply
+                        </a>
                       </div>
                     </div>
 
                     <div class="fold">
                       <h3 class="slide_tt">
-                        Items
+                        Collections
                         <img
                           src={require("../img/sub/slide_up.png").default}
                           class="slide_up"
@@ -186,27 +179,47 @@ function MyProf({ store, setConnect }) {
                         <ul>
                           <li
                             class="collec_img"
-                            style={{ backgroundImage: `url(${collect_img})` }}
+                            style={{
+                              backgroundImage: `url(${collect_img})`,
+                              backgroundRepeat: "no-repeat",
+                              backgroundPosition: "center",
+                              backgroundSize: "cover",
+                            }}
                           >
-                            <span>Item 01</span>
+                            <span>Collection 01</span>
                           </li>
                           <li
                             class="collec_img"
-                            style={{ backgroundImage: `url(${collect_img2})` }}
+                            style={{
+                              backgroundImage: `url(${collect_img2})`,
+                              backgroundRepeat: "no-repeat",
+                              backgroundPosition: "center",
+                              backgroundSize: "cover",
+                            }}
                           >
-                            <span>Item 02</span>
+                            <span>Collection 02</span>
                           </li>
                           <li
                             class="collec_img"
-                            style={{ backgroundImage: `url(${collect_img3})` }}
+                            style={{
+                              backgroundImage: `url(${collect_img3})`,
+                              backgroundRepeat: "no-repeat",
+                              backgroundPosition: "center",
+                              backgroundSize: "cover",
+                            }}
                           >
-                            <span>Item 03</span>
+                            <span>Collection 03</span>
                           </li>
                           <li
                             class="collec_img"
-                            style={{ backgroundImage: `url(${collect_img4})` }}
+                            style={{
+                              backgroundImage: `url(${collect_img4})`,
+                              backgroundRepeat: "no-repeat",
+                              backgroundPosition: "center",
+                              backgroundSize: "cover",
+                            }}
                           >
-                            <span>Item 04</span>
+                            <span>Collection 04</span>
                           </li>
                         </ul>
                       </div>
@@ -223,32 +236,29 @@ function MyProf({ store, setConnect }) {
 
                       <div class="open">
                         <ul>
-                          {chainList.map((cont, index) => (
-                            <li
-                              key={index}
-                              class="ra"
-                              onClick={() => editFilterList("chain", cont.name)}
-                            >
-                              <span
-                                className="chkBtn"
-                                style={{
-                                  background:
-                                    filterObj.chain === cont.name && "#000",
-                                }}
-                              >
-                                <span />
-                              </span>
-                              <label for={cont.name}>
-                                <img src={cont.img} />
-                                {cont.name}
-                              </label>
-                            </li>
-                          ))}
+                          <li class="ra">
+                            <input type="radio" id="rad" name="rad" />
+                            <label for="rad">
+                              <img
+                                src={require("../img/sub/stone.png").default}
+                              />
+                              Ethereum
+                            </label>
+                          </li>
+                          <li class="ra">
+                            <input type="radio" id="rad2" name="rad" />
+                            <label for="rad2">
+                              <img
+                                src={require("../img/sub/rock.png").default}
+                              />
+                              Klaytn
+                            </label>
+                          </li>
                         </ul>
                       </div>
                     </div>
 
-                    {/* <div class="fold">
+                    <div class="fold">
                       <h3 class="slide_tt">
                         Sales Coin
                         <img
@@ -264,26 +274,17 @@ function MyProf({ store, setConnect }) {
                           class="s_search"
                         />
                         <ul>
-                          {coinList.map((cont, index) => (
-                            <li
-                              key={index}
-                              class="ra"
-                              onClick={() => editFilterList("coin", cont)}
-                            >
-                              <span
-                                className="chkBtn"
-                                style={{
-                                  background: filterObj.coin === cont && "#000",
-                                }}
-                              >
-                                <span />
-                              </span>
-                              <label for={cont}>{cont}</label>
-                            </li>
-                          ))}
+                          <li class="ra">
+                            <input type="radio" id="rad3" name="rad2" />
+                            <label for="rad3">AUSP</label>
+                          </li>
+                          <li class="ra">
+                            <input type="radio" id="rad4" name="rad2" />
+                            <label for="rad4">WETH</label>
+                          </li>
                         </ul>
                       </div>
-                    </div> */}
+                    </div>
                   </form>
                 </div>
               </div>
@@ -292,20 +293,18 @@ function MyProf({ store, setConnect }) {
                 <div class="real_sec">
                   <ul class="tab">
                     <li class="onn">Search Wallet</li>
-                    <li onClick={() => navigate("/transactionhistory")}>
-                      Transaction history
-                    </li>
-                    <li onClick={() => navigate("/offers")}>Offers</li>
-                    <li onClick={() => navigate("/liked")}>Liked</li>
-                    <li onClick={() => navigate("/hiddenitem")}>Hidden item</li>
-                    <li onClick={() => navigate("/referals")}>Referals</li>
+                    <li>Transaction history</li>
+                    <li>Offers</li>
+                    <li>Liked</li>
+                    <li>Hidden item</li>
+                    <li>Referals</li>
                   </ul>
                   <div class="pad">
                     <div class="slide_s">
                       <div class="fl">
                         <input
                           type="text"
-                          placeholder="Search items, creators"
+                          placeholder="Search items, collections, creators"
                         />
                       </div>
                       <div class="fr">
@@ -313,13 +312,13 @@ function MyProf({ store, setConnect }) {
                           <div>Single item</div>
                           <ul>
                             <li>
-                              <a>Single item</a>
+                              <a href="">Single item</a>
                             </li>
                             <li>
-                              <a>All</a>
+                              <a href="">All</a>
                             </li>
                             <li>
-                              <a>Bundle sales</a>
+                              <a href="">Bundle sales</a>
                             </li>
                           </ul>
                         </div>
@@ -327,31 +326,31 @@ function MyProf({ store, setConnect }) {
                           <div>Latest</div>
                           <ul>
                             <li>
-                              <a>Latest</a>
+                              <a href="">Latest</a>
                             </li>
                             <li>
-                              <a>popularity</a>
+                              <a href="">popularity</a>
                             </li>
                             <li>
-                              <a>Close to finish</a>
+                              <a href="">Close to finish</a>
                             </li>
                             <li>
-                              <a>Low price</a>
+                              <a href="">Low price</a>
                             </li>
                             <li>
-                              <a>high price</a>
+                              <a href="">high price</a>
                             </li>
                             <li>
-                              <a>A small bid</a>
+                              <a href="">A small bid</a>
                             </li>
                             <li>
-                              <a>A lot of bids</a>
+                              <a href="">A lot of bids</a>
                             </li>
                             <li>
-                              <a>Most seen</a>
+                              <a href="">Most seen</a>
                             </li>
                             <li>
-                              <a>oldest</a>
+                              <a href="">oldest</a>
                             </li>
                           </ul>
                         </div>
@@ -360,288 +359,265 @@ function MyProf({ store, setConnect }) {
 
                     <div class="move_item">
                       <div class="swiper_container">
-                        <ol class="item move_li" ref={itemListRef}>
-                          <li onClick={() => navigate("/edititem")}>
-                            <a style={{ backgroundImage: `url(${s5})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart off">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 0 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(0);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li
-                                          onClick={() => navigate("/handover")}
-                                        >
-                                          Hand Over
-                                        </li>
-                                        <li>Edit</li>
-                                        <li
-                                          onClick={() => navigate("/moveitem")}
-                                        >
-                                          Item Change
-                                        </li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>Mark.X item</span>
-                                <div>Place Saint-Marc</div>
-                              </div>
-                            </a>
-                          </li>
-                          <li onClick={() => navigate("/edititem")}>
-                            <a style={{ backgroundImage: `url(${sample})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 1 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(1);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li
-                                          onClick={() => navigate("/handover")}
-                                        >
-                                          Hand Over
-                                        </li>
-                                        <li>Edit</li>
-                                        <li
-                                          onClick={() =>
-                                            navigate("/movecollection")
-                                          }
-                                        >
-                                          Item Change
-                                        </li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>Mark.X item</span>
-                                <div>Place Saint-Marc</div>
-                              </div>
-                            </a>
-                          </li>
-                          <li onClick={() => navigate("/edititem")}>
-                            <a style={{ backgroundImage: `url(${sample})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 3 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(3);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li
-                                          onClick={() => navigate("/handover")}
-                                        >
-                                          Hand Over
-                                        </li>
-                                        <li>Edit</li>
-                                        <li
-                                          onClick={() =>
-                                            navigate("/movecollection")
-                                          }
-                                        >
-                                          Item Change
-                                        </li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
-                          <li onClick={() => navigate("/edititem")}>
-                            <a style={{ backgroundImage: `url(${sample})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 4 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(4);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li
-                                          onClick={() => navigate("/handover")}
-                                        >
-                                          Hand Over
-                                        </li>
-                                        <li>Edit</li>
-                                        <li
-                                          onClick={() =>
-                                            navigate("/movecollection")
-                                          }
-                                        >
-                                          Item Change
-                                        </li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
-                          <li onClick={() => navigate("/edititem")}>
-                            <a style={{ backgroundImage: `url(${sample})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 5 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(5);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li
-                                          onClick={() => navigate("/handover")}
-                                        >
-                                          Hand Over
-                                        </li>
-                                        <li>Edit</li>
-                                        <li
-                                          onClick={() =>
-                                            navigate("/movecollection")
-                                          }
-                                        >
-                                          Item Change
-                                        </li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
-                          <li onClick={() => navigate("/edititem")}>
-                            <a style={{ backgroundImage: `url(${sample})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 6 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(6);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li
-                                          onClick={() => navigate("/handover")}
-                                        >
-                                          Hand Over
-                                        </li>
-                                        <li>Edit</li>
-                                        <li
-                                          onClick={() =>
-                                            navigate("/movecollection")
-                                          }
-                                        >
-                                          Item Change
-                                        </li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
-                          <li onClick={() => navigate("/edititem")}>
-                            <a style={{ backgroundImage: `url(${sample})` }}>
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li
-                                    class={
-                                      morePopupIndex === 7 ? "dot on" : "dot"
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onClickMoreBtn(7);
-                                    }}
-                                  >
-                                    <div class="choose">
-                                      <ul>
-                                        <li>Sale</li>
-                                        <li
-                                          onClick={() => navigate("/handover")}
-                                        >
-                                          Hand Over
-                                        </li>
-                                        <li>Edit</li>
-                                        <li
-                                          onClick={() =>
-                                            navigate("/movecollection")
-                                          }
-                                        >
-                                          Item Change
-                                        </li>
-                                        <li>Unhide</li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
+                        <ol class="item move_li">
+                          <div>
+                            <span>
+                              <li>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s5})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart off">1,389</li>
+                                      <li class="dot">
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Collection Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>Mark.X collection</span>
+                                    <div>Place Saint-Marc</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li class="click">
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li class="dot">
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Collection Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>Mark.X collection</span>
+                                    <div>Place Saint-Marc</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li class="dot">
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Collection Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li class="dot">
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Collection Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li class="dot">
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Collection Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li class="click">
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li class="dot">
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Collection Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li class="dot">
+                                        <div class="choose">
+                                          <ul>
+                                            <li>Sale</li>
+                                            <li>Hand Over</li>
+                                            <li>Edit</li>
+                                            <li>Collection Change</li>
+                                            <li>Unhide</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                          </div>
                         </ol>
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                <div class="click_thumb">
+                  <div class="thum_pic">
+                    <ul>
+                      <li
+                        style={{
+                          backgroundImage: `url(${click1})`,
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                        }}
+                      ></li>
+                      <li
+                        style={{
+                          backgroundImage: `url(${click1})`,
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                        }}
+                      ></li>
+                    </ul>
+                  </div>
+                  <div class="click_btn">
+                    <a href="">Cancel</a>
+                    <a href="" class="sell">
+                      Sell<span>2</span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -653,8 +629,7 @@ function MyProf({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div`
-`;
+const SignPopupBox = styled.div``;
 
 function mapStateToProps(state) {
   return { store: state };
