@@ -20,7 +20,7 @@ function EmailRequired({ store }) {
   return (
     <SignPopupBox>
       <div class="popup info" id="info_popup">
-        <div class="box_wrap">
+        <div class="box_wrap confirm">
           <div class="box">
             <div class="top0 p2">
               <h2>Email verification required</h2>

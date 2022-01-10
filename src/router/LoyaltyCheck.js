@@ -27,34 +27,26 @@ function LoyaltyCheck({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="ntfsell_box">
-          <div class="sellbg">
-            <div class="ntfsell_con">
-              <div class="top1">
-                <a onClick={() => navigate(-1)}>
-                  <img
-                    src={require("../img/sub/nft_arrow.png").default}
-                    alt=""
-                  />
+    <article class="ntfsell_box">
+        <div class="sellbg">
+          <div class="ntfsell_con">
+            <div class="top1">
+                <a href="">
+                    <img src={require("../img/sub/nft_arrow.png").default} alt=""/>
                 </a>
-                <strong>Item home</strong>
-              </div>
-              <div class="sell_wrap sell_wrap2">
-                <div class="create">
-                  <p class="loyal">Loyalty check</p>
-                  <h2 class="notop">Item 1</h2>
+                <strong>Collection home</strong>
+            </div>
+            <div class="sell_wrap sell_wrap2">
+              <div class="create">
+                <p class="loyal">Loyalty check</p>
+                  <h2 class="notop">Collection 1</h2>
                   <form action="">
                     <div class="form">
                       <ul>
                         <li>
-                          <p>
-                            The payment is only paid when more than 0.1 KLAY has
-                            been accumulated, and deposits are made in batches
-                            every month. Deposit date and time are subject to
-                            change.
-                          </p>
+                          <p>The payment is only paid when more than 0.1 ETH has been accumulated, and deposits are made in batches every month. Deposit date and time are subject to change.</p>
                           <div class="exc">
-                            <a class="cso">Change sort order</a>
+                            <a href="" class="cso">Change sort order</a>
                           </div>
                           <div class="loytable con3">
                             <table>
@@ -77,163 +69,51 @@ function LoyaltyCheck({ store, setConnect }) {
                               <tbody>
                                 <tr>
                                   <td class="ig">A girl</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>2</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>payment due</td>
                                 </tr>
                                 <tr>
                                   <td class="ig">Crushed Hea...</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>1</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>2021.04.01</td>
                                 </tr>
                                 <tr>
                                   <td class="ig">Summer Pool</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>1</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>2021.03.31</td>
                                 </tr>
                                 <tr>
                                   <td class="ig">Donald DUck</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>10</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>2021.03.05</td>
                                 </tr>
                                 <tr>
                                   <td class="ig">Summer Pool</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>107</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>2021.01.08</td>
                                 </tr>
                                 <tr>
                                   <td class="ig">Crushed Hea...</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>107</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>2021.01.01</td>
                                 </tr>
                                 <tr>
                                   <td class="ig">Crushed Hea...</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>107</td>
-                                  <td>
-                                    <img
-                                      src={
-                                        require("../img/sub/rstone.png").default
-                                      }
-                                      alt="stone"
-                                    />
-                                    0.01
-                                  </td>
+                                  <td><img src={require("../img/sub/rstone.png").default} alt="stone"/>0.01</td>
                                   <td>2021.01.01</td>
                                 </tr>
                               </tbody>
@@ -243,12 +123,13 @@ function LoyaltyCheck({ store, setConnect }) {
                       </ul>
                     </div>
                   </form>
-                </div>
               </div>
             </div>
+
           </div>
-        </article>
-      </section>
+        </div>
+    </article>
+</section>
     </SignPopupBox>
   );
 }

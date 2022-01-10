@@ -24,138 +24,138 @@ import { useEffect, useRef, useState } from "react";
 import { isUserMobile } from "../util/Util";
 
 function MyFavorite({ store }) {
-  const navigate = useNavigate();
-  const recentlyRef = useRef();
-  const onSaleRef = useRef();
-  const onAuctionRef = useRef();
+  // const navigate = useNavigate();
+  // const recentlyRef = useRef();
+  // const onSaleRef = useRef();
+  // const onAuctionRef = useRef();
 
-  const [recentlyIndex, setRecentlyIndex] = useState(0);
-  const [onSaleIndex, setOnSaleIndex] = useState(0);
-  const [onAuctionIndex, setOnAuctionIndex] = useState(0);
-  const [mMenuPopup, setMMenuPopup] = useState(false);
+  // const [recentlyIndex, setRecentlyIndex] = useState(0);
+  // const [onSaleIndex, setOnSaleIndex] = useState(0);
+  // const [onAuctionIndex, setOnAuctionIndex] = useState(0);
+  // const [mMenuPopup, setMMenuPopup] = useState(false);
 
-  function onClickRecentlyPreBtn() {
-    const wrapWidth = recentlyRef.current.offsetWidth;
-    const contWidth = recentlyRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(10 / itemNumByPage);
+  // function onClickRecentlyPreBtn() {
+  //   const wrapWidth = recentlyRef.current.offsetWidth;
+  //   const contWidth = recentlyRef.current.children[0].offsetWidth;
+  //   const itemNumByPage = Math.floor(wrapWidth / contWidth);
+  //   const pageNum = Math.ceil(10 / itemNumByPage);
 
-    if (recentlyIndex > 0) setRecentlyIndex(recentlyIndex - 1);
-    else setRecentlyIndex(pageNum - 1);
-  }
+  //   if (recentlyIndex > 0) setRecentlyIndex(recentlyIndex - 1);
+  //   else setRecentlyIndex(pageNum - 1);
+  // }
 
-  function onClickRecentlyNextBtn() {
-    const wrapWidth = recentlyRef.current.offsetWidth;
-    const contWidth = recentlyRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(10 / itemNumByPage);
+  // function onClickRecentlyNextBtn() {
+  //   const wrapWidth = recentlyRef.current.offsetWidth;
+  //   const contWidth = recentlyRef.current.children[0].offsetWidth;
+  //   const itemNumByPage = Math.floor(wrapWidth / contWidth);
+  //   const pageNum = Math.ceil(10 / itemNumByPage);
 
-    if (recentlyIndex < pageNum - 1) setRecentlyIndex(recentlyIndex + 1);
-    else setRecentlyIndex(0);
-  }
+  //   if (recentlyIndex < pageNum - 1) setRecentlyIndex(recentlyIndex + 1);
+  //   else setRecentlyIndex(0);
+  // }
 
-  function onClickOnSalePreBtn() {
-    const wrapWidth = onSaleRef.current.offsetWidth;
-    const contWidth = onSaleRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(10 / itemNumByPage);
+  // function onClickOnSalePreBtn() {
+  //   const wrapWidth = onSaleRef.current.offsetWidth;
+  //   const contWidth = onSaleRef.current.children[0].offsetWidth;
+  //   const itemNumByPage = Math.floor(wrapWidth / contWidth);
+  //   const pageNum = Math.ceil(10 / itemNumByPage);
 
-    if (onSaleIndex > 0) setOnSaleIndex(onSaleIndex - 1);
-    else setOnSaleIndex(pageNum - 1);
-  }
+  //   if (onSaleIndex > 0) setOnSaleIndex(onSaleIndex - 1);
+  //   else setOnSaleIndex(pageNum - 1);
+  // }
 
-  function onClickOnSaleNextBtn() {
-    const wrapWidth = onSaleRef.current.offsetWidth;
-    const contWidth = onSaleRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(10 / itemNumByPage);
+  // function onClickOnSaleNextBtn() {
+  //   const wrapWidth = onSaleRef.current.offsetWidth;
+  //   const contWidth = onSaleRef.current.children[0].offsetWidth;
+  //   const itemNumByPage = Math.floor(wrapWidth / contWidth);
+  //   const pageNum = Math.ceil(10 / itemNumByPage);
 
-    if (onSaleIndex < pageNum - 1) setOnSaleIndex(onSaleIndex + 1);
-    else setOnSaleIndex(0);
-  }
+  //   if (onSaleIndex < pageNum - 1) setOnSaleIndex(onSaleIndex + 1);
+  //   else setOnSaleIndex(0);
+  // }
 
-  function onClickOnAuctionPreBtn() {
-    const wrapWidth = onAuctionRef.current.offsetWidth;
-    const contWidth = onAuctionRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(10 / itemNumByPage);
+  // function onClickOnAuctionPreBtn() {
+  //   const wrapWidth = onAuctionRef.current.offsetWidth;
+  //   const contWidth = onAuctionRef.current.children[0].offsetWidth;
+  //   const itemNumByPage = Math.floor(wrapWidth / contWidth);
+  //   const pageNum = Math.ceil(10 / itemNumByPage);
 
-    if (onAuctionIndex > 0) setOnAuctionIndex(onAuctionIndex - 1);
-    else setOnAuctionIndex(pageNum - 1);
-  }
+  //   if (onAuctionIndex > 0) setOnAuctionIndex(onAuctionIndex - 1);
+  //   else setOnAuctionIndex(pageNum - 1);
+  // }
 
-  function onClickOnAuctionNextBtn() {
-    const wrapWidth = onAuctionRef.current.offsetWidth;
-    const contWidth = onAuctionRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(10 / itemNumByPage);
+  // function onClickOnAuctionNextBtn() {
+  //   const wrapWidth = onAuctionRef.current.offsetWidth;
+  //   const contWidth = onAuctionRef.current.children[0].offsetWidth;
+  //   const itemNumByPage = Math.floor(wrapWidth / contWidth);
+  //   const pageNum = Math.ceil(10 / itemNumByPage);
 
-    if (onAuctionIndex < pageNum - 1) setOnAuctionIndex(onAuctionIndex + 1);
-    else setOnAuctionIndex(0);
-  }
+  //   if (onAuctionIndex < pageNum - 1) setOnAuctionIndex(onAuctionIndex + 1);
+  //   else setOnAuctionIndex(0);
+  // }
 
-  useEffect(() => {
-    const wrapWidth = recentlyRef.current.offsetWidth;
-    const contWidth = recentlyRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(10 / itemNumByPage);
+  // useEffect(() => {
+  //   const wrapWidth = recentlyRef.current.offsetWidth;
+  //   const contWidth = recentlyRef.current.children[0].offsetWidth;
+  //   const itemNumByPage = Math.floor(wrapWidth / contWidth);
+  //   const pageNum = Math.ceil(10 / itemNumByPage);
 
-    if (recentlyRef.current?.scrollTo) {
-      if (recentlyIndex < pageNum) {
-        recentlyRef.current.scrollTo({
-          left: contWidth * itemNumByPage * recentlyIndex,
-          behavior: "smooth",
-        });
-      } else {
-        recentlyRef.current.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-      }
-    }
-  }, [recentlyIndex]);
+  //   if (recentlyRef.current?.scrollTo) {
+  //     if (recentlyIndex < pageNum) {
+  //       recentlyRef.current.scrollTo({
+  //         left: contWidth * itemNumByPage * recentlyIndex,
+  //         behavior: "smooth",
+  //       });
+  //     } else {
+  //       recentlyRef.current.scrollTo({
+  //         left: 0,
+  //         behavior: "smooth",
+  //       });
+  //     }
+  //   }
+  // }, [recentlyIndex]);
 
-  useEffect(() => {
-    const wrapWidth = onSaleRef.current.offsetWidth;
-    const contWidth = onSaleRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(10 / itemNumByPage);
+  // useEffect(() => {
+  //   const wrapWidth = onSaleRef.current.offsetWidth;
+  //   const contWidth = onSaleRef.current.children[0].offsetWidth;
+  //   const itemNumByPage = Math.floor(wrapWidth / contWidth);
+  //   const pageNum = Math.ceil(10 / itemNumByPage);
 
-    if (onSaleRef.current?.scrollTo) {
-      if (onSaleIndex < pageNum) {
-        onSaleRef.current.scrollTo({
-          left: contWidth * itemNumByPage * onSaleIndex,
-          behavior: "smooth",
-        });
-      } else {
-        onSaleRef.current.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-      }
-    }
-  }, [onSaleIndex]);
+  //   if (onSaleRef.current?.scrollTo) {
+  //     if (onSaleIndex < pageNum) {
+  //       onSaleRef.current.scrollTo({
+  //         left: contWidth * itemNumByPage * onSaleIndex,
+  //         behavior: "smooth",
+  //       });
+  //     } else {
+  //       onSaleRef.current.scrollTo({
+  //         left: 0,
+  //         behavior: "smooth",
+  //       });
+  //     }
+  //   }
+  // }, [onSaleIndex]);
 
-  useEffect(() => {
-    const wrapWidth = onAuctionRef.current.offsetWidth;
-    const contWidth = onAuctionRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(10 / itemNumByPage);
+  // useEffect(() => {
+  //   const wrapWidth = onAuctionRef.current.offsetWidth;
+  //   const contWidth = onAuctionRef.current.children[0].offsetWidth;
+  //   const itemNumByPage = Math.floor(wrapWidth / contWidth);
+  //   const pageNum = Math.ceil(10 / itemNumByPage);
 
-    if (onAuctionRef.current?.scrollTo) {
-      if (onAuctionIndex < pageNum) {
-        onAuctionRef.current.scrollTo({
-          left: contWidth * itemNumByPage * onAuctionIndex,
-          behavior: "smooth",
-        });
-      } else {
-        onAuctionRef.current.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-      }
-    }
-  }, [onAuctionIndex]);
+  //   if (onAuctionRef.current?.scrollTo) {
+  //     if (onAuctionIndex < pageNum) {
+  //       onAuctionRef.current.scrollTo({
+  //         left: contWidth * itemNumByPage * onAuctionIndex,
+  //         behavior: "smooth",
+  //       });
+  //     } else {
+  //       onAuctionRef.current.scrollTo({
+  //         left: 0,
+  //         behavior: "smooth",
+  //       });
+  //     }
+  //   }
+  // }, [onAuctionIndex]);
 
   return (
     <SignPopupBox>
@@ -170,44 +170,23 @@ function MyFavorite({ store }) {
                     src={require("../img/sub/home_profile.png").default}
                     class="dotimg"
                   />
-                  <div
-                    class="home_icons mhome home12 on"
-                    onClick={() => setMMenuPopup(!mMenuPopup)}
-                  >
-                    {mMenuPopup && isUserMobile() && (
-                      <div class="mhome_wrap">
-                        <ul onClick={() => setMMenuPopup(false)}>
-                          <li onClick={() => navigate("/exploredeal")}>
-                            <a>Transaction History</a>
-                          </li>
-                          <li onClick={() => navigate("/editcollection")}>
-                            <a>Changing information</a>
-                          </li>
-                          <li onClick={() => navigate("/loyaltycheck")}>
-                            <a>Loyalty History</a>
-                          </li>
-                        </ul>
-                      </div>
-                    )}
-
-                    {!isUserMobile() && (
-                      <div class="mhome_wrap">
-                        <ul onClick={() => setMMenuPopup(false)}>
-                          <li onClick={() => navigate("/editcollection")}>
-                            <a>Transaction History</a>
-                          </li>
-                          <li onClick={() => navigate("/exploredeal")}>
-                            <a>Changing information</a>
-                          </li>
-                          <li onClick={() => navigate("/loyaltycheck")}>
-                            <a>Loyalty History</a>
-                          </li>
-                        </ul>
-                      </div>
-                    )}
+                  <div class="home_icons mhome home12 on">
+                    <div class="mhome_wrap">
+                      <ul>
+                        <li>
+                          <a href="">Transaction History</a>
+                        </li>
+                        <li>
+                          <a href="">Changing information</a>
+                        </li>
+                        <li>
+                          <a href="">Loyalty History</a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Item</h2>
+                <h2 class="notop">Henry junior's Collection</h2>
                 <h4>
                   Henry is a mixed-media artist living in the
                   <br class="mo" /> Bay Area and uses
@@ -227,7 +206,7 @@ function MyFavorite({ store }) {
                     <li>
                       <h5>Avg price</h5>
                       <p>
-                        2.22<b>KLAY</b>
+                        2.22<b>ETH</b>
                         <span>$ 307.21</span>
                       </p>
                     </li>
@@ -248,20 +227,25 @@ function MyFavorite({ store }) {
                   <div class="item marbo">
                     <div class="full">
                       <h4 class="t releft">Recently Listed</h4>
-                      <a class="replus" onClick={() => navigate("/createitem")}>
+                      <a href="" class="replus">
                         Register a new item
                       </a>
                     </div>
                     <div class="swiper">
                       <div class="swiper-container swiper-container-newitem">
-                        <ol
-                          class="item item5 summary swiper-wrapper"
-                          ref={recentlyRef}
-                        >
-                          {[1, 2].map((cont, index) => (
-                            <>
+                        <ol class="item item5 summary swiper-wrapper">
+                          <div className="slideBox">
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s2})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s2})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart off">1,389</li>
@@ -271,7 +255,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -283,7 +267,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -292,8 +276,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s6})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s6})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -303,7 +297,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -315,7 +309,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -324,8 +318,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s8})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s8})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -335,7 +339,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -347,7 +351,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -356,8 +360,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s7})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s7})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -367,7 +381,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -379,7 +393,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -388,8 +402,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s6})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s6})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -399,7 +423,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -411,7 +435,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -420,8 +444,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s6})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s6})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -431,7 +465,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -443,7 +477,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -452,18 +486,12 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
-                            </>
-                          ))}
+                            </span>
+                          </div>
                         </ol>
                       </div>
-                      <div
-                        class="swiper-button-prev swiper-button-newitem-prev"
-                        onClick={onClickRecentlyPreBtn}
-                      ></div>
-                      <div
-                        class="swiper-button-next swiper-button-newitem-next"
-                        onClick={onClickRecentlyNextBtn}
-                      ></div>
+                      <div class="swiper-button-prev swiper-button-newitem-prev"></div>
+                      <div class="swiper-button-next swiper-button-newitem-next"></div>
                     </div>
                   </div>
 
@@ -471,14 +499,19 @@ function MyFavorite({ store }) {
                     <h4 class="t">On Sale Item</h4>
                     <div class="swiper">
                       <div class="swiper-container swiper-container-newitem newitem2">
-                        <ol
-                          class="item item5 summary swiper-wrapper"
-                          ref={onSaleRef}
-                        >
-                          {[1, 2].map((cont, index) => (
-                            <>
+                        <ol class="item item5 summary swiper-wrapper">
+                          <div className="slideBox">
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s2})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s2})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart off">1,389</li>
@@ -488,7 +521,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -500,7 +533,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -509,8 +542,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s6})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s6})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -520,7 +563,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -532,7 +575,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -541,8 +584,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s8})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -552,7 +605,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -564,7 +617,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -573,8 +626,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s7})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s8})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -584,7 +647,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -596,7 +659,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -605,8 +668,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s6})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s7})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -616,7 +689,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -628,7 +701,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -637,8 +710,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s6})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s6})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -648,7 +731,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -660,7 +743,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -669,18 +752,12 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
-                            </>
-                          ))}
+                            </span>
+                          </div>
                         </ol>
                       </div>
-                      <div
-                        class="swiper-button-prev swiper-button-newitem-prev"
-                        onClick={onClickOnSalePreBtn}
-                      ></div>
-                      <div
-                        class="swiper-button-next swiper-button-newitem-next"
-                        onClick={onClickOnSaleNextBtn}
-                      ></div>
+                      <div class="swiper-button-prev swiper-button-newitem-prev newitemprev2"></div>
+                      <div class="swiper-button-next swiper-button-newitem-next newitemnext2"></div>
                     </div>
                   </div>
 
@@ -688,14 +765,19 @@ function MyFavorite({ store }) {
                     <h4 class="t">On Auction</h4>
                     <div class="swiper">
                       <div class="swiper-container swiper-container-newitem newitem3">
-                        <ol
-                          class="item item5 summary swiper-wrapper"
-                          ref={onAuctionRef}
-                        >
-                          {[1, 2].map((cont, index) => (
-                            <>
+                        <ol class="item item5 summary swiper-wrapper">
+                          <div className="slideBox">
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s2})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s2})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart off">1,389</li>
@@ -705,7 +787,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -717,7 +799,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -726,8 +808,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s6})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s6})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -737,7 +829,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -749,7 +841,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -758,8 +850,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s8})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s8})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -769,7 +871,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -781,7 +883,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -790,8 +892,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s7})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s7})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -801,7 +913,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -813,7 +925,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -822,8 +934,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s6})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s6})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -833,7 +955,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -845,7 +967,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -854,8 +976,18 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
+                            </span>
+                            <span>
                               <li class="swiper-slide">
-                                <a style={{ backgroundImage: `url(${s6})` }}>
+                                <a
+                                  href="#"
+                                  style={{
+                                    backgroundImage: `url(${s6})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
@@ -865,7 +997,7 @@ function MyFavorite({ store }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
+                                      <li>1.67 AUSP</li>
                                     </ol>
                                   </div>
                                   <div class="top blk">
@@ -877,7 +1009,7 @@ function MyFavorite({ store }) {
                                             <li>Sale</li>
                                             <li>Hand Over</li>
                                             <li>Edit</li>
-                                            <li>Item Change</li>
+                                            <li>Collection Change</li>
                                             <li>Unhide</li>
                                           </ul>
                                         </div>
@@ -886,18 +1018,12 @@ function MyFavorite({ store }) {
                                   </div>
                                 </a>
                               </li>
-                            </>
-                          ))}
+                            </span>
+                          </div>
                         </ol>
                       </div>
-                      <div
-                        class="swiper-button-prev swiper-button-newitem-prev"
-                        onClick={onClickOnAuctionPreBtn}
-                      ></div>
-                      <div
-                        class="swiper-button-next swiper-button-newitem-next"
-                        onClick={onClickOnAuctionNextBtn}
-                      ></div>
+                      <div class="swiper-button-prev swiper-button-newitem-prev newitemprev3"></div>
+                      <div class="swiper-button-next swiper-button-newitem-next newitemnext3"></div>
                     </div>
                   </div>
                 </div>
@@ -911,35 +1037,15 @@ function MyFavorite({ store }) {
 }
 
 const SignPopupBox = styled.div`
-  #sub {
-    .item.item5 {
-      overflow-x: scroll;
+  .swiper-wrapper,
+  .slideBox {
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+    transition: 0.8s;
 
-      &::-webkit-scrollbar {
-        display: none;
-      }
-
-      & > li {
-        min-width: 340px;
-        width: 19%;
-        padding: 0 20px 0 0;
-        margin: 0 0 20px;
-      }
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-      z-index: 2;
-    }
-  }
-  @media screen and (max-width: 768px) {
-    #sub {
-      .profile_home {
-        .swiper-button-prev,
-        .swiper-button-next {
-          display: none;
-        }
-      }
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 `;

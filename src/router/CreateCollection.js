@@ -62,17 +62,17 @@ function CreateCollection({ store, setConnect }) {
           <div class="sellbg">
             <div class="ntfsell_con">
               <div class="top1">
-                <a onClick={() => navigate(-1)}>
+                <a href="">
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
                     alt=""
                   />
                 </a>
-                <strong>Item home</strong>
+                <strong>Collection home</strong>
               </div>
               <div class="sell_wrap">
                 <div class="create">
-                  <h2>Create a new item</h2>
+                  <h2>Create a new collection</h2>
                   <form action="">
                     <div class="form">
                       <ul>
@@ -85,39 +85,27 @@ function CreateCollection({ store, setConnect }) {
                             />
                           </h3>
                           <p>
-                            Register the item logo. Please select an image
+                            Register the collection logo. Please select an image
                             file.
                             <br />
                             Square image (recommended size 350 x 350)
                           </p>
                           <div class="img logo_img">
                             <div class="line">
-                              <input
-                                type="file"
-                                ref={logoRef}
-                                onChange={(e) =>
-                                  onChangeLogo(e.target.files[0])
-                                }
-                              />
-                              <button
-                                onClick={() => logoRef.current.click()}
-                                for="file"
-                              >
+                              <input type="file" name="" id="file" />
+                              <label for="file">
                                 <img
                                   src={
-                                    logo
-                                      ? logo
-                                      : require("../img/sub/logo_img.png")
-                                          .default
+                                    require("../img/sub/logo_img.png").default
                                   }
                                 />
-                              </button>
+                              </label>
                             </div>
                           </div>
                         </li>
                         <li>
                           <h3>
-                            Item name{" "}
+                            Collection name{" "}
                             <img
                               src={require("../img/sub/star.png").default}
                               alt=""
@@ -126,17 +114,17 @@ function CreateCollection({ store, setConnect }) {
                           <div class="inputbox">
                             <input
                               type="text"
-                              placeholder="Example: A item of atmospheric night view photos"
+                              placeholder="Example: A collection of atmospheric night view photos"
                             />
                           </div>
                         </li>
                         <li>
-                          <h3>Add Item Banner</h3>
+                          <h3>Add Collection Banner</h3>
                           <p>
                             Register the banner that will appear at the top of
-                            the item home page.
+                            the collection home page.
                             <br />
-                            The image to characterize the item is
+                            The image to characterize the collection is
                             advantageous, and if there is a lot of text, it may
                             be hard to see
                             <br /> depending on the window size.(Recommended
@@ -144,38 +132,18 @@ function CreateCollection({ store, setConnect }) {
                           </p>
                           <div class="img">
                             <div class="line">
-                              <input
-                                type="file"
-                                name
-                                id="file"
-                                onChange={(e) =>
-                                  onChangeBanner(e.target.files[0])
-                                }
-                              />
-                              <label
-                                for="file"
-                                class="file_he"
-                                style={{
-                                  padding: banner && 0,
-                                }}
-                              >
-                                {banner ? (
-                                  <img src={banner} alt="" />
-                                ) : (
-                                  <>
-                                    <p>
-                                      JPG , PNG, ICO etc. Image file (Up to
-                                      10mb)
-                                    </p>
-                                    <button>Choose File</button>
-                                  </>
-                                )}
+                              <input type="file" name id="file" />
+                              <label for="file" class="file_he">
+                                <p>
+                                  JPG , PNG, ICO etc. Image file (Up to 10mb)
+                                </p>
+                                <button>Choose File</button>
                               </label>
                             </div>
                           </div>
                         </li>
                         <li>
-                          <h3>Item Description</h3>
+                          <h3>Collection Description</h3>
                           <div class="inputbox">
                             <div class="txt">
                               <textarea
@@ -190,18 +158,30 @@ function CreateCollection({ store, setConnect }) {
                           <p>You can easily search by selecting a category.</p>
                           <div class="cat">
                             <ul>
-                              {categoryList.map((cont, index) => (
-                                <li
-                                  key={index}
-                                  onClick={() => onClickCategory(cont)}
-                                  style={{
-                                    color: categoryObj[cont] && "#fff",
-                                    background: categoryObj[cont] && "#000",
-                                  }}
-                                >
-                                  <span>{cont}</span>
-                                </li>
-                              ))}
+                              <li>
+                                <span>Art</span>
+                              </li>
+                              <li>
+                                <span>Music</span>
+                              </li>
+                              <li>
+                                <span>Vitual World</span>
+                              </li>
+                              <li>
+                                <span>Trading Cards</span>
+                              </li>
+                              <li>
+                                <span>Collectibles</span>
+                              </li>
+                              <li>
+                                <span>Sports</span>
+                              </li>
+                              <li>
+                                <span>Utility</span>
+                              </li>
+                              <li>
+                                <span>ETC</span>
+                              </li>
                             </ul>
                           </div>
                         </li>
@@ -231,7 +211,7 @@ function CreateCollection({ store, setConnect }) {
                 </div>
               </div>
               <div class="create_btn mcrea">
-                <a>Create Item</a>
+                <a href="">Create Item</a>
               </div>
             </div>
           </div>

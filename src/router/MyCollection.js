@@ -38,14 +38,10 @@ function MyCollection({ store, setConnect }) {
               <div class="right_move">
                 <div class="real_sec">
                   <ul class="tab tab4">
-                    <li class="onn">my item</li>
-                    <li onClick={() => navigate("/myprof")}>
-                      Profile Management
-                    </li>
-                    <li onClick={() => navigate("/liked")}>My Favorite</li>
-                    <li onClick={() => navigate("/mywallet")}>
-                      Account Management
-                    </li>
+                    <li class="onn">my collection</li>
+                    <li>Profile Management</li>
+                    <li>My Favorite</li>
+                    <li>Account Management</li>
                   </ul>
                 </div>
               </div>
@@ -53,76 +49,174 @@ function MyCollection({ store, setConnect }) {
             <div class="wrap">
               <div class="collection_detail noimg">
                 <div class="pro_img"></div>
-                <h2>Add Item</h2>
+                <h2>Add Collection</h2>
                 <h4>
-                  After creating a item, register a new NFT.
+                  After creating a collection, register a new NFT.
                   <br />
                   Organize your own gallery with different concepts for each
-                  item.
+                  collection.
                 </h4>
                 <div class="ad_btn">
-                  <a onClick={() => navigate("/createcollection")}>
-                    Create a new item
-                  </a>
-                  <a class="line" onClick={() => navigate("/importcontract")}>
+                  <a href="">Create a new collection</a>
+                  <a href="" class="line">
                     Load from contract
                   </a>
                 </div>
               </div>
 
               <div class="item">
-                <h4 class="t">My Item</h4>
-                <div class="swiper-container">
-                  <ol class="item item5 buy" ref={collectionRef}>
-                    {collectionList.map((bottomText, index) => (
-                      <li
-                        key={index}
-                        onClick={() => navigate("/mycollectionselect")}
-                      >
-                        <a style={{ backgroundImage: `url(${sample})` }}>
-                          <div class="on">
-                            <ul>
-                              <li></li>
-                              <li
-                                className={
-                                  popupIndex === index ? "dot on" : "dot"
-                                }
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  onclickCollectionPopupBtn(index);
-                                }}
+                <div class="wrap">
+                  <h4 class="t">Other works in this collection</h4>
+
+                  <div class="swiper">
+                    <div class="swiper-container swiper-container-trendingitem">
+                      <ol class="item item4 buy swiper-wrapper">
+                        <div>
+                          <span>
+                            <li class="swiper-slide">
+                              <a
+                                href="#"
+                                style={{ backgroundImage: `url(${sample})` }}
                               >
-                                <div class="choose choose2">
-                                  <ul onClick={() => setPopupIndex(-1)}>
-                                    <li
-                                      onClick={() =>
-                                        navigate("/editcollection")
-                                      }
-                                    >
-                                      Changing Information
-                                    </li>
-                                    <li
-                                      onClick={() => navigate("/loyaltycheck")}
-                                    >
-                                      Royalty
-                                    </li>
+                                <article class="choose choose2 on">
+                                  <ul>
+                                    <li>Changing Information</li>
+                                    <li>Royalty</li>
                                   </ul>
+                                </article>
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                  <p>Buy Now</p>
                                 </div>
-                              </li>
-                            </ul>
-                            <div>Summer Pool</div>
-                            <span>David</span>
-                            <span class="nft">
-                              This item is a item of 80 individual
-                              works and has been exhibited at the Museum of
-                              Modern Art.
-                            </span>
-                            <p>{bottomText}</p>
-                          </div>
-                        </a>
-                      </li>
-                    ))}
-                  </ol>
+                              </a>
+                            </li>
+                          </span>
+
+                          <span>
+                            <li class="swiper-slide">
+                              <a
+                                href="#"
+                                style={{ backgroundImage: `url(${sample})` }}
+                              >
+                                <article class="choose choose2 on">
+                                  <ul>
+                                    <li>Changing Information</li>
+                                    <li>Royalty</li>
+                                  </ul>
+                                </article>
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart on">1,389</li>
+                                    <li class="star on"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                  <p>Buy Now</p>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+
+                          <span>
+                            <li class="swiper-slide">
+                              <a
+                                href="#"
+                                style={{ backgroundImage: `url(${sample})` }}
+                              >
+                                <article class="choose choose2 on">
+                                  <ul>
+                                    <li>Changing Information</li>
+                                    <li>Royalty</li>
+                                  </ul>
+                                </article>
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart on">1,389</li>
+                                    <li class="star on"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                  <p>Buy Now</p>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+
+                          <span>
+                            <li class="swiper-slide">
+                              <a
+                                href="#"
+                                style={{ backgroundImage: `url(${sample})` }}
+                              >
+                                <article class="choose choose2 on">
+                                  <ul>
+                                    <li>Changing Information</li>
+                                    <li>Royalty</li>
+                                  </ul>
+                                </article>
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart on">1,389</li>
+                                    <li class="star on"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                  <p>Buy Now</p>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+
+                          <span>
+                            <li class="swiper-slide">
+                              <a
+                                href="#"
+                                style={{ backgroundImage: `url(${sample})` }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart on">1,389</li>
+                                    <li class="star on"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                  <p>Buy Now</p>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                        </div>
+                      </ol>
+                    </div>
+
+                    <div class="swiper-button-prev swiper-button-trendingitem-prev pcno"></div>
+                    <div class="swiper-button-next swiper-button-trendingitem-next pcno"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -146,5 +240,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyCollection);
-
-const collectionList = ["NFT1", "NFT12", "NFT100", "NFT20", "NFT30"];

@@ -24,7 +24,7 @@ function Main({ store, setAllPopupOff }) {
   }
 
   return (
-    <HeaderBox>
+    <HeaderBox className="mMenuBox">
       <ul className="categoryList">
         <li>
           <div
@@ -133,11 +133,11 @@ const HeaderBox = styled.nav`
   gap: 40px;
   background: #fff;
   position: fixed;
-  top: 70px;
+  top: 95px;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 6;
+  z-index: 1001;
 
   .categoryList {
     li {
@@ -189,6 +189,18 @@ const HeaderBox = styled.nav`
       border-radius: 28px;
       background-color: #222;
     }
+  }
+
+  @media screen and (min-width: 1025px) {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    top: 85px;
+  }
+
+  @media screen and (max-width: 640px) {
+    top: 75px;
   }
 `;
 

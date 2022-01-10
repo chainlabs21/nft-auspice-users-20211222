@@ -3,11 +3,11 @@ import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
 
-import collect_img from "../img/sub/collect_img.png";
-import collect_img2 from "../img/sub/collect_img2.png";
-import collect_img3 from "../img/sub/collect_img3.png";
-import collect_img4 from "../img/sub/collect_img4.png";
-import s5 from "../img/sub/s5.png";
+import s1 from "../img/sub/s1.png";
+import s2 from "../img/sub/s2.png";
+import s4 from "../img/sub/s4.png";
+import s3 from "../img/sub/s3.png";
+import s9 from "../img/sub/s9.png";
 import sample from "../img/sub/sample.png";
 import profile_img from "../img/sub/profile_img.png";
 
@@ -24,7 +24,7 @@ import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useEffect, useRef, useState } from "react";
 
-function SingleItem({ store, setConnect }) {
+function SelectItem({ store, setConnect }) {
   const navigate = useNavigate();
   const itemWrapRef = useRef();
 
@@ -78,7 +78,7 @@ function SingleItem({ store, setConnect }) {
   }, [userIndex]);
 
   return (
-    <SignPopupBox>
+    <SelectItemBox>
       {ownerPopup && (
         <div class="popup info" id="info_popup" style={{ display: "block" }}>
           <div class="box_wrap wrap2">
@@ -260,11 +260,11 @@ function SingleItem({ store, setConnect }) {
         </div>
       )}
 
-      {bidPopup && (
+      {reportPopup && (
         <div class="popup info" id="info_popup" style={{ display: "block" }}>
-          <div class="box_wrap buynft">
+          <div class="box_wrap wrap3">
             <a
-              onClick={() => setBidPopup(false)}
+              onClick={() => setReportPopup(false)}
               class="close close2"
               id="info_close"
             >
@@ -273,90 +273,56 @@ function SingleItem({ store, setConnect }) {
                 alt="close"
               />
             </a>
-            <div class="poptitle nob">
-              <h2>Purchase receipt</h2>
+            <div class="poptitle">
+              <h2>Report inappropriate items</h2>
             </div>
-            <div class="list_bottom buy_nft">
-              <p class="warn">
-                Warning! Contains items
-                <br /> that have not been reviewed and approved
-              </p>
-              <div class="receipt_section">
-                <div class="receipt_title">
-                  <p class="rec_t">Item</p>
-                  <p class="rec_t right">Subtotal</p>
-                </div>
-                <div class="receipt_item">
-                  <ul>
-                    <li>
-                      <span class="pic"></span>
-                      <div class="right_price">
-                        <h3>
-                          Philip van Kouwenbergh
-                          <br />
-                          <span>Blackman with neon 4 items</span>
-                        </h3>
-                        <h4 class="m_sub">
-                          <img src={require("../img/sub/stone.png").default} />
-                          25<span class="pri">($58,282.50)</span>
-                        </h4>
-                      </div>
-                    </li>
-                  </ul>
-                  <ul>
-                    <li class="heig">
-                      <p class="rec_t">Total</p>
-                      <div class="right_price m_left">
-                        <h4 class="blue nored">
-                          <img src={require("../img/sub/stone.png").default} />
-                          25<span class="pri">($58,282.50)</span>
-                        </h4>
-                      </div>
-                    </li>
-                    <li></li>
-                  </ul>
-                </div>
-                <form class="ckb_wrap">
-                  <div class="ckb">
-                    <input type="checkbox" id="chk" name="chk1" />
-                    <label for="chk">
-                      Aware that Auspice contains one item that has not been
-                      reviewed and approved
-                    </label>
-                  </div>
-                  <div class="ckb">
-                    <input type="checkbox" id="chk2" name="chk1" />
-                    <label for="chk2">
-                      I agree to Auspice's <b>Terms of Service</b>
-                    </label>
-                  </div>
-                </form>
+            <form>
+              <div class="list_bottom bottom2">
+                <h3>Category</h3>
+                <select>
+                  <option disable selected hidden>
+                    Please select a reason for reporting
+                  </option>
+                  <option>Similar to another artist's work</option>
+                </select>
+                <h3>Detailed description</h3>
+                <textarea placeholder="Please describe in detail why you would like to report the item."></textarea>
               </div>
-              <a href="" class="reportit on ">
-                Make a payment
-              </a>
-            </div>
+              <div class="report_wrap">
+                <a href="" class="reportit">
+                  Report it
+                </a>
+              </div>
+            </form>
           </div>
         </div>
       )}
 
       <section id="sub">
-        <article class="bundle_box box2 box3">
+        <article class="bundle_box box2">
           <div class="wrap">
+            <div class="back">
+              <div class="bt">
+                <a href="" class="backic">
+                  <img src={require("../img/sub/icon_back.png").default} />
+                </a>
+                <h2>Philip van Kouwenbergh's collection</h2>
+              </div>
+              <div class="seed">
+                <a href="" class="sell">
+                  SELL
+                </a>
+                <a href="" class="edit">
+                  EDIT
+                </a>
+              </div>
+            </div>
             <div class="bundle_top">
               <div class="bun_tl">
                 <div class="bun_tl_img">
                   <div class="bt artist">
                     <h2>
-                      <span
-                        style={{
-                          backgroundImage: `url(${profile_img})`,
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "center",
-                          backgroundSize: "cover",
-                        }}
-                      ></span>
-                      @Philip van Kouwenbergh
+                      <span></span>@Philip van Kouwenbergh
                     </h2>
                   </div>
                   <div class="bt likes">
@@ -384,20 +350,50 @@ function SingleItem({ store, setConnect }) {
                     </ul>
                   </div>
                 </div>
+                <div class="desc">
+                  <h2 class="i_title">Description</h2>
+                  <p>
+                    This is a collection of digitals produced on April 28th,
+                    with beautiful night views. It's about the
+                    <br />
+                    harmony of neon signs. It's an expression of modern art.
+                    <br />
+                    <br />
+                    on April 28th, with beautiful night views. It's about the
+                    harmony of neon signs.
+                    <br />
+                    It's an expression of modern art.
+                  </p>
+                  <div class="mcons">
+                    <a href="">
+                      <img src={require("../img/sub/refresh.png").default} />
+                    </a>
+                    <a href="">
+                      <img src={require("../img/sub/alert.png").default} />
+                    </a>
+                    <a href="">
+                      <img src={require("../img/sub/share.png").default} />
+                    </a>
+                  </div>
+                </div>
               </div>
-
               <div class="bun_tr">
                 <div class="bun_right">
                   <div class="right_t">
                     <div class="tt">
-                      <h2>Blackman with neon</h2>
+                      <p class="litit">Philip van Kouwenbergh's collection</p>
+                      <h2>
+                        Blackman
+                        <br />
+                        with neon
+                      </h2>
                       <div class="icons">
                         <a href="">
                           <img
                             src={require("../img/sub/refresh.png").default}
                           />
                         </a>
-                        <a href="">
+                        <a onClick={() => setReportPopup(true)}>
                           <img src={require("../img/sub/alert.png").default} />
                         </a>
                         <a href="">
@@ -421,110 +417,88 @@ function SingleItem({ store, setConnect }) {
                             <h4>05:32:21</h4>
                           </li>
                         </ul>
-                        <a onClick={() => setBidPopup(true)} class="bid">
-                          Place a Bid
+                        <a href="" class="bid">
+                          Participate in bidding
                         </a>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div class="bun_full">
-              <div class="desc">
-                <h2 class="i_title">Description</h2>
-                <p>
-                  This is a collection of digitals produced on April 28th, with
-                  beautiful night views. It's about the
-                  <br />
-                  harmony of neon signs. It's an expression of modern art.
-                  <br />
-                  on April 28th, with beautiful night views. It's about the
-                  harmony of neon signs.
-                  <br />
-                  It's an expression of modern art.
-                </p>
-              </div>
-            </div>
-            <div class="bundle_top top2">
-              <div class="bun_tl">
-                <div class="right_m">
-                  <h2 class="i_title">Price History</h2>
-                  <form>
-                    <select>
-                      <option>Last 60 Days</option>
-                    </select>
-                  </form>
-                  <div class="prices">
-                    <ul>
-                      <li>
-                        <h3>Average price</h3>
-                        <p>$31.11</p>
-                      </li>
-                      <li>
-                        <h3>Highest price</h3>
-                        <p>$32.11</p>
-                      </li>
-                      <li>
-                        <h3>Lowest price</h3>
-                        <p>$30.11</p>
-                      </li>
-                    </ul>
+                  <div class="right_m">
+                    <h2 class="i_title">Price History</h2>
+                    <form>
+                      <select>
+                        <option>Last 60 Days</option>
+                      </select>
+                    </form>
+                    <div class="prices">
+                      <ul>
+                        <li>
+                          <h3>Average price</h3>
+                          <p>$31.11</p>
+                        </li>
+                        <li>
+                          <h3>Highest price</h3>
+                          <p>$32.11</p>
+                        </li>
+                        <li>
+                          <h3>Lowest price</h3>
+                          <p>$30.11</p>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="graph">
+                      <img
+                        src={require("../img/sub/Component.png").default}
+                        alt="graph"
+                      />
+                    </div>
                   </div>
-                  <div class="graph">
-                    <img
-                      src={require("../img/sub/Component.png").default}
-                      alt="graph"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="bun_tr">
-                <div class="right_b">
-                  <h2 class="i_title">Offer History</h2>
-                  <div class="history_s container">
-                    <ul>
-                      <li>
-                        <span class="profile_img"></span>
-                        <h3>
-                          5.44 ETH
-                          <br />
-                          <span>T.WD</span>
-                        </h3>
-                        <h4>0x83bc3fF3CE5499...</h4>
-                        <h5>21:54</h5>
-                      </li>
-                      <li>
-                        <span class="profile_img"></span>
-                        <h3>
-                          4.23 ETH
-                          <br />
-                          <span>TIMOTHY</span>
-                        </h3>
-                        <h4></h4>
-                        <h5>20:00</h5>
-                      </li>
-                      <li>
-                        <span class="profile_img"></span>
-                        <h3>
-                          4.00 ETH
-                          <br />
-                          <span>PT_WORK</span>
-                        </h3>
-                        <h4></h4>
-                        <h5>17:33</h5>
-                      </li>
-                      <li>
-                        <span class="profile_img"></span>
-                        <h3>
-                          4.00 ETH
-                          <br />
-                          <span>PT_WORK</span>
-                        </h3>
-                        <h4></h4>
-                        <h5>17:33</h5>
-                      </li>
-                    </ul>
+                  <div class="right_b">
+                    <h2 class="i_title">Offer History</h2>
+                    <div class="history_s container">
+                      <ul>
+                        <li>
+                          <span class="profile_img"></span>
+                          <h3>
+                            5.44 ETH
+                            <br />
+                            <span>T.WD</span>
+                          </h3>
+                          <h4>0x83bc3fF3CE5499...</h4>
+                          <h5>21:54</h5>
+                        </li>
+                        <li>
+                          <span class="profile_img"></span>
+                          <h3>
+                            4.23 ETH
+                            <br />
+                            <span>TIMOTHY</span>
+                          </h3>
+                          <h4></h4>
+                          <h5>20:00</h5>
+                        </li>
+                        <li>
+                          <span class="profile_img"></span>
+                          <h3>
+                            4.00 ETH
+                            <br />
+                            <span>PT_WORK</span>
+                          </h3>
+                          <h4></h4>
+                          <h5>17:33</h5>
+                        </li>
+                        <li>
+                          <span class="profile_img"></span>
+                          <h3>
+                            4.00 ETH
+                            <br />
+                            <span>PT_WORK</span>
+                          </h3>
+                          <h4></h4>
+                          <h5>17:33</h5>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -536,8 +510,8 @@ function SingleItem({ store, setConnect }) {
                   <div class="table_sales">
                     <table>
                       <colgroup>
-                        <col style={{ width: "48%" }} />
-                        <col style={{ width: "22%" }} />
+                        <col style={{ width: "43%" }} />
+                        <col style={{ width: "auto" }} />
                         <col style={{ width: "auto" }} />
                       </colgroup>
                       <thead>
@@ -632,7 +606,9 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.015 ETH ($0,000,000.50)</p>
+                              <p>
+                                0.010 ETH <span>($30.11)</span>
+                              </p>
                             </div>
                             <div class="pur">
                               <a href="">Purchase</a>
@@ -1027,7 +1003,7 @@ function SingleItem({ store, setConnect }) {
                 </div>
               </div>
             </div>
-            <div class="basic plustab ml2">
+            <div class="basic plustab">
               <div class="tab">
                 <ul>
                   <li class="on">Transaction History</li>
@@ -1175,34 +1151,123 @@ function SingleItem({ store, setConnect }) {
           <div class="item">
             <div class="wrap">
               <h4 class="t">Other works in this collection</h4>
-
               <div class="swiper">
                 <div class="swiper-container swiper-container-trendingitem">
                   <ol class="item item4 buy swiper-wrapper">
                     <div className="slideBox" ref={itemWrapRef}>
-                      {[1, 2, 3, 4, 5, 6, 7, 8].map((cont, index) => (
-                        <span>
-                          <li class="swiper-slide">
-                            <a
-                              href="#"
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
-                              <div class="on">
-                                <ul>
-                                  <li class="heart off">1,389</li>
-                                  <li class="star off"></li>
-                                </ul>
-                                <div>Summer Pool</div>
-                                <span>David</span>
-                                <ol>
-                                  <li>6 minutes left</li>
-                                  <li>1.67 AUSP</li>
-                                </ol>
-                                <p>Buy Now</p>
-                              </div>
-                            </a>
-                          </li>
-                        </span>
+                      {[1, 2].map((cont, index) => (
+                        <>
+                          <span>
+                            <li class="swiper-slide">
+                              <a
+                                href="#"
+                                style={{ backgroundImage: `url(${s1})` }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                  <p>Buy Now</p>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li class="swiper-slide">
+                              <a
+                                href="#"
+                                style={{ backgroundImage: `url(${s2})` }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                  <p>Buy Now</p>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li class="swiper-slide">
+                              <a
+                                href="#"
+                                style={{ backgroundImage: `url(${s4})` }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                  <p>Buy Now</p>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li class="swiper-slide">
+                              <a
+                                href="#"
+                                style={{ backgroundImage: `url(${s3})` }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                  <p>Buy Now</p>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li class="swiper-slide">
+                              <a
+                                href="#"
+                                style={{ backgroundImage: `url(${s9})` }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                  <p>Buy Now</p>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                        </>
                       ))}
                     </div>
                   </ol>
@@ -1221,11 +1286,11 @@ function SingleItem({ store, setConnect }) {
           </div>
         </article>
       </section>
-    </SignPopupBox>
+    </SelectItemBox>
   );
 }
 
-const SignPopupBox = styled.div`
+const SelectItemBox = styled.div`
   .swiper-wrapper,
   .slideBox {
     overflow-x: scroll;
@@ -1261,4 +1326,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleItem);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectItem);

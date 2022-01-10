@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import GlobalStyle from "./components/globalStyle";
 import Main from "./Main";
 import Header from "./Header";
 import ConnectWallet from "./router/ConnectWallet";
@@ -11,7 +10,7 @@ import JoinMemberShip from "./router/JoinMemberShip";
 import Signup from "./router/Signup";
 import EmailFailed from "./router/EmailFailed";
 import SignupComplete from "./router/SignupComplete";
-import SentEmail from "./router/SendEmail";
+import SentEmail from "./router/SentEmail";
 import MarketPlace from "./router/MarketPlace";
 import SingleItem from "./router/SingleItem";
 import BundleItem from "./router/BundleItem";
@@ -21,45 +20,48 @@ import EditCollection from "./router/EditCollection";
 import ImportContract from "./router/ImportContract";
 import MyCollectionSelect from "./router/MyCollectionSelect";
 import LoyaltyCheck from "./router/LoyaltyCheck";
-import MarketPlaceItem14 from "./router/MarketPlace_item14";
-import ItemInfo01 from "./router/ItemInfo01";
-import ItemInfo02 from "./router/ItemInfo02";
-import EditItem from "./router/EditItem";
-import ItemInfo04 from "./router/ItemInfo04";
 import CreateItem from "./router/CreateItem";
 import SaleFixed from "./router/SaleFixed";
 import AuctionBid from "./router/AuctionBid";
-import Nftsell04 from "./router/Nftsell04";
 import SaleBundle from "./router/SaleBundle";
-import Nftsell05 from "./router/VerifyAccountPopup";
-import Nftsell05Off from "./router/Nftsell05Off";
-import Buynft01 from "./router/Buynft01";
-import Buynft02 from "./router/Buynft02";
-import Buynft03 from "./router/Buynft03";
-import Buynft04 from "./router/Buynft04";
-import MyProf from "./router/MyProf";
-import Profile02 from "./router/SaleFixed";
-import Profile03 from "./router/Profile03";
-import HandOver from "./router/HandOver";
-import Profile05 from "./router/Profile05";
-import MoveCollection from "./router/MoveCollection";
-import TransactionHistory from "./router/TransactionHistory";
-import Profile07Off from "./router/Profile07Off";
-import Offers from "./router/Offers";
-import Liked from "./router/Liked";
-import Profile13 from "./router/Profile13";
-import HiddenItem from "./router/HiddenItem";
-import Referals from "./router/Referals";
-import Mywallet from "./router/Mywallet";
-import Profile17 from "./router/Profile17";
-import LogOut from "./router/LogOut";
-import GeneralSettings from "./router/GeneralSettings";
-import NotificationSettings from "./router/NotificationSettings";
-import MProfileMenu from "./router/MProfileMenu";
-import ExploreDeal from "./router/ExploreDeal";
-import Ranking from "./router/Ranking";
+// import MarketPlaceItem14 from "./router/MarketPlace_item14";
+// import ItemInfo01 from "./router/ItemInfo01";
+// import ItemInfo02 from "./router/ItemInfo02";
+// import EditItem from "./router/EditItem";
+// import ItemInfo04 from "./router/ItemInfo04";
+// import Nftsell04 from "./router/Nftsell04";
+
+// import Nftsell05 from "./router/VerifyAccountPopup";
+// import Nftsell05Off from "./router/Nftsell05Off";
+// import Buynft01 from "./router/Buynft01";
+// import Buynft02 from "./router/Buynft02";
+// import Buynft03 from "./router/Buynft03";
+// import Buynft04 from "./router/Buynft04";
+// import MyProf from "./router/MyProf";
+// import Profile02 from "./router/SaleFixed";
+// import Profile03 from "./router/Profile03";
+// import HandOver from "./router/HandOver";
+// import Profile05 from "./router/Profile05";
+// import MoveCollection from "./router/MoveCollection";
+// import TransactionHistory from "./router/TransactionHistory";
+// import Profile07Off from "./router/Profile07Off";
+// import Offers from "./router/Offers";
+// import Liked from "./router/Liked";
+// import Profile13 from "./router/Profile13";
+// import HiddenItem from "./router/HiddenItem";
+// import Referals from "./router/Referals";
+// import Mywallet from "./router/Mywallet";
+// import Profile17 from "./router/Profile17";
+// import LogOut from "./router/LogOut";
+// import GeneralSettings from "./router/GeneralSettings";
+// import NotificationSettings from "./router/NotificationSettings";
+// import MProfileMenu from "./router/MProfileMenu";
+// import ExploreDeal from "./router/ExploreDeal";
+// import Ranking from "./router/Ranking";
 import MheaderPopup from "./components/MheaderPopup";
 import List from "./util/List";
+import SentEmailDetail from "./router/SentEmailDetail";
+import SelectItem from "./router/SelectItem";
 
 function App({ store, setHref, setConnect }) {
   return (
@@ -84,7 +86,6 @@ function App({ store, setHref, setConnect }) {
         type="text/css"
       />
 
-      <GlobalStyle />
       <HashRouter>
         <Header />
 
@@ -94,17 +95,18 @@ function App({ store, setHref, setConnect }) {
           <Route path="/" element={<Main />} />
 
           <Route path="/connectwallet" element={<ConnectWallet />} />
+          <Route path="/emailrequired" element={<EmailRequired />} />
+          <Route path="/sentemail" element={<SentEmail />} />
           <Route path="/joinmembership" element={<JoinMemberShip />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/sentemail" element={<SentEmail />} />
-          <Route path="/signupcomplete" element={<SignupComplete />} />
           <Route path="/emailfailed" element={<EmailFailed />} />
-          <Route path="/emailrequired" element={<EmailRequired />} />
-          <Route path="/recentemail" element={<RecentEmail />} />
+          <Route path="/sentemaildetail" element={<SentEmailDetail />} />
+          <Route path="/signupcomplete" element={<SignupComplete />} />
 
           <Route path="/marketplace/:category" element={<MarketPlace />} />
           <Route path="/singleitem" element={<SingleItem />} />
           <Route path="/bundleitem" element={<BundleItem />} />
+          <Route path="/selectitem" element={<SelectItem />} />
 
           <Route path="/mycollection" element={<MyCollection />} />
           <Route path="/createcollection" element={<CreateCollection />} />
@@ -117,6 +119,7 @@ function App({ store, setHref, setConnect }) {
           <Route path="/salefixed" element={<SaleFixed />} />
           <Route path="/auctionbid" element={<AuctionBid />} />
           <Route path="/salebundle" element={<SaleBundle />} />
+          {/*
 
           <Route path="/myprof" element={<MyProf />} />
           <Route path="/edititem" element={<EditItem />} />
@@ -138,7 +141,7 @@ function App({ store, setHref, setConnect }) {
           />
 
           <Route path="/exploredeal" element={<ExploreDeal />} />
-          <Route path="/ranking" element={<Ranking />} />
+          <Route path="/ranking" element={<Ranking />} /> */}
         </Routes>
 
         {store.mHeaderPopup && <MheaderPopup />}
@@ -149,12 +152,11 @@ function App({ store, setHref, setConnect }) {
 
 const AppBox = styled.div`
   width: 100%;
-  padding: 120px 0 0 0;
   background: #fff;
   position: relative;
-
-  @media screen and (max-width: 1280px) {
-    padding: 70px 0 0 0;
+  a,
+  img {
+    cursor: pointer;
   }
 `;
 

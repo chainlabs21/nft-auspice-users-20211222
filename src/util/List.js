@@ -7,14 +7,24 @@ function Main({ store }) {
 
   return (
     <HeaderBox>
-      <p onClick={() => navigate("/")}>메인</p>
+      <p onClick={() => navigate("/")}>메인화면</p>
 
       <p />
-      <p onClick={() => navigate("/connectwallet")}>지갑연동</p>
-      <p onClick={() => navigate("/joinmembership")}>join the membership</p>
-      <p onClick={() => navigate("/signup")}>sign up</p>
-      <p onClick={() => navigate("/sentemail")}>sent email</p>
-      <p onClick={() => navigate("/signupcomplete")}>sign up complete</p>
+      <p onClick={() => navigate("/connectwallet")}>
+        02_회원가입_1_지갑연동#1_사용가능지갑
+      </p>
+      <p onClick={() => navigate("/joinmembership")}>
+        02_회원가입_4_지갑연동#2_회원가입_팝업
+      </p>
+      <p onClick={() => navigate("/signup")}>
+        02_회원가입_5_지갑연동#3_1_회원가입
+      </p>
+      <p onClick={() => navigate("/sentemail")}>
+        02_회원가입_11_지갑연동#4_인증메일발송
+      </p>
+      <p onClick={() => navigate("/signupcomplete")}>
+        02_회원가입_14_가입인증이메일양식_회원가입완료팝업
+      </p>
       <p onClick={() => navigate("/emailfailed")}>email failed</p>
       <p onClick={() => navigate("/emailrequired")}>email required</p>
       <p onClick={() => navigate("/recentemail")}>email recent</p>
@@ -26,15 +36,11 @@ function Main({ store }) {
 
       <p />
       <p onClick={() => navigate("/mycollection")}>My Item</p>
-      <p onClick={() => navigate("/createcollection")}>
-        create a new item
-      </p>
+      <p onClick={() => navigate("/createcollection")}>create a new item</p>
       <p onClick={() => navigate("/editcollection")}>edit item</p>
       <p onClick={() => navigate("/importcontract")}>import contract</p>
       <p onClick={() => navigate("/myfavorite")}>my favorite</p>
-      <p onClick={() => navigate("/mycollectionselect")}>
-        my item select
-      </p>
+      <p onClick={() => navigate("/mycollectionselect")}>my item select</p>
       <p onClick={() => navigate("/loyaltycheck")}>loyalty check</p>
 
       <p />

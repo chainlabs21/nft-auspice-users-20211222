@@ -22,7 +22,7 @@ function EmailFailed({ store, setConnect }) {
   return (
     <SignPopupBox>
       <div class="popup info" id="info_popup">
-        <div class="box_wrap">
+        <div class="box_wrap confirm">
           <div class="box bot2">
             <div class="top0 p2">
               <h2>Email verification failed.</h2>
@@ -34,7 +34,7 @@ function EmailFailed({ store, setConnect }) {
                   <a onClick={() => navigate("/")}>Cancel</a>
                 </li>
                 <li>
-                  <a onClick={()=>navigate('/')}>Resend Email</a>
+                  <a onClick={() => navigate("/")}>Resend Email</a>
                 </li>
               </ul>
             </div>

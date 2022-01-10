@@ -11,7 +11,7 @@ textarea, input, select, button, a { font-size:15px; }
 select::-ms-expand { display: none;}
 select { -o-appearance: none; -webkit-appearance: none; -moz-appearance: none; appearance: none; }
 
-img { border:none; vertical-align:top; height:auto; max-width:100%;}
+img { border:none; vertical-align:top; height:auto !important; max-width:100%;}
 img.over-img { max-width:none !important; }
 
 a:hover { text-decoration:none; color:#000; }
@@ -19,6 +19,10 @@ a:visited { text-decoration:none; color:#000; }
 a:active{ text-decoration:none; color:#000; }
 a:link{ text-decoration:none; color:#000; }
 
+
+input:focus ,
+textarea:focus ,
+select:focus ,
 a:focus ,
 button:focus { outline:none; }
 
@@ -35,7 +39,7 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-select::-ms-expand { 
+select::-ms-expand {
 	display: none;
 }
 .select {

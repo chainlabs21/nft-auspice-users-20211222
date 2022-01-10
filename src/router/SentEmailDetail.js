@@ -13,17 +13,15 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import WalletConnectSDK from "walletconnect";
-import axios from "axios";
 
-function SentEmail({ store, setConnect }) {
+function SentEmailDetail({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
-    <SignPopupBox>
+    <SentEmailDetailBox>
       <div class="popup info" id="info_popup">
-        <div class="box_wrap">
-          <a onClick={() => navigate(-1)} class="close" id="info_close">
+        <div class="box_wrap confirm">
+          <a href="javascript:void(0);" class="close" id="info_close">
             <img src={require("../img/sub/exit_48.png").default} alt="" />
           </a>
           <div class="box bot2">
@@ -31,39 +29,46 @@ function SentEmail({ store, setConnect }) {
               <h2>A verification email has been sent.</h2>
               <p>
                 Please check the verification email in your mailbox
-                (user@mail.com).
-                <br />
+                (user@mail.com). <br />
                 If you select the verification button in the email, membership
                 registration is complete.
               </p>
             </div>
             <div class="notice_pc">
-              <h3>Notice</h3>
-              <ul class="notice_info">
-                <li>
-                  <img src={require("../img/sub/notice.png").default} alt="" />
-                  <p>
-                    The verification email is only valid for 24 hours from the
-                    time it was sent,
-                    <br />
-                    and the existing verification code expires when re-sent. Be
-                    sure to
-                    <br />
-                    check the last received email.
-                  </p>
-                </li>
-                <li>
-                  <img src={require("../img/sub/notice.png").default} alt="" />
-                  <p>
-                    If you do not receive the email, please check your spam
-                    folder.
-                  </p>
-                </li>
-              </ul>
+              <div class="notice_inner">
+                <h3>Notice</h3>
+                <ul class="notice_info">
+                  <li>
+                    <img
+                      src={require("../img/sub/notice.png").default}
+                      alt=""
+                    />
+                    <p>
+                      The verification email is only valid for 24 hours from the
+                      time it was sent,
+                      <br />
+                      and the existing verification code expires when re-sent.
+                      Be sure to
+                      <br />
+                      check the last received email.
+                    </p>
+                  </li>
+                  <li>
+                    <img
+                      src={require("../img/sub/notice.png").default}
+                      alt=""
+                    />
+                    <p>
+                      If you do not receive the email, please check your spam
+                      folder.
+                    </p>
+                  </li>
+                </ul>
+              </div>
               <div class="btn one">
                 <ul>
                   <li>
-                    <a onClick={() => window.location.reload()}>Resend Email</a>
+                    <a href="">Resend Email</a>
                   </li>
                 </ul>
               </div>
@@ -91,26 +96,18 @@ function SentEmail({ store, setConnect }) {
             <div class="btn one2">
               <ul>
                 <li>
-                  <a >Resend Email</a>
+                  <a href="">Resend Email</a>
                 </li>
               </ul>
             </div>
           </div>
         </div>
       </div>
-
-      <section id="sub">
-        <article class="popup_box"></article>
-      </section>
-    </SignPopupBox>
+    </SentEmailDetailBox>
   );
 }
 
-const SignPopupBox = styled.div`
-  .box_wrap {
-    /* width: 800px; */
-  }
-`;
+const SentEmailDetailBox = styled.div``;
 
 function mapStateToProps(state) {
   return { store: state };
@@ -122,4 +119,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SentEmail);
+export default connect(mapStateToProps, mapDispatchToProps)(SentEmailDetail);

@@ -22,7 +22,7 @@ function JoinMemberShip({ store, setConnect }) {
   return (
     <SignPopupBox>
       <div class="popup info" id="info_popup">
-        <div class="box_wrap">
+        <div class="box_wrap confirm">
           <div class="box bot2">
             <div class="top0 p2">
               <h2>Join the membership</h2>

@@ -61,447 +61,578 @@ function MarketPlace({ store, setConnect }) {
   }
 
   return (
-    <SignPopupBox>
+    <MarketPlaceBox>
       <section id="sub">
         <article class="profile_home">
           <div class={toggleFilter ? "move on deal" : "move off"}>
-            <span class="close" onClick={() => setToggleFilter(true)}>
-              <img src={require("../img/sub/side_close.png").default} />
-              <b class="mclose">
-                Filter<span>1</span>
-              </b>
-            </span>
-            <div class="left_move">
-              <form>
-                <div class="filter">
-                  <h3 class="filt">
-                    <img src={require("../img/sub/filter_icon.png").default} />
-                    Filter
-                  </h3>
-                  <img
-                    src={require("../img/sub/filter_close.png").default}
-                    class="fc"
-                  />
-                </div>
-                <div class="fold status">
-                  <h3 class="slide_tt">
-                    Status
+            <div class="cw ucl">
+              <span class="close" onClick={() => setToggleFilter(true)}>
+                <img src={require("../img/sub/side_close.png").default} />
+                <b class="mclose">
+                  Filter<span>1</span>
+                </b>
+              </span>
+              <div class="left_move">
+                <form>
+                  <div class="filter">
+                    <h3 class="filt">
+                      <img
+                        src={require("../img/sub/filter_icon.png").default}
+                      />
+                      Filter
+                    </h3>
                     <img
-                      src={require("../img/sub/slide_up.png").default}
-                      class="slide_up"
+                      src={require("../img/sub/filter_close.png").default}
+                      class="fc"
+                      onClick={() => setToggleFilter(false)}
                     />
-                  </h3>
-
-                  <div class="open status">
-                    <ul>
-                      {statusList.map((cont, index) => (
-                        <li
-                          key={index}
-                          style={{ cursor: "pointer" }}
-                          className={filterObj[cont] === cont && "on"}
-                          onClick={() => editFilterList(cont, cont)}
-                        >
-                          {cont}
-                        </li>
-                      ))}
-                    </ul>
                   </div>
-                </div>
+                  <div class="fold status">
+                    <h3 class="slide_tt">
+                      Status
+                      <img
+                        src={require("../img/sub/slide_up.png").default}
+                        class="slide_up"
+                      />
+                    </h3>
 
-                <div class="fold">
-                  <h3 class="slide_tt">
-                    Price
-                    <img
-                      src={require("../img/sub/slide_up.png").default}
-                      class="slide_up"
-                    />
-                  </h3>
-
-                  <div class="open">
-                    <select>
-                      <option disabled selected hidden>
-                        United States Dollars (USD)
-                      </option>
-                      <option>100</option>
-                    </select>
-                    <div class="price_area">
-                      <div class="price_wrap">
-                        <input type="text" placeholder="0.00" />
-                        <span class="usd">USD</span>
-                      </div>
-                      <div class="price_wrap">
-                        <input type="text" placeholder="0.00" />
-                        <span class="usd">USD</span>
-                      </div>
+                    <div class="open status">
+                      <ul>
+                        <li class="on">Buy Now</li>
+                        <li>On Auction</li>
+                        <li>New</li>
+                        <li>Has Offers</li>
+                      </ul>
                     </div>
-                    <a class="slide_btn">Apply</a>
                   </div>
-                </div>
 
-                <div class="fold">
-                  <h3 class="slide_tt">
-                    Items
-                    <img
-                      src={require("../img/sub/slide_up.png").default}
-                      class="slide_up"
-                    />
-                  </h3>
+                  <div class="fold">
+                    <h3 class="slide_tt">
+                      Price
+                      <img
+                        src={require("../img/sub/slide_up.png").default}
+                        class="slide_up"
+                      />
+                    </h3>
 
-                  <div class="open collection">
-                    <input type="text" placeholder="Filter" class="s_search" />
-                    <ul>
-                      <li
-                        class="collec_img"
-                        style={{ backgroundImage: `url(${collect_img})` }}
-                      >
-                        <span>Item 01</span>
-                      </li>
-                      <li
-                        class="collec_img"
-                        style={{ backgroundImage: `url(${collect_img2})` }}
-                      >
-                        <span>Item 02</span>
-                      </li>
-                      <li
-                        class="collec_img"
-                        style={{ backgroundImage: `url(${collect_img3})` }}
-                      >
-                        <span>Item 03</span>
-                      </li>
-                      <li
-                        class="collec_img"
-                        style={{ backgroundImage: `url(${collect_img4})` }}
-                      >
-                        <span>Item 04</span>
-                      </li>
-                    </ul>
+                    <div class="open">
+                      <select>
+                        <option disabled selected hidden>
+                          United States Dollars (USD)
+                        </option>
+                        <option>100</option>
+                      </select>
+                      <div class="price_area">
+                        <div class="price_wrap">
+                          <input type="text" placeholder="0.00" />
+                          <span class="usd">USD</span>
+                        </div>
+                        <div class="price_wrap">
+                          <input type="text" placeholder="0.00" />
+                          <span class="usd">USD</span>
+                        </div>
+                      </div>
+                      <a href="" class="slide_btn">
+                        Apply
+                      </a>
+                    </div>
                   </div>
-                </div>
 
-                <div class="fold">
-                  <h3 class="slide_tt">
-                    Chains
-                    <img
-                      src={require("../img/sub/slide_up.png").default}
-                      class="slide_up"
-                    />
-                  </h3>
+                  <div class="fold">
+                    <h3 class="slide_tt">
+                      Collections
+                      <img
+                        src={require("../img/sub/slide_up.png").default}
+                        class="slide_up"
+                      />
+                    </h3>
 
-                  <div class="open">
-                    <ul>
-                      {chainList.map((cont, index) => (
+                    <div class="open collection">
+                      <input
+                        type="text"
+                        placeholder="Filter"
+                        class="s_search"
+                      />
+                      <ul>
                         <li
-                          key={index}
-                          class="ra"
-                          onClick={() => editFilterList("chain", cont.name)}
+                          class="collec_img"
+                          style={{
+                            backgroundImage: `url(${collect_img})`,
+                          }}
                         >
-                          <span
-                            className="chkBtn"
-                            style={{
-                              background:
-                                filterObj.chain === cont.name && "#000",
-                            }}
-                          >
-                            <span />
-                          </span>
-                          <label for={cont.name}>
-                            <img src={cont.img} />
-                            {cont.name}
+                          <span>Collection 01</span>
+                        </li>
+                        <li
+                          class="collec_img"
+                          style={{
+                            backgroundImage: `url(${collect_img2})`,
+                          }}
+                        >
+                          <span>Collection 02</span>
+                        </li>
+                        <li
+                          class="collec_img"
+                          style={{
+                            backgroundImage: `url(${collect_img3})`,
+                          }}
+                        >
+                          <span>Collection 03</span>
+                        </li>
+                        <li
+                          class="collec_img"
+                          style={{
+                            backgroundImage: `url(${collect_img4})`,
+                          }}
+                        >
+                          <span>Collection 04</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="fold">
+                    <h3 class="slide_tt">
+                      Chains
+                      <img
+                        src={require("../img/sub/slide_up.png").default}
+                        class="slide_up"
+                      />
+                    </h3>
+
+                    <div class="open">
+                      <ul>
+                        <li class="ra">
+                          <input type="radio" id="rad" name="rad" />
+                          <label for="rad">
+                            <img
+                              src={require("../img/sub/stone.png").default}
+                            />
+                            Ethereum
                           </label>
                         </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="fold">
-                  <h3 class="slide_tt">
-                    Sales Coin
-                    <img
-                      src={require("../img/sub/slide_up.png").default}
-                      class="slide_up"
-                    />
-                  </h3>
-
-                  <div class="open">
-                    <input type="text" placeholder="Filter" class="s_search" />
-                    <ul>
-                      {coinList.map((cont, index) => (
-                        <li
-                          key={index}
-                          class="ra"
-                          onClick={() => editFilterList("coin", cont)}
-                        >
-                          <span
-                            className="chkBtn"
-                            style={{
-                              background: filterObj.coin === cont && "#000",
-                            }}
-                          >
-                            <span />
-                          </span>
-                          <label for={cont}>{cont}</label>
+                        <li class="ra">
+                          <input type="radio" id="rad2" name="rad" />
+                          <label for="rad2">
+                            <img src={require("../img/sub/rock.png").default} />
+                            Klaytn
+                          </label>
                         </li>
-                      ))}
-                    </ul>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </form>
+
+                  <div class="fold">
+                    <h3 class="slide_tt">
+                      Sales Coin
+                      <img
+                        src={require("../img/sub/slide_up.png").default}
+                        class="slide_up"
+                      />
+                    </h3>
+
+                    <div class="open">
+                      <input
+                        type="text"
+                        placeholder="Filter"
+                        class="s_search"
+                      />
+                      <ul>
+                        <li class="ra">
+                          <input type="radio" id="rad3" name="rad2" />
+                          <label for="rad3">AUSP</label>
+                        </li>
+                        <li class="ra">
+                          <input type="radio" id="rad4" name="rad2" />
+                          <label for="rad4">WETH</label>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
 
             <div class="right_move">
               <div class="pad">
                 <div class="real_sec">
-                  <div class="slide_s slide2 mpo">
-                    <div class="fl mtop">
+                  <div class="slide_s slide2">
+                    <div class="fl">
                       <p class="total">Total 3,880,032</p>
                     </div>
                     <div class="fr">
                       <div class="select">
-                        <div>{bundleFilter}</div>
-
+                        <div>Single item</div>
                         <ul>
-                          {bundleFilterList.map((cont, index) => (
-                            <li
-                              key={index}
-                              onClick={() => setBundleFilter(cont)}
-                            >
-                              <a>{cont}</a>
-                            </li>
-                          ))}
+                          <li>
+                            <a href="">Single item</a>
+                          </li>
+                          <li>
+                            <a href="">All</a>
+                          </li>
+                          <li>
+                            <a href="">Bundle sales</a>
+                          </li>
                         </ul>
                       </div>
                       <div class="select metc">
-                        <div>{categoryFilter}</div>
+                        <div>All category</div>
                         <ul>
-                          {categoryList.map((cont, index) => (
-                            <li
-                              key={index}
-                              onClick={() => {
-                                navigate(`/marketplace/${cont}`);
-                                setCategoryFilter(cont);
-                              }}
-                            >
-                              <a>{cont}</a>
-                            </li>
-                          ))}
+                          <li>
+                            <a href="">All category</a>
+                          </li>
+                          <li>
+                            <a href="">All</a>
+                          </li>
+                          <li>
+                            <a href="">Art</a>
+                          </li>
+                          <li>
+                            <a href="">Music</a>
+                          </li>
+                          <li>
+                            <a href="">Virtual World</a>
+                          </li>
+                          <li>
+                            <a href="">Trading Cards</a>
+                          </li>
+                          <li>
+                            <a href="">Collectibles</a>
+                          </li>
+                          <li>
+                            <a href="">Sports</a>
+                          </li>
+                          <li>
+                            <a href="">Utility</a>
+                          </li>
+                          <li>
+                            <a href="">ETC</a>
+                          </li>
                         </ul>
                       </div>
                       <div class="select mselect">
-                        <div>{sortFilter}</div>
+                        <div>Latest</div>
                         <ul>
-                          {sortList.map((cont, index) => (
-                            <li key={index} onClick={() => setSortFilter(cont)}>
-                              <a>{cont}</a>
-                            </li>
-                          ))}
+                          <li>
+                            <a href="">Latest</a>
+                          </li>
+                          <li>
+                            <a href="">Popularity</a>
+                          </li>
+                          <li>
+                            <a href="">Close to finish</a>
+                          </li>
+                          <li>
+                            <a href="">Low price</a>
+                          </li>
+                          <li>
+                            <a href="">high price</a>
+                          </li>
+                          <li>
+                            <a href="">A small bid</a>
+                          </li>
+                          <li>
+                            <a href="">A lot of bids</a>
+                          </li>
+                          <li>
+                            <a href="">Most seen</a>
+                          </li>
+                          <li>
+                            <a href="">Oldest</a>
+                          </li>
                         </ul>
                       </div>
                     </div>
                   </div>
+
                   <div class="etc">
                     <ul>
-                      {categoryList.map((cont, index) => (
-                        <li
-                          key={index}
-                          className={
-                            categoryFilter.toLowerCase() ===
-                              cont.toLowerCase() && "onnn"
-                          }
-                          onClick={() => {
-                            navigate(`/marketplace/${cont}`);
-                            setCategoryFilter(cont);
-                          }}
-                        >
-                          {cont}
-                        </li>
-                      ))}
+                      <li class="onnn">All</li>
+                      <li>Art</li>
+                      <li>Music</li>
+                      <li>Virtual World</li>
+                      <li>Trading Cards</li>
+                      <li>Collectibles</li>
+                      <li>Sports</li>
+                      <li>Utility</li>
+                      <li>ETC</li>
                     </ul>
                   </div>
 
                   <div class="se_fi">
                     <p class="total">Selected Filter</p>
                     <ul>
-                      <li class="sef" onClick={onclickFilterReset}>
-                        Filter reset
-                      </li>
-
-                      {filterList.map((cont, index) => (
-                        <li key={index}>
-                          {cont}
-                          <img
-                            src={I_x}
-                            alt=""
-                            onClick={() => onclickFilterCancel(cont)}
-                          />
-                        </li>
-                      ))}
+                      <li class="sef">Filter reset</li>
+                      <li>AUSP</li>
+                      <li>ETH</li>
+                      <li>Ethereum</li>
                     </ul>
                   </div>
 
                   <div class="move_item">
                     <div class="swiper-container">
                       <ol class="item move_li summary summary2">
-                        <li onClick={() => navigate("/singleitem")}>
-                          <a style={{ backgroundImage: `url(${s5})` }}>
-                            <div class="on">
-                              <ul>
-                                <li class="heart off">1,389</li>
-                                <li class="star off"></li>
-                              </ul>
-                              <div>Summer Pool</div>
-                              <span>David</span>
-                              <ol>
-                                <li>6 minutes left</li>
-                                <li>1.67 KLAY</li>
-                              </ol>
-                            </div>
-                          </a>
-                        </li>
-                        <li onClick={() => navigate("/singleitem")}>
-                          <a style={{ backgroundImage: `url(${sample})` }}>
-                            <div class="on">
-                              <ul>
-                                <li class="heart off">1,389</li>
-                                <li class="star off"></li>
-                              </ul>
-                              <div>Summer Pool</div>
-                              <span>David</span>
-                              <ol>
-                                <li>6 minutes left</li>
-                                <li>1.67 KLAY</li>
-                              </ol>
-                            </div>
-                          </a>
-                        </li>
-                        <li onClick={() => navigate("/singleitem")}>
-                          <a style={{ backgroundImage: `url(${sample})` }}>
-                            <div class="on">
-                              <ul>
-                                <li class="heart off">1,389</li>
-                                <li class="star off"></li>
-                              </ul>
-                              <div>Summer Pool</div>
-                              <span>David</span>
-                              <ol>
-                                <li>6 minutes left</li>
-                                <li>1.67 KLAY</li>
-                              </ol>
-                            </div>
-                          </a>
-                        </li>
-                        <li onClick={() => navigate("/singleitem")}>
-                          <a style={{ backgroundImage: `url(${sample})` }}>
-                            <div class="on">
-                              <ul>
-                                <li class="heart off">1,389</li>
-                                <li class="star off"></li>
-                              </ul>
-                              <div>Summer Pool</div>
-                              <span>David</span>
-                              <ol>
-                                <li>6 minutes left</li>
-                                <li>1.67 KLAY</li>
-                              </ol>
-                            </div>
-                          </a>
-                        </li>
-                        <li onClick={() => navigate("/singleitem")}>
-                          <a style={{ backgroundImage: `url(${sample})` }}>
-                            <div class="on">
-                              <ul>
-                                <li class="heart off">1,389</li>
-                                <li class="star off"></li>
-                              </ul>
-                              <div>Summer Pool</div>
-                              <span>David</span>
-                              <ol>
-                                <li>6 minutes left</li>
-                                <li>1.67 KLAY</li>
-                              </ol>
-                            </div>
-                          </a>
-                        </li>
-                        <li onClick={() => navigate("/singleitem")}>
-                          <a style={{ backgroundImage: `url(${sample})` }}>
-                            <div class="on">
-                              <ul>
-                                <li class="heart off">1,389</li>
-                                <li class="star off"></li>
-                              </ul>
-                              <div>Summer Pool</div>
-                              <span>David</span>
-                              <ol>
-                                <li>6 minutes left</li>
-                                <li>1.67 KLAY</li>
-                              </ol>
-                            </div>
-                          </a>
-                        </li>
-                        <li onClick={() => navigate("/singleitem")}>
-                          <a style={{ backgroundImage: `url(${sample})` }}>
-                            <div class="on">
-                              <ul>
-                                <li class="heart off">1,389</li>
-                                <li class="star off"></li>
-                              </ul>
-                              <div>Summer Pool</div>
-                              <span>David</span>
-                              <ol>
-                                <li>6 minutes left</li>
-                                <li>1.67 KLAY</li>
-                              </ol>
-                            </div>
-                          </a>
-                        </li>
-                        <li onClick={() => navigate("/singleitem")}>
-                          <a style={{ backgroundImage: `url(${sample})` }}>
-                            <div class="on">
-                              <ul>
-                                <li class="heart off">1,389</li>
-                                <li class="star off"></li>
-                              </ul>
-                              <div>Summer Pool</div>
-                              <span>David</span>
-                              <ol>
-                                <li>6 minutes left</li>
-                                <li>1.67 KLAY</li>
-                              </ol>
-                            </div>
-                          </a>
-                        </li>
-                        <li onClick={() => navigate("/singleitem")}>
-                          <a style={{ backgroundImage: `url(${sample})` }}>
-                            <div class="on">
-                              <ul>
-                                <li class="heart off">1,389</li>
-                                <li class="star off"></li>
-                              </ul>
-                              <div>Summer Pool</div>
-                              <span>David</span>
-                              <ol>
-                                <li>6 minutes left</li>
-                                <li>1.67 KLAY</li>
-                              </ol>
-                            </div>
-                          </a>
-                        </li>
-                        <li onClick={() => navigate("/singleitem")}>
-                          <a style={{ backgroundImage: `url(${sample})` }}>
-                            <div class="on">
-                              <ul>
-                                <li class="heart off">1,389</li>
-                                <li class="star off"></li>
-                              </ul>
-                              <div>Summer Pool</div>
-                              <span>David</span>
-                              <ol>
-                                <li>6 minutes left</li>
-                                <li>1.67 KLAY</li>
-                              </ol>
-                            </div>
-                          </a>
-                        </li>
+                        <div>
+                          <span>
+                            <li>
+                              <a
+                                href="#"
+                                style={{
+                                  backgroundImage: `url(${s5})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li>
+                              <a
+                                href="#"
+                                style={{
+                                  backgroundImage: `url(${sample})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li>
+                              <a
+                                href="#"
+                                style={{
+                                  backgroundImage: `url(${sample})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li>
+                              <a
+                                href="#"
+                                style={{
+                                  backgroundImage: `url(${sample})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li>
+                              <a
+                                href="#"
+                                style={{
+                                  backgroundImage: `url(${sample})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li>
+                              <a
+                                href="#"
+                                style={{
+                                  backgroundImage: `url(${sample})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li>
+                              <a
+                                href="#"
+                                style={{
+                                  backgroundImage: `url(${sample})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li>
+                              <a
+                                href="#"
+                                style={{
+                                  backgroundImage: `url(${sample})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li>
+                              <a
+                                href="#"
+                                style={{
+                                  backgroundImage: `url(${sample})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                          <span>
+                            <li>
+                              <a
+                                href="#"
+                                style={{
+                                  backgroundImage: `url(${sample})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              >
+                                <div class="on">
+                                  <ul>
+                                    <li class="heart off">1,389</li>
+                                    <li class="star off"></li>
+                                  </ul>
+                                  <div>Summer Pool</div>
+                                  <span>David</span>
+                                  <ol>
+                                    <li>6 minutes left</li>
+                                    <li>1.67 AUSP</li>
+                                  </ol>
+                                </div>
+                              </a>
+                            </li>
+                          </span>
+                        </div>
                       </ol>
                     </div>
                   </div>
@@ -511,11 +642,11 @@ function MarketPlace({ store, setConnect }) {
           </div>
         </article>
       </section>
-    </SignPopupBox>
+    </MarketPlaceBox>
   );
 }
 
-const SignPopupBox = styled.div`
+const MarketPlaceBox = styled.div`
   #sub {
     .profile_home {
       .move {
