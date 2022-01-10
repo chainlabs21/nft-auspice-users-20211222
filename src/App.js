@@ -14,7 +14,7 @@ import SentEmail from "./router/SentEmail";
 import MarketPlace from "./router/MarketPlace";
 import SingleItem from "./router/SingleItem";
 import BundleItem from "./router/BundleItem";
-import MyCollection from "./router/MyCollection";
+import MyItems from "./router/MyItems";
 import CreateCollection from "./router/CreateCollection";
 import EditCollection from "./router/EditCollection";
 import ImportContract from "./router/ImportContract";
@@ -45,7 +45,7 @@ import HandOver from "./router/HandOver";
 import MoveCollection from "./router/MoveCollection";
 import TransactionHistory from "./router/TransactionHistory";
 // import Profile07Off from "./router/Profile07Off";
-// import Offers from "./router/Offers";
+import Offers from "./router/Offers";
 import Liked from "./router/Liked";
 // import Profile13 from "./router/Profile13";
 import HiddenItem from "./router/HiddenItem";
@@ -105,12 +105,12 @@ function App({ store, setHref, setConnect }) {
           <Route path="/sentemaildetail" element={<SentEmailDetail />} />
           <Route path="/signupcomplete" element={<SignupComplete />} />
 
-          <Route path="/marketplace/:category" element={<MarketPlace />} />
+          <Route path="/marketplace" element={<MarketPlace />} />
           <Route path="/singleitem" element={<SingleItem />} />
           <Route path="/bundleitem" element={<BundleItem />} />
           <Route path="/selectitem" element={<SelectItem />} />
 
-          <Route path="/mycollection" element={<MyCollection />} />
+          <Route path="/myitem" element={<MyItems />} />
           <Route path="/createcollection" element={<CreateCollection />} />
           <Route path="/editcollection" element={<EditCollection />} />
           <Route path="/importcontract" element={<ImportContract />} />
@@ -122,10 +122,11 @@ function App({ store, setHref, setConnect }) {
           <Route path="/auctionbid" element={<AuctionBid />} />
           <Route path="/salebundle" element={<SaleBundle />} />
 
-          <Route path="/myprof" element={<MyProf />} />
           <Route path="/handover" element={<HandOver />} />
           <Route path="/movecollection" element={<MoveCollection />} />
+          <Route path="/myprof" element={<MyProf />} />
           <Route path="/transactionhistory" element={<TransactionHistory />} />
+          <Route path="/offers" element={<Offers />} />
           <Route path="/liked" element={<Liked />} />
           <Route path="/hiddenitem" element={<HiddenItem />} />
           <Route path="/referals" element={<Referals />} />
@@ -139,11 +140,10 @@ function App({ store, setHref, setConnect }) {
           />
           <Route path="/maccountpopup" element={<MaccountPopup />} />
           <Route path="/exploredeal" element={<ExploreDeal />} />
-          <Route path="/ranking" element={<Ranking />} /> 
+          <Route path="/ranking" element={<Ranking />} />
 
           {/*
           <Route path="/edititem" element={<EditItem />} />
-          <Route path="/offers" element={<Offers />} />
           <Route path="/mprofilemenu" element={<MProfileMenu />} />
 
 
@@ -161,9 +161,36 @@ const AppBox = styled.div`
   width: 100%;
   background: #fff;
   position: relative;
+
   a,
   img {
     cursor: pointer;
+  }
+
+  .selectList {
+    li {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      cursor: pointer;
+
+      .chkBtn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 18px;
+        height: 18px;
+        border: solid 2px #d9d9d9;
+        border-radius: 50%;
+
+        span{
+          width: 8px;
+          height: 8px;
+          background: #fff;
+          border-radius: 50%;
+        }
+      }
+    }
   }
 `;
 

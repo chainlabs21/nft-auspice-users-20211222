@@ -77,15 +77,15 @@ function Offers({ store, setConnect }) {
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
                   <div class="home_icons">
-                    <a>
+                    <a href="">
                       <img src={require("../img/sub/re.png").default} />
                     </a>
-                    <a>
+                    <a href="">
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Item</h2>
+                <h2 class="notop">Henry junior's Collection</h2>
                 <h3>0x97bc...8cad2</h3>
                 <h4>
                   Henry is a mixed-media artist living in the Bay Area and uses
@@ -171,13 +171,15 @@ function Offers({ store, setConnect }) {
                             <span class="usd">USD</span>
                           </div>
                         </div>
-                        <a class="slide_btn">Apply</a>
+                        <a href="" class="slide_btn">
+                          Apply
+                        </a>
                       </div>
                     </div>
 
                     <div class="fold">
                       <h3 class="slide_tt">
-                        Items
+                        Collections
                         <img
                           src={require("../img/sub/slide_up.png").default}
                           class="slide_up"
@@ -193,27 +195,35 @@ function Offers({ store, setConnect }) {
                         <ul>
                           <li
                             class="collec_img"
-                            style={{ backgroundImage: `url(${collect_img})` }}
+                            style={{
+                              backgroundImage: `url(${collect_img})`,
+                            }}
                           >
-                            <span>Item 01</span>
+                            <span>Collection 01</span>
                           </li>
                           <li
                             class="collec_img"
-                            style={{ backgroundImage: `url(${collect_img2})` }}
+                            style={{
+                              backgroundImage: `url(${collect_img2})`,
+                            }}
                           >
-                            <span>Item 02</span>
+                            <span>Collection 02</span>
                           </li>
                           <li
                             class="collec_img"
-                            style={{ backgroundImage: `url(${collect_img3})` }}
+                            style={{
+                              backgroundImage: `url(${collect_img3})`,
+                            }}
                           >
-                            <span>Item 03</span>
+                            <span>Collection 03</span>
                           </li>
                           <li
                             class="collec_img"
-                            style={{ backgroundImage: `url(${collect_img4})` }}
+                            style={{
+                              backgroundImage: `url(${collect_img4})`,
+                            }}
                           >
-                            <span>Item 04</span>
+                            <span>Collection 04</span>
                           </li>
                         </ul>
                       </div>
@@ -229,12 +239,13 @@ function Offers({ store, setConnect }) {
                       </h3>
 
                       <div class="open">
-                        <ul>
+                        <ul className="selectList">
                           {chainList.map((cont, index) => (
                             <li
                               key={index}
                               class="ra"
                               onClick={() => editFilterList("chain", cont.name)}
+                              style={{ cursor: "pointer" }}
                             >
                               <span
                                 className="chkBtn"
@@ -270,7 +281,7 @@ function Offers({ store, setConnect }) {
                           placeholder="Filter"
                           class="s_search"
                         />
-                        <ul>
+                        <ul className="selectList">
                           {coinList.map((cont, index) => (
                             <li
                               key={index}
@@ -310,20 +321,18 @@ function Offers({ store, setConnect }) {
                   <div class="pad">
                     <div class="etc">
                       <ul>
-                        <li
-                          class={offerCategory === 0 && "onnn"}
-                          onClick={() => setOfferCategory(0)}
-                        >
-                          Participation in auction
-                        </li>
-                        <li
-                          class={offerCategory === 1 && "onnn"}
-                          onClick={() => setOfferCategory(1)}
-                        >
-                          Bid proposal
-                        </li>
+                        {offerCategoryList.map((cont, index) => (
+                          <li
+                            key={index}
+                            className={offerCategory === index && "onnn"}
+                            onClick={() => setOfferCategory(index)}
+                          >
+                            {cont}
+                          </li>
+                        ))}
                       </ul>
                     </div>
+
                     <div class="filter_list">
                       <div class="filter_left">
                         <div class="fl">
@@ -344,18 +353,8 @@ function Offers({ store, setConnect }) {
                           </div>
                         ))}
                       </div>
-                      <div class="filter_right">
-                        <div class="fr">
-                          <a>
-                            <img
-                              src={require("../img/sub/exchange.png").default}
-                              alt=""
-                            />
-                            <span>transactional information</span>
-                          </a>
-                        </div>
-                      </div>
                     </div>
+
                     <div class="ranktable_pc p_th">
                       <table>
                         <colgroup>
@@ -394,12 +393,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/I_klaytn.svg").default
+                                    require("../img/sub/eth_icon.png").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 KLAY <span>($30.11)</span>
+                                  0.010 ETH <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -436,12 +435,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/I_klaytn.svg").default
+                                    require("../img/sub/eth_icon.png").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 KLAY <span>($30.11)</span>
+                                  0.010 ETH <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -478,12 +477,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/I_klaytn.svg").default
+                                    require("../img/sub/eth_icon.png").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 KLAY <span>($30.11)</span>
+                                  0.010 ETH <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -520,12 +519,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/I_klaytn.svg").default
+                                    require("../img/sub/eth_icon.png").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 KLAY <span>($30.11)</span>
+                                  0.010 ETH <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -562,12 +561,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/I_klaytn.svg").default
+                                    require("../img/sub/eth_icon.png").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 KLAY <span>($30.11)</span>
+                                  0.010 ETH <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -604,12 +603,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/I_klaytn.svg").default
+                                    require("../img/sub/eth_icon.png").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 KLAY <span>($30.11)</span>
+                                  0.010 ETH <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -646,12 +645,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/I_klaytn.svg").default
+                                    require("../img/sub/eth_icon.png").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 KLAY <span>($30.11)</span>
+                                  0.010 ETH <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -688,12 +687,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/I_klaytn.svg").default
+                                    require("../img/sub/eth_icon.png").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 KLAY <span>($30.11)</span>
+                                  0.010 ETH <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -730,12 +729,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/I_klaytn.svg").default
+                                    require("../img/sub/eth_icon.png").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 KLAY <span>($30.11)</span>
+                                  0.010 ETH <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -772,12 +771,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/I_klaytn.svg").default
+                                    require("../img/sub/eth_icon.png").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 KLAY <span>($30.11)</span>
+                                  0.010 ETH <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -818,7 +817,7 @@ function Offers({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
-                                <a>
+                                <a href="">
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -829,7 +828,7 @@ function Offers({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/I_klaytn.svg").default
+                                      require("../img/sub/eth_icon.png").default
                                     }
                                     alt=""
                                   />
@@ -882,7 +881,7 @@ function Offers({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
-                                <a>
+                                <a href="">
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -893,7 +892,7 @@ function Offers({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/I_klaytn.svg").default
+                                      require("../img/sub/eth_icon.png").default
                                     }
                                     alt=""
                                   />
@@ -928,7 +927,7 @@ function Offers({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
-                                <a>
+                                <a href="">
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -939,7 +938,7 @@ function Offers({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/I_klaytn.svg").default
+                                      require("../img/sub/eth_icon.png").default
                                     }
                                     alt=""
                                   />
@@ -974,7 +973,7 @@ function Offers({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
-                                <a>
+                                <a href="">
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -985,7 +984,7 @@ function Offers({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/I_klaytn.svg").default
+                                      require("../img/sub/eth_icon.png").default
                                     }
                                     alt=""
                                   />
@@ -1068,3 +1067,5 @@ const chainList = [
 ];
 
 const coinList = ["Klay"];
+
+const offerCategoryList = ["Participation in auction", "Bid proposal"];

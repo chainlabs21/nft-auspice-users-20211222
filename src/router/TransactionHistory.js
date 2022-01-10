@@ -231,16 +231,29 @@ function MarketPlace({ store, setConnect }) {
                       </h3>
 
                       <div class="open">
-                        <ul>
-                          <li class="ra">
-                            <input type="radio" id="rad2" name="rad" />
-                            <label for="rad2">
-                              <img
-                                src={require("../img/sub/rock.png").default}
-                              />
-                              Klaytn
-                            </label>
-                          </li>
+                        <ul className="selectList">
+                          {chainList.map((cont, index) => (
+                            <li
+                              key={index}
+                              class="ra"
+                              onClick={() => editFilterList("chain", cont.name)}
+                              style={{ cursor: "pointer" }}
+                            >
+                              <span
+                                className="chkBtn"
+                                style={{
+                                  background:
+                                    filterObj.chain === cont.name && "#000",
+                                }}
+                              >
+                                <span />
+                              </span>
+                              <label for={cont.name}>
+                                <img src={cont.img} />
+                                {cont.name}
+                              </label>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -260,7 +273,7 @@ function MarketPlace({ store, setConnect }) {
                           placeholder="Filter"
                           class="s_search"
                         />
-                        <ul>
+                        <ul className="selectList">
                           {coinList.map((cont, index) => (
                             <li
                               key={index}

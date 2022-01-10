@@ -34,7 +34,9 @@ function EmailFailed({ store, setConnect }) {
                   <a onClick={() => navigate("/")}>Cancel</a>
                 </li>
                 <li>
-                  <a onClick={() => navigate("/")}>Resend Email</a>
+                  <a onClick={() => navigate("/sentemaildetail")}>
+                    Resend Email
+                  </a>
                 </li>
               </ul>
             </div>

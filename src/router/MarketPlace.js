@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
 
@@ -25,11 +25,11 @@ import { useState } from "react";
 
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
-  const param = useParams();
+  const location = useLocation();
 
   const [toggleFilter, setToggleFilter] = useState(false);
   const [bundleFilter, setBundleFilter] = useState(bundleFilterList[0]);
-  const [categoryFilter, setCategoryFilter] = useState(param.category);
+  const [categoryFilter, setCategoryFilter] = useState(location?.state);
   const [sortFilter, setSortFilter] = useState(sortList[0]);
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
@@ -98,10 +98,16 @@ function MarketPlace({ store, setConnect }) {
 
                     <div class="open status">
                       <ul>
-                        <li class="on">Buy Now</li>
-                        <li>On Auction</li>
-                        <li>New</li>
-                        <li>Has Offers</li>
+                        {statusList.map((cont, index) => (
+                          <li
+                            key={index}
+                            style={{ cursor: "pointer" }}
+                            className={filterObj[cont] === cont && "on"}
+                            onClick={() => editFilterList(cont, cont)}
+                          >
+                            {cont}
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -200,23 +206,29 @@ function MarketPlace({ store, setConnect }) {
                     </h3>
 
                     <div class="open">
-                      <ul>
-                        <li class="ra">
-                          <input type="radio" id="rad" name="rad" />
-                          <label for="rad">
-                            <img
-                              src={require("../img/sub/stone.png").default}
-                            />
-                            Ethereum
-                          </label>
-                        </li>
-                        <li class="ra">
-                          <input type="radio" id="rad2" name="rad" />
-                          <label for="rad2">
-                            <img src={require("../img/sub/rock.png").default} />
-                            Klaytn
-                          </label>
-                        </li>
+                      <ul className="selectList">
+                        {chainList.map((cont, index) => (
+                          <li
+                            key={index}
+                            class="ra"
+                            onClick={() => editFilterList("chain", cont.name)}
+                            style={{ cursor: "pointer" }}
+                          >
+                            <span
+                              className="chkBtn"
+                              style={{
+                                background:
+                                  filterObj.chain === cont.name && "#000",
+                              }}
+                            >
+                              <span />
+                            </span>
+                            <label for={cont.name}>
+                              <img src={cont.img} />
+                              {cont.name}
+                            </label>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -236,15 +248,25 @@ function MarketPlace({ store, setConnect }) {
                         placeholder="Filter"
                         class="s_search"
                       />
-                      <ul>
-                        <li class="ra">
-                          <input type="radio" id="rad3" name="rad2" />
-                          <label for="rad3">AUSP</label>
-                        </li>
-                        <li class="ra">
-                          <input type="radio" id="rad4" name="rad2" />
-                          <label for="rad4">WETH</label>
-                        </li>
+                      <ul className="selectList">
+                        {coinList.map((cont, index) => (
+                          <li
+                            key={index}
+                            class="ra"
+                            onClick={() => editFilterList("coin", cont)}
+                          >
+                            <span
+                              className="chkBtn"
+                              style={{
+                                background: filterObj.coin === cont && "#000",
+                              }}
+                            >
+                              <span />
+                            </span>
+
+                            <label for={cont}>{cont}</label>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -345,26 +367,43 @@ function MarketPlace({ store, setConnect }) {
                   </div>
 
                   <div class="etc">
-                    <ul>
-                      <li class="onnn">All</li>
-                      <li>Art</li>
-                      <li>Music</li>
-                      <li>Virtual World</li>
-                      <li>Trading Cards</li>
-                      <li>Collectibles</li>
-                      <li>Sports</li>
-                      <li>Utility</li>
-                      <li>ETC</li>
+                    <ul className="cartegoryList">
+                      <li
+                        class={
+                          (!categoryFilter || categoryFilter === "All") &&
+                          "onnn"
+                        }
+                        onClick={() => setCategoryFilter("All")}
+                      >
+                        All
+                      </li>
+
+                      {categoryList.map((cont, index) => (
+                        <li
+                          class={categoryFilter === cont && "onnn"}
+                          key={index}
+                          onClick={() => setCategoryFilter(cont)}
+                        >
+                          {cont}
+                        </li>
+                      ))}
                     </ul>
                   </div>
 
                   <div class="se_fi">
                     <p class="total">Selected Filter</p>
                     <ul>
-                      <li class="sef">Filter reset</li>
-                      <li>AUSP</li>
-                      <li>ETH</li>
-                      <li>Ethereum</li>
+                      <li class="sef" onClick={() => onclickFilterReset}>
+                        Filter reset
+                      </li>
+                      {filterList.map((cont, index) => (
+                        <li
+                          key={index}
+                          onClick={() => onclickFilterCancel(cont)}
+                        >
+                          {cont}
+                        </li>
+                      ))}
                     </ul>
                   </div>
 
@@ -375,7 +414,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>
                             <li>
                               <a
-                                href="#"
+                                onClick={() => navigate("/singleitem")}
                                 style={{
                                   backgroundImage: `url(${s5})`,
                                   backgroundRepeat: "no-repeat",
@@ -401,7 +440,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>
                             <li>
                               <a
-                                href="#"
+                                onClick={() => navigate("/singleitem")}
                                 style={{
                                   backgroundImage: `url(${sample})`,
                                   backgroundRepeat: "no-repeat",
@@ -427,7 +466,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>
                             <li>
                               <a
-                                href="#"
+                                onClick={() => navigate("/singleitem")}
                                 style={{
                                   backgroundImage: `url(${sample})`,
                                   backgroundRepeat: "no-repeat",
@@ -453,7 +492,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>
                             <li>
                               <a
-                                href="#"
+                                onClick={() => navigate("/singleitem")}
                                 style={{
                                   backgroundImage: `url(${sample})`,
                                   backgroundRepeat: "no-repeat",
@@ -479,7 +518,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>
                             <li>
                               <a
-                                href="#"
+                                onClick={() => navigate("/singleitem")}
                                 style={{
                                   backgroundImage: `url(${sample})`,
                                   backgroundRepeat: "no-repeat",
@@ -505,7 +544,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>
                             <li>
                               <a
-                                href="#"
+                                onClick={() => navigate("/singleitem")}
                                 style={{
                                   backgroundImage: `url(${sample})`,
                                   backgroundRepeat: "no-repeat",
@@ -531,7 +570,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>
                             <li>
                               <a
-                                href="#"
+                                onClick={() => navigate("/singleitem")}
                                 style={{
                                   backgroundImage: `url(${sample})`,
                                   backgroundRepeat: "no-repeat",
@@ -557,7 +596,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>
                             <li>
                               <a
-                                href="#"
+                                onClick={() => navigate("/singleitem")}
                                 style={{
                                   backgroundImage: `url(${sample})`,
                                   backgroundRepeat: "no-repeat",
@@ -583,7 +622,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>
                             <li>
                               <a
-                                href="#"
+                                onClick={() => navigate("/singleitem")}
                                 style={{
                                   backgroundImage: `url(${sample})`,
                                   backgroundRepeat: "no-repeat",
@@ -609,7 +648,7 @@ function MarketPlace({ store, setConnect }) {
                           <span>
                             <li>
                               <a
-                                href="#"
+                                onClick={() => navigate("/singleitem")}
                                 style={{
                                   backgroundImage: `url(${sample})`,
                                   backgroundRepeat: "no-repeat",
@@ -647,21 +686,12 @@ function MarketPlace({ store, setConnect }) {
 }
 
 const MarketPlaceBox = styled.div`
-  #sub {
-    .profile_home {
-      .move {
-        .right_move {
-          .pad {
-            .real_sec {
-              .slide_s {
-                .mtop {
-                  position: relative;
-                }
-              }
-            }
-          }
-        }
-      }
+  .cartegoryList{
+    display: flex;
+    flex-wrap: wrap;
+
+    li{
+      white-space: nowrap;
     }
   }
 `;
@@ -683,13 +713,13 @@ const statusList = ["Buy Now", "On Auction", "New", "Has Offers"];
 const bundleFilterList = ["Single Item", "All", "Bundle sales"];
 
 const categoryList = [
-  "All",
-  "Collectibles",
-  "Digital Art",
+  "Art",
+  "Musict",
+  "Virtual World",
   "Trading Cards",
-  "Music",
-  "Virtual Worlds",
+  "Collectibles",
   "Sports",
+  "Utility",
   "ETC",
 ];
 

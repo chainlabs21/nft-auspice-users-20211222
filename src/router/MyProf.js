@@ -38,6 +38,7 @@ function MyProf({ store, setConnect }) {
   const [toggleFilter, setToggleFilter] = useState(false);
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
+  const [selectItemIndex, setSelectItemIndex] = useState(-1);
 
   function editFilterList(category, cont) {
     let dataObj = filterObj;
@@ -47,7 +48,7 @@ function MyProf({ store, setConnect }) {
     setFilterList([...Object.values(dataObj)]);
   }
 
-  function onclickFilterReset() {
+  function onClickFilterReset() {
     setFilterObj({});
     setFilterList([]);
   }
@@ -55,6 +56,24 @@ function MyProf({ store, setConnect }) {
   function onClickMoreBtn(index) {
     if (morePopupIndex === index) setMorePopupIndex(-1);
     else setMorePopupIndex(index);
+  }
+
+  function onClickFilterCancel(cont) {
+    let dataObj = filterObj;
+
+    for (var key in dataObj) {
+      if (dataObj.hasOwnProperty(key) && dataObj[key] == cont) {
+        delete dataObj[key];
+      }
+    }
+
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
+
+  function onClickLink(e, link) {
+    e.stopPropagation();
+    navigate(`/${link}`);
   }
 
   return (
@@ -88,9 +107,9 @@ function MyProf({ store, setConnect }) {
               </div>
             </div>
 
-            <div class="move off">
+            <div class={toggleFilter ? "move on deal" : "move off"}>
               <div class="cw ucl">
-                <span class="close">
+                <span class="close" onClick={() => setToggleFilter(true)}>
                   <img src={require("../img/sub/side_close.png").default} />
                   <b class="mclose">
                     Filter<span>1</span>
@@ -108,6 +127,7 @@ function MyProf({ store, setConnect }) {
                       <img
                         src={require("../img/sub/filter_close.png").default}
                         class="fc"
+                        onClick={() => setToggleFilter(false)}
                       />
                     </div>
                     <div class="fold status">
@@ -121,10 +141,16 @@ function MyProf({ store, setConnect }) {
 
                       <div class="open status">
                         <ul>
-                          <li class="on">Buy Now</li>
-                          <li>On Auction</li>
-                          <li>New</li>
-                          <li>Has Offers</li>
+                          {statusList.map((cont, index) => (
+                            <li
+                              key={index}
+                              style={{ cursor: "pointer" }}
+                              className={filterObj[cont] === cont && "on"}
+                              onClick={() => editFilterList(cont, cont)}
+                            >
+                              {cont}
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -181,9 +207,6 @@ function MyProf({ store, setConnect }) {
                             class="collec_img"
                             style={{
                               backgroundImage: `url(${collect_img})`,
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                              backgroundSize: "cover",
                             }}
                           >
                             <span>Collection 01</span>
@@ -192,9 +215,6 @@ function MyProf({ store, setConnect }) {
                             class="collec_img"
                             style={{
                               backgroundImage: `url(${collect_img2})`,
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                              backgroundSize: "cover",
                             }}
                           >
                             <span>Collection 02</span>
@@ -203,9 +223,6 @@ function MyProf({ store, setConnect }) {
                             class="collec_img"
                             style={{
                               backgroundImage: `url(${collect_img3})`,
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                              backgroundSize: "cover",
                             }}
                           >
                             <span>Collection 03</span>
@@ -214,9 +231,6 @@ function MyProf({ store, setConnect }) {
                             class="collec_img"
                             style={{
                               backgroundImage: `url(${collect_img4})`,
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                              backgroundSize: "cover",
                             }}
                           >
                             <span>Collection 04</span>
@@ -235,25 +249,29 @@ function MyProf({ store, setConnect }) {
                       </h3>
 
                       <div class="open">
-                        <ul>
-                          <li class="ra">
-                            <input type="radio" id="rad" name="rad" />
-                            <label for="rad">
-                              <img
-                                src={require("../img/sub/stone.png").default}
-                              />
-                              Ethereum
-                            </label>
-                          </li>
-                          <li class="ra">
-                            <input type="radio" id="rad2" name="rad" />
-                            <label for="rad2">
-                              <img
-                                src={require("../img/sub/rock.png").default}
-                              />
-                              Klaytn
-                            </label>
-                          </li>
+                        <ul className="selectList">
+                          {chainList.map((cont, index) => (
+                            <li
+                              key={index}
+                              class="ra"
+                              onClick={() => editFilterList("chain", cont.name)}
+                              style={{ cursor: "pointer" }}
+                            >
+                              <span
+                                className="chkBtn"
+                                style={{
+                                  background:
+                                    filterObj.chain === cont.name && "#000",
+                                }}
+                              >
+                                <span />
+                              </span>
+                              <label for={cont.name}>
+                                <img src={cont.img} />
+                                {cont.name}
+                              </label>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -273,15 +291,25 @@ function MyProf({ store, setConnect }) {
                           placeholder="Filter"
                           class="s_search"
                         />
-                        <ul>
-                          <li class="ra">
-                            <input type="radio" id="rad3" name="rad2" />
-                            <label for="rad3">AUSP</label>
-                          </li>
-                          <li class="ra">
-                            <input type="radio" id="rad4" name="rad2" />
-                            <label for="rad4">WETH</label>
-                          </li>
+                        <ul className="selectList">
+                          {coinList.map((cont, index) => (
+                            <li
+                              key={index}
+                              class="ra"
+                              onClick={() => editFilterList("coin", cont)}
+                            >
+                              <span
+                                className="chkBtn"
+                                style={{
+                                  background: filterObj.coin === cont && "#000",
+                                }}
+                              >
+                                <span />
+                              </span>
+
+                              <label for={cont}>{cont}</label>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -293,13 +321,16 @@ function MyProf({ store, setConnect }) {
                 <div class="real_sec">
                   <ul class="tab">
                     <li class="onn">Search Wallet</li>
-                    <li>Transaction history</li>
-                    <li>Offers</li>
-                    <li>Liked</li>
-                    <li>Hidden item</li>
-                    <li>Referals</li>
+                    <li onClick={() => navigate("/transactionhistory")}>
+                      Transaction history
+                    </li>
+                    <li onClick={() => navigate("/offers")}>Offers</li>
+                    <li onClick={() => navigate("/liked")}>Liked</li>
+                    <li onClick={() => navigate("/hiddenitem")}>Hidden item</li>
+                    <li onClick={() => navigate("/referals")}>Referals</li>
                   </ul>
                   <div class="pad">
+                    <div class="real_sec"></div>
                     <div class="slide_s">
                       <div class="fl">
                         <input
@@ -357,14 +388,33 @@ function MyProf({ store, setConnect }) {
                       </div>
                     </div>
 
+                    <div class="se_fi">
+                      <p class="total">Selected Filter</p>
+                      <ul>
+                        <li class="sef" onClick={onClickFilterReset}>
+                          Filter reset
+                        </li>
+                        {filterList.map((cont, index) => (
+                          <li
+                            key={index}
+                            onClick={() => onClickFilterCancel(cont)}
+                          >
+                            {cont}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
                     <div class="move_item">
                       <div class="swiper_container">
                         <ol class="item move_li">
                           <div>
                             <span>
-                              <li>
+                              <li
+                                class={selectItemIndex === 0 && "click"}
+                                onClick={() => setSelectItemIndex(0)}
+                              >
                                 <a
-                                  href="#"
                                   style={{
                                     backgroundImage: `url(${s5})`,
                                     backgroundRepeat: "no-repeat",
@@ -375,16 +425,27 @@ function MyProf({ store, setConnect }) {
                                   <div class="on">
                                     <ul>
                                       <li class="heart off">1,389</li>
-                                      <li class="dot">
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Collection Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                      <li
+                                        class="dot"
+                                        onClick={() => onClickMoreBtn(0)}
+                                      >
+                                        {morePopupIndex === 0 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>Mark.X collection</span>
@@ -394,9 +455,11 @@ function MyProf({ store, setConnect }) {
                               </li>
                             </span>
                             <span>
-                              <li class="click">
+                              <li
+                                class={selectItemIndex === 1 && "click"}
+                                onClick={() => setSelectItemIndex(1)}
+                              >
                                 <a
-                                  href="#"
                                   style={{
                                     backgroundImage: `url(${sample})`,
                                     backgroundRepeat: "no-repeat",
@@ -407,16 +470,27 @@ function MyProf({ store, setConnect }) {
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
-                                      <li class="dot">
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Collection Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                      <li
+                                        class="dot"
+                                        onClick={() => onClickMoreBtn(1)}
+                                      >
+                                        {morePopupIndex === 1 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>Mark.X collection</span>
@@ -426,9 +500,11 @@ function MyProf({ store, setConnect }) {
                               </li>
                             </span>
                             <span>
-                              <li>
+                              <li
+                                class={selectItemIndex === 2 && "click"}
+                                onClick={() => setSelectItemIndex(2)}
+                              >
                                 <a
-                                  href="#"
                                   style={{
                                     backgroundImage: `url(${sample})`,
                                     backgroundRepeat: "no-repeat",
@@ -439,16 +515,27 @@ function MyProf({ store, setConnect }) {
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
-                                      <li class="dot">
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Collection Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                      <li
+                                        class="dot"
+                                        onClick={() => onClickMoreBtn(2)}
+                                      >
+                                        {morePopupIndex === 2 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>David</span>
@@ -458,9 +545,11 @@ function MyProf({ store, setConnect }) {
                               </li>
                             </span>
                             <span>
-                              <li>
+                              <li
+                                class={selectItemIndex === 3 && "click"}
+                                onClick={() => setSelectItemIndex(3)}
+                              >
                                 <a
-                                  href="#"
                                   style={{
                                     backgroundImage: `url(${sample})`,
                                     backgroundRepeat: "no-repeat",
@@ -471,16 +560,27 @@ function MyProf({ store, setConnect }) {
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
-                                      <li class="dot">
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Collection Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                      <li
+                                        class="dot"
+                                        onClick={() => onClickMoreBtn(3)}
+                                      >
+                                        {morePopupIndex === 3 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>David</span>
@@ -490,9 +590,11 @@ function MyProf({ store, setConnect }) {
                               </li>
                             </span>
                             <span>
-                              <li>
+                              <li
+                                class={selectItemIndex === 4 && "click"}
+                                onClick={() => setSelectItemIndex(4)}
+                              >
                                 <a
-                                  href="#"
                                   style={{
                                     backgroundImage: `url(${sample})`,
                                     backgroundRepeat: "no-repeat",
@@ -503,16 +605,27 @@ function MyProf({ store, setConnect }) {
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
-                                      <li class="dot">
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Collection Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                      <li
+                                        class="dot"
+                                        onClick={() => onClickMoreBtn(4)}
+                                      >
+                                        {morePopupIndex === 4 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>David</span>
@@ -522,9 +635,11 @@ function MyProf({ store, setConnect }) {
                               </li>
                             </span>
                             <span>
-                              <li class="click">
+                              <li
+                                class={selectItemIndex === 5 && "click"}
+                                onClick={() => setSelectItemIndex(5)}
+                              >
                                 <a
-                                  href="#"
                                   style={{
                                     backgroundImage: `url(${sample})`,
                                     backgroundRepeat: "no-repeat",
@@ -535,16 +650,27 @@ function MyProf({ store, setConnect }) {
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
-                                      <li class="dot">
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Collection Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                      <li
+                                        class="dot"
+                                        onClick={() => onClickMoreBtn(5)}
+                                      >
+                                        {morePopupIndex === 5 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>David</span>
@@ -554,9 +680,11 @@ function MyProf({ store, setConnect }) {
                               </li>
                             </span>
                             <span>
-                              <li>
+                              <li
+                                class={selectItemIndex === 6 && "click"}
+                                onClick={() => setSelectItemIndex(6)}
+                              >
                                 <a
-                                  href="#"
                                   style={{
                                     backgroundImage: `url(${sample})`,
                                     backgroundRepeat: "no-repeat",
@@ -567,16 +695,27 @@ function MyProf({ store, setConnect }) {
                                   <div class="on">
                                     <ul>
                                       <li class="heart on">1,389</li>
-                                      <li class="dot">
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Collection Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                      <li
+                                        class="dot"
+                                        onClick={() => onClickMoreBtn(6)}
+                                      >
+                                        {morePopupIndex === 6 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>David</span>
@@ -629,7 +768,38 @@ function MyProf({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  .item {
+    div {
+      span {
+        li {
+          a {
+            & > .on {
+              height: 138px;
+              padding-bottom: 25px;
+
+              ul {
+                font-size: 14px;
+              }
+
+              span {
+                margin: 11px 0 0 0;
+                font-size: 18px;
+                line-height: 24px;
+              }
+
+              div {
+                margin: 4px 0 0 0;
+                font-size: 22px;
+                line-height: 30px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };
@@ -652,4 +822,4 @@ const chainList = [
   },
 ];
 
-// const coinList = ["Klay"];
+const coinList = ["Klay"];

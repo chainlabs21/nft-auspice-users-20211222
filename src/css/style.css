@@ -1466,8 +1466,9 @@
   margin: 0 0 30px;
 }
 #sub .full {
-  overflow: hidden;
   width: 100%;
+  margin: 0 0 40px 0;
+  overflow: hidden;
 }
 #sub .t.releft {
   float: left;
@@ -1555,10 +1556,14 @@
 }
 
 #sub .bundle_box .bundle_top {
-  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
   width: 100%;
+  overflow: hidden;
 }
 #sub .bundle_box .bundle_top.top2 {
+  display: flex;
+  justify-content: space-between;
   padding-top: 66px;
 }
 #sub .bundle_box .bundle_top .bun_tl {
@@ -1867,12 +1872,12 @@
 
 /* right middle */
 #sub .bundle_box.box3 .bundle_top .bun_tl {
-  width: 740px;
-  margin-right: 1.5%;
+  width: 48%;
+  margin: 0;
 }
 #sub .bundle_box.box3 .bundle_top .bun_tr {
-  width: 499px;
-  margin-left: 1.5%;
+  width: 48%;
+  margin: 0;
 }
 #sub .bundle_box .bundle_top .right_m {
   margin: 0;
@@ -2150,7 +2155,11 @@ div.basic .tab_bottom .body tr td span.chain.off {
 
 @media screen and (max-width: 1440px) {
   #sub .bundle_box .bundle_top {
+    display: block;
     position: relative;
+  }
+  #sub .bundle_box .bundle_top.top2 {
+    display: block;
   }
   #sub .bundle_box.box3 .bundle_top .bun_tl,
   #sub .bundle_box.box3 .bundle_top .bun_tr {
@@ -2763,7 +2772,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 .collection_home .wrap,
 .collection_home .move .right_move {
-  max-width: 1280px;
+  max-width: 1680px;
   margin: 0px auto;
 }
 .profile_home .collection_detail {
@@ -2787,8 +2796,8 @@ div.basic .tab_bottom .body tr td span.chain.off {
   margin-left: 30px;
 }
 .profile_home .collection_detail .pro_img > img {
-  width: 160px;
-  height: 160px !important;
+  width: 140px;
+  height: 140px !important;
   border-radius: 50%;
   margin-bottom: 50px;
 }
@@ -3209,7 +3218,6 @@ div.basic .tab_bottom .body tr td span.chain.off {
 .move.on .right_move {
   margin-left: 18.2%;
   width: 81.8%;
-  max-width: 1280px;
   margin-bottom: 80px;
   min-height: 1450px;
 }
@@ -3670,7 +3678,8 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 .move .right_move .real_sec .etc ul li {
   float: left;
-  width: 11.11%;
+  min-width: 11.11%;
+  padding: 0 8px;
   text-align: center;
   line-height: 56px;
   font-size: 16px;
@@ -4076,6 +4085,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 
   /* 필터 모바일버튼 */
   .move .cw {
+    width: 0;
     position: fixed;
     top: 0px;
     bottom: 10px;
@@ -10561,6 +10571,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   display: block;
 }
 #sub .deal_box .move.deal .right_move .real_sec .pad .etc ul {
+  display: flex;
 }
 #sub .deal_box .move.deal .right_move .real_sec .pad .etc ul li {
   width: 50%;

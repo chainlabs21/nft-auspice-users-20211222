@@ -43,10 +43,10 @@ function Referals({ store, setConnect }) {
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
                   <div class="home_icons">
-                    <a >
+                    <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
-                    <a >
+                    <a>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
@@ -95,7 +95,7 @@ function Referals({ store, setConnect }) {
                         <span>
                           https://ausp.io/market/?ref=0x97b155a698d4bdec4c4bf3a92e9071190093cafb
                         </span>
-                        <a  class="copybtn">
+                        <a class="copybtn">
                           <img
                             src={require("../img/sub/btn_copy.png").default}
                           />
@@ -105,116 +105,118 @@ function Referals({ store, setConnect }) {
                     </div>
 
                     <div class="ranktable_pc rp2">
-                      <table>
-                        <colgroup>
-                          <col style={{ width: "*" }} />
-                          <col style={{ width: "16%" }} />
-                          <col style={{ width: "*" }} />
-                          <col style={{ width: "*" }} />
-                          <col style={{ width: "*" }} />
-                          <col style={{ width: "*" }} />
-                          <col style={{ width: "*" }} />
-                        </colgroup>
-                        <thead>
-                          <tr>
-                            <th>Item</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Sellers</th>
-                            <th>Time Sold</th>
-                            <th>Payment Date</th>
-                            <th>Payment</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <div class="name">
-                                <img
-                                  src={
-                                    require("../img/sub/collect_circle.png")
-                                      .default
-                                  }
-                                  alt=""
-                                />
-                                <p>Summer Pool</p>
-                              </div>
-                            </td>
-                            <td>
-                              <div class="name price">
-                                <img
-                                  src={
-                                    require("../img/sub/I_klaytn.svg").default
-                                  }
-                                  alt=""
-                                />
-                                <p>
-                                  0.010 KLAY<span>($30.11)</span>
-                                </p>
-                              </div>
-                            </td>
-                            <td>1</td>
-                            <td>
-                              <div class="name">
-                                <img
-                                  src={
-                                    require("../img/sub/collect_circle.png")
-                                      .default
-                                  }
-                                  alt=""
-                                />
-                                <p>TIDREDQ34...</p>
-                              </div>
-                            </td>
-                            <td>2021.01.01</td>
-                            <td>2021.06</td>
-                            <td>0.0001 KLAY</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="name">
-                                <img
-                                  src={
-                                    require("../img/sub/collect_circle.png")
-                                      .default
-                                  }
-                                  alt=""
-                                />
-                                <p>Donald DUck</p>
-                              </div>
-                            </td>
-                            <td>
-                              <div class="name price">
-                                <img
-                                  src={
-                                    require("../img/sub/I_klaytn.svg").default
-                                  }
-                                  alt=""
-                                />
-                                <p>
-                                  0.5000 KLAY<span>($30.11)</span>
-                                </p>
-                              </div>
-                            </td>
-                            <td>1</td>
-                            <td>
-                              <div class="name">
-                                <img
-                                  src={
-                                    require("../img/sub/collect_circle.png")
-                                      .default
-                                  }
-                                  alt=""
-                                />
-                                <p>VOE837548...</p>
-                              </div>
-                            </td>
-                            <td>11 days later</td>
-                            <td>2021.06</td>
-                            <td>0.0005 KLAY</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <div className="scrollBox">
+                        <table>
+                          <colgroup>
+                            <col style={{ width: "*" }} />
+                            <col style={{ width: "16%" }} />
+                            <col style={{ width: "*" }} />
+                            <col style={{ width: "*" }} />
+                            <col style={{ width: "*" }} />
+                            <col style={{ width: "*" }} />
+                            <col style={{ width: "*" }} />
+                          </colgroup>
+                          <thead>
+                            <tr>
+                              <th>Item</th>
+                              <th>Price</th>
+                              <th>Quantity</th>
+                              <th>Sellers</th>
+                              <th>Time Sold</th>
+                              <th>Payment Date</th>
+                              <th>Payment</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <div class="name">
+                                  <img
+                                    src={
+                                      require("../img/sub/collect_circle.png")
+                                        .default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>Summer Pool</p>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="name price">
+                                  <img
+                                    src={
+                                      require("../img/sub/I_klaytn.svg").default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>
+                                    0.010 KLAY<span>($30.11)</span>
+                                  </p>
+                                </div>
+                              </td>
+                              <td>1</td>
+                              <td>
+                                <div class="name">
+                                  <img
+                                    src={
+                                      require("../img/sub/collect_circle.png")
+                                        .default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>TIDREDQ34...</p>
+                                </div>
+                              </td>
+                              <td>2021.01.01</td>
+                              <td>2021.06</td>
+                              <td>0.0001 KLAY</td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <div class="name">
+                                  <img
+                                    src={
+                                      require("../img/sub/collect_circle.png")
+                                        .default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>Donald DUck</p>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="name price">
+                                  <img
+                                    src={
+                                      require("../img/sub/I_klaytn.svg").default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>
+                                    0.5000 KLAY<span>($30.11)</span>
+                                  </p>
+                                </div>
+                              </td>
+                              <td>1</td>
+                              <td>
+                                <div class="name">
+                                  <img
+                                    src={
+                                      require("../img/sub/collect_circle.png")
+                                        .default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>VOE837548...</p>
+                                </div>
+                              </td>
+                              <td>11 days later</td>
+                              <td>2021.06</td>
+                              <td>0.0005 KLAY</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -227,7 +229,28 @@ function Referals({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  .rp2 {
+    overflow: hidden;
+
+    .scrollBox {
+      height: 100%;
+      overflow-x: scroll;
+
+      &::-webkit-scrollbar {
+        height: 10px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #b7b7b7;
+        border-radius: 10px;
+      }
+
+      &::-webkit-scrollbar-track {
+        border-radius: 10px;
+      }
+    }
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };

@@ -296,6 +296,7 @@ function Liked({ store, setConnect }) {
                             </a>
                           </li>
                         </span>
+
                         <span>
                           <li>
                             <a
@@ -373,7 +374,38 @@ function Liked({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  .item {
+    div {
+      span {
+        li {
+          a {
+            & > .on {
+              height: 138px;
+              padding-bottom: 25px;
+
+              ul {
+                font-size: 14px;
+              }
+
+              span {
+                margin: 11px 0 0 0;
+                font-size: 18px;
+                line-height: 24px;
+              }
+
+              div {
+                margin: 4px 0 0 0;
+                font-size: 22px;
+                line-height: 30px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };

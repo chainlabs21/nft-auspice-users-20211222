@@ -187,9 +187,6 @@ function Main({ store }) {
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(8 / itemNumByPage);
 
-    console.log(wrapWidth, contWidth, itemNumByPage);
-    console.log(collectionIndex, pageNum);
-
     if (collectionSwiperRef.current?.scrollTo) {
       if (collectionIndex < pageNum) {
         collectionSwiperRef.current.scrollTo({
@@ -281,8 +278,8 @@ function Main({ store }) {
               <br /> Only in your own NFT gallery
             </p>
             <div>
-              <a href="#">NFT Navigation</a>
-              <a href="#">NFT Publication</a>
+              <a onClick={() => navigate("/marketplace")}>NFT Navigation</a>
+              <a onClick={() => navigate("/marketplace")}>NFT Publication</a>
             </div>
           </div>
           <div class="swiper" ref={visualSwiperContRef}>
@@ -440,8 +437,12 @@ function Main({ store }) {
                           </ul>
                         </div>
                         <div class="button">
-                          <a href="#">View Item</a>
-                          <a href="#">Place a Bid</a>
+                          <a onClick={() => navigate("/singleitem")}>
+                            View Item
+                          </a>
+                          <a onClick={() => navigate("/singleitem")}>
+                            Place a Bid
+                          </a>
                         </div>
                       </div>
                     </li>
@@ -468,7 +469,7 @@ function Main({ store }) {
                     <>
                       <span>
                         <li class="swiper-slide">
-                          <a href="#">
+                          <a onClick={() => navigate("/singleitem")}>
                             <div
                               style={{
                                 backgroundImage: `url(${collection_list01})`,
@@ -503,7 +504,7 @@ function Main({ store }) {
                       </span>
                       <span>
                         <li class="swiper-slide">
-                          <a href="#">
+                          <a onClick={() => navigate("/singleitem")}>
                             <div
                               style={{
                                 backgroundImage: `url(${collection_list02})`,
@@ -537,7 +538,7 @@ function Main({ store }) {
                       </span>
                       <span>
                         <li class="swiper-slide">
-                          <a href="#">
+                          <a onClick={() => navigate("/singleitem")}>
                             <div
                               style={{
                                 backgroundImage: `url(${collection_list03})`,
@@ -572,7 +573,7 @@ function Main({ store }) {
                       </span>
                       <span>
                         <li class="swiper-slide">
-                          <a href="#">
+                          <a onClick={() => navigate("/singleitem")}>
                             <div
                               style={{
                                 backgroundImage: `url(${collection_list04})`,
@@ -628,19 +629,27 @@ function Main({ store }) {
 
             <ol class="list">
               <li>
-                <a href="#">
+                <a
+                  onClick={() =>
+                    navigate("/marketplace", { state: "Digital Art" })
+                  }
+                >
                   <img src={require("./img/main/category_art.png").default} />
-                  Art
+                  Digital Art
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a onClick={() => navigate("/marketplace", { state: "Music" })}>
                   <img src={require("./img/main/category_music.png").default} />
                   Music
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a
+                  onClick={() =>
+                    navigate("/marketplace", { state: "Virtual Worlds" })
+                  }
+                >
                   <img
                     src={
                       require("./img/main/category_virtualworld.png").default
@@ -650,7 +659,11 @@ function Main({ store }) {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a
+                  onClick={() =>
+                    navigate("/marketplace", { state: "Trading Card" })
+                  }
+                >
                   <img
                     src={
                       require("./img/main/category_tradingcards.png").default
@@ -660,7 +673,11 @@ function Main({ store }) {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a
+                  onClick={() =>
+                    navigate("/marketplace", { state: "Collectibles" })
+                  }
+                >
                   <img
                     src={
                       require("./img/main/category_collectibles.png").default
@@ -670,7 +687,9 @@ function Main({ store }) {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a
+                  onClick={() => navigate("/marketplace", { state: "Sports" })}
+                >
                   <img
                     src={require("./img/main/category_sports.png").default}
                   />
@@ -678,7 +697,9 @@ function Main({ store }) {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a
+                  onClick={() => navigate("/marketplace", { state: "Utility" })}
+                >
                   <img
                     src={require("./img/main/category_utility.png").default}
                   />
@@ -686,9 +707,9 @@ function Main({ store }) {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a onClick={() => navigate("/marketplace", { state: "ETC" })}>
                   <img src={require("./img/main/category_etc.png").default} />
-                  etc
+                  ETC
                 </a>
               </li>
             </ol>
@@ -707,7 +728,7 @@ function Main({ store }) {
                       <span>
                         <li class="swiper-slide">
                           <a
-                            href="#"
+                            onClick={() => navigate("/singleitem")}
                             style={{
                               backgroundImage: `url(${sample})`,
                               backgroundRepeat: "no-repeat",
@@ -760,7 +781,7 @@ function Main({ store }) {
                       <span>
                         <li class="swiper-slide">
                           <a
-                            href="#"
+                            onClick={() => navigate("/singleitem")}
                             style={{
                               backgroundImage: `url(${sample})`,
                               backgroundRepeat: "no-repeat",
@@ -811,7 +832,7 @@ function Main({ store }) {
                     <>
                       <span>
                         <li class="swiper-slide">
-                          <a href="#">
+                          <a>
                             <div
                               style={{
                                 backgroundImage: `url(${users_list01})`,
@@ -830,7 +851,7 @@ function Main({ store }) {
 
                       <span>
                         <li class="swiper-slide">
-                          <a href="#">
+                          <a>
                             <div
                               style={{
                                 backgroundImage: `url(${users_list02})`,
@@ -848,7 +869,7 @@ function Main({ store }) {
                       </span>
                       <span>
                         <li class="swiper-slide">
-                          <a href="#">
+                          <a>
                             <div
                               style={{
                                 backgroundImage: `url(${users_list03})`,
@@ -866,7 +887,7 @@ function Main({ store }) {
                       </span>
                       <span>
                         <li class="swiper-slide">
-                          <a href="#">
+                          <a>
                             <div
                               style={{
                                 backgroundImage: `url(${users_list04})`,
@@ -900,69 +921,165 @@ function Main({ store }) {
       </section>
 
       <footer id="footer">
-    <div class="wrap">
-      <div class="info">
-        <div>
-          <h5><a href="./"><img src={require("./img/sub/verse_logo.png").default}/></a></h5>
-          <p>Decentralized NFT marketplace AUSPICE makes it easy and convenient to trade non-fungible tokens (NFTs) and crypto collectibles.</p>
-          <div>
-            <span><a href="mailto:contact@Auspice.com">Contact us</a></span>
-            <span><a href="#">English</a></span>
+        <div class="wrap">
+          <div class="info">
+            <div>
+              <h5>
+                <a onClick={() => navigate("/")}>
+                  <img src={require("./img/sub/verse_logo.png").default} />
+                </a>
+              </h5>
+              <p>
+                Decentralized NFT marketplace AUSPICE makes it easy and
+                convenient to trade non-fungible tokens (NFTs) and crypto
+                collectibles.
+              </p>
+              <div>
+                <span>
+                  <a href="mailto:contact@Auspice.com">Contact us</a>
+                </span>
+                <span>
+                  <a>English</a>
+                </span>
+              </div>
+            </div>
+            <div>
+              <ul>
+                <li>
+                  <h6>MARKET</h6>
+                  <ol>
+                    <li>
+                      <a onClick={() => navigate("/marketplace")}>
+                        all about NFT
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() =>
+                          navigate("/marketplace", { state: "Digital Art" })
+                        }
+                      >
+                        Digital art
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() =>
+                          navigate("/marketplace", { state: "Trading Card" })
+                        }
+                      >
+                        Trading cards
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() =>
+                          navigate("/marketplace", { state: "Music" })
+                        }
+                      >
+                        Music
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() =>
+                          navigate("/marketplace", { state: "Virtual Worlds" })
+                        }
+                      >
+                        Virtual Worlds
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() =>
+                          navigate("/marketplace", { state: "Utility" })
+                        }
+                      >
+                        Utility
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() =>
+                          navigate("/marketplace", { state: "Sports" })
+                        }
+                      >
+                        Sports
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() =>
+                          navigate("/marketplace", { state: "ETC" })
+                        }
+                      >
+                        ETC
+                      </a>
+                    </li>
+                  </ol>
+                </li>
+                <li>
+                  <h6>MY ACCOUNT</h6>
+                  <ol>
+                    <li>
+                      <a onClick={() => navigate("/myprof")}>My Profile</a>
+                    </li>
+                    <li>
+                      <a onClick={() => navigate("/myitem")}>My Items</a>
+                    </li>
+                    <li>
+                      <a onClick={() => navigate("/liked")}>My Favourite</a>
+                    </li>
+                    <li>
+                      <a onClick={() => navigate("/mywallet")}>
+                        account setting
+                      </a>
+                    </li>
+                  </ol>
+                </li>
+                <li>
+                  <h6>EXPLORE</h6>
+                  <ol>
+                    <li>
+                      <a onClick={() => navigate("/ranking")}>User Ranking</a>
+                    </li>
+                    <li>
+                      <a onClick={() => navigate("/exploredeal")}>
+                        Transaction details
+                      </a>
+                    </li>
+                  </ol>
+                </li>
+                <li>
+                  <h6>CONTACT US</h6>
+                  <ol>
+                    <li>
+                      <a href="mailto:contact@Auspice.com">
+                        contact@Auspice.com
+                      </a>
+                    </li>
+                  </ol>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="copy">
+            <div>
+              <ul>
+                <li>
+                  <a >Privacy Policy</a>
+                </li>
+                <li>
+                  <a >Terms of Service</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <address>Copyright © 2021 AUSPICE. All rights reserved.</address>
+            </div>
           </div>
         </div>
-        <div>
-          <ul>
-            <li>
-              <h6>MARKET</h6>
-              <ol>
-                <li><a href="#">all about NFT</a></li>
-                <li><a href="#">Digital art</a></li>
-                <li><a href="#">Trading cards</a></li>
-                <li><a href="#">Music</a></li>
-                <li><a href="#">Virtual Worlds</a></li>
-                <li><a href="#">Utility</a></li>
-                <li><a href="#">Sports</a></li>
-                <li><a href="#">ETC</a></li>
-              </ol>
-            </li>
-            <li>
-              <h6>MY ACCOUNT</h6>
-              <ol>
-                <li><a href="#">Profile setting</a></li>
-                <li><a href="#">My Collectiont</a></li>
-                <li><a href="#">My Favourite</a></li>
-                <li><a href="#">account setting</a></li>
-              </ol>
-            </li>
-            <li>
-              <h6>EXPLORE</h6>
-              <ol>
-                <li><a href="#">User Ranking</a></li>
-                <li><a href="#">Transaction details</a></li>
-              </ol>
-            </li>
-            <li>
-              <h6>CONTACT US</h6>
-              <ol>
-                <li><a href="mailto:contact@Auspice.com">contact@Auspice.com</a></li>
-              </ol>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="copy">
-        <div>
-          <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-          </ul>
-        </div>
-        <div>
-          <address>Copyright © 2021 AUSPICE. All rights reserved.</address>
-        </div>
-      </div>
-    </div>
-  </footer>
+      </footer>
     </IndexBox>
   );
 }

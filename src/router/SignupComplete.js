@@ -36,10 +36,10 @@ function SignupComplete({ store, setConnect }) {
             <div class="btn">
               <ul>
                 <li>
-                  <a href="">Home</a>
+                  <a onClick={() => navigate("/")}>Home</a>
                 </li>
                 <li>
-                  <a href="">Issuing NFTs</a>
+                  <a onClick={() => navigate("/")}>Issuing NFTs</a>
                 </li>
               </ul>
             </div>

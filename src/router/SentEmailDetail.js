@@ -17,11 +17,15 @@ import "../css/swiper.min.css";
 function SentEmailDetail({ store, setConnect }) {
   const navigate = useNavigate();
 
+  function onClickResend() {
+    window.location.reload();
+  }
+
   return (
     <SentEmailDetailBox>
       <div class="popup info" id="info_popup">
         <div class="box_wrap confirm">
-          <a href="javascript:void(0);" class="close" id="info_close">
+          <a onClick={() => navigate(-1)} class="close" id="info_close">
             <img src={require("../img/sub/exit_48.png").default} alt="" />
           </a>
           <div class="box bot2">
@@ -68,7 +72,7 @@ function SentEmailDetail({ store, setConnect }) {
               <div class="btn one">
                 <ul>
                   <li>
-                    <a href="">Resend Email</a>
+                    <a onClick={onClickResend}>Resend Email</a>
                   </li>
                 </ul>
               </div>
@@ -96,7 +100,7 @@ function SentEmailDetail({ store, setConnect }) {
             <div class="btn one2">
               <ul>
                 <li>
-                  <a href="">Resend Email</a>
+                  <a onClick={onClickResend}>Resend Email</a>
                 </li>
               </ul>
             </div>

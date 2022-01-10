@@ -513,7 +513,7 @@
 .item.item5 { margin:0 -0.5%; }
 .item.item4 > div {display: flex; width: 100%;}
 .item.item4 > div > span { min-width:24%; width:24%; padding:0 0.5% 20px; }
-.item.item5 > div > span { width:19%; padding:0 0.5% 20px; }
+.item.item5 > div > span { min-width:19%; width:19%; padding:0 0.5% 20px; }
 
 .item > div > span > li { float:left; }
 .item > div > span > li.click { border-radius:25px; box-shadow:0 3px 20px 0 rgba(0, 0, 0, 0.16); }
@@ -531,9 +531,9 @@
 .item > div > span > li a > div ul li.star.off { background-image:url('../img/sub/star_off.png'); }
 .item > div > span > li a > div ul li.star.on { background-image:url('../img/sub/star_on.png'); }
 .item > div > span > li a > div ul li.dot { background-position:center right; background-repeat:no-repeat; background-image:url('../img/sub/dotdotdot.png'); position:relative; }
-.item > div > span > li a  .choose {position:absolute; top:-190px; right:0px; width:150px; display:none; z-index: 2;}
+.item > div > span > li a  .choose {position:absolute; top:-190px; right:0px; width:150px; display:block; z-index: 2;}
 .item > div > span > li a  .choose.choose2 {top:217px;right:10px; width:166px;}
-.item > div > span > li a:hover .choose {display:block;}
+
 .item > div > span > li a .choose.on {display:block;}
 .item > div > span > li a  .choose ul {border-radius:10px;}
 .item > div > span > li a  .choose ul li { width:100%; border-bottom:1px solid rgba(255,255,255,0.2); box-sizing: border-box; height:32px; padding:7px 0 0 18px; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); background-color:rgba(0, 0, 0, 0.45);color:#fff;}

@@ -146,7 +146,7 @@ function Signup({ store, setConnect }) {
                   <input
                     type="text"
                     value={adress}
-                    onChange={e=>setAdress(e.target.value)}
+                    onChange={(e) => setAdress(e.target.value)}
                     placeholder="Please enter your wallet address"
                   />
                 </div>
@@ -155,7 +155,7 @@ function Signup({ store, setConnect }) {
                   <input
                     type="email"
                     value={email}
-                    onChange={e=>setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="Please enter your email address"
                   />
                   <span>A valid email address.</span>
@@ -198,7 +198,7 @@ function Signup({ store, setConnect }) {
                     <a onClick={() => navigate("/")}>Cancel</a>
                   </li>
                   <li>
-                    <a onClick={() => navigate("/sentemail")}>Sign Up</a>
+                    <a onClick={() => navigate("/sentemaildetail")}>Sign Up</a>
                   </li>
                 </ul>
               </div>

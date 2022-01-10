@@ -33,6 +33,8 @@ function BundleItem({ store, setConnect }) {
   const [imgIndex, setImgIndex] = useState(0);
   const [bidPopup, setBidPopup] = useState(false);
 
+  const [chartCategory, setChartCategory] = useState(0);
+
   function onClickNextItemBtn() {
     if (imgIndex > 0) setImgIndex(imgIndex - 1);
   }
@@ -831,8 +833,14 @@ function BundleItem({ store, setConnect }) {
             <div class="basic plustab">
               <div class="tab">
                 <ul>
-                  <li class="on">Transaction History</li>
-                  <li>Chain Information</li>
+                  {chartCategoryList.map((cont, index) => (
+                    <li
+                      class={chartCategory === index && "on"}
+                      onClick={() => setChartCategory(index)}
+                    >
+                      {cont}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div class="tab_bottom container con3" id="FixedTable">
@@ -1182,3 +1190,5 @@ const imgList = [
   bun_slide_img3,
   bun_slide_img4,
 ];
+
+const chartCategoryList = ["Transaction History", "Chain Information"];

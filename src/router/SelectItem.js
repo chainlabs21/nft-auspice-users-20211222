@@ -8,8 +8,8 @@ import s2 from "../img/sub/s2.png";
 import s4 from "../img/sub/s4.png";
 import s3 from "../img/sub/s3.png";
 import s9 from "../img/sub/s9.png";
-import sample from "../img/sub/sample.png";
-import profile_img from "../img/sub/profile_img.png";
+import chk_on from "../img/sub/chk_on.png";
+import chk_off from "../img/sub/chk_off.png";
 
 import "../css/common.css";
 import "../css/font.css";
@@ -34,6 +34,7 @@ function SelectItem({ store, setConnect }) {
   const [reportDesc, setReportDesc] = useState("");
   const [bidPopup, setBidPopup] = useState(false);
 
+  const [chartCategory, setChartCategory] = useState(0);
   const [userIndex, setUserIndex] = useState(0);
 
   function onClickUserPreBtn() {
@@ -1088,8 +1089,14 @@ function SelectItem({ store, setConnect }) {
             <div class="basic plustab">
               <div class="tab">
                 <ul>
-                  <li class="on">Transaction History</li>
-                  <li>Chain Information</li>
+                  {chartCategoryList.map((cont, index) => (
+                    <li
+                      class={chartCategory === index && "on"}
+                      onClick={() => setChartCategory(index)}
+                    >
+                      {cont}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div class="tab_bottom container con3" id="FixedTable">
@@ -1409,3 +1416,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectItem);
+
+const chartCategoryList = ["Transaction History", "Chain Information"];

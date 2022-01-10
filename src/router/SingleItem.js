@@ -33,6 +33,7 @@ function SingleItem({ store, setConnect }) {
   const [reportPopup, setReportPopup] = useState(false);
   const [reportDesc, setReportDesc] = useState("");
   const [bidPopup, setBidPopup] = useState(false);
+  const [chartCategory, setChartCategory] = useState(0);
 
   const [userIndex, setUserIndex] = useState(0);
 
@@ -1032,8 +1033,14 @@ function SingleItem({ store, setConnect }) {
             <div class="basic plustab ml2">
               <div class="tab">
                 <ul>
-                  <li class="on">Transaction History</li>
-                  <li>Chain Information</li>
+                  {chartCategoryList.map((cont, index) => (
+                    <li
+                      class={chartCategory === index && "on"}
+                      onClick={() => setChartCategory(index)}
+                    >
+                      {cont}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div class="tab_bottom container con3" id="FixedTable">
@@ -1264,3 +1271,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleItem);
+
+const chartCategoryList = ["Transaction History", "Chain Information"];

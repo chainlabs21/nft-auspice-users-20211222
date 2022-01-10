@@ -32,7 +32,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
   return (
     <HeaderBox id="header">
       <h1>
-        <a href="./">
+        <a onClick={() => navigate("/")}>
           <img src={require("./img/header/logo.png").default} />
         </a>
       </h1>
@@ -50,7 +50,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
         </button>
       </form>
 
-      <a id="search" href="#">
+      <a id="search" onClick={() => navigate("/marketplace")}>
         <img src={require("./img/header/search_icon.png").default} />
       </a>
       {store.mHeaderPopup ? (
@@ -64,10 +64,10 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
       <nav>
         <ul>
           <li>
-            <a href="#">Marketplace</a>
+            <a onClick={() => navigate("/marketplace")}>Marketplace</a>
             <ol>
               <li>
-                <a href="#">
+                <a onClick={() => navigate("/marketplace")}>
                   <img
                     src={require("./img/header/menu_all.png").default}
                     class="on"
@@ -80,7 +80,11 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a
+                  onClick={() =>
+                    navigate("/marketplace", { state: "Collectibles" })
+                  }
+                >
                   <img
                     src={require("./img/header/menu_collectibles.png").default}
                     class="on"
@@ -95,7 +99,11 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a
+                  onClick={() =>
+                    navigate("/marketplace", { state: "Digital Art" })
+                  }
+                >
                   <img
                     src={require("./img/header/menu_digitalart.png").default}
                     class="on"
@@ -110,7 +118,11 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a
+                  onClick={() =>
+                    navigate("/marketplace", { state: "Trading Card" })
+                  }
+                >
                   <img
                     src={require("./img/header/menu_tradingcard.png").default}
                     class="on"
@@ -125,7 +137,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a onClick={() => navigate("/marketplace", { state: "Music" })}>
                   <img
                     src={require("./img/header/menu_music.png").default}
                     class="on"
@@ -138,7 +150,11 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a
+                  onClick={() =>
+                    navigate("/marketplace", { state: "Virtual Worlds" })
+                  }
+                >
                   <img
                     src={require("./img/header/menu_virtualworlds.png").default}
                     class="on"
@@ -153,7 +169,9 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a
+                  onClick={() => navigate("/marketplace", { state: "Sports" })}
+                >
                   <img
                     src={require("./img/header/menu_sports.png").default}
                     class="on"
@@ -168,32 +186,37 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
             </ol>
           </li>
           <li>
-            <a href="#">Explore</a>
+            <a onClick={() => navigate("/exploredeal")}>Explore</a>
             <ol>
               <li>
-                <a href="#">Transaction details</a>
+                <a onClick={() => navigate("/exploredeal")}>
+                  Transaction details
+                </a>
               </li>
               <li>
-                <a href="#">Ranking</a>
+                <a onClick={() => navigate("/ranking")}>Ranking</a>
               </li>
             </ol>
           </li>
           <li>
-            <a href="#">Mypage</a>
+            <a onClick={() => navigate("/myprof")}>Mypage</a>
             <ol>
               <li>
-                <a href="#">My Profile</a>
+                <a onClick={() => navigate("/myprof")}>My Profile</a>
               </li>
               <li>
-                <a href="#">Bookmark</a>
+                <a onClick={() => navigate("/myitem")}>My Items</a>
               </li>
               <li>
-                <a href="#">Account Setting</a>
+                <a onClick={() => navigate("/liked")}>Bookmark</a>
+              </li>
+              <li>
+                <a onClick={() => navigate("/mywallet")}>Account Setting</a>
               </li>
             </ol>
           </li>
           <li class="country">
-            <a href="#">ENG</a>
+            <a>ENG</a>
           </li>
           <li class="wallet">
             <a onClick={() => navigate("/connectwallet")}>Connect Wallet</a>

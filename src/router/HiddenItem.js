@@ -14,7 +14,7 @@ import s5 from "../img/sub/s5.png";
 import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
-import click1 from "../img/sub/click1.png";
+import rock from "../img/sub/rock.png";
 import ho_img from "../img/sub/ho_img.png";
 
 import "../css/common.css";
@@ -36,10 +36,43 @@ function HiddenItem({ store, setConnect }) {
 
   const [morePopupIndex, setMorePopupIndex] = useState(-1);
   const [toggleFilter, setToggleFilter] = useState(false);
+  const [filterObj, setFilterObj] = useState({});
+  const [filterList, setFilterList] = useState([]);
+
+  function editFilterList(category, cont) {
+    let dataObj = filterObj;
+    dataObj[category] = cont;
+
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
+
+  function onClickFilterReset() {
+    setFilterObj({});
+    setFilterList([]);
+  }
+
+  function onClickFilterCancel(cont) {
+    let dataObj = filterObj;
+
+    for (var key in dataObj) {
+      if (dataObj.hasOwnProperty(key) && dataObj[key] == cont) {
+        delete dataObj[key];
+      }
+    }
+
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
 
   function onClickMoreBtn(index) {
     if (morePopupIndex === index) setMorePopupIndex(-1);
     else setMorePopupIndex(index);
+  }
+
+  function onClickLink(e, link) {
+    e.stopPropagation();
+    navigate(`/${link}`);
   }
 
   return (
@@ -110,10 +143,16 @@ function HiddenItem({ store, setConnect }) {
 
                       <div class="open status">
                         <ul>
-                          <li class="on">Buy Now</li>
-                          <li>On Auction</li>
-                          <li>New</li>
-                          <li>Has Offers</li>
+                          {statusList.map((cont, index) => (
+                            <li
+                              key={index}
+                              style={{ cursor: "pointer" }}
+                              className={filterObj[cont] === cont && "on"}
+                              onClick={() => editFilterList(cont, cont)}
+                            >
+                              {cont}
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -202,16 +241,29 @@ function HiddenItem({ store, setConnect }) {
                       </h3>
 
                       <div class="open">
-                        <ul>
-                          <li class="ra">
-                            <input type="radio" id="rad2" name="rad" />
-                            <label for="rad2">
-                              <img
-                                src={require("../img/sub/rock.png").default}
-                              />
-                              Klaytn
-                            </label>
-                          </li>
+                        <ul className="selectList">
+                          {chainList.map((cont, index) => (
+                            <li
+                              key={index}
+                              class="ra"
+                              onClick={() => editFilterList("chain", cont.name)}
+                              style={{ cursor: "pointer" }}
+                            >
+                              <span
+                                className="chkBtn"
+                                style={{
+                                  background:
+                                    filterObj.chain === cont.name && "#000",
+                                }}
+                              >
+                                <span />
+                              </span>
+                              <label for={cont.name}>
+                                <img src={cont.img} />
+                                {cont.name}
+                              </label>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -231,11 +283,25 @@ function HiddenItem({ store, setConnect }) {
                           placeholder="Filter"
                           class="s_search"
                         />
-                        <ul>
-                          <li class="ra">
-                            <input type="radio" id="rad4" name="rad2" />
-                            <label for="rad4">WETH</label>
-                          </li>
+                        <ul className="selectList">
+                          {coinList.map((cont, index) => (
+                            <li
+                              key={index}
+                              class="ra"
+                              onClick={() => editFilterList("coin", cont)}
+                            >
+                              <span
+                                className="chkBtn"
+                                style={{
+                                  background: filterObj.coin === cont && "#000",
+                                }}
+                              >
+                                <span />
+                              </span>
+
+                              <label for={cont}>{cont}</label>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -313,6 +379,23 @@ function HiddenItem({ store, setConnect }) {
                       </div>
                     </div>
 
+                    <div class="se_fi">
+                      <p class="total">Selected Filter</p>
+                      <ul>
+                        <li class="sef" onClick={onClickFilterReset}>
+                          Filter reset
+                        </li>
+                        {filterList.map((cont, index) => (
+                          <li
+                            key={index}
+                            onClick={() => onClickFilterCancel(cont)}
+                          >
+                            {cont}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
                     <div class="move_item">
                       <div class="swiper_container">
                         <ol class="item move_li">
@@ -334,15 +417,17 @@ function HiddenItem({ store, setConnect }) {
                                           onClickMoreBtn(0);
                                         }}
                                       >
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Item Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                        {morePopupIndex === 0 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>Mark.X Item</span>
@@ -370,15 +455,17 @@ function HiddenItem({ store, setConnect }) {
                                           onClickMoreBtn(1);
                                         }}
                                       >
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Item Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                        {morePopupIndex === 1 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>Mark.X item</span>
@@ -406,15 +493,17 @@ function HiddenItem({ store, setConnect }) {
                                           onClickMoreBtn(2);
                                         }}
                                       >
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Item Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                        {morePopupIndex === 2 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>David</span>
@@ -442,15 +531,17 @@ function HiddenItem({ store, setConnect }) {
                                           onClickMoreBtn(3);
                                         }}
                                       >
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Item Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                        {morePopupIndex === 3 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>David</span>
@@ -478,15 +569,17 @@ function HiddenItem({ store, setConnect }) {
                                           onClickMoreBtn(4);
                                         }}
                                       >
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Item Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                        {morePopupIndex === 4 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>David</span>
@@ -514,15 +607,17 @@ function HiddenItem({ store, setConnect }) {
                                           onClickMoreBtn(5);
                                         }}
                                       >
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Item Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                        {morePopupIndex === 5 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>David</span>
@@ -550,15 +645,17 @@ function HiddenItem({ store, setConnect }) {
                                           onClickMoreBtn(6);
                                         }}
                                       >
-                                        <div class="choose">
-                                          <ul>
-                                            <li>Sale</li>
-                                            <li>Hand Over</li>
-                                            <li>Edit</li>
-                                            <li>Item Change</li>
-                                            <li>Unhide</li>
-                                          </ul>
-                                        </div>
+                                        {morePopupIndex === 6 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
                                       </li>
                                     </ul>
                                     <span>David</span>
@@ -582,7 +679,38 @@ function HiddenItem({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  .item {
+    div {
+      span {
+        li {
+          a {
+            & > .on {
+              height: 138px;
+              padding-bottom: 25px;
+
+              ul {
+                font-size: 14px;
+              }
+
+              span {
+                margin: 11px 0 0 0;
+                font-size: 18px;
+                line-height: 24px;
+              }
+
+              div {
+                margin: 4px 0 0 0;
+                font-size: 22px;
+                line-height: 30px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };
@@ -595,3 +723,14 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HiddenItem);
+
+const statusList = ["Buy Now", "On Auction", "New", "Has Offers"];
+
+const chainList = [
+  {
+    img: rock,
+    name: "Klaytn",
+  },
+];
+
+const coinList = ["Klay"];
