@@ -39,9 +39,9 @@ export const generateItems = (count) => {
       totalSupply: 20000000000,
       uuid: i,
       tokenprice: 1.67,
-      priceusd: 100,
+      priceusd: Math.floor(Math.random() * 100 + 1),
       categorystr: randCate,
-      status: [Math.floor(Math.random() * 3), Math.floor(Math.random() * 3)],
+      status: [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)],
       chains: "Klaytn",
       salescoin: "Klay",
     };
