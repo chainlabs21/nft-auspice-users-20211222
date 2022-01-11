@@ -167,7 +167,13 @@ function NotificationSettings({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  .w1,
+  .w2,
+  .w3 {
+    cursor: pointer;
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };

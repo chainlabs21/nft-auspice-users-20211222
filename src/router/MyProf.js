@@ -53,7 +53,8 @@ function MyProf({ store, setConnect }) {
     setFilterList([]);
   }
 
-  function onClickMoreBtn(index) {
+  function onClickMoreBtn(e, index) {
+    e.stopPropagation();
     if (morePopupIndex === index) setMorePopupIndex(-1);
     else setMorePopupIndex(index);
   }
@@ -88,10 +89,10 @@ function MyProf({ store, setConnect }) {
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
                   <div class="home_icons">
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
@@ -181,9 +182,7 @@ function MyProf({ store, setConnect }) {
                             <span class="usd">USD</span>
                           </div>
                         </div>
-                        <a href="" class="slide_btn">
-                          Apply
-                        </a>
+                        <a class="slide_btn">Apply</a>
                       </div>
                     </div>
 
@@ -343,13 +342,13 @@ function MyProf({ store, setConnect }) {
                           <div>Single item</div>
                           <ul>
                             <li>
-                              <a href="">Single item</a>
+                              <a>Single item</a>
                             </li>
                             <li>
-                              <a href="">All</a>
+                              <a>All</a>
                             </li>
                             <li>
-                              <a href="">Bundle sales</a>
+                              <a>Bundle sales</a>
                             </li>
                           </ul>
                         </div>
@@ -357,31 +356,31 @@ function MyProf({ store, setConnect }) {
                           <div>Latest</div>
                           <ul>
                             <li>
-                              <a href="">Latest</a>
+                              <a>Latest</a>
                             </li>
                             <li>
-                              <a href="">popularity</a>
+                              <a>popularity</a>
                             </li>
                             <li>
-                              <a href="">Close to finish</a>
+                              <a>Close to finish</a>
                             </li>
                             <li>
-                              <a href="">Low price</a>
+                              <a>Low price</a>
                             </li>
                             <li>
-                              <a href="">high price</a>
+                              <a>high price</a>
                             </li>
                             <li>
-                              <a href="">A small bid</a>
+                              <a>A small bid</a>
                             </li>
                             <li>
-                              <a href="">A lot of bids</a>
+                              <a>A lot of bids</a>
                             </li>
                             <li>
-                              <a href="">Most seen</a>
+                              <a>Most seen</a>
                             </li>
                             <li>
-                              <a href="">oldest</a>
+                              <a>oldest</a>
                             </li>
                           </ul>
                         </div>
@@ -427,7 +426,7 @@ function MyProf({ store, setConnect }) {
                                       <li class="heart off">1,389</li>
                                       <li
                                         class="dot"
-                                        onClick={() => onClickMoreBtn(0)}
+                                        onClick={(e) => onClickMoreBtn(e, 0)}
                                       >
                                         {morePopupIndex === 0 && (
                                           <div class="choose">
@@ -472,7 +471,7 @@ function MyProf({ store, setConnect }) {
                                       <li class="heart on">1,389</li>
                                       <li
                                         class="dot"
-                                        onClick={() => onClickMoreBtn(1)}
+                                        onClick={(e) => onClickMoreBtn(e, 1)}
                                       >
                                         {morePopupIndex === 1 && (
                                           <div class="choose">
@@ -517,7 +516,7 @@ function MyProf({ store, setConnect }) {
                                       <li class="heart on">1,389</li>
                                       <li
                                         class="dot"
-                                        onClick={() => onClickMoreBtn(2)}
+                                        onClick={(e) => onClickMoreBtn(e, 2)}
                                       >
                                         {morePopupIndex === 2 && (
                                           <div class="choose">
@@ -562,7 +561,7 @@ function MyProf({ store, setConnect }) {
                                       <li class="heart on">1,389</li>
                                       <li
                                         class="dot"
-                                        onClick={() => onClickMoreBtn(3)}
+                                        onClick={(e) => onClickMoreBtn(e, 3)}
                                       >
                                         {morePopupIndex === 3 && (
                                           <div class="choose">
@@ -607,7 +606,7 @@ function MyProf({ store, setConnect }) {
                                       <li class="heart on">1,389</li>
                                       <li
                                         class="dot"
-                                        onClick={() => onClickMoreBtn(4)}
+                                        onClick={(e) => onClickMoreBtn(e, 4)}
                                       >
                                         {morePopupIndex === 4 && (
                                           <div class="choose">
@@ -652,7 +651,7 @@ function MyProf({ store, setConnect }) {
                                       <li class="heart on">1,389</li>
                                       <li
                                         class="dot"
-                                        onClick={() => onClickMoreBtn(5)}
+                                        onClick={(e) => onClickMoreBtn(e, 5)}
                                       >
                                         {morePopupIndex === 5 && (
                                           <div class="choose">
@@ -697,7 +696,7 @@ function MyProf({ store, setConnect }) {
                                       <li class="heart on">1,389</li>
                                       <li
                                         class="dot"
-                                        onClick={() => onClickMoreBtn(6)}
+                                        onClick={(e) => onClickMoreBtn(e, 6)}
                                       >
                                         {morePopupIndex === 6 && (
                                           <div class="choose">
@@ -753,8 +752,8 @@ function MyProf({ store, setConnect }) {
                     </ul>
                   </div>
                   <div class="click_btn">
-                    <a href="">Cancel</a>
-                    <a href="" class="sell">
+                    <a>Cancel</a>
+                    <a class="sell">
                       Sell<span>2</span>
                     </a>
                   </div>

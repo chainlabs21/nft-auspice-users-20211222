@@ -27,7 +27,7 @@ function MarketPlace({ store, setConnect }) {
           <div class="sellbg">
             <div class="ntfsell_con">
               <div class="top1">
-                <a >
+                <a>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
                     alt=""
@@ -47,7 +47,7 @@ function MarketPlace({ store, setConnect }) {
                           </h3>
                           <p>
                             Enter the contract address for which NFT issuance
-                            has been completed in Ethereum
+                            has been completed in Klaytn
                           </p>
                           <div class="inputbox">
                             <div class="txt">
@@ -65,7 +65,7 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </div>
               <div class="create_btn mcrea">
-                <a >Import contract</a>
+                <a>Import contract</a>
               </div>
             </div>
           </div>

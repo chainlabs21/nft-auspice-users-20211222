@@ -212,7 +212,7 @@ function MyFavorite({ store }) {
                     <li>
                       <h5>Avg price</h5>
                       <p>
-                        2.22<b>ETH</b>
+                        2.22<b>KLAY</b>
                         <span>$ 307.21</span>
                       </p>
                     </li>
@@ -246,7 +246,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s2})`,
                                         backgroundRepeat: "no-repeat",
@@ -263,7 +263,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -288,7 +288,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
@@ -305,7 +305,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -330,7 +330,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s8})`,
                                         backgroundRepeat: "no-repeat",
@@ -347,7 +347,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -372,7 +372,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s7})`,
                                         backgroundRepeat: "no-repeat",
@@ -389,7 +389,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -414,7 +414,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
@@ -431,7 +431,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -480,7 +480,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s2})`,
                                         backgroundRepeat: "no-repeat",
@@ -497,7 +497,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -522,7 +522,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
@@ -539,7 +539,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -564,7 +564,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${sample})`,
                                         backgroundRepeat: "no-repeat",
@@ -581,7 +581,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -606,7 +606,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s8})`,
                                         backgroundRepeat: "no-repeat",
@@ -623,7 +623,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -648,7 +648,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s7})`,
                                         backgroundRepeat: "no-repeat",
@@ -665,7 +665,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -690,7 +690,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
@@ -707,7 +707,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -756,7 +756,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s2})`,
                                         backgroundRepeat: "no-repeat",
@@ -773,7 +773,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -798,7 +798,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
@@ -815,7 +815,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -840,7 +840,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s8})`,
                                         backgroundRepeat: "no-repeat",
@@ -857,7 +857,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -882,7 +882,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s7})`,
                                         backgroundRepeat: "no-repeat",
@@ -899,7 +899,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -924,7 +924,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
@@ -941,7 +941,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
@@ -966,7 +966,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      href="#"
+                                      onClick={()=>navigate('/singleitem')}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
@@ -983,7 +983,7 @@ function MyFavorite({ store }) {
                                         <span>David</span>
                                         <ol>
                                           <li>6 minutes left</li>
-                                          <li>1.67 AUSP</li>
+                                          <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">

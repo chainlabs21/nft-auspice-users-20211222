@@ -34,50 +34,65 @@ function Mywallet({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-    <article class="wallet_wrap">
-      <div class="move on">
-        <div class="left_move wallet_left">
-          <form>
-            <div class="w1 on">
-              <h3>My wallet<span>0x9bb...carfb</span></h3>
+        <article class="wallet_wrap">
+          <div class="move on">
+            <div class="left_move wallet_left">
+              <form>
+                <div class="w1 on">
+                  <h3>
+                    My wallet<span>0x9bb...carfb</span>
+                  </h3>
+                </div>
+                <div class="w2" onClick={() => navigate("/generalsettings")}>
+                  <h3>General settings</h3>
+                </div>
+                <div
+                  class="w3"
+                  onClick={() => navigate("/notificationsettings")}
+                >
+                  <h3>Notification settings</h3>
+                </div>
+              </form>
             </div>
-            <div class="w2">
-              <h3>General settings</h3>
-            </div>
-            <div class="w3">
-              <h3>Notification settings</h3>
-            </div>
-          </form>
-        </div>
 
-        <div class="right_move wallet_right">
-          <h2>My wallet</h2>
-          <div class="mwr">
-            <div class="wr">
-              <ul>
-                <li>
-                  <h4>Wallet address</h4>
-                  <div>
-                    <div class="de">
-                      <input type="text" disabled/>
-                      <span class="defalut_text">0x97b155a698d4bdec4c4bf3a92e9071190093c76mm4yu579afbwewe23f42343gdf646345ddh54</span>
-                    </div>
-                    <a href="" class="btn_copy">copy</a>
-                  </div>
-                </li>
-              </ul>
-              <a href="" class="wbtn">Logout</a>
+            <div class="right_move wallet_right">
+              <h2>My wallet</h2>
+              <div class="mwr">
+                <div class="wr">
+                  <ul>
+                    <li>
+                      <h4>Wallet address</h4>
+                      <div>
+                        <div class="de">
+                          <input type="text" disabled />
+                          <span class="defalut_text">
+                            0x97b155a698d4bdec4c4bf3a92e9071190093c76mm4yu579afbwewe23f42343gdf646345ddh54
+                          </span>
+                        </div>
+                        <a class="btn_copy">copy</a>
+                      </div>
+                    </li>
+                  </ul>
+                  <a onClick={() => navigate("/logout")} class="wbtn">
+                    Logout
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </article>
-  </section>
+        </article>
+      </section>
     </SignPopupBox>
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  .w1,
+  .w2,
+  .w3 {
+    cursor: pointer;
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };

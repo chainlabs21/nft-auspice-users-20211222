@@ -50,7 +50,7 @@ function ImportContract({ store, setConnect }) {
                           </h3>
                           <p>
                             Enter the contract address for which NFT issuance
-                            has been completed in Ethereum
+                            has been completed in Klaytn
                           </p>
                           <div class="inputbox">
                             <div class="txt">

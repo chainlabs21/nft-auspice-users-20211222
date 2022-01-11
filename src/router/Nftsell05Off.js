@@ -51,7 +51,7 @@ function MarketPlace({ store, setConnect }) {
             <div class="inst_con">
               <div class="instrucion line1">
                 <div class="dropdown">
-                  <a >
+                  <a>
                     <span></span>
                   </a>
                   <div class="bot_title">
@@ -67,7 +67,7 @@ function MarketPlace({ store, setConnect }) {
                     <p>
                       - If you are trading for the first time, you will need to
                       reset your account. The process
-                      <br /> &nbsp;&nbsp;of sending 0 Ether to verify that the
+                      <br /> &nbsp;&nbsp;of sending 0 Klay to verify that the
                       account is a valid account proceeds.
                       <br />
                     </p>
@@ -90,7 +90,7 @@ function MarketPlace({ store, setConnect }) {
             </div>
             <p>
               Please wait until this process is complete. Depending on the
-              Ethereum
+              Klaytn
               <br />
               mainnet and gas
               <br /> price quotes, it can take from a few minutes to
@@ -106,7 +106,7 @@ function MarketPlace({ store, setConnect }) {
             <div class="sellbg left">
               <div class="ntfsell_con">
                 <div class="top1 profile">
-                  <a >
+                  <a>
                     <img
                       src={require("../img/sub/nft_arrow.png").default}
                       alt=""
@@ -276,7 +276,7 @@ function MarketPlace({ store, setConnect }) {
                             <div class="inst_con">
                               <div class="instrucion line1">
                                 <div class="dropdown on">
-                                  <a >
+                                  <a>
                                     <span></span>
                                   </a>
                                   <div class="bot_title">
@@ -293,7 +293,7 @@ function MarketPlace({ store, setConnect }) {
                                       - If you are trading for the first time,
                                       you will need to reset your account. The
                                       process
-                                      <br /> &nbsp;&nbsp;of sending 0 Ether to
+                                      <br /> &nbsp;&nbsp;of sending 0 Klay to
                                       verify that the account is a valid account
                                       proceeds.
                                       <br />
@@ -320,7 +320,7 @@ function MarketPlace({ store, setConnect }) {
                                 <li>
                                   <div class="two_bundle">
                                     <div class="dropdown">
-                                      <a >
+                                      <a>
                                         <span class="drop2"></span>
                                       </a>
                                       <div class="bundle2">
@@ -346,7 +346,7 @@ function MarketPlace({ store, setConnect }) {
                                 <li>
                                   <div class="two_bundle">
                                     <div class="dropdown">
-                                      <a >
+                                      <a>
                                         <span class="drop2"></span>
                                       </a>
                                       <div class="bundle2">
@@ -414,7 +414,7 @@ function MarketPlace({ store, setConnect }) {
                   </ul>
                 </div>
                 <div class="sales_btn">
-                  <a >Sales start</a>
+                  <a>Sales start</a>
                 </div>
               </div>
             </div>

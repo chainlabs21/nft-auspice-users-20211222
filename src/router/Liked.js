@@ -220,70 +220,13 @@ function Liked({ store, setConnect }) {
                     <li onClick={() => navigate("/referals")}>Referals</li>
                   </ul>
 
-                  {/* <div class="slide_s">
-                    <div class="fl">
-                      <input
-                        type="text"
-                        placeholder="Search items, collections, creators"
-                      />
-                    </div>
-                    <div class="fr">
-                      <div class="select">
-                        <div>Single item</div>
-                        <ul>
-                          <li>
-                            <a >Single item</a>
-                          </li>
-                          <li>
-                            <a >All</a>
-                          </li>
-                          <li>
-                            <a >Bundle sales</a>
-                          </li>
-                        </ul>
-                      </div>
-                      <div class="select">
-                        <div>Latest</div>
-                        <ul>
-                          <li>
-                            <a >Latest</a>
-                          </li>
-                          <li>
-                            <a >popularity</a>
-                          </li>
-                          <li>
-                            <a >Close to finish</a>
-                          </li>
-                          <li>
-                            <a >Low price</a>
-                          </li>
-                          <li>
-                            <a >high price</a>
-                          </li>
-                          <li>
-                            <a >A small bid</a>
-                          </li>
-                          <li>
-                            <a >A lot of bids</a>
-                          </li>
-                          <li>
-                            <a >Most seen</a>
-                          </li>
-                          <li>
-                            <a >oldest</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div> */}
-
                   <div class="move_item" style={{ marginBottom: "100px" }}>
                     <ol class="item move_li">
                       <div>
                         <span>
                           <li>
                             <a
-                              href="#"
+                              onClick={() => navigate('/singleitem')}
                               style={{ backgroundImage: `url(${sample})` }}
                             >
                               <div class="on">
@@ -300,7 +243,7 @@ function Liked({ store, setConnect }) {
                         <span>
                           <li>
                             <a
-                              href="#"
+                              onClick={() => navigate('/singleitem')}
                               style={{ backgroundImage: `url(${sample})` }}
                             >
                               <div class="on">
@@ -316,7 +259,7 @@ function Liked({ store, setConnect }) {
                         <span>
                           <li>
                             <a
-                              href="#"
+                              onClick={() => navigate('/singleitem')}
                               style={{ backgroundImage: `url(${sample})` }}
                             >
                               <div class="on">
@@ -332,7 +275,7 @@ function Liked({ store, setConnect }) {
                         <span>
                           <li>
                             <a
-                              href="#"
+                              onClick={() => navigate('/singleitem')}
                               style={{ backgroundImage: `url(${sample})` }}
                             >
                               <div class="on">
@@ -348,7 +291,7 @@ function Liked({ store, setConnect }) {
                         <span>
                           <li>
                             <a
-                              href="#"
+                              onClick={() => navigate('/singleitem')}
                               style={{ backgroundImage: `url(${sample})` }}
                             >
                               <div class="on">

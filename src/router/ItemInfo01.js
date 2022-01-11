@@ -49,7 +49,7 @@ function MarketPlace({ store, setConnect }) {
                   <span>0x6bc...1sad</span>
                 </h3>
                 <p>
-                  <a >22 Items</a>
+                  <a>22 Items</a>
                 </p>
               </li>
               <li>
@@ -60,7 +60,7 @@ function MarketPlace({ store, setConnect }) {
                   <span>0x6bc...1sad</span>
                 </h3>
                 <p>
-                  <a >1 Items</a>
+                  <a>1 Items</a>
                 </p>
               </li>
               <li>
@@ -71,7 +71,7 @@ function MarketPlace({ store, setConnect }) {
                   <span>0x6bc...1sad</span>
                 </h3>
                 <p>
-                  <a >10 Items</a>
+                  <a>10 Items</a>
                 </p>
               </li>
               <li>
@@ -82,7 +82,7 @@ function MarketPlace({ store, setConnect }) {
                   <span>0x6bc...1sad</span>
                 </h3>
                 <p>
-                  <a >37 Items</a>
+                  <a>37 Items</a>
                 </p>
               </li>
               <li>
@@ -93,7 +93,7 @@ function MarketPlace({ store, setConnect }) {
                   <span>0x6bc...1sad</span>
                 </h3>
                 <p>
-                  <a >16 Items</a>
+                  <a>16 Items</a>
                 </p>
               </li>
               <li>
@@ -104,7 +104,7 @@ function MarketPlace({ store, setConnect }) {
                   <span>0x6bc...1sad</span>
                 </h3>
                 <p>
-                  <a >76 Items</a>
+                  <a>76 Items</a>
                 </p>
               </li>
               <li>
@@ -115,7 +115,7 @@ function MarketPlace({ store, setConnect }) {
                   <span>0x6bc...1sad</span>
                 </h3>
                 <p>
-                  <a >22 Items</a>
+                  <a>22 Items</a>
                 </p>
               </li>
             </ul>
@@ -135,7 +135,7 @@ function MarketPlace({ store, setConnect }) {
                     </h2>
                   </div>
                   <div class="bt likes">
-                    <a  class="like_heart off">
+                    <a class="like_heart off">
                       <h2>1,486 Likes</h2>
                     </a>
                   </div>
@@ -159,8 +159,8 @@ function MarketPlace({ store, setConnect }) {
                 <div class="desc">
                   <h2 class="i_title">Description</h2>
                   <p>
-                    This is a item of digitals produced on April 28th,
-                    with beautiful night views. It's about the
+                    This is a item of digitals produced on April 28th, with
+                    beautiful night views. It's about the
                     <br />
                     harmony of neon signs. It's an expression of modern art.
                     <br />
@@ -171,13 +171,13 @@ function MarketPlace({ store, setConnect }) {
                     It's an expression of modern art.
                   </p>
                   <div class="mcons">
-                    <a >
+                    <a>
                       <img src={require("../img/sub/refresh.png").default} />
                     </a>
-                    <a >
+                    <a>
                       <img src={require("../img/sub/alert.png").default} />
                     </a>
-                    <a >
+                    <a>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
@@ -193,15 +193,15 @@ function MarketPlace({ store, setConnect }) {
                         with neon
                       </h2>
                       <div class="icons">
-                        <a >
+                        <a>
                           <img
                             src={require("../img/sub/refresh.png").default}
                           />
                         </a>
-                        <a >
+                        <a>
                           <img src={require("../img/sub/alert.png").default} />
                         </a>
-                        <a >
+                        <a>
                           <img src={require("../img/sub/share.png").default} />
                         </a>
                       </div>
@@ -222,9 +222,7 @@ function MarketPlace({ store, setConnect }) {
                             <h4>05:32:21</h4>
                           </li>
                         </ul>
-                        <a  class="bid">
-                          Place a Bid
-                        </a>
+                        <a class="bid">Place a Bid</a>
                       </div>
                     </div>
                   </div>
@@ -339,7 +337,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a >Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -357,7 +355,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a >Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>4 days later</td>
@@ -375,7 +373,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a >Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>1 days later</td>
@@ -393,7 +391,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a >Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -411,7 +409,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a >Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -429,7 +427,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div class="pur">
-                              <a >Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -582,7 +580,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a >Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -600,7 +598,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>4 days later</span>
                             </div>
                             <div class="pur">
-                              <a >Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -618,7 +616,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a >Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -636,7 +634,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a >Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -654,7 +652,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a >Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -672,7 +670,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a >Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -938,7 +936,10 @@ function MarketPlace({ store, setConnect }) {
                 <div class="swiper-container swiper-container-trendingitem">
                   <ol class="item item5 buy swiper-wrapper">
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${sample})` }}>
+                      <a
+                        onClick={() => navigate("/singleitem")}
+                        style={{ backgroundImage: `url(${sample})` }}
+                      >
                         <div class="on">
                           <ul>
                             <li class="heart off">1,389</li>
@@ -955,7 +956,10 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${sample})` }}>
+                      <a
+                        onClick={() => navigate("/singleitem")}
+                        style={{ backgroundImage: `url(${sample})` }}
+                      >
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -972,7 +976,10 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${sample})` }}>
+                      <a
+                        onClick={() => navigate("/singleitem")}
+                        style={{ backgroundImage: `url(${sample})` }}
+                      >
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -989,7 +996,10 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${sample})` }}>
+                      <a
+                        onClick={() => navigate("/singleitem")}
+                        style={{ backgroundImage: `url(${sample})` }}
+                      >
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -1006,7 +1016,10 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${sample})` }}>
+                      <a
+                        onClick={() => navigate("/singleitem")}
+                        style={{ backgroundImage: `url(${sample})` }}
+                      >
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>

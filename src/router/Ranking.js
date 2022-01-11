@@ -55,14 +55,15 @@ function Ranking({ store, setConnect }) {
 
                   <div class="etc">
                     <ul>
-                      <li class="onnn">All</li>
-                      <li>Collectibles</li>
-                      <li>Digital Art</li>
-                      <li>Trading Cards</li>
-                      <li>Music</li>
-                      <li>Virtual Worlds</li>
-                      <li>Utility</li>
-                      <li>Sports</li>
+                      {categoryList.map((cont, index) => (
+                        <li
+                          class={category === cont && "onnn"}
+                          key={index}
+                          onClick={() => setCategory(cont)}
+                        >
+                          {cont}
+                        </li>
+                      ))}
                     </ul>
                   </div>
 
@@ -78,14 +79,14 @@ function Ranking({ store, setConnect }) {
                       <thead>
                         <tr>
                           <th>
-                            <strong>Rnak</strong>
-                            <a href="">
+                            <strong>Rank</strong>
+                            <a>
                               <span></span>
                             </a>
                           </th>
                           <th>
                             <strong>Collection</strong>
-                            <a href="">
+                            <a>
                               <span></span>
                             </a>
                           </th>
@@ -95,7 +96,7 @@ function Ranking({ store, setConnect }) {
                               <br class="br_m" />
                               volume
                             </strong>
-                            <a href="">
+                            <a>
                               <span></span>
                             </a>
                           </th>
@@ -107,7 +108,7 @@ function Ranking({ store, setConnect }) {
                               <br class="br_m" />
                               volume
                             </strong>
-                            <a href="">
+                            <a>
                               <span></span>
                             </a>
                           </th>
@@ -117,7 +118,7 @@ function Ranking({ store, setConnect }) {
                               <br />
                               change
                             </strong>
-                            <a href="">
+                            <a>
                               <span></span>
                             </a>
                           </th>
@@ -127,13 +128,13 @@ function Ranking({ store, setConnect }) {
                               <br />
                               price
                             </strong>
-                            <a href="">
+                            <a>
                               <span></span>
                             </a>
                           </th>
                           <th>
                             <strong>Owner</strong>
-                            <a href="">
+                            <a>
                               <span></span>
                             </a>
                           </th>
@@ -143,7 +144,7 @@ function Ranking({ store, setConnect }) {
                               <br />
                               of items
                             </strong>
-                            <a href="">
+                            <a>
                               <span></span>
                             </a>
                           </th>
@@ -172,8 +173,8 @@ function Ranking({ store, setConnect }) {
                               <p>Collection1</p>
                             </div>
                           </td>
-                          <td>45,323 ETH</td>
-                          <td>88.01 ETH</td>
+                          <td>45,323 KLAY</td>
+                          <td>88.01 KLAY</td>
                           <td>250.33%</td>
                           <td>156.37</td>
                           <td>4,325</td>
@@ -193,8 +194,8 @@ function Ranking({ store, setConnect }) {
                               <p>cryptopunks</p>
                             </div>
                           </td>
-                          <td>27,322 ETH</td>
-                          <td>77.11 ETH</td>
+                          <td>27,322 KLAY</td>
+                          <td>77.11 KLAY</td>
                           <td>250.33%</td>
                           <td>156.37</td>
                           <td>4,325</td>
@@ -214,8 +215,8 @@ function Ranking({ store, setConnect }) {
                               <p>art book</p>
                             </div>
                           </td>
-                          <td>21,323 ETH</td>
-                          <td>66.00 ETH</td>
+                          <td>21,323 KLAY</td>
+                          <td>66.00 KLAY</td>
                           <td>-39.88%</td>
                           <td>22.00</td>
                           <td>4,325</td>
@@ -235,8 +236,8 @@ function Ranking({ store, setConnect }) {
                               <p>good friend</p>
                             </div>
                           </td>
-                          <td>12,555 ETH</td>
-                          <td>88.01 ETH</td>
+                          <td>12,555 KLAY</td>
+                          <td>88.01 KLAY</td>
                           <td>250.33%</td>
                           <td>156.37</td>
                           <td>4,325</td>
@@ -256,8 +257,8 @@ function Ranking({ store, setConnect }) {
                               <p>ZED Run</p>
                             </div>
                           </td>
-                          <td>5,323 ETH</td>
-                          <td>88.01 ETH</td>
+                          <td>5,323 KLAY</td>
+                          <td>88.01 KLAY</td>
                           <td>250.33%</td>
                           <td>156.37</td>
                           <td>4,325</td>
@@ -277,8 +278,8 @@ function Ranking({ store, setConnect }) {
                               <p>Meebits</p>
                             </div>
                           </td>
-                          <td>4,303 ETH</td>
-                          <td>88.01 ETH</td>
+                          <td>4,303 KLAY</td>
+                          <td>88.01 KLAY</td>
                           <td>250.33%</td>
                           <td>156.37</td>
                           <td>4,325</td>
@@ -298,8 +299,8 @@ function Ranking({ store, setConnect }) {
                               <p>SandBox</p>
                             </div>
                           </td>
-                          <td>2,365 ETH</td>
-                          <td>88.01 ETH</td>
+                          <td>2,365 KLAY</td>
+                          <td>88.01 KLAY</td>
                           <td>250.33%</td>
                           <td>156.37</td>
                           <td>4,325</td>
@@ -319,8 +320,8 @@ function Ranking({ store, setConnect }) {
                               <p>The Gamer</p>
                             </div>
                           </td>
-                          <td>823 ETH</td>
-                          <td>88.01 ETH</td>
+                          <td>823 KLAY</td>
+                          <td>88.01 KLAY</td>
                           <td>250.33%</td>
                           <td>156.37</td>
                           <td>4,325</td>
@@ -340,8 +341,8 @@ function Ranking({ store, setConnect }) {
                               <p>Rarible</p>
                             </div>
                           </td>
-                          <td>93 ETH</td>
-                          <td>88.01 ETH</td>
+                          <td>93 KLAY</td>
+                          <td>88.01 KLAY</td>
                           <td>250.33%</td>
                           <td>156.37</td>
                           <td>4,325</td>
@@ -361,8 +362,8 @@ function Ranking({ store, setConnect }) {
                               <p>Yetis</p>
                             </div>
                           </td>
-                          <td>63 ETH</td>
-                          <td>88.01 ETH</td>
+                          <td>63 KLAY</td>
+                          <td>88.01 KLAY</td>
                           <td>250.33%</td>
                           <td>156.37</td>
                           <td>4,325</td>
@@ -379,30 +380,15 @@ function Ranking({ store, setConnect }) {
             <div class="slide_s slide2">
               <div class="etc swiper mySwiper">
                 <ul class="swiper-wrapper">
-                  <li class="swiper-slide on">
-                    <a href="">All</a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="">Collectibles</a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="">Digital Art</a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="">Trading Cards</a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="">Music</a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="">Virtual Worlds</a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="">Utility</a>
-                  </li>
-                  <li class="swiper-slide">
-                    <a href="">Sports</a>
-                  </li>
+                  {categoryList.map((cont, index) => (
+                    <li
+                      class={category === cont && "swiper-slide on"}
+                      key={index}
+                      onClick={() => setCategory(cont)}
+                    >
+                      <a>{cont}</a>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -419,7 +405,7 @@ function Ranking({ store, setConnect }) {
                       </p>
                     </div>
                     <div class="replace">
-                      <a href="">
+                      <a>
                         <img
                           src={require("../img/sub/exchange_gray.png").default}
                           alt=""
@@ -452,7 +438,7 @@ function Ranking({ store, setConnect }) {
                             </div>
                             <div class="txt">
                               <p>Summer Pool</p>
-                              <a href="">
+                              <a>
                                 <span class="more">+ More</span>
                                 <span class="less">- Less</span>
                               </a>
@@ -463,7 +449,7 @@ function Ranking({ store, setConnect }) {
                               <p>
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -480,7 +466,7 @@ function Ranking({ store, setConnect }) {
                             <ul class="swiper-wrapper">
                               <li class="swiper-slide">
                                 <p>7d trading volume</p>
-                                <span>45,323 ETH</span>
+                                <span>45,323 KLAY</span>
                               </li>
                               <li class="swiper-slide">
                                 <p>Average price</p>
@@ -515,7 +501,7 @@ function Ranking({ store, setConnect }) {
                             </div>
                             <div class="txt">
                               <p>Summer Pool</p>
-                              <a href="">
+                              <a>
                                 <span class="more">+ More</span>
                                 <span class="less">- Less</span>
                               </a>
@@ -526,7 +512,7 @@ function Ranking({ store, setConnect }) {
                               <p>
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -555,7 +541,7 @@ function Ranking({ store, setConnect }) {
                             </div>
                             <div class="txt">
                               <p>Summer Pool</p>
-                              <a href="">
+                              <a>
                                 <span class="more">+ More</span>
                                 <span class="less">- Less</span>
                               </a>
@@ -566,7 +552,7 @@ function Ranking({ store, setConnect }) {
                               <p>
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -595,7 +581,7 @@ function Ranking({ store, setConnect }) {
                             </div>
                             <div class="txt">
                               <p>Summer Pool</p>
-                              <a href="">
+                              <a>
                                 <span class="more">+ More</span>
                                 <span class="less">- Less</span>
                               </a>
@@ -606,7 +592,7 @@ function Ranking({ store, setConnect }) {
                               <p>
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
@@ -623,14 +609,14 @@ function Ranking({ store, setConnect }) {
                   </div>
                   <div class="next">
                     <div class="left">
-                      <a href="">
+                      <a>
                         <p>
                           <span></span>1 ~ 100
                         </p>
                       </a>
                     </div>
                     <div class="right">
-                      <a href="">
+                      <a>
                         <p>
                           101 ~ 201<span></span>
                         </p>

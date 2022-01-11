@@ -67,7 +67,7 @@ function VerifyAccountPopup({ store, off }) {
                     <p>
                       - If you are trading for the first time, you will need to
                       reset your account. The process
-                      <br /> &nbsp;&nbsp;of sending 0 Ether to verify that the
+                      <br /> &nbsp;&nbsp;of sending 0 Klaytn to verify that the
                       account is a valid account proceeds.
                       <br />
                     </p>
@@ -90,7 +90,7 @@ function VerifyAccountPopup({ store, off }) {
             </div>
             <p>
               Please wait until this process is complete. Depending on the
-              Ethereum
+              Klaytn
               <br />
               mainnet and gas
               <br /> price quotes, it can take from a few minutes to

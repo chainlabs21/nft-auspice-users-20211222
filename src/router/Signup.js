@@ -124,7 +124,7 @@ function Signup({ store, setConnect }) {
                     </li>
 
                     <li>
-                      <a href="">Registration</a>
+                      <a>Registration</a>
                     </li>
                   </ul>
                 </div>
@@ -173,7 +173,7 @@ function Signup({ store, setConnect }) {
                       <input type="checkbox" name="" id="agree2" />
                       <label for="agree2">
                         <h4>
-                          Subscribe <a href="">Terms of Service</a>(required)
+                          Subscribe <a>Terms of Service</a> (required)
                         </h4>
                       </label>
                     </li>
@@ -181,7 +181,7 @@ function Signup({ store, setConnect }) {
                       <input type="checkbox" name="" id="agree3" />
                       <label for="agree3">
                         <h4>
-                          <a href="">
+                          <a>
                             Personal Information Collection
                             <br /> and Usage
                           </a>{" "}

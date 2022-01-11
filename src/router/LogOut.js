@@ -16,6 +16,8 @@ import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
 import click1 from "../img/sub/click1.png";
 
+import I_klaytn from "../img/sub/I_klaytn.svg";
+
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
@@ -39,9 +41,9 @@ function LogOut({ store, setConnect }) {
             <div class="login">
               <h2>Log in with your wallet</h2>
               <div class="emo">
-                <img src={require("../img/sub/join_1.png").default} />
+                <img src={I_klaytn} alt="" />
               </div>
-              <a class="log">Login</a>
+              <a class="log" onClick={()=>navigate('/connectwallet')}>Login</a>
             </div>
           </div>
         </article>

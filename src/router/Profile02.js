@@ -195,7 +195,7 @@ function SaleFixed({ store, setConnect }) {
                               <img
                                 src={require("../img/sub/stone.png").default}
                               />
-                              Ethereum
+                              Klaytn
                             </label>
                           </li>
                           <li class="ra">
