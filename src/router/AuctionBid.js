@@ -275,7 +275,7 @@ function AuctionBid({ store, setConnect }) {
                                       - If you are trading for the first time,
                                       you will need to reset your account.
                                       <br />
-                                      &nbsp;&nbsp;The process of sending 0 Ether
+                                      &nbsp;&nbsp;The process of sending 0 KLAY
                                       to verify that the account is a valid
                                       account proceeds.
                                     </p>

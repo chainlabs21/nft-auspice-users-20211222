@@ -62,7 +62,7 @@ function EditCollection({ store, setConnect }) {
           <div class="sellbg">
             <div class="ntfsell_con">
               <div class="top1">
-                <a href="">
+                <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
                     alt=""
@@ -212,10 +212,10 @@ function EditCollection({ store, setConnect }) {
                 </div>
               </div>
               <div class="create_btn side">
-                <a href="" class="ls">
+                <a onClick={()=>navigate(-1)} class="ls">
                   Save
                 </a>
-                <a href="" class="rs">
+                <a onClick={()=>navigate(-1)} class="rs">
                   Delete collection
                 </a>
               </div>

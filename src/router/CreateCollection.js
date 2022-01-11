@@ -62,7 +62,7 @@ function CreateCollection({ store, setConnect }) {
           <div class="sellbg">
             <div class="ntfsell_con">
               <div class="top1">
-                <a href="">
+                <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
                     alt=""
@@ -211,7 +211,7 @@ function CreateCollection({ store, setConnect }) {
                 </div>
               </div>
               <div class="create_btn mcrea">
-                <a href="">Create Item</a>
+                <a onClick={()=>navigate(-1)}>Create Item</a>
               </div>
             </div>
           </div>

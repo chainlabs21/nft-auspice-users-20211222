@@ -39,7 +39,7 @@ function HandOver({ store, setConnect }) {
           <div class="sellbg">
             <div class="ntfsell_con">
               <div class="top1">
-                <a href="">
+                <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
                     alt=""
@@ -111,7 +111,7 @@ function HandOver({ store, setConnect }) {
                           <div class="inputbox">
                             <input
                               type="text"
-                              placeholder="Ex) 0x8df35...   or   wallet001.eth"
+                              placeholder="Ex) 0x8df35...   or   wallet001.KLAY"
                             />
                           </div>
                         </li>
@@ -121,7 +121,7 @@ function HandOver({ store, setConnect }) {
                 </div>
               </div>
               <div class="create_btn send_btn">
-                <a href="" class="send">
+                <a onClick={() => navigate(-1)} class="send">
                   Send
                 </a>
               </div>

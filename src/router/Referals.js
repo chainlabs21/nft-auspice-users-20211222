@@ -93,7 +93,7 @@ function Referals({ store, setConnect }) {
                       <div class="copy">
                         <input type="text" readonly disabled />
                         <span>
-                          https://ausp.io/market/?ref=0x97b155a698d4bdec4c4bf3a92e9071190093cafb
+                          https://KLAY.io/market/?ref=0x97b155a698d4bdec4c4bf3a92e9071190093cafb
                         </span>
                         <a class="copybtn">
                           <img

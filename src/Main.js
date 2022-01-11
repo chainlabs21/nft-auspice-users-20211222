@@ -303,7 +303,7 @@ function Main({ store }) {
                           <dl>
                             <dt>Current Bid</dt>
                             <dd>
-                              2.867<span>AUSP</span>
+                              2.867<span>KLAY</span>
                             </dd>
                           </dl>
                           <dl>
@@ -321,7 +321,7 @@ function Main({ store }) {
                                     .default
                                 }
                               />
-                              <strong>5.44 AUSP</strong>
+                              <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
                             <li>
@@ -331,7 +331,7 @@ function Main({ store }) {
                                     .default
                                 }
                               />
-                              <strong>5.44 AUSP</strong>
+                              <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
                             <li>
@@ -341,7 +341,7 @@ function Main({ store }) {
                                     .default
                                 }
                               />
-                              <strong>5.44 AUSP</strong>
+                              <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
                             <li>
@@ -351,7 +351,7 @@ function Main({ store }) {
                                     .default
                                 }
                               />
-                              <strong>5.44 AUSP</strong>
+                              <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
                             <li>
@@ -361,7 +361,7 @@ function Main({ store }) {
                                     .default
                                 }
                               />
-                              <strong>5.44 AUSP</strong>
+                              <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
                             <li>
@@ -371,7 +371,7 @@ function Main({ store }) {
                                     .default
                                 }
                               />
-                              <strong>5.44 AUSP</strong>
+                              <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
                             <li>
@@ -381,7 +381,7 @@ function Main({ store }) {
                                     .default
                                 }
                               />
-                              <strong>5.44 AUSP</strong>
+                              <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
                             <li>
@@ -391,7 +391,7 @@ function Main({ store }) {
                                     .default
                                 }
                               />
-                              <strong>5.44 AUSP</strong>
+                              <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
                             <li>
@@ -401,7 +401,7 @@ function Main({ store }) {
                                     .default
                                 }
                               />
-                              <strong>5.44 AUSP</strong>
+                              <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
                             <li>
@@ -411,7 +411,7 @@ function Main({ store }) {
                                     .default
                                 }
                               />
-                              <strong>5.44 AUSP</strong>
+                              <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
                             <li>
@@ -421,7 +421,7 @@ function Main({ store }) {
                                     .default
                                 }
                               />
-                              <strong>5.44 AUSP</strong>
+                              <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
                             <li>
@@ -431,7 +431,7 @@ function Main({ store }) {
                                     .default
                                 }
                               />
-                              <strong>5.44 AUSP</strong>
+                              <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
                           </ul>
@@ -745,7 +745,7 @@ function Main({ store }) {
                               <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 AUSP</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                               <p>Buy Now</p>
                             </div>
@@ -798,7 +798,7 @@ function Main({ store }) {
                               <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 AUSP</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -823,7 +823,7 @@ function Main({ store }) {
 
         <article class="users">
           <div class="wrap">
-            <h4 class="t">Tips for Auspice users</h4>
+            <h4 class="t">Tips for Itemverse users</h4>
 
             <div class="swiper">
               <div class="swiper-container swiper-container-users">
@@ -897,8 +897,8 @@ function Main({ store }) {
                               }}
                             ></div>
                             <dl>
-                              <dt>Auspice Market</dt>
-                              <dd>5 reasons to sell your NFTs on Auspice</dd>
+                              <dt>Itemverse Market</dt>
+                              <dd>5 reasons to sell your NFTs on Itemverse</dd>
                             </dl>
                           </a>
                         </li>
@@ -930,13 +930,13 @@ function Main({ store }) {
                 </a>
               </h5>
               <p>
-                Decentralized NFT marketplace AUSPICE makes it easy and
+                Decentralized NFT marketplace Itemverse makes it easy and
                 convenient to trade non-fungible tokens (NFTs) and crypto
                 collectibles.
               </p>
               <div>
                 <span>
-                  <a href="mailto:contact@Auspice.com">Contact us</a>
+                  <a href="mailto:contact@Itemverse.com">Contact us</a>
                 </span>
                 <span>
                   <a>English</a>
@@ -1054,8 +1054,8 @@ function Main({ store }) {
                   <h6>CONTACT US</h6>
                   <ol>
                     <li>
-                      <a href="mailto:contact@Auspice.com">
-                        contact@Auspice.com
+                      <a href="mailto:contact@Itemverse.com">
+                        contact@Itemverse.com
                       </a>
                     </li>
                   </ol>
@@ -1075,7 +1075,7 @@ function Main({ store }) {
               </ul>
             </div>
             <div>
-              <address>Copyright © 2021 AUSPICE. All rights reserved.</address>
+              <address>Copyright © 2021 Itemverse. All rights reserved.</address>
             </div>
           </div>
         </div>

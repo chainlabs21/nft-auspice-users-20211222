@@ -67,8 +67,10 @@ function MyItems({ store, setConnect }) {
                   collection.
                 </h4>
                 <div class="ad_btn">
-                  <a href="">Create a new collection</a>
-                  <a href="" class="line">
+                  <a onClick={() => navigate("/createitem")}>
+                    Create a new collection
+                  </a>
+                  <a onClick={() => navigate("/importcontract")} class="line">
                     Load from contract
                   </a>
                 </div>
@@ -125,7 +127,7 @@ function MyItems({ store, setConnect }) {
                                     <span>David</span>
                                     <ol>
                                       <li>6 minutes left</li>
-                                      <li>1.67 AUSP</li>
+                                      <li>1.67 KLAY</li>
                                     </ol>
                                     <p>Buy Now</p>
                                   </div>

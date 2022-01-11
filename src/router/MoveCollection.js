@@ -39,7 +39,7 @@ function MoveCollection({ store, setConnect }) {
           <div class="sellbg">
             <div class="ntfsell_con">
               <div class="top1">
-                <a href="">
+                <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
                     alt=""
@@ -60,16 +60,16 @@ function MoveCollection({ store, setConnect }) {
                           </div>
                           <ul>
                             <li>
-                              <a href="">
+                              <a>
                                 Henry junior's Collection 01
                                 <span class="arrow"></span>
                               </a>
                             </li>
                             <li>
-                              <a href="">Henry junior's Collection 02</a>
+                              <a>Henry junior's Collection 02</a>
                             </li>
                             <li>
-                              <a href="">Henry junior's Collection 03</a>
+                              <a>Henry junior's Collection 03</a>
                             </li>
                           </ul>
                         </div>
@@ -82,7 +82,7 @@ function MoveCollection({ store, setConnect }) {
                 </div>
               </div>
               <div class="move_btn">
-                <a href="" class="move">
+                <a onClick={() => navigate(-1)} class="move">
                   Move
                 </a>
               </div>

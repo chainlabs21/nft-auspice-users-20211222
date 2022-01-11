@@ -106,7 +106,7 @@ function SingleItem({ store, setConnect }) {
                     <span>0x6bc...1sad</span>
                   </h3>
                   <p>
-                    <a href="">22 Items</a>
+                    <a>22 Items</a>
                   </p>
                 </li>
                 <li>
@@ -117,7 +117,7 @@ function SingleItem({ store, setConnect }) {
                     <span>0x6bc...1sad</span>
                   </h3>
                   <p>
-                    <a href="">1 Items</a>
+                    <a>1 Items</a>
                   </p>
                 </li>
                 <li>
@@ -128,7 +128,7 @@ function SingleItem({ store, setConnect }) {
                     <span>0x6bc...1sad</span>
                   </h3>
                   <p>
-                    <a href="">10 Items</a>
+                    <a>10 Items</a>
                   </p>
                 </li>
                 <li>
@@ -139,7 +139,7 @@ function SingleItem({ store, setConnect }) {
                     <span>0x6bc...1sad</span>
                   </h3>
                   <p>
-                    <a href="">37 Items</a>
+                    <a>37 Items</a>
                   </p>
                 </li>
                 <li>
@@ -150,7 +150,7 @@ function SingleItem({ store, setConnect }) {
                     <span>0x6bc...1sad</span>
                   </h3>
                   <p>
-                    <a href="">16 Items</a>
+                    <a>16 Items</a>
                   </p>
                 </li>
                 <li>
@@ -161,7 +161,7 @@ function SingleItem({ store, setConnect }) {
                     <span>0x6bc...1sad</span>
                   </h3>
                   <p>
-                    <a href="">76 Items</a>
+                    <a>76 Items</a>
                   </p>
                 </li>
                 <li>
@@ -172,7 +172,7 @@ function SingleItem({ store, setConnect }) {
                     <span>0x6bc...1sad</span>
                   </h3>
                   <p>
-                    <a href="">22 Items</a>
+                    <a>22 Items</a>
                   </p>
                 </li>
               </ul>
@@ -307,7 +307,7 @@ function SingleItem({ store, setConnect }) {
                   <ul>
                     <li>
                       <p class="rec_t">
-                        Total<span class="red">Insufficient ETH balance</span>
+                        Total<span class="red">Insufficient KLAY balance</span>
                       </p>
                       <div class="right_price m_left">
                         <h4 class="blue">
@@ -323,21 +323,19 @@ function SingleItem({ store, setConnect }) {
                   <div class="ckb">
                     <input type="checkbox" id="chk" name="chk1" />
                     <label for="chk">
-                      Aware that Auspice contains one item that has not been
+                      Aware that Itemverse contains one item that has not been
                       reviewed and approved
                     </label>
                   </div>
                   <div class="ckb">
                     <input type="checkbox" id="chk2" name="chk1" />
                     <label for="chk2">
-                      I agree to Auspice's <b>Terms of Service</b>
+                      I agree to Itemverse's <b>Terms of Service</b>
                     </label>
                   </div>
                 </form>
               </div>
-              <a href="" class="reportit on ">
-                Make a payment
-              </a>
+              <a class="reportit on ">Make a payment</a>
             </div>
           </div>
         </div>
@@ -395,15 +393,15 @@ function SingleItem({ store, setConnect }) {
                     <div class="tt">
                       <h2>Blackman with neon</h2>
                       <div class="icons">
-                        <a href="">
+                        <a>
                           <img
                             src={require("../img/sub/refresh.png").default}
                           />
                         </a>
-                        <a href="">
+                        <a>
                           <img src={require("../img/sub/alert.png").default} />
                         </a>
-                        <a href="">
+                        <a>
                           <img src={require("../img/sub/share.png").default} />
                         </a>
                       </div>
@@ -415,7 +413,7 @@ function SingleItem({ store, setConnect }) {
                           <li>
                             <h3>Current Bid</h3>
                             <h4>
-                              2.867<span>AUSP</span>
+                              2.867<span>KLAY</span>
                             </h4>
                             <h5>$1,234.25</h5>
                           </li>
@@ -490,7 +488,7 @@ function SingleItem({ store, setConnect }) {
                       <li>
                         <span class="profile_img"></span>
                         <h3>
-                          5.44 ETH
+                          5.44 KLAY
                           <br />
                           <span>T.WD</span>
                         </h3>
@@ -500,7 +498,7 @@ function SingleItem({ store, setConnect }) {
                       <li>
                         <span class="profile_img"></span>
                         <h3>
-                          4.23 ETH
+                          4.23 KLAY
                           <br />
                           <span>TIMOTHY</span>
                         </h3>
@@ -510,7 +508,7 @@ function SingleItem({ store, setConnect }) {
                       <li>
                         <span class="profile_img"></span>
                         <h3>
-                          4.00 ETH
+                          4.00 KLAY
                           <br />
                           <span>PT_WORK</span>
                         </h3>
@@ -520,7 +518,7 @@ function SingleItem({ store, setConnect }) {
                       <li>
                         <span class="profile_img"></span>
                         <h3>
-                          4.00 ETH
+                          4.00 KLAY
                           <br />
                           <span>PT_WORK</span>
                         </h3>
@@ -560,11 +558,11 @@ function SingleItem({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -579,11 +577,11 @@ function SingleItem({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>4 days later</td>
@@ -598,11 +596,11 @@ function SingleItem({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>1 days later</td>
@@ -617,11 +615,11 @@ function SingleItem({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -635,10 +633,10 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.015 ETH ($0,000,000.50)</p>
+                              <p>0.015 KLAY ($0,000,000.50)</p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -653,11 +651,11 @@ function SingleItem({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                             <div class="pur">
-                              <a href="">Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -695,7 +693,7 @@ function SingleItem({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -711,7 +709,7 @@ function SingleItem({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -727,7 +725,7 @@ function SingleItem({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -743,7 +741,7 @@ function SingleItem({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -759,7 +757,7 @@ function SingleItem({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.015 ETH <span>($0,000,000.50)</span>
+                                0.015 KLAY <span>($0,000,000.50)</span>
                               </p>
                             </div>
                           </td>
@@ -775,7 +773,7 @@ function SingleItem({ store, setConnect }) {
                                 alt=""
                               />
                               <p>
-                                0.010 ETH <span>($30.11)</span>
+                                0.010 KLAY <span>($30.11)</span>
                               </p>
                             </div>
                           </td>
@@ -813,11 +811,11 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -832,11 +830,11 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>4 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -851,11 +849,11 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -870,11 +868,11 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -889,11 +887,11 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -908,11 +906,11 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                             <div class="pur">
-                              <a href="">Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td class="blue">
@@ -948,7 +946,7 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                           </td>
@@ -962,7 +960,7 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>4 days later</span>
                             </div>
                           </td>
@@ -976,7 +974,7 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>1 days later</span>
                             </div>
                           </td>
@@ -990,7 +988,7 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                           </td>
@@ -1004,7 +1002,7 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.015 ETH ($0,000,000.50)</p>
+                              <p>0.015 KLAY ($0,000,000.50)</p>
                               <span>3 days later</span>
                             </div>
                           </td>
@@ -1018,7 +1016,7 @@ function SingleItem({ store, setConnect }) {
                                 style={{ width: "24px" }}
                                 alt=""
                               />
-                              <p>0.010 ETH ($30.11)</p>
+                              <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
                           </td>
@@ -1066,7 +1064,7 @@ function SingleItem({ store, setConnect }) {
                   <tbody class="body">
                     <tr>
                       <td>sale</td>
-                      <td class="bold">0.0020 ETH</td>
+                      <td class="bold">0.0020 KLAY</td>
                       <td class="blue">
                         0xb9e83064c381bd64cb2b2f8406203e584b81a7e1
                       </td>
@@ -1080,7 +1078,7 @@ function SingleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>purchase</td>
-                      <td class="bold">0.0022 ETH</td>
+                      <td class="bold">0.0022 KLAY</td>
                       <td class="blue">
                         0x86b5226a351ffa2088a58b16c274aea8dc2ef912
                       </td>
@@ -1094,7 +1092,7 @@ function SingleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>sale</td>
-                      <td class="bold">0.0023 ETH</td>
+                      <td class="bold">0.0023 KLAY</td>
                       <td class="blue">
                         0xe8bd396947a5ff690634aa2f66985b103b6911ba
                       </td>
@@ -1108,7 +1106,7 @@ function SingleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>sale</td>
-                      <td class="bold">0.0020 ETH</td>
+                      <td class="bold">0.0020 KLAY</td>
                       <td class="blue">
                         0x86b5226a351ffa2088a58b16c274aea8dc2ef912
                       </td>
@@ -1122,7 +1120,7 @@ function SingleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>purchase</td>
-                      <td class="bold">0.0001 ETH</td>
+                      <td class="bold">0.0001 KLAY</td>
                       <td class="blue">
                         0x1e425a95aecdc4d1b2c4987e914de35ede716852
                       </td>
@@ -1136,7 +1134,7 @@ function SingleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>purchase</td>
-                      <td class="bold">0.0001 ETH</td>
+                      <td class="bold">0.0001 KLAY</td>
                       <td class="blue">
                         0x1e425a95aecdc4d1b2c4987e914de35ede716852
                       </td>
@@ -1150,7 +1148,7 @@ function SingleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>purchase</td>
-                      <td class="bold">0.0001 ETH</td>
+                      <td class="bold">0.0001 KLAY</td>
                       <td class="blue">
                         0x1e425a95aecdc4d1b2c4987e914de35ede716852
                       </td>
@@ -1164,7 +1162,7 @@ function SingleItem({ store, setConnect }) {
                     </tr>
                     <tr>
                       <td>sale</td>
-                      <td class="bold">0.0020 ETH</td>
+                      <td class="bold">0.0020 KLAY</td>
                       <td class="blue">
                         0xb9e83064c381bd64cb2b2f8406203e584b81a7e1
                       </td>
@@ -1191,11 +1189,11 @@ function SingleItem({ store, setConnect }) {
                     <div className="slideBox" ref={itemWrapRef}>
                       {[1, 2, 3, 4, 5, 6, 7, 8].map((cont, index) => (
                         <span>
-                          <li class="swiper-slide">
-                            <a
-                              href="#"
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
+                          <li
+                            class="swiper-slide"
+                            onClick={() => window.location.reload()}
+                          >
+                            <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
                                   <li class="heart off">1,389</li>
@@ -1205,7 +1203,7 @@ function SingleItem({ store, setConnect }) {
                                 <span>David</span>
                                 <ol>
                                   <li>6 minutes left</li>
-                                  <li>1.67 AUSP</li>
+                                  <li>1.67 KLAY</li>
                                 </ol>
                                 <p>Buy Now</p>
                               </div>

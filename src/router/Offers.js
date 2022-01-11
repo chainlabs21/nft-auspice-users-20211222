@@ -77,10 +77,10 @@ function Offers({ store, setConnect }) {
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
                   <div class="home_icons">
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
-                    <a href="">
+                    <a>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
@@ -171,9 +171,7 @@ function Offers({ store, setConnect }) {
                             <span class="usd">USD</span>
                           </div>
                         </div>
-                        <a href="" class="slide_btn">
-                          Apply
-                        </a>
+                        <a class="slide_btn">Apply</a>
                       </div>
                     </div>
 
@@ -393,12 +391,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -435,12 +433,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -477,12 +475,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -519,12 +517,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -561,12 +559,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -603,12 +601,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -645,12 +643,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -687,12 +685,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -729,12 +727,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -771,12 +769,12 @@ function Offers({ store, setConnect }) {
                               <div class="name price">
                                 <img
                                   src={
-                                    require("../img/sub/eth_icon.png").default
+                                    require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
                                 <p>
-                                  0.010 ETH <span>($30.11)</span>
+                                  0.010 KLAY <span>($30.11)</span>
                                 </p>
                               </div>
                             </td>
@@ -817,7 +815,7 @@ function Offers({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
-                                <a href="">
+                                <a>
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -828,7 +826,7 @@ function Offers({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />
@@ -881,7 +879,7 @@ function Offers({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
-                                <a href="">
+                                <a>
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -892,7 +890,7 @@ function Offers({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />
@@ -927,7 +925,7 @@ function Offers({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
-                                <a href="">
+                                <a>
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -938,7 +936,7 @@ function Offers({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />
@@ -973,7 +971,7 @@ function Offers({ store, setConnect }) {
                               <div class="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
-                                <a href="">
+                                <a>
                                   <span class="more">+ More</span>
                                   <span class="less">- Less</span>
                                 </a>
@@ -984,7 +982,7 @@ function Offers({ store, setConnect }) {
                                 <p>
                                   <img
                                     src={
-                                      require("../img/sub/eth_icon.png").default
+                                      require("../img/sub/I_klaytn.svg").default
                                     }
                                     alt=""
                                   />

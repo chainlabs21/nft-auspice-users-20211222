@@ -874,7 +874,10 @@ function MarketPlace({ store, setConnect }) {
                 <div class="swiper-container swiper-container-trendingitem">
                   <ol class="item item5 buy swiper-wrapper">
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s1})` }}>
+                      <a
+                        onClick={() => navigate(-1)}
+                        style={{ backgroundImage: `url(${s1})` }}
+                      >
                         <div class="on">
                           <ul>
                             <li class="heart off">1,389</li>
@@ -891,7 +894,7 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s2})` }}>
+                      <a onClick={()=>navigate('/singleitem')} style={{ backgroundImage: `url(${s2})` }}>
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -908,7 +911,7 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s4})` }}>
+                      <a onClick={()=>navigate('/singleitem')} style={{ backgroundImage: `url(${s4})` }}>
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -925,7 +928,7 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s3})` }}>
+                      <a onClick={()=>navigate('/singleitem')} style={{ backgroundImage: `url(${s3})` }}>
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -942,7 +945,7 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s9})` }}>
+                      <a onClick={()=>navigate('/singleitem')} style={{ backgroundImage: `url(${s9})` }}>
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>

@@ -138,9 +138,7 @@ function MarketPlace({ store, setConnect }) {
                           <span class="usd">USD</span>
                         </div>
                       </div>
-                      <a href="" class="slide_btn">
-                        Apply
-                      </a>
+                      <a class="slide_btn">Apply</a>
                     </div>
                   </div>
 
@@ -286,48 +284,49 @@ function MarketPlace({ store, setConnect }) {
                         <div>Single item</div>
                         <ul>
                           <li>
-                            <a href="">Single item</a>
+                            <a>Single item</a>
                           </li>
                           <li>
-                            <a href="">All</a>
+                            <a>All</a>
                           </li>
                           <li>
-                            <a href="">Bundle sales</a>
+                            <a>Bundle sales</a>
                           </li>
                         </ul>
                       </div>
                       <div class="select metc">
-                        <div>All category</div>
+                        <div>{categoryFilter ? categoryFilter : "All"}</div>
                         <ul>
-                          <li>
-                            <a href="">All category</a>
+                          <li onClick={() => setCategoryFilter("")}>
+                            <a>All</a>
                           </li>
-                          <li>
-                            <a href="">All</a>
+                          <li onClick={() => setCategoryFilter("Art")}>
+                            <a>Art</a>
                           </li>
-                          <li>
-                            <a href="">Art</a>
+                          <li onClick={() => setCategoryFilter("Music")}>
+                            <a>Music</a>
                           </li>
-                          <li>
-                            <a href="">Music</a>
+                          <li
+                            onClick={() => setCategoryFilter("Virtual World")}
+                          >
+                            <a>Virtual World</a>
                           </li>
-                          <li>
-                            <a href="">Virtual World</a>
+                          <li
+                            onClick={() => setCategoryFilter("Trading Cards")}
+                          >
+                            <a>Trading Cards</a>
                           </li>
-                          <li>
-                            <a href="">Trading Cards</a>
+                          <li onClick={() => setCategoryFilter("Collectibles")}>
+                            <a>Collectibles</a>
                           </li>
-                          <li>
-                            <a href="">Collectibles</a>
+                          <li onClick={() => setCategoryFilter("Sports")}>
+                            <a>Sports</a>
                           </li>
-                          <li>
-                            <a href="">Sports</a>
+                          <li onClick={() => setCategoryFilter("Utility")}>
+                            <a>Utility</a>
                           </li>
-                          <li>
-                            <a href="">Utility</a>
-                          </li>
-                          <li>
-                            <a href="">ETC</a>
+                          <li onClick={() => setCategoryFilter("ETC")}>
+                            <a>ETC</a>
                           </li>
                         </ul>
                       </div>
@@ -335,31 +334,31 @@ function MarketPlace({ store, setConnect }) {
                         <div>Latest</div>
                         <ul>
                           <li>
-                            <a href="">Latest</a>
+                            <a>Latest</a>
                           </li>
                           <li>
-                            <a href="">Popularity</a>
+                            <a>Popularity</a>
                           </li>
                           <li>
-                            <a href="">Close to finish</a>
+                            <a>Close to finish</a>
                           </li>
                           <li>
-                            <a href="">Low price</a>
+                            <a>Low price</a>
                           </li>
                           <li>
-                            <a href="">high price</a>
+                            <a>high price</a>
                           </li>
                           <li>
-                            <a href="">A small bid</a>
+                            <a>A small bid</a>
                           </li>
                           <li>
-                            <a href="">A lot of bids</a>
+                            <a>A lot of bids</a>
                           </li>
                           <li>
-                            <a href="">Most seen</a>
+                            <a>Most seen</a>
                           </li>
                           <li>
-                            <a href="">Oldest</a>
+                            <a>Oldest</a>
                           </li>
                         </ul>
                       </div>
@@ -431,7 +430,7 @@ function MarketPlace({ store, setConnect }) {
                                   <span>David</span>
                                   <ol>
                                     <li>6 minutes left</li>
-                                    <li>1.67 AUSP</li>
+                                    <li>1.67 KLAY</li>
                                   </ol>
                                 </div>
                               </a>
@@ -457,7 +456,7 @@ function MarketPlace({ store, setConnect }) {
                                   <span>David</span>
                                   <ol>
                                     <li>6 minutes left</li>
-                                    <li>1.67 AUSP</li>
+                                    <li>1.67 KLAY</li>
                                   </ol>
                                 </div>
                               </a>
@@ -483,7 +482,7 @@ function MarketPlace({ store, setConnect }) {
                                   <span>David</span>
                                   <ol>
                                     <li>6 minutes left</li>
-                                    <li>1.67 AUSP</li>
+                                    <li>1.67 KLAY</li>
                                   </ol>
                                 </div>
                               </a>
@@ -509,7 +508,7 @@ function MarketPlace({ store, setConnect }) {
                                   <span>David</span>
                                   <ol>
                                     <li>6 minutes left</li>
-                                    <li>1.67 AUSP</li>
+                                    <li>1.67 KLAY</li>
                                   </ol>
                                 </div>
                               </a>
@@ -535,7 +534,7 @@ function MarketPlace({ store, setConnect }) {
                                   <span>David</span>
                                   <ol>
                                     <li>6 minutes left</li>
-                                    <li>1.67 AUSP</li>
+                                    <li>1.67 KLAY</li>
                                   </ol>
                                 </div>
                               </a>
@@ -561,7 +560,7 @@ function MarketPlace({ store, setConnect }) {
                                   <span>David</span>
                                   <ol>
                                     <li>6 minutes left</li>
-                                    <li>1.67 AUSP</li>
+                                    <li>1.67 KLAY</li>
                                   </ol>
                                 </div>
                               </a>
@@ -587,7 +586,7 @@ function MarketPlace({ store, setConnect }) {
                                   <span>David</span>
                                   <ol>
                                     <li>6 minutes left</li>
-                                    <li>1.67 AUSP</li>
+                                    <li>1.67 KLAY</li>
                                   </ol>
                                 </div>
                               </a>
@@ -613,7 +612,7 @@ function MarketPlace({ store, setConnect }) {
                                   <span>David</span>
                                   <ol>
                                     <li>6 minutes left</li>
-                                    <li>1.67 AUSP</li>
+                                    <li>1.67 KLAY</li>
                                   </ol>
                                 </div>
                               </a>
@@ -639,7 +638,7 @@ function MarketPlace({ store, setConnect }) {
                                   <span>David</span>
                                   <ol>
                                     <li>6 minutes left</li>
-                                    <li>1.67 AUSP</li>
+                                    <li>1.67 KLAY</li>
                                   </ol>
                                 </div>
                               </a>
@@ -665,7 +664,7 @@ function MarketPlace({ store, setConnect }) {
                                   <span>David</span>
                                   <ol>
                                     <li>6 minutes left</li>
-                                    <li>1.67 AUSP</li>
+                                    <li>1.67 KLAY</li>
                                   </ol>
                                 </div>
                               </a>
@@ -686,11 +685,11 @@ function MarketPlace({ store, setConnect }) {
 }
 
 const MarketPlaceBox = styled.div`
-  .cartegoryList{
+  .cartegoryList {
     display: flex;
     flex-wrap: wrap;
 
-    li{
+    li {
       white-space: nowrap;
     }
   }

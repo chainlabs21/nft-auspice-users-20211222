@@ -32,57 +32,76 @@ function GeneralSettings({ store, setConnect }) {
   const navigate = useNavigate();
 
   return (
-    <SignPopupBox>
+    <GeneralSettingsBox>
       <section id="sub">
-    <article class="wallet_wrap">
-      <div class="move on">
-        <div class="left_move wallet_left">
-          <div class="mwallet"><a href="">Account settings</a></div>
-          <form>
-            <div class="w1">
-              <h3>My wallet<span>0x9bb...carfb</span></h3>
+        <article class="wallet_wrap">
+          <div class="move on">
+            <div class="left_move wallet_left">
+              <div class="mwallet">
+                <a onClick={() => navigate(-1)}>Account settings</a>
+              </div>
+              <form>
+                <div class="w1" onClick={() => navigate("/mywallet")}>
+                  <h3>
+                    My wallet<span>0x9bb...carfb</span>
+                  </h3>
+                </div>
+                <div class="w2 on">
+                  <h3>General settings</h3>
+                </div>
+                <div
+                  class="w3"
+                  onClick={() => navigate("/notificationsettings")}
+                >
+                  <h3>Notification settings</h3>
+                </div>
+              </form>
             </div>
-            <div class="w2">
-              <h3>General settings</h3>
-            </div>
-            <div class="w3">
-              <h3>Notification settings</h3>
-            </div>
-          </form>
-        </div>
 
-        <div class="right_move wallet_right">
-          <h2>General settings</h2>
-          <div class="mwr">
-            <div class="wr togpad">
-              <ul>
-                <li>
-                  <h4>User name</h4>
-                  <input type="text" placeholder="Please enter your username"/>
-                </li>
-                <li>
-                  <h4>About me</h4>
-                  <textarea type="text" placeholder="write my introduction"></textarea>
-                </li>
-                <li>
-                  <h4>Email Address</h4>
-                  <input type="text" placeholder="Input email address"/>
-                </li>
-              </ul>
-              <a href="" class="wbtn">Save</a>
+            <div class="right_move wallet_right">
+              <h2>General settings</h2>
+              <div class="mwr">
+                <div class="wr togpad">
+                  <ul>
+                    <li>
+                      <h4>User name</h4>
+                      <input
+                        type="text"
+                        placeholder="Please enter your username"
+                      />
+                    </li>
+                    <li>
+                      <h4>About me</h4>
+                      <textarea
+                        type="text"
+                        placeholder="write my introduction"
+                      ></textarea>
+                    </li>
+                    <li>
+                      <h4>Email Address</h4>
+                      <input type="text" placeholder="Input email address" />
+                    </li>
+                  </ul>
+                  <a onClick={() => navigate(-1)} class="wbtn">
+                    Save
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </article>
-  </section>
-    </SignPopupBox>
+        </article>
+      </section>
+    </GeneralSettingsBox>
   );
 }
 
-const SignPopupBox = styled.div`
+const GeneralSettingsBox = styled.div`
   .wr {
     padding: 52px 0 0 0;
+  }
+
+  .w1,.w2,.w3{
+    cursor: pointer;
   }
 `;
 

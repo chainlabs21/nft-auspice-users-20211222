@@ -150,7 +150,6 @@ function MarketPlace({ store, setConnect }) {
               </div>
               <div class="report_wrap">
                 <button
-                  
                   class="reportit"
                   disabled={!reportDesc}
                   onClick={() => setReportPopup(false)}
@@ -264,8 +263,6 @@ function MarketPlace({ store, setConnect }) {
         </div>
       )}
 
-      
-
       <section id="sub">
         <article class="bundle_box box2">
           <div class="wrap">
@@ -317,8 +314,8 @@ function MarketPlace({ store, setConnect }) {
                 <div class="desc">
                   <h2 class="i_title">Description</h2>
                   <p>
-                    This is a item of digitals produced on April 28th,
-                    with beautiful night views. It's about the
+                    This is a item of digitals produced on April 28th, with
+                    beautiful night views. It's about the
                     <br />
                     harmony of neon signs. It's an expression of modern art.
                     <br />
@@ -1093,7 +1090,10 @@ function MarketPlace({ store, setConnect }) {
                 <div class="swiper-container swiper-container-trendingitem">
                   <ol class="item item5 buy swiper-wrapper">
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s1})` }}>
+                      <a
+                        onClick={() => navigate("/singleitem")}
+                        style={{ backgroundImage: `url(${s1})` }}
+                      >
                         <div class="on">
                           <ul>
                             <li class="heart off">1,389</li>
@@ -1110,7 +1110,10 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s2})` }}>
+                      <a
+                        onClick={() => navigate("/singleitem")}
+                        style={{ backgroundImage: `url(${s2})` }}
+                      >
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -1127,7 +1130,10 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s4})` }}>
+                      <a
+                        onClick={() => navigate("/singleitem")}
+                        style={{ backgroundImage: `url(${s4})` }}
+                      >
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -1144,7 +1150,7 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s3})` }}>
+                      <a onClick={()=>navigate('/singleitem')} style={{ backgroundImage: `url(${s3})` }}>
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
@@ -1161,7 +1167,7 @@ function MarketPlace({ store, setConnect }) {
                       </a>
                     </li>
                     <li class="swiper-slide">
-                      <a href="#" style={{ backgroundImage: `url(${s9})` }}>
+                      <a onClick={()=>navigate('/singleitem')} style={{ backgroundImage: `url(${s9})` }}>
                         <div class="on">
                           <ul>
                             <li class="heart on">1,389</li>
