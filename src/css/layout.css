@@ -376,7 +376,7 @@
 #main article.item { margin:0 0 90px; }
 #main article.item .swiper { position:relative; }
 
-#main article.item .swiper-container-trendingitem { margin:-0.5%; }
+#main article.item .swiper-container-trendingitem { margin:-1%; }
 #main article.item .swiper .swiper-button-trendingitem-prev { width:48px; height:48px; left:-28px; background-image:url('../img/main/arrow_prev.png'); background-repeat:no-repeat; background-size:cover; background-position:center; }
 #main article.item .swiper .swiper-button-trendingitem-next { width:48px; height:48px; right:-28px; background-image:url('../img/main/arrow_next.png'); background-repeat:no-repeat; background-size:cover; background-position:center; }
 #main article.item .swiper .swiper-button-trendingitem-prev:after ,
