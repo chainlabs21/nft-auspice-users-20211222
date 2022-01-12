@@ -1,0 +1,2 @@
+https://github.com/faker-js/faker.git
+// nodeModules 폴더에서 npm으로 설치된 faker 폴더 완전 삭제후 git clone 하시면 됩니다.

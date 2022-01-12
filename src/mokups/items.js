@@ -38,7 +38,7 @@ export const generateItems = (count) => {
       decimals: 18,
       totalSupply: 20000000000,
       uuid: i,
-      tokenprice: 1.67,
+      tokenprice: (Math.random() * 10).toFixed(2),
       priceusd: Math.floor(Math.random() * 100 + 1),
       categorystr: randCate,
       status: [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)],

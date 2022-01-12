@@ -10,6 +10,7 @@ import collect_img4 from "../img/sub/collect_img4.png";
 import s5 from "../img/sub/s5.png";
 import sample from "../img/sub/sample.png";
 import stone from "../img/sub/stone.png";
+import rstone from "../img/sub/rstone.png";
 import rock from "../img/sub/rock.png";
 import I_x from "../img/main/I_x.svg";
 
@@ -40,6 +41,7 @@ function MarketPlace({ store, setConnect }) {
   const [priceFilterToggle, setPriceFilterToggle] = useState(false);
   const [callEffect, setCallEffect] = useState(false);
   const [totalItem, setTotalItem] = useState(0);
+  const [unit, setUnit] = useState("USD");
 
   const handleCateFilter = (category) => {
     setCategoryFilter(category);
@@ -94,12 +96,21 @@ function MarketPlace({ store, setConnect }) {
     let priceFiltered = [...statusFiltered];
     if (priceFilterToggle) {
       priceFiltered = statusFiltered.filter((v) => {
-        if (v.priceusd >= fromPrice && v.priceusd <= toPrice) {
-          return true;
+        if (unit === "USD") {
+          if (v.priceusd >= fromPrice && v.priceusd <= toPrice) {
+            return true;
+          }
+          return false;
+        } else if (unit === "KLAY") {
+          if (v.tokenprice >= fromPrice && v.tokenprice <= toPrice) {
+            return true;
+          }
+          return false;
         }
-        return false;
       });
     }
+
+    //chainsFilter
     setFilteredList(priceFiltered);
   }, [categoryFilter, itemList, filterList, callEffect]);
 
@@ -202,11 +213,25 @@ function MarketPlace({ store, setConnect }) {
                     </h3>
 
                     <div class="open">
-                      <select>
-                        <option disabled selected hidden>
+                      <select
+                        onChange={(e) => {
+                          setPriceFilterToggle(false);
+                          setFromPrice(0.0);
+                          setToPrice(0.0);
+                          setCallEffect(!callEffect);
+                          if (unit === "USD") {
+                            setUnit("KLAY");
+                          } else {
+                            setUnit("USD");
+                          }
+                        }}
+                      >
+                        <option selected={unit === "USD" ? true : false}>
                           United States Dollars (USD)
                         </option>
-                        <option>100</option>
+                        <option selected={unit === "KLAY" ? true : false}>
+                          Klaytn
+                        </option>
                       </select>
                       <div class="price_area">
                         <div class="price_wrap">
@@ -217,7 +242,7 @@ function MarketPlace({ store, setConnect }) {
                               setFromPrice(e.target.value);
                             }}
                           />
-                          <span class="usd">USD</span>
+                          <span class="usd">{unit}</span>
                         </div>
                         <div class="price_wrap">
                           <input
@@ -227,7 +252,7 @@ function MarketPlace({ store, setConnect }) {
                               setToPrice(e.target.value);
                             }}
                           />
-                          <span class="usd">USD</span>
+                          <span class="usd">{unit}</span>
                         </div>
                       </div>
                       <a
