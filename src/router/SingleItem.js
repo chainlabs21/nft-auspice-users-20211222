@@ -23,10 +23,20 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useEffect, useRef, useState } from "react";
+import { singleItem } from "../mokups/items";
+import moment from "moment";
 
 function SingleItem({ store, setConnect }) {
   const navigate = useNavigate();
   const itemWrapRef = useRef();
+  const {
+    likerList,
+    ownerList,
+    salesStatus,
+    purchaseStatus,
+    transactionHistory,
+    chainInformation,
+  } = singleItem;
 
   const [ownerPopup, setOwnerPopup] = useState(false);
   const [likePopup, setLikePopup] = useState(false);
@@ -34,8 +44,27 @@ function SingleItem({ store, setConnect }) {
   const [reportDesc, setReportDesc] = useState("");
   const [bidPopup, setBidPopup] = useState(false);
   const [chartCategory, setChartCategory] = useState(0);
+  const [endAutionTime, setEndAutionTime] = useState(singleItem.auctionExpiry);
+  const [diffTime, setDiffTime] = useState();
+  const [nearEnd, setNearEnd] = useState(false);
 
   const [userIndex, setUserIndex] = useState(0);
+
+  const convertLongString = (startLength, endLength, str) => {
+    const head = str.substring(0, startLength);
+    const spread = "......";
+    const tail = str.substring(str.length - endLength, str.length);
+    return head + spread + tail;
+  };
+  const numFormatter = (num) => {
+    if (num > 999 && num < 1000000) {
+      return (num / 1000).toFixed(1) + "K"; // convert to K for number from > 1000 < 1 million
+    } else if (num > 1000000) {
+      return (num / 1000000).toFixed(1) + "M"; // convert to M for number from > 1 million
+    } else if (num < 900) {
+      return num; // if value < 1000, nothing to do
+    }
+  };
 
   function onClickUserPreBtn() {
     const wrapWidth = itemWrapRef.current.offsetWidth;
@@ -77,6 +106,35 @@ function SingleItem({ store, setConnect }) {
       }
     }
   }, [userIndex]);
+  useEffect(() => {
+    const setAuctionTimer = () => {
+      let now = moment().format("DD/MM/YYYY HH:mm:ss");
+      let then = moment(endAutionTime).format("DD/MM/YYYY HH:mm:ss");
+
+      let ms = moment(then, "DD/MM/YYYY HH:mm:ss").diff(
+        moment(now, "DD/MM/YYYY HH:mm:ss")
+      );
+      let d = moment.duration(ms);
+      let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+
+      if (d.asSeconds() < 0) {
+        setDiffTime(moment().format("00:00:00"));
+        setNearEnd(false);
+        return;
+      }
+
+      if (!nearEnd && d.asHours() < 12) {
+        setNearEnd(true);
+      }
+      setDiffTime(s);
+    };
+
+    setInterval(setAuctionTimer, 1000);
+
+    return () => {
+      clearInterval(setAuctionTimer);
+    };
+  }, [endAutionTime]);
 
   return (
     <SignPopupBox>
@@ -98,83 +156,19 @@ function SingleItem({ store, setConnect }) {
             </div>
             <div class="list_bottom">
               <ul class="container popcon">
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    cryptopunks
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                  <p>
-                    <a>22 Items</a>
-                  </p>
-                </li>
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    art book
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                  <p>
-                    <a>1 Items</a>
-                  </p>
-                </li>
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    good Friends
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                  <p>
-                    <a>10 Items</a>
-                  </p>
-                </li>
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    ZED Run
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                  <p>
-                    <a>37 Items</a>
-                  </p>
-                </li>
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    Meebits
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                  <p>
-                    <a>16 Items</a>
-                  </p>
-                </li>
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    Sandbox
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                  <p>
-                    <a>76 Items</a>
-                  </p>
-                </li>
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    cryptopunks
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                  <p>
-                    <a>22 Items</a>
-                  </p>
-                </li>
+                {ownerList.map((v) => (
+                  <li>
+                    <span class="pop_profile"></span>
+                    <h3>
+                      {v.name}
+                      <br />
+                      <span>{convertLongString(8, 8, v.address)}</span>
+                    </h3>
+                    <p>
+                      <a>{v.itemCount} Items</a>
+                    </p>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -199,62 +193,16 @@ function SingleItem({ store, setConnect }) {
             </div>
             <div class="list_bottom">
               <ul class="container popcon">
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    cryptopunks
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                </li>
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    art book
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                </li>
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    good Friends
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                </li>
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    ZED Run
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                </li>
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    Meebits
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                </li>
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    Sandbox
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                </li>
-                <li>
-                  <span class="pop_profile"></span>
-                  <h3>
-                    cryptopunks
-                    <br />
-                    <span>0x6bc...1sad</span>
-                  </h3>
-                </li>
+                {likerList.map((v) => (
+                  <li>
+                    <span class="pop_profile"></span>
+                    <h3>
+                      {v.name}
+                      <br />
+                      <span>{convertLongString(8, 8, v.address)}</span>
+                    </h3>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -365,21 +313,21 @@ function SingleItem({ store, setConnect }) {
                       onClick={() => setLikePopup(true)}
                       class="like_heart off"
                     >
-                      <h2>1,486 Likes</h2>
+                      <h2>{likerList.length} Likes</h2>
                     </a>
                   </div>
                   <div class="views">
                     <ul>
                       <li onClick={() => setOwnerPopup(true)}>
-                        <h3>21</h3>
+                        <h3>{ownerList.length}</h3>
                         <h4>Owner</h4>
                       </li>
                       <li>
-                        <h3>30</h3>
+                        <h3>{singleItem.fragmentCount}</h3>
                         <h4>Fragment</h4>
                       </li>
                       <li>
-                        <h3>1.1M</h3>
+                        <h3>{numFormatter(singleItem.views)}</h3>
                         <h4>views</h4>
                       </li>
                     </ul>
@@ -413,13 +361,19 @@ function SingleItem({ store, setConnect }) {
                           <li>
                             <h3>Current Bid</h3>
                             <h4>
-                              2.867<span>KLAY</span>
+                              {singleItem.currentBid}
+                              <span>KLAY</span>
                             </h4>
-                            <h5>$1,234.25</h5>
+                            <h5>
+                              $
+                              {singleItem.currentUSD.toLocaleString("en", "US")}
+                            </h5>
                           </li>
                           <li>
                             <h3>Auction ending in</h3>
-                            <h4>05:32:21</h4>
+                            <h4 style={nearEnd ? { color: "red" } : {}}>
+                              {diffTime}
+                            </h4>
                           </li>
                         </ul>
                         <a onClick={() => setBidPopup(true)} class="bid">
@@ -434,17 +388,7 @@ function SingleItem({ store, setConnect }) {
             <div class="bun_full">
               <div class="desc">
                 <h2 class="i_title">Description</h2>
-                <p>
-                  This is a collection of digitals produced on April 28th, with
-                  beautiful night views. It's about the
-                  <br />
-                  harmony of neon signs. It's an expression of modern art.
-                  <br />
-                  on April 28th, with beautiful night views. It's about the
-                  harmony of neon signs.
-                  <br />
-                  It's an expression of modern art.
-                </p>
+                <p>{singleItem.desc}</p>
               </div>
             </div>
             <div class="bundle_top top2">
@@ -485,46 +429,18 @@ function SingleItem({ store, setConnect }) {
                   <h2 class="i_title">Offer History</h2>
                   <div class="history_s container">
                     <ul>
-                      <li>
-                        <span class="profile_img"></span>
-                        <h3>
-                          5.44 KLAY
-                          <br />
-                          <span>T.WD</span>
-                        </h3>
-                        <h4>0x83bc3fF3CE5499...</h4>
-                        <h5>21:54</h5>
-                      </li>
-                      <li>
-                        <span class="profile_img"></span>
-                        <h3>
-                          4.23 KLAY
-                          <br />
-                          <span>TIMOTHY</span>
-                        </h3>
-                        <h4></h4>
-                        <h5>20:00</h5>
-                      </li>
-                      <li>
-                        <span class="profile_img"></span>
-                        <h3>
-                          4.00 KLAY
-                          <br />
-                          <span>PT_WORK</span>
-                        </h3>
-                        <h4></h4>
-                        <h5>17:33</h5>
-                      </li>
-                      <li>
-                        <span class="profile_img"></span>
-                        <h3>
-                          4.00 KLAY
-                          <br />
-                          <span>PT_WORK</span>
-                        </h3>
-                        <h4></h4>
-                        <h5>17:33</h5>
-                      </li>
+                      {singleItem.offerHistory.map((v) => (
+                        <li>
+                          <span class="profile_img"></span>
+                          <h3>
+                            {v.tokenprice} KLAY
+                            <br />
+                            <span>{convertLongString(10, 0, v.name)}</span>
+                          </h3>
+                          <h4>{convertLongString(8, 8, v.address)}</h4>
+                          <h5>{v.createdat}</h5>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -549,118 +465,30 @@ function SingleItem({ store, setConnect }) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>
-                                0.010 KLAY <span>($30.11)</span>
-                              </p>
-                            </div>
-                            <div class="pur">
-                              <a>Purchase</a>
-                            </div>
-                          </td>
-                          <td>3 days later</td>
-                          <td class="blue">Esther</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>
-                                0.010 KLAY <span>($30.11)</span>
-                              </p>
-                            </div>
-                            <div class="pur">
-                              <a>Purchase</a>
-                            </div>
-                          </td>
-                          <td>4 days later</td>
-                          <td class="blue">TODD</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>
-                                0.010 KLAY <span>($30.11)</span>
-                              </p>
-                            </div>
-                            <div class="pur">
-                              <a>Purchase</a>
-                            </div>
-                          </td>
-                          <td>1 days later</td>
-                          <td class="blue">Philip van Kouwenbergh</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>
-                                0.010 KLAY <span>($30.11)</span>
-                              </p>
-                            </div>
-                            <div class="pur">
-                              <a>Purchase</a>
-                            </div>
-                          </td>
-                          <td>3 days later</td>
-                          <td class="blue">PT_WORK</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>0.015 KLAY ($0,000,000.50)</p>
-                            </div>
-                            <div class="pur">
-                              <a>Purchase</a>
-                            </div>
-                          </td>
-                          <td>3 days later</td>
-                          <td class="blue">PT_WORK</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>
-                                0.010 KLAY <span>($30.11)</span>
-                              </p>
-                            </div>
-                            <div class="pur">
-                              <a>Purchase</a>
-                            </div>
-                          </td>
-                          <td>3 days later</td>
-                          <td class="blue">PT_WORK</td>
-                        </tr>
+                        {salesStatus.map((v) => (
+                          <tr>
+                            <td>
+                              <div class="name price">
+                                <img
+                                  src={
+                                    require("../img/sub/I_klaytn.svg").default
+                                  }
+                                  style={{ width: "24px" }}
+                                  alt=""
+                                />
+                                <p>
+                                  {v.tokenprice} KLAY{" "}
+                                  <span>(${v.priceusd})</span>
+                                </p>
+                              </div>
+                              <div class="pur">
+                                <a>{v.kind}</a>
+                              </div>
+                            </td>
+                            <td>{moment(v.expired).toNow()}</td>
+                            <td class="blue">{v.seller}</td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
@@ -684,102 +512,27 @@ function SingleItem({ store, setConnect }) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>
-                                0.010 KLAY <span>($30.11)</span>
-                              </p>
-                            </div>
-                          </td>
-                          <td>3 days later</td>
-                          <td class="blue">Esther</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>
-                                0.010 KLAY <span>($30.11)</span>
-                              </p>
-                            </div>
-                          </td>
-                          <td>4 days later</td>
-                          <td class="blue">TODD</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>
-                                0.010 KLAY <span>($30.11)</span>
-                              </p>
-                            </div>
-                          </td>
-                          <td>1 days later</td>
-                          <td class="blue">Philip van Kouwenbergh</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>
-                                0.010 KLAY <span>($30.11)</span>
-                              </p>
-                            </div>
-                          </td>
-                          <td>3 days later</td>
-                          <td class="blue">PT_WORK</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>
-                                0.015 KLAY <span>($0,000,000.50)</span>
-                              </p>
-                            </div>
-                          </td>
-                          <td>3 days later</td>
-                          <td class="blue">PT_WORK</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>
-                                0.010 KLAY <span>($30.11)</span>
-                              </p>
-                            </div>
-                          </td>
-                          <td>3 days later</td>
-                          <td class="blue">PT_WORK</td>
-                        </tr>
+                        {purchaseStatus.map((v) => (
+                          <tr>
+                            <td>
+                              <div class="name price">
+                                <img
+                                  src={
+                                    require("../img/sub/I_klaytn.svg").default
+                                  }
+                                  style={{ width: "24px" }}
+                                  alt=""
+                                />
+                                <p>
+                                  {v.tokenprice} KLAY{" "}
+                                  <span>(${v.priceusd})</span>
+                                </p>
+                              </div>
+                            </td>
+                            <td>{moment(v.expired).toNow()}</td>
+                            <td class="blue">{v.buyer}</td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
@@ -820,101 +573,6 @@ function SingleItem({ store, setConnect }) {
                           </td>
                           <td class="blue">
                             <div class="div">Esther</div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>0.010 KLAY ($30.11)</p>
-                              <span>4 days later</span>
-                            </div>
-                            <div class="pur">
-                              <a>Buy</a>
-                            </div>
-                          </td>
-                          <td class="blue">
-                            <div class="div">TODD</div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>0.010 KLAY ($30.11)</p>
-                              <span>3 days later</span>
-                            </div>
-                            <div class="pur">
-                              <a>Buy</a>
-                            </div>
-                          </td>
-                          <td class="blue">
-                            <div class="div">Philip van Kouwenbergh</div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>0.010 KLAY ($30.11)</p>
-                              <span>3 days later</span>
-                            </div>
-                            <div class="pur">
-                              <a>Buy</a>
-                            </div>
-                          </td>
-                          <td class="blue">
-                            <div class="div">PT_WORK</div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>0.010 KLAY ($30.11)</p>
-                              <span>3 days later</span>
-                            </div>
-                            <div class="pur">
-                              <a>Buy</a>
-                            </div>
-                          </td>
-                          <td class="blue">
-                            <div class="div">PT_WORK</div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>0.010 KLAY ($30.11)</p>
-                              <span>3 days later</span>
-                            </div>
-                            <div class="pur">
-                              <a>Buy</a>
-                            </div>
-                          </td>
-                          <td class="blue">
-                            <div class="div">PT_WORK</div>
                           </td>
                         </tr>
                       </tbody>
@@ -1062,118 +720,20 @@ function SingleItem({ store, setConnect }) {
                     </tr>
                   </thead>
                   <tbody class="body">
-                    <tr>
-                      <td>sale</td>
-                      <td class="bold">0.0020 KLAY</td>
-                      <td class="blue">
-                        0xb9e83064c381bd64cb2b2f8406203e584b81a7e1
-                      </td>
-                      <td class="blue">
-                        0x495f947276749ce646f68ac8c248420045cb7b5e
-                      </td>
-                      <td class="gray">1 month ago</td>
-                      <td>
-                        <span class="chain on"></span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>purchase</td>
-                      <td class="bold">0.0022 KLAY</td>
-                      <td class="blue">
-                        0x86b5226a351ffa2088a58b16c274aea8dc2ef912
-                      </td>
-                      <td class="blue">
-                        0x3c3ade46a59267295a3ade22902b040ec6f36809
-                      </td>
-                      <td class="gray">2 month ago</td>
-                      <td>
-                        <span class="chain off"></span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>sale</td>
-                      <td class="bold">0.0023 KLAY</td>
-                      <td class="blue">
-                        0xe8bd396947a5ff690634aa2f66985b103b6911ba
-                      </td>
-                      <td class="blue">
-                        0xb9e83064c381bd64cb2b2f8406203e584b81a7e1
-                      </td>
-                      <td class="gray">4 month ago</td>
-                      <td>
-                        <span class="chain on"></span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>sale</td>
-                      <td class="bold">0.0020 KLAY</td>
-                      <td class="blue">
-                        0x86b5226a351ffa2088a58b16c274aea8dc2ef912
-                      </td>
-                      <td class="blue">
-                        0xd869084ad98142f828f2cf9d76727a2ec832ace2
-                      </td>
-                      <td class="gray">5 month ago</td>
-                      <td>
-                        <span class="chain off"></span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>purchase</td>
-                      <td class="bold">0.0001 KLAY</td>
-                      <td class="blue">
-                        0x1e425a95aecdc4d1b2c4987e914de35ede716852
-                      </td>
-                      <td class="blue">
-                        0x86b5226a351ffa2088a58b16c274aea8dc2ef912
-                      </td>
-                      <td class="gray">5 month ago</td>
-                      <td>
-                        <span class="chain off"></span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>purchase</td>
-                      <td class="bold">0.0001 KLAY</td>
-                      <td class="blue">
-                        0x1e425a95aecdc4d1b2c4987e914de35ede716852
-                      </td>
-                      <td class="blue">
-                        0x86b5226a351ffa2088a58b16c274aea8dc2ef912
-                      </td>
-                      <td class="gray">5 month ago</td>
-                      <td>
-                        <span class="chain off"></span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>purchase</td>
-                      <td class="bold">0.0001 KLAY</td>
-                      <td class="blue">
-                        0x1e425a95aecdc4d1b2c4987e914de35ede716852
-                      </td>
-                      <td class="blue">
-                        0x86b5226a351ffa2088a58b16c274aea8dc2ef912
-                      </td>
-                      <td class="gray">5 month ago</td>
-                      <td>
-                        <span class="chain off"></span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>sale</td>
-                      <td class="bold">0.0020 KLAY</td>
-                      <td class="blue">
-                        0xb9e83064c381bd64cb2b2f8406203e584b81a7e1
-                      </td>
-                      <td class="blue">
-                        0x495f947276749ce646f68ac8c248420045cb7b5e
-                      </td>
-                      <td class="gray">5 month ago</td>
-                      <td>
-                        <span class="chain off"></span>
-                      </td>
-                    </tr>
+                    {transactionHistory.map((v) => (
+                      <tr>
+                        <td>{v.event}</td>
+                        <td class="bold">{v.tokenprice} KLAY</td>
+                        <td class="blue">{v.from}</td>
+                        <td class="blue">{v.to}</td>
+                        <td class="gray">{moment(v.date).toNow()}</td>
+                        <td>
+                          <span
+                            class={v.chainOn ? "chain on" : "chain off"}
+                          ></span>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
