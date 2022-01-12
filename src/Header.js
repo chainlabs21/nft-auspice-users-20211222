@@ -33,7 +33,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
     <HeaderBox id="header">
       <h1>
         <a onClick={() => navigate("/")}>
-          <img src={require("./img/header/logo.png").default} />
+          <img src={require("./img/header/logo.png").default} alt={"logo"} />
         </a>
       </h1>
 
@@ -67,7 +67,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
             <a onClick={() => navigate("/marketplace")}>Marketplace</a>
             <ol>
               <li>
-                <a onClick={() => navigate("/marketplace")}>
+                <a onClick={() => navigate("/marketplace", { state: "All" })}>
                   <img
                     src={require("./img/header/menu_all.png").default}
                     class="on"
@@ -99,11 +99,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                 </a>
               </li>
               <li>
-                <a
-                  onClick={() =>
-                    navigate("/marketplace", { state: "Digital Art" })
-                  }
-                >
+                <a onClick={() => navigate("/marketplace", { state: "Art" })}>
                   <img
                     src={require("./img/header/menu_digitalart.png").default}
                     class="on"
@@ -120,7 +116,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
               <li>
                 <a
                   onClick={() =>
-                    navigate("/marketplace", { state: "Trading Card" })
+                    navigate("/marketplace", { state: "Trading Cards" })
                   }
                 >
                   <img
@@ -152,7 +148,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
               <li>
                 <a
                   onClick={() =>
-                    navigate("/marketplace", { state: "Virtual Worlds" })
+                    navigate("/marketplace", { state: "Virtual World" })
                   }
                 >
                   <img

@@ -110,6 +110,7 @@ function Main({ store }) {
     const contWidth = trendingSwiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(8 / itemNumByPage);
+    //Math.ceil;
 
     if (trendingItemIndex > 0) setTrendingItemIndex(trendingItemIndex - 1);
     else setTrendingItemIndex(pageNum - 1);

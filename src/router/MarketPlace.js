@@ -21,44 +21,124 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { generateItems } from "../mokups/items";
+import moment from "moment";
 
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [toggleFilter, setToggleFilter] = useState(false);
-  const [bundleFilter, setBundleFilter] = useState(bundleFilterList[0]);
-  const [categoryFilter, setCategoryFilter] = useState(location?.state);
-  const [sortFilter, setSortFilter] = useState(sortList[0]);
+  const [categoryFilter, setCategoryFilter] = useState("All");
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
+  const [toggleFilter, setToggleFilter] = useState(false);
+  const [itemList, setItemList] = useState([]);
+  const [fromPrice, setFromPrice] = useState(0.0);
+  const [toPrice, setToPrice] = useState(0.0);
+  const [priceFilterToggle, setPriceFilterToggle] = useState(false);
+  const [callEffect, setCallEffect] = useState(false);
+  const [totalItem, setTotalItem] = useState(0);
 
-  function editFilterList(category, cont) {
+  const handleCateFilter = (category) => {
+    setCategoryFilter(category);
+  };
+
+  useEffect(() => {
+    const temp = [...itemList];
+    // categorFilter
+    const categoryFiltered = temp.filter((v) => {
+      if (categoryFilter === "All") {
+        return true;
+      }
+      let toggle = false;
+      v.categorystr.forEach((cate) => {
+        if (cate === categoryFilter) {
+          toggle = true;
+        } else {
+          toggle = false;
+        }
+      });
+      return toggle;
+    });
+    // statusFilter
+    let statusFiltered = [...categoryFiltered];
+    let statusToggle = false;
+    filterList.forEach((filter) => {
+      const index = statusList.findIndex((status) => {
+        return filter === status;
+      });
+      if (index !== -1) {
+        statusToggle = true;
+      }
+    });
+
+    if (statusToggle) {
+      statusFiltered = categoryFiltered.filter((data) => {
+        const statusToStringArr = [];
+        data.status.forEach((stat) => {
+          statusToStringArr.push(statusList[stat]);
+        });
+        const temp = filterList.filter((filter) =>
+          statusToStringArr.includes(filter)
+        );
+        if (temp.length === filterList.length) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }
+    //priceFilter
+    let priceFiltered = [...statusFiltered];
+    if (priceFilterToggle) {
+      priceFiltered = statusFiltered.filter((v) => {
+        if (v.priceusd >= fromPrice && v.priceusd <= toPrice) {
+          return true;
+        }
+        return false;
+      });
+    }
+    setFilteredList(priceFiltered);
+  }, [categoryFilter, itemList, filterList, callEffect]);
+
+  const editFilterList = (category, cont) => {
     let dataObj = filterObj;
     dataObj[category] = cont;
-
     setFilterObj(dataObj);
     setFilterList([...Object.values(dataObj)]);
-  }
+  };
 
-  function onclickFilterReset() {
+  const onclickFilterReset = () => {
     setFilterObj({});
     setFilterList([]);
-  }
+    setPriceFilterToggle(false);
+    setFromPrice(0);
+    setToPrice(0);
+  };
 
-  function onclickFilterCancel(cont) {
+  const onclickFilterCancel = (cont) => {
     let dataObj = filterObj;
 
-    for (var key in dataObj) {
-      if (dataObj.hasOwnProperty(key) && dataObj[key] == cont) {
+    for (let key in dataObj) {
+      if (dataObj.hasOwnProperty(key) && dataObj[key] === cont) {
         delete dataObj[key];
       }
     }
-
     setFilterObj(dataObj);
     setFilterList([...Object.values(dataObj)]);
-  }
+  };
+
+  useEffect(() => {
+    const originItemList = generateItems(60);
+    setItemList(originItemList);
+    setFilteredList(originItemList);
+    setTotalItem(originItemList.length);
+    if (location?.state) {
+      setCategoryFilter(location.state);
+    }
+  }, [location.state]);
 
   return (
     <MarketPlaceBox>
@@ -130,15 +210,35 @@ function MarketPlace({ store, setConnect }) {
                       </select>
                       <div class="price_area">
                         <div class="price_wrap">
-                          <input type="text" placeholder="0.00" />
+                          <input
+                            type="text"
+                            value={fromPrice}
+                            onChange={(e) => {
+                              setFromPrice(e.target.value);
+                            }}
+                          />
                           <span class="usd">USD</span>
                         </div>
                         <div class="price_wrap">
-                          <input type="text" placeholder="0.00" />
+                          <input
+                            type="text"
+                            value={toPrice}
+                            onChange={(e) => {
+                              setToPrice(e.target.value);
+                            }}
+                          />
                           <span class="usd">USD</span>
                         </div>
                       </div>
-                      <a class="slide_btn">Apply</a>
+                      <a
+                        class="slide_btn"
+                        onClick={() => {
+                          setPriceFilterToggle(true);
+                          setCallEffect(!callEffect);
+                        }}
+                      >
+                        Apply
+                      </a>
                     </div>
                   </div>
 
@@ -277,7 +377,9 @@ function MarketPlace({ store, setConnect }) {
                 <div class="real_sec">
                   <div class="slide_s slide2">
                     <div class="fl">
-                      <p class="total">Total 3,880,032</p>
+                      <p class="total">
+                        Total {totalItem.toLocaleString("eu", "US")}
+                      </p>
                     </div>
                     <div class="fr">
                       <div class="select">
@@ -297,35 +399,67 @@ function MarketPlace({ store, setConnect }) {
                       <div class="select metc">
                         <div>{categoryFilter ? categoryFilter : "All"}</div>
                         <ul>
-                          <li onClick={() => setCategoryFilter("")}>
+                          <li
+                            onClick={() => {
+                              handleCateFilter("All");
+                            }}
+                          >
                             <a>All</a>
                           </li>
-                          <li onClick={() => setCategoryFilter("Art")}>
+                          <li
+                            onClick={() => {
+                              handleCateFilter("Art");
+                            }}
+                          >
                             <a>Art</a>
                           </li>
-                          <li onClick={() => setCategoryFilter("Music")}>
+                          <li
+                            onClick={() => {
+                              handleCateFilter("Music");
+                            }}
+                          >
                             <a>Music</a>
                           </li>
                           <li
-                            onClick={() => setCategoryFilter("Virtual World")}
+                            onClick={() => {
+                              handleCateFilter("Virtual World");
+                            }}
                           >
                             <a>Virtual World</a>
                           </li>
                           <li
-                            onClick={() => setCategoryFilter("Trading Cards")}
+                            onClick={() => {
+                              handleCateFilter("Trading Cards");
+                            }}
                           >
                             <a>Trading Cards</a>
                           </li>
-                          <li onClick={() => setCategoryFilter("Collectibles")}>
+                          <li
+                            onClick={() => {
+                              handleCateFilter("Collectibles");
+                            }}
+                          >
                             <a>Collectibles</a>
                           </li>
-                          <li onClick={() => setCategoryFilter("Sports")}>
+                          <li
+                            onClick={() => {
+                              handleCateFilter("Sports");
+                            }}
+                          >
                             <a>Sports</a>
                           </li>
-                          <li onClick={() => setCategoryFilter("Utility")}>
+                          <li
+                            onClick={() => {
+                              handleCateFilter("Utility");
+                            }}
+                          >
                             <a>Utility</a>
                           </li>
-                          <li onClick={() => setCategoryFilter("ETC")}>
+                          <li
+                            onClick={() => {
+                              handleCateFilter("ETC");
+                            }}
+                          >
                             <a>ETC</a>
                           </li>
                         </ul>
@@ -372,7 +506,7 @@ function MarketPlace({ store, setConnect }) {
                           (!categoryFilter || categoryFilter === "All") &&
                           "onnn"
                         }
-                        onClick={() => setCategoryFilter("All")}
+                        onClick={() => handleCateFilter("All")}
                       >
                         All
                       </li>
@@ -381,7 +515,7 @@ function MarketPlace({ store, setConnect }) {
                         <li
                           class={categoryFilter === cont && "onnn"}
                           key={index}
-                          onClick={() => setCategoryFilter(cont)}
+                          onClick={() => handleCateFilter(cont)}
                         >
                           {cont}
                         </li>
@@ -392,7 +526,7 @@ function MarketPlace({ store, setConnect }) {
                   <div class="se_fi">
                     <p class="total">Selected Filter</p>
                     <ul>
-                      <li class="sef" onClick={() => onclickFilterReset}>
+                      <li class="sef" onClick={onclickFilterReset}>
                         Filter reset
                       </li>
                       {filterList.map((cont, index) => (
@@ -410,266 +544,42 @@ function MarketPlace({ store, setConnect }) {
                     <div class="swiper-container">
                       <ol class="item move_li summary summary2">
                         <div>
-                          <span>
-                            <li>
-                              <a
-                                onClick={() => navigate("/singleitem")}
-                                style={{
-                                  backgroundImage: `url(${s5})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              >
-                                <div class="on">
-                                  <ul>
-                                    <li class="heart off">1,389</li>
-                                    <li class="star off"></li>
-                                  </ul>
-                                  <div>Summer Pool</div>
-                                  <span>David</span>
-                                  <ol>
-                                    <li>6 minutes left</li>
-                                    <li>1.67 KLAY</li>
-                                  </ol>
-                                </div>
-                              </a>
-                            </li>
-                          </span>
-                          <span>
-                            <li>
-                              <a
-                                onClick={() => navigate("/singleitem")}
-                                style={{
-                                  backgroundImage: `url(${sample})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              >
-                                <div class="on">
-                                  <ul>
-                                    <li class="heart off">1,389</li>
-                                    <li class="star off"></li>
-                                  </ul>
-                                  <div>Summer Pool</div>
-                                  <span>David</span>
-                                  <ol>
-                                    <li>6 minutes left</li>
-                                    <li>1.67 KLAY</li>
-                                  </ol>
-                                </div>
-                              </a>
-                            </li>
-                          </span>
-                          <span>
-                            <li>
-                              <a
-                                onClick={() => navigate("/singleitem")}
-                                style={{
-                                  backgroundImage: `url(${sample})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              >
-                                <div class="on">
-                                  <ul>
-                                    <li class="heart off">1,389</li>
-                                    <li class="star off"></li>
-                                  </ul>
-                                  <div>Summer Pool</div>
-                                  <span>David</span>
-                                  <ol>
-                                    <li>6 minutes left</li>
-                                    <li>1.67 KLAY</li>
-                                  </ol>
-                                </div>
-                              </a>
-                            </li>
-                          </span>
-                          <span>
-                            <li>
-                              <a
-                                onClick={() => navigate("/singleitem")}
-                                style={{
-                                  backgroundImage: `url(${sample})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              >
-                                <div class="on">
-                                  <ul>
-                                    <li class="heart off">1,389</li>
-                                    <li class="star off"></li>
-                                  </ul>
-                                  <div>Summer Pool</div>
-                                  <span>David</span>
-                                  <ol>
-                                    <li>6 minutes left</li>
-                                    <li>1.67 KLAY</li>
-                                  </ol>
-                                </div>
-                              </a>
-                            </li>
-                          </span>
-                          <span>
-                            <li>
-                              <a
-                                onClick={() => navigate("/singleitem")}
-                                style={{
-                                  backgroundImage: `url(${sample})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              >
-                                <div class="on">
-                                  <ul>
-                                    <li class="heart off">1,389</li>
-                                    <li class="star off"></li>
-                                  </ul>
-                                  <div>Summer Pool</div>
-                                  <span>David</span>
-                                  <ol>
-                                    <li>6 minutes left</li>
-                                    <li>1.67 KLAY</li>
-                                  </ol>
-                                </div>
-                              </a>
-                            </li>
-                          </span>
-                          <span>
-                            <li>
-                              <a
-                                onClick={() => navigate("/singleitem")}
-                                style={{
-                                  backgroundImage: `url(${sample})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              >
-                                <div class="on">
-                                  <ul>
-                                    <li class="heart off">1,389</li>
-                                    <li class="star off"></li>
-                                  </ul>
-                                  <div>Summer Pool</div>
-                                  <span>David</span>
-                                  <ol>
-                                    <li>6 minutes left</li>
-                                    <li>1.67 KLAY</li>
-                                  </ol>
-                                </div>
-                              </a>
-                            </li>
-                          </span>
-                          <span>
-                            <li>
-                              <a
-                                onClick={() => navigate("/singleitem")}
-                                style={{
-                                  backgroundImage: `url(${sample})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              >
-                                <div class="on">
-                                  <ul>
-                                    <li class="heart off">1,389</li>
-                                    <li class="star off"></li>
-                                  </ul>
-                                  <div>Summer Pool</div>
-                                  <span>David</span>
-                                  <ol>
-                                    <li>6 minutes left</li>
-                                    <li>1.67 KLAY</li>
-                                  </ol>
-                                </div>
-                              </a>
-                            </li>
-                          </span>
-                          <span>
-                            <li>
-                              <a
-                                onClick={() => navigate("/singleitem")}
-                                style={{
-                                  backgroundImage: `url(${sample})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              >
-                                <div class="on">
-                                  <ul>
-                                    <li class="heart off">1,389</li>
-                                    <li class="star off"></li>
-                                  </ul>
-                                  <div>Summer Pool</div>
-                                  <span>David</span>
-                                  <ol>
-                                    <li>6 minutes left</li>
-                                    <li>1.67 KLAY</li>
-                                  </ol>
-                                </div>
-                              </a>
-                            </li>
-                          </span>
-                          <span>
-                            <li>
-                              <a
-                                onClick={() => navigate("/singleitem")}
-                                style={{
-                                  backgroundImage: `url(${sample})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              >
-                                <div class="on">
-                                  <ul>
-                                    <li class="heart off">1,389</li>
-                                    <li class="star off"></li>
-                                  </ul>
-                                  <div>Summer Pool</div>
-                                  <span>David</span>
-                                  <ol>
-                                    <li>6 minutes left</li>
-                                    <li>1.67 KLAY</li>
-                                  </ol>
-                                </div>
-                              </a>
-                            </li>
-                          </span>
-                          <span>
-                            <li>
-                              <a
-                                onClick={() => navigate("/singleitem")}
-                                style={{
-                                  backgroundImage: `url(${sample})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              >
-                                <div class="on">
-                                  <ul>
-                                    <li class="heart off">1,389</li>
-                                    <li class="star off"></li>
-                                  </ul>
-                                  <div>Summer Pool</div>
-                                  <span>David</span>
-                                  <ol>
-                                    <li>6 minutes left</li>
-                                    <li>1.67 KLAY</li>
-                                  </ol>
-                                </div>
-                              </a>
-                            </li>
-                          </span>
+                          {filteredList.map((v, i) => {
+                            return (
+                              <span>
+                                <li>
+                                  <a
+                                    onClick={() => navigate("/singleitem")}
+                                    style={{
+                                      //backgroundImage: `url(${v.imgsrc})`,
+                                      backgroundImage: `url(${s5})`,
+                                      backgroundRepeat: "no-repeat",
+                                      backgroundPosition: "center",
+                                      backgroundSize: "cover",
+                                    }}
+                                  >
+                                    <div class="on">
+                                      <ul>
+                                        <li class="heart off">
+                                          {v.countfavors.toLocaleString(
+                                            "eu",
+                                            "US"
+                                          )}
+                                        </li>
+                                        <li class="star off"></li>
+                                      </ul>
+                                      <div>{v.itemid}</div>
+                                      <span>{v.owner}</span>
+                                      <ol>
+                                        <li>{moment(v.createdat).toNow()}</li>
+                                        <li>{v.tokenprice} KLAY</li>
+                                      </ol>
+                                    </div>
+                                  </a>
+                                </li>
+                              </span>
+                            );
+                          })}
                         </div>
                       </ol>
                     </div>
@@ -688,7 +598,6 @@ const MarketPlaceBox = styled.div`
   .cartegoryList {
     display: flex;
     flex-wrap: wrap;
-
     li {
       white-space: nowrap;
     }
@@ -713,7 +622,7 @@ const bundleFilterList = ["Single Item", "All", "Bundle sales"];
 
 const categoryList = [
   "Art",
-  "Musict",
+  "Music",
   "Virtual World",
   "Trading Cards",
   "Collectibles",
