@@ -148,7 +148,7 @@ function MarketPlace({ store, setConnect }) {
             <div class="cw ucl">
               <span class="close" onClick={() => setToggleFilter(true)}>
                 <img src={require("../img/sub/side_close.png").default} />
-                <b class="mclose">
+                <b class="mclose" onClick={() => setToggleFilter(true)}>
                   Filter<span>1</span>
                 </b>
               </span>

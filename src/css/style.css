@@ -1872,11 +1872,13 @@
 
 /* right middle */
 #sub .bundle_box.box3 .bundle_top .bun_tl {
-  width: 48%;
+  flex:1;
+  max-width: 740px;
   margin: 0;
 }
 #sub .bundle_box.box3 .bundle_top .bun_tr {
   width: 48%;
+  max-width: 500px;
   margin: 0;
 }
 #sub .bundle_box .bundle_top .right_m {
@@ -4052,7 +4054,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
     padding-top: 96px;
     border: none;
     overflow: auto;
-    display: none;
+    /* display: none; */
     box-sizing: border-box;
   }
   .move.off .left_move {
@@ -4100,7 +4102,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
     display: block;
   }
   .move .cw.ucl .left_move {
-    display: none;
+    /* display: none; */
   }
   .move.on .cw .close b {
     display: block;

@@ -112,7 +112,7 @@ function MyProf({ store, setConnect }) {
               <div class="cw ucl">
                 <span class="close" onClick={() => setToggleFilter(true)}>
                   <img src={require("../img/sub/side_close.png").default} />
-                  <b class="mclose">
+                  <b class="mclose" onClick={() => setToggleFilter(true)}>
                     Filter<span>1</span>
                   </b>
                 </span>
@@ -751,12 +751,14 @@ function MyProf({ store, setConnect }) {
                       ></li>
                     </ul>
                   </div>
-                  <div class="click_btn">
-                    <a>Cancel</a>
-                    <a class="sell">
-                      Sell<span>2</span>
-                    </a>
-                  </div>
+                  {selectItemIndex !== -1 && (
+                    <div class="click_btn">
+                      <a>Cancel</a>
+                      <a class="sell">
+                        Sell<span>2</span>
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
