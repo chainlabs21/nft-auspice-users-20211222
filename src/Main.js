@@ -1076,7 +1076,9 @@ function Main({ store }) {
               </ul>
             </div>
             <div>
-              <address>Copyright © 2021 Itemverse. All rights reserved.</address>
+              <address>
+                Copyright © 2021 Itemverse. All rights reserved.
+              </address>
             </div>
           </div>
         </div>
@@ -1133,7 +1135,6 @@ const IndexBox = styled.div`
       .wrap {
         .swiper {
           .swiper-container {
-            width: 100%;
             .swiper-wrapper {
               width: 100%;
               .slideListBox {
