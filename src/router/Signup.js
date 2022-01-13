@@ -18,6 +18,10 @@ import "../css/footer.css";
 import "../css/swiper.min.css";
 
 import { useEffect, useRef, useState } from "react";
+import { encodeBase64ImageFile, getuseraddress } from "../util/common";
+import { ERR_MSG } from "../config/messages";
+import axios from "axios";
+import { API } from "../config/api";
 
 function Signup({ store, setConnect }) {
   const navigate = useNavigate();
@@ -30,15 +34,18 @@ function Signup({ store, setConnect }) {
   const [username, setUsername] = useState("");
   const [usernameChk, setUsernameChk] = useState(false);
   const [usernameAlarm, setUsernameAlarm] = useState("");
-
-  const [adress, setAdress] = useState("");
-
+  const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [emailChk, setEmailChk] = useState(false);
   const [emailAlarm, setEmailAlarm] = useState("");
+  const [imgFile, setImgFile] = useState();
+  const [ageCheck, setAgeCheck] = useState(false);
+  const [subCheck, setSubCheck] = useState(false);
+  const [infoCheck, setInfoCheck] = useState(false);
 
   function onchangePhoto(file) {
     let reader = new FileReader();
+    setImgFile(file);
     reader.readAsDataURL(file);
     setPhotoName(file.name);
 
@@ -47,6 +54,62 @@ function Signup({ store, setConnect }) {
     };
   }
 
+  const handleSignup = () => {
+    const asyncSignup = async () => {
+      const regData = {
+        username: username,
+        address: address,
+        email: email,
+        imagebase64: "",
+        imagefilename: "",
+      };
+      if (imgFile) {
+        const imagebase64 = await encodeBase64ImageFile(imgFile);
+        regData.imagebase64 = imagebase64;
+        regData.imagefilename = imgFile.name;
+      }
+      try {
+        const resp = await axios.post(API.API_USER_JOIN, regData);
+        console.log(resp);
+        if (resp.data.status === "OK") {
+          navigate("/sentemaildetail");
+        } else {
+          // 서버 전송실패 예외처리
+          if (resp.data.message === "DATA-DUPLICATE") {
+            switch (resp.data.reason) {
+              case "address":
+                alert(ERR_MSG.ERR_DUPLICATE_ADDRESS);
+                break;
+              case "email":
+                alert(ERR_MSG.ERR_DUPLICATE_EMAIL);
+                break;
+              default:
+                alert(ERR_MSG.ERR_SERVER_STATUS);
+            }
+          } else {
+            alert(ERR_MSG.ERR_SERVER_STATUS);
+          }
+          return;
+        }
+      } catch (error) {
+        alert(ERR_MSG.ERR_AXIOS_REQUEST, error);
+      }
+    };
+
+    if (!usernameChk) {
+      alert(ERR_MSG.ERR_REG_USERNAME);
+      return;
+    }
+    if (!emailChk) {
+      alert(ERR_MSG.ERR_REG_EMAIL);
+      return;
+    }
+    if (!infoCheck || !ageCheck || !subCheck) {
+      alert(ERR_MSG.ERR_REG_AGREE);
+      return;
+    }
+    asyncSignup();
+  };
   useEffect(() => {
     if (username.length < 5 || username.length > 20) {
       setUsernameChk(false);
@@ -54,6 +117,7 @@ function Signup({ store, setConnect }) {
       return;
     }
 
+    /*
     const regUsername = /^[가~힣a~zA~z\-\_\,]+$/;
 
     if (!regUsername.test(username)) {
@@ -63,6 +127,7 @@ function Signup({ store, setConnect }) {
       );
       return;
     }
+	*/
 
     setUsernameChk(true);
   }, [username]);
@@ -79,6 +144,22 @@ function Signup({ store, setConnect }) {
 
     setEmailChk(true);
   }, [email]);
+
+  useEffect(() => {
+    const getAddress = () => {
+      const userAddress = getuseraddress();
+
+      // address 없을경우
+      if (userAddress === null) {
+        alert(ERR_MSG.ERR_NO_ADDRESS);
+        navigate("/");
+        return;
+      } else {
+        setAddress(userAddress);
+      }
+    };
+    setTimeout(getAddress, 500);
+  }, []);
 
   return (
     <SignPopupBox style={{ height: boxRef.current?.offsetHeight * 1.2 }}>
@@ -133,11 +214,21 @@ function Signup({ store, setConnect }) {
                   <textarea
                     type="text"
                     value={username}
+                    style={
+                      !usernameChk
+                        ? { border: "1px solid red", overflow: "hidden" }
+                        : {}
+                    }
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Less than 5-20 characters, only Korean, English uppercase and lowercase letters, and special characters (- , _) are allowed."
                   ></textarea>
-                  <span>Usernames that can be used</span>
-                  <span class="red">
+                  <span style={!usernameChk ? { display: "none" } : {}}>
+                    Usernames that can be used
+                  </span>
+                  <span
+                    class="red"
+                    style={usernameChk ? { display: "none" } : {}}
+                  >
                     Invalid nickname. It must be less than 20 characters.
                   </span>
                 </div>
@@ -145,8 +236,8 @@ function Signup({ store, setConnect }) {
                   <h3>Wallet adress</h3>
                   <input
                     type="text"
-                    value={adress}
-                    onChange={(e) => setAdress(e.target.value)}
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
                     placeholder="Please enter your wallet address"
                   />
                 </div>
@@ -157,20 +248,41 @@ function Signup({ store, setConnect }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Please enter your email address"
+                    style={!emailChk ? { border: "1px solid red" } : {}}
                   />
-                  <span>A valid email address.</span>
-                  <span class="red">This is an invalid email address.</span>
+                  <span style={!emailChk ? { display: "none" } : {}}>
+                    A valid email address.
+                  </span>
+                  <span class="red" style={emailChk ? { display: "none" } : {}}>
+                    This is an invalid email address.
+                  </span>
                 </div>
                 <div class="check">
                   <ul>
                     <li>
-                      <input type="checkbox" name="" id="agree" />
+                      <input
+                        type="checkbox"
+                        name=""
+                        id="agree"
+                        checked={ageCheck}
+                        onChange={(e) => {
+                          setAgeCheck(e.target.checked);
+                        }}
+                      />
                       <label for="agree">
                         <h4>19 years of age or older (required)</h4>
                       </label>
                     </li>
                     <li>
-                      <input type="checkbox" name="" id="agree2" />
+                      <input
+                        type="checkbox"
+                        name=""
+                        id="agree2"
+                        checked={subCheck}
+                        onChange={(e) => {
+                          setSubCheck(e.target.checked);
+                        }}
+                      />
                       <label for="agree2">
                         <h4>
                           Subscribe <a>Terms of Service</a> (required)
@@ -178,7 +290,15 @@ function Signup({ store, setConnect }) {
                       </label>
                     </li>
                     <li>
-                      <input type="checkbox" name="" id="agree3" />
+                      <input
+                        type="checkbox"
+                        name=""
+                        id="agree3"
+                        checked={infoCheck}
+                        onChange={(e) => {
+                          setInfoCheck(e.target.checked);
+                        }}
+                      />
                       <label for="agree3">
                         <h4>
                           <a>
@@ -198,7 +318,7 @@ function Signup({ store, setConnect }) {
                     <a onClick={() => navigate("/")}>Cancel</a>
                   </li>
                   <li>
-                    <a onClick={() => navigate("/sentemaildetail")}>Sign Up</a>
+                    <a onClick={handleSignup}>Sign Up</a>
                   </li>
                 </ul>
               </div>

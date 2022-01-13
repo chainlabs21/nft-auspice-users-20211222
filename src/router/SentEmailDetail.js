@@ -13,13 +13,39 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import axios from "axios";
+import { ERR_MSG } from "../config/messages";
+import { API } from "../config/api";
+import { getuseraddress } from "../util/common";
+import { useSelector } from "react-redux";
 
 function SentEmailDetail({ store, setConnect }) {
   const navigate = useNavigate();
+  const { userData } = useSelector((state) => state.user);
 
   function onClickResend() {
     window.location.reload();
   }
+
+  const handleSendEmail = () => {
+    const useraddress = getuseraddress();
+    const asyncSendEmail = async () => {
+      if (useraddress === null) {
+        alert(ERR_MSG.ERR_NO_ADDRESS);
+        return;
+      }
+      try {
+        const resp = await axios.get(
+          API.API_VERIFY_EMAIL_SEND + `/${userData.maria.email}/${useraddress}`
+        );
+        console.log(resp);
+      } catch (error) {
+        alert(ERR_MSG.ERR_AXIOS_REQUEST);
+      }
+    };
+    // navigate("/resent")
+    asyncSendEmail();
+  };
 
   return (
     <SentEmailDetailBox>
@@ -72,7 +98,7 @@ function SentEmailDetail({ store, setConnect }) {
               <div class="btn one">
                 <ul>
                   <li>
-                    <a onClick={onClickResend}>Resend Email</a>
+                    <a onClick={handleSendEmail}>Resend Email</a>
                   </li>
                 </ul>
               </div>

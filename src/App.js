@@ -51,6 +51,7 @@ import Liked from "./router/Liked";
 import HiddenItem from "./router/HiddenItem";
 import Referals from "./router/Referals";
 import Mywallet from "./router/Mywallet";
+import VerifyEmail from "./router/VerifyEmail";
 // import Profile17 from "./router/Profile17";
 // import LogOut from "./router/LogOut";
 import GeneralSettings from "./router/GeneralSettings";
@@ -99,6 +100,7 @@ function App({ store, setHref, setConnect }) {
           <Route path="/connectwallet" element={<ConnectWallet />} />
           <Route path="/emailrequired" element={<EmailRequired />} />
           <Route path="/sentemail" element={<SentEmail />} />
+          <Route path="/verifyemail" element={<VerifyEmail />} />
           <Route path="/joinmembership" element={<JoinMemberShip />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/emailfailed" element={<EmailFailed />} />
@@ -183,7 +185,7 @@ const AppBox = styled.div`
         border: solid 2px #d9d9d9;
         border-radius: 50%;
 
-        span{
+        span {
           width: 8px;
           height: 8px;
           background: #fff;

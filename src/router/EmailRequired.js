@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
@@ -13,9 +13,33 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { API } from "../config/api";
+import axios from "axios";
+import { getuseraddress } from "../util/common";
+import { ERR_MSG } from "../config/messages";
 
 function EmailRequired({ store }) {
+  const { userData } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const useraddress = getuseraddress();
+  const handleSendEmail = () => {
+    const asyncSendEmail = async () => {
+      if (useraddress === null) {
+        alert(ERR_MSG.ERR_NO_ADDRESS);
+        return;
+      }
+      try {
+        const resp = await axios.get(
+          API.API_VERIFY_EMAIL_SEND + `/${userData.maria.email}/${useraddress}`
+        );
+        console.log(resp);
+      } catch (error) {
+        alert(ERR_MSG.ERR_AXIOS_REQUEST);
+      }
+    };
+    // navigate("/resent")
+    asyncSendEmail();
+  };
 
   return (
     <SignPopupBox>
@@ -32,7 +56,7 @@ function EmailRequired({ store }) {
                   <a onClick={() => navigate(-1)}>Cancel</a>
                 </li>
                 <li>
-                  <a onClick={() => navigate("/resent")}>Send Email</a>
+                  <a onClick={handleSendEmail}>Send Email</a>
                 </li>
               </ul>
             </div>

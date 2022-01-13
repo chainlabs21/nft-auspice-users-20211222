@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
@@ -15,14 +15,59 @@ import I_klaytn from "../img/sub/I_klaytn.svg";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { API } from "../config/api";
+import { ERR_MSG } from "../config/messages";
+import axios from "axios";
+import { GET_USER_DATA } from "../reducers/userSlice";
+import { useEffect } from "react";
 
-function ConnectWallet({ store, setConnect }) {
+function ConnectWallet() {
   const navigate = useNavigate();
+  const { userData } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const getUserInfo = async () => {
+    try {
+      const resp = await axios.get(API.API_GET_USER_INFO);
+      dispatch({ type: GET_USER_DATA.type, payload: resp.data.payload });
+
+      if (userData.maria.emailverified === 0) {
+        navigate("/emailrequired");
+      } else {
+        navigate(-1);
+      }
+    } catch (error) {
+      alert(ERR_MSG.ERR_AXIOS_REQUEST);
+      console.log(error);
+    }
+  };
 
   async function connectKaikas() {
     const accounts = await window.klaytn.enable();
     setConnect(accounts[0]);
+    const loginData = {
+      address: accounts[0],
+      cryptotype: "eth",
+    };
+
+    try {
+      const resp = await axios.post(API.API_USERS_LOGIN, loginData);
+      console.log(resp);
+      if (resp.data.respdata) {
+        localStorage.setItem("token", resp.data.respdata);
+        axios.defaults.headers.common["token"] = resp.data.respdata;
+        getUserInfo();
+      }
+
+      /*	
+	//	계정 생성
+	if(resp.data.status)
     navigate("/joinmembership");
+	*/
+    } catch (error) {
+      alert(ERR_MSG.ERR_AXIOS_REQUEST);
+      console.log(error);
+    }
   }
 
   return (

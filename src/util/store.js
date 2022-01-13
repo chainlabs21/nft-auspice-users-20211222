@@ -4,9 +4,9 @@ const store = createSlice({
   name: "storeReducer",
   initialState: {
     walletAddress: "",
-
     mHeaderPopup: false,
   },
+
   reducers: {
     setAllPopupOff: (state, action) => {
       return {
