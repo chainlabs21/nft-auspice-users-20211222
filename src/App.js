@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import Main from "./Main";
@@ -65,8 +65,85 @@ import SentEmailDetail from "./router/SentEmailDetail";
 import SelectItem from "./router/SelectItem";
 import LogOut from "./router/LogOut";
 import MaccountPopup from "./components/MaccountPopup";
+import { useEffect } from "react";
+import axios from "axios";
+import SetErrorBar from "./util/SetErrorBar";
+import { API } from "./config/api";
+import { MSG } from "./config/messages";
+import { SET_ADDRESS } from "./reducers/walletSlice";
+import { GET_USER_DATA } from "./reducers/userSlice";
 
 function App({ store, setHref, setConnect }) {
+  const dispatch = useDispatch();
+  const { userData } = useSelector((state) => state.user);
+
+  const on_wallet_disconnect = (_) => {
+    let token_sec = localStorage.getItem("token");
+    axios.defaults.headers.get.token = token_sec;
+    axios.defaults.headers.post.token = token_sec;
+    axios.post(API.API_LOGOUT).then((resp) => {
+      let { status } = resp.data;
+      if (status === "OK") {
+        axios.defaults.headers.common["token"] = "";
+        localStorage.removeItem("token");
+      }
+    });
+  };
+
+  const get_user_data = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        axios.defaults.headers.common["token"] = token;
+        console.log("default Token:", token);
+        const resp = await axios.get(API.API_GET_USER_INFO);
+        dispatch({ type: GET_USER_DATA.type, payload: resp.data });
+        console.log("login");
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      return;
+    }
+  };
+
+  useEffect(() => {
+    window.klaytn.on("accountsChanged", (accounts) => {
+      console.log(accounts);
+      if (accounts[0]) {
+        dispatch({ type: SET_ADDRESS.type, payload: accounts[0] });
+        let address = accounts[0];
+        axios
+          .post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
+          .then((resp) => {
+            let { status, respdata } = resp.data;
+            if (status === "OK") {
+              localStorage.setItem("token", respdata);
+              axios.defaults.headers.common["token"] = resp.data.respdata;
+            } else if (status === "ERR") {
+              localStorage.removeItem("token");
+              axios.defaults.headers.common["token"] = "";
+            }
+          });
+      } else {
+        SetErrorBar(MSG.MSG_WALLET_DISCONNECTED);
+        on_wallet_disconnect();
+      }
+    });
+  }, [window.klaytn]);
+
+  useEffect(() => {
+    if (window.klaytn.selectedAddress) {
+      dispatch({
+        type: SET_ADDRESS.type,
+        payload: window.klaytn.selectedAddress,
+      });
+      if (userData === null) {
+        get_user_data();
+      }
+    }
+  }, []);
+
   return (
     <AppBox
       className="appBox"

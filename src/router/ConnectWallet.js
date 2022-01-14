@@ -11,7 +11,6 @@ import I_klaytn from "../img/sub/I_klaytn.svg";
 
 // import "./css/style01.css";
 // import "./css/style02.css";
-
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
@@ -19,7 +18,9 @@ import { API } from "../config/api";
 import { ERR_MSG } from "../config/messages";
 import axios from "axios";
 import { GET_USER_DATA } from "../reducers/userSlice";
+import { SET_ADDRESS } from "../reducers/walletSlice";
 import { useEffect } from "react";
+import SetErrorBar from "../util/SetErrorBar";
 
 function ConnectWallet() {
   const navigate = useNavigate();
@@ -29,21 +30,25 @@ function ConnectWallet() {
   const getUserInfo = async () => {
     try {
       const resp = await axios.get(API.API_GET_USER_INFO);
-      dispatch({ type: GET_USER_DATA.type, payload: resp.data.payload });
+      dispatch({
+        type: GET_USER_DATA.type,
+        payload: resp.data.payload,
+      });
 
-      if (userData.maria.emailverified === 0) {
+      if (resp.data.payload.maria.emailverified === 0) {
         navigate("/emailrequired");
       } else {
         navigate(-1);
       }
     } catch (error) {
-      alert(ERR_MSG.ERR_AXIOS_REQUEST);
+      SetErrorBar(ERR_MSG.ERR_AXIOS_REQUEST);
       console.log(error);
     }
   };
 
   async function connectKaikas() {
     const accounts = await window.klaytn.enable();
+    dispatch({ type: SET_ADDRESS.type, payload: accounts[0] });
     setConnect(accounts[0]);
     const loginData = {
       address: accounts[0],
@@ -52,20 +57,22 @@ function ConnectWallet() {
 
     try {
       const resp = await axios.post(API.API_USERS_LOGIN, loginData);
-      console.log(resp);
-      if (resp.data.respdata) {
+      if (resp.data.status === "OK" && resp.data.respdata) {
         localStorage.setItem("token", resp.data.respdata);
         axios.defaults.headers.common["token"] = resp.data.respdata;
         getUserInfo();
+      } else if (resp.data.status === "ERR") {
+        switch (resp.data.message) {
+          case "NOT-FOUND":
+            navigate("/joinmembership");
+            break;
+          default:
+            SetErrorBar(ERR_MSG.ERR_AXIOS_REQUEST);
+            console.log(resp.data.message);
+        }
       }
-
-      /*	
-	//	계정 생성
-	if(resp.data.status)
-    navigate("/joinmembership");
-	*/
     } catch (error) {
-      alert(ERR_MSG.ERR_AXIOS_REQUEST);
+      SetErrorBar(ERR_MSG.ERR_AXIOS_REQUEST);
       console.log(error);
     }
   }
@@ -131,14 +138,4 @@ const SignPopupBox = styled.div`
   }
 `;
 
-function mapStateToProps(state) {
-  return { store: state };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    setConnect: (walletAddress) => dispatch(setConnect(walletAddress)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ConnectWallet);
+export default ConnectWallet;

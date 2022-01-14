@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
@@ -42,7 +42,7 @@ function Signup({ store, setConnect }) {
   const [ageCheck, setAgeCheck] = useState(false);
   const [subCheck, setSubCheck] = useState(false);
   const [infoCheck, setInfoCheck] = useState(false);
-
+  const userAddress = useSelector((state) => state.wallet.address);
   function onchangePhoto(file) {
     let reader = new FileReader();
     setImgFile(file);
@@ -69,6 +69,7 @@ function Signup({ store, setConnect }) {
         regData.imagefilename = imgFile.name;
       }
       try {
+        console.log(regData);
         const resp = await axios.post(API.API_USER_JOIN, regData);
         console.log(resp);
         if (resp.data.status === "OK") {
@@ -92,7 +93,8 @@ function Signup({ store, setConnect }) {
           return;
         }
       } catch (error) {
-        alert(ERR_MSG.ERR_AXIOS_REQUEST, error);
+        console.log(error);
+        alert(ERR_MSG.ERR_AXIOS_REQUEST);
       }
     };
 
@@ -146,20 +148,15 @@ function Signup({ store, setConnect }) {
   }, [email]);
 
   useEffect(() => {
-    const getAddress = () => {
-      const userAddress = getuseraddress();
-
-      // address 없을경우
-      if (userAddress === null) {
-        alert(ERR_MSG.ERR_NO_ADDRESS);
-        navigate("/");
-        return;
-      } else {
-        setAddress(userAddress);
-      }
-    };
-    setTimeout(getAddress, 500);
-  }, []);
+    // address 없을경우
+    if (userAddress === null) {
+      alert(ERR_MSG.ERR_NO_ADDRESS);
+      navigate("/");
+      return;
+    } else {
+      setAddress(userAddress);
+    }
+  }, [userAddress]);
 
   return (
     <SignPopupBox style={{ height: boxRef.current?.offsetHeight * 1.2 }}>
@@ -239,6 +236,7 @@ function Signup({ store, setConnect }) {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder="Please enter your wallet address"
+                    disabled
                   />
                 </div>
                 <div class="email join">

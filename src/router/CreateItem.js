@@ -22,12 +22,38 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { encodeBase64File } from "../util/common";
+import SetErrorBar from "../util/SetErrorBar";
+import { ERR_MSG } from "../config/messages";
+import axios from "axios";
+import { API } from "../config/api";
+import { useSelector } from "react-redux";
+import moment from "moment";
+import { signOrderData } from "../util/verifySig";
+import { generateRandomString } from "../util/Util";
+
+const kiloBytes = 1024;
+const megaBytes = 1024 * kiloBytes;
 
 function CreateItem({ store, setConnect }) {
   const navigate = useNavigate();
+  const userAddress = useSelector((state) => state.wallet.address);
 
   const [item, setItem] = useState("");
+  const [nameChk, setNameChk] = useState(false);
+  const [fileChk, setFileChk] = useState(false);
+  const [unlocked, setUnlocked] = useState(false);
+  const [unlockedContent, setUnlockedContent] = useState("");
+  const [numCopies, setNumCopies] = useState(1);
+  const [freezing, setFreezing] = useState(false);
+  const [activePubl, setActivePubl] = useState(false);
+  const [name, setName] = useState("");
+  const [desc, setDesc] = useState("");
+  const [royal, setRoyal] = useState(0);
+  const [curCategory, setCurCategory] = useState("");
+  const [fileResp, setFileResp] = useState({});
+  const [categories, setCategories] = useState([]);
 
   function onChangeItem(file) {
     let reader = new FileReader();
@@ -37,6 +63,129 @@ function CreateItem({ store, setConnect }) {
       setItem(reader.result);
     };
   }
+  const fileUpload = async (file) => {
+    if (file && file.size > 0) {
+      setFileChk(true);
+      try {
+        // file size < 4mb
+        if (file.size < 4 * megaBytes) {
+          const base64 = await encodeBase64File(file);
+          const base64Data = {
+            datainbase64: base64,
+            filename: file.name,
+          };
+          const resp = await axios.post(API.API_ITEM_UPLOAD_BASE64, base64Data);
+          console.log(resp.data);
+          setFileResp(resp.data);
+        } else {
+          let formData = new FormData();
+          formData.append("file", file);
+          formData.append("filename", file.name);
+          const resp = await axios.post(API.API_ITEM_UPLOAD_OVER, formData);
+          setFileResp(resp.data);
+        }
+      } catch (error) {
+        SetErrorBar(ERR_MSG.ERR_FILE_UPLOAD_FAILED);
+        console.log(error);
+      }
+    }
+  };
+  const handleCreateItem = () => {
+    const asyncCreateItem = async () => {
+      try {
+        const metaData = {
+          title: name,
+          description: desc,
+          address: userAddress,
+          originator: userAddress,
+          category: curCategory,
+          authorroyalty: (royal * 10000).toFixed(0),
+          url: fileResp.payload.url,
+          datahash: fileResp.respdata.hexid,
+          timestamp: moment().format(),
+          unixtime: moment().unix(),
+          unlockcontent: unlocked === true ? 1 : 0,
+          unlockedcontent: unlockedContent,
+          countcopies: numCopies,
+          freezemetadata: freezing === true ? 1 : 0,
+        };
+        const metaResp = await axios.post(
+          API.API_ITEM_SAVE_META + `/${fileResp.respdata}`,
+          metaData
+        );
+        const metaResult = metaResp.data;
+        const orderData = {
+          originator: userAddress,
+          numCopies: numCopies,
+        };
+        const signatureObject = await signOrderData(orderData);
+
+        if (activePubl) {
+          // TODO
+          const mokupRndTxHash = "0x" + generateRandomString(63);
+          const mokupRndContract = "0x" + generateRandomString(40);
+          const mokupRndPaymeans = "0x" + generateRandomString(40);
+          const body = {
+            url: fileResp.payload.url,
+            price: 0,
+            titlename: name,
+            description: desc,
+            keywords: "",
+            priceunit: "KLAY",
+            metadataurl: metaResult.payload.url,
+            contract: mokupRndContract.trim(),
+            nettype: "klaytn-testnet",
+            paymeans: mokupRndPaymeans.trim(),
+            expiry: 1644791196,
+            expirychar: moment().format(),
+            categorystr: curCategory,
+            originatorfeeinbp: 500,
+          };
+
+          const resp = await axios.post(
+            API.API_MINT_TX_REPORT +
+              `/${fileResp.respdata}/${mokupRndTxHash.trim()}/${userAddress}`,
+            body
+          );
+
+          console.log(resp);
+        } else {
+          //lazy
+        }
+        //
+        //navigate("/salefixed")
+      } catch (error) {
+        SetErrorBar(ERR_MSG.ERR_CREATE_ITEM_FAILED);
+        console.log(error);
+      }
+    };
+    if (nameChk && fileChk) {
+      asyncCreateItem();
+    } else {
+      SetErrorBar(ERR_MSG.ERR_PLEASE_COMPLETE_REQUIRE);
+    }
+  };
+  useEffect(() => {
+    if (name.length > 0) {
+      setNameChk(true);
+    } else {
+      setNameChk(false);
+    }
+  }, [name]);
+  useEffect(() => {
+    const asyncGetCategories = async () => {
+      try {
+        const resp = await axios.get(API.API_GET_ITEM_CATEGORIES);
+        console.log(resp);
+        setCategories(resp.data.list);
+        setCurCategory(resp.data.list[0].category);
+      } catch (error) {
+        alert(ERR_MSG.ERR_CANNOT_GET_CATEGORIES);
+        console.log(error);
+      }
+    };
+    asyncGetCategories();
+  }, []);
 
   return (
     <SignPopupBox>
@@ -73,9 +222,10 @@ function CreateItem({ store, setConnect }) {
                                 type="file"
                                 name
                                 id="file"
-                                onChange={(e) =>
-                                  onChangeItem(e.target.files[0])
-                                }
+                                onChange={(e) => {
+                                  onChangeItem(e.target.files[0]);
+                                  fileUpload(e.target.files[0]);
+                                }}
                               />
 
                               <label
@@ -101,6 +251,31 @@ function CreateItem({ store, setConnect }) {
                           </div>
                         </li>
                         <li>
+                          <h3>Category</h3>
+                          <p>You can easily search by selecting a category.</p>
+                          <div class="cat">
+                            <ul>
+                              {categories.map((cate) => (
+                                <li
+                                  onClick={() => {
+                                    setCurCategory(cate.category);
+                                  }}
+                                  style={
+                                    curCategory === cate.category
+                                      ? {
+                                          backgroundColor: "black",
+                                          color: "white",
+                                        }
+                                      : {}
+                                  }
+                                >
+                                  <span>{cate.category}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </li>
+                        <li>
                           <h3>
                             Name{" "}
                             <img
@@ -110,8 +285,12 @@ function CreateItem({ store, setConnect }) {
                           </h3>
                           <div class="inputbox">
                             <input
+                              value={name}
                               type="text"
                               placeholder="Example: A item of atmospheric night view photos"
+                              onChange={(e) => {
+                                setName(e.target.value);
+                              }}
                             />
                           </div>
                         </li>
@@ -125,6 +304,10 @@ function CreateItem({ store, setConnect }) {
                             <div class="txt">
                               <textarea
                                 type="text"
+                                value={desc}
+                                onChange={(e) => {
+                                  setDesc(e.target.value);
+                                }}
                                 placeholder="Example: I took a picture of the night sky centered on the constellations and a night view of the city."
                               ></textarea>
                             </div>
@@ -134,7 +317,15 @@ function CreateItem({ store, setConnect }) {
                           <div class="top2">
                             <h3>Unlocked content</h3>
                             <div class="toggle">
-                              <input type="checkbox" name="" id="toggle" />
+                              <input
+                                type="checkbox"
+                                checked={unlocked}
+                                onChange={(e) => {
+                                  setUnlocked(e.target.checked);
+                                }}
+                                name=""
+                                id="toggle"
+                              />
                               <label for="toggle"></label>
                             </div>
                           </div>
@@ -152,6 +343,10 @@ function CreateItem({ store, setConnect }) {
                             <div class="txt">
                               <textarea
                                 type="text"
+                                value={unlockedContent}
+                                onChange={(e) => {
+                                  setUnlockedContent(e.target.value);
+                                }}
                                 placeholder="Reveal codes, links, access keys, contact information, etc. to be redeemed only to the item owner"
                               ></textarea>
                             </div>
@@ -171,6 +366,10 @@ function CreateItem({ store, setConnect }) {
                               type="text"
                               placeholder=""
                               onkeydown="onlyNumber(this)"
+                              value={numCopies}
+                              onChange={(e) => {
+                                setNumCopies(e.target.value);
+                              }}
                             />
                           </div>
                         </li>
@@ -178,7 +377,15 @@ function CreateItem({ store, setConnect }) {
                           <div class="top2">
                             <h3>Freezing metadata</h3>
                             <div class="toggle">
-                              <input type="checkbox" name="" id="toggle2" />
+                              <input
+                                type="checkbox"
+                                name=""
+                                id="toggle2"
+                                checked={freezing}
+                                onChange={(e) => {
+                                  setFreezing(e.target.checked);
+                                }}
+                              />
                               <label for="toggle2"></label>
                             </div>
                           </div>
@@ -189,13 +396,66 @@ function CreateItem({ store, setConnect }) {
                             Once selected, it cannot be edited or removed.
                           </p>
                         </li>
+                        <li>
+                          <div class="top2">
+                            <h3>Active Publish</h3>
+                            <div class="toggle">
+                              <input
+                                type="checkbox"
+                                name=""
+                                id="toggle3"
+                                checked={activePubl}
+                                onChange={(e) => {
+                                  setActivePubl(e.target.checked);
+                                }}
+                              />
+                              <label for="toggle3"></label>
+                            </div>
+                          </div>
+                          <p>
+                            Determine whether active publishing is possible.
+                            <br />
+                            The default is Lazy publishing, and additional
+                            charges may be incurred if you do actvie publishing.
+                          </p>
+                        </li>
+                        <li>
+                          <div class="top2">
+                            <h3>Royalty setting</h3>
+                            <p>
+                              Each time an item is resold, you can receive a
+                              certain
+                              <br class="m" /> amount of commission. (up to 20%)
+                              <br class="pc" />
+                              If not set, it is set to 0%.
+                            </p>
+                            <div class="inputbox number percent">
+                              <input
+                                type="text"
+                                placeholder=""
+                                onkeydown="onlyNumber(this)"
+                                value={royal}
+                                onChange={(e) => {
+                                  let value = e.target.value;
+                                  if (value > 20) {
+                                    value = 20;
+                                  } else if (value < 0) {
+                                    value = 0;
+                                  }
+                                  setRoyal(value);
+                                }}
+                              />
+                              <span>%</span>
+                            </div>
+                          </div>
+                        </li>
                       </ul>
                     </div>
                   </form>
                 </div>
               </div>
               <div class="create_btn">
-                <a onClick={() => navigate('/salefixed')}>Create Item</a>
+                <a onClick={handleCreateItem}>Create Item</a>
               </div>
             </div>
           </div>
@@ -207,14 +467,4 @@ function CreateItem({ store, setConnect }) {
 
 const SignPopupBox = styled.div``;
 
-function mapStateToProps(state) {
-  return { store: state };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    setConnect: () => dispatch(setConnect()),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateItem);
+export default CreateItem;

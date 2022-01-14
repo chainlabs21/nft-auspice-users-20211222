@@ -1,7 +1,8 @@
-import I_chkWhite from "../img/icon/I_chkWhite.svg";
-import I_xWhite from "../img/icon/I_xWhite.svg";
+import I_chkWhite from "../img/icons/I_chkWhite.svg";
+import I_xWhite from "../img/icons/I_xWhite.svg";
 
 export default function SetErrorBar(str = "copied", type = "pc") {
+  /*
   if (document.getElementsByClassName("errBar")[0]) return;
 
   let errBar = document.createElement("div");
@@ -10,12 +11,12 @@ export default function SetErrorBar(str = "copied", type = "pc") {
   if (type === "mobile") errBar.style.width = "91.2vw";
   errBar.style.height = "48px";
   if (type === "mobile") errBar.style.height = "12vw";
-  
+
   errBar.style.background = "rgba(0,0,0,0.7)";
   errBar.style.color = "#fff";
   errBar.style.display = "flex";
   errBar.style.justifyContent = "space-between";
-  errBar.style.zIndex = "7";
+  errBar.style.zIndex = "100";
 
   let leftBox = document.createElement("span");
   leftBox.style.display = "flex";
@@ -71,11 +72,11 @@ export default function SetErrorBar(str = "copied", type = "pc") {
 
   let errBarApear;
 
-    errBarApear = errBar.animate([{ transform: "translate(-50%,98px)" }], {
-      duration: 400,
-      fill: "forwards",
-      easing: "ease-in-out",
-    });
+  errBarApear = errBar.animate([{ transform: "translate(-50%,98px)" }], {
+    duration: 400,
+    fill: "forwards",
+    easing: "ease-in-out",
+  });
 
   if (type === "mobile")
     errBarApear = errBar.animate([{ transform: "translate(-50%,78px)" }], {
@@ -111,4 +112,6 @@ export default function SetErrorBar(str = "copied", type = "pc") {
   });
 
   document.body.append(errBar);
+  */
+  alert(str);
 }

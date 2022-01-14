@@ -5,4 +5,10 @@ export const API = {
   API_USERS_LOGIN: `${apiServer}/users/login/crypto`,
   API_GET_USER_INFO: `${apiServer}/my/info`,
   API_VERIFY_EMAIL_SEND: `${apiServer}/users/email/verifycode`,
+  API_LOGOUT: `${apiServer}/users/logout`,
+  API_ITEM_UPLOAD_BASE64: `${apiServer}/mint/store/base64`,
+  API_ITEM_UPLOAD_OVER: `${apiServer}/mint/store/file`,
+  API_ITEM_SAVE_META: `${apiServer}/mint/metadata`,
+  API_MINT_TX_REPORT: `${apiServer}/mint/report/mint`,
+  API_GET_ITEM_CATEGORIES: `${apiServer}/queries/categories`,
 };
