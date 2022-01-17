@@ -3330,7 +3330,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   width: 100%;
   border-bottom: 1px solid #d9d9d9;
   box-sizing: border-box;
-  padding: 20px 30px;
+  padding: 20px;
 }
 .move .left_move .filter .filt {
   font-size: 22px;
@@ -3342,7 +3342,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 .move .left_move .filter .fc {
   position: absolute;
   top: 50%;
-  right: 30px;
+  right: 20px;
   transform: translate(0, -50%);
 }
 .move .left_move .fold h3.slide_tt {
