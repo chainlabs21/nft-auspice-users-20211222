@@ -30,6 +30,8 @@ import { ERR_MSG } from "../config/messages";
 import axios from "axios";
 import { API } from "../config/api";
 import DatePicker from "react-datepicker";
+import { getuseraddress } from "../util/common";
+import { signOrderData } from "../util/verifySig";
 
 function SaleFixed({ store, setConnect }) {
   const navigate = useNavigate();
@@ -44,6 +46,26 @@ function SaleFixed({ store, setConnect }) {
   const [privateOption, setPrivateOption] = useState(false);
   const [privateAddress, setPrivateAddress] = useState("");
   const [itemData, setItemData] = useState({});
+
+  const handleSalesStart = () => {
+    const userAddr = getuseraddress();
+    const asyncSalesStart = async () => {
+      const orderData = {
+        seller_address: userAddr,
+        amount: 1,
+        price: itemPrice,
+        priceunit: "0x000000000000000000000000000000000000",
+        expiry: 0,
+      };
+      try {
+        const resp = await signOrderData(orderData);
+        console.log(resp);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    asyncSalesStart();
+  };
 
   useEffect(() => {
     const { id } = queryString.parse(search);
@@ -402,7 +424,13 @@ function SaleFixed({ store, setConnect }) {
                     </li>
                   </ul>
                 </div>
-                <div class="sales_btn" onClick={() => setVerifyPopup(true)}>
+                <div
+                  class="sales_btn"
+                  onClick={() => {
+                    handleSalesStart();
+                    setVerifyPopup(true);
+                  }}
+                >
                   <a>Sales start</a>
                 </div>
               </div>

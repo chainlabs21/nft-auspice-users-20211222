@@ -1,28 +1,40 @@
 import Web3 from "web3";
 import Eth from "web3-eth";
-const web3 = new Web3("https://cloudflare-eth.com");
+import { getuseraddress } from "../util/common";
+import Caver from "caver-js";
+import keccak256 from "keccak256";
+import axios from "axios";
 
+const caver = new Caver("https://api.baobab.klaytn.net:8651");
+const web3 = new Web3("https://cloudflare-eth.com");
 const eth = new Eth(Eth.givenProvider || "ws://some.local-or-remote.node:8546");
 
 export const signOrderData = async (orderData) => {
-  const encoded = web3.eth.abi.encodeParameters(
-    ["address", "uint"],
-    [orderData.originator, orderData.numCopies]
-  );
+  const { klaytn } = window;
+  const useraddr = getuseraddress();
 
-  const privateKey =
-    "0x4eea1133bce8837e6b37088fd5f21364b33685c2dd685b01db6b8cfac93ba5e4";
-  const signatureObject = web3.eth.accounts.sign(
-    web3.utils.sha3(encoded),
-    privateKey
-  );
-  return new Promise((res, rej) => {
-    if (signatureObject) {
-      res(signatureObject);
-    } else {
-      rej(null);
+  const stringified = JSON.stringify(orderData);
+
+  const hashed = keccak256(stringified).toString("hex");
+
+  klaytn.sendAsync(
+    {
+      method: "klay_sign",
+      params: [useraddr, hashed],
+      id: 1,
+    },
+    async (error, result) => {
+      console.log(result);
+      const v = "0x" + result.result.substring(2).substring(128, 130);
+      const r = "0x" + result.result.substring(2).substring(0, 64);
+      const s = "0x" + result.result.substring(2).substring(64, 128);
+      console.log(v, r, s);
+      try {
+        if (error === null) {
+        }
+      } catch (error) {}
     }
-  });
+  );
 };
 
 export const verifySig = (signatureObject, pubKey) => {
