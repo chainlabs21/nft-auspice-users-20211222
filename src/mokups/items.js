@@ -1,5 +1,5 @@
 import moment from "moment";
-import faker from "faker";
+// import faker from "faker";
 
 const categoryList = [
   "Art",
@@ -24,11 +24,11 @@ export const generateItems = (count) => {
       id: i,
       createdat: moment().format("YYYY-MM-DD"),
       updatedat: null,
-      itemid: faker.company.companyName(),
+      // itemid: faker.company.companyName(),
       is1copyonly: 1,
       countcopies: 0,
-      owner: faker.name.findName(),
-      imgsrc: faker.image.image(),
+      // owner: faker.name.findName(),
+      // imgsrc: faker.image.image(),
       author: "",
       authorfee: 30,
       countfavors: Math.floor(Math.random(3000) * 10000),
@@ -58,36 +58,36 @@ export const singleItem = {
   currentUSD: 1234.25,
   likerList: [
     {
-      name: faker.name.findName(),
+      // name: faker.name.findName(),
       address: "0xaeC2f4Dd8b08EeF0C71B02F97978106D875463Ed",
     },
     {
-      name: faker.name.findName(),
+      // name: faker.name.findName(),
       address: "0xaeC2f4Dd8b08EeF0C71B02F97978106D875463Ed",
     },
     {
-      name: faker.name.findName(),
+      // name: faker.name.findName(),
       address: "0xaeC2f4Dd8b08EeF0C71B02F97978106D875463Ed",
     },
   ],
   ownerList: [
     {
-      name: faker.name.findName(),
+      // name: faker.name.findName(),
       address: "0xaeC2f4Dd8b08EeF0C71B02F97978106D875463Ed",
       itemCount: Math.floor(Math.random() * 50),
     },
     {
-      name: faker.name.findName(),
+      // name: faker.name.findName(),
       address: "0xaeC2f4Dd8b08EeF0C71B02F97978106D875463Ed",
       itemCount: Math.floor(Math.random() * 50),
     },
     {
-      name: faker.name.findName(),
+      // name: faker.name.findName(),
       address: "0xaeC2f4Dd8b08EeF0C71B02F97978106D875463Ed",
       itemCount: Math.floor(Math.random() * 50),
     },
     {
-      name: faker.name.findName(),
+      // name: faker.name.findName(),
       address: "0xaeC2f4Dd8b08EeF0C71B02F97978106D875463Ed",
       itemCount: Math.floor(Math.random() * 50),
     },
@@ -98,25 +98,25 @@ export const singleItem = {
   priceHistory: [],
   offerHistory: [
     {
-      name: faker.name.findName(),
+      // name: faker.name.findName(),
       tokenprice: (Math.random() * 10).toFixed(2),
       address: fakeWalletAddress,
       createdat: moment().format("hh:mm"),
     },
     {
-      name: faker.name.findName(),
+      // name: faker.name.findName(),
       tokenprice: (Math.random() * 10).toFixed(2),
       address: fakeWalletAddress,
       createdat: moment().format("hh:mm"),
     },
     {
-      name: faker.name.findName(),
+      // name: faker.name.findName(),
       tokenprice: (Math.random() * 10).toFixed(2),
       address: fakeWalletAddress,
       createdat: moment().format("hh:mm"),
     },
     {
-      name: faker.name.findName(),
+      // name: faker.name.findName(),
       tokenprice: (Math.random() * 10).toFixed(2),
       address: fakeWalletAddress,
       createdat: moment().format("hh:mm"),
@@ -126,21 +126,21 @@ export const singleItem = {
     {
       tokenprice: (Math.random() * 10).toFixed(2),
       priceusd: (Math.random() * 100 + 3).toFixed(2),
-      seller: faker.name.findName(),
+      // seller: faker.name.findName(),
       expired: moment().add(6, "days").format(),
       kind: "Purchase",
     },
     {
       tokenprice: (Math.random() * 10).toFixed(2),
       priceusd: (Math.random() * 100 + 3).toFixed(2),
-      seller: faker.name.findName(),
+      // seller: faker.name.findName(),
       expired: moment().add(6, "days").format(),
       kind: "Purchase",
     },
     {
       tokenprice: (Math.random() * 10).toFixed(2),
       priceusd: (Math.random() * 100 + 3).toFixed(2),
-      seller: faker.name.findName(),
+      // seller: faker.name.findName(),
       expired: moment().add(6, "days").format(),
       kind: "Purchase",
     },
@@ -149,25 +149,25 @@ export const singleItem = {
     {
       tokenprice: (Math.random() * 10).toFixed(2),
       priceusd: (Math.random() * 100 + 3).toFixed(2),
-      buyer: faker.name.findName(),
+      // buyer: faker.name.findName(),
       expired: moment().add(3, "days").format(),
     },
     {
       tokenprice: (Math.random() * 10).toFixed(2),
       priceusd: (Math.random() * 100 + 3).toFixed(2),
-      buyer: faker.name.findName(),
+      // buyer: faker.name.findName(),
       expired: moment().add(3, "days").format(),
     },
     {
       tokenprice: (Math.random() * 10).toFixed(2),
       priceusd: (Math.random() * 100 + 3).toFixed(2),
-      buyer: faker.name.findName(),
+      // buyer: faker.name.findName(),
       expired: moment().add(3, "days").format(),
     },
     {
       tokenprice: (Math.random() * 10).toFixed(2),
       priceusd: (Math.random() * 100 + 3).toFixed(2),
-      buyer: faker.name.findName(),
+      // buyer: faker.name.findName(),
       expired: moment().add(3, "days").format(),
     },
   ],
