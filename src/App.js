@@ -72,6 +72,7 @@ import { API } from "./config/api";
 import { MSG } from "./config/messages";
 import { SET_ADDRESS } from "./reducers/walletSlice";
 import { GET_USER_DATA } from "./reducers/userSlice";
+import GlobalStyle from "./components/globalStyle";
 
 function App({ store, setHref, setConnect }) {
   const dispatch = useDispatch();
@@ -168,6 +169,7 @@ function App({ store, setHref, setConnect }) {
 
       <HashRouter>
         <Header />
+        <GlobalStyle />
 
         <Routes>
           <Route path="/index" element={<List />} />

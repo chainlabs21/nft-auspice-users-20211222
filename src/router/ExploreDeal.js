@@ -23,6 +23,9 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useState } from "react";
+import I_dnArrow from "../img/icons/I_dnArrow.svg";
+import loupe from "../img/sub/loupe.png";
+import filter_icon from "../img/sub/filter_icon.png";
 
 function ExploreDeal({ store, setConnect }) {
   const navigate = useNavigate();
@@ -78,118 +81,99 @@ function ExploreDeal({ store, setConnect }) {
                 </b>
               </span>
               <div class="left_move">
-                <form>
-                  <div class="filter">
-                    <h3 class="filt">Filter</h3>
+                <form className="filterBox">
+                  <div class="topBar">
+                    <span className="leftBox">
+                      <img src={filter_icon} alt="" />
+                      <p>Filter</p>
+                    </span>
                     <img
                       src={require("../img/sub/filter_close.png").default}
                       class="fc"
                       onClick={() => setToggleFilter(false)}
                     />
                   </div>
-                  <div class="fold status">
-                    <h3 class="slide_tt">
-                      Event type
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
-                      />
-                    </h3>
+                  <details class="filterDetails">
+                    <summary class="filterSummary">
+                      <p className="filterTitle">Event type</p>
 
-                    <div class="open status">
-                      <ul>
-                        {statusList.map((cont, index) => (
-                          <li
-                            key={index}
-                            style={{ cursor: "pointer" }}
-                            className={filterObj[cont] === cont && "on"}
-                            onClick={() => editFilterList(cont, cont)}
-                          >
-                            {cont}
+                      <img src={I_dnArrow} class="slide_up" />
+                    </summary>
+
+                    <ul className="filterContList typeList">
+                      {statusList.map((cont, index) => (
+                        <li
+                          key={index}
+                          style={{ cursor: "pointer" }}
+                          className={filterObj[cont] === cont && "on"}
+                          onClick={() => editFilterList(cont, cont)}
+                        >
+                          {cont}
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+
+                  <details class="filterDetails">
+                    <summary class="filterSummary">
+                      <p className="filterTitle">Items</p>
+
+                      <img src={I_dnArrow} class="slide_up" />
+                    </summary>
+
+                    <div class="filterContList searchListBox">
+                      <div className="inputBox">
+                        <img src={loupe} alt="" />
+                        <input
+                          type="text"
+                          placeholder="Filter"
+                          class="s_search"
+                        />
+                      </div>
+
+                      <ul className="searchList">
+                        {filterSearchData.map((cont, index) => (
+                          <li key={index}>
+                            <img src={cont.img} alt="" />
+                            <p>{cont.name}</p>
                           </li>
                         ))}
                       </ul>
                     </div>
-                  </div>
-                  <div class="fold">
-                    <h3 class="slide_tt">
-                      Items
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
-                      />
-                    </h3>
+                  </details>
 
-                    <div class="open collection">
-                      <input
-                        type="text"
-                        placeholder="Filter"
-                        class="s_search"
-                      />
-                      <ul>
-                        <li
-                          class="collec_img"
-                          style={{ backgroundImage: `url(${collect_img})` }}
-                        >
-                          <span>Item 01</span>
-                        </li>
-                        <li
-                          class="collec_img"
-                          style={{ backgroundImage: `url(${collect_img2})` }}
-                        >
-                          <span>Item 02</span>
-                        </li>
-                        <li
-                          class="collec_img"
-                          style={{ backgroundImage: `url(${collect_img3})` }}
-                        >
-                          <span>Item 03</span>
-                        </li>
-                        <li
-                          class="collec_img"
-                          style={{ backgroundImage: `url(${collect_img4})` }}
-                        >
-                          <span>Item 04</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
+                  <details class="filterDetails">
+                    <summary class="filterSummary">
+                      <p className="filterTitle">Chains</p>
 
-                  <div class="fold">
-                    <h3 class="slide_tt">
-                      Chains
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
-                      />
-                    </h3>
+                      <img src={I_dnArrow} class="slide_up" />
+                    </summary>
 
-                    <div class="open">
-                      <ul className="selectList">
-                        {chainList.map((cont, index) => (
-                          <li
-                            key={index}
-                            class="ra"
-                            onClick={() => editFilterList("chain", cont.name)}
+                    <ul className="filterContList chainList">
+                      {chainList.map((cont, index) => (
+                        <li
+                          key={index}
+                          class="ra"
+                          onClick={() => editFilterList("chain", cont.name)}
+                        >
+                          <span
+                            className="chkBtn"
+                            style={{
+                              background:
+                                filterObj.chain === cont.name && "#000",
+                            }}
                           >
-                            <span
-                              className="chkBtn"
-                              style={{
-                                background:
-                                  filterObj.chain === cont.name && "#000",
-                              }}
-                            >
-                              <span />
-                            </span>
-                            <label for={cont.name}>
-                              <img src={cont.img} />
-                              {cont.name}
-                            </label>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+                            <span />
+                          </span>
+
+                          <div className="name">
+                            <img src={cont.img} />
+                            {cont.name}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
                 </form>
               </div>
             </div>
@@ -941,11 +925,46 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExploreDeal);
 
-const statusList = ["Buy Now", "On Auction", "New", "Has Offers"];
+const statusList = ["Listing", "Sale", "Bid", "Send"];
 
 const chainList = [
   {
     img: rock,
     name: "Klaytn",
+  },
+];
+
+const filterSearchData = [
+  {
+    img: collect_img,
+    name: "Items 01",
+  },
+  {
+    img: collect_img2,
+    name: "Items 02",
+  },
+  {
+    img: collect_img3,
+    name: "Items 03",
+  },
+  {
+    img: collect_img4,
+    name: "Items 04",
+  },
+  {
+    img: collect_img,
+    name: "Items 01",
+  },
+  {
+    img: collect_img2,
+    name: "Items 02",
+  },
+  {
+    img: collect_img3,
+    name: "Items 03",
+  },
+  {
+    img: collect_img4,
+    name: "Items 04",
   },
 ];
