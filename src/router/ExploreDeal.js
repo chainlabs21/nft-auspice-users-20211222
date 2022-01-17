@@ -24,7 +24,6 @@ import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useState } from "react";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
-import I_upArrow from "../img/icons/I_upArrow.svg";
 import loupe from "../img/sub/loupe.png";
 import filter_icon from "../img/sub/filter_icon.png";
 

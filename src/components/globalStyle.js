@@ -59,32 +59,9 @@ const GlobalStyle = createGlobalStyle`
 
     .filterContList{
       display: flex;
-      padding: 40px 0 0 0 ;
+      padding: 40px 0 20px 0;
 
-      &.typeList{
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px 2%;
-        padding: 40px 0 20px 0;
-  
-        li{
-          width: 49%;
-          box-sizing: border-box;
-          border-radius: 43px;
-          border: 1px solid #e9e9e9;
-          font-size: 16px;
-          font-weight: 500;
-          line-height: 48px;
-          text-align: center;
-        }
-      }
-
-      &.searchListBox{
-        flex-direction: column;
-        gap: 20px;
-        padding: 40px 0 30px 0;
-
-        .inputBox{
+      .inputBox{
           display: flex;
           align-items: center;
           gap: 16px;
@@ -105,6 +82,128 @@ const GlobalStyle = createGlobalStyle`
             
           }
         }
+
+      &.typeList{
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px 2%;
+        
+  
+        li{
+          width: 49%;
+          box-sizing: border-box;
+          border-radius: 43px;
+          border: 1px solid #e9e9e9;
+          font-size: 16px;
+          font-weight: 500;
+          line-height: 48px;
+          text-align: center;
+        }
+      }
+
+      &.priceBox{
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+
+        .settingBox{
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          overflow: hidden;
+
+          .selectPosBox{
+            position: relative;
+
+            .selectBox{
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              width: 100%;
+              height: 48px;
+              padding: 0 14px;
+              box-sizing: border-box;
+              border: 1px solid #e9e9e9;
+              border-radius: 44px;
+              cursor: pointer;
+            }
+
+            .optionList{
+              position: absolute;
+              top: 0;
+              right: 0;
+              left: 0;
+              background: #fff;
+              border: 1px solid #e9e9e9;
+              border-radius: 24px;
+              overflow: hidden;
+              cursor: pointer;
+              z-index: 101;
+
+              li{
+                display: flex;
+                align-items: center;
+                height: 48px;
+                padding: 0 14px;
+
+                &:hover{
+                  color: #fff;
+                  background: #000;
+                  font-weight: 700;
+                }
+              }
+            }
+          }
+
+          .priceAreaBox{
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            
+            .priceInputBox{
+              flex:1;
+              display: flex;
+              align-items: center;
+              height: 48px;
+              padding: 0 12px;
+              background: #fff;
+              border-radius: 44px;
+              border: solid 1px #e9e9e9;
+              overflow: hidden;
+              
+              .unit{
+                font-weight: 500;
+                opacity: 0.6;
+              }
+              
+              input{
+                flex:1;
+                min-width: 0;
+                font-weight: 500;
+                border: none;
+              }
+            }
+          }
+        }
+
+
+        .applyBtn{
+          display: block;
+          width: 100%;
+          height: 48px;
+          box-sizing: border-box;
+          font-size: 16px;
+          color: #fff;
+          background-color: #000;
+          border-radius: 44px;
+        }
+      }
+
+      &.searchListBox{
+        flex-direction: column;
+        gap: 20px;
+
+        
         .searchList{
           display: flex;
           flex-direction: column;
@@ -136,6 +235,7 @@ const GlobalStyle = createGlobalStyle`
       }
 
       &.chainList{
+
         li {
           display: flex;
           align-items: center;
