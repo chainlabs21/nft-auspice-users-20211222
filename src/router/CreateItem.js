@@ -35,6 +35,17 @@ import { generateRandomString } from "../util/Util";
 
 const kiloBytes = 1024;
 const megaBytes = 1024 * kiloBytes;
+const fileTypeList = [
+  "jpg",
+  "png",
+  "gif",
+  "svg",
+  "mp4",
+  "webm",
+  "mp3",
+  "wav",
+  "ogg",
+];
 
 function CreateItem({ store, setConnect }) {
   const navigate = useNavigate();
@@ -54,16 +65,58 @@ function CreateItem({ store, setConnect }) {
   const [curCategory, setCurCategory] = useState("");
   const [fileResp, setFileResp] = useState({});
   const [categories, setCategories] = useState([]);
+  const [isUpload, setIsUpload] = useState(false);
+  const [fileViewType, setFileViewType] = useState("image");
 
   function onChangeItem(file) {
+    /*
     let reader = new FileReader();
     reader.readAsDataURL(file);
 
     reader.onload = function () {
       setItem(reader.result);
     };
+	*/
   }
   const fileUpload = async (file) => {
+    if (!file) {
+      return;
+    }
+    const fileLength = file.name.length;
+    const fileDot = file.name.lastIndexOf(".");
+    const fileType = file.name.substring(fileDot + 1, fileLength).toLowerCase();
+    let typeToggle = false;
+    fileTypeList.forEach((v) => {
+      if (fileType === v) {
+        typeToggle = true;
+      }
+    });
+
+    if (!typeToggle) {
+      SetErrorBar(ERR_MSG.ERR_NO_SUPPORT_FILE_TYPE);
+      return;
+    }
+
+    switch (fileType) {
+      case "jpg":
+      case "png":
+      case "gif":
+      case "svg":
+        setFileViewType("image");
+        break;
+      case "mp4":
+      case "webm":
+        setFileViewType("video");
+        break;
+      case "mp3":
+      case "wav":
+      case "ogg":
+        setFileViewType("audio");
+        break;
+      default:
+        setFileViewType("image");
+    }
+
     if (file && file.size > 0) {
       setFileChk(true);
       try {
@@ -75,14 +128,16 @@ function CreateItem({ store, setConnect }) {
             filename: file.name,
           };
           const resp = await axios.post(API.API_ITEM_UPLOAD_BASE64, base64Data);
-          console.log(resp.data);
           setFileResp(resp.data);
+          setItem(resp.data.payload.url);
         } else {
           let formData = new FormData();
           formData.append("file", file);
           formData.append("filename", file.name);
           const resp = await axios.post(API.API_ITEM_UPLOAD_OVER, formData);
+          console.log(resp);
           setFileResp(resp.data);
+          setItem(resp.data.payload.url);
         }
       } catch (error) {
         SetErrorBar(ERR_MSG.ERR_FILE_UPLOAD_FAILED);
@@ -99,9 +154,9 @@ function CreateItem({ store, setConnect }) {
           address: userAddress,
           originator: userAddress,
           category: curCategory,
-          authorroyalty: (royal * 10000).toFixed(0),
+          authorroyalty: parseInt((royal * 100).toFixed(0)),
           url: fileResp.payload.url,
-          datahash: fileResp.respdata.hexid,
+          datahash: fileResp.respdata,
           timestamp: moment().format(),
           unixtime: moment().unix(),
           unlockcontent: unlocked === true ? 1 : 0,
@@ -113,15 +168,12 @@ function CreateItem({ store, setConnect }) {
           API.API_ITEM_SAVE_META + `/${fileResp.respdata}`,
           metaData
         );
+
         const metaResult = metaResp.data;
-        const orderData = {
-          originator: userAddress,
-          numCopies: numCopies,
-        };
-        const signatureObject = await signOrderData(orderData);
 
         if (activePubl) {
           // TODO
+          // transaction here ( mint )
           const mokupRndTxHash = "0x" + generateRandomString(63);
           const mokupRndContract = "0x" + generateRandomString(40);
           const mokupRndPaymeans = "0x" + generateRandomString(40);
@@ -140,6 +192,7 @@ function CreateItem({ store, setConnect }) {
             expirychar: moment().format(),
             categorystr: curCategory,
             originatorfeeinbp: 500,
+            activeorlazymint: activePubl,
           };
 
           const resp = await axios.post(
@@ -147,13 +200,25 @@ function CreateItem({ store, setConnect }) {
               `/${fileResp.respdata}/${mokupRndTxHash.trim()}/${userAddress}`,
             body
           );
-
-          console.log(resp);
+          if (resp.data.status === "OK") {
+            navigate(`/salefixed?id=${fileResp.respdata}`);
+          }
         } else {
-          //lazy
+          const body = {
+            itemid: fileResp.respdata,
+            countcopies: numCopies,
+            amount: 1,
+            decimals: 18,
+            expiry: 0,
+            categorystr: curCategory,
+            author: userAddress,
+            authorfee: parseInt((royal * 100).toFixed(0)),
+          };
+          const resp = await axios.post(API.API_LAZY_MINT, body);
+          if (resp.data.status === "OK") {
+            navigate(`/salefixed?id=${fileResp.respdata}`);
+          }
         }
-        //
-        //navigate("/salefixed")
       } catch (error) {
         SetErrorBar(ERR_MSG.ERR_CREATE_ITEM_FAILED);
         console.log(error);
@@ -173,10 +238,10 @@ function CreateItem({ store, setConnect }) {
     }
   }, [name]);
   useEffect(() => {
+    window.scrollTo(0, 0);
     const asyncGetCategories = async () => {
       try {
         const resp = await axios.get(API.API_GET_ITEM_CATEGORIES);
-        console.log(resp);
         setCategories(resp.data.list);
         setCurCategory(resp.data.list[0].category);
       } catch (error) {
@@ -235,7 +300,21 @@ function CreateItem({ store, setConnect }) {
                                 }}
                               >
                                 {item ? (
-                                  <img src={item} alt="" />
+                                  <>
+                                    {fileViewType === "image" ? (
+                                      <img src={item} alt="" />
+                                    ) : (
+                                      <video
+                                        src={item}
+                                        autoPlay
+                                        muted
+                                        controls
+                                        loop
+                                        heigth="auto"
+                                        width="100%"
+                                      ></video>
+                                    )}
+                                  </>
                                 ) : (
                                   <>
                                     <p>

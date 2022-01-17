@@ -1872,7 +1872,7 @@
 
 /* right middle */
 #sub .bundle_box.box3 .bundle_top .bun_tl {
-  flex:1;
+  flex: 1;
   max-width: 740px;
   margin: 0;
 }
@@ -3783,7 +3783,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 
 /* 프로필15 */
-#sub .deal_box .move.deal .right_move .real_sec .ranktable_pc.rp2 {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc.rp2 {
   height: 720px;
 }
 #sub .deal_box .move .right_move .real_sec .referals {
@@ -3850,7 +3850,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc.rp2
@@ -4139,13 +4139,13 @@ div.basic .tab_bottom .body tr td span.chain.off {
     display: none;
   }
 
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_pc.rp2 {
+  #sub .deal_box .move .right_move .real_sec .ranktable_pc.rp2 {
     display: block;
     height: 640px;
     border: 1px solid #000;
     overflow: auto;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_pc.rp2 table {
+  #sub .deal_box .move .right_move .real_sec .ranktable_pc.rp2 table {
     width: 200%;
   }
 }
@@ -4412,14 +4412,14 @@ div.basic .tab_bottom .body tr td span.chain.off {
   #sub .deal_box .move .right_move .real_sec .referals .link h4.mlink {
     margin: 60px 0 0;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_pc.rp2 table {
+  #sub .deal_box .move .right_move .real_sec .ranktable_pc.rp2 table {
     width: 240%;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_pc.rp2 {
+  #sub .deal_box .move .right_move .real_sec .ranktable_pc.rp2 {
     height: 414px;
     margin: 0;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_pc.rp2 th {
+  #sub .deal_box .move .right_move .real_sec .ranktable_pc.rp2 th {
     font-size: 14px;
     text-align: left;
     padding-left: 10px;
@@ -4427,7 +4427,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc.rp2
@@ -4439,7 +4439,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc
@@ -9915,47 +9915,49 @@ div.basic .tab_bottom .body tr td span.chain.off {
   overflow: initial;
   padding: 0 0 260px 0;
 }
-#sub .deal_box .move.deal .left_move .fold .open {
+#sub .deal_box .move .left_move .fold .open {
   padding: 20px 38px;
 }
-#sub .deal_box .move.deal.off .right_move {
+#sub .deal_box .move.off .right_move {
   width: auto;
   float: none;
 }
-#sub .deal_box .move.deal.on .right_move {
+#sub .deal_box .move.on .right_move {
   width: auto;
   float: none;
   min-width: 1310px;
 }
-#sub .deal_box .move.deal .right_move .real_sec .etc ul li {
+#sub .deal_box .move .right_move .real_sec .etc ul li {
   width: 12.5%;
 }
-#sub .deal_box .move.deal.on .right_move .pad {
+#sub .deal_box .move.on .right_move .pad {
   width: 1280px;
   margin: 0 0 0 30px;
   padding: 0;
 }
-#sub .deal_box .move.deal .right_move .real_sec {
+#sub .deal_box .move .right_move .real_sec {
 }
-#sub .deal_box .move.deal .right_move .real_sec .etc {
+#sub .deal_box .move .right_move .real_sec .etc {
   margin-bottom: 40px;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list {
+#sub .deal_box .move .right_move .real_sec .filter_list {
   overflow: hidden;
   padding: 0px 0 18px 0;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list.ex_d {
-  overflow: hidden;
+#sub .deal_box .move .right_move .real_sec .filter_list.ex_d {
   padding: 65px 0 18px 0;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list .filter_left {
+#sub .deal_box .move .right_move .real_sec .filter_list .filter_left {
   float: left;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   width: 70%;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list .fl {
+#sub .deal_box .move .right_move .real_sec .filter_list .fl {
   float: left;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list .fl a {
+#sub .deal_box .move .right_move .real_sec .filter_list .fl a {
   display: inline-block;
   background-color: #222;
   width: 168px;
@@ -9964,28 +9966,28 @@ div.basic .tab_bottom .body tr td span.chain.off {
   border-radius: 50px;
   float: left;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list .fl a span {
+#sub .deal_box .move .right_move .real_sec .filter_list .fl a span {
   color: #fff;
   font-size: 16px;
   letter-spacing: -0.32px;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list .select_f {
+#sub .deal_box .move .right_move .real_sec .filter_list .select_f {
   float: left;
   border: 1px solid #d9d9d9;
   background-color: #fff;
-  margin-left: 9px;
   border-radius: 50px;
   position: relative;
   width: 168px;
+  min-width: 168px;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list .select_f p {
+#sub .deal_box .move .right_move .real_sec .filter_list .select_f p {
   float: left;
   padding: 18px;
   width: 50%;
   text-align: right;
   font-weight: 500;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list .select_f a {
+#sub .deal_box .move .right_move .real_sec .filter_list .select_f a {
   overflow: hidden;
   display: inline-block;
   padding: 15px;
@@ -9994,24 +9996,24 @@ div.basic .tab_bottom .body tr td span.chain.off {
   top: 49%;
   transform: translate(0, -50%);
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list .select_f a p {
+#sub .deal_box .move .right_move .real_sec .filter_list .select_f a p {
   float: left;
   width: 63%;
   text-align: right;
   font-size: 16px;
   letter-spacing: -0.32px;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list .filter_right {
+#sub .deal_box .move .right_move .real_sec .filter_list .filter_right {
   float: right;
   width: 30%;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list .fr {
+#sub .deal_box .move .right_move .real_sec .filter_list .fr {
   float: right;
   border: 1px solid #d9d9d9;
   border-radius: 50px;
   padding: 14px 20px;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list .fr a span {
+#sub .deal_box .move .right_move .real_sec .filter_list .fr a span {
   font-size: 16px;
   letter-spacing: -0.32px;
   color: #000;
@@ -10019,24 +10021,24 @@ div.basic .tab_bottom .body tr td span.chain.off {
   font-weight: 500;
 }
 
-#sub .deal_box .move.deal .right_move .real_sec .filter_list2 {
+#sub .deal_box .move .right_move .real_sec .filter_list2 {
   display: none;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list2 {
+#sub .deal_box .move .right_move .real_sec .filter_list2 {
   overflow: hidden;
   padding: 65px 0 18px 0;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list2 .f_left {
+#sub .deal_box .move .right_move .real_sec .filter_list2 .f_left {
   float: left;
   width: 70%;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list2 .f_left .slide2 {
+#sub .deal_box .move .right_move .real_sec .filter_list2 .f_left .slide2 {
   margin: 0;
   padding: 0;
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .filter_list2
@@ -10047,7 +10049,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .filter_list2
@@ -10068,7 +10070,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .filter_list2
@@ -10086,7 +10088,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .filter_list2
@@ -10107,7 +10109,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .filter_list2
@@ -10126,7 +10128,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .filter_list2
@@ -10141,7 +10143,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .filter_list2
@@ -10158,27 +10160,18 @@ div.basic .tab_bottom .body tr td span.chain.off {
   top: 49%;
   transform: translate(0, -50%);
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list2 .f_right {
+#sub .deal_box .move .right_move .real_sec .filter_list2 .f_right {
   float: right;
   width: 30%;
   text-align: right;
   margin: 15px 0;
 }
-#sub .deal_box .move.deal .right_move .real_sec .filter_list2 .f_right .fr a {
+#sub .deal_box .move .right_move .real_sec .filter_list2 .f_right .fr a {
   border: 1px solid #d9d9d9;
   border-radius: 50px;
   padding: 18px 20px;
 }
-#sub
-  .deal_box
-  .move.deal
-  .right_move
-  .real_sec
-  .filter_list2
-  .f_right
-  .fr
-  a
-  span {
+#sub .deal_box .move .right_move .real_sec .filter_list2 .f_right .fr a span {
   font-size: 16px;
   letter-spacing: -0.32px;
   color: #000;
@@ -10186,49 +10179,30 @@ div.basic .tab_bottom .body tr td span.chain.off {
   font-weight: 500;
 }
 
-#sub .deal_box .move.deal .right_move .real_sec .ranktable_pc {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc {
   margin-bottom: 800px;
   box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   background-color: #fff;
 }
-#sub .deal_box .move.deal .right_move .real_sec .ranktable_pc table {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc table {
 }
-#sub .deal_box .move.deal .right_move .real_sec .ranktable_pc table thead {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc table thead {
 }
-#sub .deal_box .move.deal .right_move .real_sec .ranktable_pc table thead th {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc table thead th {
   font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.32px;
   padding: 20px 0;
   line-height: 27px;
 }
-#sub
-  .deal_box
-  .move.deal
-  .right_move
-  .real_sec
-  .ranktable_pc
-  table
-  thead
-  th
-  strong {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc table thead th strong {
   display: inline-block;
 }
-#sub .deal_box .move.deal .right_move .real_sec .ranktable_pc table thead th a {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc table thead th a {
   display: inline-block;
 }
-#sub
-  .deal_box
-  .move.deal
-  .right_move
-  .real_sec
-  .ranktable_pc
-  table
-  thead
-  th
-  a
-  span {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc table thead th a span {
   background-image: url(../img/sub/rank_small_down.png);
   background-size: 24px;
   display: inline-block;
@@ -10239,7 +10213,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc
@@ -10249,14 +10223,14 @@ div.basic .tab_bottom .body tr td span.chain.off {
   span {
   background-image: url(../img/sub/rank_small_up.png);
 }
-#sub .deal_box .move.deal .right_move .real_sec .ranktable_pc table tbody {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc table tbody {
 }
-#sub .deal_box .move.deal .right_move .real_sec .ranktable_pc table tbody tr {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc table tbody tr {
   border-bottom: 1px solid #d9d9d9;
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc
@@ -10265,27 +10239,10 @@ div.basic .tab_bottom .body tr td span.chain.off {
   tr:last-child {
   border-bottom: 0;
 }
-#sub
-  .deal_box
-  .move.deal
-  .right_move
-  .real_sec
-  .ranktable_pc
-  table
-  tbody
-  tr.on {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc table tbody tr.on {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
-#sub
-  .deal_box
-  .move.deal
-  .right_move
-  .real_sec
-  .ranktable_pc
-  table
-  tbody
-  tr
-  td {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc table tbody tr td {
   padding: 20px 0;
   text-align: center;
   overflow: hidden;
@@ -10301,7 +10258,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc
@@ -10314,7 +10271,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc
@@ -10326,7 +10283,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc
@@ -10348,7 +10305,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc
@@ -10364,7 +10321,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc
@@ -10379,7 +10336,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc
@@ -10393,7 +10350,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc
@@ -10406,7 +10363,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc
@@ -10420,7 +10377,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc
@@ -10440,36 +10397,20 @@ div.basic .tab_bottom .body tr td span.chain.off {
   -webkit-box-orient: vertical;
   max-width: 120px;
 }
-#sub .deal_box .move.deal .right_move .real_sec .ranktable_m {
+#sub .deal_box .move .right_move .real_sec .ranktable_m {
   display: none;
 }
 
 /* 프로필91011 */
-#sub
-  .deal_box
-  .move.deal
-  .right_move
-  .real_sec
-  .ranktable_pc.p_th
-  table
-  thead
-  th {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc.p_th table thead th {
   padding: 23px 0;
 }
-#sub
-  .deal_box
-  .move.deal
-  .right_move
-  .real_sec
-  .ranktable_pc.p_th
-  table
-  tbody
-  tr {
+#sub .deal_box .move .right_move .real_sec .ranktable_pc.p_th table tbody tr {
   border-top: 1px solid #d9d9d9;
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc.p_th
@@ -10482,7 +10423,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc.p_th
@@ -10496,7 +10437,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc.p_th
@@ -10511,7 +10452,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc.p_th
@@ -10525,7 +10466,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc.p_th
@@ -10542,7 +10483,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc.p_th
@@ -10557,7 +10498,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub
   .deal_box
-  .move.deal
+  .move
   .right_move
   .real_sec
   .ranktable_pc.p_th
@@ -10568,48 +10509,39 @@ div.basic .tab_bottom .body tr td span.chain.off {
   text-align: center;
 }
 
-#sub .deal_box .move.deal .right_move .real_sec .pad .etc {
+#sub .deal_box .move .right_move .real_sec .pad .etc {
   width: 600px;
   display: block;
 }
-#sub .deal_box .move.deal .right_move .real_sec .pad .etc ul {
+#sub .deal_box .move .right_move .real_sec .pad .etc ul {
   display: flex;
 }
-#sub .deal_box .move.deal .right_move .real_sec .pad .etc ul li {
+#sub .deal_box .move .right_move .real_sec .pad .etc ul li {
   width: 50%;
   font-size: 18px;
 }
 
 @media screen and (max-width: 1550px) {
-  #sub .deal_box .move.deal .right_move .pad {
+  #sub .deal_box .move .right_move .pad {
     width: auto;
     padding: 0 35px;
   }
 }
 
 @media screen and (max-width: 1440px) {
-  #sub .deal_box .move.deal .right_move {
+  #sub .deal_box .move .right_move {
     width: auto;
   }
-  /* #sub .deal_box .move.deal .right_move .pad { padding:0 35px; } */
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_pc {
+  /* #sub .deal_box .move .right_move .pad { padding:0 35px; } */
+  #sub .deal_box .move .right_move .real_sec .ranktable_pc {
     margin-bottom: 200px;
   }
-  #sub
-    .deal_box
-    .move.deal
-    .right_move
-    .real_sec
-    .ranktable_pc
-    table
-    tbody
-    tr
-    td {
+  #sub .deal_box .move .right_move .real_sec .ranktable_pc table tbody tr td {
     font-size: 18px;
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc
@@ -10621,7 +10553,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc
@@ -10635,7 +10567,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc
@@ -10651,25 +10583,16 @@ div.basic .tab_bottom .body tr td span.chain.off {
   .filter_btn {
     display: block;
   }
-  /* #sub .deal_box .move.deal .left_move { display:none;} */
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_pc table thead th {
+  /* #sub .deal_box .move .left_move { display:none;} */
+  #sub .deal_box .move .right_move .real_sec .ranktable_pc table thead th {
     font-size: 18px;
   }
-  #sub
-    .deal_box
-    .move.deal
-    .right_move
-    .real_sec
-    .ranktable_pc
-    table
-    tbody
-    tr
-    td {
+  #sub .deal_box .move .right_move .real_sec .ranktable_pc table tbody tr td {
     font-size: 16px;
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc
@@ -10681,7 +10604,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc
@@ -10696,7 +10619,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc
@@ -10709,46 +10632,46 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 
 @media screen and (max-width: 1024px) {
-  #sub .deal_box .move.deal.off {
+  #sub .deal_box .move.off {
     padding: 0 20px;
   }
   #sub .deal_box .move.slidew.off {
     padding: 0 0px;
   }
-  #sub .deal_box .move.deal.off .right_move {
+  #sub .deal_box .move.off .right_move {
     padding: 0;
   }
-  #sub .deal_box .move.deal .right_move .pad {
+  #sub .deal_box .move .right_move .pad {
     padding: 0;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list {
+  #sub .deal_box .move .right_move .real_sec .filter_list {
     padding: 65px 25px 18px 25px;
     display: none;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list .fl a {
+  #sub .deal_box .move .right_move .real_sec .filter_list .fl a {
     padding: 16px;
     width: 120px;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list .select_f p {
+  #sub .deal_box .move .right_move .real_sec .filter_list .select_f p {
     padding: 16px;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list .fr a span {
+  #sub .deal_box .move .right_move .real_sec .filter_list .fr a span {
     font-size: 14px;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_pc {
+  #sub .deal_box .move .right_move .real_sec .ranktable_pc {
     display: none;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_m {
+  #sub .deal_box .move .right_move .real_sec .ranktable_m {
     display: block;
   }
 
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list2 {
+  #sub .deal_box .move .right_move .real_sec .filter_list2 {
     padding: 65px 0px 18px 25px;
     display: block;
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .filter_list2
@@ -10762,7 +10685,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .filter_list2
@@ -10778,7 +10701,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .filter_list2
@@ -10794,7 +10717,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .filter_list2
@@ -10809,7 +10732,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .filter_list2
@@ -10825,54 +10748,36 @@ div.basic .tab_bottom .body tr td span.chain.off {
     width: 63%;
   }
 
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list2 .f_right {
+  #sub .deal_box .move .right_move .real_sec .filter_list2 .f_right {
     margin: 8px 0;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list2 .f_right .fr a {
+  #sub .deal_box .move .right_move .real_sec .filter_list2 .f_right .fr a {
     padding: 10px 20px;
   }
-  #sub
-    .deal_box
-    .move.deal
-    .right_move
-    .real_sec
-    .filter_list2
-    .f_right
-    .fr
-    a
-    span {
+  #sub .deal_box .move .right_move .real_sec .filter_list2 .f_right .fr a span {
     font-size: 14px;
   }
 
-  #sub .deal_box .move.deal .right_move .real_sec.ex {
+  #sub .deal_box .move .right_move .real_sec.ex {
     margin: 0 -20px;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_m ul {
+  #sub .deal_box .move .right_move .real_sec .ranktable_m ul {
     border-top: 1px solid #d9d9d9;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_m ul li {
+  #sub .deal_box .move .right_move .real_sec .ranktable_m ul li {
     padding: 25px 25px 6px 25px;
     overflow: hidden;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_m ul li .content {
+  #sub .deal_box .move .right_move .real_sec .ranktable_m ul li .content {
     padding-bottom: 15px;
     overflow: hidden;
   }
-  #sub
-    .deal_box
-    .move.deal
-    .right_move
-    .real_sec
-    .ranktable_m
-    ul
-    li
-    .content
-    .num {
+  #sub .deal_box .move .right_move .real_sec .ranktable_m ul li .content .num {
     float: left;
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -10888,7 +10793,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -10900,7 +10805,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -10914,7 +10819,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -10927,7 +10832,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -10944,7 +10849,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -10958,7 +10863,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -10975,7 +10880,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -10993,7 +10898,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11008,7 +10913,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11024,7 +10929,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11038,7 +10943,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11053,7 +10958,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11066,7 +10971,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11075,11 +10980,14 @@ div.basic .tab_bottom .body tr td span.chain.off {
     .content
     .num_right
     .total {
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
     line-height: initial;
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11095,7 +11003,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11104,24 +11012,14 @@ div.basic .tab_bottom .body tr td span.chain.off {
     .content
     .num_right
     .total
-    p
     img {
-    width: 26px;
+    width: 18px;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_m ul li .slide2 {
+  #sub .deal_box .move .right_move .real_sec .ranktable_m ul li .slide2 {
     margin: 0;
     padding: 0;
   }
-  #sub
-    .deal_box
-    .move.deal
-    .right_move
-    .real_sec
-    .ranktable_m
-    ul
-    li
-    .slide2
-    .etc {
+  #sub .deal_box .move .right_move .real_sec .ranktable_m ul li .slide2 .etc {
     display: block;
     box-shadow: none;
     background-color: #fbfbfb;
@@ -11131,7 +11029,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11144,7 +11042,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11161,7 +11059,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11179,7 +11077,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11203,7 +11101,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11216,7 +11114,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11235,7 +11133,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11249,7 +11147,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
 
   /* 프로필78 */
-  #sub .profile_home .move.deal .right_move .real_sec .ranktable_pc {
+  #sub .profile_home .move .right_move .real_sec .ranktable_pc {
     display: block;
     overflow-x: auto;
     margin: 0 0px 20px 0px;
@@ -11257,34 +11155,26 @@ div.basic .tab_bottom .body tr td span.chain.off {
     border: 1px solid #000;
     box-shadow: initial;
   }
-  #sub .profile_home .move.deal .right_move .real_sec .stable {
+  #sub .profile_home .move .right_move .real_sec .stable {
     margin: 0 20px;
   }
-  #sub .profile_home .move.deal .right_move .real_sec .ranktable_pc table {
+  #sub .profile_home .move .right_move .real_sec .ranktable_pc table {
     width: 1100px;
   }
-  #sub .profile_home .move.deal .right_move .real_sec .ranktable_m {
+  #sub .profile_home .move .right_move .real_sec .ranktable_m {
     display: none;
   }
-  #sub .profile_home .move.deal .right_move .pad {
+  #sub .profile_home .move .right_move .pad {
     padding: 0 0 10px 0;
     overflow: hidden;
   }
-  #sub
-    .profile_home
-    .move.deal
-    .right_move
-    .real_sec
-    .ranktable_pc
-    table
-    thead
-    th {
+  #sub .profile_home .move .right_move .real_sec .ranktable_pc table thead th {
     padding: 20px 10px;
     text-align: left;
   }
   #sub
     .profile_home
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc
@@ -11297,7 +11187,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .profile_home
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc
@@ -11310,7 +11200,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .profile_home
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc
@@ -11324,7 +11214,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .profile_home
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc
@@ -11338,7 +11228,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   /* 프로필91011 */
   #sub
     .profile_home
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc.p_th
@@ -11349,7 +11239,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .profile_home
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc.p_th
@@ -11362,39 +11252,39 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 
 @media screen and (max-width: 768px) {
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list2 .f_left {
+  #sub .deal_box .move .right_move .real_sec .filter_list2 .f_left {
     width: 100%;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list2 .f_right {
+  #sub .deal_box .move .right_move .real_sec .filter_list2 .f_right {
     display: none;
   }
 }
 
 @media screen and (max-width: 640px) {
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list .fl a {
+  #sub .deal_box .move .right_move .real_sec .filter_list .fl a {
     padding: 16px;
     width: 127px;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list .select_f p {
+  #sub .deal_box .move .right_move .real_sec .filter_list .select_f p {
     padding: 16px;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list .fr {
+  #sub .deal_box .move .right_move .real_sec .filter_list .fr {
     display: none;
   }
 
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list2 {
+  #sub .deal_box .move .right_move .real_sec .filter_list2 {
     padding: 20px 0px 25px 20px;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .fil2 {
+  #sub .deal_box .move .right_move .real_sec .fil2 {
     padding: 20px 0px 25px 25px;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .filter_list2 .f_left {
+  #sub .deal_box .move .right_move .real_sec .filter_list2 .f_left {
     width: 100%;
   }
 
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11407,7 +11297,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11421,7 +11311,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11433,24 +11323,15 @@ div.basic .tab_bottom .body tr td span.chain.off {
     p {
     font-size: 14px;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .ranktable_m ul li .slide2 {
+  #sub .deal_box .move .right_move .real_sec .ranktable_m ul li .slide2 {
     padding: 0;
   }
-  #sub
-    .deal_box
-    .move.deal
-    .right_move
-    .real_sec
-    .ranktable_m
-    ul
-    li
-    .slide2
-    .etc {
+  #sub .deal_box .move .right_move .real_sec .ranktable_m ul li .slide2 .etc {
     margin-bottom: 0;
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11465,7 +11346,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .deal_box
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_m
@@ -11481,29 +11362,21 @@ div.basic .tab_bottom .body tr td span.chain.off {
     display: block;
     margin: 0 auto;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .slide_filter {
+  #sub .deal_box .move .right_move .real_sec .slide_filter {
     overflow: hidden;
     margin-top: 60px;
   }
 
   /* 프로필78 */
-  #sub .profile_home .move.deal .right_move .real_sec .ranktable_pc table {
+  #sub .profile_home .move .right_move .real_sec .ranktable_pc table {
     width: 800px;
   }
-  #sub
-    .profile_home
-    .move.deal
-    .right_move
-    .real_sec
-    .ranktable_pc
-    table
-    thead
-    th {
+  #sub .profile_home .move .right_move .real_sec .ranktable_pc table thead th {
     font-size: 14px;
   }
   #sub
     .profile_home
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc
@@ -11516,12 +11389,12 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
 
   /* 프로필91011 */
-  #sub .profile_home .move.deal .right_move .real_sec .ranktable_pc.p_th table {
+  #sub .profile_home .move .right_move .real_sec .ranktable_pc.p_th table {
     width: 800px;
   }
   #sub
     .profile_home
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc.p_th
@@ -11532,7 +11405,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .profile_home
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc.p_th
@@ -11544,7 +11417,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .profile_home
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc.p_th
@@ -11556,7 +11429,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   }
   #sub
     .profile_home
-    .move.deal
+    .move
     .right_move
     .real_sec
     .ranktable_pc.p_th
@@ -11569,12 +11442,12 @@ div.basic .tab_bottom .body tr td span.chain.off {
     font-size: 14px;
   }
 
-  #sub .deal_box .move.deal .right_move .real_sec .pad .etc {
+  #sub .deal_box .move .right_move .real_sec .pad .etc {
     width: auto;
     display: block;
     margin: 20px 0px 29px 0px;
   }
-  #sub .deal_box .move.deal .right_move .real_sec .pad .etc ul li {
+  #sub .deal_box .move .right_move .real_sec .pad .etc ul li {
     font-size: 14px;
   }
 }

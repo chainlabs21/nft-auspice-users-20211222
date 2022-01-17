@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
 
@@ -22,13 +22,52 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VerifyAccountPopup from "./VerifyAccountPopup";
+import queryString from "query-string";
+import SetErrorBar from "../util/SetErrorBar";
+import { ERR_MSG } from "../config/messages";
+import axios from "axios";
+import { API } from "../config/api";
+import DatePicker from "react-datepicker";
 
 function SaleFixed({ store, setConnect }) {
   const navigate = useNavigate();
+  const { search } = useLocation();
 
   const [verifyPopup, setVerifyPopup] = useState(false);
+  const [platformFee, setPlatfromFee] = useState(2.5);
+  const [royalty, setRoyalty] = useState(5);
+  const [itemPrice, setItemPrice] = useState(0);
+  const [endPrice, setEndPrice] = useState(0);
+  const [endPriceOption, setEndPriceOption] = useState(false);
+  const [privateOption, setPrivateOption] = useState(false);
+  const [privateAddress, setPrivateAddress] = useState("");
+  const [itemData, setItemData] = useState({});
+
+  useEffect(() => {
+    const { id } = queryString.parse(search);
+    if (id === undefined) {
+      SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
+      navigate("/");
+    }
+    const asyncGetItemData = async () => {
+      try {
+        const resp = await axios.get(API.API_GET_ITEM_DATA + `/${id}`);
+        if (resp.data.status === "OK") {
+          setItemData(resp.data.respdata.item);
+          console.log(resp.data.respdata.item);
+        } else {
+          SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
+          navigate("/");
+        }
+      } catch (error) {
+        SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
+        navigate("/");
+      }
+    };
+    asyncGetItemData();
+  }, [navigate, search]);
 
   return (
     <SignPopupBox>
@@ -109,10 +148,6 @@ function SaleFixed({ store, setConnect }) {
                                     />
                                     <select name="" id="">
                                       <option>KLAY</option>
-                                      <option>KLAY</option>
-                                      <option>KLAY</option>
-                                      <option>KLAY</option>
-                                      <option>KLAY</option>
                                     </select>
                                   </div>
                                   <div class="input_right">
@@ -120,6 +155,10 @@ function SaleFixed({ store, setConnect }) {
                                       type="number"
                                       placeholder=""
                                       onkeydown="onlyNumber(this)"
+                                      value={itemPrice}
+                                      onChange={(e) => {
+                                        setItemPrice(e.target.value);
+                                      }}
                                     />
                                   </div>
                                 </div>
@@ -141,10 +180,6 @@ function SaleFixed({ store, setConnect }) {
                                   />
                                   <select name="" id="">
                                     <option>KLAY</option>
-                                    <option>KLAY</option>
-                                    <option>KLAY</option>
-                                    <option>KLAY</option>
-                                    <option>KLAY</option>
                                   </select>
                                 </div>
                                 <div class="input_right">
@@ -162,7 +197,15 @@ function SaleFixed({ store, setConnect }) {
                               <div class="top2">
                                 <h3>End price option</h3>
                                 <div class="toggle">
-                                  <input type="checkbox" name="" id="toggle" />
+                                  <input
+                                    type="checkbox"
+                                    name=""
+                                    id="toggle"
+                                    checked={endPriceOption}
+                                    onChange={(e) => {
+                                      setEndPriceOption(e.target.checked);
+                                    }}
+                                  />
                                   <label for="toggle"></label>
                                 </div>
                               </div>
@@ -197,10 +240,6 @@ function SaleFixed({ store, setConnect }) {
                                               />
                                               <select name="" id="">
                                                 <option>KLAY</option>
-                                                <option>KLAY</option>
-                                                <option>KLAY</option>
-                                                <option>KLAY</option>
-                                                <option>KLAY</option>
                                               </select>
                                             </div>
                                             <div class="input_right">
@@ -208,6 +247,10 @@ function SaleFixed({ store, setConnect }) {
                                                 type="number"
                                                 placeholder=""
                                                 onkeydown="onlyNumber(this)"
+                                                value={endPrice}
+                                                onChange={(e) => {
+                                                  setEndPrice(e.target.value);
+                                                }}
                                               />
                                             </div>
                                           </div>
@@ -216,7 +259,7 @@ function SaleFixed({ store, setConnect }) {
                                     </li>
                                     <li>
                                       <div class="endoption2">
-                                        <h3>Price</h3>
+                                        <h3>Expiry</h3>
                                         <div class="top2">
                                           <p>Items sold until canceled</p>
                                           <div class="twoselect">
@@ -250,7 +293,15 @@ function SaleFixed({ store, setConnect }) {
                               <div class="top2">
                                 <h3>Private option</h3>
                                 <div class="toggle">
-                                  <input type="checkbox" name="" id="toggle2" />
+                                  <input
+                                    type="checkbox"
+                                    name=""
+                                    id="toggle2"
+                                    checked={privateOption}
+                                    onChange={(e) => {
+                                      setPrivateOption(e.target.checked);
+                                    }}
+                                  />
                                   <label for="toggle2"></label>
                                 </div>
                               </div>
@@ -258,8 +309,15 @@ function SaleFixed({ store, setConnect }) {
                                 If set to private, other than the address
                                 entered below Products are not visible to users
                               </p>
-                              <div class="privatenum">
-                                <p>0x8df35T1REFD58984E3F2DG312FD323RE5R4FD5</p>
+                              <div class="inputbox">
+                                <input
+                                  type="text"
+                                  value={privateAddress}
+                                  placeholder="Buyer Wallet Address / ex ) Ox8df35..."
+                                  onChange={(e) => {
+                                    setPrivateAddress(e.target.value);
+                                  }}
+                                />
                               </div>
                             </div>
                           </li>
@@ -332,15 +390,15 @@ function SaleFixed({ store, setConnect }) {
                   <ul>
                     <li>
                       <p>Platform Fee</p>
-                      <span>2.5%</span>
+                      <span>{platformFee}%</span>
                     </li>
                     <li>
                       <p>Royalty</p>
-                      <span>5%</span>
+                      <span>{royalty}%</span>
                     </li>
                     <li>
                       <strong>Total</strong>
-                      <strong>7.5%</strong>
+                      <strong>{platformFee + royalty}%</strong>
                     </li>
                   </ul>
                 </div>

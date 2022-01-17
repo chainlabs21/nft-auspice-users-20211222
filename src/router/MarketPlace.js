@@ -143,6 +143,7 @@ function MarketPlace({ store, setConnect }) {
 
   useEffect(() => {
     const originItemList = generateItems(60);
+
     setItemList(originItemList);
     setFilteredList(originItemList);
     setTotalItem(originItemList.length);
@@ -150,6 +151,13 @@ function MarketPlace({ store, setConnect }) {
       setCategoryFilter(location.state);
     }
   }, [location.state]);
+  useEffect(() => {
+    const asyncGetItem = async () => {
+      try {
+        //const resp = axios.get()
+      } catch (error) {}
+    };
+  });
 
   return (
     <MarketPlaceBox>

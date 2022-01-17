@@ -29,6 +29,8 @@ function ExploreDeal({ store, setConnect }) {
 
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
+  const [toggleFilter, setToggleFilter] = useState(false);
+  const [moMoreObj, setMoMoreObj] = useState({});
 
   function editFilterList(category, cont) {
     let dataObj = filterObj;
@@ -56,15 +58,22 @@ function ExploreDeal({ store, setConnect }) {
     setFilterList([...Object.values(dataObj)]);
   }
 
+  function onClickToggleMoreBtn(index) {
+    let moreObj = moMoreObj;
+    moreObj[index] = !moreObj[index];
+    console.log(moreObj);
+    setMoMoreObj({ ...moreObj });
+  }
+
   return (
     <SignPopupBox>
       <section id="sub">
         <article class="deal_box">
-          <div class="move on deal">
+          <div class={toggleFilter ? "move on deal" : "move off"}>
             <div class="cw ucl">
-              <span class="close close2">
+              <span class="close" onClick={() => setToggleFilter(true)}>
                 <img src={require("../img/sub/side_close.png").default} />
-                <b class="mclose">
+                <b class="mclose" onClick={() => setToggleFilter(true)}>
                   Filter<span>1</span>
                 </b>
               </span>
@@ -75,6 +84,7 @@ function ExploreDeal({ store, setConnect }) {
                     <img
                       src={require("../img/sub/filter_close.png").default}
                       class="fc"
+                      onClick={() => setToggleFilter(false)}
                     />
                   </div>
                   <div class="fold status">
@@ -155,7 +165,7 @@ function ExploreDeal({ store, setConnect }) {
                     </h3>
 
                     <div class="open">
-                      <ul>
+                      <ul className="selectList">
                         {chainList.map((cont, index) => (
                           <li
                             key={index}
@@ -194,6 +204,7 @@ function ExploreDeal({ store, setConnect }) {
                           <span>Filter reset</span>
                         </a>
                       </div>
+
                       {filterList.map((cont, index) => (
                         <div class="select_f" key={index}>
                           <p>{cont}</p>
@@ -218,96 +229,43 @@ function ExploreDeal({ store, setConnect }) {
                       </div>
                     </div>
                   </div>
+
                   <div class="filter_list2">
                     <div class="f_left">
                       <div class="slide2">
                         <div class="swiper mySwiper3">
                           <ul class="swiper-wrapper">
-                            <li class="swiper-slide">
+                            <li
+                              class="swiper-slide"
+                              onClick={onclickFilterReset}
+                            >
                               <div class="fl">
                                 <a>
                                   <span>Filter reset</span>
                                 </a>
                               </div>
                             </li>
-                            <li class="swiper-slide">
-                              <div class="select_f">
-                                <p>Sale</p>
-                                <a>
-                                  <img
-                                    src={
-                                      require("../img/sub/close_24.png").default
-                                    }
-                                    alt=""
-                                  />
-                                </a>
-                              </div>
-                            </li>
-                            <li class="swiper-slide">
-                              <div class="select_f">
-                                <p>Sale</p>
-                                <a>
-                                  <img
-                                    src={
-                                      require("../img/sub/close_24.png").default
-                                    }
-                                    alt=""
-                                  />
-                                </a>
-                              </div>
-                            </li>
-                            <li class="swiper-slide">
-                              <div class="select_f">
-                                <p>Sale</p>
-                                <a>
-                                  <img
-                                    src={
-                                      require("../img/sub/close_24.png").default
-                                    }
-                                    alt=""
-                                  />
-                                </a>
-                              </div>
-                            </li>
-                            <li class="swiper-slide">
-                              <div class="select_f">
-                                <p>Sale</p>
-                                <a>
-                                  <img
-                                    src={
-                                      require("../img/sub/close_24.png").default
-                                    }
-                                    alt=""
-                                  />
-                                </a>
-                              </div>
-                            </li>
-                            <li class="swiper-slide">
-                              <div class="select_f">
-                                <p>Sale</p>
-                                <a>
-                                  <img
-                                    src={
-                                      require("../img/sub/close_24.png").default
-                                    }
-                                    alt=""
-                                  />
-                                </a>
-                              </div>
-                            </li>
-                            <li class="swiper-slide">
-                              <div class="select_f">
-                                <p>Sale</p>
-                                <a>
-                                  <img
-                                    src={
-                                      require("../img/sub/close_24.png").default
-                                    }
-                                    alt=""
-                                  />
-                                </a>
-                              </div>
-                            </li>
+
+                            {filterList.map((cont, index) => (
+                              <li
+                                key={index}
+                                className="swiper-slide"
+                                onClick={() => onclickFilterCancel(cont)}
+                              >
+                                <div class="select_f">
+                                  <p>{cont}</p>
+                                  <a>
+                                    <img
+                                      src={
+                                        require("../img/sub/close_24.png")
+                                          .default
+                                      }
+                                      alt=""
+                                    />
+                                  </a>
+                                </div>
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       </div>
@@ -876,204 +834,77 @@ function ExploreDeal({ store, setConnect }) {
 
                   <div class="ranktable_m">
                     <ul>
-                      <li>
-                        <div class="content">
-                          <div class="name_left">
-                            <div class="img">
-                              <img
-                                src={
-                                  require("../img/sub/hjcollection.png").default
-                                }
-                                alt=""
-                              />
+                      {[1, 2, 3, 4, 5].map((cont, index) => (
+                        <li key={index}>
+                          <div class="content">
+                            <div class="name_left">
+                              <div class="img">
+                                <img
+                                  src={
+                                    require("../img/sub/hjcollection.png")
+                                      .default
+                                  }
+                                  alt=""
+                                />
+                              </div>
+                              <div class="txt">
+                                <h4>Sale</h4>
+                                <p>Summer Pool</p>
+
+                                <a>
+                                  <span
+                                    onClick={() => onClickToggleMoreBtn(index)}
+                                  >
+                                    {moMoreObj[index] ? "- Less" : "+ More"}
+                                  </span>
+                                </a>
+                              </div>
                             </div>
-                            <div class="txt">
-                              <h4>Sale</h4>
-                              <p>Summer Pool</p>
-                              <a>
-                                <span class="more">+ More</span>
-                                <span class="less">- Less</span>
-                              </a>
-                            </div>
-                          </div>
-                          <div class="num_right">
-                            <div class="total">
-                              <p>
+                            <div class="num_right">
+                              <div class="total">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
                                   }
                                   alt=""
                                 />
-                                0.005
-                              </p>
-                            </div>
-                            <div class="time">
-                              <p>1 minutes left</p>
-                              <img
-                                src={
-                                  require("../img/sub/icon_link_off.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="slide_s slide2">
-                          <div class="etc">
-                            <ul>
-                              <li>
-                                <p>Quantity</p>
-                                <span>1</span>
-                              </li>
-                              <li>
-                                <p>From</p>
-                                <span>VOE837837837</span>
-                              </li>
-                              <li>
-                                <p>To</p>
-                                <span>TIDREDTIDRED</span>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="content">
-                          <div class="name_left">
-                            <div class="img">
-                              <img
-                                src={
-                                  require("../img/sub/hjcollection.png").default
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div class="txt">
-                              <h4>Sale</h4>
-                              <p>Summer Pool</p>
-                              <a>
-                                <span class="more">+ More</span>
-                                <span class="less">- Less</span>
-                              </a>
-                            </div>
-                          </div>
-                          <div class="num_right">
-                            <div class="total">
-                              <p>
+                                <p>0.005</p>
+                              </div>
+                              <div class="time">
+                                <p>1 minutes left</p>
                                 <img
                                   src={
-                                    require("../img/sub/I_klaytn.svg").default
+                                    require("../img/sub/icon_link_off.png")
+                                      .default
                                   }
                                   alt=""
                                 />
-                                0.005
-                              </p>
-                            </div>
-                            <div class="time">
-                              <p>1 minutes left</p>
-                              <img
-                                src={
-                                  require("../img/sub/icon_link_off.png")
-                                    .default
-                                }
-                                alt=""
-                              />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="content">
-                          <div class="name_left">
-                            <div class="img">
-                              <img
-                                src={
-                                  require("../img/sub/hjcollection.png").default
-                                }
-                                alt=""
-                              />
+
+                          {moMoreObj[index] && (
+                            <div class="slide_s slide2">
+                              <div class="etc">
+                                <ul>
+                                  <li>
+                                    <p>Quantity</p>
+                                    <span>1</span>
+                                  </li>
+                                  <li>
+                                    <p>From</p>
+                                    <span>VOE837837837</span>
+                                  </li>
+                                  <li>
+                                    <p>To</p>
+                                    <span>TIDREDTIDRED</span>
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
-                            <div class="txt">
-                              <h4>Sale</h4>
-                              <p>Summer Pool</p>
-                              <a>
-                                <span class="more">+ More</span>
-                                <span class="less">- Less</span>
-                              </a>
-                            </div>
-                          </div>
-                          <div class="num_right">
-                            <div class="total">
-                              <p>
-                                <img
-                                  src={
-                                    require("../img/sub/I_klaytn.svg").default
-                                  }
-                                  alt=""
-                                />
-                                0.005
-                              </p>
-                            </div>
-                            <div class="time">
-                              <p>1 minutes left</p>
-                              <img
-                                src={
-                                  require("../img/sub/icon_link_off.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="content">
-                          <div class="name_left">
-                            <div class="img">
-                              <img
-                                src={
-                                  require("../img/sub/hjcollection.png").default
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div class="txt">
-                              <h4>Sale</h4>
-                              <p>Summer Pool</p>
-                              <a>
-                                <span class="more">+ More</span>
-                                <span class="less">- Less</span>
-                              </a>
-                            </div>
-                          </div>
-                          <div class="num_right">
-                            <div class="total">
-                              <p>
-                                <img
-                                  src={
-                                    require("../img/sub/I_klaytn.svg").default
-                                  }
-                                  alt=""
-                                />
-                                0.005
-                              </p>
-                            </div>
-                            <div class="time">
-                              <p>1 minutes left</p>
-                              <img
-                                src={
-                                  require("../img/sub/icon_link_off.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </li>
+                          )}
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -1086,7 +917,17 @@ function ExploreDeal({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  .mySwiper3 {
+    .swiper-wrapper {
+      overflow-x: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };

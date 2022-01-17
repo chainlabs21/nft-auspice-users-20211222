@@ -23,3 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 tags
 /backup
+tags.temp
+tags.lock
+tags.lock
+tags.temp

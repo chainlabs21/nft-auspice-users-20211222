@@ -13,6 +13,8 @@ export const ERR_MSG = {
   ERR_PLEASE_CONNECT_WALLET: "Please connect wallet!",
   ERR_CANNOT_GET_CATEGORIES: "Can not get categories",
   ERR_PLEASE_COMPLETE_REQUIRE: "Please complete empty require",
+  ERR_NO_SUPPORT_FILE_TYPE: "File type is not support",
+  ERR_NO_ITEM_DATA: "Can not get Item Data",
 };
 export const MSG = {
   MSG_WALLET_DISCONNECTED: "Wallet disconnected",
