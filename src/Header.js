@@ -201,7 +201,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
                 <a onClick={() => navigate("/myprof")}>My Profile</a>
               </li>
               <li>
-                <a onClick={() => navigate("/myitem")}>My Items</a>
+                <a onClick={() => navigate("/mycollectionselect")}>My Items</a>
               </li>
               <li>
                 <a onClick={() => navigate("/liked")}>Bookmark</a>

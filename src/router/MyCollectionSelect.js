@@ -233,7 +233,7 @@ function MyFavorite({ store }) {
                   <div class="item marbo">
                     <div class="full">
                       <h4 class="t releft">Recently Listed</h4>
-                      <a onClick={() => navigate("/salefixed")} class="replus">
+                      <a onClick={() => navigate("/createitem")} class="replus">
                         Register a new item
                       </a>
                     </div>
@@ -330,7 +330,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s8})`,
                                         backgroundRepeat: "no-repeat",
@@ -372,7 +372,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s7})`,
                                         backgroundRepeat: "no-repeat",
@@ -414,7 +414,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
@@ -480,7 +480,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s2})`,
                                         backgroundRepeat: "no-repeat",
@@ -522,7 +522,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
@@ -564,7 +564,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${sample})`,
                                         backgroundRepeat: "no-repeat",
@@ -606,7 +606,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s8})`,
                                         backgroundRepeat: "no-repeat",
@@ -648,7 +648,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s7})`,
                                         backgroundRepeat: "no-repeat",
@@ -690,7 +690,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
@@ -756,7 +756,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s2})`,
                                         backgroundRepeat: "no-repeat",
@@ -798,7 +798,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
@@ -840,7 +840,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s8})`,
                                         backgroundRepeat: "no-repeat",
@@ -882,7 +882,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s7})`,
                                         backgroundRepeat: "no-repeat",
@@ -924,7 +924,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
@@ -966,7 +966,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={()=>navigate('/singleitem')}
+                                      onClick={() => navigate("/singleitem")}
                                       style={{
                                         backgroundImage: `url(${s6})`,
                                         backgroundRepeat: "no-repeat",
