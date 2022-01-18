@@ -1,0 +1,964 @@
+{
+	"compiler": {
+		"version": "0.8.11+commit.d7f03943"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "__user_proxy_registry",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "__admin_contract",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "__erc1155_contract_default",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_from",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_type",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_to",
+						"type": "address"
+					}
+				],
+				"name": "DepositToVault",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "ADMIN_FEE_RATE_DEF",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_admin_contract",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "_batch_hashid_auction_info",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "_opener",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_holder",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_target_contract",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_status",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_paymenttoken",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_offer_starting_price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_offer_end_price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_count_steps_depreciation",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_starting_time",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_expiry",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_referer_feerate",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_erc1155_contract_default",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "_is_batch_hashid_onauction",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_payroll",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_user_proxy_registry",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_target_contract",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_user_proxy_registry",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_holder",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_target_item_ids",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_amounts",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "address",
+						"name": "_paymenttoken",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_offer_starting_price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_offer_end_price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_count_steps_depreciation",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_starting_time",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_expiry",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_referer_feerate",
+						"type": "uint256"
+					}
+				],
+				"name": "begin_auction_batch",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_target_contract",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "_batch_hashid",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "_paymenttoken",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_to",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_referer",
+						"type": "address"
+					}
+				],
+				"name": "bid",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_address",
+						"type": "address"
+					},
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "_opener",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "_holder",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "_target_contract",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "_target_item_ids",
+								"type": "uint256[]"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "_amounts",
+								"type": "uint256[]"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_status",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "_paymenttoken",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_offer_starting_price",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_offer_end_price",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_count_steps_depreciation",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_starting_time",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_expiry",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_referer_feerate",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Auction_repo_dutch_bulk.Auction_info_batch",
+						"name": "auction_info",
+						"type": "tuple"
+					}
+				],
+				"name": "can_manage_sale",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_batch_hashid",
+						"type": "bytes32"
+					}
+				],
+				"name": "cancel_auction",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_holder",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_target_contract",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_target_item_ids",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_amounts",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_starting_time",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_expiry",
+						"type": "uint256"
+					}
+				],
+				"name": "get_batch_hashid",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lastData",
+				"outputs": [
+					{
+						"internalType": "bytes",
+						"name": "",
+						"type": "bytes"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lastFrom",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lastId",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lastOperator",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lastValue",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_operator",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_from",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_ids",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_values",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "bytes",
+						"name": "_data",
+						"type": "bytes"
+					}
+				],
+				"name": "onERC1155BatchReceived",
+				"outputs": [
+					{
+						"internalType": "bytes4",
+						"name": "",
+						"type": "bytes4"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_operator",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_from",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_value",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "_data",
+						"type": "bytes"
+					}
+				],
+				"name": "onERC1155Received",
+				"outputs": [
+					{
+						"internalType": "bytes4",
+						"name": "",
+						"type": "bytes4"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_batch_hashid",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_query_timepoint",
+						"type": "uint256"
+					}
+				],
+				"name": "query_price_with_time",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_batch_hashid",
+						"type": "bytes32"
+					},
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "_opener",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "_holder",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "_target_contract",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "_target_item_ids",
+								"type": "uint256[]"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "_amounts",
+								"type": "uint256[]"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_status",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "_paymenttoken",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_offer_starting_price",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_offer_end_price",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_count_steps_depreciation",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_starting_time",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_expiry",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_referer_feerate",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Auction_repo_dutch_bulk.Auction_info_batch",
+						"name": "auction_info_update",
+						"type": "tuple"
+					}
+				],
+				"name": "revise_auction_terms",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "_value",
+						"type": "bool"
+					}
+				],
+				"name": "setShouldReject",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_address",
+						"type": "address"
+					}
+				],
+				"name": "set_admin_contract",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_address",
+						"type": "address"
+					}
+				],
+				"name": "set_erc1155_contract",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_address",
+						"type": "address"
+					}
+				],
+				"name": "set_payroll",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_address",
+						"type": "address"
+					}
+				],
+				"name": "set_user_proxy_registry",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "shouldReject",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes4",
+						"name": "interfaceID",
+						"type": "bytes4"
+					}
+				],
+				"name": "supportsInterface",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_target_contract",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_user_proxy_registry",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_opener",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_holder",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_target_item_ids",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_amounts",
+						"type": "uint256[]"
+					}
+				],
+				"name": "validate_auction_open",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Auction_repo_dutch_bulk.sol": "Auction_repo_dutch_bulk"
+		},
+		"evmVersion": "constantinople",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Auction_repo_dutch_bulk.sol": {
+			"keccak256": "0xcc4a1ad7bbbc9ad7844c157a30708e7ccda99e15ed1ad9bd45c2227702135940",
+			"urls": [
+				"bzz-raw://82947f25f7c036e03ac991c2e9e617d229853c0392697abc9e8c60ecadb7e933",
+				"dweb:/ipfs/QmbpmGEnPZthyx7WwigNgce2MetMnvi7YwNS7jzWR4ew5Y"
+			]
+		},
+		"ERC1155MockReceiver.sol": {
+			"keccak256": "0x321051fe557f3da72d8e23f77ee3a0f10e8c6e63e30b3e5356bce1024a0e983b",
+			"urls": [
+				"bzz-raw://c1d248c788599cb48bd6e57698171ecc2df684367f0a1be853b5f5fcb71d4fc3",
+				"dweb:/ipfs/QmTXWmo3kdVpVsdM3q4BzzvbV8JLArgmhJnHiQomfnQ13L"
+			]
+		},
+		"Interfaces/IAdmin_nft.sol": {
+			"keccak256": "0x0aff6a180b78b8a710d19098cc8eba84d14b751a775f522c64ff664b58d32b14",
+			"urls": [
+				"bzz-raw://a3e0897044fd7f255005cced54123413887c17e421415eef0a2e347ec335a020",
+				"dweb:/ipfs/Qmb77Rju7rziyBF8FkBWcGWwQzVniagyRx2CmTsBMfoPk1"
+			]
+		},
+		"Interfaces/IERC1155.sol": {
+			"keccak256": "0x7add5bcd2bc7ff318a20a70eaa7e4efee12b23e8b4abf375e22491ff69416a12",
+			"urls": [
+				"bzz-raw://f60550b95aa29d0d45117f5d2f065fb1faf8bde4e7334fb42410a63faaae1dde",
+				"dweb:/ipfs/QmVbmD4TC6KMQjeynFKpnZGczv6riwwLExE4hNuvoD2gRQ"
+			]
+		},
+		"Interfaces/IPayroll_fees.sol": {
+			"keccak256": "0x721dcaf527da9ed146cda0d57190011eb22c591de64a047e5281594ecd0c4ba1",
+			"urls": [
+				"bzz-raw://ecd53f6c7a32819257c6e9e04e56ad5ee0ba1a98f1c7ab533fe4b98fd90b3379",
+				"dweb:/ipfs/QmZsQpntCE83SS3uyQ4kfqHc11kdFcm9G3PPpBpbXPV3Nv"
+			]
+		},
+		"Interfaces/IProxyRegistry.sol": {
+			"keccak256": "0xb2ffc02c4cecd7a17246a87428a45dc05d5e646e3cd7f57c5706f2a993d5e336",
+			"urls": [
+				"bzz-raw://5e80416018f0da7649e3be3bda70a98c0bd3b5b33b8bbcb80fa61c48d9b81338",
+				"dweb:/ipfs/QmeD4EVBkQwcZwZzZjBmMpuZVAgnxN6Eovh1b7q9tB8hMn"
+			]
+		},
+		"Interfaces/Interface_to_vault.sol": {
+			"keccak256": "0x0d4422c8eaec3ac15e4f74391f5e7b5381b466098805f4d04725480bec6f6ca5",
+			"urls": [
+				"bzz-raw://41a6f8bf3d11782de236630eac1ccad7bf87a839013e224f531c2a79dcbcfaaf",
+				"dweb:/ipfs/QmWeqJEHiPB3ifJ1n64NCKbm8BwSC6CCHNmw3ha2NEwpfZ"
+			]
+		}
+	},
+	"version": 1
+}
