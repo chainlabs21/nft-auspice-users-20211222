@@ -33,7 +33,7 @@ import DatePicker from "react-datepicker";
 import { getuseraddress } from "../util/common";
 import { signOrderData } from "../util/verifySig";
 
-function SaleFixed({ store, setConnect }) {
+function SaleFixed() {
   const navigate = useNavigate();
   const { search } = useLocation();
 
@@ -46,9 +46,28 @@ function SaleFixed({ store, setConnect }) {
   const [privateOption, setPrivateOption] = useState(false);
   const [privateAddress, setPrivateAddress] = useState("");
   const [itemData, setItemData] = useState({});
+  const [sign, setSign] = useState([]);
+  const [signError, setSignError] = useState("");
+  const [completeSign, setCompleteSign] = useState(true);
 
+  const signCallback = (error, result) => {
+    const temp = [];
+    console.log(error, result);
+    if (result.error === undefined) {
+      const v = "0x" + result.result.substring(2).substring(128, 130);
+      const r = "0x" + result.result.substring(2).substring(0, 64);
+      const s = "0x" + result.result.substring(2).substring(64, 128);
+      temp.push(v, r, s, result.result);
+      setSign(temp);
+    } else {
+      console.log(error);
+      setSignError(error);
+      SetErrorBar(ERR_MSG.ERR_USER_SIGN_CANCELED);
+    }
+  };
   const handleSalesStart = () => {
     const userAddr = getuseraddress();
+    console.log(itemData);
     const asyncSalesStart = async () => {
       const orderData = {
         seller_address: userAddr,
@@ -57,12 +76,8 @@ function SaleFixed({ store, setConnect }) {
         priceunit: "0x000000000000000000000000000000000000",
         expiry: 0,
       };
-      try {
-        const resp = await signOrderData(orderData);
-        console.log(resp);
-      } catch (error) {
-        console.log(error);
-      }
+      console.log(itemPrice);
+      signOrderData(orderData, signCallback);
     };
     asyncSalesStart();
   };
@@ -78,6 +93,7 @@ function SaleFixed({ store, setConnect }) {
         const resp = await axios.get(API.API_GET_ITEM_DATA + `/${id}`);
         if (resp.data.status === "OK") {
           setItemData(resp.data.respdata.item);
+          setRoyalty(resp.data.respdata.item.authorfee / 100);
           console.log(resp.data.respdata.item);
         } else {
           SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
@@ -90,6 +106,21 @@ function SaleFixed({ store, setConnect }) {
     };
     asyncGetItemData();
   }, [navigate, search]);
+
+  useEffect(() => {
+    console.log(signError, sign.length);
+    if (signError !== "" && signError !== undefined && signError !== null) {
+      setCompleteSign(false);
+      setVerifyPopup(false);
+      setSign([]);
+      setSignError("");
+      return;
+    }
+    if (sign.length === 4) {
+      setCompleteSign(true);
+      setVerifyPopup(true);
+    }
+  }, [sign.length]);
 
   return (
     <SignPopupBox>
@@ -428,7 +459,6 @@ function SaleFixed({ store, setConnect }) {
                   class="sales_btn"
                   onClick={() => {
                     handleSalesStart();
-                    setVerifyPopup(true);
                   }}
                 >
                   <a>Sales start</a>
@@ -486,14 +516,4 @@ function SaleFixed({ store, setConnect }) {
 
 const SignPopupBox = styled.div``;
 
-function mapStateToProps(state) {
-  return { store: state };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    setConnect: () => dispatch(setConnect()),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SaleFixed);
+export default SaleFixed;
