@@ -32,6 +32,48 @@ import "../css/swiper.min.css";
 function HandOver({ store, setConnect }) {
   const navigate = useNavigate();
 
+  async function onClickSendBtn() {
+    const { klaytn } = window;
+    const transactionParameters = {
+      from: klaytn.selectedAddress,
+      to: "0x3e125F5D532D2C8CAbffE5cD2d7aBdAe2FEF0087",
+      id: 1,
+      amount: 1,
+    };
+
+    klaytn.sendAsync(
+      {
+        method: "klay_sendTransaction",
+        params: [transactionParameters],
+        from: klaytn.selectedAddress,
+      },
+      (res, err, a, b, c, d) => console.log(res, err, "a",a, "b",b,"c", c,"d", d)
+    );
+
+    // let { from, to, data, value } = jreqdata;
+    // let { ethereum } = window;
+
+    // const txparams = {
+    //   to: to,
+    //   from: from,
+    //   value: value, // '0x00'
+    //   data: data,
+    // };
+
+    // let resp;
+    // try {
+    //   resp = await ethereum.request({
+    //     method: "eth_sendTransaction",
+    //     params: [txparams],
+    //   });
+    //   DebugMode && LOGGER("1F9jVI8LrL", resp);
+    //   return resp;
+    // } catch (err) {
+    //   DebugMode && LOGGER("kkm1TWXecH", err);
+    //   return null;
+    // }
+  }
+
   return (
     <SignPopupBox>
       <section id="sub">
@@ -121,7 +163,7 @@ function HandOver({ store, setConnect }) {
                 </div>
               </div>
               <div class="create_btn send_btn">
-                <a onClick={() => navigate(-1)} class="send">
+                <a onClick={onClickSendBtn} class="send">
                   Send
                 </a>
               </div>

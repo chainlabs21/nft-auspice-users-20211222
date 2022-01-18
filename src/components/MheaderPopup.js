@@ -10,7 +10,6 @@ import I_dnArwGray from "../img/header/I_dnArwGray.svg";
 
 function Main({ store, setAllPopupOff }) {
   const navigate = useNavigate();
-
   const [category, setCategory] = useState(0);
 
   function onclickCategory(index) {

@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 
@@ -21,6 +21,7 @@ import { setAllPopupOff, setMHeaderPopup } from "./util/store";
 
 function Main({ store, setAllPopupOff, setMHeaderPopup }) {
   const navigate = useNavigate();
+  const { mHeaderPopup } = useSelector((state) => state.store);
 
   const [search, setSearch] = useState("");
 
@@ -53,7 +54,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
       <a id="search" onClick={() => navigate("/marketplace")}>
         <img src={require("./img/header/search_icon.png").default} />
       </a>
-      {store.mHeaderPopup ? (
+      {mHeaderPopup ? (
         <img id="mobile" src={I_x} alt="" onClick={setAllPopupOff} />
       ) : (
         <a id="mobile" onClick={setMHeaderPopup}>

@@ -77,6 +77,7 @@ import GlobalStyle from "./components/globalStyle";
 function App({ store, setHref, setConnect }) {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
+  const { mHeaderPopup } = useSelector((state) => state.store);
 
   const on_wallet_disconnect = (_) => {
     let token_sec = localStorage.getItem("token");
@@ -231,7 +232,7 @@ function App({ store, setHref, setConnect }) {
           */}
         </Routes>
 
-        {store.mHeaderPopup && <MheaderPopup />}
+        {mHeaderPopup && <MheaderPopup />}
         {store.maccountPopup && <MaccountPopup />}
       </HashRouter>
     </AppBox>
