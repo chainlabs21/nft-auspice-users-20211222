@@ -230,6 +230,18 @@ function Referals({ store, setConnect }) {
 }
 
 const SignPopupBox = styled.div`
+  #sub {
+    .deal_box {
+      .move {
+        .right_move {
+          .real_sec {
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+
   .rp2 {
     overflow: hidden;
 

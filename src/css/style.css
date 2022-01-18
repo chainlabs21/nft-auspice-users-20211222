@@ -9925,13 +9925,13 @@ div.basic .tab_bottom .body tr td span.chain.off {
 #sub .deal_box .move.on .right_move {
   width: auto;
   float: none;
-  min-width: 1310px;
+  /* min-width: 1310px; */
 }
 #sub .deal_box .move .right_move .real_sec .etc ul li {
   width: 12.5%;
 }
 #sub .deal_box .move.on .right_move .pad {
-  width: 1280px;
+  /* width: 1280px; */
   margin: 0 0 0 30px;
   padding: 0;
 }

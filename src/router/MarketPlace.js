@@ -211,7 +211,7 @@ function MarketPlace({ store, setConnect }) {
 
                   <details class="filterDetails">
                     <summary class="filterSummary">
-                      <p className="filterTitle">Event type</p>
+                      <p className="filterTitle">Status</p>
 
                       <img src={I_dnArrow} class="slide_up" />
                     </summary>

@@ -266,6 +266,7 @@ function ExploreDeal({ store, setConnect }) {
                       </div>
                     </div>
                   </div>
+                  
                   <div class="ranktable_pc">
                     <table>
                       <colgroup>

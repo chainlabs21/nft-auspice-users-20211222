@@ -17,6 +17,9 @@ import sample from "../img/sub/sample.png";
 import click1 from "../img/sub/click1.png";
 import ho_img from "../img/sub/ho_img.png";
 import rock from "../img/sub/rock.png";
+import I_dnArrow from "../img/icons/I_dnArrow.svg";
+import loupe from "../img/sub/loupe.png";
+import filter_icon from "../img/sub/filter_icon.png";
 
 import "../css/common.css";
 import "../css/font.css";
@@ -38,6 +41,32 @@ function Offers({ store, setConnect }) {
   const [offerCategory, setOfferCategory] = useState(0);
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
+  const [unit, setUnit] = useState("USD");
+  const [fromPrice, setFromPrice] = useState("");
+  const [toPrice, setToPrice] = useState("");
+  const [priceFilterToggle, setPriceFilterToggle] = useState(false);
+  const [callEffect, setCallEffect] = useState(false);
+  const [pricePopup, setPricePopup] = useState(false);
+
+  function getSelectText() {
+    switch (unit) {
+      case "USD":
+        return "United States Dollars (USD)";
+      case "KLAY":
+        return "Klaytn";
+      default:
+        break;
+    }
+  }
+
+  function onClickOption(data) {
+    setUnit(data);
+    setPriceFilterToggle(false);
+    setFromPrice(0.0);
+    setToPrice(0.0);
+    setCallEffect(!callEffect);
+    setPricePopup(false);
+  }
 
   function editFilterList(category, cont) {
     let dataObj = filterObj;
@@ -103,182 +132,190 @@ function Offers({ store, setConnect }) {
                   </b>
                 </span>
                 <div class="left_move">
-                  <form>
-                    <div class="filter">
-                      <h3 class="filt">
-                        <img
-                          src={require("../img/sub/filter_icon.png").default}
-                        />
-                        Filter
-                      </h3>
+                  <form className="filterBox">
+                    <div class="topBar">
+                      <span className="leftBox">
+                        <img src={filter_icon} alt="" />
+                        <p>Filter</p>
+                      </span>
                       <img
                         src={require("../img/sub/filter_close.png").default}
                         class="fc"
                         onClick={() => setToggleFilter(false)}
-                        style={{
-                          cursor: "pointer",
-                        }}
                       />
                     </div>
-                    <div class="fold status">
-                      <h3 class="slide_tt">
-                        Status
-                        <img
-                          src={require("../img/sub/slide_up.png").default}
-                          class="slide_up"
-                        />
-                      </h3>
 
-                      <div class="open status">
-                        <ul>
-                          {statusList.map((cont, index) => (
-                            <li
-                              key={index}
-                              style={{ cursor: "pointer" }}
-                              className={filterObj[cont] === cont && "on"}
-                              onClick={() => editFilterList(cont, cont)}
+                    <details class="filterDetails">
+                      <summary class="filterSummary">
+                        <p className="filterTitle">Status</p>
+
+                        <img src={I_dnArrow} class="slide_up" />
+                      </summary>
+
+                      <ul className="filterContList typeList">
+                        {statusList.map((cont, index) => (
+                          <li
+                            key={index}
+                            style={{ cursor: "pointer" }}
+                            className={filterObj[cont] === cont && "on"}
+                            onClick={() => editFilterList(cont, cont)}
+                          >
+                            {cont}
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+
+                    <details class="filterDetails">
+                      <summary class="filterSummary">
+                        <p className="filterTitle">Price</p>
+
+                        <img src={I_dnArrow} class="slide_up" />
+                      </summary>
+                      <div class="filterContList priceBox">
+                        <div className="settingBox">
+                          <div className="selectPosBox">
+                            <div
+                              className="selectBox"
+                              onClick={() => setPricePopup(true)}
                             >
-                              {cont}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
+                              <p>{getSelectText()}</p>
 
-                    <div class="fold">
-                      <h3 class="slide_tt">
-                        Price
-                        <img
-                          src={require("../img/sub/slide_up.png").default}
-                          class="slide_up"
-                        />
-                      </h3>
+                              <img src={I_dnArrow} alt="" />
+                            </div>
 
-                      <div class="open">
-                        <select>
-                          <option disabled selected hidden>
-                            United States Dollars (USD)
-                          </option>
-                          <option>100</option>
-                        </select>
-                        <div class="price_area">
-                          <div class="price_wrap">
-                            <input type="text" placeholder="0.00" />
-                            <span class="usd">USD</span>
+                            {pricePopup && (
+                              <ul
+                                className="optionList"
+                                onClick={onClickOption}
+                              >
+                                {optionList.map((cont, index) => (
+                                  <li
+                                    key={index}
+                                    onClick={() => setUnit(cont.value)}
+                                  >
+                                    {cont.text}
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
                           </div>
-                          <div class="price_wrap">
-                            <input type="text" placeholder="0.00" />
-                            <span class="usd">USD</span>
+
+                          <div class="priceAreaBox">
+                            <div className="priceInputBox minBox">
+                              <input
+                                type="text"
+                                value={fromPrice}
+                                onChange={(e) => setFromPrice(e.target.value)}
+                                placeholder="0.00"
+                              />
+                              <p className="unit">{unit}</p>
+                            </div>
+
+                            <p>~</p>
+
+                            <div class="priceInputBox maxBox">
+                              <input
+                                type="text"
+                                value={toPrice}
+                                onChange={(e) => setToPrice(e.target.value)}
+                                placeholder="0.00"
+                              />
+                              <p className="unit">{unit}</p>
+                            </div>
                           </div>
                         </div>
-                        <a class="slide_btn">Apply</a>
+
+                        <button
+                          class="applyBtn"
+                          onClick={() => {
+                            setPriceFilterToggle(true);
+                            setCallEffect(!callEffect);
+                          }}
+                        >
+                          Apply
+                        </button>
                       </div>
-                    </div>
+                    </details>
 
-                    <div class="fold">
-                      <h3 class="slide_tt">
-                        Collections
-                        <img
-                          src={require("../img/sub/slide_up.png").default}
-                          class="slide_up"
-                        />
-                      </h3>
+                    <details class="filterDetails">
+                      <summary class="filterSummary">
+                        <p className="filterTitle">Items</p>
 
-                      <div class="open collection">
-                        <input
-                          type="text"
-                          placeholder="Filter"
-                          class="s_search"
-                        />
-                        <ul>
-                          <li
-                            class="collec_img"
-                            style={{
-                              backgroundImage: `url(${collect_img})`,
-                            }}
-                          >
-                            <span>Collection 01</span>
-                          </li>
-                          <li
-                            class="collec_img"
-                            style={{
-                              backgroundImage: `url(${collect_img2})`,
-                            }}
-                          >
-                            <span>Collection 02</span>
-                          </li>
-                          <li
-                            class="collec_img"
-                            style={{
-                              backgroundImage: `url(${collect_img3})`,
-                            }}
-                          >
-                            <span>Collection 03</span>
-                          </li>
-                          <li
-                            class="collec_img"
-                            style={{
-                              backgroundImage: `url(${collect_img4})`,
-                            }}
-                          >
-                            <span>Collection 04</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
+                        <img src={I_dnArrow} class="slide_up" />
+                      </summary>
 
-                    <div class="fold">
-                      <h3 class="slide_tt">
-                        Chains
-                        <img
-                          src={require("../img/sub/slide_up.png").default}
-                          class="slide_up"
-                        />
-                      </h3>
+                      <div class="filterContList searchListBox">
+                        <div className="inputBox">
+                          <img src={loupe} alt="" />
+                          <input
+                            type="text"
+                            placeholder="Filter"
+                            class="s_search"
+                          />
+                        </div>
 
-                      <div class="open">
-                        <ul className="selectList">
-                          {chainList.map((cont, index) => (
-                            <li
-                              key={index}
-                              class="ra"
-                              onClick={() => editFilterList("chain", cont.name)}
-                              style={{ cursor: "pointer" }}
-                            >
-                              <span
-                                className="chkBtn"
-                                style={{
-                                  background:
-                                    filterObj.chain === cont.name && "#000",
-                                }}
-                              >
-                                <span />
-                              </span>
-                              <label for={cont.name}>
-                                <img src={cont.img} />
-                                {cont.name}
-                              </label>
+                        <ul className="searchList">
+                          {filterSearchData.map((cont, index) => (
+                            <li key={index}>
+                              <img src={cont.img} alt="" />
+                              <p>{cont.name}</p>
                             </li>
                           ))}
                         </ul>
                       </div>
-                    </div>
+                    </details>
 
-                    <div class="fold">
-                      <h3 class="slide_tt">
-                        Sales Coin
-                        <img
-                          src={require("../img/sub/slide_up.png").default}
-                          class="slide_up"
-                        />
-                      </h3>
+                    <details class="filterDetails">
+                      <summary class="filterSummary">
+                        <p className="filterTitle">Chains</p>
 
-                      <div class="open">
-                        <input
-                          type="text"
-                          placeholder="Filter"
-                          class="s_search"
-                        />
+                        <img src={I_dnArrow} class="slide_up" />
+                      </summary>
+
+                      <ul className="filterContList chainList">
+                        {chainList.map((cont, index) => (
+                          <li
+                            key={index}
+                            class="ra"
+                            onClick={() => editFilterList("chain", cont.name)}
+                          >
+                            <span
+                              className="chkBtn"
+                              style={{
+                                background:
+                                  filterObj.chain === cont.name && "#000",
+                              }}
+                            >
+                              <span />
+                            </span>
+
+                            <div className="name">
+                              <img src={cont.img} />
+                              {cont.name}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+
+                    <details class="filterDetails">
+                      <summary class="filterSummary">
+                        <p className="filterTitle">Sales Coin</p>
+
+                        <img src={I_dnArrow} class="slide_up" />
+                      </summary>
+
+                      <div class="filterContList searchListBox">
+                        <div className="inputBox">
+                          <img src={loupe} alt="" />
+                          <input
+                            type="text"
+                            placeholder="Filter"
+                            class="s_search"
+                          />
+                        </div>
+
                         <ul className="selectList">
                           {coinList.map((cont, index) => (
                             <li
@@ -294,12 +331,13 @@ function Offers({ store, setConnect }) {
                               >
                                 <span />
                               </span>
+
                               <label for={cont}>{cont}</label>
                             </li>
                           ))}
                         </ul>
                       </div>
-                    </div>
+                    </details>
                   </form>
                 </div>
               </div>
@@ -331,26 +369,21 @@ function Offers({ store, setConnect }) {
                       </ul>
                     </div>
 
-                    <div class="filter_list">
-                      <div class="filter_left">
-                        <div class="fl">
-                          <a onClick={onclickFilterReset}>
-                            <span>Filter reset</span>
-                          </a>
-                        </div>
+                    <div class="se_fi">
+                      <p class="total">Selected Filter</p>
+                      <ul className="selectFilter moScrollFilter">
+                        <li class="sef" onClick={onclickFilterReset}>
+                          Filter reset
+                        </li>
                         {filterList.map((cont, index) => (
-                          <div key={index} class="select_f">
-                            <p>{cont}</p>
-                            <a>
-                              <img
-                                src={require("../img/sub/close_24.png").default}
-                                alt=""
-                                onClick={() => onclickFilterCancel(cont)}
-                              />
-                            </a>
-                          </div>
+                          <li
+                            key={index}
+                            onClick={() => onclickFilterCancel(cont)}
+                          >
+                            {cont}
+                          </li>
                         ))}
-                      </div>
+                      </ul>
                     </div>
 
                     <div class="ranktable_pc p_th">
@@ -1015,7 +1048,13 @@ function Offers({ store, setConnect }) {
   );
 }
 
-const SignPopupBox = styled.div``;
+const SignPopupBox = styled.div`
+  .pad {
+    .se_fi {
+      padding: 0 0 18px 0;
+    }
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };
@@ -1067,3 +1106,49 @@ const chainList = [
 const coinList = ["Klay"];
 
 const offerCategoryList = ["Participation in auction", "Bid proposal"];
+
+const filterSearchData = [
+  {
+    img: collect_img,
+    name: "Items 01",
+  },
+  {
+    img: collect_img2,
+    name: "Items 02",
+  },
+  {
+    img: collect_img3,
+    name: "Items 03",
+  },
+  {
+    img: collect_img4,
+    name: "Items 04",
+  },
+  {
+    img: collect_img,
+    name: "Items 01",
+  },
+  {
+    img: collect_img2,
+    name: "Items 02",
+  },
+  {
+    img: collect_img3,
+    name: "Items 03",
+  },
+  {
+    img: collect_img4,
+    name: "Items 04",
+  },
+];
+
+const optionList = [
+  {
+    value: "KLAY",
+    text: "Klaytn",
+  },
+  {
+    value: "USD",
+    text: "United States Dollars (USD)",
+  },
+];

@@ -98,6 +98,11 @@ const GlobalStyle = createGlobalStyle`
           font-weight: 500;
           line-height: 48px;
           text-align: center;
+
+          &.on{
+            color: #fff;
+            background: #000;
+          }
         }
       }
 
@@ -270,6 +275,34 @@ const GlobalStyle = createGlobalStyle`
       }
     }
   }
+
+  .right_move{
+    .se_fi{
+      .selectFilter{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    
+        &.moScrollFilter{
+          @media screen and (max-width: 1024px) {  
+            flex-wrap: nowrap;
+            overflow-x: scroll;
+            height: 56px;
+
+            &::-webkit-scrollbar {
+              display: none;
+            }
+
+            li{
+              min-width: 168px;
+              float: unset;
+            }
+          }
+        }
+      }
+    }
+  }
+
 `;
 
 export default GlobalStyle;
