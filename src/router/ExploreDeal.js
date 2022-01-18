@@ -266,7 +266,7 @@ function ExploreDeal({ store, setConnect }) {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div class="ranktable_pc">
                     <table>
                       <colgroup>
@@ -903,6 +903,8 @@ function ExploreDeal({ store, setConnect }) {
 }
 
 const SignPopupBox = styled.div`
+  padding: 40px 0 0 0;
+
   .mySwiper3 {
     .swiper-wrapper {
       overflow-x: scroll;
