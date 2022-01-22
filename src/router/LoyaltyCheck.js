@@ -41,7 +41,7 @@ function LoyaltyCheck({ store, setConnect }) {
               </div>
               <div class="sell_wrap sell_wrap2">
                 <div class="create">
-                  <p class="loyal">Loyalty check</p>
+                  <p class="loyal">Royalty check</p>
                   <h2 class="notop">Collection 1</h2>
                   <form action="">
                     <div class="form">

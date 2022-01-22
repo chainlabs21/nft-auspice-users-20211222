@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
-
 import s1 from "../img/sub/s2.png";
 import s2 from "../img/sub/s2.png";
 import s3 from "../img/sub/s3.png";
@@ -10,47 +9,36 @@ import s4 from "../img/sub/s4.png";
 import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
-
+import { generateSlug } from  'random-word-slugs'
+import { query_noarg , getabistr_forfunction, requesttransaction } from '../util/contract-calls'
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
 import "../css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useEffect, useState } from "react";
-import { encodeBase64File } from "../util/common";
+import { encodeBase64File, LOGGER , getrandomint , ISFINITE, getmyaddress } from "../util/common";
 import SetErrorBar from "../util/SetErrorBar";
-import { ERR_MSG } from "../config/messages";
-import axios from "axios";
+import { ERR_MSG, messages } from "../config/messages";
+// import axios from "axios";
 import { API } from "../config/api";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { signOrderData } from "../util/verifySig";
 import { generateRandomString } from "../util/Util";
-
+import { ADDRESSES } from '../config/addresses'
+import { applytoken } from '../util/rest'
 const kiloBytes = 1024;
 const megaBytes = 1024 * kiloBytes;
-const fileTypeList = [
-  "jpg",
-  "png",
-  "gif",
-  "svg",
-  "mp4",
-  "webm",
-  "mp3",
-  "wav",
-  "ogg",
-];
-
+const fileTypeList = [  "jpg",  "png",  "gif",  "svg",  "mp4",  "webm",  "mp3",  "wav",  "ogg" ];
+const MAP_fileextension_contentype ={	jpg : 'image', png : 'image', gif : 'image', svg : 'image', mp4 : 'video'
+	, webm : 'video', mp3 : 'audio', wav : 'audio', ogg : 'audio'
+}
 function CreateItem({ store, setConnect }) {
   const navigate = useNavigate();
   const userAddress = useSelector((state) => state.wallet.address);
-
   const [item, setItem] = useState("");
   const [nameChk, setNameChk] = useState(false);
   const [fileChk, setFileChk] = useState(false);
@@ -58,26 +46,127 @@ function CreateItem({ store, setConnect }) {
   const [unlockedContent, setUnlockedContent] = useState("");
   const [numCopies, setNumCopies] = useState(1);
   const [freezing, setFreezing] = useState(false);
-  const [activePubl, setActivePubl] = useState(false);
+  const [ activePubl , setActivePubl] = useState(false);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [royal, setRoyal] = useState(0);
-  const [curCategory, setCurCategory] = useState("");
+  const [curCategory, setCurCategory ] = useState("");
   const [fileResp, setFileResp] = useState({});
   const [categories, setCategories] = useState([]);
   const [isUpload, setIsUpload] = useState(false);
-  const [fileViewType, setFileViewType] = useState("image");
+	const [fileViewType, setFileViewType] = useState("image")
+	let [ royaltymax , setroyaltymax ] = useState( 0 )
+	let [ urlmetadata , seturlmetadata ] = useState ()
+	let axios = applytoken() 
+//	axios=applyt oken(axios)
+  function onChangeItem(file) {    /*    let reader = new FileReader();    reader.readAsDataURL(file);    reader.onload = function () {      setItem(reader.result);    };	*/
+	}
+	const on_post_metadata=async _=>{
+		try {
+			const metaData = {
+				title: name,
+				description: desc,
+				address: userAddress,
+				originator: userAddress,
+				category: curCategory,
+				authorroyalty: parseInt((royal * 100).toFixed(0)),
+				url: fileResp.payload.url,
+				datahash: fileResp.respdata,
+				timestamp: moment().format(),
+				unixtime: moment().unix(),
+				unlockcontent: unlocked === true ? 1 : 0,
+				unlockedcontent: unlockedContent,
+				countcopies: numCopies,
+				freezemetadata: freezing === true ? 1 : 0,
+			};
+			const metaResp = await axios.post(
+				API.API_ITEM_SAVE_META + `/${fileResp.respdata}`,
+				metaData
+			)
+			let { status , }= metaResp.data
+			if ( status == 'OK'){
+				const metaResult = metaResp.data
+				seturlmetadata ( metaResult.payload.url )
+				SetErrorBar( messages.MSG_DONE_REGISTERING )				
+			}
+			else {SetErrorBar (messages.MSG_REGISTER_FAILED )}
+		} catch(err){			LOGGER(err)
+		}
+	}
+	const on_request_tx_mint=async _=>{	let myaddress = getmyaddress()
+		let abistr = getabistr_forfunction ({ 
+			contractaddress : ADDRESSES.erc1155
+			, abikind : 'ERC1155'
+			, methodname : 'mint'
+			, aargs : [ myaddress , ]
+			{				"internalType": "address",				"name": "_to",				"type": "address"			},
+			{				"internalType": "string",				"name": "_itemhash",				"type": "string"			},
+			{				"internalType": "uint256",				"name": "amount",				"type": "uint256"			},
+			{				"internalType": "uint256",				"name": "__author_royalty",				"type": "uint256"			},
+			{				"internalType": "uint256",				"name": "__decimals",				"type": "uint256"			},
+			{				"internalType": "bytes",				"name": "data",				"type": "bytes"			}
+	
+		}) ; LOGGER ( 'JwE5ZF6jav' , abistr )
+		
+		if ( myaddress ){}
+		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET ) ; return }
+		requesttransaction({ 
+				from : myaddress
+			, to : ADDRESSES.erc1155
+			, data : abistr
+			, value : '0x00'
+		}).then(resp=>{
+			LOGGER( '' , resp )
+			if (resp){}
+			else {SetErrorBar (messages.MSG_USER_DENIED_TX ); return }
 
-  function onChangeItem(file) {
-    /*
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onload = function () {
-      setItem(reader.result);
-    };
-	*/
-  }
+		})
+		
+	}
+	const on_request_tx_mint_mockup=async _=>{
+		const mokupRndTxHash = "0x" + generateRandomString(63);
+		const mokupRndContract = "0x" + generateRandomString(40);
+		const mokupRndPaymeans = "0x" + generateRandomString(40);
+		const body = {
+			url: fileResp.payload.url,
+			price: 0,
+			titlename: name,
+			description: desc,
+			keywords: "",
+			priceunit: "KLAY",
+			metadataurl: urlmetadata , // metaResult.payload.url ,
+			contract: mokupRndContract.trim(),
+			nettype: "klaytn-testnet",
+			paymeans: mokupRndPaymeans.trim(),
+			expiry: 1644791196,
+			expirychar: moment().format(),
+			categorystr: curCategory,
+			originatorfeeinbp: 500,
+			activeorlazymint: activePubl,
+		};
+		const resp = await axios.post(
+			API.API_MINT_TX_REPORT +				`/${fileResp.respdata}/${mokupRndTxHash.trim()}/${userAddress}`,			body
+		);
+		if (resp.data.status === "OK") {
+			navigate(`/salefixed?id=${fileResp.respdata}`);
+		}
+	}
+	const on_request_lazy_mint=async _=>{
+		const body = {
+			itemid: fileResp.respdata,
+			countcopies: numCopies,
+			amount: 1,
+			decimals: 18,
+			expiry: 0,
+			categorystr: curCategory,
+			author: userAddress,
+			authorfee: parseInt((royal * 100).toFixed(0)),
+		};
+		const resp = await axios.post(API.API_LAZY_MINT, body);
+		if (resp.data.status === "OK") {
+			navigate(`/salefixed?id=${fileResp.respdata}`);
+		}
+	}
   const fileUpload = async (file) => {
     if (!file) {
       return;
@@ -91,13 +180,14 @@ function CreateItem({ store, setConnect }) {
         typeToggle = true;
       }
     });
-
     if (!typeToggle) {
       SetErrorBar(ERR_MSG.ERR_NO_SUPPORT_FILE_TYPE);
       return;
-    }
-
-    switch (fileType) {
+		}
+		let contenttype
+		if ( contenttype = MAP_fileextension_contentype[ fileType] ){ setFileViewType( contenttype ) }
+		else { setFileViewType( 'image' ) }
+/**     switch (fileType) {
       case "jpg":
       case "png":
       case "gif":
@@ -115,30 +205,37 @@ function CreateItem({ store, setConnect }) {
         break;
       default:
         setFileViewType("image");
-    }
-
-    if (file && file.size > 0) {
+    } */
+		let filesize = file.size
+    if (file && filesize > 0) {
       setFileChk(true);
-      try {
-        // file size < 4mb
-        if (file.size < 4 * megaBytes) {
+      try {        
+        if (file.size <= 4 * megaBytes) {	// file size < 4mb
           const base64 = await encodeBase64File(file);
           const base64Data = {
             datainbase64: base64,
             filename: file.name,
-          };
-          const resp = await axios.post(API.API_ITEM_UPLOAD_BASE64, base64Data);
-          setFileResp(resp.data);
-          setItem(resp.data.payload.url);
-        } else {
+          }
+					const resp = await axios.post(API.API_ITEM_UPLOAD_BASE64, base64Data); LOGGER ( 'xG6MsNdQhX' , resp.data )
+					let { status , payload}=resp.data
+					if ( status =='OK' ){
+						setFileResp(resp.data);
+						setItem( payload.url )	
+					}
+        } else if (filesize <= 40* megaBytes ){
           let formData = new FormData();
           formData.append("file", file);
           formData.append("filename", file.name);
-          const resp = await axios.post(API.API_ITEM_UPLOAD_OVER, formData);
-          console.log(resp);
-          setFileResp(resp.data);
-          setItem(resp.data.payload.url);
-        }
+					const resp = await axios.post(API.API_ITEM_UPLOAD_OVER, formData); LOGGER ( 'eERWguRnGR' , resp.data ) 
+					let { status , payload }=resp.data
+					if ( status == 'OK'){
+						setFileResp(resp.data)
+						setItem( payload.url)
+					}
+        } else {
+					SetErrorBar( ERR_MSG.ERR_FILE_SIZE_EXCEEDED )
+					return
+				}
       } catch (error) {
         SetErrorBar(ERR_MSG.ERR_FILE_UPLOAD_FAILED);
         console.log(error);
@@ -147,89 +244,39 @@ function CreateItem({ store, setConnect }) {
   };
   const handleCreateItem = () => {
     const asyncCreateItem = async () => {
-      try {
-        const metaData = {
-          title: name,
-          description: desc,
-          address: userAddress,
-          originator: userAddress,
-          category: curCategory,
-          authorroyalty: parseInt((royal * 100).toFixed(0)),
-          url: fileResp.payload.url,
-          datahash: fileResp.respdata,
-          timestamp: moment().format(),
-          unixtime: moment().unix(),
-          unlockcontent: unlocked === true ? 1 : 0,
-          unlockedcontent: unlockedContent,
-          countcopies: numCopies,
-          freezemetadata: freezing === true ? 1 : 0,
-        };
-        const metaResp = await axios.post(
-          API.API_ITEM_SAVE_META + `/${fileResp.respdata}`,
-          metaData
-        );
-
-        const metaResult = metaResp.data;
-
-        if (activePubl) {
-          // TODO
-          // transaction here ( mint )
-          const mokupRndTxHash = "0x" + generateRandomString(63);
-          const mokupRndContract = "0x" + generateRandomString(40);
-          const mokupRndPaymeans = "0x" + generateRandomString(40);
-          const body = {
-            url: fileResp.payload.url,
-            price: 0,
-            titlename: name,
-            description: desc,
-            keywords: "",
-            priceunit: "KLAY",
-            metadataurl: metaResult.payload.url,
-            contract: mokupRndContract.trim(),
-            nettype: "klaytn-testnet",
-            paymeans: mokupRndPaymeans.trim(),
-            expiry: 1644791196,
-            expirychar: moment().format(),
-            categorystr: curCategory,
-            originatorfeeinbp: 500,
-            activeorlazymint: activePubl,
-          };
-
-          const resp = await axios.post(
-            API.API_MINT_TX_REPORT +
-              `/${fileResp.respdata}/${mokupRndTxHash.trim()}/${userAddress}`,
-            body
-          );
-          if (resp.data.status === "OK") {
-            navigate(`/salefixed?id=${fileResp.respdata}`);
-          }
+			await on_post_metadata ()
+        if (activePubl) {          // TODO          // transaction here ( mint )
+					on_request_tx_mint()
         } else {
-          const body = {
-            itemid: fileResp.respdata,
-            countcopies: numCopies,
-            amount: 1,
-            decimals: 18,
-            expiry: 0,
-            categorystr: curCategory,
-            author: userAddress,
-            authorfee: parseInt((royal * 100).toFixed(0)),
-          };
-          const resp = await axios.post(API.API_LAZY_MINT, body);
-          if (resp.data.status === "OK") {
-            navigate(`/salefixed?id=${fileResp.respdata}`);
-          }
+					on_request_lazy_mint()
         }
-      } catch (error) {
+/**       } catch (error) {
         SetErrorBar(ERR_MSG.ERR_CREATE_ITEM_FAILED);
         console.log(error);
-      }
+      }*/
     };
     if (nameChk && fileChk) {
       asyncCreateItem();
     } else {
       SetErrorBar(ERR_MSG.ERR_PLEASE_COMPLETE_REQUIRE);
     }
-  };
+	}
+	useEffect(_=>{
+		query_noarg({contractaddress :ADDRESSES.admin
+			, abikind : 'ADMIN'
+			, methodname : '_author_royalty_max'
+		}).then(resp=>{ LOGGER ( '6ldBJAuZEs' , resp )
+			if ( resp && ISFINITE(+resp) ){
+				setroyaltymax ( ''+(resp / 100 ))
+			} else {}
+		}) 
+	}
+	, [] )
+	useEffect(_=>{
+		setName (''+ generateSlug(3, {format:'sentence'}) )
+		setDesc(''+		 generateSlug(5, {format:'sentence'}) )
+		setRoyal ( getrandomint( 1 , 10 ) )		
+	} , [ ] )
   useEffect(() => {
     if (name.length > 0) {
       setNameChk(true);
@@ -241,9 +288,13 @@ function CreateItem({ store, setConnect }) {
     window.scrollTo(0, 0);
     const asyncGetCategories = async () => {
       try {
-        const resp = await axios.get(API.API_GET_ITEM_CATEGORIES);
-        setCategories(resp.data.list);
-        setCurCategory(resp.data.list[0].category);
+				const resp = await axios.get(API.API_GET_ITEM_CATEGORIES);
+				LOGGER( 'pJS3rFJaac' , resp.data )
+				let { status , list }=resp.data 
+				if ( status =='OK'){
+					setCategories( list)
+					setCurCategory( list[0].category )
+				}
       } catch (error) {
         alert(ERR_MSG.ERR_CANNOT_GET_CATEGORIES);
         console.log(error);
@@ -334,8 +385,8 @@ function CreateItem({ store, setConnect }) {
                           <p>You can easily search by selecting a category.</p>
                           <div class="cat">
                             <ul>
-                              {categories.map((cate) => (
-                                <li
+                              {categories.map((cate, idx ) => (
+                                <li key={idx}
                                   onClick={() => {
                                     setCurCategory(cate.category);
                                   }}
@@ -504,7 +555,7 @@ function CreateItem({ store, setConnect }) {
                             <p>
                               Each time an item is resold, you can receive a
                               certain
-                              <br class="m" /> amount of commission. (up to 20%)
+                              <br class="m" /> amount of commission. (up to {royaltymax}%)
                               <br class="pc" />
                               If not set, it is set to 0%.
                             </p>
@@ -536,6 +587,20 @@ function CreateItem({ store, setConnect }) {
               <div class="create_btn">
                 <a onClick={handleCreateItem}>Create Item</a>
               </div>
+
+              <div class="create_btn">
+								<a onClick={async _=>{LOGGER( 'rsNxLMScQI' )
+									on_post_metadata()
+								}}>{ 'Register metadata'}</a>
+              </div>
+
+              <div class="create_btn">
+								<a onClick={_=>{LOGGER( 'MOdR4DlcH9' )
+									if (activePubl){ on_request_tx_mint () }
+									else { on_request_lazy_mint() }
+								}}>{ activePubl ? 'Mint item' : 'Register Item->server' }</a>
+              </div>
+
             </div>
           </div>
         </article>
@@ -547,3 +612,6 @@ function CreateItem({ store, setConnect }) {
 const SignPopupBox = styled.div``;
 
 export default CreateItem;
+
+// import "./css/style01.css";
+// import "./css/style02.css";

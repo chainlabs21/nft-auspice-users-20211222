@@ -24,39 +24,18 @@ import CreateItem from "./router/CreateItem";
 import SaleFixed from "./router/SaleFixed";
 import AuctionBid from "./router/AuctionBid";
 import SaleBundle from "./router/SaleBundle";
-// import MarketPlaceItem14 from "./router/MarketPlace_item14";
-// import ItemInfo01 from "./router/ItemInfo01";
-// import ItemInfo02 from "./router/ItemInfo02";
-// import EditItem from "./router/EditItem";
-// import ItemInfo04 from "./router/ItemInfo04";
-// import Nftsell04 from "./router/Nftsell04";
-
-// import Nftsell05 from "./router/VerifyAccountPopup";
-// import Nftsell05Off from "./router/Nftsell05Off";
-// import Buynft01 from "./router/Buynft01";
-// import Buynft02 from "./router/Buynft02";
-// import Buynft03 from "./router/Buynft03";
-// import Buynft04 from "./router/Buynft04";
 import MyProf from "./router/MyProf";
-// import Profile02 from "./router/SaleFixed";
-// import Profile03 from "./router/Profile03";
 import HandOver from "./router/HandOver";
-// import Profile05 from "./router/Profile05";
 import MoveCollection from "./router/MoveCollection";
 import TransactionHistory from "./router/TransactionHistory";
-// import Profile07Off from "./router/Profile07Off";
 import Offers from "./router/Offers";
 import Liked from "./router/Liked";
-// import Profile13 from "./router/Profile13";
 import HiddenItem from "./router/HiddenItem";
 import Referals from "./router/Referals";
 import Mywallet from "./router/Mywallet";
 import VerifyEmail from "./router/VerifyEmail";
-// import Profile17 from "./router/Profile17";
-// import LogOut from "./router/LogOut";
 import GeneralSettings from "./router/GeneralSettings";
 import NotificationSettings from "./router/NotificationSettings";
-// import MProfileMenu from "./router/MProfileMenu";
 import ExploreDeal from "./router/ExploreDeal";
 import Ranking from "./router/Ranking";
 import MheaderPopup from "./components/MheaderPopup";
@@ -73,27 +52,41 @@ import { MSG } from "./config/messages";
 import { SET_ADDRESS } from "./reducers/walletSlice";
 import { GET_USER_DATA } from "./reducers/userSlice";
 import GlobalStyle from "./components/globalStyle";
-
-function App({ store, setHref, setConnect }) {
+import { setmyinfo , setaddress } from './util/store'
+import { LOGGER , PARSER , STRINGER } from './util/common'
+function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
   const { mHeaderPopup } = useSelector((state) => state.store);
-
   const on_wallet_disconnect = (_) => {
-    let token_sec = localStorage.getItem("token");
+    let token_sec = localStorage.getItem("token")
+		if (token_sec) {    } 
+		else {
+      LOGGER("h9T8jyxy0L@no token");
+      return;
+    }
     axios.defaults.headers.get.token = token_sec;
     axios.defaults.headers.post.token = token_sec;
-    axios.post(API.API_LOGOUT).then((resp) => {
-      let { status } = resp.data;
-      if (status === "OK") {
-        axios.defaults.headers.common["token"] = "";
-        localStorage.removeItem("token");
-      }
+    return new Promise((resolve, reject) => {
+      axios.post(API.API_LOGOUT).then((resp) => {
+        LOGGER("3LyOB7GcWr@logout", resp.data);
+        let { status } = resp.data;
+        if ( status == "OK" ) {
+//          SetLogut();
+          localStorage.removeItem("token");
+          resolve(true);
+        } else {
+          resolve(null);
+        }
+      });
     });
-  };
-
+  }
   const get_user_data = async () => {
-    const token = localStorage.getItem("token");
+		const token = localStorage.getItem("token");
+		let str_myinfo
+		if ( store.myinfo ){}
+		else if ( str_myinfo = localStorage.getItem ( 'myinfo' )){	Setmyinfo ( PARSER ( str_myinfo )   )	 }
+		return
     if (token) {
       try {
         axios.defaults.headers.common["token"] = token;
@@ -109,14 +102,20 @@ function App({ store, setHref, setConnect }) {
     }
   };
 
-  useEffect(() => {
-    window.klaytn.on("accountsChanged", (accounts) => {
-      console.log(accounts);
-      if (accounts[0]) {
-        dispatch({ type: SET_ADDRESS.type, payload: accounts[0] });
-        let address = accounts[0];
-        axios
-          .post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
+  useEffect( async _ => {
+		let { klaytn}=window
+		if ( klaytn){}
+		else {return }
+    klaytn.on("accountsChanged", async (accounts) => {			console.log(accounts);
+			let address = accounts[ 0 ]
+			let address_local = localStorage.getItem ( 'address' )
+			if ( address == address_local ){ return }
+			else {}
+			await on_wallet_disconnect ()
+      if ( address ) {
+//        disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
+				Setaddress( address )
+        axios.post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
           .then((resp) => {
             let { status, respdata } = resp.data;
             if (status === "OK") {
@@ -132,14 +131,15 @@ function App({ store, setHref, setConnect }) {
         on_wallet_disconnect();
       }
     });
-  }, [window.klaytn]);
+  }, [ window.klaytn ] ) 
 
-  useEffect(() => {
-    if (window.klaytn.selectedAddress) {
-      dispatch({
+  useEffect(() => { LOGGER ( 'poMFHstZg8' , window.klaytn?.selectedAddress )
+    if ( window.klaytn?.selectedAddress ) {
+			Setaddress ( window.klaytn?.selectedAddress )
+/**       dispa tch({
         type: SET_ADDRESS.type,
         payload: window.klaytn.selectedAddress,
-      });
+			});			*/
       if (userData === null) {
         get_user_data();
       }
@@ -174,9 +174,7 @@ function App({ store, setHref, setConnect }) {
 
         <Routes>
           <Route path="/index" element={<List />} />
-
           <Route path="/" element={<Main />} />
-
           <Route path="/connectwallet" element={<ConnectWallet />} />
           <Route path="/emailrequired" element={<EmailRequired />} />
           <Route path="/sentemail" element={<SentEmail />} />
@@ -279,9 +277,31 @@ const AppBox = styled.div`
 function mapStateToProps(state) {
   return { store: state };
 }
-
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+		Setmyinfo : payload => dispatch ( setmyinfo (payload ) )
+		, Setaddress : payload => dispatch ( setaddress ( payload ) )
+	};
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+// import MarketPlaceItem14 from "./router/MarketPlace_item14";
+// import ItemInfo01 from "./router/ItemInfo01";
+// import ItemInfo02 from "./router/ItemInfo02";
+// import EditItem from "./router/EditItem";
+// import ItemInfo04 from "./router/ItemInfo04";
+// import Nftsell04 from "./router/Nftsell04";
+// import Nftsell05 from "./router/VerifyAccountPopup";
+// import Nftsell05Off from "./router/Nftsell05Off";
+// import Buynft01 from "./router/Buynft01";
+// import Buynft02 from "./router/Buynft02";
+// import Buynft03 from "./router/Buynft03";
+// import Buynft04 from "./router/Buynft04";
+// import Profile02 from "./router/SaleFixed";
+// import Profile03 from "./router/Profile03";
+// import Profile05 from "./router/Profile05";
+// import Profile07Off from "./router/Profile07Off";
+// import Profile13 from "./router/Profile13";
+// import Profile17 from "./router/Profile17";
+// import LogOut from "./router/LogOut";
+// import MProfileMenu from "./router/MProfileMenu";

@@ -2,7 +2,7 @@ import I_chkWhite from "../img/icons/I_chkWhite.svg";
 import I_xWhite from "../img/icons/I_xWhite.svg";
 
 export default function SetErrorBar(str = "copied", type = "pc") {
-  /*
+  
   if (document.getElementsByClassName("errBar")[0]) return;
 
   let errBar = document.createElement("div");
@@ -112,6 +112,6 @@ export default function SetErrorBar(str = "copied", type = "pc") {
   });
 
   document.body.append(errBar);
-  */
-  alert(str);
+  
+ // alert(str);
 }

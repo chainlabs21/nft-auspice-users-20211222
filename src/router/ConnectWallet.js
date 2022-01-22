@@ -1,41 +1,39 @@
 import { connect, useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
-import { setConnect } from "../util/store";
+import { setConnect, setmyinfo } from "../util/store";
 import styled from "styled-components";
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
 import "../css/style.css";
-
 import I_klaytn from "../img/sub/I_klaytn.svg";
 
-// import "./css/style01.css";
-// import "./css/style02.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 import { API } from "../config/api";
-import { ERR_MSG } from "../config/messages";
+import { ERR_MSG, messages } from "../config/messages";
 import axios from "axios";
 import { GET_USER_DATA } from "../reducers/userSlice";
 import { SET_ADDRESS } from "../reducers/walletSlice";
 import { useEffect } from "react";
 import SetErrorBar from "../util/SetErrorBar";
-
-function ConnectWallet() {
+import { STRINGER, LOGGER } from '../util/common'
+function ConnectWallet( Setmyinfo ) {
   const navigate = useNavigate();
   const { userData } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-
+	const dispatch = useDispatch();
+	
+	useEffect( _=>{
+	} , []  )
   const getUserInfo = async () => {
     try {
-      const resp = await axios.get(API.API_GET_USER_INFO);
+      const resp = await axios.get(API.API_GET_USER_INFO)
       dispatch({
         type: GET_USER_DATA.type,
         payload: resp.data.payload,
       });
-
-      if (resp.data.payload.maria.emailverified === 0) {
+      if ( resp.data.payload.maria.emailverified === 0 ) {
         navigate("/emailrequired");
       } else {
         navigate(-1);
@@ -47,21 +45,43 @@ function ConnectWallet() {
   };
 
   async function connectKaikas() {
-    const accounts = await window.klaytn.enable();
-    dispatch({ type: SET_ADDRESS.type, payload: accounts[0] });
-    setConnect(accounts[0]);
+		const accounts = await window.klaytn.enable();
+		LOGGER ( 'wkhuemnasP' , accounts )
+		let address = accounts [ 0 ]
+    dispatch({ type: SET_ADDRESS.type, payload: address }) // acco unts[0]
+		setConnect( address )
+		localStorage.setItem( 'address' , address ) // acco unts[0]
     const loginData = {
-      address: accounts[0],
+      address, // : acco unts[0]
       cryptotype: "eth",
     };
-
-    try {
-      const resp = await axios.post(API.API_USERS_LOGIN, loginData);
-      if (resp.data.status === "OK" && resp.data.respdata) {
-        localStorage.setItem("token", resp.data.respdata);
-        axios.defaults.headers.common["token"] = resp.data.respdata;
-        getUserInfo();
-      } else if (resp.data.status === "ERR") {
+//    try {
+			let address_local=localStorage.getItem ( 'address' )
+			let token= localStorage.getItem ( 'token' )
+			if ( address_local && token){ 
+				SetErrorBar (`이미 ${address}에 연결되어 있습니다`)
+				return }
+			else {}
+//			if (address_local == ){}
+			
+			const resp = await axios.post(API.API_USERS_LOGIN, loginData)  //   API_USERS_LOGIN: `${apiServer}/users/login/crypto`,
+			let { status , respdata , payload }=resp.data 
+      if ( status === "OK" ) {
+        localStorage.setItem("token",  respdata);
+				axios.defaults.headers.common["token"] = resp.data.respdata
+				SetErrorBar ( messages.MSG_LOGGEDIN )
+				let {myinfo_maria , myinfo_mongo } = payload
+				if ( myinfo_maria && myinfo_mongo ){
+					Setmyinfo ( { ... myinfo_mongo , myinfo_maria } )
+					localStorage.setItem ( 'myinfo' , STRINGER({ ... myinfo_mongo , myinfo_maria }) )
+				}
+				else {
+					localStorage.removeItem ( 'myinfo' )
+				} // 					getUserInfo()
+      } else { // if (resp.data.status === "ERR") {
+				SetErrorBar ( messages.MSG_PLEASEJOIN )
+				navigate ('/joinmembership')
+				return
         switch (resp.data.message) {
           case "NOT-FOUND":
             navigate("/joinmembership");
@@ -71,10 +91,10 @@ function ConnectWallet() {
             console.log(resp.data.message);
         }
       }
-    } catch (error) {
+/**     } catch (error) {
       SetErrorBar(ERR_MSG.ERR_AXIOS_REQUEST);
       console.log(error);
-    }
+    }*/
   }
 
   return (
@@ -137,5 +157,19 @@ const SignPopupBox = styled.div`
     }
   }
 `;
+function mapStateToProps(state) {
+  return { store: state };
+}
 
-export default ConnectWallet;
+function mapDispatchToProps(dispatch) {
+  return {
+		setConnect: () => dispatch(setConnect()),
+		Setmyinfo : payload => dispatch ( setmyinfo (payload ) )
+  };
+}
+
+export default connect( mapStateToProps , mapDispatchToProps )( ConnectWallet ) 
+// export default ConnectWallet
+// >>>>>
+// import "./css/style01.css";
+// import "./css/style02.css";

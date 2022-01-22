@@ -1,30 +1,30 @@
 import { connect, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-
 import "./css/common.css";
 import "./css/font.css";
 import "./css/layout.css";
 import "./css/style.css";
-
 import I_x from "./img/main/I_x.svg";
-
 // import "./css/style01.css";
 // import "./css/style02.css";
-
 // import "./css/header.css";
 import "./css/footer.css";
 import "./css/swiper.min.css";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import { setAllPopupOff, setMHeaderPopup } from "./util/store";
 
-function Main({ store, setAllPopupOff, setMHeaderPopup }) {
+function Header ({ store, setAllPopupOff, setMHeaderPopup }) {
   const navigate = useNavigate();
   const { mHeaderPopup } = useSelector((state) => state.store);
-
   const [search, setSearch] = useState("");
-
+	let [ address , setaddress ]=useState ()
+	useEffect( _=>{
+		let { address }=store
+		if ( address ){}
+		else {return }
+		setaddress ( address )
+	} , [ store.address ] )
   function onClickConnectWallet() {
     if (window.klaytn.selectedAddress) navigate("/joinmembership");
     else navigate("/connectwallet");
@@ -216,7 +216,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
             <a>ENG</a>
           </li>
           <li class="wallet">
-            <a onClick={() => navigate("/connectwallet")}>Connect Wallet</a>
+            <a onClick={() => navigate("/connectwallet")}>{ address ? address : 'Connect Wal,,let' }</a>
           </li>
         </ul>
       </nav>
@@ -255,4 +255,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)( Header );

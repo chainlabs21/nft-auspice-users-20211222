@@ -5,7 +5,7 @@ import Caver from "caver-js";
 import keccak256 from "keccak256";
 import axios from "axios";
 
-const caver = new Caver("https://api.baobab.klaytn.net:8651");
+const caver = new Caver("https://api.baobab.klaytn.net:8651" );
 const web3 = new Web3("https://cloudflare-eth.com");
 const eth = new Eth(Eth.givenProvider || "ws://some.local-or-remote.node:8546");
 

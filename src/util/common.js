@@ -1,5 +1,9 @@
 import mnemonicwords from "mnemonic-words";
-const LOGGER = console.log;
+const LOGGER = console.log
+const STRINGER=JSON.stringify
+const PARSER=JSON.parse
+const ISFINITE=Number.isFinite
+
 const getrandomint = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
@@ -20,12 +24,11 @@ const getRandomElementsFromArray = (arr, n) => {
 const getrandomwords = (N) => {
   return getRandomElementsFromArray(mnemonicwords, N);
 };
-
-export const getuseraddress = () => {
+const getuseraddress = () => {
   return window.klaytn ? window.klaytn.selectedAddress : null;
   // return window.ethereum ? window.ethereum.selectedAddress : null;
 };
-
+const getmyaddress = getuseraddress
 export const encodeBase64ImageFile = (image) => {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
@@ -56,4 +59,11 @@ export const encodeBase64File = (file) => {
   });
 };
 
-export { LOGGER, getrandomint, getRandomElementsFromArray, getrandomwords };
+export { LOGGER,
+	STRINGER 
+	, PARSER
+	, ISFINITE
+	, getrandomint, getRandomElementsFromArray, getrandomwords 
+	, getuseraddress
+	, getmyaddress
+}

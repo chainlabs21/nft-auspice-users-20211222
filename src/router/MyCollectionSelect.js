@@ -185,7 +185,7 @@ function MyFavorite({ store }) {
                         </li>
                         <li>
                           <a onClick={() => navigate("/loyaltycheck")}>
-                            Loyalty History
+                            Royalty History
                           </a>
                         </li>
                       </ul>
