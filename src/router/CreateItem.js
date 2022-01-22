@@ -30,6 +30,7 @@ import { signOrderData } from "../util/verifySig";
 import { generateRandomString } from "../util/Util";
 import { ADDRESSES } from '../config/addresses'
 import { applytoken } from '../util/rest'
+import { get_random_ipfs } from '../util/ipfscid'
 const kiloBytes = 1024;
 const megaBytes = 1024 * kiloBytes;
 const fileTypeList = [  "jpg",  "png",  "gif",  "svg",  "mp4",  "webm",  "mp3",  "wav",  "ogg" ];
@@ -43,23 +44,54 @@ function CreateItem({ store, setConnect }) {
   const [nameChk, setNameChk] = useState(false);
   const [fileChk, setFileChk] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
-  const [unlockedContent, setUnlockedContent] = useState("");
-  const [numCopies, setNumCopies] = useState(1);
+  const [ unlockedContent, setUnlockedContent] = useState("");
+  const [ countcopies, setcountcopies] = useState(1);
   const [freezing, setFreezing] = useState(false);
   const [ activePubl , setActivePubl] = useState(false);
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [royal, setRoyal] = useState(0);
-  const [curCategory, setCurCategory ] = useState("");
-  const [fileResp, setFileResp] = useState({});
-  const [categories, setCategories] = useState([]);
-  const [isUpload, setIsUpload] = useState(false);
-	const [fileViewType, setFileViewType] = useState("image")
+  const [ name, setName] = useState("");
+  const [ desc, setDesc] = useState("");
+  const [ royal, setRoyal] = useState(0);
+  const [ curCategory, setCurCategory ] = useState("");
+  const [ fileResp, setFileResp] = useState({});
+  const [ categories, setCategories] = useState([]);
+  const [ isUpload, setIsUpload] = useState(false);
+	const [ fileViewType, setFileViewType] = useState("image")
 	let [ royaltymax , setroyaltymax ] = useState( 0 )
 	let [ urlmetadata , seturlmetadata ] = useState ()
 	let axios = applytoken() 
 //	axios=applyt oken(axios)
   function onChangeItem(file) {    /*    let reader = new FileReader();    reader.readAsDataURL(file);    reader.onload = function () {      setItem(reader.result);    };	*/
+	}
+	const on_request_tx_mint=async _=>{	let myaddress = getmyaddress()
+		if (myaddress){}
+		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET); return}
+		let random_ipfscid ='__'+ get_random_ipfs ()
+		let abistr = getabistr_forfunction ({ 
+			contractaddress : ADDRESSES.erc1155
+			, abikind : 'ERC1155'
+			, methodname : 'mint'
+			, aargs : [ myaddress 
+				, random_ipfscid
+				, countcopies
+				, royal
+				, 0
+				, '0x00'
+			]
+		}) ; LOGGER ( 'JwE5ZF6jav' , abistr, random_ipfscid )		
+		if ( myaddress ){}
+		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET ) ; return }
+		requesttransaction({ 
+				from : myaddress
+			, to : ADDRESSES.erc1155
+			, data : abistr
+			, value : '0x00'
+		}).then(resp=>{
+			LOGGER( '' , resp )
+			if (resp){}
+			else {SetErrorBar (messages.MSG_USER_DENIED_TX ); return }
+			SetErrorBar ( messages.MSG_TX_REQUEST_SENT )
+		})
+// tx ok : https://baobab.scope.klaytn.com/tx/0x1c69e43e3dd606415bab7aa6420b2632cee1d47d74dcb353ee6dd3e014bad2fa :gas used-208,171
 	}
 	const on_post_metadata=async _=>{
 		try {
@@ -76,7 +108,7 @@ function CreateItem({ store, setConnect }) {
 				unixtime: moment().unix(),
 				unlockcontent: unlocked === true ? 1 : 0,
 				unlockedcontent: unlockedContent,
-				countcopies: numCopies,
+				countcopies: countcopies,
 				freezemetadata: freezing === true ? 1 : 0,
 			};
 			const metaResp = await axios.post(
@@ -92,36 +124,6 @@ function CreateItem({ store, setConnect }) {
 			else {SetErrorBar (messages.MSG_REGISTER_FAILED )}
 		} catch(err){			LOGGER(err)
 		}
-	}
-	const on_request_tx_mint=async _=>{	let myaddress = getmyaddress()
-		let abistr = getabistr_forfunction ({ 
-			contractaddress : ADDRESSES.erc1155
-			, abikind : 'ERC1155'
-			, methodname : 'mint'
-			, aargs : [ myaddress , ]
-			{				"internalType": "address",				"name": "_to",				"type": "address"			},
-			{				"internalType": "string",				"name": "_itemhash",				"type": "string"			},
-			{				"internalType": "uint256",				"name": "amount",				"type": "uint256"			},
-			{				"internalType": "uint256",				"name": "__author_royalty",				"type": "uint256"			},
-			{				"internalType": "uint256",				"name": "__decimals",				"type": "uint256"			},
-			{				"internalType": "bytes",				"name": "data",				"type": "bytes"			}
-	
-		}) ; LOGGER ( 'JwE5ZF6jav' , abistr )
-		
-		if ( myaddress ){}
-		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET ) ; return }
-		requesttransaction({ 
-				from : myaddress
-			, to : ADDRESSES.erc1155
-			, data : abistr
-			, value : '0x00'
-		}).then(resp=>{
-			LOGGER( '' , resp )
-			if (resp){}
-			else {SetErrorBar (messages.MSG_USER_DENIED_TX ); return }
-
-		})
-		
 	}
 	const on_request_tx_mint_mockup=async _=>{
 		const mokupRndTxHash = "0x" + generateRandomString(63);
@@ -154,7 +156,7 @@ function CreateItem({ store, setConnect }) {
 	const on_request_lazy_mint=async _=>{
 		const body = {
 			itemid: fileResp.respdata,
-			countcopies: numCopies,
+			countcopies: countcopies,
 			amount: 1,
 			decimals: 18,
 			expiry: 0,
@@ -496,9 +498,9 @@ function CreateItem({ store, setConnect }) {
                               type="text"
                               placeholder=""
                               onkeydown="onlyNumber(this)"
-                              value={numCopies}
+                              value={countcopies}
                               onChange={(e) => {
-                                setNumCopies(e.target.value);
+                                setcountcopies(e.target.value);
                               }}
                             />
                           </div>

@@ -3,7 +3,12 @@ const LOGGER = console.log
 const STRINGER=JSON.stringify
 const PARSER=JSON.parse
 const ISFINITE=Number.isFinite
-
+function generaterandomstr (length) {
+  var result           = '';  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {     result += characters.charAt(Math.floor(Math.random() * charactersLength))  }
+  return result
+}
 const getrandomint = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
@@ -63,6 +68,7 @@ export { LOGGER,
 	STRINGER 
 	, PARSER
 	, ISFINITE
+	, generaterandomstr
 	, getrandomint, getRandomElementsFromArray, getrandomwords 
 	, getuseraddress
 	, getmyaddress
