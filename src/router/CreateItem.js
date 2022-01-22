@@ -58,6 +58,7 @@ function CreateItem({ store, setConnect }) {
 	const [ fileViewType, setFileViewType] = useState("image")
 	let [ royaltymax , setroyaltymax ] = useState( 0 )
 	let [ urlmetadata , seturlmetadata ] = useState ()
+	let [ itemid , setitemid ]=useState()
 	let axios = applytoken() 
 //	axios=applyt oken(axios)
   function onChangeItem(file) {    /*    let reader = new FileReader();    reader.readAsDataURL(file);    reader.onload = function () {      setItem(reader.result);    };	*/
@@ -103,7 +104,7 @@ function CreateItem({ store, setConnect }) {
 				category: curCategory,
 				authorroyalty: parseInt((royal * 100).toFixed(0)),
 				url: fileResp.payload.url,
-				datahash: fileResp.respdata,
+				datahash: itemid , // fil eResp.res pdata,
 				timestamp: moment().format(),
 				unixtime: moment().unix(),
 				unlockcontent: unlocked === true ? 1 : 0,
@@ -112,7 +113,7 @@ function CreateItem({ store, setConnect }) {
 				freezemetadata: freezing === true ? 1 : 0,
 			};
 			const metaResp = await axios.post(
-				API.API_ITEM_SAVE_META + `/${fileResp.respdata}`,
+				API.API_ITEM_SAVE_META + `/${itemid}`, // fileR esp.resp data
 				metaData
 			)
 			let { status , }= metaResp.data
@@ -147,15 +148,15 @@ function CreateItem({ store, setConnect }) {
 			activeorlazymint: activePubl,
 		};
 		const resp = await axios.post(
-			API.API_MINT_TX_REPORT +				`/${fileResp.respdata}/${mokupRndTxHash.trim()}/${userAddress}`,			body
+			API.API_MINT_TX_REPORT +				`/${itemid}/${mokupRndTxHash.trim()}/${userAddress}`,			body // file Resp.resp data
 		);
 		if (resp.data.status === "OK") {
-			navigate(`/salefixed?id=${fileResp.respdata}`);
+			navigate(`/salefixed?id=${itemid}`) // fileR esp.resp data
 		}
 	}
 	const on_request_lazy_mint=async _=>{
 		const body = {
-			itemid: fileResp.respdata,
+			itemid: itemid , // fileR esp.respd ata
 			countcopies: countcopies,
 			amount: 1,
 			decimals: 18,
@@ -166,7 +167,7 @@ function CreateItem({ store, setConnect }) {
 		};
 		const resp = await axios.post(API.API_LAZY_MINT, body);
 		if (resp.data.status === "OK") {
-			navigate(`/salefixed?id=${fileResp.respdata}`);
+			navigate(`/salefixed?id=${itemid}`); // fileRes p.resp data
 		}
 	}
   const fileUpload = async (file) => {
@@ -219,9 +220,10 @@ function CreateItem({ store, setConnect }) {
             filename: file.name,
           }
 					const resp = await axios.post(API.API_ITEM_UPLOAD_BASE64, base64Data); LOGGER ( 'xG6MsNdQhX' , resp.data )
-					let { status , payload}=resp.data
+					let { status , payload , respdata }=resp.data
 					if ( status =='OK' ){
-						setFileResp(resp.data);
+						setitemid ( respdata ) 
+						setFileResp( resp.data )
 						setItem( payload.url )	
 					}
         } else if (filesize <= 40* megaBytes ){
@@ -229,9 +231,10 @@ function CreateItem({ store, setConnect }) {
           formData.append("file", file);
           formData.append("filename", file.name);
 					const resp = await axios.post(API.API_ITEM_UPLOAD_OVER, formData); LOGGER ( 'eERWguRnGR' , resp.data ) 
-					let { status , payload }=resp.data
+					let { status , payload , respdata }=resp.data
 					if ( status == 'OK'){
-						setFileResp(resp.data)
+						setitemid ( respdata )
+						setFileResp( resp.data )
 						setItem( payload.url)
 					}
         } else {

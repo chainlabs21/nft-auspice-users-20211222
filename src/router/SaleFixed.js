@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
-
 import s1 from "../img/sub/s2.png";
 import s2 from "../img/sub/s2.png";
 import s3 from "../img/sub/s3.png";
@@ -10,15 +9,12 @@ import s4 from "../img/sub/s4.png";
 import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
-
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
 import "../css/style.css";
-
 // import "./css/style01.css";
 // import "./css/style02.css";
-
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
@@ -26,12 +22,13 @@ import { useState, useEffect } from "react";
 import VerifyAccountPopup from "./VerifyAccountPopup";
 import queryString from "query-string";
 import SetErrorBar from "../util/SetErrorBar";
-import { ERR_MSG } from "../config/messages";
+import { ERR_MSG, messages } from "../config/messages";
 import axios from "axios";
 import { API } from "../config/api";
 import DatePicker from "react-datepicker";
-import { getuseraddress } from "../util/common";
+import { getuseraddress, LOGGER } from "../util/common";
 import { signOrderData } from "../util/verifySig";
+import { is_eth_address_valid } from "../util/eth";
 
 function SaleFixed() {
   const navigate = useNavigate();
@@ -83,25 +80,30 @@ function SaleFixed() {
   };
 
   useEffect(() => {
-    const { id } = queryString.parse(search);
+    const { id } = queryString.parse(search); LOGGER( 'U9Z2CL8cRt' , id )
     if (id === undefined) {
       SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
       navigate("/");
     }
     const asyncGetItemData = async () => {
       try {
-        const resp = await axios.get(API.API_GET_ITEM_DATA + `/${id}`);
-        if (resp.data.status === "OK") {
-          setItemData(resp.data.respdata.item);
-          setRoyalty(resp.data.respdata.item.authorfee / 100);
-          console.log(resp.data.respdata.item);
+				const resp = await axios.get(API.API_GET_ITEM_DATA + `/${id}`); LOGGER('', resp.data)
+				let { status , respdata } = resp.data
+        if ( status === "OK") {
+          setItemData( respdata.item);
+          setRoyalty( respdata.item.authorfee / 100);
+          
         } else {
-          SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
-          navigate("/");
+					SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
+					setTimeout( _=>{
+						navigate("/")
+					} , 4500 )
         }
       } catch (error) {
         SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
-        navigate("/");
+				setTimeout( _=>{
+					navigate("/")
+				} , 4500 )				
       }
     };
     asyncGetItemData();
@@ -355,8 +357,9 @@ function SaleFixed() {
                                       setPrivateOption(e.target.checked);
                                     }}
                                   />
+																	
                                   <label for="toggle2"></label>
-                                </div>
+                                </div>																
                               </div>
                               <p>
                                 If set to private, other than the address
@@ -371,8 +374,10 @@ function SaleFixed() {
                                     setPrivateAddress(e.target.value);
                                   }}
                                 />
-                              </div>
+                              </div>															
                             </div>
+														<span style={{color :'red'}}>{ privateAddress?.length == 0 ? '' : 
+															(is_eth_address_valid( privateAddress ) ? '' : messages.MSG_INVALID_ADDRESS ) }</span>
                           </li>
                           <li>
                             <div class="inst_con">

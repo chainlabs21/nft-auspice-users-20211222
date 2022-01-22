@@ -27,6 +27,7 @@ const messages={
 	, MSG_PLEASE_CONNECT_TO_WALLET: '지갑에 연결하세요'
 	, MSG_USER_DENIED_TX : '트랜잭션이 거부되었습니다'
 	, MSG_TX_REQUEST_SENT : '요청이 전송되었습니다'
+	, MSG_INVALID_ADDRESS : '유효한 주소가 아닙니다'
 }
 export const MSG = {
   MSG_WALLET_DISCONNECTED: "Wallet disconnected",
