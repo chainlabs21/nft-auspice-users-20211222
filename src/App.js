@@ -133,17 +133,15 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
     });
   }, [ window.klaytn ] ) 
 
-  useEffect(() => { LOGGER ( 'poMFHstZg8' , window.klaytn?.selectedAddress )
-    if ( window.klaytn?.selectedAddress ) {
-			Setaddress ( window.klaytn?.selectedAddress )
-/**       dispa tch({
-        type: SET_ADDRESS.type,
-        payload: window.klaytn.selectedAddress,
-			});			*/
-      if (userData === null) {
-        get_user_data();
-      }
-    }
+	useEffect(() => { LOGGER ( 'poMFHstZg8' , window.klaytn?.selectedAddress )
+		setTimeout(_=>{
+			if ( window.klaytn?.selectedAddress ) {
+				Setaddress ( window.klaytn?.selectedAddress ) /**       dispa tch({        type: SET_ADDRESS.type,        payload: window.klaytn.selectedAddress,			});			*/
+				if (userData === null) {
+					get_user_data();
+				}
+			}	
+		} , 10 * 1000 )
   }, []);
 
   return (

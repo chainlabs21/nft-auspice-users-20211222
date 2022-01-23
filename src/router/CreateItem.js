@@ -31,6 +31,7 @@ import { generateRandomString } from "../util/Util";
 import { ADDRESSES } from '../config/addresses'
 import { applytoken } from '../util/rest'
 import { get_random_ipfs } from '../util/ipfscid'
+// import awaitTransactionMined from "await-transaction-mined";
 const kiloBytes = 1024;
 const megaBytes = 1024 * kiloBytes;
 const fileTypeList = [  "jpg",  "png",  "gif",  "svg",  "mp4",  "webm",  "mp3",  "wav",  "ogg" ];

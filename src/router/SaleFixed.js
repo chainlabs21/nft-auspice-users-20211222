@@ -12,9 +12,7 @@ import sample from "../img/sub/sample.png";
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css";
-// import "./css/style01.css";
-// import "./css/style02.css";
+import "../css/style.css"; // import "./css/style01.css"; // import "./css/style02.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
@@ -23,93 +21,116 @@ import VerifyAccountPopup from "./VerifyAccountPopup";
 import queryString from "query-string";
 import SetErrorBar from "../util/SetErrorBar";
 import { ERR_MSG, messages } from "../config/messages";
-import axios from "axios";
+// import axios from "axios";
 import { API } from "../config/api";
 import DatePicker from "react-datepicker";
-import { getuseraddress, LOGGER } from "../util/common";
+import { getuseraddress, LOGGER, getrandomint
+	, convaj , conv_bp_percent
+} from "../util/common";
 import { signOrderData } from "../util/verifySig";
 import { is_eth_address_valid } from "../util/eth";
-
+import { applytoken } from '../util/rest'
+import { ADDRESSES } from '../config/addresses'
+import { TIME_PAGE_TRANSITION_ON_REGISTER } from '../config/configs'
 function SaleFixed() {
   const navigate = useNavigate();
   const { search } = useLocation();
-
   const [verifyPopup, setVerifyPopup] = useState(false);
   const [platformFee, setPlatfromFee] = useState(2.5);
   const [royalty, setRoyalty] = useState(5);
   const [itemPrice, setItemPrice] = useState(0);
   const [endPrice, setEndPrice] = useState(0);
   const [endPriceOption, setEndPriceOption] = useState(false);
-  const [privateOption, setPrivateOption] = useState(false);
-  const [privateAddress, setPrivateAddress] = useState("");
+  const [ privateOption, setPrivateOption] = useState(false);
+  const [ privateAddress, setPrivateAddress] = useState("");
   const [itemData, setItemData] = useState({});
   const [sign, setSign] = useState([]);
   const [signError, setSignError] = useState("");
-  const [completeSign, setCompleteSign] = useState(true);
-
-  const signCallback = (error, result) => {
-    const temp = [];
-    console.log(error, result);
-    if (result.error === undefined) {
-      const v = "0x" + result.result.substring(2).substring(128, 130);
-      const r = "0x" + result.result.substring(2).substring(0, 64);
-      const s = "0x" + result.result.substring(2).substring(64, 128);
-      temp.push(v, r, s, result.result);
-      setSign(temp);
-    } else {
-      console.log(error);
-      setSignError(error);
-      SetErrorBar(ERR_MSG.ERR_USER_SIGN_CANCELED);
-    }
-  };
-  const handleSalesStart = () => {
+	const [completeSign, setCompleteSign] = useState(true)
+	let [ signeddata , setsigneddata ] = useState()
+	let [ itemid , setitemid ]=useState()
+	let [ tokenid , settokenid ] = useState()
+	let [ jsettings , setjsettings ]= useState( {} )
+	const axios=applytoken()
+	useEffect( _=>{
+		setItemPrice ( getrandomint ( 1 ,10) )
+		/////
+		axios.get(API.API_PLATFORM_SETTINGS).then(resp=>{ LOGGER ( 'yDc3w8vZgI' , resp.data )
+			let { status , list } =resp.data 
+			if ( status =='OK'){
+				setjsettings ( convaj( list , 'key_' , 'value_') ) 
+			}
+		})
+	} , [] )
+  const handleSalesStart = async () => {
     const userAddr = getuseraddress();
     console.log(itemData);
-    const asyncSalesStart = async () => {
-      const orderData = {
-        seller_address: userAddr,
-        amount: 1,
-        price: itemPrice,
-        priceunit: "0x000000000000000000000000000000000000",
-        expiry: 0,
-      };
-      console.log(itemPrice);
-      signOrderData(orderData, signCallback);
-    };
-    asyncSalesStart();
+//    const asyncSalesStart = async () => {	
+		const orderData = {
+			seller_address: userAddr,
+			amount: 1,
+			price: itemPrice,
+			priceunit: "0x000000000000000000000000000000000000",
+			expiry: 0,
+			itemid
+			, tokenid
+		};
+		console.log( ''  ,orderData )
+		// return 
+		signOrderData( orderData ).then(respsign =>{				LOGGER( '8pdnEvf9uF' , respsign ) // , signCallback
+			if (respsign ){}
+			else {SetErrorBar( messages.MSG_USER_DENIED_TX );return }
+			SetErrorBar (messages.MSG_DATA_SIGNED )
+			setsigneddata ( respsign )
+			axios.post ( API.API_ORDER_MAKER_SELLER , {
+				asset_contract_bid : ADDRESSES.erc1155
+				, ... orderData , ... respsign  } // signeddata
+			).then ( resp=>{ LOGGER( '2UtIKhAjXH' , resp.data )
+				let { status }=resp.data
+				if ( status =='OK'){
+					SetErrorBar( messages.MSG_DONE_REGISTERING )
+					setTimeout(_=>{
+//						navigate()
+					} , TIME_PAGE_TRANSITION_ON_REGISTER )
+				}
+			})
+		})
+//    };
+  //  asyncSalesStart();
   };
-
   useEffect(() => {
     const { id } = queryString.parse(search); LOGGER( 'U9Z2CL8cRt' , id )
     if (id === undefined) {
       SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
       navigate("/");
-    }
+		}
+		setitemid ( id )
     const asyncGetItemData = async () => {
       try {
-				const resp = await axios.get(API.API_GET_ITEM_DATA + `/${id}`); LOGGER('', resp.data)
+				const resp = await axios.get( API.API_GET_ITEM_DATA + `/${id}`); 				LOGGER('url', API.API_GET_ITEM_DATA )
+				LOGGER('', resp.data)
 				let { status , respdata } = resp.data
         if ( status === "OK") {
           setItemData( respdata.item);
-          setRoyalty( respdata.item.authorfee / 100);
-          
+					setRoyalty( respdata.item.authorfee / 100)
+					settokenid ( respdata.item.tokenid ) 
         } else {
 					SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
 					setTimeout( _=>{
 						navigate("/")
-					} , 4500 )
+					} , TIME_PAGE_TRANSITION_ON_REGISTER )
         }
       } catch (error) {
         SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
 				setTimeout( _=>{
 					navigate("/")
-				} , 4500 )				
+				} , TIME_PAGE_TRANSITION_ON_REGISTER )				
       }
     };
     asyncGetItemData();
-  }, [navigate, search]);
+  }, [ navigate , search ] )
 
-  useEffect(() => {
+  useEffect (() => {
     console.log(signError, sign.length);
     if (signError !== "" && signError !== undefined && signError !== null) {
       setCompleteSign(false);
@@ -454,6 +475,12 @@ function SaleFixed() {
                       <p>Royalty</p>
                       <span>{royalty}%</span>
                     </li>
+
+                    <li>
+                      <p>Referrer</p>
+                      <span>{ conv_bp_percent(jsettings?.REFERER_FEE_DEF) }%</span>
+                    </li>
+
                     <li>
                       <strong>Total</strong>
                       <strong>{platformFee + royalty}%</strong>
@@ -509,7 +536,7 @@ function SaleFixed() {
                 </div>
               </div>
               <div class="sales_btn">
-                <a>Sales start</a>
+                <a>Sal??es start</a>
               </div>
             </div>
           </div>
@@ -522,3 +549,19 @@ function SaleFixed() {
 const SignPopupBox = styled.div``;
 
 export default SaleFixed;
+/** const signCallback = (error, result) => {
+    const temp = [];
+    console.log(error, result);
+    if (result.error === undefined) {
+      const v = "0x" + result.result.substring(2).substring(128, 130);
+      const r = "0x" + result.result.substring(2).substring(0, 64);
+      const s = "0x" + result.result.substring(2).substring(64, 128);
+      temp.push(v, r, s, result.result);
+      set Sign(temp);
+    } else {
+      console.log(error);
+      setS ignError(error);
+      SetErrorBar(ERR_MSG.ERR_USER_SIGN_CANCELED);
+    }
+  };
+ */

@@ -3,6 +3,15 @@ const LOGGER = console.log
 const STRINGER=JSON.stringify
 const PARSER=JSON.parse
 const ISFINITE=Number.isFinite
+
+const conv_bp_percent=arg=>ISFINITE(+arg) ? (+arg/100).toFixed(1) : null
+const convaj=(arr,keyname,valuename)=>{
+  let jdata={}
+  arr.forEach(elem=>{
+    jdata[elem[keyname]] = elem[valuename]
+  })
+  return jdata
+}
 function generaterandomstr (length) {
   var result           = '';  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
@@ -64,7 +73,10 @@ export const encodeBase64File = (file) => {
   });
 };
 
-export { LOGGER,
+export { 
+	conv_bp_percent ,
+	convaj	,
+	LOGGER,
 	STRINGER 
 	, PARSER
 	, ISFINITE

@@ -25,6 +25,11 @@ function Header ({ store, setAllPopupOff, setMHeaderPopup }) {
 		else {return }
 		setaddress ( address )
 	} , [ store.address ] )
+	useEffect(_=>{
+		let { address }=store
+		if ( address ) { setaddress ( address)}
+		else { return }
+	} , [] )
   function onClickConnectWallet() {
     if (window.klaytn.selectedAddress) navigate("/joinmembership");
     else navigate("/connectwallet");
@@ -216,7 +221,8 @@ function Header ({ store, setAllPopupOff, setMHeaderPopup }) {
             <a>ENG</a>
           </li>
           <li class="wallet">
-            <a onClick={() => navigate("/connectwallet")}>{ address ? address : 'Connect Wal,,let' }</a>
+						<a onClick={() => navigate("/connectwallet")}>{ address ? address : 'Connect Wal,,let' }</a>
+						<span>{address}</span>
           </li>
         </ul>
       </nav>

@@ -13,5 +13,9 @@ export const API = {
   API_ITEM_SAVE_META: `${apiServer}/mint/metadata`,
   API_MINT_TX_REPORT: `${apiServer}/mint/report/mint`,
   API_LAZY_MINT: `${apiServer}/mint/mint`,
-  API_GET_ITEM_CATEGORIES: `${apiServer}/queries/categories`,
+	API_GET_ITEM_CATEGORIES: `${apiServer}/queries/categories`,
+	
+	API_ORDER_MAKER_SELLER : `${apiServer}/orders/maker/seller`
+	, API_PLATFORM_SETTINGS: `${apiServer}/queries/rows/settings/active/1/0/100/id/DESC`
 };
+// router.get('/rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval' , async (req,res)=>{
