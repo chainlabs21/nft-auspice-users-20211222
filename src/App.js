@@ -48,7 +48,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import SetErrorBar from "./util/SetErrorBar";
 import { API } from "./config/api";
-import { MSG } from "./config/messages";
+import { messages } from "./config/messages";
 import { SET_ADDRESS } from "./reducers/walletSlice";
 import { GET_USER_DATA } from "./reducers/userSlice";
 import GlobalStyle from "./components/globalStyle";
@@ -127,7 +127,7 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
             }
           });
       } else {
-        SetErrorBar(MSG.MSG_WALLET_DISCONNECTED);
+        SetErrorBar(messages.MSG_WALLET_DISCONNECTED);
         on_wallet_disconnect();
       }
     });

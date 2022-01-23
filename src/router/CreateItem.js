@@ -10,7 +10,7 @@ import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
 import { generateSlug } from  'random-word-slugs'
-import { query_noarg , getabistr_forfunction, requesttransaction } from '../util/contract-calls'
+import { query_noarg , getabistr_forfunction, requesttransaction, query_with_arg } from '../util/contract-calls'
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
@@ -31,7 +31,9 @@ import { generateRandomString } from "../util/Util";
 import { ADDRESSES } from '../config/addresses'
 import { applytoken } from '../util/rest'
 import { get_random_ipfs } from '../util/ipfscid'
-// import awaitTransactionMined from "await-transaction-mined";
+import awaitTransactionMined from "await-transaction-mined";
+import { web3 } from '../config/configweb3'
+import { TX_POLL_OPTIONS } from '../config/configs'
 const kiloBytes = 1024;
 const megaBytes = 1024 * kiloBytes;
 const fileTypeList = [  "jpg",  "png",  "gif",  "svg",  "mp4",  "webm",  "mp3",  "wav",  "ogg" ];
@@ -92,6 +94,20 @@ function CreateItem({ store, setConnect }) {
 			if (resp){}
 			else {SetErrorBar (messages.MSG_USER_DENIED_TX ); return }
 			SetErrorBar ( messages.MSG_TX_REQUEST_SENT )
+			query_with_arg ({contractaddress : ADDRESSES.erc1155 
+				, abikind : 'ERC1155' 
+				, methodname : '_itemhash_tokenid' 
+				, aargs : [ random_ipfscid ]
+			}).then(resp=>{
+				LOGGER( 'UaSEEYwCnu' , resp )
+			})
+//			return
+			let txhash = resp.transactionHash
+			awaitTransactionMined
+			.awaitTx( web3, txhash, TX_POLL_OPTIONS )
+			.then((minedtxreceipt) => {
+				LOGGER( "f9slc6vfyh" , minedtxreceipt)			//				Setisloader(false);
+			})
 		})
 // tx ok : https://baobab.scope.klaytn.com/tx/0x1c69e43e3dd606415bab7aa6420b2632cee1d47d74dcb353ee6dd3e014bad2fa :gas used-208,171
 	}
@@ -152,7 +168,7 @@ function CreateItem({ store, setConnect }) {
 			API.API_MINT_TX_REPORT +				`/${itemid}/${mokupRndTxHash.trim()}/${userAddress}`,			body // file Resp.resp data
 		);
 		if (resp.data.status === "OK") {
-			navigate(`/salefixed?id=${itemid}`) // fileR esp.resp data
+			navigate(`/salefixed?itemid=${itemid}`) // fileR esp.resp data
 		}
 	}
 	const on_request_lazy_mint=async _=>{
@@ -168,7 +184,7 @@ function CreateItem({ store, setConnect }) {
 		};
 		const resp = await axios.post(API.API_LAZY_MINT, body);
 		if (resp.data.status === "OK") {
-			navigate(`/salefixed?id=${itemid}`); // fileRes p.resp data
+			navigate(`/salefixed?itemid=${itemid}`); // fileRes p.resp data
 		}
 	}
   const fileUpload = async (file) => {
@@ -604,7 +620,7 @@ function CreateItem({ store, setConnect }) {
 								<a onClick={_=>{LOGGER( 'MOdR4DlcH9' )
 									if (activePubl){ on_request_tx_mint () }
 									else { on_request_lazy_mint() }
-								}}>{ activePubl ? 'Mint item' : 'Register Item->server' }</a>
+								}}>{ activePubl ? 'Mint item->chain' : 'Register Item->server' }</a>
               </div>
 
             </div>
@@ -614,10 +630,30 @@ function CreateItem({ store, setConnect }) {
     </SignPopupBox>
   );
 }
-
 const SignPopupBox = styled.div``;
-
 export default CreateItem;
-
 // import "./css/style01.css";
 // import "./css/style02.css";
+
+const requesttransaction_response={
+	blockHash: "0x76279a841587951c6f92cf88ed85cbf97f6fb8025f162e1dfdb8cd86a086a860"
+	,blockNumber: 81380202
+	,contractAddress: null
+	,from: "0x90033484a520b20169b60f131b4e2f7f46923faf"
+	,gas: "0x3d090"
+	,gasPrice: "0x5d21dba00"
+	,gasUsed: 208171
+	,input: "0x1178e3cc00000000000000000000000090033484a520b20169b60f131b4e2f7f46923faf00000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000012000000000000000000000000000000000000000000000000000000000000000305f5f516d5243335644724c6232596e33454176586134695035324e394a6778736b3845467061347158776153764647550000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000"
+	,logs: '' // [{…}]
+	,logsBloom: "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000002000000000000000000000000000000000000000000000001000000000000000000000000000020000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000800000000000000000000000000000000000000000000000000000008000000000000000008000000000000000020000000000000000000000000000000000000000800000000000000080000000000"
+	,nonce: "0x19"
+	,senderTxHash: "0x24c4435310d4c977d9cac82177de19c7c9b674135b3cb8265c46a320734d2d79"
+	,signatures: '' // [{…}]
+	,status: true
+	,to: "0xb7aa9cd318e97f42a477dc1d9185fdec5503e9b5"
+	,transactionHash: "0x24c4435310d4c977d9cac82177de19c7c9b674135b3cb8265c46a320734d2d79"
+	,transactionIndex: 0
+	,type: "TxTypeLegacyTransaction"
+	,typeInt: 0
+	,value: "0x0"
+}

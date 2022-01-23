@@ -142,14 +142,16 @@ function NotificationSettings({ store, setConnect }) {
                         <li>
                           <h3 style={{ backgroundImage: `url(${rstone})` }}>
                             KLAY
-                          </h3>
-                          <span>0.005</span>
+                          </h3>                   
+													{/* <span>0.005</span>*/}
+													<input placeholder={'123'} value={'123'}></input>
                         </li>
                         <li>
                           <h3 style={{ backgroundImage: `url(${dollar})` }}>
                             USD
                           </h3>
-                          <span>30.88</span>
+													{/** <span>30.88</span>*/}
+													<input placeholder={'123'} value={'123'}></input>
                         </li>
                       </ol>
                     </div>

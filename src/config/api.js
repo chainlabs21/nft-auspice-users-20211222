@@ -9,7 +9,7 @@ export const API = {
   API_LOGOUT: `${apiServer}/users/logout`,
   API_ITEM_UPLOAD_BASE64: `${apiServer}/mint/store/base64`,
   API_ITEM_UPLOAD_OVER: `${apiServer}/mint/store/file`,
-  API_GET_ITEM_DATA: `${apiServer}/items/item`,
+  API_GET_ITEM_DATA : `${apiServer}/items/item`,
   API_ITEM_SAVE_META: `${apiServer}/mint/metadata`,
   API_MINT_TX_REPORT: `${apiServer}/mint/report/mint`,
   API_LAZY_MINT: `${apiServer}/mint/mint`,

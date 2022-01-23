@@ -32,6 +32,8 @@ import { is_eth_address_valid } from "../util/eth";
 import { applytoken } from '../util/rest'
 import { ADDRESSES } from '../config/addresses'
 import { TIME_PAGE_TRANSITION_ON_REGISTER } from '../config/configs'
+import { useSearchParams } from "react-router-dom";
+
 function SaleFixed() {
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -51,6 +53,8 @@ function SaleFixed() {
 	let [ itemid , setitemid ]=useState()
 	let [ tokenid , settokenid ] = useState()
 	let [ jsettings , setjsettings ]= useState( {} )
+	let  [ searchParams, setSearchParams ] = useSearchParams()
+
 	const axios=applytoken()
 	useEffect( _=>{
 		setItemPrice ( getrandomint ( 1 ,10) )
@@ -99,15 +103,16 @@ function SaleFixed() {
   //  asyncSalesStart();
   };
   useEffect(() => {
-    const { id } = queryString.parse(search); LOGGER( 'U9Z2CL8cRt' , id )
-    if (id === undefined) {
+//		const { itemid } = queryString.parse(search); 
+		let itemid=searchParams.get('itemid'); LOGGER( 'U9Z2CL8cRt' , itemid )
+    if ( itemid === undefined) {
       SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
-      navigate("/");
+//      navigate("/");
 		}
-		setitemid ( id )
+		setitemid ( itemid )
     const asyncGetItemData = async () => {
       try {
-				const resp = await axios.get( API.API_GET_ITEM_DATA + `/${id}`); 				LOGGER('url', API.API_GET_ITEM_DATA )
+				const resp = await axios.get( API.API_GET_ITEM_DATA + `/${ itemid }`); 				LOGGER('url', API.API_GET_ITEM_DATA )
 				LOGGER('', resp.data)
 				let { status , respdata } = resp.data
         if ( status === "OK") {
@@ -128,7 +133,7 @@ function SaleFixed() {
       }
     };
     asyncGetItemData();
-  }, [ navigate , search ] )
+  }, [] ) // [ navigate , search ] 
 
   useEffect (() => {
     console.log(signError, sign.length);
@@ -182,7 +187,7 @@ function SaleFixed() {
                                   </span>
                                 </a>
                               </li>
-                              <li onClick={() => navigate("/auctionbid")}>
+                              <li onClick={() => navigate(`/auctionbid?itemid=${itemid}`)}>
                                 <a>
                                   <h4>Auction Bid</h4>
                                   <span>Sell ​​to the highest bidder</span>

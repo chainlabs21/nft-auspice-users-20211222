@@ -29,10 +29,9 @@ const messages={
 	, MSG_TX_REQUEST_SENT : '요청이 전송되었습니다'
 	, MSG_INVALID_ADDRESS : '유효한 주소가 아닙니다'
 	, MSG_DATA_SIGNED : '서명되었습니다'
+	, MSG_PLEASE_SPECIFY_QUERY_VALUE : '값을 지정하세요'
+	, MSG_WALLET_DISCONNECTED: "Wallet disconnected",
 }
-export const MSG = {
-  MSG_WALLET_DISCONNECTED: "Wallet disconnected",
-};
 export {
 	messages	
 }

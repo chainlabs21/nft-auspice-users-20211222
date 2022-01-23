@@ -24,7 +24,7 @@ import { applytoken } from '../util/rest'
 import SetErrorBar from '../util/SetErrorBar'
 import { API} from '../config/api'
 import { LOGGER, getrandomint, ISFINITE } from '../util/common'
-import moment from 'moment'
+
 function AuctionBid({ store, setConnect }) {
   const navigate = useNavigate();
 	const [verifyPopup, setVerifyPopup] = useState(false);
@@ -32,24 +32,18 @@ function AuctionBid({ store, setConnect }) {
 	let [ itemid , setitemid ] = useState ()
 	let [ itemdatabatched , setitemdatabatched ] = useState()
 	let [ bidamount_start , setbidamount_start] = useState( '')
-	let [ bidamount_threshold , setbidamount_threshold ]=useState()
-	let [ daystoclose , setdaystoclose ] = useState( '3 days later' )
+	let [ daystoclose , setdaystoclose ] = useState()
 	let [ expiry , setexpiry ] = useState()
-	let axios = applytoken()
-	const onclickpostsale=_=>{
-		let days=daystoclose.split(/ /)[0]
-		let expiry = moment().add( +days , 'days' ).endOf('day').unix()
-		LOGGER( '' , itemid , bidamount_start , bidamount_threshold ,  expiry )
-	}
+	let axios=applytoken()
 	useEffect( _=>{
 		let bidamount_start = getrandomint( 1, 10 )
-		let bidamount_threshold = getrandomint ( bidamount_start+1 , 20 )
+		let bidamount_max = getrandomint ( bidamount_start+1 , 20 )
 		setbidamount_start ( bidamount_start )
-		setbidamount_threshold ( bidamount_threshold )
+
 	} , [] )
 	useEffect( _=>{
 		let itemid=searchParams.get('itemid')
-		if (itemid ){ setitemid( itemid )}
+		if (itemid ){}
 		else {SetErrorBar( messages.MSG_PLEASE_SPECIFY_QUERY_VALUE ) ; return }
 		axios.get( `${API.API_GET_ITEM_DATA}/${itemid}`).then(resp=>{
 			LOGGER( 'oWWjCVhIpY' , resp.data )
@@ -241,19 +235,17 @@ function AuctionBid({ store, setConnect }) {
                                     />
                                     <select name="" id="">
                                       <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
+                                      <option>KLAY</option>
                                     </select>
                                   </div>
                                   <div class="input_right">
-																		<input value={ bidamount_threshold }																			
+                                    <input
                                       type="number"
                                       placeholder=""
-																			onkeydown="onlyNumber(this)"
-																			onChange={evt=>{
-																				let {value}=evt.target ; value=+value
-																				if ( ISFINITE( value )){}
-																				else {return}
-																				setbidamount_threshold ( ''+value)
-																			}}
+                                      onkeydown="onlyNumber(this)"
                                     />
                                   </div>
                                 </div>
@@ -272,7 +264,7 @@ function AuctionBid({ store, setConnect }) {
                                   </p>
                                   <div class="twoselect">
                                     <div class="toggle_1">
-                                      <select name="" id="" value={daystoclose} onChange={evt=>{
+                                      <select name="" id="" onChange={evt=>{
 																				LOGGER('' , evt.target.value )
 																				setdaystoclose ( evt.target.value )
 																			}}>
@@ -386,8 +378,8 @@ function AuctionBid({ store, setConnect }) {
                     </li>
                   </ul>
                 </div>
-								<div class="sales_btn" onClick={() => { // setVerifyPopup(true)
-									onclickpostsale()
+								<div class="sales_btn" onClick={() => {setVerifyPopup(true)
+								
 								}}>
                   <a>Sales start</a>
                 </div>

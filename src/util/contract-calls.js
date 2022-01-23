@@ -40,7 +40,7 @@ const query_noarg = jargs=>{ // {contractaddress , abikind , methodname  }=
 }
 const query_noargs = query_noarg
 const query_with_arg = jargs=> {  // {contractaddress , methodname , aargs }=jargs
-	let {contractaddress , abikind , methodname , aargs }=jargs
+	let { contractaddress , abikind , methodname , aargs }=jargs
 	let contract; contractaddress=contractaddress.toLowerCase()
 	let sig = sha256 (contractaddress + methodname )
 	if( jcontracts[ sig ]){ 

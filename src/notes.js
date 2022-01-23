@@ -1,7 +1,7 @@
 
 [] tokens
 
-[] http://localhost:3000/#/salefixed?id=QmS7RFqoUZei5tQZN6XYyyjcvrtk3eHfibQoxJG4bnh3v3
+[] http://localhost:3000/#/salefixed?itemid=QmS7RFqoUZei5tQZN6XYyyjcvrtk3eHfibQoxJG4bnh3v3
 
 [] id : 1
 itemid : xtmPbAuYWE
@@ -13,10 +13,12 @@ itemid : __QmfSq1GtsW7Fom2sg1ZytS2pRZHCHexzsJKfE3ARF6dB35
 _balances ( tokenid= 2 ,0x90033484a520b20169b60f131b4e2f7f46923faf )==1
 royalty =2
 
-[] 
+[] id : 3
+itemid ; __QmRC3VDrLb2Yn3EAvXa4iP52N9Jgxsk8EFpa4qXwaSvFGU
+
+
+
 insert into itembalances (username,itemid,amount,avail,tokenid,decimals,nickname) values (	 '0x90033484a520b20169b60f131b4e2f7f46923faf','__QmfSq1GtsW7Fom2sg1ZytS2pRZHCHexzsJKfE3ARF6dB35'	, 1 , 1 , 2 ,0,'bitalicbuterin' );
-
-
 [] 
 insert into itembalances (username,itemid,amount,avail,tokenid,decimals,nickname) values 
 (	 '0x3e125f5d532d2c8cabffe5cd2d7abdae2fef0087','__QmfSq1GtsW7Fom2sg1ZytS2pRZHCHexzsJKfE3ARF6dB35',28,28,1,0,'bitalicbuterin' );

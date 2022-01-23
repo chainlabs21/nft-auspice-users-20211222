@@ -1,9 +1,20 @@
 import mnemonicwords from "mnemonic-words";
+import SetErrorBar from '../util/SetErrorBar'
 const LOGGER = console.log
 const STRINGER=JSON.stringify
 const PARSER=JSON.parse
 const ISFINITE=Number.isFinite
 
+function onClickCopy ( copyText ) {
+	const textArea = document.createElement("textarea");
+	document.body.appendChild(textArea);
+//	const copyText = `${url}/${document.location.hash}`;
+	textArea.value = copyText;
+	textArea.select();
+	document.execCommand("copy");
+	document.body.removeChild(textArea);
+	SetErrorBar("Link Copied!");
+}
 const conv_bp_percent=arg=>ISFINITE(+arg) ? (+arg/100).toFixed(1) : null
 const convaj=(arr,keyname,valuename)=>{
   let jdata={}
@@ -57,7 +68,6 @@ export const encodeBase64ImageFile = (image) => {
     };
   });
 };
-
 export const encodeBase64File = (file) => {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
@@ -74,7 +84,8 @@ export const encodeBase64File = (file) => {
 };
 
 export { 
-	conv_bp_percent ,
+	onClickCopy 
+	, conv_bp_percent ,
 	convaj	,
 	LOGGER,
 	STRINGER 
