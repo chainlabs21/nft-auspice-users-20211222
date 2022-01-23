@@ -40,6 +40,18 @@ function AuctionBid({ store, setConnect }) {
 		let days=daystoclose.split(/ /)[0]
 		let expiry = moment().add( +days , 'days' ).endOf('day').unix()
 		LOGGER( '' , itemid , bidamount_start , bidamount_threshold ,  expiry )
+/** 
+			_target_contract , // ", 				"internalType": "address",
+		_holder , // ",
+		_target_item_ids , // ",				"internalType": "uint256[]",
+		_amounts , // ",				"internalType": "uint256[]",
+			_paymenttoken , // ",				"internalType": "address",
+_offerprice , // ",				"internalType": "uint256",
+_starting_time , // ",				"internalType": "uint256",
+_expiry , // ",								"internalType": "uint256",
+_referer_feerate , // ",								"internalType": "uint256",
+_calldata // ",					" internalType": "bytes",
+*/
 	}
 	useEffect( _=>{
 		let bidamount_start = getrandomint( 1, 10 )

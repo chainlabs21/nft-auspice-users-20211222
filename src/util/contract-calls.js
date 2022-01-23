@@ -9,6 +9,8 @@ import { ERR_MSG, messages } from "../config/messages";
 import sha256 from 'js-sha256'
 import { abi as abi_admin } from '../contracts-abi/IAdmin'
 import { abi as abi_erc1155 } from '../contracts-abi/IERC1155'
+import { abi as abi_auction_repo_dutch_bulk } from '../contracts-abi/IAuctionRepoDutchBulk'
+import { abi as abi_auction_repo_english } from '../contracts-abi/IAuctionRepoEnglish'
 // import { getweirep } from '../utils/eth'
 // import { DebugMode } from '../configs/configs'
 // import { requesttransaction } from "../services/kaikas"
@@ -20,6 +22,8 @@ const jcontracts = {};
 const MAP_STR_ABI = {
 	ADMIN : abi_admin
 	, ERC1155 : abi_erc1155
+	, AUCTION_DUTCH_BULK : abi_auction_repo_dutch_bulk
+	, AUCTION_ENGLISH : abi_auction_repo_english
 }
 const query_noarg = jargs=>{ // {contractaddress , abikind , methodname  }=
 	let {contractaddress , abikind , methodname  }=jargs
