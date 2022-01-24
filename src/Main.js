@@ -28,13 +28,6 @@ import I_heartO from "./img/main/I_heartO.svg";
 import I_heart from "./img/main/I_heart.svg";
 import I_starO from "./img/main/I_starO.svg";
 import I_star from "./img/main/I_star.svg";
-// import "./css/common.css";
-// import "./css/font.css";
-// import "./css/layout.css";
-// import "./css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
 
 import "./css/header.css";
 import "./css/footer.css";
@@ -43,6 +36,8 @@ import "./css/swiper.min.css";
 import title from "./img/main/title.svg";
 
 import { putCommaAtPrice } from "./util/Util";
+
+const expItemId = "QmS7RFqoUZei5tQZN6XYyyjcvrtk3eHfibQoxJG4bnh3v3";
 
 function Main({ store }) {
   const visualSwiperContRef = useRef();
@@ -438,10 +433,14 @@ function Main({ store }) {
                           </ul>
                         </div>
                         <div class="button">
-                          <a onClick={() => navigate("/singleitem")}>
+                          <a
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
+                          >
                             View Item
                           </a>
-                          <a onClick={() => navigate("/singleitem")}>
+                          <a
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
+                          >
                             Place a Bid
                           </a>
                         </div>
@@ -470,7 +469,9 @@ function Main({ store }) {
                     <>
                       <span>
                         <li class="swiper-slide">
-                          <a onClick={() => navigate("/singleitem")}>
+                          <a
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
+                          >
                             <div
                               style={{
                                 backgroundImage: `url(${collection_list01})`,
@@ -505,7 +506,9 @@ function Main({ store }) {
                       </span>
                       <span>
                         <li class="swiper-slide">
-                          <a onClick={() => navigate("/singleitem")}>
+                          <a
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
+                          >
                             <div
                               style={{
                                 backgroundImage: `url(${collection_list02})`,
@@ -539,7 +542,9 @@ function Main({ store }) {
                       </span>
                       <span>
                         <li class="swiper-slide">
-                          <a onClick={() => navigate("/singleitem")}>
+                          <a
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
+                          >
                             <div
                               style={{
                                 backgroundImage: `url(${collection_list03})`,
@@ -574,7 +579,9 @@ function Main({ store }) {
                       </span>
                       <span>
                         <li class="swiper-slide">
-                          <a onClick={() => navigate("/singleitem")}>
+                          <a
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
+                          >
                             <div
                               style={{
                                 backgroundImage: `url(${collection_list04})`,
@@ -729,7 +736,7 @@ function Main({ store }) {
                       <span>
                         <li class="swiper-slide">
                           <a
-                            onClick={() => navigate("/singleitem")}
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
                             style={{
                               backgroundImage: `url(${sample})`,
                               backgroundRepeat: "no-repeat",
@@ -782,7 +789,7 @@ function Main({ store }) {
                       <span>
                         <li class="swiper-slide">
                           <a
-                            onClick={() => navigate("/singleitem")}
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
                             style={{
                               backgroundImage: `url(${sample})`,
                               backgroundRepeat: "no-repeat",

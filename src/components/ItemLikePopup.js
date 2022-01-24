@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API } from "../config/api";
 
-export default function ItemLikePopup({off}) {
+export default function ItemLikePopup({ off }) {
   const { itemId } = useParams();
   const limit = 10000;
   const [data, setData] = useState([]);
@@ -25,12 +25,10 @@ export default function ItemLikePopup({off}) {
       });
   }, []);
 
-  console.log(off);
-
   return (
     <div class="popup info" id="info_popup" style={{ display: "block" }}>
       <div class="box_wrap wrap2">
-        <a onClick={()=>off()} class="close close2" id="info_close">
+        <a onClick={() => off()} class="close close2" id="info_close">
           <img src={require("../img/sub/icon_close.png").default} alt="close" />
         </a>
         <div class="poptitle">
@@ -38,13 +36,13 @@ export default function ItemLikePopup({off}) {
         </div>
         <div class="list_bottom">
           <ul class="container popcon">
-            {data.map((v) => (
-              <li>
+            {data.map((v, i) => (
+              <li key={i}>
                 <span class="pop_profile"></span>
                 <h3>
-                  {v.name}
+                  {v.nickname}
                   <br />
-                  <span>{convertLongString(8, 8, v.address)}</span>
+                  <span>{convertLongString(8, 8, v.username)}</span>
                 </h3>
               </li>
             ))}

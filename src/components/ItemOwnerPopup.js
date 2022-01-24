@@ -25,8 +25,6 @@ export default function ItemOwnerPopup({ off }) {
       });
   }, []);
 
-  console.log(off);
-
   return (
     <div class="popup info" id="info_popup" style={{ display: "block" }}>
       <div class="box_wrap wrap2">
@@ -38,13 +36,13 @@ export default function ItemOwnerPopup({ off }) {
         </div>
         <div class="list_bottom">
           <ul class="container popcon">
-            {data.map((v) => (
-              <li>
+            {data.map((v, i) => (
+              <li key={i}>
                 <span class="pop_profile"></span>
                 <h3>
-                  {v.name}
+                  {v.nickname}
                   <br />
-                  <span>{convertLongString(8, 8, v.address)}</span>
+                  <span>{convertLongString(8, 8, v.username)}</span>
                 </h3>
                 <p>
                   <a>{v.amount} Items</a>
