@@ -637,11 +637,7 @@ function Main({ store }) {
 
             <ol class="list">
               <li>
-                <a
-                  onClick={() =>
-                    navigate("/marketplace", { state: "Digital Art" })
-                  }
-                >
+                <a onClick={() => navigate("/marketplace", { state: "Art" })}>
                   <img src={require("./img/main/category_art.png").default} />
                   Digital Art
                 </a>
@@ -655,7 +651,7 @@ function Main({ store }) {
               <li>
                 <a
                   onClick={() =>
-                    navigate("/marketplace", { state: "Virtual Worlds" })
+                    navigate("/marketplace", { state: "Virtual World" })
                   }
                 >
                   <img
@@ -669,7 +665,7 @@ function Main({ store }) {
               <li>
                 <a
                   onClick={() =>
-                    navigate("/marketplace", { state: "Trading Card" })
+                    navigate("/marketplace", { state: "Trading Cards" })
                   }
                 >
                   <img
