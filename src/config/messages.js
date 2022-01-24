@@ -30,7 +30,8 @@ const messages={
 	, MSG_INVALID_ADDRESS : '유효한 주소가 아닙니다'
 	, MSG_DATA_SIGNED : '서명되었습니다'
 	, MSG_PLEASE_SPECIFY_QUERY_VALUE : '값을 지정하세요'
-	, MSG_WALLET_DISCONNECTED: "Wallet disconnected",
+	, MSG_WALLET_DISCONNECTED: "Wallet disconnected"
+	, MSG_PLEASE_MINT_AHEAD : '민트 등록 후 사용하세요'
 }
 export {
 	messages	

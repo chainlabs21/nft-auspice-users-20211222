@@ -23,11 +23,17 @@ import { messages } from "../config/messages";
 import { applytoken } from '../util/rest'
 import SetErrorBar from '../util/SetErrorBar'
 import { API} from '../config/api'
-import { LOGGER, getrandomint, ISFINITE } from '../util/common'
+import { LOGGER, getrandomint, ISFINITE , getmyaddress } from '../util/common'
 import moment from 'moment'
+import { getabistr_forfunction } from "../util/contract-calls";
+import { ADDRESSES } from "../config/addresses";
+import { PAYMENT_TOKEN_ADDRESS_DEF
+	, REFERER_FEE_RATE_DEF
+} from '../config/configs'
+
 function AuctionBid({ store, setConnect }) {
-  const navigate = useNavigate();
-	const [verifyPopup, setVerifyPopup] = useState(false);
+  const navigate = useNavigate()
+	const [ verifyPopup, setVerifyPopup] = useState(false);
 	let  [ searchParams, setSearchParams ] = useSearchParams()
 	let [ itemid , setitemid ] = useState ()
 	let [ itemdatabatched , setitemdatabatched ] = useState()
@@ -36,12 +42,31 @@ function AuctionBid({ store, setConnect }) {
 	let [ daystoclose , setdaystoclose ] = useState( '3 days later' )
 	let [ expiry , setexpiry ] = useState()
 	let axios = applytoken()
+	let myaddress = getmyaddress()
 	const onclickpostsale=_=>{
 		let days=daystoclose.split(/ /)[0]
 		let expiry = moment().add( +days , 'days' ).endOf('day').unix()
 		LOGGER( '' , itemid , bidamount_start , bidamount_threshold ,  expiry )
-/** 
-			_target_contract , // ", 				"internalType": "address",
+		if (itemdatabatched?.item?.tokenid){}
+		else {	SetErrorBar ( messages.MSG_PLEASE_MINT_AHEAD ) ; return }
+		const timenow = moment()
+		getabistr_forfunction ({
+			contractaddress : ADDRESSES.auction_repo_english
+			, abikind : 'AUCTION_ENGLISH'
+			, methodname : 'begin_auction_batch'
+			, aargs : [ ADDRESSES.auction_repo_english
+				, myaddress
+				, [ ''+itemdatabatched?.item?.tokenid ]
+				, []
+				, PAYMENT_TOKEN_ADDRESS_DEF
+				, bidamount_start
+				, timenow.unix()
+				, timenow.add ( days , 'days' ).unix()
+				, REFERER_FEE_RATE_DEF
+				, '0x00'
+			] 
+		})
+/** 			_target_contract , // ", 				"internalType": "address",
 		_holder , // ",
 		_target_item_ids , // ",				"internalType": "uint256[]",
 		_amounts , // ",				"internalType": "uint256[]",
