@@ -1,13 +1,8 @@
 import { connect } from "react-redux";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
 
-import collect_img from "../img/sub/collect_img.png";
-import collect_img2 from "../img/sub/collect_img2.png";
-import collect_img3 from "../img/sub/collect_img3.png";
-import collect_img4 from "../img/sub/collect_img4.png";
-import s5 from "../img/sub/s5.png";
 import sample from "../img/sub/sample.png";
 import profile_img from "../img/sub/profile_img.png";
 
@@ -25,9 +20,14 @@ import "../css/swiper.min.css";
 import { useEffect, useRef, useState } from "react";
 import { singleItem } from "../mokups/items";
 import moment from "moment";
+import axios from "axios";
+import { API } from "../config/api";
+import ItemOwnerPopup from "../components/ItemOwnerPopup";
+import ItemLikePopup from "../components/ItemLikePopup";
 
 function SingleItem({ store, setConnect }) {
   const navigate = useNavigate();
+  const { itemId } = useParams();
   const itemWrapRef = useRef();
   const {
     likerList,
@@ -40,22 +40,23 @@ function SingleItem({ store, setConnect }) {
 
   const [ownerPopup, setOwnerPopup] = useState(false);
   const [likePopup, setLikePopup] = useState(false);
-  const [reportPopup, setReportPopup] = useState(false);
-  const [reportDesc, setReportDesc] = useState("");
   const [bidPopup, setBidPopup] = useState(false);
   const [chartCategory, setChartCategory] = useState(0);
   const [endAutionTime, setEndAutionTime] = useState(singleItem.auctionExpiry);
   const [diffTime, setDiffTime] = useState();
   const [nearEnd, setNearEnd] = useState(false);
+  const [itemData, setItemData] = useState({});
 
   const [userIndex, setUserIndex] = useState(0);
 
   const convertLongString = (startLength, endLength, str) => {
+    if (!str) return;
     const head = str.substring(0, startLength);
     const spread = "......";
     const tail = str.substring(str.length - endLength, str.length);
     return head + spread + tail;
   };
+
   const numFormatter = (num) => {
     if (num > 999 && num < 1000000) {
       return (num / 1000).toFixed(1) + "K"; // convert to K for number from > 1000 < 1 million
@@ -87,6 +88,13 @@ function SingleItem({ store, setConnect }) {
   }
 
   useEffect(() => {
+    axios.get(`${API.API_GET_ITEM_DATA}/${itemId}`).then((res) => {
+      console.log(res.data.respdata);
+      setItemData(res.data.respdata);
+    });
+  }, []);
+
+  useEffect(() => {
     const wrapWidth = itemWrapRef.current.offsetWidth;
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -106,108 +114,42 @@ function SingleItem({ store, setConnect }) {
       }
     }
   }, [userIndex]);
-  useEffect(() => {
-    const setAuctionTimer = () => {
-      let now = moment().format("DD/MM/YYYY HH:mm:ss");
-      let then = moment(endAutionTime).format("DD/MM/YYYY HH:mm:ss");
 
-      let ms = moment(then, "DD/MM/YYYY HH:mm:ss").diff(
-        moment(now, "DD/MM/YYYY HH:mm:ss")
-      );
-      let d = moment.duration(ms);
-      let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+  // useEffect(() => {
+  //   const setAuctionTimer = () => {
+  //     let now = moment().format("DD/MM/YYYY HH:mm:ss");
+  //     let then = moment(endAutionTime).format("DD/MM/YYYY HH:mm:ss");
 
-      if (d.asSeconds() < 0) {
-        setDiffTime(moment().format("00:00:00"));
-        setNearEnd(false);
-        return;
-      }
+  //     let ms = moment(then, "DD/MM/YYYY HH:mm:ss").diff(
+  //       moment(now, "DD/MM/YYYY HH:mm:ss")
+  //     );
+  //     let d = moment.duration(ms);
+  //     let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
 
-      if (!nearEnd && d.asHours() < 12) {
-        setNearEnd(true);
-      }
-      setDiffTime(s);
-    };
+  //     if (d.asSeconds() < 0) {
+  //       setDiffTime(moment().format("00:00:00"));
+  //       setNearEnd(false);
+  //       return;
+  //     }
 
-    setInterval(setAuctionTimer, 1000);
+  //     if (!nearEnd && d.asHours() < 12) {
+  //       setNearEnd(true);
+  //     }
+  //     setDiffTime(s);
+  //   };
 
-    return () => {
-      clearInterval(setAuctionTimer);
-    };
-  }, [endAutionTime]);
+  //   setInterval(setAuctionTimer, 1000);
+
+  //   return () => {
+  //     clearInterval(setAuctionTimer);
+  //   };
+  // }, [endAutionTime]);
 
   return (
     <SignPopupBox>
-      {ownerPopup && (
-        <div class="popup info" id="info_popup" style={{ display: "block" }}>
-          <div class="box_wrap wrap2">
-            <a
-              onClick={() => setOwnerPopup(false)}
-              class="close close2"
-              id="info_close"
-            >
-              <img
-                src={require("../img/sub/icon_close.png").default}
-                alt="close"
-              />
-            </a>
-            <div class="poptitle">
-              <h2>Owner List</h2>
-            </div>
-            <div class="list_bottom">
-              <ul class="container popcon">
-                {ownerList.map((v) => (
-                  <li>
-                    <span class="pop_profile"></span>
-                    <h3>
-                      {v.name}
-                      <br />
-                      <span>{convertLongString(8, 8, v.address)}</span>
-                    </h3>
-                    <p>
-                      <a>{v.itemCount} Items</a>
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
+      {ownerPopup && <ItemOwnerPopup off={setOwnerPopup} />}
 
-      {likePopup && (
-        <div class="popup info" id="info_popup" style={{ display: "block" }}>
-          <div class="box_wrap wrap2">
-            <a
-              onClick={() => setLikePopup(false)}
-              class="close close2"
-              id="info_close"
-            >
-              <img
-                src={require("../img/sub/icon_close.png").default}
-                alt="close"
-              />
-            </a>
-            <div class="poptitle">
-              <h2>Liked by</h2>
-            </div>
-            <div class="list_bottom">
-              <ul class="container popcon">
-                {likerList.map((v) => (
-                  <li>
-                    <span class="pop_profile"></span>
-                    <h3>
-                      {v.name}
-                      <br />
-                      <span>{convertLongString(8, 8, v.address)}</span>
-                    </h3>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
+      {likePopup && <ItemLikePopup off={setLikePopup} />}
 
       {bidPopup && (
         <div class="popup info" id="info_popup" style={{ display: "block" }}>
@@ -305,7 +247,7 @@ function SingleItem({ store, setConnect }) {
                           backgroundSize: "cover",
                         }}
                       ></span>
-                      @Philip van Kouwenbergh
+                      @{itemData.author?.nickname}
                     </h2>
                   </div>
                   <div class="bt likes">
@@ -313,21 +255,24 @@ function SingleItem({ store, setConnect }) {
                       onClick={() => setLikePopup(true)}
                       class="like_heart off"
                     >
-                      <h2>{likerList.length} Likes</h2>
+                      <h2>{itemData.item?.countfavors} Likes</h2>
                     </a>
                   </div>
                   <div class="views">
                     <ul>
-                      <li onClick={() => setOwnerPopup(true)}>
-                        <h3>{ownerList.length}</h3>
+                      <li
+                        className="ownerBox"
+                        onClick={() => setOwnerPopup(true)}
+                      >
+                        <h3>{itemData.countholders}</h3>
                         <h4>Owner</h4>
                       </li>
                       <li>
-                        <h3>{singleItem.fragmentCount}</h3>
+                        <h3>{itemData.item?.countcopies}</h3>
                         <h4>Fragment</h4>
                       </li>
                       <li>
-                        <h3>{numFormatter(singleItem.views)}</h3>
+                        <h3>{numFormatter(itemData.item?.countviews)}</h3>
                         <h4>views</h4>
                       </li>
                     </ul>
@@ -359,25 +304,29 @@ function SingleItem({ store, setConnect }) {
                       <div class="black_box">
                         <ul>
                           <li>
-                            <h3>Current Bid</h3>
+                            <h3>Price</h3>
                             <h4>
-                              {singleItem.currentBid}
-                              <span>KLAY</span>
+                              {itemData.item?.price}
+                              <span>{itemData.item?.priceunit}</span>
                             </h4>
                             <h5>
                               $
-                              {singleItem.currentUSD.toLocaleString("en", "US")}
+                              {itemData.item?.normprice &&
+                                itemData.item.normprice.toLocaleString(
+                                  "en",
+                                  "US"
+                                )}
                             </h5>
                           </li>
-                          <li>
+                          {/* <li>
                             <h3>Auction ending in</h3>
                             <h4 style={nearEnd ? { color: "red" } : {}}>
                               {diffTime}
                             </h4>
-                          </li>
+                          </li> */}
                         </ul>
                         <a onClick={() => setBidPopup(true)} class="bid">
-                          Place a Bid
+                          Buy
                         </a>
                       </div>
                     </div>
@@ -388,7 +337,7 @@ function SingleItem({ store, setConnect }) {
             <div class="bun_full">
               <div class="desc">
                 <h2 class="i_title">Description</h2>
-                <p>{singleItem.desc}</p>
+                <p>{itemData.item?.description}</p>
               </div>
             </div>
             <div class="bundle_top top2">

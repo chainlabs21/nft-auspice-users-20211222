@@ -22,18 +22,21 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";
 import filter_icon from "../img/sub/filter_icon.png";
+import axios from "axios";
+import { API } from "../config/api";
 
-function ExploreDeal({ store, setConnect }) {
+function ExploreDeal() {
   const navigate = useNavigate();
 
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
   const [toggleFilter, setToggleFilter] = useState(false);
   const [moMoreObj, setMoMoreObj] = useState({});
+  const [dataList, setDataList] = useState([]);
 
   function editFilterList(category, cont) {
     let dataObj = filterObj;
@@ -67,6 +70,21 @@ function ExploreDeal({ store, setConnect }) {
     console.log(moreObj);
     setMoMoreObj({ ...moreObj });
   }
+
+  useEffect(() => {
+    let token_sec = localStorage.getItem("token");
+    axios.defaults.headers.get.token = token_sec;
+    axios.defaults.headers.post.token = token_sec;
+
+    axios
+      .get(API.API_GET_EXPLORE, {
+        params: { fieldname: "typestr", fieldvalues: "MINT,SALE" },
+      })
+      .then((res) => {
+        console.log(res.data.list);
+        setDataList(res.data.list);
+      });
+  }, []);
 
   return (
     <SignPopupBox>
@@ -291,528 +309,69 @@ function ExploreDeal({ store, setConnect }) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Sale</td>
-                          <td>
-                            <div class="name">
+                        {dataList.map((cont, index) => (
+                          <tr key={index}>
+                            <td>{cont.typestr}</td>
+                            <td>
+                              <div class="name">
+                                <img
+                                  src={
+                                    require("../img/sub/collect_circle.png")
+                                      .default
+                                  }
+                                  alt=""
+                                />
+                                <p></p>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="name price">
+                                <img
+                                  src={
+                                    require("../img/sub/I_klaytn.svg").default
+                                  }
+                                  alt=""
+                                />
+                                <p>{cont.price}</p>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="name">
+                                <img
+                                  src={
+                                    require("../img/sub/collect_circle.png")
+                                      .default
+                                  }
+                                  alt=""
+                                />
+                                <p>{cont.from_}</p>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="name">
+                                <img
+                                  src={
+                                    require("../img/sub/collect_circle.png")
+                                      .default
+                                  }
+                                  alt=""
+                                />
+                                <p>{cont.to_}</p>
+                              </div>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
                               <img
                                 src={
-                                  require("../img/sub/collect_circle.png")
+                                  require("../img/sub/icon_link_off.png")
                                     .default
                                 }
                                 alt=""
                               />
-                              <p>Summer Pool</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                alt=""
-                              />
-                              <p>0.00050</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>VOE837548548548548</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>VOE837548548</p>
-                            </div>
-                          </td>
-                          <td>1 minutes left</td>
-                          <td>1</td>
-                          <td>
-                            <img
-                              src={
-                                require("../img/sub/icon_link_off.png").default
-                              }
-                              alt=""
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sale</td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Donald DUck</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                alt=""
-                              />
-                              <p>0.00050</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>regrerg</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>TOM12</p>
-                            </div>
-                          </td>
-                          <td>5 minutes left</td>
-                          <td>1</td>
-                          <td>
-                            <img
-                              src={
-                                require("../img/sub/icon_link_off.png").default
-                              }
-                              alt=""
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sale</td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Crushed He DUck</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                alt=""
-                              />
-                              <p>0.00050</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Dan</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>AMAMA</p>
-                            </div>
-                          </td>
-                          <td>10 minutes left</td>
-                          <td>1</td>
-                          <td>
-                            <img
-                              src={
-                                require("../img/sub/icon_link_on.png").default
-                              }
-                              alt=""
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sale</td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Summer Pool</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                alt=""
-                              />
-                              <p>0.00050</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>VOE837548548</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>VOE837548548</p>
-                            </div>
-                          </td>
-                          <td>1 minutes left</td>
-                          <td>1</td>
-                          <td>
-                            <img
-                              src={
-                                require("../img/sub/icon_link_off.png").default
-                              }
-                              alt=""
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sale</td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Donald DUck</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                alt=""
-                              />
-                              <p>0.00050</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>regrerg</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>TOM12</p>
-                            </div>
-                          </td>
-                          <td>5 minutes left</td>
-                          <td>1</td>
-                          <td>
-                            <img
-                              src={
-                                require("../img/sub/icon_link_off.png").default
-                              }
-                              alt=""
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sale</td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Crushed He DUck</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                alt=""
-                              />
-                              <p>0.00050</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Dan</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>AMAMA</p>
-                            </div>
-                          </td>
-                          <td>10 minutes left</td>
-                          <td>1</td>
-                          <td>
-                            <img
-                              src={
-                                require("../img/sub/icon_link_on.png").default
-                              }
-                              alt=""
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sale</td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Summer Pool</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                alt=""
-                              />
-                              <p>0.00050</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>VOE837548548</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>VOE837548548</p>
-                            </div>
-                          </td>
-                          <td>1 minutes left</td>
-                          <td>1</td>
-                          <td>
-                            <img
-                              src={
-                                require("../img/sub/icon_link_off.png").default
-                              }
-                              alt=""
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sale</td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Donald DUck</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                alt=""
-                              />
-                              <p>0.00050</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>regrerg</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>TOM12</p>
-                            </div>
-                          </td>
-                          <td>5 minutes left</td>
-                          <td>1</td>
-                          <td>
-                            <img
-                              src={
-                                require("../img/sub/icon_link_off.png").default
-                              }
-                              alt=""
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sale</td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Crushed He DUck</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                alt=""
-                              />
-                              <p>0.00050</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Dan</p>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>AMAMA</p>
-                            </div>
-                          </td>
-                          <td>10 minutes left</td>
-                          <td>1</td>
-                          <td>
-                            <img
-                              src={
-                                require("../img/sub/icon_link_on.png").default
-                              }
-                              alt=""
-                            />
-                          </td>
-                        </tr>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
@@ -903,7 +462,8 @@ function ExploreDeal({ store, setConnect }) {
 }
 
 const SignPopupBox = styled.div`
-  padding: 40px 0 0 0;
+  .move.off .close {
+  }
 
   .mySwiper3 {
     .swiper-wrapper {
@@ -916,17 +476,7 @@ const SignPopupBox = styled.div`
   }
 `;
 
-function mapStateToProps(state) {
-  return { store: state };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    setConnect: () => dispatch(setConnect()),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExploreDeal);
+export default ExploreDeal;
 
 const statusList = ["Listing", "Sale", "Bid", "Send"];
 
