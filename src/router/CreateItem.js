@@ -222,7 +222,7 @@ function CreateItem({ store, setConnect }) {
 					const resp = await axios.post(API.API_ITEM_UPLOAD_BASE64, base64Data); LOGGER ( 'xG6MsNdQhX' , resp.data )
 					let { status , payload , respdata } = resp.data
 					if ( status =='OK' ) {
-						setitemid ( respdata ) 
+						setitemid ( respdata )
 						setFileResp( resp.data )
 						setItem ( payload.url )	
 						seturlfile ( payload.url )

@@ -33,7 +33,7 @@ import "./css/footer.css";
 import "./css/swiper.min.css";
 import title from "./img/main/title.svg";
 import { putCommaAtPrice } from "./util/Util";
-import { LOGGER } from "./util/common";
+import { LOGGER , gettimestr } from "./util/common";
 import { applytoken } from './util/rest'
 import { API } from './config/api'
 import { strDot } from "./util/Util"
@@ -58,9 +58,15 @@ function Main({ store }) {
 	const [userIndex, setUserIndex] = useState(0);
 	let [ list_newitems , setlist_newitems ]=useState( [] )
 	let [ list_trenditems , setlist_trenditems ]=useState( [] )
-
+	let [ list_featured , setlist_featured ] = useState( [] )
 	let axios = applytoken ()
 	useEffect( _=>{
+		axios.get( `${API.API_MAIN_FEATURED_ITEMS}`).then(resp=>{ LOGGER('' , resp.data )
+			let { status , list }=resp.data
+			if ( status =='OK' ){
+				setlist_featured ( list )
+			}
+		})
 		axios.get( `${API.API_MAIN_NEW_ITEMS}`).then(resp=>{ LOGGER( 'JBwpoHdvFv' , resp.data )
 			let { status , list }=resp.data
 			if ( status =='OK' ) {
@@ -176,7 +182,7 @@ function Main({ store }) {
     if (userIndex < pageNum - 1) setUserIndex(userIndex + 1);
     else setUserIndex(0);
   }
-  useEffect( () => {
+  useEffect( () => {return
     const contWidth = visualSwiperRef.current.children[0].offsetWidth;
     visualSwiperContRef.current.style.width = `${contWidth * 3}px`;
   }, [] )
@@ -268,7 +274,7 @@ function Main({ store }) {
         userWrapRef.current.scrollTo({
           left: 0,
           behavior: "smooth",
-        });
+        })
       }
     }
   }, [userIndex]);
@@ -293,20 +299,20 @@ function Main({ store }) {
           <div class="swiper" ref={visualSwiperContRef}>
             <div class="swiper-container swiper-container-visual">
               <ol class="swiper-wrapper" ref={visualSwiperRef}>
-                {[1, 2].map((cont, index) => (
+                {list_featured.sort((a,b)=>a.createdat<b.createdat? +1 : -1 ).map((cont, index) => (
                   <span key={index}>
                     <li class="swiper-slide">
                       <div
                         style={{
-                          backgroundImage: `url(${image01})`,
+                          backgroundImage: `url(${cont.url})`,
                           backgroundRepeat: "no-repeat",
                           backgroundPosition: "center",
                           backgroundSize: "cover",
                         }}
                       ></div>
                       <div>
-                        <h3>Irregular Shape</h3>
-                        <p>Guzuman</p>
+                        <h3>{ cont.titlename }</h3>
+                        <p> { cont.username } </p>
                         <div class="info">
                           <dl>
                             <dt>Current Bid</dt>
@@ -324,24 +330,21 @@ function Main({ store }) {
                           <ul>
                             <li>
                               <img
-                                src={
-                                  require("./img/main/image_person01.png")
-                                    .default
-                                }
+                                src={ cont.author_mongo?.profileimage }
                               />
-                              <strong>5.44 KLAY</strong>
-                              <span>21:54</span>
+                              <strong>{ cont.askpricestats?.min } KLAY</strong>
+                              <span>{ gettimestr(cont.orders_sellside?.createdat )  }</span>
                             </li>
                           </ul>
                         </div>
                         <div class="button">
                           <a
-                            onClick={() => navigate(`/singleitem/${expItemId}`)}
+                            onClick={() => navigate(`/singleitem/${cont.itemid }`)}
                           >
                             View Item
                           </a>
                           <a
-                            onClick={() => navigate(`/singleitem/${expItemId}`)}
+                            onClick={() => navigate(`/singleitem/${cont.itemid }`)}
                           >
                             Place a Bid
                           </a>
@@ -521,7 +524,7 @@ function Main({ store }) {
               <div class="swiper-container swiper-container-trendingitem">
                 <ol class="item item4 buy swiper-wrapper">
                   <div className="slideBox" ref={trendingSwiperRef}>
-                    { list_trenditems.filter(elem=>elem.url ).map( (cont , index) => (
+                    { list_trenditems.filter(elem=>elem.url ).sort((a,b)=>b.countfavors- a.countfavors).map( (cont , index) => (
                       <span>
                         <li class="swiper-slide">
                           <a
@@ -542,7 +545,7 @@ function Main({ store }) {
                               <span>{ strDot(cont.author , 10, 0)  }</span>
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 KLAY</li>
+                                <li>{ cont.askpricestats?.min } KLAY</li>
                               </ol>
                               <p>Buy Now</p>
                             </div>
@@ -574,7 +577,7 @@ function Main({ store }) {
               <div class="swiper-container swiper-container-newitem">
                 <ol class="item item4 summary swiper-wrapper">
                   <div className="slideBox" ref={itemSwiperRef}>
-                    { list_newitems.filter(elem => elem.url ).map((cont, index) => (
+                    { list_newitems.filter(elem => elem.url ).sort((a,b)=>a.createdat<b.createdat? +1 : -1 ).map((cont, index) => (
                       <span>
                         <li class="swiper-slide">
                           <a
@@ -592,10 +595,11 @@ function Main({ store }) {
                                 <li class="star off"></li>
                               </ul>
                               <div>{ cont.titlename } </div>
-                              <span> { strDot(cont.author , 10,0) } </span>
+                              <span> { strDot(cont.author , 10,0) } { gettimestr( cont.createdat ) }</span>
+															
                               <ol>
                                 <li>6 minutes left</li>
-                                <li>1.67 KLAY</li>
+                                <li>{ cont.askpricestats?.min } KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -956,7 +960,7 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
-const itemList = [
+/**  const itemList = [
   {
     img: item_list01,
     like: true,
@@ -975,7 +979,7 @@ const itemList = [
     title: "Donald Duck",
     creator: "Carson",
     time: "7 days left",
-    price: "1.67 KLAY",
+    price: "1.6 7 KLAY",
   },
   {
     img: item_list03,
@@ -1025,7 +1029,7 @@ const itemList = [
     title: "Donald Duck",
     creator: "Carson",
     time: "7 days left",
-    price: "1.67 KLAY",
+    price: "1.6 7 KLAY",
   },
   {
     img: item_list03,
@@ -1058,3 +1062,4 @@ const itemList = [
     price: "1.02 KLAY",
   },
 ];
+*/

@@ -38,6 +38,8 @@ const messages={
 	, MSG_FAVORITED : '좋아요를 눌렀습니다'
 	, MSG_UNFAVORITED : '좋아요를 해제하였습니다'
 	, MSG_INPUT_NUMBERS_ONLY : '숫자만 입력가능합니다'
+	, MSG_DID_BOOKMARK : '북마크를 설정하였습니다'
+	, MSG_UNDID_BOOKMARK : '북마크를 해제하였습니다'
 }
 export {
 	messages	

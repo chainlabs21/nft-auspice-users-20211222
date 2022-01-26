@@ -4,6 +4,7 @@ const apiServer = "http://itemverse1.net:32287";
 export const API = {
 
 	API_TOGGLE_FAVOR : `${apiServer}/favorites/toggle`
+	, API_TOGGLE_BOOKMARK : `${apiServer}/bookmarks/toggle` 
   , API_USER_JOIN: `${apiServer}/users/join`,
   API_COMPLETE_EMAIL_VERIFY: `${apiServer}/users/bind_address_email`,
   API_USERS_LOGIN: `${apiServer}/users/login/crypto`,
@@ -27,7 +28,15 @@ export const API = {
   API_ORDER_MAKER_SELLER: `${apiServer}/orders/maker/seller`,
 	API_PLATFORM_SETTINGS: `${apiServer}/queries/rows/settings/active/1/0/100/id/DESC`,
 	
-	API_MAIN_NEW_ITEMS : `${apiServer}/queries/rows/items/active/1/0/10/id/DESC`
+			API_MAIN_NEW_ITEMS : `${apiServer}/queries/rows/items/active/1/0/10/id/DESC`
 	, API_MAIN_TREND_ITEMS : `${apiServer}/queries/rows/items/active/1/0/10/countviews/DESC`
-	
-};
+
+, API_MAIN_FEATURED_ITEMS :`${apiServer}/queries/rows/items/isfeatured/1/0/10/id/DESC`
+	, API_MERCHANDISES_LIST : `${apiServer}/merchandises/single/latest/0/10`
+	, API_MYITEMS : `${apiServer}/queries/rows/itembalances/username` // /${username}/0/10/id/DESC
+
+//																			 /rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval' , async (req,res)=>{
+//																			'/rows/fieldvalues/:tablename/:offset/:limit/:orderkey/:orderval' , async (req,res)=>{ // :fieldname/:fieldval/
+
+
+}

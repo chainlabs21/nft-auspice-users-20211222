@@ -11,7 +11,7 @@ const get_last_part_of_path = str=>{
 const gettimestr= str =>{
 	return moment( str).format('YYYY-MM-DD HH:mm:ss')
 }
- const getMaxMinAvg = arr => {
+const getMaxMinAvg = arr => {
 	 if ( arr && arr.length ){}
 	 else {return [ null , null , null ]}
 	let max = arr[0];

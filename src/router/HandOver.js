@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
-
 import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
@@ -16,31 +15,46 @@ import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
 import click1 from "../img/sub/click1.png";
 import ho_img from "../img/sub/ho_img.png";
-
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
 import "../css/style.css";
-
 // import "./css/style01.css";
 // import "./css/style02.css";
-
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { get_last_part_of_path, LOGGER } from '../util/common'
+import { applytoken } from '../util/rest'
+import { API } from '../config/api'
+import { useEffect , useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 function HandOver({ store, setConnect }) {
-  const navigate = useNavigate();
-
+	const navigate = useNavigate();
+//	let itemid =get_last_part_of_path ( window.location.href ) 
+	let itemid
+	let axios=applytoken()
+	let [ itemdata , setitemdata ] = useState()
+	let  [ searchParams, setSearchParams ] = useSearchParams()
+//	LOGGER( 'TnCW2Q2S8L' , itemid )
+	useEffect(_=>{  LOGGER( 'TnCW2Q2S8L' , itemid )
+		 itemid=searchParams.get('itemid')
+		axios.get(`${API.API_GET_ITEM_DATA}/${itemid}`).then(resp=>{ LOGGER( '' , resp.data )
+			let { status , respdata }=resp.data
+			if ( status =='OK' ){
+				setitemdata( respdata )
+			}
+		})
+	} , [] )
   async function onClickSendBtn() {
-    const { klaytn } = window;
+		const { klaytn } = window;
     const transactionParameters = {
       from: klaytn.selectedAddress,
       to: "0x3e125F5D532D2C8CAbffE5cD2d7aBdAe2FEF0087",
       id: 1,
       amount: 1,
-    };
-
+    }
     klaytn.sendAsync(
       {
         method: "klay_sendTransaction",
@@ -49,29 +63,6 @@ function HandOver({ store, setConnect }) {
       },
       (res, err, a, b, c, d) => console.log(res, err, "a",a, "b",b,"c", c,"d", d)
     );
-
-    // let { from, to, data, value } = jreqdata;
-    // let { ethereum } = window;
-
-    // const txparams = {
-    //   to: to,
-    //   from: from,
-    //   value: value, // '0x00'
-    //   data: data,
-    // };
-
-    // let resp;
-    // try {
-    //   resp = await ethereum.request({
-    //     method: "eth_sendTransaction",
-    //     params: [txparams],
-    //   });
-    //   DebugMode && LOGGER("1F9jVI8LrL", resp);
-    //   return resp;
-    // } catch (err) {
-    //   DebugMode && LOGGER("kkm1TWXecH", err);
-    //   return null;
-    // }
   }
 
   return (
@@ -102,7 +93,7 @@ function HandOver({ store, setConnect }) {
                                 <span
                                   class="hoimg"
                                   style={{
-                                    backgroundImage: `url(${ho_img})`,
+                                    backgroundImage: `url(${itemdata.item?.url})`,
                                     backgroundRepeat: "no-repeat",
                                     backgroundPosition: "center",
                                     backgroundSize: "cover",
@@ -119,27 +110,7 @@ function HandOver({ store, setConnect }) {
                                   </h5>
                                 </div>
                               </li>
-                              <li>
-                                <span
-                                  class="hoimg"
-                                  style={{
-                                    backgroundImage: `url(${ho_img})`,
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center",
-                                    backgroundSize: "cover",
-                                  }}
-                                ></span>
-                                <div class="ho_info">
-                                  <h3>renoir collection</h3>
-                                  <h4>Au parc</h4>
-                                  <h5>
-                                    Register the collection logo. Please select
-                                    an image file.
-                                    <br />
-                                    Square image (recommended size 350 x 350)
-                                  </h5>
-                                </div>
-                              </li>
+
                             </ol>
                           </div>
                         </li>
@@ -188,3 +159,23 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HandOver);
+    // let { from, to, data, value } = jreqdata;
+    // let { ethereum } = window;
+    // const txparams = {
+    //   to: to,
+    //   from: from,
+    //   value: value, // '0x00'
+    //   data: data,
+    // };
+    // let resp;
+    // try {
+    //   resp = await ethereum.request({
+    //     method: "eth_sendTransaction",
+    //     params: [txparams],
+    //   });
+    //   DebugMode && LOGGER("1F9jVI8LrL", resp);
+    //   return resp;
+    // } catch (err) {
+    //   DebugMode && LOGGER("kkm1TWXecH", err);
+    //   return null;
+    // }

@@ -31,6 +31,8 @@ import I_heartOGray from "../img/sub/I_heartOGray.svg"
 import I_heartOPink from '../img/sub/I_heartOPink.svg'
 import { useSearchParams } from "react-router-dom";
 import { query_nfttoken_balance } from "../util/contract-calls";
+import I_staroff from '../img/sub/star_off.png'
+import I_staron from '../img/sub/star_on.png'
 
 const convertLongString = (startLength, endLength, str) => {
 	if (!str) return;
@@ -69,6 +71,7 @@ function SingleItem({ store, setConnect , Setisloader }) {
 	let [ logactions , setlogactions ] = useState ( [] )
 	let [ pricestats , setpricestats ] = useState ( [] )
 	let [ ilikethis , setilikethis ] = useState( false )
+	let [ ibookmarkthis , setibookmarkthis ] = useState ( false )
 	let [ orders_sell , setorders_sell ] = useState( [] )
 	let [ sellorder , setsellorder ] =useState ( {} )
 	let [ author , setauthor ]= useState()
@@ -283,10 +286,10 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                 <div class="bun_tl_img" style={{backgroundImage :  `url(${itemData?.item?.url})`  }} >
                   <div class="bt artist">
                     <h2>
-										<img src={author?.profileimage}></img>											
+										{/**  <img src={author?.profileimage}></img>*/}
                       <span
                         style={{
-                          backgroundImage: `url(${author?.profileimage})`,
+                          backgroundImage: `url(${author?.profileimage })`,
                           backgroundRepeat: "no-repeat",
                           backgroundPosition: "center",
                           backgroundSize: "cover",
@@ -340,8 +343,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                           />
                         </a>
                         <a>
-                          <img src={require("../img/sub/alert.png").default} />
-													
+                          <img src={require("../img/sub/alert.png").default} />													
                         </a>
 
                         <a onClick={_=>{
@@ -352,7 +354,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                         </a>
 												<a onClick={_=>{
 													LOGGER( 'CodOU75E5r' )
-													axios.post ( `${API.API_TOGGLE_FAVOR}/${itemid}` ).then(resp=>{														LOGGER( '' , resp.data )
+													axios.post ( `${API.API_TOGGLE_FAVOR}/${itemid}` ).then(resp=>{	LOGGER( '' , resp.data )
 														let { status , respdata }=resp.data
 														if ( status =='OK'){
 															if ( respdata) {setilikethis ( true) ; SetErrorBar (messages.MSG_FAVORITED )} 
@@ -360,6 +362,17 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
 														}
 													})
 												}}><img src={ilikethis ? I_heartOPink : I_heartOGray}></img></a>
+
+												<a onClick={_=>{
+													axios.post( `${API.API_TOGGLE_BOOKMARK}/${itemid}`).then(resp=>{ LOGGER( '' , resp.data )
+														let { status , respdata } =resp.data
+														if ( status == 'OK'){
+															if ( respdata ){setibookmarkthis (true );	SetErrorBar ( messages.MSG_DID_BOOKMARK )}
+															else {setibookmarkthis (false ); SetErrorBar( messages.MSG_UNDID_BOOKMARK )}
+														}
+													})
+												}}												
+												><img src={ require("../img/sub/alert.png").default }></img> </a>
                       </div>
                     </div>
                     <div class="boxes">
