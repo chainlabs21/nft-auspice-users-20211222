@@ -11,11 +11,10 @@ const ADDRESSES={
 	, contractowner : '0x90033484A520b20169b60F131B4e2F7f46923FAf'
 
 	, payroll_fees : '0xe34bb854d830f176ad79931f35c15ea0a3d9b30d'
-
 	, auction_repo_dutch_bulk : '0x9f4f61b4384f83145e19c70f37e3ea27a303764d'
-
 	, auction_repo_english : '0xe2a872985331c95f6462b3e4dfb6b640687a17a6'
-
+	, zero  : '0x0000000000000000000000000000000000000000'
+	, 
 }
 export {
 	ADDRESSES

@@ -28,8 +28,7 @@ import { getmyaddress , onClickCopy, LOGGER } from "../util/common";
 import { strDot } from "../util/Util";
 function Mywallet({ store, setConnect }) {
   const navigate = useNavigate();
-	let [ myaddress , setmyaddress]= useState( getmyaddress() )
-	
+	let [ myaddress , setmyaddress]= useState( getmyaddress() )	
   return (
     <SignPopupBox>
       <section id="sub">

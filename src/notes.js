@@ -11,7 +11,7 @@ royalty=150
 [] id :2
 itemid : __QmfSq1GtsW7Fom2sg1ZytS2pRZHCHexzsJKfE3ARF6dB35
 _balances ( tokenid= 2 ,0x90033484a520b20169b60f131b4e2f7f46923faf )==1
-royalty =2
+royalty = 2
 
 [] id : 3
 itemid ; __QmRC3VDrLb2Yn3EAvXa4iP52N9Jgxsk8EFpa4qXwaSvFGU

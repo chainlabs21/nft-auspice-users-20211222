@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
-
 import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
@@ -19,36 +18,47 @@ import click1 from "../img/sub/click1.png";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";
 import filter_icon from "../img/sub/filter_icon.png";
-
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
+import "../css/style.css";// import "./css/style01.css";// import "./css/style02.css";
 import "../css/header.css";
 import "../css/footer.css";
-import "../css/swiper.min.css";
-import { useRef, useState } from "react";
-
+import "../css/swiper.min.css"
+import SetErrorBar from '../util/SetErrorBar'
+import { onClickCopy , getmyaddress, LOGGER } from '../util/common'
+import { useEffect , useRef, useState } from "react"
+import { messages } from "../config/messages";
+import { strDot } from "../util/Util";
+import { applytoken } from '../util/rest'
+import { API } from '../config/api'
 function MyProf({ store, setConnect }) {
   const itemListRef = useRef();
   const navigate = useNavigate();
-
-  const [morePopupIndex, setMorePopupIndex] = useState(-1);
-  const [toggleFilter, setToggleFilter] = useState(false);
-  const [filterObj, setFilterObj] = useState({});
-  const [filterList, setFilterList] = useState([]);
-  const [selectItemIndex, setSelectItemIndex] = useState(-1);
-  const [unit, setUnit] = useState("USD");
-  const [fromPrice, setFromPrice] = useState("");
-  const [toPrice, setToPrice] = useState("");
-  const [priceFilterToggle, setPriceFilterToggle] = useState(false);
-  const [callEffect, setCallEffect] = useState(false);
-  const [pricePopup, setPricePopup] = useState(false);
-
+  const [ morePopupIndex, setMorePopupIndex] = useState(-1);
+  const [ toggleFilter, setToggleFilter] = useState(false);
+  const [ filterObj, setFilterObj] = useState({});
+  const [ filterList, setFilterList] = useState([]);
+  const [ selectItemIndex, setSelectItemIndex] = useState(-1);
+  const [ unit, setUnit] = useState("USD");
+  const [ fromPrice, setFromPrice] = useState("");
+  const [ toPrice, setToPrice] = useState("");
+  const [ priceFilterToggle , setPriceFilterToggle] = useState(false);
+  const [ callEffect , setCallEffect] = useState( false )
+  const [ pricePopup , setPricePopup] = useState( false )
+	let [ myaddress , setmyaddress ] = useState( getmyaddress() )
+	let [ myinfo_maria , setmyinfo_maria ]=useState()
+	let [ myinfo_mongo , setmyinfo_mongo ]=useState()
+	let axios= applytoken()
+	useEffect( _=>{
+		axios.get( `${API.API_GET_USER_INFO}` ).then(resp=>{ LOGGER( 'up9xNJ6kwp' , resp.data )
+			let { status , payload }=resp.data
+			if ( status=='OK' ){
+				setmyinfo_maria ( payload.maria )
+				setmyinfo_mongo ( payload.mongo )
+			} else {}
+		})
+	} , [] )
   function getSelectText() {
     switch (unit) {
       case "USD":
@@ -59,7 +69,6 @@ function MyProf({ store, setConnect }) {
         break;
     }
   }
-
   function onClickOption(data) {
     setUnit(data);
     setPriceFilterToggle(false);
@@ -68,11 +77,9 @@ function MyProf({ store, setConnect }) {
     setCallEffect(!callEffect);
     setPricePopup(false);
   }
-
   function editFilterList(category, cont) {
     let dataObj = filterObj;
     dataObj[category] = cont;
-
     setFilterObj(dataObj);
     setFilterList([...Object.values(dataObj)]);
   }
@@ -121,13 +128,16 @@ function MyProf({ store, setConnect }) {
                     <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
-                    <a>
+                    <a onClick={_=>{
+onClickCopy( window.location.href )
+SetErrorBar( messages.MSG_COPIED)
+										}}>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Collection</h2>
-                <h3>0x97bc...8cad2</h3>
+                <h2 class="notop">{myinfo_maria?.nickname }'s Collection</h2>
+                <h3>{strDot( myaddress , 4,4)}</h3>
                 <h4>
                   Henry is a mixed-media artist living in the
                   <br class="mo" /> Bay Area and uses

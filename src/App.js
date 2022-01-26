@@ -103,17 +103,16 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
   };
 
   useEffect( async _ => {
-		let { klaytn}=window
-		if ( klaytn){}
-		else {return }
+		let { klaytn }=window
+		if ( klaytn ){}
+		else { return }
     klaytn.on("accountsChanged", async (accounts) => {			console.log(accounts);
 			let address = accounts[ 0 ]
 			let address_local = localStorage.getItem ( 'address' )
 			if ( address == address_local ){ return }
 			else {}
 			await on_wallet_disconnect ()
-      if ( address ) {
-//        disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
+      if ( address ) { // disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
 				Setaddress( address )
         axios.post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
           .then((resp) => {

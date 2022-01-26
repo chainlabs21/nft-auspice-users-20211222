@@ -32,6 +32,12 @@ const messages={
 	, MSG_PLEASE_SPECIFY_QUERY_VALUE : '값을 지정하세요'
 	, MSG_WALLET_DISCONNECTED: "Wallet disconnected"
 	, MSG_PLEASE_MINT_AHEAD : '민트 등록 후 사용하세요'
+	, MSG_COPIED : 'Link 가 복사되었습니다'
+	, MSG_DATANOTFOUND : '데이터가 발견되지 않습니다'
+	, MSG_DUTCH_PRICE_TERMS_INVALID : '종료 가격은 시작가격보다 작아야 합니다'
+	, MSG_FAVORITED : '좋아요를 눌렀습니다'
+	, MSG_UNFAVORITED : '좋아요를 해제하였습니다'
+	, MSG_INPUT_NUMBERS_ONLY : '숫자만 입력가능합니다'
 }
 export {
 	messages	

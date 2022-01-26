@@ -7,9 +7,16 @@ const store = createSlice({
 		mHeaderPopup: false,
 		myinfo : null
 		, address : null
+		, isloader : false
   },
   reducers: {
-		setmyinfo : (state, action)=>{
+		setisloader : (state, action)=>{
+			return {
+				... state
+				, isloader : action.payload
+			}
+		}
+		, setmyinfo : (state, action)=>{
 			return {
 				... state  
 				, myinfo : action.payload
@@ -42,7 +49,7 @@ const store = createSlice({
   },
 });
 
-export const { setAllPopupOff, setMHeaderPopup, setConnect 
+export const { setisloader , setAllPopupOff, setMHeaderPopup, setConnect 
 	, setmyinfo
 	, setaddress
 } = store.actions;

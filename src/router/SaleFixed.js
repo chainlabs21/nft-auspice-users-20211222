@@ -24,40 +24,49 @@ import { ERR_MSG, messages } from "../config/messages";
 // import axios from "axios";
 import { API } from "../config/api";
 import DatePicker from "react-datepicker";
-import { getuseraddress, LOGGER, getrandomint
-	, convaj , conv_bp_percent
+import { getmyaddress, LOGGER, getrandomint
+	, convaj , conv_bp_percent, ISFINITE
 } from "../util/common";
 import { signOrderData } from "../util/verifySig";
 import { is_eth_address_valid } from "../util/eth";
 import { applytoken } from '../util/rest'
 import { ADDRESSES } from '../config/addresses'
-import { TIME_PAGE_TRANSITION_ON_REGISTER } from '../config/configs'
+import { TIME_PAGE_TRANSITION_ON_REGISTER 
+	, PAYMENT_TOKEN_ADDRESS_DEF,
+	REFERER_FEE_RATE_DEF
+} from '../config/configs'
 import { useSearchParams } from "react-router-dom";
+import { getabistr_forfunction , query_nfttoken_balance, requesttransaction } from "../util/contract-calls";
+import moment from 'moment'
 
 function SaleFixed() {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const [verifyPopup, setVerifyPopup] = useState(false);
-  const [platformFee, setPlatfromFee] = useState(2.5);
-  const [royalty, setRoyalty] = useState(5);
-  const [itemPrice, setItemPrice] = useState(0);
-  const [endPrice, setEndPrice] = useState(0);
-  const [endPriceOption, setEndPriceOption] = useState(false);
-  const [ privateOption, setPrivateOption] = useState(false);
-  const [ privateAddress, setPrivateAddress] = useState("");
-  const [itemData, setItemData] = useState({});
-  const [sign, setSign] = useState([]);
-  const [signError, setSignError] = useState("");
-	const [completeSign, setCompleteSign] = useState(true)
+  const [ verifyPopup, setVerifyPopup] = useState(false);
+  const [ platformFee, setPlatfromFee] = useState(2.5);
+  const [ royalty, setRoyalty] = useState(5);
+  const [ itemPrice, setItemPrice ] = useState(0);
+  const [ endPrice, setEndPrice ] = useState(0);
+  const [ endPriceOption, setEndPriceOption ] = useState(false);
+  const [ privateOption, setPrivateOption ] = useState(false);
+  const [ privateAddress, setPrivateAddress ] = useState("");
+  const [ itemData, setItemData] = useState({});
+  const [ sign, setSign] = useState( [] )
+  const [ signError, setSignError] = useState( "" )
+	const [ completeSign, setCompleteSign] = useState(true)
+	let [ daystoclose , setdaystoclose ] = useState ( '3 days later' )
+	let [ expiry , setexpiry ] = useState()
 	let [ signeddata , setsigneddata ] = useState()
 	let [ itemid , setitemid ]=useState()
 	let [ tokenid , settokenid ] = useState()
 	let [ jsettings , setjsettings ]= useState( {} )
-	let  [ searchParams, setSearchParams ] = useSearchParams()
-
+	let [ searchParams , setSearchParams ] = useSearchParams( )
+	let myaddress = getmyaddress()
 	const axios=applytoken()
-	useEffect( _=>{
-		setItemPrice ( getrandomint ( 1 ,10) )
+	useEffect( _ => {
+		let itemprice=getrandomint ( 12 , 17 )
+		setItemPrice ( itemprice )
+		setEndPrice ( getrandomint ( itemprice -10 , itemprice -2 ) )
 		/////
 		axios.get(API.API_PLATFORM_SETTINGS).then(resp=>{ LOGGER ( 'yDc3w8vZgI' , resp.data )
 			let { status , list } =resp.data 
@@ -66,40 +75,103 @@ function SaleFixed() {
 			}
 		})
 	} , [] )
-  const handleSalesStart = async () => {
-    const userAddr = getuseraddress();
-    console.log(itemData);
-//    const asyncSalesStart = async () => {	
+	const do_dutch_auction= _ =>{
+		let tokenid = itemData?.tokenid
+		if( tokenid ){}
+		else {SetErrorBar( messages.MSG_DATANOTFOUND ) } // ; return 
+		false && query_nfttoken_balance ( ADDRESSES.erc1155 , myaddress , tokenid ).then (resp=>{
+			LOGGER( 'wE2hK5BTA4' , resp )
+		})
+//		const query_nfttok en_balance = ( contractaddress , address , tokenid )=>{
+		if ( ISFINITE( + endPrice ) && + endPrice < + itemPrice ){}
+		else { SetErrorBar( messages.MSG_DUTCH_PRICE_TERMS_INVALID );return  }
+		let days = daystoclose.split(/ /)[0]
+		let expiry = moment().add ( +days , 'days').endOf('days').unix()
+		let abistr = getabistr_forfunction( {
+			contractaddress : ADDRESSES.auction_repo_dutch_bulk
+			, abikind : 'AUCTION_DUTCH_BULK'
+			, methodname : 'begin_auction_batch'
+			, aargs : [ 
+					ADDRESSES.erc1155 // 
+				, ADDRESSES.zero
+				, myaddress
+				, [ tokenid ]
+				, [ 1 ]
+				, PAYMENT_TOKEN_ADDRESS_DEF
+				, itemPrice
+				, endPrice
+				, 5
+				, moment().unix()
+				, expiry // moment().add( 5 , 'days' ).unix()
+				, REFERER_FEE_RATE_DEF
+			]
+		} )
+		LOGGER ( 'bINmVzlWvR' , abistr )
+//		return
+		requesttransaction({ from : myaddress
+			, to : ADDRESSES.auction_repo_dutch_bulk
+			, data : abistr
+			, value : '0x00'
+		}).then(resp=>{ LOGGER( '' , resp )
+			let { transactionHash , status } = resp
+			LOGGER( '' , transactionHash , status )
+		}).catch(err=>{
+			LOGGER('' , err )
+		})
+	}
+/**			 "_target_contract",
+				 "_user_proxy_registry",
+				 "_holder",
+				 "_target_item_ids",
+				 "_amounts",
+				 "_paymenttoken",
+				 "_offer_starting_price",
+				 "_offer_end_price" ,
+				 "_count_steps_depreciation",
+				 "_starting_time",
+				 "_expiry",
+				 "_referer_feerate",
+ */		
+	const do_fixed_price_spot=_=>{
 		const orderData = {
-			seller_address: userAddr,
+			seller_address: myaddress,
 			amount: 1,
 			price: itemPrice,
 			priceunit: "0x000000000000000000000000000000000000",
 			expiry: 0,
 			itemid
 			, tokenid
-		};
-		console.log( ''  ,orderData )
-		// return 
+		}
+		console.log( '' , endPriceOption , itemData );	console.log( '' , orderData ) //	 return
 		signOrderData( orderData ).then(respsign =>{				LOGGER( '8pdnEvf9uF' , respsign ) // , signCallback
 			if (respsign ){}
 			else {SetErrorBar( messages.MSG_USER_DENIED_TX );return }
 			SetErrorBar (messages.MSG_DATA_SIGNED )
 			setsigneddata ( respsign )
+//			return 
 			axios.post ( API.API_ORDER_MAKER_SELLER , {
 				asset_contract_bid : ADDRESSES.erc1155
-				, ... orderData , ... respsign  } // signeddata
+				, ... orderData , ... respsign } // signeddata
 			).then ( resp=>{ LOGGER( '2UtIKhAjXH' , resp.data )
 				let { status }=resp.data
-				if ( status =='OK'){
+				if ( status =='OK') {
 					SetErrorBar( messages.MSG_DONE_REGISTERING )
 					setTimeout(_=>{
-//						navigate()
+	//						navigate()
 					} , TIME_PAGE_TRANSITION_ON_REGISTER )
 				}
 			})
 		})
-//    };
+	}
+
+  const handleSalesStart = async () => {
+    const myaddress = getmyaddress()    
+//    const asyncSalesStart = async () => {	
+		if( endPriceOption ){
+			do_dutch_auction()
+		}
+		else {			do_fixed_price_spot()
+		} //    };
   //  asyncSalesStart();
   };
   useEffect(() => {
@@ -282,8 +354,9 @@ function SaleFixed() {
                                     type="checkbox"
                                     name=""
                                     id="toggle"
-                                    checked={endPriceOption}
-                                    onChange={(e) => {
+                                    checked={ endPriceOption }
+                                    onChange={(e) => { 
+																			
                                       setEndPriceOption(e.target.checked);
                                     }}
                                   />
@@ -345,7 +418,10 @@ function SaleFixed() {
                                           <p>Items sold until canceled</p>
                                           <div class="twoselect">
                                             <div class="toggle_1">
-                                              <select name="" id="">
+                                              <select name="" id="" onClick={ evt=>{
+																								LOGGER( '' , evt.target.value )
+																								setdaystoclose ( evt.target.value )
+																							} }>
                                                 <option>5 days later</option>
                                                 <option>3 days later</option>
                                                 <option>2 days later</option>
@@ -495,7 +571,7 @@ function SaleFixed() {
                 <div
                   class="sales_btn"
                   onClick={() => {
-                    handleSalesStart();
+                    handleSalesStart ()
                   }}
                 >
                   <a>Sales start</a>

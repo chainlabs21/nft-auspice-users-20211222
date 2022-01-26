@@ -61,12 +61,15 @@ function CreateItem({ store, setConnect }) {
 	const [ fileViewType, setFileViewType] = useState("image")
 	let [ royaltymax , setroyaltymax ] = useState( 0 )
 	let [ urlmetadata , seturlmetadata ] = useState ()
+	let [ urlfile , seturlfile ] = useState()
 	let [ itemid , setitemid ]=useState()
+	let [ daystoclose , setdaystoclose]=useState( )
 	let axios = applytoken() 
+	let myaddress = getmyaddress ()
 //	axios=applyt oken(axios)
   function onChangeItem(file) {    /*    let reader = new FileReader();    reader.readAsDataURL(file);    reader.onload = function () {      setItem(reader.result);    };	*/
 	}
-	const on_request_tx_mint=async _=>{	let myaddress = getmyaddress()
+	const on_request_tx_mint=async _=>{	 //let my address = getm yaddress()
 		if (myaddress){}
 		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET); return}
 		let random_ipfscid ='__'+ get_random_ipfs ()
@@ -91,7 +94,7 @@ function CreateItem({ store, setConnect }) {
 			, value : '0x00'
 		}).then(resp=>{
 			LOGGER( '' , resp )
-			if (resp){}
+			if (resp) {}
 			else {SetErrorBar (messages.MSG_USER_DENIED_TX ); return }
 			SetErrorBar ( messages.MSG_TX_REQUEST_SENT )
 			query_with_arg ({contractaddress : ADDRESSES.erc1155 
@@ -128,11 +131,13 @@ function CreateItem({ store, setConnect }) {
 				unlockedcontent: unlockedContent,
 				countcopies: countcopies,
 				freezemetadata: freezing === true ? 1 : 0,
+				originator : myaddress
+				, author : myaddress
 			};
-			const metaResp = await axios.post(
+			const metaResp = await axios.post (
 				API.API_ITEM_SAVE_META + `/${itemid}`, // fileR esp.resp data
 				metaData
-			)
+			) ; LOGGER( 'rbPatKJrSt' , metaResp.data )
 			let { status , }= metaResp.data
 			if ( status == 'OK'){
 				const metaResult = metaResp.data
@@ -143,46 +148,22 @@ function CreateItem({ store, setConnect }) {
 		} catch(err){			LOGGER(err)
 		}
 	}
-	const on_request_tx_mint_mockup=async _=>{
-		const mokupRndTxHash = "0x" + generateRandomString(63);
-		const mokupRndContract = "0x" + generateRandomString(40);
-		const mokupRndPaymeans = "0x" + generateRandomString(40);
-		const body = {
-			url: fileResp.payload.url,
-			price: 0,
-			titlename: name,
-			description: desc,
-			keywords: "",
-			priceunit: "KLAY",
-			metadataurl: urlmetadata , // metaResult.payload.url ,
-			contract: mokupRndContract.trim(),
-			nettype: "klaytn-testnet",
-			paymeans: mokupRndPaymeans.trim(),
-			expiry: 1644791196,
-			expirychar: moment().format(),
-			categorystr: curCategory,
-			originatorfeeinbp: 500,
-			activeorlazymint: activePubl,
-		};
-		const resp = await axios.post(
-			API.API_MINT_TX_REPORT +				`/${itemid}/${mokupRndTxHash.trim()}/${userAddress}`,			body // file Resp.resp data
-		);
-		if (resp.data.status === "OK") {
-			navigate(`/salefixed?itemid=${itemid}`) // fileR esp.resp data
-		}
-	}
-	const on_request_lazy_mint=async _=>{
+	const on_request_lazy_mint = async _ =>{
 		const body = {
 			itemid: itemid , // fileR esp.respd ata
 			countcopies: countcopies,
 			amount: 1,
 			decimals: 18,
 			expiry: 0,
-			categorystr: curCategory,
-			author: userAddress,
-			authorfee: parseInt((royal * 100).toFixed(0)),
-		};
-		const resp = await axios.post(API.API_LAZY_MINT, body);
+			categorystr: curCategory ,
+			author: myaddress , // userAddress ,
+			authorfee: parseInt( ( royal * 100 ).toFixed(0) ) ,
+			metadataurl : urlmetadata
+			, url : urlfile
+			, titlename : name
+			, description : desc
+		}
+		const resp = await axios.post( API.API_LAZY_MINT, body )
 		if (resp.data.status === "OK") {
 			navigate(`/salefixed?itemid=${itemid}`); // fileRes p.resp data
 		}
@@ -235,15 +216,19 @@ function CreateItem({ store, setConnect }) {
           const base64Data = {
             datainbase64: base64,
             filename: file.name,
-          }
+					}
+					LOGGER ( 'ojuEGTDeEU' , base64Data , ) 
+//					return 
 					const resp = await axios.post(API.API_ITEM_UPLOAD_BASE64, base64Data); LOGGER ( 'xG6MsNdQhX' , resp.data )
-					let { status , payload , respdata }=resp.data
-					if ( status =='OK' ){
+					let { status , payload , respdata } = resp.data
+					if ( status =='OK' ) {
 						setitemid ( respdata ) 
 						setFileResp( resp.data )
-						setItem( payload.url )	
+						setItem ( payload.url )	
+						seturlfile ( payload.url )
 					}
-        } else if (filesize <= 40* megaBytes ){
+					return
+        } else if (filesize <= 40* megaBytes ) {
           let formData = new FormData();
           formData.append("file", file);
           formData.append("filename", file.name);
@@ -260,14 +245,14 @@ function CreateItem({ store, setConnect }) {
 				}
       } catch (error) {
         SetErrorBar(ERR_MSG.ERR_FILE_UPLOAD_FAILED);
-        console.log(error);
+        console.log(error)
       }
     }
-  };
+  }
   const handleCreateItem = () => {
     const asyncCreateItem = async () => {
 			await on_post_metadata ()
-        if (activePubl) {          // TODO          // transaction here ( mint )
+        if ( activePubl ) {          // TODO          // transaction here ( mint )
 					on_request_tx_mint()
         } else {
 					on_request_lazy_mint()
@@ -297,7 +282,9 @@ function CreateItem({ store, setConnect }) {
 	useEffect(_=>{
 		setName (''+ generateSlug(3, {format:'sentence'}) )
 		setDesc(''+		 generateSlug(5, {format:'sentence'}) )
-		setRoyal ( getrandomint( 1 , 10 ) )		
+		setRoyal ( getrandomint( 1 , 10 ) )
+		setcountcopies ( getrandomint ( 1, 13 ))
+		setdaystoclose ( getrandomint (7 , 60 ))
 	} , [ ] )
   useEffect(() => {
     if (name.length > 0) {
@@ -520,7 +507,10 @@ function CreateItem({ store, setConnect }) {
                               onkeydown="onlyNumber(this)"
                               value={countcopies}
                               onChange={(e) => {
-                                setcountcopies(e.target.value);
+																let {value}=e.target
+																if (ISFINITE(+value)){}
+																else {SetErrorBar ( messages.MSG_INPUT_NUMBERS_ONLY ) ; return }
+                                setcountcopies( value ) // e.target.
                               }}
                             />
                           </div>
@@ -598,9 +588,35 @@ function CreateItem({ store, setConnect }) {
                                 }}
                               />
                               <span>%</span>
+
                             </div>
                           </div>
                         </li>
+
+{/**                         <li>
+                          <div class="top2">
+                            <h3>Expiry</h3>
+                            <p>
+															Number of days till expiry
+                            </p>
+                            <div class="inputbox number percent">
+                              <input
+                                type="text"
+                                placeholder=""
+                                onkeydown="onlyNumber(this)"
+                                value={royal}
+																onChange={(e) => { LOGGER()
+																	let {value}=e.target
+																	if (ISFINITE( +value)){}
+																	else {SetErrorBar (messages.MSG_INPUT_NUMBERS_ONLY); return }
+																	setdaystoclose ( value )
+                                }}
+                              />
+                              <span></span>
+                            </div>
+                          </div>
+                        </li>*/}
+
                       </ul>
                     </div>
                   </form>
@@ -613,13 +629,13 @@ function CreateItem({ store, setConnect }) {
               <div class="create_btn">
 								<a onClick={async _=>{LOGGER( 'rsNxLMScQI' )
 									on_post_metadata()
-								}}>{ 'Register metadata'}</a>
+								}}>{ 'Register metadata' }</a>
               </div>
 
               <div class="create_btn">
 								<a onClick={_=>{LOGGER( 'MOdR4DlcH9' )
 									if (activePubl){ on_request_tx_mint () }
-									else { on_request_lazy_mint() }
+									else 	{ on_request_lazy_mint() }
 								}}>{ activePubl ? 'Mint item->chain' : 'Register Item->server' }</a>
               </div>
 
@@ -657,3 +673,32 @@ const requesttransaction_response={
 	,typeInt: 0
 	,value: "0x0"
 }
+/**	const on_request_tx_mint_mockup=async _=>{
+		const mokupRndTxHash = "0x" + generateRandomString(63);
+		const mokupRndContract = "0x" + generateRandomString(40);
+		const mokupRndPaymeans = "0x" + generateRandomString(40);
+		const body = {
+			url: fileResp.payload.url,
+			price: 0,
+			tit lename: name,
+			descr iption: desc,
+			keywords: "",
+			priceunit: "KLAY",
+			metadataurl: urlmetadata , // metaResult.payload.url ,
+			contract: mokupRndContract.trim(),
+			nettype: "klaytn-testnet",
+			paymeans: mokupRndPaymeans.trim(),
+			expiry: 1644791196,
+			expirychar: moment().format(),
+			categorystr: curCategory,
+			originatorfeeinbp: 500,
+			activeorlazymint: activ ePubl,
+		};
+		const resp = await axios.post(
+			API.API_MINT_TX_REPORT +				`/${itemid}/${mokupRndTxHash.trim()}/${userAddress}`,			body // file Resp.resp data
+		);
+		if (resp.data.status === "OK") {
+			navigate(`/salefixed?itemid=${itemid}`) // fileR esp.resp data
+		}
+	}
+ */

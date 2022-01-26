@@ -145,11 +145,23 @@ export const call_contractValue = async (method, targetAddr, args = []) => {
       rej(new Error("Can't receive data from contract"));
     }
   });
-};
+}
+const query_nfttoken_balance = ( contractaddress , address , tokenid )=>{
+	query_with_arg({ contractaddress , abikind : 'ERC1155' 
+		, methodname : 'balanceOf' , aargs : [ address , tokenid ] 
+	}).then(resp=>{
+		return new Promise ( (resolve,reject)=>{
+			if (resp){resolve( resp ) }
+			else {resolve ( null )}
+		})
+	}) //	function balanceOf(address _owner, uint256 _id) external view returns (uint256)
+}
+
 export { // access_data	,
 	 query_with_arg
 	, query_noargs
-	, query_noarg
+	, query_noarg	
+	, query_nfttoken_balance
 //	, query_decimals 
 };
 /**

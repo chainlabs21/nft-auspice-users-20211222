@@ -25,32 +25,35 @@ import SetErrorBar from '../util/SetErrorBar'
 import { API} from '../config/api'
 import { LOGGER, getrandomint, ISFINITE , getmyaddress } from '../util/common'
 import moment from 'moment'
-import { getabistr_forfunction } from "../util/contract-calls";
+import { getabistr_forfunction
+ , query_nfttoken_balance
+ , requesttransaction
+} from "../util/contract-calls";
 import { ADDRESSES } from "../config/addresses";
 import { PAYMENT_TOKEN_ADDRESS_DEF
 	, REFERER_FEE_RATE_DEF
 } from '../config/configs'
-
 function AuctionBid({ store, setConnect }) {
   const navigate = useNavigate()
 	const [ verifyPopup, setVerifyPopup] = useState(false);
-	let  [ searchParams, setSearchParams ] = useSearchParams()
+	let [ searchParams, setSearchParams ] = useSearchParams()
 	let [ itemid , setitemid ] = useState ()
 	let [ itemdatabatched , setitemdatabatched ] = useState()
 	let [ bidamount_start , setbidamount_start] = useState( '')
 	let [ bidamount_threshold , setbidamount_threshold ]=useState()
 	let [ daystoclose , setdaystoclose ] = useState( '3 days later' )
 	let [ expiry , setexpiry ] = useState()
+
 	let axios = applytoken()
 	let myaddress = getmyaddress()
 	const onclickpostsale=_=>{
 		let days=daystoclose.split(/ /)[0]
 		let expiry = moment().add( +days , 'days' ).endOf('day').unix()
 		LOGGER( '' , itemid , bidamount_start , bidamount_threshold ,  expiry )
-		if (itemdatabatched?.item?.tokenid){}
+		if ( itemdatabatched?.item?.tokenid ) {}
 		else {	SetErrorBar ( messages.MSG_PLEASE_MINT_AHEAD ) ; return }
 		const timenow = moment()
-		getabistr_forfunction ({
+		let abistr = getabistr_forfunction ({
 			contractaddress : ADDRESSES.auction_repo_english
 			, abikind : 'AUCTION_ENGLISH'
 			, methodname : 'begin_auction_batch'
@@ -66,6 +69,17 @@ function AuctionBid({ store, setConnect }) {
 				, '0x00'
 			] 
 		})
+		requesttransaction( { from : myaddress
+			, to : ADDRESSES.erc1155
+			, data : abistr
+			, value : '0x00'
+		}).then(resp=>{ LOGGER( '' , resp )
+			let { transactionHash , status } = resp
+			LOGGER( 'qrXkVAqkKu' , transactionHash , status )
+		}).catch(err =>{
+			LOGGER( 'FdNPZN8Dxa' , err )
+		})
+		//	let { from , to , data , value } = jdata
 /** 			_target_contract , // ", 				"internalType": "address",
 		_holder , // ",
 		_target_item_ids , // ",				"internalType": "uint256[]",
@@ -88,15 +102,24 @@ _calldata // ",					" internalType": "bytes",
 		let itemid=searchParams.get('itemid')
 		if (itemid ){ setitemid( itemid )}
 		else {SetErrorBar( messages.MSG_PLEASE_SPECIFY_QUERY_VALUE ) ; return }
+		let itemdatabatched
 		axios.get( `${API.API_GET_ITEM_DATA}/${itemid}`).then(resp=>{
 			LOGGER( 'oWWjCVhIpY' , resp.data )
 			let { status , respdata }=resp.data
 			if ( status =='OK'){
-				setitemdatabatched ( respdata ) 
+				itemdatabatched = respdata
+				setitemdatabatched ( respdata ) 				
 			} else {
 				SetErrorBar(messages.MSG_PLEASE_SPECIFY_QUERY_VALUE )
 			}
 		})
+/** let tokenid = itemdatabatched?.item?.tokenid || 2
+		if( tokenid ){}
+		else {SetErrorBar(messages.MSG_DATANOTFOUND) } // ; return 
+		query_nfttoken_balance ( ADDRESSES.erc1155 , myaddress , tokenid ).then (resp=>{
+			LOGGER( 'wE2hK5BTA4' , resp )
+		}) */
+//		const query_nfttok en_balance = ( contractaddress , address , tokenid )=>{
 	} , [ ] )
 	
   return (

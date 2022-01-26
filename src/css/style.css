@@ -1580,7 +1580,7 @@
 }
 
 #sub .bundle_box .bundle_top .bun_tl .bun_tl_img {
-  background-image: url(../img/sub/bundle_big.png);
+/**  background-image: url(../img/sub/bundle_big.png); */
   width: 100%;
   height: 740px;
   margin: 0 0 20px;

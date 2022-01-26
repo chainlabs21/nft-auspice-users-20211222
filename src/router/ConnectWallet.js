@@ -63,7 +63,6 @@ function ConnectWallet(Setmyinfo) {
     } else {
     }
     //			if (address_local == ){}
-
     const resp = await axios.post(API.API_USERS_LOGIN, loginData); //   API_USERS_LOGIN: `${apiServer}/users/login/crypto`,
     let { status, respdata, payload } = resp.data;
     if (status === "OK") {

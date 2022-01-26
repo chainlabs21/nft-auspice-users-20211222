@@ -12,14 +12,34 @@ import I_x from "./img/main/I_x.svg";
 import "./css/footer.css";
 import "./css/swiper.min.css";
 import { useState, useEffect } from "react";
-import { setAllPopupOff, setMHeaderPopup } from "./util/store";
+import { setAllPopupOff, setMHeaderPopup  
+	, setaddress
+} from "./util/store"
+import { getmyaddress } from "./util/common";
+import { strDot } from "./util/Util";
+import I_spinner from "./img/icons/I_spinner.svg";
 
-function Header({ store, setAllPopupOff, setMHeaderPopup }) {
+function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
   const navigate = useNavigate();
   const { mHeaderPopup } = useSelector((state) => state.store);
   const [search, setSearch] = useState("");
-  let [address, setaddress] = useState();
-  useEffect(
+	let [address, setaddress] = useState()
+	let [ isloader , setisloader ]=useState( false )
+	useEffect(_=>{
+		let {isloader} = store
+		setisloader ( isloader ) 
+	} , [ store.isloader ] )
+	useEffect(_=>{
+		const spinner = document.querySelector("#Spinner");
+    spinner.animate(
+      [{ transform: "rotate(0deg)" }, { transform: "rotate(360deg)" }],
+      {
+        duration: 1000,
+        iterations: Infinity,
+      }
+    )
+	} , [] )
+  useEffect (
     (_) => {
       let { address } = store;
       if (address) {
@@ -28,19 +48,35 @@ function Header({ store, setAllPopupOff, setMHeaderPopup }) {
       }
       setaddress(address);
     },
-    [store.address]
+    [ store.address ]
   );
   useEffect((_) => {
-    let { address } = store;
-    if (address) {
-      setaddress(address);
-    } else {
-      return;
+    let { address } = store;  let token
+    if ( address ) {
+      setaddress( address ) 
+		} else if ( token = localStorage.getItem( 'token') ) {	
+			let myaddress=getmyaddress()
+			if ( myaddress ){ Setaddress ( address ) ; 
+				setaddress ( address ) }
+			else {}
+		}	else	{
+      return
     }
-  }, []);
+	}, [] )
+	useEffect( _=>{
+		let {klaytn } = window
+		if ( klaytn){}
+		if ( klaytn.selectedAddress ){
+			setaddress( address )
+			Setaddress ( address )
+		}
+	} , [ window.klaytn ] )
   function onClickConnectWallet() {
-    if (window.klaytn.selectedAddress) navigate("/joinmembership");
-    else navigate("/connectwallet");
+		let { selectedAddress }=window?.klaytn
+    if ( selectedAddress ){
+			setaddress ( strDot(selectedAddress , 5 , 4 ) )
+		} //		else if ( ) {navigate("/joinmembership"); }
+    else { navigate("/connectwallet"); }
   }
 
   return (
@@ -74,6 +110,20 @@ function Header({ store, setAllPopupOff, setMHeaderPopup }) {
           <span></span>
         </a>
       )}
+<div style={{			display: 'flex'
+		, justifyContent: 'space-between'
+		, alignItems: 'center'			
+}}>
+	<img
+		id="Spinner"
+		className="spinner"
+		src={I_spinner}
+		alt=""
+		style={{ display : isloader ? 'inline' : 'none' , width: '50px' , display: true? "block" : "none" ,
+		}}
+	/>
+
+</div>
 
       <nav>
         <ul>
@@ -208,7 +258,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup }) {
               </li>
             </ol>
           </li>
-          <li>
+          <li style={{display : address ? 'block' : 'none'}}>
             <a onClick={() => navigate("/myprof")}>Mypage</a>
             <ol>
               <li>
@@ -267,7 +317,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setAllPopupOff: () => dispatch(setAllPopupOff()),
-    setMHeaderPopup: () => dispatch(setMHeaderPopup()),
+		setMHeaderPopup: () => dispatch(setMHeaderPopup()),
+		Setaddress : payload => dispatch ( setaddress ( payload ) )
   };
 }
 

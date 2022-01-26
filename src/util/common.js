@@ -4,7 +4,30 @@ const LOGGER = console.log
 const STRINGER=JSON.stringify
 const PARSER=JSON.parse
 const ISFINITE=Number.isFinite
-
+const moment=require('moment')
+const get_last_part_of_path = str=>{
+	return str.substr(str.lastIndexOf('/')+1)
+}
+const gettimestr= str =>{
+	return moment( str).format('YYYY-MM-DD HH:mm:ss')
+}
+ const getMaxMinAvg = arr => {
+	 if ( arr && arr.length ){}
+	 else {return [ null , null , null ]}
+	let max = arr[0];
+	let min = arr[0];
+	let sum = arr[0];
+	for (var i = 1; i < arr.length; i++){
+		if (arr[i] > max){
+			max = arr[i]
+		}
+		if (arr[i] < min){
+			min = arr[i];
+		}
+		sum = sum + arr[i];
+	}
+	return [max, min, sum / arr.length ]
+}
 function onClickCopy ( copyText ) {
 	const textArea = document.createElement("textarea");
 	document.body.appendChild(textArea);
@@ -84,7 +107,10 @@ export const encodeBase64File = (file) => {
 };
 
 export { 
-	onClickCopy 
+	getMaxMinAvg
+	, gettimestr
+	, get_last_part_of_path
+	, onClickCopy 
 	, conv_bp_percent ,
 	convaj	,
 	LOGGER,

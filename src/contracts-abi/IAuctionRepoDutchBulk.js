@@ -218,7 +218,7 @@ const abi= [
 		"stateMutability": "view",
 		"type": "function"
 	},
-	{
+	{		"name": "begin_auction_batch",
 		"inputs": [
 			{
 				"internalType": "address",
@@ -281,7 +281,6 @@ const abi= [
 				"type": "uint256"
 			}
 		],
-		"name": "begin_auction_batch",
 		"outputs": [
 			{
 				"internalType": "bool",

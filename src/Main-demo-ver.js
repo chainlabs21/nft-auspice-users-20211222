@@ -34,9 +34,6 @@ import "./css/swiper.min.css";
 import title from "./img/main/title.svg";
 import { putCommaAtPrice } from "./util/Util";
 import { LOGGER } from "./util/common";
-import { applytoken } from './util/rest'
-import { API } from './config/api'
-import { strDot } from "./util/Util"
 const expItemId = "QmS7RFqoUZei5tQZN6XYyyjcvrtk3eHfibQoxJG4bnh3v3";
 
 function Main({ store }) {
@@ -55,29 +52,11 @@ function Main({ store }) {
   const [collectionIndex, setCollectionIndex] = useState(0);
   const [trendingItemIndex, setTrendingItemIndex] = useState(0);
   const [itemIndex, setItemIndex] = useState(0);
-	const [userIndex, setUserIndex] = useState(0);
-	let [ list_newitems , setlist_newitems ]=useState( [] )
-	let [ list_trenditems , setlist_trenditems ]=useState( [] )
+  const [userIndex, setUserIndex] = useState(0);
 
-	let axios = applytoken ()
-	useEffect( _=>{
-		axios.get( `${API.API_MAIN_NEW_ITEMS}`).then(resp=>{ LOGGER( 'JBwpoHdvFv' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK' ) {
-				setlist_newitems ( list )
-			}
-		})
-		axios.get ( `${API.API_MAIN_TREND_ITEMS}`).then(resp=>{ LOGGER ( 'JN8wsASyiL' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK'){
-				setlist_trenditems ( list )
-			}
-		})
-	} , [] )
-
-	function onClickVisualSwiperBtn() {
-    if ( visualSwiperRef.current?.scrollTo ) {
-      if ( visualSwiperIndex < visualSwiperRef.current.children.length - 1 ) {
+  function onClickVisualSwiperBtn() {
+    if (visualSwiperRef.current?.scrollTo) {
+      if (visualSwiperIndex < visualSwiperRef.current.children.length - 1) {
         visualSwiperRef.current.style.transform = `translate3d(
           -${
             visualSwiperRef.current.children[0].offsetWidth *
@@ -176,6 +155,15 @@ function Main({ store }) {
     if (userIndex < pageNum - 1) setUserIndex(userIndex + 1);
     else setUserIndex(0);
   }
+
+	useEffect( _=>{
+		axios.get( `${API.API_MAIN_NEW_ITEMS}`).then(resp=>{ LOGGER( '' , resp.data )
+			let { status }=resp.data
+			if ( status ){
+
+			}
+		})
+	} , [] )
   useEffect( () => {
     const contWidth = visualSwiperRef.current.children[0].offsetWidth;
     visualSwiperContRef.current.style.width = `${contWidth * 3}px`;
@@ -211,7 +199,7 @@ function Main({ store }) {
   }, [collectionIndex]);
 
   useEffect(() => {
-/**     const wrapWidth = trendingSwiperRef.current.offsetWidth;
+    const wrapWidth = trendingSwiperRef.current.offsetWidth;
     const contWidth = trendingSwiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(8 / itemNumByPage);
@@ -228,11 +216,11 @@ function Main({ store }) {
           behavior: "smooth",
         });
       }
-		} */
+    }
   }, [trendingItemIndex]);
 
   useEffect(() => {
-/**     const wrapWidth = itemSwiperRef.current.offsetWidth;
+    const wrapWidth = itemSwiperRef.current.offsetWidth;
     const contWidth = itemSwiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(itemList.length / itemNumByPage);
@@ -249,7 +237,7 @@ function Main({ store }) {
           behavior: "smooth",
         });
       }
-    }*/
+    }
   }, [itemIndex]);
 
   useEffect(() => {
@@ -332,6 +320,116 @@ function Main({ store }) {
                               <strong>5.44 KLAY</strong>
                               <span>21:54</span>
                             </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
                           </ul>
                         </div>
                         <div class="button">
@@ -372,7 +470,7 @@ function Main({ store }) {
                       <span>
                         <li class="swiper-slide">
                           <a
-                            onClick={() => navigate(`/singleitem/${ cont.itemid }`)}
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
                           >
                             <div
                               style={{
@@ -406,7 +504,116 @@ function Main({ store }) {
                           </a>
                         </li>
                       </span>
-
+                      <span>
+                        <li class="swiper-slide">
+                          <a
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
+                          >
+                            <div
+                              style={{
+                                backgroundImage: `url(${collection_list02})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                              }}
+                            ></div>
+                            <div>
+                              <span
+                                style={{
+                                  backgroundImage: `url(${collection_person02})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              ></span>
+                              <dl>
+                                <dt>Emilie</dt>
+                                <dd>
+                                  <strong>Antoin</strong>
+                                  <p>
+                                    dot image collection It was made for game
+                                    development and was very popular.
+                                  </p>
+                                </dd>
+                              </dl>
+                            </div>
+                          </a>
+                        </li>
+                      </span>
+                      <span>
+                        <li class="swiper-slide">
+                          <a
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
+                          >
+                            <div
+                              style={{
+                                backgroundImage: `url(${collection_list03})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                              }}
+                            ></div>
+                            <div>
+                              <span
+                                style={{
+                                  backgroundImage: `url(${collection_person03})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              ></span>
+                              <dl>
+                                <dt>la piscine</dt>
+                                <dd>
+                                  <strong>Antoin</strong>
+                                  <p>
+                                    This collection pays homage to the works of
+                                    Bead Hockney, allowing you to appreciate
+                                    David's work with a different feel.
+                                  </p>
+                                </dd>
+                              </dl>
+                            </div>
+                          </a>
+                        </li>
+                      </span>
+                      <span>
+                        <li class="swiper-slide">
+                          <a
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
+                          >
+                            <div
+                              style={{
+                                backgroundImage: `url(${collection_list04})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                              }}
+                            ></div>
+                            <div>
+                              <span
+                                style={{
+                                  backgroundImage: `url(${collection_person04})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              ></span>
+                              <dl>
+                                <dt>Bleu</dt>
+                                <dd>
+                                  <strong>Henry junior</strong>
+                                  <p>
+                                    It is a work made with thickly pressed
+                                    paint, and you can appreciate the collection
+                                    in a variety of beautiful colors.
+                                  </p>
+                                </dd>
+                              </dl>
+                            </div>
+                          </a>
+                        </li>
+                      </span>
                     </>
                   ))}
                 </ol>
@@ -521,13 +728,13 @@ function Main({ store }) {
               <div class="swiper-container swiper-container-trendingitem">
                 <ol class="item item4 buy swiper-wrapper">
                   <div className="slideBox" ref={trendingSwiperRef}>
-                    { list_trenditems.filter(elem=>elem.url ).map( (cont , index) => (
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((cont, index) => (
                       <span>
                         <li class="swiper-slide">
                           <a
-                            onClick={() => navigate(`/singleitem/${cont.itemid}`)}
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
                             style={{
-                              backgroundImage: `url(${cont.url})` , 
+                              backgroundImage: `url(${sample})`,
                               backgroundRepeat: "no-repeat",
                               backgroundPosition: "center",
                               backgroundSize: "cover",
@@ -535,11 +742,11 @@ function Main({ store }) {
                           >
                             <div class="on">
                               <ul>
-                                <li class="heart off">{ cont.countfavors }</li>
+                                <li class="heart off">1,389</li>
                                 <li class="star off"></li>
                               </ul>
-                              <div>{ cont.titlename } </div>
-                              <span>{ strDot(cont.author , 10, 0)  }</span>
+                              <div>Summer Pool</div>
+                              <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
                                 <li>1.67 KLAY</li>
@@ -574,13 +781,13 @@ function Main({ store }) {
               <div class="swiper-container swiper-container-newitem">
                 <ol class="item item4 summary swiper-wrapper">
                   <div className="slideBox" ref={itemSwiperRef}>
-                    { list_newitems.filter(elem => elem.url ).map((cont, index) => (
+                    {[1 ].map((cont, index) => (
                       <span>
                         <li class="swiper-slide">
                           <a
-                            onClick={() => navigate(`/singleitem/${ cont.itemid }`)}
+                            onClick={() => navigate(`/singleitem/${expItemId}`)}
                             style={{
-                              backgroundImage: `url(${cont.url})`,
+                              backgroundImage: `url(${sample})`,
                               backgroundRepeat: "no-repeat",
                               backgroundPosition: "center",
                               backgroundSize: "cover",
@@ -588,11 +795,11 @@ function Main({ store }) {
                           >
                             <div class="on">
                               <ul>
-                                <li class="heart off">{ cont.countfavors }</li>
+                                <li class="heart off">1,389</li>
                                 <li class="star off"></li>
                               </ul>
-                              <div>{ cont.titlename } </div>
-                              <span> { strDot(cont.author , 10,0) } </span>
+                              <div>Summer Pool</div>
+                              <span>David</span>
                               <ol>
                                 <li>6 minutes left</li>
                                 <li>1.67 KLAY</li>
