@@ -28,7 +28,7 @@ const abi = [
 		, address _seller
 		, address _to
 */
-,	{
+/*,	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -1063,7 +1063,7 @@ const abi = [
 	"stateMutability": "nonpayable",
 	"type": "constructor"
 	},
-
+*/
 ]
 export {
 	abi

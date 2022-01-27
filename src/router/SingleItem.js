@@ -33,14 +33,13 @@ import I_heartO from "../img/main/I_heartO.svg"
 import I_heartOGray from "../img/sub/I_heartOGray.svg"
 import I_heartOPink from '../img/sub/I_heartOPink.svg'
 import { useSearchParams } from "react-router-dom"
-import { query_nfttoken_balance } from "../util/contract-calls";
+import { query_nfttoken_balance, requesttransaction , getabistr_forfunction ,  } from "../util/contract-calls";
 import I_staroff from '../img/sub/star_off.png'
 import I_staron from '../img/sub/star_on.png'
 import { query_eth_balance } from '../util/contract-calls'
 import { getethrep } from '../util/eth'
 import rstone from "../img/sub/rstone.png";
 import { ADDRESSES } from '../config/addresses'
-import { getabistr_forfunction } from '../util/contract-calls'
 const convertLongString = (startLength, endLength, str) => {
 	if (!str) return;
 	const head = str.substring(0, startLength);
@@ -108,7 +107,27 @@ function SingleItem({ store, setConnect , Setisloader }) {
 				, sellorder?.asset_amount_ask
 				, sellorder?.username
 			] } )
-/** 			address _target_erc1155_contract
+			requesttransaction ({
+				from : myaddress
+				, to : ADDRESSES.match_simple
+				, data: abistr
+				 , value : '0x00'
+			}).then(resp=>{LOGGER('' , resp )
+				let { transactionHash , status }=resp
+			}).catch(err=>{
+				LOGGER('' , err)
+			})
+/** 				requesttransaction({ from : myaddress
+			, to : ADDRESSES.auction_repo_dutch_bulk
+			, data : abistr
+			, value : '0x00'
+		}).then(resp=>{ LOGGER( '' , resp )
+			let { transactionHash , status } = resp
+			LOGGER( '' , transactionHash , status )
+		}).catch(err=>{
+			LOGGER('' , err )
+		})
+	address _target_erc1155_contract
 			, string memory _itemid
 			, uint256 _tokenid // ignored for now
 			, uint256 _amount
@@ -256,7 +275,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
               <h2>Purchase receipt</h2>
             </div>
             <div class="list_bottom buy_nft">
-              <p class="warn">
+              <p class="warn" style={{display: itemData?.item?.isreviewed ? 'none':'block'}}>
                 Warning! Contains items
                 <br /> that have not been reviewed and approved
               </p>
@@ -311,7 +330,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
 										 </li>
                 </div>
                 <form class="ckb_wrap">
-                  <div class="ckb">
+                  <div class="ckb" style={{display : itemData?.item?.isreviewed ? 'none' : 'block'}}>
                     <input type="checkbox" id="chk" name="chk1" />
                     <label for="chk">
                       Aware that Itemverse contains one item that has not been
