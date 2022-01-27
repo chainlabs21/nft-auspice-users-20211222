@@ -8,8 +8,24 @@ const moment=require('moment')
 const get_last_part_of_path = str=>{
 	return str.substr(str.lastIndexOf('/')+1)
 }
+let EPOCHYEAR = 1970; //		const diff_cal_unix=(d0,d1)=>{
 const gettimestr= str =>{
-	return moment( str).format('YYYY-MM-DD HH:mm:ss')
+	return moment( str).format( 'YYYY-MM-DD HH:mm:ss' )
+}
+const get_deltatime_tkns_unixarg = unixtime01 =>{ // assumed  a future time point
+// 	moment(		moment(itemData.sale.expirychar).diff(moment())	).format("YYYY-MM-DD HH:mm:ss")
+	let dtimestr = moment.unix ( ( moment.unix ( +unixtime01) - moment().unix() ) / 1000 ).format( "YYYY-MM-DD HH:mm:ss" )
+	let atkns = dtimestr.split( /[-\s:]/ )
+	atkns[0] = 0 // +atkns[0] - EPOCHYEAR;
+	atkns[1] = +atkns[1] - 1
+	atkns[2] = +atkns[2] - 1 //	setdeltatime(atkns)
+	return atkns
+}
+const get_deltatime_str= unixtime01=>{ LOGGER( 'uK0U16mQDC' , unixtime01 ) 
+	if ( unixtime01 && ISFINITE (+unixtime01)){}
+	else {return null }
+	let atkns = get_deltatime_tkns_unixarg ( unixtime01 )
+	return `${atkns[0]}년 ${atkns[1]}월 ${atkns[2]}일 ${atkns[3]}시 ${atkns[4]}분 ${atkns[5]}초`
 }
 const getMaxMinAvg = arr => {
 	 if ( arr && arr.length ){}
@@ -121,4 +137,6 @@ export {
 	, getrandomint, getRandomElementsFromArray, getrandomwords 
 	, getuseraddress
 	, getmyaddress
+	, get_deltatime_str 
+	, get_deltatime_tkns_unixarg
 }

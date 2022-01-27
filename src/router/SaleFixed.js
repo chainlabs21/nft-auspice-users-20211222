@@ -55,7 +55,8 @@ function SaleFixed() {
   const [ signError, setSignError] = useState( "" )
 	const [ completeSign, setCompleteSign] = useState(true)
 	let [ daystoclose , setdaystoclose ] = useState ( '3 days later' )
-	let [ expiry , setexpiry ] = useState()
+	let [ expiry , setexpiry ] = useState(''+7)
+
 	let [ signeddata , setsigneddata ] = useState()
 	let [ itemid , setitemid ]=useState()
 	let [ tokenid , settokenid ] = useState()
@@ -138,9 +139,10 @@ function SaleFixed() {
 			amount: 1,
 			price: itemPrice,
 			priceunit: "0x000000000000000000000000000000000000",
-			expiry: 0,
+			expiry : expiry? moment().add( +expiry , 'days').endOf('day').unix() : 0 ,
 			itemid
 			, tokenid
+//			, expiry
 		}
 		console.log( '' , endPriceOption , itemData );	console.log( '' , orderData ) //	 return
 		signOrderData( orderData ).then(respsign =>{				LOGGER( '8pdnEvf9uF' , respsign ) // , signCallback
@@ -156,8 +158,7 @@ function SaleFixed() {
 				let { status }=resp.data
 				if ( status =='OK') {
 					SetErrorBar( messages.MSG_DONE_REGISTERING )
-					setTimeout(_=>{
-	//						navigate()
+					setTimeout(_=>{ 	//						navigate()
 					} , TIME_PAGE_TRANSITION_ON_REGISTER )
 				}
 			})
@@ -345,6 +346,49 @@ function SaleFixed() {
                               </div>
                             </div>
                           </li>
+
+                          <li>
+                            <div class="price_info_pc">
+                              <div class="top2">
+                                <h3>Expiry</h3>
+                                <div class="toggle border_1">
+                                  <div class="select_left">
+                                    <img
+                                      src={
+                                        require("../img/sub/I_klaytn.svg")
+                                          .default
+                                      }
+                                      alt=""
+                                    />
+                                    <select name="" id="">
+                                      <option>Days later</option>
+                                    </select>
+                                  </div>
+                                  <div class="input_right">
+                                    <input
+                                      type="number"
+                                      placeholder=""
+                                      onkeydown="onlyNumber(this)"
+                                      value={expiry}
+                                      onChange={(e) => {
+																				let {value}=e.target
+																				if ( ISFINITE (+value) ){}
+																				else {SetErrorBar( messages.MSG_INPUT_NUMBERS_ONLY ); return }
+                                        setexpiry( value)
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+														</div>
+                            <div class="price_info_m">
+                              <div class="top2">
+                                <h3>Price</h3>
+                                <p>Items sold until canceled</p>
+                              </div>
+														</div>
+													</li>
+
                           <li>
                             <div class="end">
                               <div class="top2">
@@ -355,8 +399,7 @@ function SaleFixed() {
                                     name=""
                                     id="toggle"
                                     checked={ endPriceOption }
-                                    onChange={(e) => { 
-																			
+                                    onChange={(e) => { 																			
                                       setEndPriceOption(e.target.checked);
                                     }}
                                   />

@@ -280,9 +280,9 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
           </li>
           <li class="wallet">
             <a onClick={onClickConnectWallet}>
-              {address ? address : "Connect Wallet"}
+              { address ? strDot(address , 4,2)  : "Connect Wallet" }
             </a>
-            <span>{address}</span>
+{/**             <span>{address}</span> */}
           </li>
         </ul>
       </nav>

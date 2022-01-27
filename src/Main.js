@@ -33,7 +33,7 @@ import "./css/footer.css";
 import "./css/swiper.min.css";
 import title from "./img/main/title.svg";
 import { putCommaAtPrice } from "./util/Util";
-import { LOGGER , gettimestr } from "./util/common";
+import { LOGGER , gettimestr , get_deltatime_str } from "./util/common";
 import { applytoken } from './util/rest'
 import { API } from './config/api'
 import { strDot } from "./util/Util"
@@ -544,7 +544,7 @@ function Main({ store }) {
                               <div>{ cont.titlename } </div>
                               <span>{ strDot(cont.author , 10, 0)  }</span>
                               <ol>
-                                <li>6 minutes left</li>
+                                <li>{ get_deltatime_str ( cont.minpriceorder?.expiry ) }</li>
                                 <li>{ cont.askpricestats?.min } KLAY</li>
                               </ol>
                               <p>Buy Now</p>
@@ -598,7 +598,7 @@ function Main({ store }) {
                               <span> { strDot(cont.author , 10,0) } { gettimestr( cont.createdat ) }</span>
 															
                               <ol>
-                                <li>6 minutes left</li>
+                                <li>{ get_deltatime_str ( cont.minpriceorder?.expiry ) +'남음' }</li>
                                 <li>{ cont.askpricestats?.min } KLAY</li>
                               </ol>
                             </div>
@@ -968,7 +968,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Main);
     favorite: true,
     title: "Summer Pool",
     creator: "David",
-    time: "6 minutes left",
+    time: "6 min utes left",
     price: "0.35 KLAY",
   },
   {
@@ -1018,7 +1018,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Main);
     favorite: true,
     title: "Summer Pool",
     creator: "David",
-    time: "6 minutes left",
+    time: "6 min utes left",
     price: "0.35 KLAY",
   },
   {

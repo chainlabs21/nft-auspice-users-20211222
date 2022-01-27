@@ -8,14 +8,13 @@ const abi = [
 			, { type : 'uint256' , name:'' }
 			, { type : 'uint256' , name:'' }
 			, { type : 'uint256' , name:'' }
-
 			, { type : 'address' , name:'' }
 			, { type : 'uint256' , name:'' }
 			, { type : 'address' , name:'' }
 			, { type : 'address' , name:'' }
 		]
 		, outputs : []
-	} /** 	function mint_and_match_single_simple (
+	} /** 	function mint_and_match_singl e_simple (
 		address _target_erc1155_contract
 		, string memory _itemid
 

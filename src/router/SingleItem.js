@@ -19,26 +19,33 @@ import { API } from "../config/api";
 import ItemOwnerPopup from "../components/ItemOwnerPopup";
 import ItemLikePopup from "../components/ItemLikePopup";
 import { applytoken } from "../util/rest";
-import { onClickCopy, LOGGER
+import { onClickCopy
+	, LOGGER
 	, getMaxMinAvg
 	, get_last_part_of_path
-	, gettimestr
-} from "../util/common";
+	, gettimestr,
+	getmyaddress
+} from "../util/common"
 import SetErrorBar from "../util/SetErrorBar";
 import { messages } from '../config/messages'
+import { PAYMEANS_DEF } from '../config/configs'
 import I_heartO from "../img/main/I_heartO.svg"
 import I_heartOGray from "../img/sub/I_heartOGray.svg"
 import I_heartOPink from '../img/sub/I_heartOPink.svg'
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom"
 import { query_nfttoken_balance } from "../util/contract-calls";
 import I_staroff from '../img/sub/star_off.png'
 import I_staron from '../img/sub/star_on.png'
-
+import { query_eth_balance } from '../util/contract-calls'
+import { getethrep } from '../util/eth'
+import rstone from "../img/sub/rstone.png";
+import { ADDRESSES } from '../config/addresses'
+import { getabistr_forfunction } from '../util/contract-calls'
 const convertLongString = (startLength, endLength, str) => {
 	if (!str) return;
 	const head = str.substring(0, startLength);
 	const spread = "......";
-	const tail = str.substring(str.length - endLength, str.length);
+	const tail = str.substring( str.length - endLength, str.length )
 	return head + spread + tail;
 }
 const numFormatter = (num) => {
@@ -75,12 +82,45 @@ function SingleItem({ store, setConnect , Setisloader }) {
 	let [ orders_sell , setorders_sell ] = useState( [] )
 	let [ sellorder , setsellorder ] =useState ( {} )
 	let [ author , setauthor ]= useState()
+	let [ myethbalance , setmyethbalance  ] = useState()
+	let [ priceklay , setpriceklay]= useState()
 //	let [ searchParams, setSearchParams ] = useSearchParams()
 //	let [ itemid , setitemid ] = useState( searchParams( ))
 	let itemid =get_last_part_of_path ( window.location.href ) 
 	let axios = applytoken()
-	const onclickbuy = _ =>{		LOGGER('' , )
-//		query_nfttoken_balance () // a little cumbersome 
+	let myaddress = getmyaddress()
+	LOGGER( '' , myaddress )
+	const onclickbuy = _ =>{
+		LOGGER( '' , itemData.item?.itemid ) // query_nfttoken_balance () // a little cumbersome
+		let { item}= itemData
+		let abistr = getabistr_forfunction ( { 
+			contractaddress  :ADDRESSES.match_simple
+			, abikind : 'MATCHER_SIMPLE'
+			, methodname : 'mint_and_match_single_simple'
+			, aargs : [
+				ADDRESSES.erc1155
+				, item?.itemid
+				, 0
+				, sellorder.asset_amount_bid
+				, item?.authorfee
+				, item?.decimals
+				, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDRESSES.zero
+				, sellorder?.asset_amount_ask
+				, sellorder?.username
+			] } )
+/** 			address _target_erc1155_contract
+			, string memory _itemid
+			, uint256 _tokenid // ignored for now
+			, uint256 _amount
+			, uint256 _author_royalty
+			, uint256 _decimals
+			, address _paymeans
+			, uint256 _price
+			, address _seller
+			, address _to
+*/	
+LOGGER( ''  , abistr )
+		return
 		if ( itemData?.item?.tokenid ){ // on chain
 
 		} else {
@@ -117,12 +157,10 @@ function SingleItem({ store, setConnect , Setisloader }) {
     const wrapWidth = itemWrapRef.current.offsetWidth;
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
-
+    const pageNum = Math.ceil(8 / itemNumByPage)
     if (userIndex > 0) setUserIndex(userIndex - 1);
     else setUserIndex(pageNum - 1);
   }
-
   function onClickUserNextBtn() {
     const wrapWidth = itemWrapRef.current.offsetWidth;
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
@@ -131,10 +169,18 @@ function SingleItem({ store, setConnect , Setisloader }) {
     if (userIndex < pageNum - 1) setUserIndex(userIndex + 1);
     else setUserIndex(0);
   }
-
   useEffect(() => {
 		fetchitem()
-  }, []);
+		query_eth_balance( myaddress ).then(resp=>{ LOGGER( 'mylcfti0uE' , resp )
+			setmyethbalance( getethrep (resp ) )
+		})
+		axios.get(`${API.API_TICKERS}/USDT`).then(resp=>{LOGGER( '' , resp.data )
+			let { status , list }=resp.data
+			if ( status =='OK'){
+				setpriceklay ( list[ PAYMEANS_DEF ] ) // 'KLAY'				
+			}
+		})
+  }, [] )
 
   useEffect(() => {
 return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
@@ -225,31 +271,44 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                       <span class="pic"></span>
                       <div class="right_price">
                         <h3>
-                          { convertLongString(8, 4 , sellorder?.username)  }
+                          { convertLongString( 8 , 4 , sellorder?.username)  }
                           <br />
                           <span>{ itemData?.item?.titlename } </span>{/**Blackman with neon */}
                         </h3>
                         <h4 class="m_sub">
-                          <img src={require("../img/sub/stone.png").default} />
-                          <span class="pri">({ itemData?.item?.normprice })</span>
+                          <img src={require("../img/sub/rock.png").default} />
+                          <span class="pri">{ sellorder?.asset_amount_bid } of token(s)</span>
                         </h4>
                       </div>
                     </li>
                   </ul>
                   <ul>
-                    <li>
-                      <p class="rec_t">
-                        Total<span class="red">Insufficient KLAY balance</span>
+                    <li>										
+											<p class="rec_t"  >
+                        Total<span class="red"
+												>
+												{+myethbalance && ( +myethbalance > sellorder?.asset_amount_ask )
+												 ? '-' : 'Insufficient KLAY balance' 
+												}
+												</span>
                       </p>
                       <div class="right_price m_left">
                         <h4 class="blue">
-                          <img src={require("../img/sub/stone.png").default} />
-                          25<span class="pri">($58,282.50)</span>
+                          <img src={require("../img/sub/rock.png").default} />
+                          { sellorder?.asset_amount_ask }<span class="pri">
+(${ priceklay && sellorder?.asset_amount_ask ? +priceklay *sellorder?.asset_amount_ask : '' })</span>
                         </h4>
                       </div>
                     </li>
-                    <li></li>
                   </ul>
+                    <li><p class='rec_t'>your balance</p>
+										<div class='right_price m_left'>
+											<h4 className='m_sub'>
+												{myethbalance}
+											</h4>
+										</div>
+										
+										 </li>
                 </div>
                 <form class="ckb_wrap">
                   <div class="ckb">
@@ -402,7 +461,9 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                             </h4>
                           </li> */}
                         </ul>
-                        <a onClick={() => setBidPopup(true)} class="bid">
+                        <a onClick={() =>{
+setBidPopup ( true )
+												} } class="bid">
                           Buy
                         </a>
                       </div>
@@ -456,13 +517,14 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                   <div class="history_s container">
                     <ul>
                       {orders_sell.map((v , idx ) => (
-												<li key={idx } onClick={_=> { SetErrorBar('BpAzNi4c1n') ; 
+												<li key={idx } onClick={_=> {	SetErrorBar('BpAzNi4c1n')
+//													setactiveorder ( v ) 
 													setsellorder ( v )
-												
-												return } }>
+													return 
+												} }>
                           <span class="profile_img"></span>
                           <h3>
-                            { v.asset_amount_ask } KLAY for {v.asset_amount_bid }
+                            { v.asset_amount_ask } KLAY for { v.asset_amount_bid }
                             <br />
                             <span>{ convertLongString(10, 0, v.username)}</span>
 														<span>{ v.nickname }</span>

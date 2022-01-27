@@ -11,6 +11,8 @@ import { abi as abi_admin } from '../contracts-abi/IAdmin'
 import { abi as abi_erc1155 } from '../contracts-abi/IERC1155'
 import { abi as abi_auction_repo_dutch_bulk } from '../contracts-abi/IAuctionRepoDutchBulk'
 import { abi as abi_auction_repo_english } from '../contracts-abi/IAuctionRepoEnglish'
+
+import { abi as abi_matcher_simple } from '../contracts-abi/IMatcher-simple'
 // import { getweirep } from '../utils/eth'
 // import { DebugMode } from '../configs/configs'
 // import { requesttransaction } from "../services/kaikas"
@@ -20,10 +22,11 @@ if ( window.klaytn ){	caver = new Caver ( window.klaytn ) }
 else { caver = null }
 const jcontracts = {};
 const MAP_STR_ABI = {
-	ADMIN : abi_admin
+		ADMIN : abi_admin
 	, ERC1155 : abi_erc1155
 	, AUCTION_DUTCH_BULK : abi_auction_repo_dutch_bulk
 	, AUCTION_ENGLISH : abi_auction_repo_english
+	, MATCHER_SIMPLE : abi_matcher_simple
 }
 const query_noarg = jargs=>{ // {contractaddress , abikind , methodname  }=
 	let {contractaddress , abikind , methodname  }=jargs
@@ -88,9 +91,17 @@ const requesttransaction=async jdata=>{
 	})
 	return resp
 }
+const query_eth_balance = useraddress =>{
+	return new Promise((resolve,reject)=>{
+		web3.eth.getBalance( useraddress ).then(resp=>{
+			resolve(resp)
+		}).catch(err=>{resolve(null)})
+	})
+}
 export {
 	getabistr_forfunction
 	, requesttransaction
+	, query_eth_balance
 }
 export const kaikasEnabled = () => {
   if (window.klaytn) {
