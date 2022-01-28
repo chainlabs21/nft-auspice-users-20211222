@@ -5,6 +5,8 @@ const STRINGER=JSON.stringify
 const PARSER=JSON.parse
 const ISFINITE=Number.isFinite
 const moment=require('moment')
+
+
 const get_last_part_of_path = str=>{
 	return str.substr(str.lastIndexOf('/')+1)
 }
@@ -55,6 +57,7 @@ function onClickCopy ( copyText ) {
 	SetErrorBar("Link Copied!");
 }
 const conv_bp_percent=arg=>ISFINITE(+arg) ? (+arg/100).toFixed(1) : null
+const conv_percent_bp = arg=>parseInt(( arg * 100).toFixed(0))
 const convaj=(arr,keyname,valuename)=>{
   let jdata={}
   arr.forEach(elem=>{
@@ -128,6 +131,7 @@ export {
 	, get_last_part_of_path
 	, onClickCopy 
 	, conv_bp_percent ,
+	conv_percent_bp ,
 	convaj	,
 	LOGGER,
 	STRINGER 

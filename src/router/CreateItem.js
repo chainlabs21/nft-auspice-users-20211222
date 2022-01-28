@@ -19,7 +19,9 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useEffect, useState } from "react";
-import { encodeBase64File, LOGGER , getrandomint , ISFINITE, getmyaddress } from "../util/common";
+import { encodeBase64File, LOGGER , getrandomint , ISFINITE, getmyaddress
+, conv_percent_bp
+} from "../util/common";
 import SetErrorBar from "../util/SetErrorBar";
 import { ERR_MSG, messages } from "../config/messages";
 // import axios from "axios";
@@ -33,14 +35,16 @@ import { applytoken } from '../util/rest'
 import { get_random_ipfs } from '../util/ipfscid'
 import awaitTransactionMined from "await-transaction-mined";
 import { web3 } from '../config/configweb3'
-import { TX_POLL_OPTIONS } from '../config/configs'
+import { TX_POLL_OPTIONS , PAYMEANS_DEF , NETTYPE 
+	, TIME_PAGE_TRANSITION_DEF
+} from '../config/configs'
 const kiloBytes = 1024;
 const megaBytes = 1024 * kiloBytes;
 const fileTypeList = [  "jpg",  "png",  "gif",  "svg",  "mp4",  "webm",  "mp3",  "wav",  "ogg" ];
 const MAP_fileextension_contentype ={	jpg : 'image', png : 'image', gif : 'image', svg : 'image', mp4 : 'video'
 	, webm : 'video', mp3 : 'audio', wav : 'audio', ogg : 'audio'
 }
-function CreateItem({ store, setConnect }) {
+function CreateItem( { store, setConnect }) {
   const navigate = useNavigate();
   const userAddress = useSelector((state) => state.wallet.address);
   const [item, setItem] = useState("");
@@ -69,10 +73,10 @@ function CreateItem({ store, setConnect }) {
 //	axios=applyt oken(axios)
   function onChangeItem(file) {    /*    let reader = new FileReader();    reader.readAsDataURL(file);    reader.onload = function () {      setItem(reader.result);    };	*/
 	}
-	const on_request_tx_mint=async _=>{	 //let my address = getm yaddress()
+	const on_request_tx_mint_onchain=async _=>{	 //let my address = getm yaddress()
 		if (myaddress){}
 		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET); return}
-		let random_ipfscid ='__'+ get_random_ipfs ()
+		let random_ipfscid =itemid || '__'+ get_random_ipfs ()
 		let abistr = getabistr_forfunction ({ 
 			contractaddress : ADDRESSES.erc1155
 			, abikind : 'ERC1155'
@@ -92,9 +96,9 @@ function CreateItem({ store, setConnect }) {
 			, to : ADDRESSES.erc1155
 			, data : abistr
 			, value : '0x00'
-		}).then(resp=>{
-			LOGGER( '' , resp )
-			if (resp) {}
+		}).then( resp=>{			LOGGER( '' , resp )
+			let { transactionHash : txhash , status } = resp
+			if (status ) {}
 			else {SetErrorBar (messages.MSG_USER_DENIED_TX ); return }
 			SetErrorBar ( messages.MSG_TX_REQUEST_SENT )
 			query_with_arg ({contractaddress : ADDRESSES.erc1155 
@@ -103,9 +107,41 @@ function CreateItem({ store, setConnect }) {
 				, aargs : [ random_ipfscid ]
 			}).then(resp=>{
 				LOGGER( 'UaSEEYwCnu' , resp )
+				let tokenid = resp
+				let reqbody={
+					url : urlfile
+//					, price
+					, tokenid
+					, titlename : name
+					, description : desc
+//					, keywords
+					, priceunit : PAYMEANS_DEF
+					, metadataurl : urlmetadata
+					, contract : ADDRESSES.erc1155
+					, nettype : NETTYPE
+					, paymeans : PAYMEANS_DEF
+//					, expiry
+	//				, expirychar
+					, categorystr: curCategory 			//    , originatorfeeinbp
+					, author : myaddress
+					, authorfee : conv_percent_bp(royal ) 
+				}
+				if (resp){
+					axios.post (`${API.API_MINT_TX_REPORT}/${itemid}/${txhash}/${myaddress}` , reqbody) // t/:hexid/:txhash/:address'
+					.then(resp=>{ LOGGER('' , resp.data )
+						let { status }=resp.data
+						if(status == 'OK'){
+							SetErrorBar( messages.MSG_DONE_REGISTERING )
+							setTimeout( _=>{ navigate (`/salefixed?itemid=${itemid}`) } , 
+								TIME_PAGE_TRANSITION_DEF
+							)
+						}
+					})
+					alert( `tokenid:${resp}`, )
+				}
 			})
 //			return
-			let txhash = resp.transactionHash
+//			let txhash = resp.transactionHash
 			awaitTransactionMined
 			.awaitTx( web3, txhash, TX_POLL_OPTIONS )
 			.then((minedtxreceipt) => {
@@ -165,6 +201,10 @@ function CreateItem({ store, setConnect }) {
 		}
 		const resp = await axios.post( API.API_LAZY_MINT, body )
 		if (resp.data.status === "OK") {
+			SetErrorBar(messages.MSG_DONE_REGISTERING)
+			setTimeout( _=>{ navigate (`/salefixed?itemid=${itemid}`) } , 
+				TIME_PAGE_TRANSITION_DEF
+			)
 			navigate(`/salefixed?itemid=${itemid}`); // fileRes p.resp data
 		}
 	}
@@ -253,9 +293,9 @@ function CreateItem({ store, setConnect }) {
     const asyncCreateItem = async () => {
 			await on_post_metadata ()
         if ( activePubl ) {          // TODO          // transaction here ( mint )
-					on_request_tx_mint()
+					on_request_tx_mint_onchain ()
         } else {
-					on_request_lazy_mint()
+					on_request_lazy_mint ()
         }
 /**       } catch (error) {
         SetErrorBar(ERR_MSG.ERR_CREATE_ITEM_FAILED);
@@ -622,7 +662,7 @@ function CreateItem({ store, setConnect }) {
                   </form>
                 </div>
               </div>
-              <div class="create_btn">
+              <div class="create_btn" style={{display:'none'}}>
                 <a onClick={handleCreateItem}>Create Item</a>
               </div>
 
@@ -634,7 +674,7 @@ function CreateItem({ store, setConnect }) {
 
               <div class="create_btn">
 								<a onClick={_=>{LOGGER( 'MOdR4DlcH9' )
-									if (activePubl){ on_request_tx_mint () }
+									if (activePubl){ on_request_tx_mint_onchain () }
 									else 	{ on_request_lazy_mint() }
 								}}>{ activePubl ? 'Mint item->chain' : 'Register Item->server' }</a>
               </div>
@@ -673,7 +713,7 @@ const requesttransaction_response={
 	,typeInt: 0
 	,value: "0x0"
 }
-/**	const on_request_tx_mint_mockup=async _=>{
+/**	const on_requ est_tx_mint_mockup=async _=>{
 		const mokupRndTxHash = "0x" + generateRandomString(63);
 		const mokupRndContract = "0x" + generateRandomString(40);
 		const mokupRndPaymeans = "0x" + generateRandomString(40);

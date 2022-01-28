@@ -195,7 +195,7 @@ function Main({ store }) {
     return clearInterval(intervalId);
   }, [visualSwiperIndex]);
 
-  useEffect(() => {
+/**   useEffect(() => {
     const wrapWidth = collectionSwiperRef.current.offsetWidth;
     const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -214,7 +214,7 @@ function Main({ store }) {
         });
       }
     }
-  }, [collectionIndex]);
+  }, [collectionIndex]);*/
 
   useEffect(() => {
 /**     const wrapWidth = trendingSwiperRef.current.offsetWidth;
@@ -368,7 +368,7 @@ function Main({ store }) {
           <div class="wrap">
             <h4 class="t">Trending Collection</h4>
             <div class="swiper">
-              <div class="swiper-container swiper-container-collection">
+{/*              <div class="swiper-container swiper-container-collection">
                 <ol class="list swiper-wrapper" ref={collectionSwiperRef}>
                   {[1, 2].map((cont, index) => (
                     <>
@@ -413,7 +413,7 @@ function Main({ store }) {
                     </>
                   ))}
                 </ol>
-              </div>
+															</div> */}
 
               <div
                 class="swiper-button-prev swiper-button-collection-prev"

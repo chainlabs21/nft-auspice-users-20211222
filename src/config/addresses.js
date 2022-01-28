@@ -4,7 +4,7 @@ const ADDRESSES={
 
 		match : '0x052773017abe46bffaeafb82cd464099d2a7883b'
 
-	, match_simple : '0xef7e7bf3d466f727bbbfcd68cb5c35667ec2b390'
+	, matcher_simple : '0xef7e7bf3d466f727bbbfcd68cb5c35667ec2b390'
 	, exchange : '0x052773017abe46bffaeafb82cd464099d2a7883b'
 	, erc1155 : '0xb7aa9cd318e97f42a477dc1d9185fdec5503e9b5'
 	, admin : '0xde29fcd765b0963237e66faf0f043e6634c38f42'

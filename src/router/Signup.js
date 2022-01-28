@@ -73,9 +73,9 @@ function Signup({ store, setConnect }) {
           navigate("/sentemaildetail");
         } else {
           // 서버 전송실패 예외처리
-          if (resp.data.message === "DATA-DUPLICATE") {
-            switch (resp.data.reason) {
-              case "address":
+          if ( resp.data.message === "DATA-DUPLICATE") {
+            switch ( resp.data.reason ) {
+              case "address" :
                 alert(ERR_MSG.ERR_DUPLICATE_ADDRESS);
                 break;
               case "email":

@@ -25,6 +25,7 @@ import { onClickCopy
 	, get_last_part_of_path
 	, gettimestr,
 	getmyaddress
+	, 
 } from "../util/common"
 import SetErrorBar from "../util/SetErrorBar";
 import { messages } from '../config/messages'
@@ -40,6 +41,8 @@ import { query_eth_balance } from '../util/contract-calls'
 import { getethrep } from '../util/eth'
 import rstone from "../img/sub/rstone.png";
 import { ADDRESSES } from '../config/addresses'
+import { strDot } from "../util/Util"
+
 const convertLongString = (startLength, endLength, str) => {
 	if (!str) return;
 	const head = str.substring(0, startLength);
@@ -92,8 +95,8 @@ function SingleItem({ store, setConnect , Setisloader }) {
 	const onclickbuy = _ =>{
 		LOGGER( '' , itemData.item?.itemid ) // query_nfttoken_balance () // a little cumbersome
 		let { item}= itemData
-		let abistr = getabistr_forfunction ( { 
-			contractaddress  :ADDRESSES.match_simple
+		let abistr = getabistr_forfunction ( {
+			contractaddress  :ADDRESSES.matcher_simple
 			, abikind : 'MATCHER_SIMPLE'
 			, methodname : 'mint_and_match_single_simple'
 			, aargs : [
@@ -109,7 +112,7 @@ function SingleItem({ store, setConnect , Setisloader }) {
 			] } )
 			requesttransaction ({
 				from : myaddress
-				, to : ADDRESSES.match_simple
+				, to : ADDRESSES.matcher_simple
 				, data: abistr
 				 , value : '0x00'
 			}).then(resp=>{LOGGER('' , resp )
@@ -157,13 +160,18 @@ LOGGER( ''  , abistr )
 			}
 			Setisloader ( false )
 		})
-		axios.get( `${API.API_ITEM_DATA_AUX}/${itemid}` ).then(resp=>{ LOGGER( '' , resp.data )
+		axios.get( `${API.API_ITEM_DATA_AUX}/${itemid}` ).then(resp=>{ LOGGER( '6ENydA38bX' , resp.data )
 			let { status , respdata }=resp.data
 			if ( status == 'OK'){
 				setitemdataaux ( respdata )
+/** 				setlogorders ( respdata.logorders )
+				let { logprices , logactions } =respdata
+				setlogprices ( logprices )
+				setlogactions ( logactions )
+				setpricestats ( getMaxMinAvg ( logprices ) )*/
 				if ( respdata.transactions ) {
-					settransactionHistory ( respdata.transactions )
-					setlogorders ( respdata.logorders )
+					// settransactionHistory ( respdata.transactions )
+ 					setlogorders ( respdata.logorders )
 					let { logprices , logactions } =respdata
 					setlogprices ( logprices )
 					setlogactions ( logactions )
@@ -171,6 +179,12 @@ LOGGER( ''  , abistr )
 				}
 			}
 		})
+		axios.get(`${API.API_TRANSACTIONS}/itemid/${itemid}/0/100/id/DESC`).then(resp=>{ LOGGER("" , resp.data )
+			let {status , list}=resp.data
+			if(status =='OK'){
+				settransactionHistory( list )
+			}		
+		}) // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 	}
   function onClickUserPreBtn() {
     const wrapWidth = itemWrapRef.current.offsetWidth;
@@ -745,8 +759,8 @@ setBidPopup ( true )
                 <table>
                   <colgroup>
                     <col style={{ width: "10%" }} />
-                    <col style={{ width: "10%" }} />
                     <col style={{ width: "30%" }} />
+                    <col style={{ width: "20%" }} />
                     <col style={{ width: "30%" }} />
                     <col style={{ width: "10%" }} />
                     <col style={{ width: "10%" }} />
@@ -764,15 +778,19 @@ setBidPopup ( true )
                   <tbody class="body">
                     { transactionHistory.map( (v , idx ) => (
                       <tr key={ idx }>
-                        <td>{v.event}</td>
-                        <td class="bold">{v.tokenprice} KLAY</td>
-                        <td class="blue">{v.from}</td>
-                        <td class="blue">{v.to}</td>
+                        <td>{ gettimestr( v.createdat )  }</td>
+                        <td class="bold">{ strDot( v.txhash, 8,4) } KLAY</td>
+                        <td class="blue">{ v.username }</td>
+                        <td class="blue">{ v.typestr }</td>												
                         <td class="gray">{moment(v.date).toNow()}</td>
                         <td>
-                          <span
-                            class={v.chainOn ? "chain on" : "chain off"}
-                          ></span>
+<span onClick={_=>{
+	window.open( 'https://google.com' , '_blank').focus();
+
+}} class={v.chainOn ? "chain on" : "chain off"} ></span>
+{/*                          <a                             class={v.chainOn ? "chain on" : "chain off"}                          ></a>
+										*/}
+
                         </td>
                       </tr>
                     ))}

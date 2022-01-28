@@ -27,7 +27,7 @@ function ConnectWallet(Setmyinfo) {
   useEffect((_) => {}, []);
   const getUserInfo = async () => {
     try {
-      const resp = await axios.get(API.API_GET_USER_INFO);
+      const resp = await axios.get(API.API_GET_MY_INFO);
       dispatch({
         type: GET_USER_DATA.type,
         payload: resp.data.payload,

@@ -53,7 +53,7 @@ function MyProf({ store, setConnect }) {
 	let [ listitems , setlistitems ]=useState( [] )
 	let axios= applytoken()
 	useEffect( _=>{
-		axios.get( `${API.API_GET_USER_INFO}` ).then(resp=>{ LOGGER( 'up9xNJ6kwp' , resp.data )
+		axios.get( `${API.API_GET_MY_INFO}` ).then(resp=>{ LOGGER( 'up9xNJ6kwp' , resp.data )
 			let { status , payload }=resp.data
 			if ( status=='OK' ){
 				setmyinfo_maria ( payload.maria )

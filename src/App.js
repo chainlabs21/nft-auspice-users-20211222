@@ -91,7 +91,7 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
       try {
         axios.defaults.headers.common["token"] = token;
         console.log("default Token:", token);
-        const resp = await axios.get(API.API_GET_USER_INFO);
+        const resp = await axios.get(API.API_GET_MY_INFO);
         dispatch({ type: GET_USER_DATA.type, payload: resp.data });
         console.log("login");
       } catch (error) {
@@ -106,6 +106,7 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
 		let { klaytn }=window
 		if ( klaytn ){}
 		else { return }
+
     klaytn.on("accountsChanged", async (accounts) => {			console.log(accounts);
 			let address = accounts[ 0 ]
 			let address_local = localStorage.getItem ( 'address' )
@@ -114,7 +115,7 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
 			await on_wallet_disconnect ()
       if ( address ) { // disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
 				Setaddress( address )
-        axios.post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
+        axios.post ( API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" } )
           .then((resp) => {
             let { status, respdata } = resp.data;
             if (status === "OK") {
@@ -134,13 +135,20 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
 
 	useEffect(() => { LOGGER ( 'poMFHstZg8' , window.klaytn?.selectedAddress )
 		setTimeout(_=>{
+			let {klaytn}=window
+			if(klaytn){}
+			else {return }
+			let { selectedAddress : address } = klaytn
+			if( address ){
+				SetErrorBar( messages.MSG_CURRENT_ADDRESS_IS + address )
+			}
 			if ( window.klaytn?.selectedAddress ) {
 				Setaddress ( window.klaytn?.selectedAddress ) /**       dispa tch({        type: SET_ADDRESS.type,        payload: window.klaytn.selectedAddress,			});			*/
 				if (userData === null) {
 					get_user_data();
 				}
 			}	
-		} , 10 * 1000 )
+		} , 3 * 1000 )
   }, []);
 
   return (
