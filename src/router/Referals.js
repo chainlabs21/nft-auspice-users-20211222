@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
-
 import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
@@ -15,18 +14,14 @@ import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
 import click1 from "../img/sub/click1.png";
-
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
+import "../css/style.css"; // import "./css/style01.css"; // import "./css/style02.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import Myprofcommonheader  from '../components/Myprofcommonheader'
 
 function Referals({ store, setConnect }) {
   const navigate = useNavigate();
@@ -38,7 +33,8 @@ function Referals({ store, setConnect }) {
           <div class="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 
-            <div class="wrap">
+<Myprofcommonheader />
+{/**             <div class="wrap">
               <div class="collection_detail">
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
@@ -59,6 +55,7 @@ function Referals({ store, setConnect }) {
                 </h4>
               </div>
             </div>
+*/}
 
             <div class="move off deal mdeal">
               <div class="right_move">

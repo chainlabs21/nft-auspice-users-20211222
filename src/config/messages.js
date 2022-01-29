@@ -41,6 +41,9 @@ const messages={
 	, MSG_DID_BOOKMARK : '북마크를 설정하였습니다'
 	, MSG_UNDID_BOOKMARK : '북마크를 해제하였습니다'
 	, MSG_CURRENT_ADDRESS_IS : '연결되어있는 계정 : '
+	, MSG_ADDRESS_CHANGED : `계정이 변경되었습니다`
+	, MSG_ONCHAIN_ONLY: '토큰 아이디 발급 된 아이템에 대해서만 이용가능합니다'
+	,	MSG_PLEASE_CHECK_TOS : '약관에 동의하세요'
 }
 export {
 	messages	

@@ -50,12 +50,12 @@ function SaleFixed() {
   const [ endPriceOption, setEndPriceOption ] = useState(false);
   const [ privateOption, setPrivateOption ] = useState(false);
   const [ privateAddress, setPrivateAddress ] = useState("");
-  const [ itemData, setItemData] = useState({});
+  const [ itemData , setItemData] = useState({});
   const [ sign, setSign] = useState( [] )
   const [ signError, setSignError] = useState( "" )
 	const [ completeSign, setCompleteSign] = useState(true)
 	let [ daystoclose , setdaystoclose ] = useState ( '3 days later' )
-	let [ expiry , setexpiry ] = useState(''+7)
+	let [ expirydays , setexpirydays ] = useState(''+7)
 
 	let [ signeddata , setsigneddata ] = useState()
 	let [ itemid , setitemid ]=useState()
@@ -77,7 +77,7 @@ function SaleFixed() {
 		})
 	} , [] )
 	const do_dutch_auction= _ =>{
-		let tokenid = itemData?.tokenid
+		let tokenid = itemData?.item?.tokenid
 		if( tokenid ){}
 		else {SetErrorBar( messages.MSG_DATANOTFOUND ) } // ; return 
 		false && query_nfttoken_balance ( ADDRESSES.erc1155 , myaddress , tokenid ).then (resp=>{
@@ -133,16 +133,16 @@ function SaleFixed() {
 				 "_expiry",
 				 "_referer_feerate",
  */		
-	const do_fixed_price_spot=_=>{
+	const do_fixed_price_spot=_=>{	
 		const orderData = {
 			seller_address: myaddress,
-			amount: 1,
+			amount: itemData?.item?.countcopies ,
 			price: itemPrice,
 			priceunit: "0x000000000000000000000000000000000000",
-			expiry : expiry? moment().add( +expiry , 'days').endOf('day').unix() : 0 ,
+			expiry : expirydays? moment().add( +expirydays , 'days').endOf('day').unix() : 0 ,
 			itemid
 			, tokenid
-//			, expiry
+//			, exp iry
 		}
 		console.log( '' , endPriceOption , itemData );	console.log( '' , orderData ) //	 return
 		signOrderData( orderData ).then(respsign =>{				LOGGER( '8pdnEvf9uF' , respsign ) // , signCallback
@@ -151,7 +151,7 @@ function SaleFixed() {
 			SetErrorBar (messages.MSG_DATA_SIGNED )
 			setsigneddata ( respsign )
 //			return 
-			axios.post ( API.API_ORDER_MAKER_SELLER , {
+			axios.post ( API.API_ORDER_MAKER_SELLER , { // /orders/maker/seller
 				asset_contract_bid : ADDRESSES.erc1155
 				, ... orderData , ... respsign } // signeddata
 			).then ( resp=>{ LOGGER( '2UtIKhAjXH' , resp.data )
@@ -164,7 +164,6 @@ function SaleFixed() {
 			})
 		})
 	}
-
   const handleSalesStart = async () => {
     const myaddress = getmyaddress()    
 //    const asyncSalesStart = async () => {	
@@ -189,7 +188,7 @@ function SaleFixed() {
 				LOGGER('', resp.data)
 				let { status , respdata } = resp.data
         if ( status === "OK") {
-          setItemData( respdata.item);
+          setItemData( respdata ) // .item
 					setRoyalty( respdata.item.authorfee / 100)
 					settokenid ( respdata.item.tokenid ) 
         } else {
@@ -239,8 +238,8 @@ function SaleFixed() {
                       alt=""
                     />
                   </a>
-                  <span></span>
-                  <strong>Henry junior's Item</strong>
+                  <span style={{backgroundImage: `url(${itemData?.item?.url})`}}></span>
+                  <strong>Title: {itemData?.item?.titlename }</strong>
                 </div>
                 <div class="sell_wrap">
                   <div class="create create2">
@@ -260,13 +259,17 @@ function SaleFixed() {
                                   </span>
                                 </a>
                               </li>
-                              <li onClick={() => navigate(`/auctionbid?itemid=${itemid}`)}>
+<li onClick={() => { 
+	if (itemData?.item?.tokenid){	navigate(`/auctionbid?itemid=${itemid}`) }
+	else {SetErrorBar( messages.MSG_ONCHAIN_ONLY ); return }
+}} style={{borderStyle:itemData?.item?.tokenid ? 'solid' : 'dashed'}} >
                                 <a>
                                   <h4>Auction Bid</h4>
                                   <span>Sell ​​to the highest bidder</span>
                                 </a>
                               </li>
                               <li>
+
                                 <a>
                                   <h4>
                                     Bundle Sale
@@ -369,12 +372,12 @@ function SaleFixed() {
                                       type="number"
                                       placeholder=""
                                       onkeydown="onlyNumber(this)"
-                                      value={expiry}
+                                      value={ expirydays }
                                       onChange={(e) => {
 																				let {value}=e.target
 																				if ( ISFINITE (+value) ){}
 																				else {SetErrorBar( messages.MSG_INPUT_NUMBERS_ONLY ); return }
-                                        setexpiry( value)
+                                        setexpirydays( value )
                                       }}
                                     />
                                   </div>

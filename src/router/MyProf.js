@@ -32,6 +32,9 @@ import { messages } from "../config/messages";
 import { strDot } from "../util/Util";
 import { applytoken } from '../util/rest'
 import { API } from '../config/api'
+import Myprofcommonheader  from '../components/Myprofcommonheader'
+import moment from 'moment'
+
 function MyProf({ store, setConnect }) {
   const itemListRef = useRef();
   const navigate = useNavigate();
@@ -129,7 +132,8 @@ function MyProf({ store, setConnect }) {
           <div class="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 
-            <div class="wrap">
+<Myprofcommonheader />
+{/*            <div class="wrap">
               <div class="collection_detail">
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
@@ -148,15 +152,10 @@ SetErrorBar( messages.MSG_COPIED)
                 <h2 class="notop">{myinfo_maria?.nickname }'s Collection</h2>
                 <h3>{strDot( myaddress , 4 , 4 )}</h3>
                 <h4> { myinfo_mongo?.description }
-{/**                   Henry is a mixed-media artist living in the
-                  <br class="mo" /> Bay Area and uses
-                  <br class="pc" />a stream of consciousness
-									<br class="mo" /> approach to his work.
-*/}
                 </h4>
               </div>
             </div>
-
+*/}
             <div class={toggleFilter ? "move on deal" : "move off"}>
               <div class="cw ucl">
                 <span class="close" onClick={() => setToggleFilter(true)}>
@@ -469,11 +468,13 @@ SetErrorBar( messages.MSG_COPIED)
                         <ol class="item move_li">
                           <div>
                             <span>
-															{listitems.sort( (a,b)=> a.createdat<b.createdat ? +1 : -1 ).map ( (elem,idx) =>{
+															{listitems.sort( (a,b)=> a.id<b.id ? +1 : -1 ).map ( (elem,idx) =>{
 																return (
 																	<li key={ idx }
 																		class={selectItemIndex === 0 && "click"}
-																		onClick={() => setSelectItemIndex(0)}
+																		onClick={() => { setSelectItemIndex(0)
+																			navigate(`/singleitem/${elem.itemid}`)
+																		} }
 																	>
 																	<a
 																		style={{
@@ -512,7 +513,9 @@ SetErrorBar( messages.MSG_COPIED)
 																				</li>
 																			</ul>
 																			<span> {elem.item?.titlename }</span>
-																			<div> { strDot( elem.item?.author, 6, 4 ) } </div>
+																			<div> { strDot( elem.item?.author, 6, 4 ) } 
+																				<span style={{display:'inline' , textAlign:'right', alignContent:'right'}}>{ moment(elem.createdat).fromNow() }</span>
+																			</div>
 																		</div>
 																	</a>
 																</li>	

@@ -37,6 +37,8 @@ import { LOGGER , gettimestr , get_deltatime_str } from "./util/common";
 import { applytoken } from './util/rest'
 import { API } from './config/api'
 import { strDot } from "./util/Util"
+import moment from 'moment'
+
 const expItemId = "QmS7RFqoUZei5tQZN6XYyyjcvrtk3eHfibQoxJG4bnh3v3";
 
 function Main({ store }) {
@@ -370,7 +372,7 @@ function Main({ store }) {
             <div class="swiper">
 {/*              <div class="swiper-container swiper-container-collection">
                 <ol class="list swiper-wrapper" ref={collectionSwiperRef}>
-                  {[1, 2].map((cont, index) => (
+                  {[1, 2].m ap((cont, index) => (
                     <>
                       <span>
                         <li class="swiper-slide">
@@ -524,8 +526,8 @@ function Main({ store }) {
               <div class="swiper-container swiper-container-trendingitem">
                 <ol class="item item4 buy swiper-wrapper">
                   <div className="slideBox" ref={trendingSwiperRef}>
-                    { list_trenditems.filter(elem=>elem.url ).sort((a,b)=>b.countfavors- a.countfavors).map( (cont , index) => (
-                      <span>
+                    { list_trenditems.filter(elem=>elem.url ).sort((a,b)=>b.countviews- a.countviews ).map( (cont , index) => (
+                      <span key={index}>
                         <li class="swiper-slide">
                           <a
                             onClick={() => navigate(`/singleitem/${cont.itemid}`)}
@@ -539,12 +541,12 @@ function Main({ store }) {
                             <div class="on">
                               <ul>
                                 <li class="heart off">{ cont.countfavors }</li>
-                                <li class="star off"></li>
+                                <li class="star off"> {cont.countviews } </li>
                               </ul>
                               <div>{ cont.titlename } </div>
                               <span>{ strDot(cont.author , 10, 0)  }</span>
                               <ol>
-                                <li>{ get_deltatime_str ( cont.minpriceorder?.expiry ) }</li>
+                                <li>{ moment.unix(cont.minpriceorder?.expiry).fromNow() || get_deltatime_str ( cont.minpriceorder?.expiry ) }</li>
                                 <li>{ cont.askpricestats?.min } KLAY</li>
                               </ol>
                               <p>Buy Now</p>
@@ -578,7 +580,7 @@ function Main({ store }) {
                 <ol class="item item4 summary swiper-wrapper">
                   <div className="slideBox" ref={itemSwiperRef}>
                     { list_newitems.filter(elem => elem.url ).sort((a,b)=>a.createdat<b.createdat? +1 : -1 ).map((cont, index) => (
-                      <span>
+                      <span key={index}>
                         <li class="swiper-slide">
                           <a
                             onClick={() => navigate(`/singleitem/${ cont.itemid }`)}
@@ -595,10 +597,10 @@ function Main({ store }) {
                                 <li class="star off"></li>
                               </ul>
                               <div>{ cont.titlename } </div>
-                              <span> { strDot(cont.author , 10,0) } { gettimestr( cont.createdat ) }</span>
+                              <span> { strDot(cont.author , 10,0) } { moment( cont.createdat ).fromNow() }</span>
 															
                               <ol>
-                                <li>{ get_deltatime_str ( cont.minpriceorder?.expiry ) +'남음' }</li>
+                                <li>{ moment ( cont.minpriceorder?.expiry ).fromNow() }</li>
                                 <li>{ cont.askpricestats?.min } KLAY</li>
                               </ol>
                             </div>
@@ -631,7 +633,7 @@ function Main({ store }) {
                 <ol class="list swiper-wrapper" ref={userWrapRef}>
                   {[1, 2].map((cont, index) => (
                     <>
-                      <span>
+                      <span key={ index }>
                         <li class="swiper-slide">
                           <a>
                             <div

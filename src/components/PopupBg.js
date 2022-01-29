@@ -30,11 +30,9 @@ const PopupBgBox = styled.div`
 function mapStateToProps(state) {
   return { store: state };
 }
-
 function mapDispatchToProps(dispatch) {
   return {
     setAllPopupOff: () => dispatch(setAllPopupOff()),
   };
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(PopupBg);

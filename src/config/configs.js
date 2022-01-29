@@ -12,6 +12,10 @@ let TX_POLL_OPTIONS={
 }
 const PAYMEANS_DEF = 'KLAY'
 const NETTYPE = 'KLAYTN-TESTNET'
+const URL_TX_SCAN ={
+	'KLAYTN-TESTNET' : 'https://baobab.scope.klaytn.com/tx'
+} 
+
 export {
 	PAYMENT_TOKEN_ADDRESS_DEF
 	, REFERER_FEE_RATE_DEF
@@ -20,4 +24,5 @@ export {
 	, TX_POLL_OPTIONS
 	, PAYMEANS_DEF
 	, NETTYPE
+	, URL_TX_SCAN
 }

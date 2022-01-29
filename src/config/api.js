@@ -33,14 +33,18 @@ export const API = {
   API_ORDER_MAKER_SELLER: `${apiServer}/orders/maker/seller`,
 	API_PLATFORM_SETTINGS: `${apiServer}/queries/rows/settings/active/1/0/100/id/DESC`,
 	
-			API_MAIN_NEW_ITEMS : `${apiServer}/queries/rows/items/active/1/0/10/id/DESC`
+		API_MAIN_NEW_ITEMS : `${apiServer}/queries/rows/items/active/1/0/10/id/DESC`
 	, API_MAIN_TREND_ITEMS : `${apiServer}/queries/rows/items/active/1/0/10/countviews/DESC`
 
-, API_MAIN_FEATURED_ITEMS :`${apiServer}/queries/rows/items/isfeatured/1/0/10/id/DESC`
+	, API_MAIN_FEATURED_ITEMS :`${apiServer}/queries/rows/items/isfeatured/1/0/10/id/DESC`
 	, API_MERCHANDISES_LIST : `${apiServer}/merchandises/single/latest/0/10`
-	, API_MYITEMS : `${apiServer}/queries/rows/itembalances/username` // /${username}/0/10/id/DESC
+	, API_MYITEMS : `${apiServer}/queries/rows/itembalances/username` // /${username}/0/10/id/DESC	
+	, API_OWNED_ITEMS : `${apiServer}/queries/rows/itembalances/username` // /${username}/0/10/id/DESC
+	, API_AUTHORS_ITEMS : `${apiServer}/queries/rows/items/author`
 
 	, API_TRANSACTIONS : `${apiServer}/queries/rows/transactions` // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
+
+	, API_USER_FAVORITES : `${apiServer}/queries/rows/logfavorites` 
 //																			 /rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval' , async (req,res)=>{
 //																			'/rows/fieldvalues/:tablename/:offset/:limit/:orderkey/:orderval' , async (req,res)=>{ // :fieldname/:fieldval/
 

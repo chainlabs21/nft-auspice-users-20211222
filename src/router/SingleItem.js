@@ -29,7 +29,7 @@ import { onClickCopy
 } from "../util/common"
 import SetErrorBar from "../util/SetErrorBar";
 import { messages } from '../config/messages'
-import { PAYMEANS_DEF } from '../config/configs'
+import { PAYMEANS_DEF , URL_TX_SCAN } from '../config/configs'
 import I_heartO from "../img/main/I_heartO.svg"
 import I_heartOGray from "../img/sub/I_heartOGray.svg"
 import I_heartOPink from '../img/sub/I_heartOPink.svg'
@@ -38,7 +38,7 @@ import { query_nfttoken_balance, requesttransaction , getabistr_forfunction ,  }
 import I_staroff from '../img/sub/star_off.png'
 import I_staron from '../img/sub/star_on.png'
 import { query_eth_balance } from '../util/contract-calls'
-import { getethrep } from '../util/eth'
+import { getethrep, getweirep } from '../util/eth'
 import rstone from "../img/sub/rstone.png";
 import { ADDRESSES } from '../config/addresses'
 import { strDot } from "../util/Util"
@@ -77,7 +77,7 @@ function SingleItem({ store, setConnect , Setisloader }) {
 	let [ logorders , setlogorders ] = useState( [] )
 	let [ logsales , setlogsales ] = useState ( [] )
 	let [ logprices , setlogprices ] = useState( [] ) 
-	let [ logactions , setlogactions ] = useState ( [] )
+//	let [ logactions , setlogactions ] = useState ( [] )
 	let [ pricestats , setpricestats ] = useState ( [] )
 	let [ ilikethis , setilikethis ] = useState( false )
 	let [ ibookmarkthis , setibookmarkthis ] = useState ( false )
@@ -86,30 +86,48 @@ function SingleItem({ store, setConnect , Setisloader }) {
 	let [ author , setauthor ]= useState()
 	let [ myethbalance , setmyethbalance  ] = useState()
 	let [ priceklay , setpriceklay]= useState()
+	let [ istoschecked , setistoschecked]=useState ( false )
+	let [ listotheritems , setlistotheritems ] = useState ( [] )
+	let [ iscollectionbyauthorseller , setiscollectionbyauthorseller ] = useState( )
+	let [ jprofileimages , setjprofileimages ]=useState( [] )
+	let lockjprofileimages={}
 //	let [ searchParams, setSearchParams ] = useSearchParams()
 //	let [ itemid , setitemid ] = useState( searchParams( ))
-	let itemid =get_last_part_of_path ( window.location.href ) 
-	let axios = applytoken()
-	let myaddress = getmyaddress()
-	LOGGER( '' , myaddress )
+	let itemid =get_last_part_of_path ( window.location.href )
+	let axios = applytoken()	
+	let [ myaddress , setmyaddress ]=useState( getmyaddress() )
+	useEffect(_=>{
+		let { klaytn }=window
+		if ( klaytn){}
+		else {return }
+		let myaddress = getmyaddress()
+		setmyaddress ( myaddress )
+		myaddress && query_eth_balance( myaddress ).then(resp=>{ LOGGER( 'mylcfti0uE' , resp )
+			setmyethbalance( getethrep (resp ) )
+		})
+	} , [ window.klaytn ] )
+//	LOGGER( '' , myaddress )
 	const onclickbuy = _ =>{
 		LOGGER( '' , itemData.item?.itemid ) // query_nfttoken_balance () // a little cumbersome
-		let { item}= itemData
+		let { item }= itemData
+		let aargs =[
+			ADDRESSES.erc1155
+			, item?.itemid
+			, 0
+			, sellorder.asset_amount_bid
+			, item?.authorfee
+			, item?.decimals
+			, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDRESSES.zero
+			, getweirep( sellorder?.asset_amount_ask ) 
+			, sellorder?.username
+		]
+		LOGGER( aargs )
+//		return 
 		let abistr = getabistr_forfunction ( {
 			contractaddress  :ADDRESSES.matcher_simple
 			, abikind : 'MATCHER_SIMPLE'
 			, methodname : 'mint_and_match_single_simple'
-			, aargs : [
-				ADDRESSES.erc1155
-				, item?.itemid
-				, 0
-				, sellorder.asset_amount_bid
-				, item?.authorfee
-				, item?.decimals
-				, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDRESSES.zero
-				, sellorder?.asset_amount_ask
-				, sellorder?.username
-			] } )
+			, aargs } )
 			requesttransaction ({
 				from : myaddress
 				, to : ADDRESSES.matcher_simple
@@ -144,19 +162,58 @@ function SingleItem({ store, setConnect , Setisloader }) {
 LOGGER( ''  , abistr )
 		return
 		if ( itemData?.item?.tokenid ){ // on chain
-
 		} else {
-
+		}
+	}
+	const resolve_author_seller= itemData =>{
+		if ( itemData?.minpriceorder ){
+			let {username} = itemData?.minpriceorder // ?.username
+			axios.get(API.API_OWNED_ITEMS + `/${username}/0/10/id/DESC`).then(resp=>{ LOGGER('' , resp.data )
+				let {status , list }=resp.data
+				if ( status=='OK'){
+					setlistotheritems ( list )
+				}
+			})
+			setiscollectionbyauthorseller ( 'seller')
+		}
+		else	{// return itemData?.author?.username
+			let { username}= itemData?.author
+			axios.get(API.API_AUTHORS_ITEMS + `/${username}/0/10/id/DESC`).then(resp=>{ LOGGER( '' , resp.data )
+				let { status , list }=resp.data 
+				if ( status =='OK'){
+					setlistotheritems ( list )
+				}
+			})
+			setiscollectionbyauthorseller ( 'author' )
 		}
 	}
 	const fetchitem= _ => {
 		Setisloader ( true )
-    axios.get(`${API.API_GET_ITEM_DATA}/${itemid}`).then((res) => {
+    axios.get(`${API.API_GET_ITEM_DATA}/${itemid}`).then((res) => {	LOGGER( 'agwwiWSDdf' , res.data )
 			let { status , respdata }=res.data
-			if ( status =='OK'){				console.log(res.data.respdata);
+			if ( status =='OK'){
 				setItemData( respdata )
-				setorders_sell ( respdata.orders_sellside )
-				setauthor ( respdata.author_mongo )
+				let {orders_sellside} = respdata
+				setorders_sell ( orders_sellside )
+				if (orders_sellside && orders_sellside.length){
+					orders_sellside.forEach ( ( elem  , idx )  =>{
+						axios.get(API.API_USER_INFO +`/${elem.username}`).then(resp=>{ LOGGER( 'V9kbW2K1sr' , resp.data )
+							let {status , payload }=resp.data
+							if ( status =='OK'){
+								let { profileimage } = payload?.mongo
+								if ( profileimage ) {
+//									let jdata={} 
+	//								jdata[v.username ] = profileimage
+									jprofileimages[ idx ]= profileimage
+									setjprofileimages ( jprofileimages )
+								}
+							}
+						})						
+					})
+				}
+//				setauthor ( respdata.author_mongo )
+//				axios.get( API.API_OWNED_ITEMS + `/${}`)
+				resolve_author_seller( respdata )
 			}
 			Setisloader ( false )
 		})
@@ -164,17 +221,18 @@ LOGGER( ''  , abistr )
 			let { status , respdata }=resp.data
 			if ( status == 'OK'){
 				setitemdataaux ( respdata )
+				setauthor ( respdata.author_mongo )
 /** 				setlogorders ( respdata.logorders )
-				let { logprices , logactions } =respdata
+				let { logprices , logact ions } =respdata
 				setlogprices ( logprices )
-				setlogactions ( logactions )
+				setlogactions ( logact ions )
 				setpricestats ( getMaxMinAvg ( logprices ) )*/
 				if ( respdata.transactions ) {
 					// settransactionHistory ( respdata.transactions )
  					setlogorders ( respdata.logorders )
 					let { logprices , logactions } =respdata
 					setlogprices ( logprices )
-					setlogactions ( logactions )
+//					setlogactions ( logactions )
 					setpricestats ( getMaxMinAvg ( logprices ) )
 				}
 			}
@@ -185,6 +243,7 @@ LOGGER( ''  , abistr )
 				settransactionHistory( list )
 			}		
 		}) // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
+		
 	}
   function onClickUserPreBtn() {
     const wrapWidth = itemWrapRef.current.offsetWidth;
@@ -204,9 +263,6 @@ LOGGER( ''  , abistr )
   }
   useEffect(() => {
 		fetchitem()
-		query_eth_balance( myaddress ).then(resp=>{ LOGGER( 'mylcfti0uE' , resp )
-			setmyethbalance( getethrep (resp ) )
-		})
 		axios.get(`${API.API_TICKERS}/USDT`).then(resp=>{LOGGER( '' , resp.data )
 			let { status , list }=resp.data
 			if ( status =='OK'){
@@ -310,7 +366,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                         </h3>
                         <h4 class="m_sub">
                           <img src={require("../img/sub/rock.png").default} />
-                          <span class="pri">{ sellorder?.asset_amount_bid } of token(s)</span>
+                          <span class="pri">{ sellorder?.asset_amount_bid } of token {sellorder?.tokenid } </span>
                         </h4>
                       </div>
                     </li>
@@ -352,15 +408,20 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                     </label>
                   </div>
                   <div class="ckb">
-                    <input type="checkbox" id="chk2" name="chk1" />
+                    <input type="checkbox" id="chk2" name="chk1" onChange={e=>{
+											setistoschecked( ! istoschecked ) // LOGGER()
+										}}/>
                     <label for="chk2">
                       I agree to Itemverse's <b>Terms of Service</b>
                     </label>
                   </div>
                 </form>
               </div>
-              <a class="reportit on "
+							<a class="reportit on "
+								disabled={ istoschecked ? false : true }
 								onClick={ _=>{
+									if (istoschecked){}
+									else {SetErrorBar( messages.MSG_PLEASE_CHECK_TOS ); return }
 									LOGGER( 'pHeiL5AWXM' )
 									onclickbuy()
 								}}
@@ -549,13 +610,29 @@ setBidPopup ( true )
                   <h2 class="i_title">Offer History</h2>
                   <div class="history_s container">
                     <ul>
-                      {orders_sell.map((v , idx ) => (
+                      {orders_sell.map((v , idx ) => {
+												/** if (lockjprofileimages[ v.username ] ){}
+												else {
+													lockjprofileimages[ v.username]=1
+													axios.get(API.API_USER_INFO +`/${v.username}`).then(resp=>{
+														let {status , payload }=resp.data
+														if ( status =='OK'){
+															let { profileimage } = payload?.mongo
+															if ( profileimage ) {
+																let jdata={} 
+																jdata[v.username ] = profileimage
+																setjprofileimages ({... jprofileimages , ... jdata } )
+															}
+														}
+													})
+												} */
+												return (
 												<li key={idx } onClick={_=> {	SetErrorBar('BpAzNi4c1n')
 //													setactiveorder ( v ) 
 													setsellorder ( v )
 													return 
 												} }>
-                          <span class="profile_img"></span>
+                          <span class="profile_img" style={{backgroundImage :`url(${jprofileimages[ idx ]})` }}></span>
                           <h3>
                             { v.asset_amount_ask } KLAY for { v.asset_amount_bid }
                             <br />
@@ -565,7 +642,9 @@ setBidPopup ( true )
                           <h4>{ convertLongString(8, 8, v.address)}</h4>
                           <h5>{ gettimestr ( v.createdat ) }</h5>
                         </li>
-											))}
+											)	
+										}
+											)}
                     </ul>
                   </div>
                 </div>
@@ -782,11 +861,10 @@ setBidPopup ( true )
                         <td class="bold">{ strDot( v.txhash, 8,4) } KLAY</td>
                         <td class="blue">{ v.username }</td>
                         <td class="blue">{ v.typestr }</td>												
-                        <td class="gray">{moment(v.date).toNow()}</td>
+                        <td class="gray">{moment(v.createdat).fromNow()}</td>
                         <td>
 <span onClick={_=>{
-	window.open( 'https://google.com' , '_blank').focus();
-
+	window.open( URL_TX_SCAN[v.nettype] + `/${v.txhash}` , '_blank').focus();
 }} class={v.chainOn ? "chain on" : "chain off"} ></span>
 {/*                          <a                             class={v.chainOn ? "chain on" : "chain off"}                          ></a>
 										*/}
@@ -801,27 +879,29 @@ setBidPopup ( true )
           </div>
           <div class="item">
             <div class="wrap">
-              <h4 class="t">Other works in this collection</h4>
+              <h4 class="t">Other works from {iscollectionbyauthorseller}</h4>
 
               <div class="swiper">
                 <div class="swiper-container swiper-container-trendingitem">
                   <ol class="item item4 buy swiper-wrapper">
                     <div className="slideBox" ref={itemWrapRef}>
-                      { logactions.map((cont, index) => (
+                      { listotheritems.filter(elem => elem.item?.itemid == itemid ? false : true).sort((a,b)=> a.id-b.id ).map((cont, index) => (
 
 												<span key={index}>
                           <li
                             class="swiper-slide"
-                            onClick={() => window.location.reload()}
+														onClick={() =>{ // window.location.reload()
+															navigate(`/singleitem/${cont.item?.itemid}`)
+														}}
                           >
-                            <a style={{ backgroundImage: `url(${sample})` }}>
+                            <a style={{ backgroundImage: `url(${cont.item?.url })` }}>
                               <div class="on">
                                 <ul>
-                                  <li class="heart off">1,389</li>
+                                  <li class="heart off">{ cont?.countfavors }</li>
                                   <li class="star off"></li>
                                 </ul>
-                                <div>Summer Pool</div>
-                                <span>David</span>
+                                <div>{ cont?.item?.titlename }</div>
+                                <span>{ cont?.item?.author?.nickname }</span>
                                 <ol>
                                   <li>6 minutes left</li>
                                   <li>1.67 KLAY</li>

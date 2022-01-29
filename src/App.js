@@ -114,13 +114,16 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
 			else {}
 			await on_wallet_disconnect ()
       if ( address ) { // disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
-				Setaddress( address )
+//				Setaddress( address )				
         axios.post ( API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" } )
           .then((resp) => {
             let { status, respdata } = resp.data;
             if (status === "OK") {
               localStorage.setItem("token", respdata);
-              axios.defaults.headers.common["token"] = resp.data.respdata;
+							axios.defaults.headers.common["token"] = resp.data.respdata;
+							localStorage.setItem ('address' , address )
+							Setaddress ( address )
+							SetErrorBar( messages.MSG_ADDRESS_CHANGED + `: ${address}` )
             } else if (status === "ERR") {
               localStorage.removeItem("token");
               axios.defaults.headers.common["token"] = "";
@@ -141,6 +144,7 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
 			let { selectedAddress : address } = klaytn
 			if( address ){
 				SetErrorBar( messages.MSG_CURRENT_ADDRESS_IS + address )
+				Setaddress ( address )
 			}
 			if ( window.klaytn?.selectedAddress ) {
 				Setaddress ( window.klaytn?.selectedAddress ) /**       dispa tch({        type: SET_ADDRESS.type,        payload: window.klaytn.selectedAddress,			});			*/

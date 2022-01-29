@@ -2,19 +2,25 @@
 const abi = [
 	{	name : 'mint_and_match_single_simple'
 		, inputs : [
-			{ type : 'address' , name:'' }
-			,	{ type : 'string' , name:'' }
-			, { type : 'uint256' , name:'' }
-			, { type : 'uint256' , name:'' }
-			, { type : 'uint256' , name:'' }
-			, { type : 'uint256' , name:'' }
-			, { type : 'address' , name:'' }
-			, { type : 'uint256' , name:'' }
-			, { type : 'address' , name:'' }
-			, { type : 'address' , name:'' }
+			{ type : 'address' , name:'contract' }
+			,	{ type : 'string' , name:'itemid' }
+			, { type : 'uint256' , name:'tokenid' }
+			, { type : 'uint256' , name:'amount' }
+			, { type : 'uint256' , name:'author_royalty' }
+			, { type : 'uint256' , name:'decimals' }
+			, { type : 'address' , name:'paymeans' }
+			, { type : 'uint256' , name:'price' }
+			, { type : 'address' , name:'seller' }
+			, { type : 'address' , name:'to' }
 		]
 		, outputs : []
-	} /** 	function mint_and_match_singl e_simple (
+	} 
+]
+export {
+	abi
+}
+	
+	/** 	function mint_and_match_singl e_simple (
 		address _target_erc1155_contract
 		, string memory _itemid
 
@@ -1064,7 +1070,3 @@ const abi = [
 	"type": "constructor"
 	},
 */
-]
-export {
-	abi
-}

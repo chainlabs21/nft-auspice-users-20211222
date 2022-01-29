@@ -11,8 +11,8 @@ import { abi as abi_admin } from '../contracts-abi/IAdmin'
 import { abi as abi_erc1155 } from '../contracts-abi/IERC1155'
 import { abi as abi_auction_repo_dutch_bulk } from '../contracts-abi/IAuctionRepoDutchBulk'
 import { abi as abi_auction_repo_english } from '../contracts-abi/IAuctionRepoEnglish'
-
 import { abi as abi_matcher_simple } from '../contracts-abi/IMatcher-simple'
+
 // import { getweirep } from '../utils/eth'
 // import { DebugMode } from '../configs/configs'
 // import { requesttransaction } from "../services/kaikas"
@@ -63,7 +63,7 @@ const query_with_arg = jargs=> {  // {contractaddress , methodname , aargs }=jar
 		}).catch(err=>{resolve(null)})
 	})
 }
-const getabistr_forfunction = (jargs) => {
+/** const getabistr_forfunction = (jargs) => {
   let { contractaddress, abikind, methodname, aargs } = jargs;
   let contract;
   contractaddress = contractaddress.toLowerCase();
@@ -74,7 +74,18 @@ const getabistr_forfunction = (jargs) => {
     jcontracts[contractaddress] = contract;
   }
   return contract.methods[methodname](...aargs).encodeABI();
-};
+}*/
+const getabistr_forfunction = jargs=>{let { contractaddress , abikind ,  methodname , aargs }=jargs;
+	let contract; contractaddress=contractaddress.toLowerCase()
+	let sig = sha256 (contractaddress + methodname )
+  if( jcontracts[sig ] ){
+		contract = jcontracts[ sig ] }
+	else {        
+		contract=new web3.eth.Contract( MAP_STR_ABI[abikind] , contractaddress)
+		jcontracts[ sig ] = contract 
+	}
+	return contract.methods[ methodname ](... aargs ).encodeABI()
+}
 const requesttransaction=async jdata=>{
 	if ( caver ){}
 	else {

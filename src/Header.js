@@ -67,8 +67,9 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
 		let {klaytn } = window
 		if ( klaytn){}
 		if ( klaytn.selectedAddress ){
-			setaddress( address )
+			setaddress( klaytn.selectedAddress ) // address )
 			Setaddress ( address )
+			localStorage.setItem( 'address' , address )
 		}
 	} , [ window.klaytn ] )
   function onClickConnectWallet() {
@@ -278,11 +279,11 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
           <li class="country">
             <a>ENG</a>
           </li>
-          <li class="wallet">
+          <li class="wallet" style={{width: '200px'}}>
             <a onClick={onClickConnectWallet}>
               { address ? strDot(address , 4,2)  : "Connect Wallet" }
             </a>
-{/**             <span>{address}</span> */}
+{/*             <span>{address}</span> */}
           </li>
         </ul>
       </nav>

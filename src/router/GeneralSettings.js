@@ -29,6 +29,8 @@ import { getmyaddress , getrandomwords } from '../util/common'
 import SetErrorBar from "../util/SetErrorBar";
 import { messages } from "../config/messages";
 import { generateSlug } from  'random-word-slugs'
+import { strDot } from "../util/Util";
+import Settingssidepanel from '../components/Settingssidepanel'
 
 function GeneralSettings({ store, setConnect }) {
 	const navigate = useNavigate();	
@@ -43,7 +45,7 @@ function GeneralSettings({ store, setConnect }) {
 			description
 			, nickname
 		}
-		axios.put(`${API.API_MYINFO}` , reqbody ).then(resp=>{ LOGGER( '' , resp.data )
+		axios.put(`${API.API_MYINFO}` , reqbody ).then(resp=>{ LOGGER( '' , resp.data ) // }/users/user/myinfo`
 			let { status}=resp.data
 			if ( status == 'OK'){
 				SetErrorBar (messages.MSG_DONE_REGISTERING )
@@ -68,14 +70,16 @@ function GeneralSettings({ store, setConnect }) {
       <section id="sub">
         <article class="wallet_wrap">
           <div class="move on">
-            <div class="left_move wallet_left">
+
+              <div class="left_move wallet_left">
               <div class="mwallet">
-                <a onClick={() => navigate(-1)}>Account settings</a>
+								<a onClick={() => { navigate(-1)
+								} } >Account settings</a>
               </div>
               <form>
                 <div class="w1" onClick={() => navigate("/mywallet")}>
                   <h3>
-                    My wallet<span>0x9bb...carfb</span>
+                    My wallet<span>{ strDot( myaddress , 6, 2 )}</span>
                   </h3>
                 </div>
                 <div class="w2 on">
@@ -88,7 +92,8 @@ function GeneralSettings({ store, setConnect }) {
                   <h3>Notification settings</h3>
                 </div>
               </form>
-            </div>
+						</div>
+{/**  <Settingssidepanel />*/}
 
             <div class="right_move wallet_right">
               <h2>General settings</h2>
@@ -147,13 +152,12 @@ const GeneralSettingsBox = styled.div`
 function mapStateToProps(state) {
   return { store: state };
 }
-
 function mapDispatchToProps(dispatch) {
   return {
     setConnect: () => dispatch(setConnect()),
   };
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(GeneralSettings);
+
 // http://itemverse1.net:36119/users/user/myinfo
 // {"description":"abcde","nickname":"fghij"}

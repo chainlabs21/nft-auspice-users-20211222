@@ -125,6 +125,7 @@ function CreateItem( { store, setConnect }) {
 					, categorystr: curCategory 			//    , originatorfeeinbp
 					, author : myaddress
 					, authorfee : conv_percent_bp(royal ) 
+					, countcopies
 				}
 				if (resp){
 					axios.post (`${API.API_MINT_TX_REPORT}/${itemid}/${txhash}/${myaddress}` , reqbody) // t/:hexid/:txhash/:address'
