@@ -42,6 +42,10 @@ export const API = {
 	, API_OWNED_ITEMS : `${apiServer}/queries/rows/itembalances/username` // /${username}/0/10/id/DESC
 	, API_AUTHORS_ITEMS : `${apiServer}/queries/rows/items/author`
 
+	, API_SELLER_ITEMS_00 : `${apiServer}/queries/rows/orders/username` //	/:fieldval/:offset/:limit/:orderkey/:orderval' , async (req,res)=>{
+
+//	, API_SELLER_ITEMS_01 : `${apiServer}/queries/rows/fieldvalues/orders` // /:tablename/:offset/:limit/:orderkey/:orderval
+//			let {fieldname , fieldvalues , itemdetail } = req.query	
 	, API_TRANSACTIONS : `${apiServer}/queries/rows/transactions` // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 
 	, API_USER_FAVORITES : `${apiServer}/queries/rows/logfavorites` 

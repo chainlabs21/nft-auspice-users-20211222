@@ -18,36 +18,84 @@ import ho_img from "../img/sub/ho_img.png";
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css";
-// import "./css/style01.css";
-// import "./css/style02.css";
+import "../css/style.css"; // import "./css/style01.css"; // import "./css/style02.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import { get_last_part_of_path, LOGGER } from '../util/common'
+import { get_last_part_of_path, LOGGER, ISFINITE } from '../util/common'
 import { applytoken } from '../util/rest'
 import { API } from '../config/api'
 import { useEffect , useState } from "react";
 import { useSearchParams } from "react-router-dom";
-
+import {is_eth_address_valid} from '../util/eth'
+import { getabistr_forfunction, requesttransaction } from "../util/contract-calls"
+import { getmyaddress } from '../util/common'
+import { messages } from '../config/messages'
+import { ADDRESSES } from '../config/addresses'
+import SetErrorBar from '../util/SetErrorBar'
+import { query_with_arg } from '../util/contract-calls'
 function HandOver({ store, setConnect }) {
-	const navigate = useNavigate();
-//	let itemid =get_last_part_of_path ( window.location.href ) 
-	let itemid
+	const navigate = useNavigate() //	let itemid =get_last_part_of_path ( window.location.href )  //	let itemid
 	let axios=applytoken()
 	let [ itemdata , setitemdata ] = useState()
-	let  [ searchParams, setSearchParams ] = useSearchParams()
+	let [ searchParams, setSearchParams ] = useSearchParams()
+	let [ itemid , setitemid ] = useState ( searchParams.get('itemid') )
+	let [ address_rcv, setaddress_rcv]=useState('')
+	let [ isaddressvalid , setisaddressvalid]=useState( true )
+
+	let [ amounttosend , setamounttosend] = useState()
+	let [ isamountvalid , setisamountvalid] = useState( true ) 
+	let [ myaddress , setmyaddress] = useState ( getmyaddress() )
+	let [ mybalance , setmybalance]=useState( )
 //	LOGGER( 'TnCW2Q2S8L' , itemid )
-	useEffect(_=>{  LOGGER( 'TnCW2Q2S8L' , itemid )
-		 itemid=searchParams.get('itemid')
-		axios.get(`${API.API_GET_ITEM_DATA}/${itemid}`).then(resp=>{ LOGGER( '' , resp.data )
+	useEffect(_=>{ //		let atkns= window.location.href.split(/=/) 	//	let itemid=atkns[atkns.length-1]
+		LOGGER( 'TnCW2Q2S8L' , itemid ) //		setitemid( itemid )
+		axios.get(`${API.API_GET_ITEM_DATA}/${itemid}`).then(resp=>{ LOGGER( 'oMzpzA49WV' , resp.data )
 			let { status , respdata }=resp.data
-			if ( status =='OK' ){
+			if ( status =='OK' ) {
 				setitemdata( respdata )
-			}
-		})
+				query_with_arg ({ contractaddress : ADDRESSES.erc1155 
+					, abikind : 'ERC1155' 
+					, methodname : 'balanceOf' 
+					, aargs : [ myaddress
+						, respdata.item?.tokenid
+				 	]				}).then(resp=>{
+					LOGGER('' , resp )
+					setmybalance ( resp )
+				})
+				}
+			})
 	} , [] )
   async function onClickSendBtn() {
+		if ( myaddress){}
+		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET ); return }
+		let aargs = [ myaddress
+			, address_rcv
+			, itemdata?.item?.tokenid
+			, amounttosend
+			, '0x00'
+		]
+//		LOGGER('' , aargs)
+	//	return 
+		let abistr = getabistr_forfunction( {
+			contractaddress : ADDRESSES.erc1155
+			, abikind : 'ERC1155'
+			, methodname : 'safeTransferFrom'
+			, aargs
+		} )
+		LOGGER( '' , abistr )
+		requesttransaction({
+			
+		})
+/** 		function safeTransferFrom (
+			address from,
+			address to,
+			uint256 id,
+			uint256 amount,
+			bytes calldata data
+		) external ;
+	*/
+	return 
 		const { klaytn } = window;
     const transactionParameters = {
       from: klaytn.selectedAddress,
@@ -93,20 +141,18 @@ function HandOver({ store, setConnect }) {
                                 <span
                                   class="hoimg"
                                   style={{
-                                    backgroundImage: `url(${itemdata.item?.url})`,
+                                    backgroundImage: `url(${itemdata?.item?.url})`,
                                     backgroundRepeat: "no-repeat",
                                     backgroundPosition: "center",
                                     backgroundSize: "cover",
                                   }}
                                 ></span>
                                 <div class="ho_info">
-                                  <h3>renoir collection</h3>
-                                  <h4>Verger de pommiers</h4>
-                                  <h5>
-                                    Register the collection logo. Please select
-                                    an image file.
-                                    <br />
-                                    Square image (recommended size 350 x 350)
+                                  <h3>{ ' '}</h3>{/** renoir collection */}
+                                  <h4>{ itemdata?.item?.titlename }</h4>
+																	<h5>{ itemdata?.item?.description }
+																	<h5>&nbsp;</h5>
+																	<h5> You have {mybalance} of token #{ itemdata?.item?.tokenid }</h5>
                                   </h5>
                                 </div>
                               </li>
@@ -123,11 +169,46 @@ function HandOver({ store, setConnect }) {
                           </p>
                           <div class="inputbox">
                             <input
+															value={address_rcv}
                               type="text"
-                              placeholder="Ex) 0x8df35...   or   wallet001.KLAY"
-                            />
+															placeholder="Ex) 0x8df35...   or   wallet001.KLAY"
+															onChange={evt=>{
+																let {value} =evt.target
+																setaddress_rcv ( value )
+																if ( value && value.length ){
+																	if (is_eth_address_valid ( value )){	setisaddressvalid(true ) }
+																	else {	setisaddressvalid(false )}
+																}
+																else {setisaddressvalid( true )
+																}																
+															}}
+                            />														
                           </div>
+													<span style={{color:'red',fontSize:'12px'}}>{ isaddressvalid? '' : 'Invalid address'} </span>
                         </li>
+
+                        <li class="padline">
+                          <h3>
+                            Amount
+                          </h3>
+                          <div class="inputbox">
+                            <input style={{textAlign:'right'}}
+															value={ amounttosend }
+                              type="text"
+															placeholder={`max (${mybalance})` }
+															onChange={evt=>{
+																let {value} =evt.target
+																if ( ISFINITE(+value)){}
+																else {SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY); return }
+																if ( mybalance && +value <= mybalance ){setisamountvalid (true)}
+																else {setisamountvalid(false) ; return}
+																setamounttosend( value )
+															}}
+                            />														
+                          </div>
+													<span style={{color:'red',fontSize:'12px'}}>{ isamountvalid ? '' : 'Amount exceeds balance'} </span>
+                        </li>
+												
                       </ul>
                     </div>
                   </form>

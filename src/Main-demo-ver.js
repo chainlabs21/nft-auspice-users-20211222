@@ -1029,7 +1029,7 @@ function Main({ store }) {
                       <a onClick={() => navigate("/myprof")}>My Profile</a>
                     </li>
                     <li>
-                      <a onClick={() => navigate("/myitem")}>My Items</a>
+                      <a onClick={() => navigate("/myitem")}>My Ite ms</a>
                     </li>
                     <li>
                       <a onClick={() => navigate("/liked")}>My Favourite</a>
