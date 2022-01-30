@@ -33,51 +33,75 @@ import { ADDRESSES } from "../config/addresses";
 import { PAYMENT_TOKEN_ADDRESS_DEF
 	, REFERER_FEE_RATE_DEF
 } from '../config/configs'
+import { getweirep } from '../util/eth'
 function AuctionBid({ store, setConnect }) {
   const navigate = useNavigate()
 	const [ verifyPopup, setVerifyPopup] = useState(false);
 	let [ searchParams, setSearchParams ] = useSearchParams()
 	let [ itemid , setitemid ] = useState ()
-	let [ itemdatabatched , setitemdatabatched ] = useState()
+	let [ itemdata , setitemdata ] = useState()
+	let [ amounttoauction , setamounttoauction]= useState( '')
 	let [ bidamount_start , setbidamount_start] = useState( '')
 	let [ bidamount_threshold , setbidamount_threshold ]=useState()
 	let [ daystoclose , setdaystoclose ] = useState( '3 days later' )
 	let [ expiry , setexpiry ] = useState()
-
+	let [ myaddress , setmyaddress ] = useState( getmyaddress() ) 
 	let axios = applytoken()
-	let myaddress = getmyaddress()
+	
 	const onclickpostsale=_=>{
 		let days=daystoclose.split(/ /)[0]
 		let expiry = moment().add( +days , 'days' ).endOf('day').unix()
 		LOGGER( '' , itemid , bidamount_start , bidamount_threshold ,  expiry )
-		if ( itemdatabatched?.item?.tokenid ) {}
+		if ( itemdata?.item?.tokenid ) {}
 		else {	SetErrorBar ( messages.MSG_PLEASE_MINT_AHEAD ) ; return }
-		const timenow = moment()
+		const timenow = moment(); let timenowunix = timenow.unix()
 		let abistr = getabistr_forfunction ({
 			contractaddress : ADDRESSES.auction_repo_english
 			, abikind : 'AUCTION_ENGLISH'
 			, methodname : 'begin_auction_batch'
-			, aargs : [ ADDRESSES.auction_repo_english
+			, aargs : [ ADDRESSES.erc1155 // auction_repo_english
 				, myaddress
-				, [ ''+itemdatabatched?.item?.tokenid ]
-				, []
+				, [ ''+itemdata?.item?.tokenid ]
+				, [ amounttoauction ]
 				, PAYMENT_TOKEN_ADDRESS_DEF
-				, bidamount_start
-				, timenow.unix()
-				, timenow.add ( days , 'days' ).unix()
+				, getweirep (bidamount_start ) 
+				, timenowunix // timenow.unix()
+				, expiry // timenow.add ( days , 'days' ).unix()
 				, REFERER_FEE_RATE_DEF
 				, '0x00'
 			] 
 		})
+		LOGGER( '' , abistr ) //		alert(  abistr ) //		return 
 		requesttransaction( { from : myaddress
-			, to : ADDRESSES.erc1155
+			, to : ADDRESSES.auction_repo_english // erc1155
 			, data : abistr
 			, value : '0x00'
 		}).then(resp=>{ LOGGER( '' , resp )
-			let { transactionHash , status } = resp
-			LOGGER( 'qrXkVAqkKu' , transactionHash , status )
+			let { transactionHash , status } = resp //			LOGGER( 'qrXkVAqkKu' , transactionHash , status )
+			if ( status ){
+				let reqbody={					itemid : itemdata?.item?.itemid
+					, tokenid : itemdata?.item?.tokenid
+					, amount : amounttoauction
+					, startingtime : timenowunix
+					, startingprice : bidamount_start
+					, expiry 
+					, username : myaddress
+					, matcher_contract : ADDRESSES.auction_repo_english
+					, token_repo_contract : ADDRESSES.erc1155
+				}
+				axios.post ( API.API_REPORT_TX_AUCTION_ENGLISH + `/${transactionHash}` , reqbody ).then(resp=>{ LOGGER('' , resp.data )
+					let {status}=resp.data 
+					if ( status =='OK'){
+						SetErrorBar (messages.MSG_DONE_REGISTERING )
+					}
+				})
+			}
+			else {
+				SetErrorBar( messages.MSG_TX_FAILED )
+			}
 		}).catch(err =>{
 			LOGGER( 'FdNPZN8Dxa' , err )
+			SetErrorBar( messages.MSG_USER_DENIED_TX )
 		})
 		//	let { from , to , data , value } = jdata
 /** 			_target_contract , // ", 				"internalType": "address",
@@ -100,20 +124,20 @@ _calldata // ",					" internalType": "bytes",
 	} , [] )
 	useEffect( _=>{
 		let itemid=searchParams.get('itemid')
-		if (itemid ){ setitemid( itemid )}
+		if ( itemid ){ setitemid( itemid )}
 		else {SetErrorBar( messages.MSG_PLEASE_SPECIFY_QUERY_VALUE ) ; return }
-		let itemdatabatched
+		let itemdata
 		axios.get( `${API.API_GET_ITEM_DATA}/${itemid}`).then(resp=>{
 			LOGGER( 'oWWjCVhIpY' , resp.data )
 			let { status , respdata }=resp.data
 			if ( status =='OK'){
-				itemdatabatched = respdata
-				setitemdatabatched ( respdata ) 				
+				itemdata = respdata
+				setitemdata ( respdata )
 			} else {
 				SetErrorBar(messages.MSG_PLEASE_SPECIFY_QUERY_VALUE )
 			}
 		})
-/** let tokenid = itemdatabatched?.item?.tokenid || 2
+/** let tokenid = itemda tabatched?.item?.tokenid || 2
 		if( tokenid ){}
 		else {SetErrorBar(messages.MSG_DATANOTFOUND) } // ; return 
 		query_nfttoken_balance ( ADDRESSES.erc1155 , myaddress , tokenid ).then (resp=>{
@@ -138,8 +162,8 @@ _calldata // ",					" internalType": "bytes",
                       alt=""
                     />
                   </a>
-                  <span></span>
-                  <strong>Henry junior's Item</strong>
+                  <span style={{backgroundImage: `url(${itemdata?.item?.url})`}}></span>
+                  <strong>Title: { itemdata?.item?.titlename }</strong>
                 </div>
                 <div class="sell_wrap">
                   <div class="create create3">
@@ -149,7 +173,7 @@ _calldata // ",					" internalType": "bytes",
                           <li>
                             <h3>Choose a sales method</h3>
                             <ol>
-                              <li onClick={() => navigate("/salefixed")}>
+                              <li onClick={() => navigate("/salefixed?itemid=" + `${itemdata?.item?.itemid}`)}>
                                 <a>
                                   <h4>Fixed Price</h4>
                                   <span>
@@ -186,7 +210,52 @@ _calldata // ",					" internalType": "bytes",
                               </li>
                             </ol>
                           </li>
-                          <li>
+                          
+													<li>
+                            <div class="Minimum input2">
+                              <div class="top2">
+                                <h3>Amount to auction</h3>
+                                <div class="icon">
+                                  <a> <img src={ require("../img/sub/auction_icon.png")                                          .default                                      }                                      alt=""                                    />
+                                    <div class="bubble_info">
+                                      <div class="bubble">
+                                        <img src={ require("../img/sub/bubble_icon.png")                                              .default                                          }                                          alt=""                                        />
+                                        <p>Amount to auction
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </a>
+                                </div>
+                                <p>Out of max ({itemdata?.item?.countcopies })</p>
+                                <div class="toggle border_1">
+                                  <div class="select_left">
+                                    <img src={ require('../img/header/logo.png').default                                      }                                      alt=""                                    />
+                                    <select name="" id="">
+                                      <option>#{ itemdata?.item?.tokenid }</option>
+                                    </select>
+                                  </div>
+                                  <div class="input_right">
+                                    <input value={ amounttoauction }
+                                      type="number"
+                                      placeholder=""
+																			onkeydown="onlyNumber(this)"
+																			onChange={evt=>{
+																				let {value }=evt.target
+																				if ( ISFINITE( +value)){}
+																				else {return}
+																				if (+value<= itemdata?.item?.countcopies ){}
+																				else {SetErrorBar( messages.MSG_EXCEEDS_BALANCE) ; return }
+																				setamounttoauction ( value )
+																			}}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+	
+{/******** */}
+													<li>
                             <div class="Minimum input2">
                               <div class="top2">
                                 <h3>Starting bid</h3>

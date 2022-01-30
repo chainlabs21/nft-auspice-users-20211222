@@ -55,6 +55,14 @@ function MyProf({ store, setConnect }) {
 	let [ myinfo_mongo , setmyinfo_mongo ]=useState()
 	let [ listitems , setlistitems ]=useState( [] )
 	let axios= applytoken()
+	const fetchitems=_=>{
+		axios.get( `${API.API_MYITEMS}/${myaddress}/0/10/id/DESC`).then(resp=>{ LOGGER( 'wyBPdUnid7' , resp.data )
+			let { status , list }=resp.data 
+			if ( status =='OK' ){
+				setlistitems( list )
+			}
+		})
+	}
 	useEffect( _=>{
 		axios.get( `${API.API_GET_MY_INFO}` ).then(resp=>{ LOGGER( 'up9xNJ6kwp' , resp.data )
 			let { status , payload }=resp.data
@@ -63,12 +71,13 @@ function MyProf({ store, setConnect }) {
 				setmyinfo_mongo ( payload.mongo )
 			} else {}
 		})
-		axios.get( `${API.API_MYITEMS}/${myaddress}/0/10/id/DESC`).then(resp=>{ LOGGER( 'wyBPdUnid7' , resp.data )
+		fetchitems()
+/** 		axios.get( `${API.API_MYITEMS}/${myaddress}/0/10/id/DESC`).then(resp=>{ LOGGER( 'wyBPdUnid7' , resp.data )
 			let { status , list }=resp.data 
 			if ( status =='OK' ){
 				setlistitems( list )
 			}
-		})
+		}) */
 	} , [] )
 
   function getSelectText() {
@@ -489,14 +498,16 @@ SetErrorBar( messages.MSG_COPIED)
 																				<li class="heart off">{ elem.item?.countfavors }</li>
 																				<li
 																					class="dot"
-																					onClick={(e) => onClickMoreBtn(e, 0)}
+																					onClick={(e) => onClickMoreBtn(e, idx )}
 																				>
-																					{morePopupIndex === 0 && (
+																					{morePopupIndex === idx && (
 																						<div class="choose">
 																							<ul>
-																								<li>Sale</li>
-																								<li
-																									onClick={(e) =>
+																								<li onClick={e=>{
+																									navigate(`/salefixed?itemid=${elem.item?.itemid}`)
+																								}}
+																								>Sale</li>
+																								<li																									onClick={(e) =>
 																										{	// onClickLink(e, "/handover")
 																											navigate ( `/handover?itemid=${elem.item?.itemid}`)
 																										}
@@ -506,7 +517,18 @@ SetErrorBar( messages.MSG_COPIED)
 																								</li>
 																								<li>Edit</li>
 																								<li>Collection Change</li>
-																								<li>Unhide</li>
+																								<li onClick={e=>{
+																									axios.put(API.API_TOGGLE_ITEM + `/${elem.item?.itemid}/visible`).then(resp=>{ LOGGER('' , resp.data)
+																										let { status}=resp.data
+																										if ( status =='OK'){
+																											SetErrorBar( messages.MSG_CHANGED )																											
+																											fetchitems()
+																										} else {
+																											SetErrorBar( messages.MSG_REQ_FAIL )
+																										}
+																									})																									
+																								}
+																								}> { elem.visible? 'Hide' : 'Unhide' }</li>
 																							</ul>
 																						</div>
 																					)}
@@ -538,7 +560,7 @@ SetErrorBar( messages.MSG_COPIED)
                                       <li class="heart off">1,389</li>
                                       <li
                                         class="dot"
-                                        onClick={(e) => onClickMoreBtn(e, 0)}
+                                        onClick={(e) => onClic kMoreBtn(e, 0)}
                                       >
                                         {morePopupIndex === 0 && (
                                           <div class="choose">
@@ -574,7 +596,7 @@ SetErrorBar( messages.MSG_COPIED)
                   </div>
                 </div>
 
-                <div class="click_thumb">
+{/**                  <div class="click_thumb">
                   <div class="thum_pic">
                     <ul>
                       <li
@@ -604,6 +626,8 @@ SetErrorBar( messages.MSG_COPIED)
                     </div>
                   )}
                 </div>
+*/}
+
               </div>
             </div>
           </div>

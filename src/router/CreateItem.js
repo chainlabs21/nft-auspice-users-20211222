@@ -128,7 +128,7 @@ function CreateItem( { store, setConnect }) {
 					, countcopies
 				}
 				if (resp){
-					axios.post (`${API.API_MINT_TX_REPORT}/${itemid}/${txhash}/${myaddress}` , reqbody) // t/:hexid/:txhash/:address'
+					axios.post (`${API.API_REPORT_TX_MINT}/${itemid}/${txhash}/${myaddress}` , reqbody) // t/:hexid/:txhash/:address'
 					.then(resp=>{ LOGGER('' , resp.data )
 						let { status }=resp.data
 						if(status == 'OK'){
@@ -736,7 +736,7 @@ const requesttransaction_response={
 			activeorlazymint: activ ePubl,
 		};
 		const resp = await axios.post(
-			API.API_MINT_TX_REPORT +				`/${itemid}/${mokupRndTxHash.trim()}/${userAddress}`,			body // file Resp.resp data
+			API.API_REPORT_TX_MINT +				`/${itemid}/${mokupRndTxHash.trim()}/${userAddress}`,			body // file Resp.resp data
 		);
 		if (resp.data.status === "OK") {
 			navigate(`/salefixed?itemid=${itemid}`) // fileR esp.resp data

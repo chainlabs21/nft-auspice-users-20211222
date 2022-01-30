@@ -91,9 +91,10 @@ function SingleItem({ store, setConnect , Setisloader }) {
 	let [ iscollectionbyauthorseller , setiscollectionbyauthorseller ] = useState( )
 	let [ jprofileimages , setjprofileimages ]=useState( [] )
 	let lockjprofileimages={}
-//	let [ searchParams, setSearchParams ] = useSearchParams()
-//	let [ itemid , setitemid ] = useState( searchParams( ))
-	let itemid =get_last_part_of_path ( window.location.href )
+	let [ searchParams, setSearchParams ] = useSearchParams()
+	let [ itemid , setitemid ] = useState( searchParams.get( 'itemid' ))
+	let [ referer , setreferer] = useState( searchParams.get ('referer') )
+//	let itemid =get_last_part_of_path ( window.location.href )
 	let axios = applytoken()	
 	let [ myaddress , setmyaddress ]=useState( getmyaddress() )
 	useEffect(_=>{
@@ -112,58 +113,40 @@ function SingleItem({ store, setConnect , Setisloader }) {
 		let { item }= itemData
 		let aargs =[
 			ADDRESSES.erc1155
-			, item?.itemid
-			, 0
+			, itemData.item?.itemid // item?.itemid
+			, itemData.item?.tokenid // 0
 			, sellorder.asset_amount_bid
 			, item?.authorfee
 			, item?.decimals
 			, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDRESSES.zero
 			, getweirep( sellorder?.asset_amount_ask ) 
 			, sellorder?.username
+			, myaddress
 		]
 		LOGGER( aargs )
-//		return 
+//		return 		
 		let abistr = getabistr_forfunction ( {
 			contractaddress  :ADDRESSES.matcher_simple
 			, abikind : 'MATCHER_SIMPLE'
 			, methodname : 'mint_and_match_single_simple'
 			, aargs } )
+//			return
 			requesttransaction ({
 				from : myaddress
 				, to : ADDRESSES.matcher_simple
 				, data: abistr
-				 , value : '0x00'
+				 , value : getweirep( sellorder.asset_amount_ask ) // '0x00'
 			}).then(resp=>{LOGGER('' , resp )
 				let { transactionHash , status }=resp
+				if ( status == 'OK'){
+
+				}
 			}).catch(err=>{
 				LOGGER('' , err)
-			})
-/** 				requesttransaction({ from : myaddress
-			, to : ADDRESSES.auction_repo_dutch_bulk
-			, data : abistr
-			, value : '0x00'
-		}).then(resp=>{ LOGGER( '' , resp )
-			let { transactionHash , status } = resp
-			LOGGER( '' , transactionHash , status )
-		}).catch(err=>{
-			LOGGER('' , err )
-		})
-	address _target_erc1155_contract
-			, string memory _itemid
-			, uint256 _tokenid // ignored for now
-			, uint256 _amount
-			, uint256 _author_royalty
-			, uint256 _decimals
-			, address _paymeans
-			, uint256 _price
-			, address _seller
-			, address _to
-*/	
-LOGGER( ''  , abistr )
+			}) // LOGGER( ''  , abistr )
 		return
-		if ( itemData?.item?.tokenid ){ // on chain
-		} else {
-		}
+		if ( itemData?.item?.tokenid ){ 		} // on chain
+		else {		}
 	}
 	const resolve_author_seller= itemData =>{
 		if ( itemData?.minpriceorder ){
@@ -261,7 +244,7 @@ LOGGER( ''  , abistr )
     if (userIndex < pageNum - 1) setUserIndex(userIndex + 1);
     else setUserIndex(0);
   }
-  useEffect(() => {
+  useEffect(() => { LOGGER( '8xlWxqxeC2' , itemid , referer )
 		fetchitem()
 		axios.get(`${API.API_TICKERS}/USDT`).then(resp=>{LOGGER( '' , resp.data )
 			let { status , list }=resp.data
@@ -290,9 +273,8 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
         });
       }
     }
-  }, [userIndex]);
-
-  // useEffect(() => {
+  }, [userIndex] )
+  // useE ffect(() => {
   //   const setAuctionTimer = () => {
   //     let now = moment().format("DD/MM/YYYY HH:mm:ss");
   //     let then = moment(endAutionTime).format("DD/MM/YYYY HH:mm:ss");
@@ -366,7 +348,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                         </h3>
                         <h4 class="m_sub">
                           <img src={require("../img/sub/rock.png").default} />
-                          <span class="pri">{ sellorder?.asset_amount_bid } of token {sellorder?.tokenid } </span>
+                          <span class="pri">{ sellorder?.asset_amount_bid } of token #{sellorder?.tokenid } </span>
                         </h4>
                       </div>
                     </li>
@@ -538,9 +520,8 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                               { sellorder?.asset_amount_ask } 
                               <span>&nbsp;{ 'KLAY' }</span>
                             </h4>
-                            <h5>
-                              
-															{ sellorder?.asset_amount_bid } {itemData?.tokenid}
+                            <h5>                              
+															Qty. { sellorder?.asset_amount_bid } of token #{itemData?.item?.tokenid}
                               {/** itemData.item?.normprice &&
                                 itemData.item.normprice.toLocaleString(
                                   "en",
@@ -1001,3 +982,25 @@ let orders={ asset_amount_ask: "12"
 ,updatedat: null
 ,username: "0xaec2f4dd8b08eef0c71b02f97978106d875464ed"
 ,uuid: "39326de3-438c-4ebd-b2ec-092b271db16a"}
+
+/** 				requesttransaction({ from : myaddress
+			, to : ADDRESSES.auction_repo_dutch_bulk
+			, data : abistr
+			, value : '0x00'
+		}).then(resp=>{ LOGGER( '' , resp )
+			let { transactionHash , status } = resp
+			LOGGER( '' , transactionHash , status )
+		}).catch(err=>{
+			LOGGER('' , err )
+		})
+	address _target_erc1155_contract
+			, string memory _itemid
+			, uint256 _tokenid // ignored for now
+			, uint256 _amount
+			, uint256 _author_royalty
+			, uint256 _decimals
+			, address _paymeans
+			, uint256 _price
+			, address _seller
+			, address _to
+*/	

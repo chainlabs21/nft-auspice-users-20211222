@@ -79,8 +79,10 @@ const getabistr_forfunction = jargs=>{let { contractaddress , abikind ,  methodn
 	let sig = sha256 (contractaddress + methodname )
   if( jcontracts[sig ] ){
 		contract = jcontracts[ sig ] }
-	else {        
-		contract=new web3.eth.Contract( MAP_STR_ABI[abikind] , contractaddress)
+	else {
+		LOGGER( 'JtypWUVHIP' ,sig, jcontracts[sig] , abikind , MAP_STR_ABI[abikind], contractaddress , methodname )
+		contract=new web3.eth.Contract( MAP_STR_ABI[abikind] , contractaddress )
+		LOGGER( 'aof8kNLp31' , contract)
 		jcontracts[ sig ] = contract 
 	}
 	return contract.methods[ methodname ](... aargs ).encodeABI()

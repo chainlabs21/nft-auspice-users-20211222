@@ -1,6 +1,6 @@
 
 const abi = [
-	{	name : 'mint_and_match_single_simple'
+	{		name : 'mint_and_match_single_simple'
 		, inputs : [
 			{ type : 'address' , name:'' }
 			,	{ type : 'string' , name:'' }
@@ -15,6 +15,8 @@ const abi = [
 			, { type : 'address' , name:'' }
 		]
 		, outputs : []
+		,	stateMutability : "payable"
+		, type: "function"
 	} /** 	function mint_and_match_single_simple (
 		address _target_erc1155_contract
 		, string memory _itemid

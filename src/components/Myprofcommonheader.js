@@ -37,9 +37,9 @@ const Myprofcommonheader=({store})=>{
 							<div class="wrap">
 							<div class="collection_detail">
 								<div class="pro_img">
-									<img src={require("../img/sub/home_profile.png").default} />
+									<img src={ myinfo_mongo?.profileimage || require("../img/sub/home_profile.png").default} />
 									<div class="home_icons">
-										<a>
+										<a onClick={_=>{ 										navigate('/generalsettings') 									}}>
 											<img src={require("../img/sub/re.png").default} />
 										</a>
 										<a onClick={_=>{

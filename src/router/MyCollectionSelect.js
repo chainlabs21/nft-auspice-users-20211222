@@ -211,7 +211,7 @@ function MyFavorite({ store }) {
                     <div class="mhome_wrap">
                       <ul>
                         <li>
-                          <a onClick={() => navigate("/exploredeal")}>
+                          <a onClick={() => navigate("/transactionhistory")}>
                             Transaction History
                           </a>
                         </li>
@@ -280,7 +280,8 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={() => navigate("/singleitem")}
+																			onClick={() => navigate(`/singleitem/${cont.item?.itemid}?itemid=${cont.item?.itemid}`  
+																			)}
                                       style={{
                                         backgroundImage: `url(${ cont.item?.url})`,
                                         backgroundRepeat: "no-repeat",
@@ -347,7 +348,7 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={() => navigate("/singleitem")}
+                                      onClick={() => navigate(`/singleitem/${cont.item?.itemid}`)}
                                       style={{
                                         backgroundImage: `url(${ cont.item?.url })`,
                                         backgroundRepeat: "no-repeat",

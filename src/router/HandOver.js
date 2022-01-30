@@ -34,6 +34,7 @@ import { messages } from '../config/messages'
 import { ADDRESSES } from '../config/addresses'
 import SetErrorBar from '../util/SetErrorBar'
 import { query_with_arg } from '../util/contract-calls'
+import moment from 'moment'
 function HandOver({ store, setConnect }) {
 	const navigate = useNavigate() //	let itemid =get_last_part_of_path ( window.location.href )  //	let itemid
 	let axios=applytoken()
@@ -47,6 +48,7 @@ function HandOver({ store, setConnect }) {
 	let [ isamountvalid , setisamountvalid] = useState( true ) 
 	let [ myaddress , setmyaddress] = useState ( getmyaddress() )
 	let [ mybalance , setmybalance]=useState( )
+	let [ ispageaccessvalid , setispageaccessvalid]=useState( true )
 //	LOGGER( 'TnCW2Q2S8L' , itemid )
 	useEffect(_=>{ //		let atkns= window.location.href.split(/=/) 	//	let itemid=atkns[atkns.length-1]
 		LOGGER( 'TnCW2Q2S8L' , itemid ) //		setitemid( itemid )
@@ -54,6 +56,10 @@ function HandOver({ store, setConnect }) {
 			let { status , respdata }=resp.data
 			if ( status =='OK' ) {
 				setitemdata( respdata )
+				if ( respdata.item?.tokenid ){}
+				else {SetErrorBar ( messages.MSG_PLEASE_TX_ONCHAIN );
+					setispageaccessvalid ( false )
+					return }
 				query_with_arg ({ contractaddress : ADDRESSES.erc1155 
 					, abikind : 'ERC1155' 
 					, methodname : 'balanceOf' 
@@ -84,10 +90,21 @@ function HandOver({ store, setConnect }) {
 			, aargs
 		} )
 		LOGGER( '' , abistr )
-		requesttransaction({
-			
+		requesttransaction( { from : myaddress
+			, to : ADDRESSES.erc1155
+			, data : abistr
+			, value : '0x00'
+		}).then(resp=>{ LOGGER( '' , resp )
+			let { transactionHash , status } = resp
+			LOGGER( 'qrXkVAqkKu' , transactionHash , status )
+			if ( status ){
+
+			}
+		}).catch(err =>{
+			LOGGER( 'FdNPZN8Dxa' , err )
 		})
-/** 		function safeTransferFrom (
+
+		/** 		function safeTransferFrom (
 			address from,
 			address to,
 			uint256 id,
@@ -150,10 +167,11 @@ function HandOver({ store, setConnect }) {
                                 <div class="ho_info">
                                   <h3>{ ' '}</h3>{/** renoir collection */}
                                   <h4>{ itemdata?.item?.titlename }</h4>
-																	<h5>{ itemdata?.item?.description }
+																	<h5>{ itemdata?.item?.description } </h5>
+																	<h5>{ moment( itemdata?.item?.createdat ).fromNow() }</h5>
 																	<h5>&nbsp;</h5>
 																	<h5> You have {mybalance} of token #{ itemdata?.item?.tokenid }</h5>
-                                  </h5>
+                                  
                                 </div>
                               </li>
 
@@ -168,7 +186,7 @@ function HandOver({ store, setConnect }) {
                             Gas charges are incurred when transferring.
                           </p>
                           <div class="inputbox">
-                            <input
+                            <input															disabled ={ispageaccessvalid ? false : true }
 															value={address_rcv}
                               type="text"
 															placeholder="Ex) 0x8df35...   or   wallet001.KLAY"
@@ -192,7 +210,8 @@ function HandOver({ store, setConnect }) {
                             Amount
                           </h3>
                           <div class="inputbox">
-                            <input style={{textAlign:'right'}}
+														<input disabled ={ispageaccessvalid ? false : true }
+															style={{textAlign:'right'}}
 															value={ amounttosend }
                               type="text"
 															placeholder={`max (${mybalance})` }

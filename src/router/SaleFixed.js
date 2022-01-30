@@ -76,6 +76,7 @@ function SaleFixed() {
 			}
 		})
 	} , [] )
+	
 	const do_dutch_auction= _ =>{
 		let tokenid = itemData?.item?.tokenid
 		if( tokenid ){}

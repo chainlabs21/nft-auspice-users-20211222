@@ -115,7 +115,9 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
 		, justifyContent: 'space-between'
 		, alignItems: 'center'			
 }}>
-	<img
+
+</div>
+<img
 		id="Spinner"
 		className="spinner"
 		src={I_spinner}
@@ -123,8 +125,6 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
 		style={{ display : isloader ? 'inline' : 'none' , width: '50px' , display: true? "block" : "none" ,
 		}}
 	/>
-
-</div>
 
       <nav>
         <ul>

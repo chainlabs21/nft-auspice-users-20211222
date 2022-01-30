@@ -69,13 +69,13 @@ function Main({ store }) {
 				setlist_featured ( list )
 			}
 		})
-		axios.get( `${API.API_MAIN_NEW_ITEMS}`).then(resp=>{ LOGGER( 'JBwpoHdvFv' , resp.data )
+		axios.get( `${API.API_MAIN_NEW_ITEMS}` ).then(resp=>{ LOGGER( 'JBwpoHdvFv' , resp.data )
 			let { status , list }=resp.data
 			if ( status =='OK' ) {
 				setlist_newitems ( list )
 			}
 		})
-		axios.get ( `${API.API_MAIN_TREND_ITEMS}`).then(resp=>{ LOGGER ( 'JN8wsASyiL' , resp.data )
+		axios.get ( `${API.API_MAIN_TREND_ITEMS}` ).then(resp=>{ LOGGER ( 'JN8wsASyiL' , resp.data )
 			let { status , list }=resp.data
 			if ( status =='OK'){
 				setlist_trenditems ( list )
@@ -541,7 +541,8 @@ function Main({ store }) {
                             <div class="on">
                               <ul>
                                 <li class="heart off">{ cont.countfavors }</li>
-                                <li class="star off"> {cont.countviews } </li>
+																<li class='heart off'>{cont.countviews } </li>
+                                <li class="star off"> </li>
                               </ul>
                               <div>{ cont.titlename } </div>
                               <span>{ strDot(cont.author , 10, 0)  }</span>
@@ -597,10 +598,10 @@ function Main({ store }) {
                                 <li class="star off"></li>
                               </ul>
                               <div>{ cont.titlename } </div>
-                              <span> { strDot(cont.author , 10,0) } { moment( cont.createdat ).fromNow() }</span>
+                              <span> { strDot(cont.author , 10 , 0 ) } { moment( cont.createdat ).fromNow() }</span>
 															
                               <ol>
-                                <li>{ moment ( cont.minpriceorder?.expiry ).fromNow() }</li>
+                                <li>{ cont.minpriceorder?.expiry ? moment ( cont.minpriceorder?.expiry ).fromNow() : '' }</li>
                                 <li>{ cont.askpricestats?.min } KLAY</li>
                               </ol>
                             </div>

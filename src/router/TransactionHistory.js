@@ -493,7 +493,7 @@ function MarketPlace({ store, setConnect }) {
 																}
 																alt=""
 															/>
-															<p>0.00050</p>
+															<p>{ elem.item?.countcopies }</p>
 														</div>
 													</td>
 													<td>
@@ -521,7 +521,7 @@ function MarketPlace({ store, setConnect }) {
 														</div>
 													</td>
 													<td>{ moment(elem.createdat).fromNow() }</td>
-													<td> { elem.amount } </td>
+													<td> { elem.item?.amount } </td>
 													<td onClick={_=>{														window.open ( URL_TX_SCAN[ elem.nettype ] + `/${elem.txhash}` )													}}>
 														<img
 															src={

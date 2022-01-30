@@ -44,6 +44,11 @@ const messages={
 	, MSG_ADDRESS_CHANGED : `계정이 변경되었습니다`
 	, MSG_ONCHAIN_ONLY: '토큰 아이디 발급 된 아이템에 대해서만 이용가능합니다'
 	,	MSG_PLEASE_CHECK_TOS : '약관에 동의하세요'
+	, MSG_CHANGED: `변경되었습니다`
+	, MSG_REQ_FAIL : `요청이 실패하였습니다`
+	, MSG_PLEASE_TX_ONCHAIN : '체인 상 민트 후 사용하세요'
+	, MSG_EXCEEDS_BALANCE : '잔액을 초과합니다'
+	, MSG_TX_FAILED : `트랜잭션이 실패하였습니다`
 }
 export {
 	messages	
