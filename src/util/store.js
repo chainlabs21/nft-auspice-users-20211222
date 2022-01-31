@@ -8,6 +8,7 @@ const store = createSlice({
 		myinfo : null
 		, address : null
 		, isloader : false
+		, priceklay : null
   },
   reducers: {
 		setisloader : (state, action)=>{
@@ -46,11 +47,18 @@ const store = createSlice({
 				, address : action.payload
 			}
 		}
+		, setpriceklay : ( state , action ) =>{
+			return { 
+				... state 
+				, priceklay : action.payload
+			}
+		}
   },
-});
+})
 
 export const { setisloader , setAllPopupOff, setMHeaderPopup, setConnect 
 	, setmyinfo
 	, setaddress
+	, setpriceklay
 } = store.actions;
 export default configureStore({ reducer: store.reducer });

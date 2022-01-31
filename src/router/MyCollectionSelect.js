@@ -305,7 +305,7 @@ function MyFavorite({ store }) {
                                         <ul>
                                           <li></li>
                                           <li class="dot">
-                                            <div class="choose">
+                                            <div class="choose choose2 on" >
                                               <ul>
                                                 <li>Sale</li>
                                                 <li>Hand Over</li>
@@ -372,7 +372,7 @@ function MyFavorite({ store }) {
                                         <ul>
                                           <li></li>
                                           <li class="dot">
-                                            <div class="choose">
+                                            <div class="choose choose2 on">
                                               <ul>
                                                 <li>Sale</li>
                                                 <li>Hand Over</li>

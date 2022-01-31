@@ -341,12 +341,12 @@ function Main({ store }) {
                         </div>
                         <div class="button">
                           <a
-                            onClick={() => navigate(`/singleitem/${cont.itemid }`)}
+                            onClick={() => navigate(`/singleitem?itemid=${cont.itemid }`)}
                           >
                             View Item
                           </a>
                           <a
-                            onClick={() => navigate(`/singleitem/${cont.itemid }`)}
+                            onClick={() => navigate(`/singleitem?itemid=${cont.itemid }`)}
                           >
                             Place a Bid
                           </a>
@@ -377,7 +377,7 @@ function Main({ store }) {
                       <span>
                         <li class="swiper-slide">
                           <a
-                            onClick={() => navigate(`/singleitem/${ cont.itemid }`)}
+                            onClick={() => navigate(`/sing leitem/${ cont.itemid }`)}
                           >
                             <div
                               style={{
@@ -530,7 +530,7 @@ function Main({ store }) {
                       <span key={index}>
                         <li class="swiper-slide">
                           <a
-                            onClick={() => navigate(`/singleitem/${cont.itemid}`)}
+                            onClick={() => navigate(`/singleitem?itemid=${cont.itemid}`)}
                             style={{
                               backgroundImage: `url(${cont.url})` , 
                               backgroundRepeat: "no-repeat",
@@ -584,7 +584,7 @@ function Main({ store }) {
                       <span key={index}>
                         <li class="swiper-slide">
                           <a
-                            onClick={() => navigate(`/singleitem/${ cont.itemid }`)}
+                            onClick={() => navigate(`/singleitem?itemid=${ cont.itemid }`)}
                             style={{
                               backgroundImage: `url(${cont.url})`,
                               backgroundRepeat: "no-repeat",
@@ -601,8 +601,8 @@ function Main({ store }) {
                               <span> { strDot(cont.author , 10 , 0 ) } { moment( cont.createdat ).fromNow() }</span>
 															
                               <ol>
-                                <li>{ cont.minpriceorder?.expiry ? moment ( cont.minpriceorder?.expiry ).fromNow() : '' }</li>
-                                <li>{ cont.askpricestats?.min } KLAY</li>
+                                <li>{ cont.minpriceorder?.expiry ? moment.unix ( cont.minpriceorder?.expiry ).fromNow() : '' }</li>
+                                <li>{ cont.minpriceorder ? `${cont.askpricestats?.min} KLAY` : '' } </li>
                               </ol>
                             </div>
                           </a>

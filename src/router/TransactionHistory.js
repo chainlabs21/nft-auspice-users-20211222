@@ -51,13 +51,15 @@ function MarketPlace({ store, setConnect }) {
 	let axios=applytoken()
 	let myaddress=getmyaddress()
 	useEffect(_=>{
+		if ( myaddress){}
+		else {return }
 		axios.get( API.API_TRANSACTIONS +`/username/${myaddress}/0/100/id/DESC` , { params : { itemdetail : 0 } }).then(resp=>{ LOGGER('' , resp.data)
 			let { status , list }=resp.data
 			if ( status =='OK'){
 				setlist ( list )
 			}
 		}) //		,  : `${apiServer}/queries/rows/transactions` // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
-	} , [] )
+	} , [ myaddress ] )
   function getSelectText() {
     switch (unit) {
       case "USD":
@@ -487,49 +489,26 @@ function MarketPlace({ store, setConnect }) {
 													</td>
 													<td>
 														<div class="name price">
-															<img
-																src={
-																	require("../img/sub/I_klaytn.svg").default
-																}
-																alt=""
-															/>
-															<p>{ elem.item?.countcopies }</p>
+															<img																src={																	require("../img/sub/I_klaytn.svg").default																}																alt=""															/>
+															<p>{ elem.price }</p>
 														</div>
 													</td>
 													<td>
 														<div class="name">
-															<img
-																src={
-																	require("../img/sub/hjcollection.png")
-																		.default
-																}
-																alt=""
-															/>
+															<img src={ require("../img/sub/hjcollection.png")																		.default}																alt=""															/>
 															<p>{ elem.from_ }</p>
 														</div>
 													</td>
 													<td>
 														<div class="name">
-															<img
-																src={
-																	require("../img/sub/hjcollection.png")
-																		.default
-																}
-																alt=""
-															/>
+															<img																src={																	require("../img/sub/hjcollection.png")																		.default																}																alt=""															/>
 															<p>{ elem.to_ }</p>
 														</div>
 													</td>
 													<td>{ moment(elem.createdat).fromNow() }</td>
-													<td> { elem.item?.amount } </td>
+													<td> { elem.amount } </td>
 													<td onClick={_=>{														window.open ( URL_TX_SCAN[ elem.nettype ] + `/${elem.txhash}` )													}}>
-														<img
-															src={
-																require("../img/sub/icon_link_off.png")
-																	.default
-															}
-															alt=""
-														/>
+														<img															src={																require("../img/sub/icon_link_off.png")																	.default															}															alt=""														/>
 													</td>
 												</tr>
 													))

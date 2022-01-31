@@ -5,8 +5,8 @@ import { API } from "../config/api";
 import { LOGGER } from "../util/common";
 import moment from 'moment'
 
-export default function ItemLikePopup({ off }) {
-  const { itemId } = useParams();
+export default function ItemLikePopup({ off , itemid }) {
+//  const { itemId } = useParams();
   const limit = 10000;
   const [data, setData] = useState([]);
 
@@ -19,9 +19,8 @@ export default function ItemLikePopup({ off }) {
   };
 
   useEffect(() => {
-    axios
-      .get(`${API.API_GET_LIKE_LIST}/${itemId}/0/${limit}/id/DESC`)
-			.then((res) => {         LOGGER( '' , res.data );
+		axios.get(`${API.API_GET_LIKE_LIST}/${itemid}/0/${limit}/id/DESC` , { params: { userdetail : 1 } } ).then((res) => {         LOGGER( '' , res.data )
+		
 				let { status , list }=res.data
 				if (status =='OK' ){
 					setData( list)
@@ -42,7 +41,7 @@ export default function ItemLikePopup({ off }) {
           <ul class="container popcon">
             {data.map((v, i) => (
               <li key={i}>
-                <span class="pop_profile"></span>
+                <span class="pop_profile" style={{backgroundImage : v.mongo?.profileimage ? `url(${v.mongo?.profileimage})` : `url(../img/sub/profile_img.png)` }}></span>
                 <h3>
                   {v.nickname}
                   <br />

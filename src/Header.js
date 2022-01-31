@@ -123,11 +123,12 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
 		src={I_spinner}
 		alt=""
 		style={{ display : isloader ? 'inline' : 'none' , width: '50px' , display: true? "block" : "none" ,
+			position:'fixed',left:'50%' ,top:'1%'
 		}}
 	/>
 
       <nav>
-        <ul>
+        <ul style={{}}>
           <li>
             <a onClick={() => navigate("/marketplace")}>Marketplace</a>
             <ol>

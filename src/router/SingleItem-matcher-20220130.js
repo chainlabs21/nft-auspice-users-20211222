@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { setConnect , setisloader , setpriceklay } from "../util/store";
+import { setConnect , setisloader } from "../util/store";
 import styled from "styled-components";
 import sample from "../img/sub/sample.png";
 import profile_img from "../img/sub/profile_img.png";
@@ -29,7 +29,7 @@ import { onClickCopy
 } from "../util/common"
 import SetErrorBar from "../util/SetErrorBar";
 import { messages } from '../config/messages'
-import { PAYMEANS_DEF , URL_TX_SCAN  , FEES_DEF, NETTYPE } from '../config/configs'
+import { PAYMEANS_DEF , URL_TX_SCAN  , FEES_DEF } from '../config/configs'
 import I_heartO from "../img/main/I_heartO.svg"
 import I_heartOGray from "../img/sub/I_heartOGray.svg"
 import I_heartOPink from '../img/sub/I_heartOPink.svg'
@@ -59,9 +59,7 @@ const numFormatter = (num) => {
 		return num; // if value < 1000, nothing to do
 	}
 }
-function SingleItem({ store, setConnect , Setisloader
-	, Setpriceklay
-}) {
+function SingleItem({ store, setConnect , Setisloader }) {
   const navigate = useNavigate(); //  const { itemid } = useParams()
   const itemWrapRef = useRef();
 /**   const {    likerList,    ownerList,    salesStatus,    pur chaseStatus,    transactionHistory,    chainInformation,  } = singleItem;*/
@@ -99,10 +97,7 @@ function SingleItem({ store, setConnect , Setisloader
 //	let itemid =get_last_part_of_path ( window.location.href )
 	let axios = applytoken()	
 	let [ myaddress , setmyaddress ]=useState( getmyaddress() )
-	const getfeeamountstr=( amount,rate)=>{ let n =+amount * +rate / 10000 
-		return n.toFixed(4) // String()
-	}
-	
+	const getfeeamountstr=( amount,rate)=>
 	useEffect(_=>{
 		let { klaytn }=window
 		if ( klaytn){}
@@ -111,7 +106,7 @@ function SingleItem({ store, setConnect , Setisloader
 		setmyaddress ( myaddress )
 		myaddress && query_eth_balance( myaddress ).then(resp=>{ LOGGER( 'mylcfti0uE' , resp )
 			setmyethbalance( getethrep (resp ) )
-		} )
+		})
 	} , [ window.klaytn ] )
 //	LOGGER( '' , myaddress )
 	const onclickbuy = _ =>{
@@ -120,15 +115,14 @@ function SingleItem({ store, setConnect , Setisloader
 		let aargs =[
 			ADDRESSES.erc1155
 			, itemData.item?.itemid // item?.itemid
-//			, itemData.item?.tokenid // 0
+			, itemData.item?.tokenid // 0
 			, sellorder.asset_amount_bid
 			, item?.authorfee
-//			, item?.decimals
-//			, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDRESSES.zero
+			, item?.decimals
+			, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDRESSES.zero
 			, getweirep( sellorder?.asset_amount_ask ) 
 			, sellorder?.username
 			, myaddress
-			,  referer ? referer : ADDRESSES.zero
 		]
 		LOGGER( aargs )
 //		return 		
@@ -145,7 +139,7 @@ function SingleItem({ store, setConnect , Setisloader
 				 , value : getweirep( sellorder.asset_amount_ask ) // '0x00'
 			}).then(resp=>{LOGGER('' , resp )
 				let { transactionHash , status }=resp
-				if ( status ){
+				if ( status == 'OK'){
 					let reqbody={
 						itemid
 						, tokenid : itemData.item?.tokenid
@@ -156,11 +150,9 @@ function SingleItem({ store, setConnect , Setisloader
 						, buyer : myaddress
 						, matcher_contract : ADDRESSES.matcher_simple_20220131
 						, token_repo_contract : ADDRESSES.erc1155
-						, adminfee :		{ address : ADDRESSES.vault , amount: getfeeamountstr(sellorder?.asset_amount_ask ,FEES_DEF.ADMIN) , rate: FEES_DEF.ADMIN } // 
-						, refererfee : referer ?	{ address : referer ,amount:getfeeamountstr(sellorder?.asset_amount_ask ,FEES_DEF.REFERER ),rate: FEES_DEF.REFERER } : null
-						, authorfee :		{ address : itemData?.item?.author ,amount: getfeeamountstr(sellorder?.asset_amount_ask , itemData.item?.authorfee ) ,rate: itemData?.item?.authorfee }
-						, sellorderuuid : sellorder?.uuid
-						, nettype : NETTYPE
+						, adminfee :		{ address : ADDRESSES.vault , amount: getfeeamountstr(sellorder.asset_amount_ask ,FEES_DEF.ADMIN) , rate: FEES_DEF.ADMIN } // 
+						, refererfee : referer ?	{ address : referer ,amount:getfeeamountstr(sellorder.asset_amount_ask ,FEES_DEF.REFERER ),rate: FEES_DEF.REFERER } : null
+						, authorfee :		{ address : sellorder.author ,amount: getfeeamountstr(sellorder.asset_amount_ask , itemData.item?.authorfee ) ,rate: itemData?.item?.authorfee }
 					}
 					axios.post (API.API_REPORT_TX_CLOSE_SPOT + `/${transactionHash}` , reqbody).then(resp=>{ LOGGER('G6OvdxLxyA' , resp.data )
 						let { status }=resp.data 
@@ -171,7 +163,6 @@ function SingleItem({ store, setConnect , Setisloader
 				}
 			}).catch(err=>{
 				LOGGER('' , err)
-				SetErrorBar(messages.MSG_USER_DENIED_TX )
 			}) // LOGGER( ''  , abistr )
 		return
 		if ( itemData?.item?.tokenid ){ 		} // on chain
@@ -249,7 +240,7 @@ function SingleItem({ store, setConnect , Setisloader
 				}
 			}
 		})
-		axios.get(`${API.API_TRANSACTIONS}/itemid/${itemid}/0/100/id/DESC`).then(resp=>{ LOGGER( 'KF5RW8IBDT' , resp.data )
+		axios.get(`${API.API_TRANSACTIONS}/itemid/${itemid}/0/100/id/DESC`).then(resp=>{ LOGGER("" , resp.data )
 			let {status , list}=resp.data
 			if(status =='OK'){
 				settransactionHistory( list )
@@ -337,7 +328,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
     <SignPopupBox>
       {ownerPopup && <ItemOwnerPopup off={setOwnerPopup} />}
 
-      {likePopup && <ItemLikePopup off={setLikePopup} itemid={itemid}/>}
+      {likePopup && <ItemLikePopup off={setLikePopup} />}
 
       {bidPopup && (
         <div class="popup info" id="info_popup" style={{ display: "block" }}>
@@ -376,7 +367,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                           <span>{ itemData?.item?.titlename } </span>{/**Blackman with neon */}
                         </h3>
                         <h4 class="m_sub">
-                          <img style={{width:'60px'}} src={require("../img/header/logo.png").default} />
+                          <img src={require("../img/sub/rock.png").default} />
                           <span class="pri">{ sellorder?.asset_amount_bid } of token #{sellorder?.tokenid } </span>
                         </h4>
                       </div>
@@ -401,23 +392,14 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                       </div>
                     </li>
                   </ul>
-
-
-                  <ul>
-                    <li>										
-											<p class="rec_t"  >
-                        Your balance<span class="red" style={{color:'black'}} > {strDot( myaddress, 8,2)}</span>
-                      </p>
-                      <div class="right_price m_left">
-                        <h4 class="blue">
-                          <img src={require("../img/sub/rock.png").default} />
-                          { myethbalance }<span class="pri">
-(${ priceklay && myethbalance ? +priceklay * + myethbalance: '' })</span>
-                        </h4>
-                      </div>
-                    </li>
-                  </ul>
-
+                    <li><p class='rec_t'>your balance</p>
+										<div class='right_price m_left'>
+											<h4 className='m_sub'>
+												{myethbalance}
+											</h4>
+										</div>
+										
+										 </li>
                 </div>
                 <form class="ckb_wrap">
                   <div class="ckb" style={{display : itemData?.item?.isreviewed ? 'none' : 'block'}}>
@@ -516,7 +498,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                           />
                         </a>
                         <a>
-                          <img src={require("../img/sub/alert.png").default} />
+                          <img src={require("../img/sub/alert.png").default} />													
                         </a>
 
                         <a onClick={_=>{
@@ -545,7 +527,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
 														}
 													})
 												}}												
-												><img src={ require("../img/sub/bookmark.png").default }></img> </a>
+												><img src={ require("../img/sub/alert.png").default }></img> </a>
                       </div>
                     </div>
                     <div class="boxes">
@@ -922,9 +904,8 @@ setBidPopup ( true )
                                 <div>{ cont?.item?.titlename }</div>
                                 <span>{ cont?.item?.author?.nickname }</span>
                                 <ol>
-																	<li>{ cont?.minpriceorder? moment.unix( cont?.minpriceorder?.expiry ).fromNow() : 
-																		moment(cont?.item?.createdat).toNow()  }</li>
-                                  <li>{ cont?.minpriceorder? `${cont?.minpriceorder?.price} KLAY` : ''} </li>
+                                  <li>6 minutes left</li>
+                                  <li>1.67 KLAY</li>
                                 </ol>
                                 <p>Buy Now</p>
                               </div>
@@ -987,7 +968,6 @@ function mapDispatchToProps(dispatch) {
   return {
 		setConnect: () => dispatch(setConnect()),
 		Setisloader : payload => dispatch ( setisloader ( payload ))
-		, Setpriceklay : payload => dispatch ( setpriceklay ( payload ))
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SingleItem);

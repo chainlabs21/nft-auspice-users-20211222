@@ -37,11 +37,11 @@ export const API = {
 //	, API_SELLER_ITEMS_01 : `${apiServer}/queries/rows/fieldvalues/orders` // /:tablename/:offset/:limit/:orderkey/:orderval //			let {fieldname , fieldvalues , itemdetail } = req.query	
 	, API_TRANSACTIONS : `${apiServer}/queries/rows/transactions` // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 	, API_USER_FAVORITES : `${apiServer}/queries/rows/logfavorites`
-	, API_REPORT_TX_AUCTION_ENGLISH : `${apiServer}/transactions/report/auction/english`
+	, API_REPORT_TX_AUCTION_ENGLISH : `${apiServer}/transactions/report/auction/english/open`
 	, API_EDIT_ITEM : `${apiServer}/items/item` // /:itemid/:fieldname/:fieldval' 
 	, API_TOGGLE_ITEM : `${apiServer}/items/item/toggle` // /:itemid/:fieldname/:fieldval , 
 
-	//																			 /rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval'
-//																			'/rows/fieldvalues/:tablename/:offset/:limit/:orderkey/:orderval' 
+	, API_REPORT_TX_CLOSE_SPOT : `${apiServer}/transactions/report/sale/close` // txhash
 
+	, API_LOGFEEPAYS : `${apiServer}/queries/rows/logfeepayouts` // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 }

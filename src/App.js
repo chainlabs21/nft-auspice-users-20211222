@@ -57,7 +57,23 @@ import { LOGGER , PARSER , STRINGER } from './util/common'
 function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
-  const { mHeaderPopup } = useSelector((state) => state.store);
+	const { mHeaderPopup } = useSelector((state) => state.store)
+	const login= address =>{
+		axios.post ( API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" } )
+		.then((resp) => {
+			let { status, respdata } = resp.data;
+			if (status === "OK") {
+				localStorage.setItem("token", respdata);
+				axios.defaults.headers.common["token"] = resp.data.respdata;
+				localStorage.setItem ('address' , address )
+				Setaddress ( address )
+				SetErrorBar( messages.MSG_ADDRESS_CHANGED + `: ${address}` )
+			} else if (status === "ERR") {
+				localStorage.removeItem("token");
+				axios.defaults.headers.common["token"] = "";
+			}
+		})
+	}
   const on_wallet_disconnect = (_) => {
     let token_sec = localStorage.getItem("token")
 		if (token_sec) {    } 
@@ -86,27 +102,34 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
 		let str_myinfo
 		if ( store.myinfo ){}
 		else if ( str_myinfo = localStorage.getItem ( 'myinfo' )){	Setmyinfo ( PARSER ( str_myinfo )   )	 }
-		return
+//		return
     if (token) {
       try {
         axios.defaults.headers.common["token"] = token;
         console.log("default Token:", token);
         const resp = await axios.get(API.API_GET_MY_INFO);
-        dispatch({ type: GET_USER_DATA.type, payload: resp.data });
-        console.log("login");
+//        dispatch({ type: GET_USER_DATA.type, payload: resp.data });
+				LOGGER( '' , resp.data)
+				let { status }=resp.data
+				if ( status =='OK' ){ let address_local=localStorage.getItem('address')
+					if ( resp.data.username == address_local ) {}
+					else {
+						await on_wallet_disconnect()
+						login ( address_local )
+					}
+				} // console.log("login");
       } catch (error) {
         console.log(error);
       }
     } else {
       return;
     }
-  };
+  }
 
   useEffect( async _ => {
 		let { klaytn }=window
 		if ( klaytn ){}
 		else { return }
-
     klaytn.on("accountsChanged", async (accounts) => {			console.log(accounts);
 			let address = accounts[ 0 ]
 			let address_local = localStorage.getItem ( 'address' )
@@ -115,20 +138,7 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
 			await on_wallet_disconnect ()
       if ( address ) { // disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
 //				Setaddress( address )				
-        axios.post ( API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" } )
-          .then((resp) => {
-            let { status, respdata } = resp.data;
-            if (status === "OK") {
-              localStorage.setItem("token", respdata);
-							axios.defaults.headers.common["token"] = resp.data.respdata;
-							localStorage.setItem ('address' , address )
-							Setaddress ( address )
-							SetErrorBar( messages.MSG_ADDRESS_CHANGED + `: ${address}` )
-            } else if (status === "ERR") {
-              localStorage.removeItem("token");
-              axios.defaults.headers.common["token"] = "";
-            }
-          });
+				login( address )
       } else {
         SetErrorBar(messages.MSG_WALLET_DISCONNECTED);
         on_wallet_disconnect();
@@ -138,19 +148,23 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
 
 	useEffect(() => { LOGGER ( 'poMFHstZg8' , window.klaytn?.selectedAddress )
 		setTimeout(_=>{
-			let {klaytn}=window
-			if(klaytn){}
+			let { klaytn }=window
+			if( klaytn ){}
 			else {return }
 			let { selectedAddress : address } = klaytn
 			if( address ){
 				SetErrorBar( messages.MSG_CURRENT_ADDRESS_IS + address )
 				Setaddress ( address )
+				if ( localStorage.getItem('token')){
+					get_user_data()
+				}
+				else { login( address ) }
 			}
 			if ( window.klaytn?.selectedAddress ) {
-				Setaddress ( window.klaytn?.selectedAddress ) /**       dispa tch({        type: SET_ADDRESS.type,        payload: window.klaytn.selectedAddress,			});			*/
-				if (userData === null) {
-					get_user_data();
-				}
+//				Setaddress ( window.klaytn?.selectedAddress ) /**       dispa tch({        type: SET_ADDRESS.type,        payload: window.klaytn.selectedAddress,			});			*/
+	//			if (userData === null) {
+		//			get_user_data();
+			//	}
 			}	
 		} , 3 * 1000 )
   }, []);
