@@ -249,12 +249,11 @@ function Liked({ store, setConnect }) {
 			</div>
 		</a>
 	</li>
-	</span>
 {list.map ( (elem, idx) =>(
-	<span key={ idx }>
-	<li >
+
+	<li key={idx}>
 		<a
-			onClick={() => navigate(`/singleitem/${elem.itemid}`)}
+			onClick={() => navigate(`/singleitem?itemid=${elem.itemid}`)}
 			style={{ backgroundImage: `url(${sample})` }}
 		>
 			<div class="on">
@@ -266,8 +265,9 @@ function Liked({ store, setConnect }) {
 			</div>
 		</a>
 	</li>
+	))}
+
 	</span>
-))}
                       </div>
                     </ol>
                   </div>

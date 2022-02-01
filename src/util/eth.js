@@ -9,9 +9,11 @@ const getweirep_hex= val =>{
 }
 const getethrep=val=>Web3.utils.fromWei( val )
 
+const is_two_addresses_same=(str0,str1)=>str0.toLowerCase() == str1.toLowerCase() 
 export {
 	is_eth_address_valid
 	, getweirep
 	, getweirep_hex
 	, getethrep
+	, is_two_addresses_same
 }

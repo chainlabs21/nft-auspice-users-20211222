@@ -301,7 +301,7 @@ function ExploreDeal() {
                       <tbody>
                         {dataList.map((cont, index) => (
                           <tr key={index} onClick={_=>{
-														navigate(`/singleitem/${cont.itemid}`)
+														navigate(`/singleitem?itemid=${cont.itemid}`)
 													}}>
                             <td>{cont.typestr}</td>
                             <td>
@@ -315,11 +315,7 @@ function ExploreDeal() {
                             </td>
                             <td>
                               <div class="name price">
-                                <img
-                                  src={
-                                    require("../img/sub/I_klaytn.svg").default
-                                  }
-                                  alt=""
+                                <img                                  src={require("../img/sub/I_klaytn.svg").default}                                  alt=""
                                 />
                                 <p>{cont.price}</p>
                               </div>

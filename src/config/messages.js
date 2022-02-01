@@ -49,6 +49,10 @@ const messages={
 	, MSG_PLEASE_TX_ONCHAIN : '체인 상 민트 후 사용하세요'
 	, MSG_EXCEEDS_BALANCE : '잔액을 초과합니다'
 	, MSG_TX_FAILED : `트랜잭션이 실패하였습니다`
+	, MSG_OUT_OF_STOCK : `판매가능한 수량이 없습니다`
+	, MSG_PLEASE_INPUT : '값을 입력하세요'
+	, MSG_NO_TX_FOUND : '거래내역이 없습니다'
+	, 
 }
 export {
 	messages	

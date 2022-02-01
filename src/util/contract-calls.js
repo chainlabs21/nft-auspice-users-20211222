@@ -11,6 +11,7 @@ import { abi as abi_admin } from '../contracts-abi/IAdmin'
 import { abi as abi_erc1155 } from '../contracts-abi/IERC1155'
 import { abi as abi_auction_repo_dutch_bulk } from '../contracts-abi/IAuctionRepoDutchBulk'
 import { abi as abi_auction_repo_english } from '../contracts-abi/IAuctionRepoEnglish'
+import { abi as abi_auction_repo_english_simple } from '../contracts-abi/IAuctionRepoEnglish-simple-20220201'
 // import { abi as abi_matcher_simple } from '../contracts-abi/IMatcher-simple'
 import { abi as abi_matcher_simple } from '../contracts-abi/IMatcher-simple-20220131'
 // import { getweirep } from '../utils/eth'
@@ -26,6 +27,7 @@ const MAP_STR_ABI = {
 	, ERC1155 : abi_erc1155
 	, AUCTION_DUTCH_BULK : abi_auction_repo_dutch_bulk
 	, AUCTION_ENGLISH : abi_auction_repo_english
+	, AUCTION_ENGLISH_SIMPLE : abi_auction_repo_english_simple
 	, MATCHER_SIMPLE : abi_matcher_simple
 }
 const query_noarg = jargs=>{ // {contractaddress , abikind , methodname  }=

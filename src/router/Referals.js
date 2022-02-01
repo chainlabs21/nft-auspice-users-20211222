@@ -51,7 +51,11 @@ function Referals({ store, setConnect }) {
 	useEffect(_=>{
 		if (myaddress){}
 		else {return }
-		axios.get(API.API_LOGFEEPAYS + `/receiver/${myaddress}/0/10/id/DESC` , {params : {itemdetail : 1 }}).then(resp=>{ LOGGER('' , resp.data 	)
+		axios.get(API.API_LOGFEEPAYS + `/receiver/${myaddress}/0/10/id/DESC` , 
+			{params : {itemdetail : 1
+				, filterkey : 'receiverrolestr'
+				, filterval : 'REFERER'
+			}}).then(resp=>{ LOGGER('' , resp.data 	)
 			let { status , list}=resp.data
 			if ( status =='OK'){
 				setlist ( list )

@@ -78,11 +78,9 @@ function MarketPlace({ store, setConnect }) {
     // categoryFilter
     const categoryFiltered = temp.filter((v) => {
       if (categoryFilter === "All") return true;
-
       if (v.item.categorystr === categoryFilter) return true;
       else return false;
     });
-
     // statusFilter
     let statusFiltered = [...categoryFiltered];
     let statusToggle = false;
@@ -160,11 +158,11 @@ function MarketPlace({ store, setConnect }) {
   };
 
 /*  useEffect(() => {
-    axios.get(`${API.API_GET_ITEM_LIST}/single/latest/0/10`).then((res) => {
+    axios.g et(`${API.API_GET_ITEM_LIST}/single/latest/0/10`).then((res) => {
       console.log(res.data.list);
       setItemList(res.data.list);
       setFiltere dList(res.data.list);
-      setTotalItem(res.data.list.length);
+      setTotalI tem(res.data.list.length);
     });
     if (location?.state) {
       setCategoryFilter(location.state);
@@ -173,9 +171,10 @@ function MarketPlace({ store, setConnect }) {
 */
   useEffect(() => {
 		axios.get( `${API.API_MERCHANDISES_LIST}` ).then(resp=>{ LOGGER( 'wgNCeNKxXL' , resp.data )
-			let { status , list } = resp.data
+			let { status , list , payload } = resp.data
 			if ( status == 'OK'){
 				setFilteredList ( list ) 
+				setTotalItem ( payload?.count )
 			}
 		})
 	} , [] );
@@ -574,14 +573,13 @@ function MarketPlace({ store, setConnect }) {
                         <div>
                           { filteredList.map((v, i) => {
                             return (
-                              <span>
+                              <span key={i}>
                                 <li>
                                   <a
                                     onClick={() =>
-                                      navigate(`/singleitem/${v.item.itemid}`)
+                                      navigate(`/singleitem?itemid=${v.item.itemid}`)
                                     }
-                                    style={{
-                                      //backgroundImage: `url(${v.imgsrc})`,
+                                    style={{	//backgroundImage: `url(${v.imgsrc})`,
                                       backgroundImage: `url(${v.item?.url})`,
                                       backgroundRepeat: "no-repeat",
                                       backgroundPosition: "center",
@@ -592,16 +590,16 @@ function MarketPlace({ store, setConnect }) {
                                       <ul>
                                         <li>
                                           <img src={heart_off} alt="" />
-                                          {v.item.countfavors}
+                                          {v.item?.countfavors}
                                         </li>
                                         <li>
-                                          <img src={star_off} alt="" />
+                                          <img src={v.ilikethisitem? 'star_on' : 'star_off'} alt="" />
                                         </li>
                                       </ul>
-                                      <div>{v.item.titlename}</div>
-                                      <span>{v.item.owner}</span>
+                                      <div>{v.item?.titlename}</div>
+                                      <span>{v.author?.nickname }</span>
                                       <ol>
-                                        <li>{/* {moment().toNow()} */}</li>
+<li>{ v.minpriceorder?.expiry ? 'expires '+moment.unix(v.minpriceorder?.expiry ).fromNow(): 'created '+moment(v.item?.createdat).fromNow() } </li>
                                         <li>
                                           {putCommaAtPrice(v.askpricestats?.min )}{" "}
                                           { PAYMEANS_DEF }

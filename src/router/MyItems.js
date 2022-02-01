@@ -102,7 +102,7 @@ function MyItems({ store, setConnect }) {
                                         </li>
                                         <li
                                           onClick={(e) =>
-                                            onClickLink(e, "loyaltycheck")
+                                            onClickLink(e, "royaltycheck")
                                           }
                                         >
                                           Royalty

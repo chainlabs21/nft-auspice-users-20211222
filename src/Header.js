@@ -18,7 +18,9 @@ import { setAllPopupOff, setMHeaderPopup
 import { getmyaddress } from "./util/common";
 import { strDot } from "./util/Util";
 import I_spinner from "./img/icons/I_spinner.svg";
-
+import { onClickCopy } from './util/common'
+import SetErrorBar from "./util/SetErrorBar";
+import { messages } from "./config/messages";
 function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
   const navigate = useNavigate();
   const { mHeaderPopup } = useSelector((state) => state.store);
@@ -122,7 +124,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
 		className="spinner"
 		src={I_spinner}
 		alt=""
-		style={{ display : isloader ? 'inline' : 'none' , width: '50px' , display: true? "block" : "none" ,
+		style={{ display : isloader ? 'inline' : 'none' , width: '50px' ,
 			position:'fixed',left:'50%' ,top:'1%'
 		}}
 	/>
@@ -260,7 +262,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
               </li>
             </ol>
           </li>
-          <li style={{display : address ? 'block' : 'none'}}>
+          <li style={{display : address ? 'inline' : 'none'}}>
             <a onClick={() => navigate("/myprof")}>Mypage</a>
             <ol>
               <li>
@@ -281,7 +283,10 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
             <a>ENG</a>
           </li>
           <li class="wallet" style={{width: '200px'}}>
-            <a onClick={onClickConnectWallet}>
+            <a onClick={e=>{
+							address && onClickCopy (address) && SetErrorBar( messages.MSG_COPIED )
+							onClickConnectWallet() 						
+						}}>
               { address ? strDot(address , 4,2)  : "Connect Wallet" }
             </a>
 {/*             <span>{address}</span> */}

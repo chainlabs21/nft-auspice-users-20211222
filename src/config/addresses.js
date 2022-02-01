@@ -20,6 +20,8 @@ const ADDRESSES={
 	, payroll_fees : '0xe34bb854d830f176ad79931f35c15ea0a3d9b30d'
 	, auction_repo_dutch_bulk : '0x9f4f61b4384f83145e19c70f37e3ea27a303764d'
 	, auction_repo_english : '0xe2a872985331c95f6462b3e4dfb6b640687a17a6' // <= owner : 0xa9379265c524ead779cf4f2964c6453c0055c9ad
+
+	, auction_repo_english_simple : '0x04ed6c881dfcc6532f1c4ee9604dfac0e59a2faf'
 	, zero  : '0x0000000000000000000000000000000000000000'
 	, 
 }

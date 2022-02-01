@@ -48,9 +48,7 @@ function AuctionBid({ store, setConnect }) {
 	let [ myaddress , setmyaddress ] = useState( getmyaddress() ) 
 	let axios = applytoken()
 	
-	const onclickpostsale=_=>{ let myaddress =  getmyaddress()
-		if ( myaddress){}
-		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET ); return }
+	const onclickpostsale=_=>{
 		let days=daystoclose.split(/ /)[0]
 		let expiry = moment().add( +days , 'days' ).endOf('day').unix()
 		LOGGER( '' , itemid , bidamount_start , bidamount_threshold ,  expiry )
@@ -58,13 +56,13 @@ function AuctionBid({ store, setConnect }) {
 		else {	SetErrorBar ( messages.MSG_PLEASE_MINT_AHEAD ) ; return }
 		const timenow = moment(); let timenowunix = timenow.unix()
 		let abistr = getabistr_forfunction ({
-			contractaddress : ADDRESSES.auction_repo_english_simple // erc1155 // 
-			, abikind : 'AUCTION_ENGLISH_SIMPLE'
-			, methodname : 'begin_auction_simple' // begin_auction_batch'
+			contractaddress : ADDRESSES.auction_repo_english
+			, abikind : 'AUCTION_ENGLISH'
+			, methodname : 'begin_auction_batch'
 			, aargs : [ ADDRESSES.erc1155 // auction_repo_english
 				, myaddress
-				, itemdata?.item?.tokenid // []
-				, ''+amounttoauction // []
+				, [ ''+itemdata?.item?.tokenid ]
+				, [ amounttoauction ]
 				, PAYMENT_TOKEN_ADDRESS_DEF
 				, getweirep (bidamount_start ) 
 				, timenowunix // timenow.unix()
@@ -73,14 +71,12 @@ function AuctionBid({ store, setConnect }) {
 				, '0x00'
 			] 
 		})
-// alright:0x22213b6d000000000000000000000000ff817302e7b6d116cdff1a730508551ee155787500000000000000000000000083f714ad20e34748516e8367faf143abde6c3783000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016345785d8a00000000000000000000000000000000000000000000000000000000000061f7f970000000000000000000000000000000000000000000000000000000006245c1f00000000000000000000000000000000000000000000000000000000000000064000000000000000000000000000000000000000000000000000000000000014000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000		
-// failed :0x22213b6d000000000000000000000000ff817302e7b6d116cdff1a730508551ee155787500000000000000000000000083f714ad20e34748516e8367faf143abde6c37830000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e043da6172500000000000000000000000000000000000000000000000000000000000061f90b0a0000000000000000000000000000000000000000000000000000000061ffe26f0000000000000000000000000000000000000000000000000000000000000064000000000000000000000000000000000000000000000000000000000000014000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000
 		LOGGER( '' , abistr ) //		alert(  abistr ) //		return 
 		requesttransaction( { from : myaddress
-			, to : ADDRESSES.auction_repo_english_simple // erc1155
+			, to : ADDRESSES.auction_repo_english // erc1155
 			, data : abistr
 			, value : '0x00'
-		}).then(resp=>{ LOGGER( 'xMMrjGsBuK' , resp )
+		}).then(resp=>{ LOGGER( '' , resp )
 			let { transactionHash , status } = resp //			LOGGER( 'qrXkVAqkKu' , transactionHash , status )
 			if ( status ){
 				let reqbody={					itemid : itemdata?.item?.itemid
@@ -93,7 +89,6 @@ function AuctionBid({ store, setConnect }) {
 					, matcher_contract : ADDRESSES.auction_repo_english
 					, token_repo_contract : ADDRESSES.erc1155
 				}
-				LOGGER( 'jfG6EHcIaO' ,reqbody)
 				axios.post ( API.API_REPORT_TX_AUCTION_ENGLISH + `/${transactionHash}` , reqbody ).then(resp=>{ LOGGER('' , resp.data )
 					let {status}=resp.data 
 					if ( status =='OK'){
@@ -126,7 +121,6 @@ _calldata // ",					" internalType": "bytes",
 		let bidamount_threshold = getrandomint ( bidamount_start+1 , 20 )
 		setbidamount_start ( bidamount_start )
 		setbidamount_threshold ( bidamount_threshold )
-		window.getmyaddress= getmyaddress
 	} , [] )
 	useEffect( _=>{
 		let itemid=searchParams.get('itemid')
@@ -232,10 +226,10 @@ _calldata // ",					" internalType": "bytes",
                                     </div>
                                   </a>
                                 </div>
-                                <p>Out of ({ itemdata?.itembalance?.avail || '0'})</p>
+                                <p>Out of max ({itemdata?.item?.countcopies })</p>
                                 <div class="toggle border_1">
                                   <div class="select_left">
-                                    <img src={ require('../img/header/logo.png').default } alt=""                                    />
+                                    <img src={ require('../img/header/logo.png').default                                      }                                      alt=""                                    />
                                     <select name="" id="">
                                       <option>#{ itemdata?.item?.tokenid }</option>
                                     </select>
@@ -332,11 +326,21 @@ _calldata // ",					" internalType": "bytes",
                                 <h3>Minimum bid</h3>
                                 <div class="icon">
                                   <a>
-                                    <img src={require("../img/sub/auction_icon.png").default} alt=""
+                                    <img
+                                      src={
+                                        require("../img/sub/auction_icon.png")
+                                          .default
+                                      }
+                                      alt=""
                                     />
                                     <div class="bubble_info">
                                       <div class="bubble">
-                                        <img src={require("../img/sub/bubble_icon.png").default}                                          alt=""
+                                        <img
+                                          src={
+                                            require("../img/sub/bubble_icon.png")
+                                              .default
+                                          }
+                                          alt=""
                                         />
                                         <p>
                                           You can always accept a sale even if

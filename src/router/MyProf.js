@@ -63,6 +63,17 @@ function MyProf({ store, setConnect }) {
 			}
 		})
 	}
+	const onclickhide=itemid=>{
+		axios.put(API.API_TOGGLE_ITEM + `/${itemid}/visible`).then(resp=>{ LOGGER('' , resp.data)
+		let { status}=resp.data
+		if ( status =='OK'){
+			SetErrorBar( messages.MSG_CHANGED )																											
+			fetchitems()
+		} else {
+			SetErrorBar( messages.MSG_REQ_FAIL )
+		}
+	})
+	}
 	useEffect( _=>{
 		axios.get( `${API.API_GET_MY_INFO}` ).then(resp=>{ LOGGER( 'up9xNJ6kwp' , resp.data )
 			let { status , payload }=resp.data
@@ -481,8 +492,9 @@ SetErrorBar( messages.MSG_COPIED)
 																return (
 																	<li key={ idx }
 																		class={selectItemIndex === 0 && "click"}
-																		onClick={() => { setSelectItemIndex(0)
-																			navigate(`/singleitem/${elem.itemid}`)
+																		onClick={e => {	e.preventDefault();	e.stopPropagation()
+																			setSelectItemIndex(0)
+																			navigate(`/singleitem?itemid=${elem.itemid}`)
 																		} }
 																	>
 																	<a
@@ -507,7 +519,7 @@ SetErrorBar( messages.MSG_COPIED)
 																									navigate(`/salefixed?itemid=${elem.item?.itemid}`)
 																								}}
 																								>Sale</li>
-																								<li																									onClick={(e) =>
+																								<li onClick={(e) =>
 																										{	// onClickLink(e, "/handover")
 																											navigate ( `/handover?itemid=${elem.item?.itemid}`)
 																										}
@@ -517,16 +529,7 @@ SetErrorBar( messages.MSG_COPIED)
 																								</li>
 																								<li>Edit</li>
 																								<li>Collection Change</li>
-																								<li onClick={e=>{
-																									axios.put(API.API_TOGGLE_ITEM + `/${elem.item?.itemid}/visible`).then(resp=>{ LOGGER('' , resp.data)
-																										let { status}=resp.data
-																										if ( status =='OK'){
-																											SetErrorBar( messages.MSG_CHANGED )																											
-																											fetchitems()
-																										} else {
-																											SetErrorBar( messages.MSG_REQ_FAIL )
-																										}
-																									})																									
+																								<li onClick={e=>{	onclickhide( elem.item?.itemid )
 																								}
 																								}> { elem.visible? 'Hide' : 'Unhide' }</li>
 																							</ul>

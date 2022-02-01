@@ -295,7 +295,7 @@ function Main({ store }) {
             </p>
             <div>
               <a onClick={() => navigate("/marketplace")}>NFT Navigation</a>
-              <a onClick={() => navigate("/marketplace")}>NFT Publication</a>
+              <a onClick={() => navigate("/createitem")}>NFT Publication</a>
             </div>
           </div>
           <div class="swiper" ref={visualSwiperContRef}>
@@ -540,12 +540,12 @@ function Main({ store }) {
                           >
                             <div class="on">
                               <ul>
-                                <li class="heart off">{ cont.countfavors }</li>
-																<li class='heart off'>{cont.countviews } </li>
+                                <li class={ cont.ilikethisitem? 'heart on' : "heart off"} >{ cont.countfavors }</li>
+																<li ><img src={require('./img/sub/eye.jpg').default }></img>{cont.countviews } </li>
                                 <li class="star off"> </li>
                               </ul>
                               <div>{ cont.titlename } </div>
-                              <span>{ strDot(cont.author , 10, 0)  }</span>
+                              <span>{ strDot(cont.author?.nickname , 10, 0)  }</span>
                               <ol>
                                 <li>{ moment.unix(cont.minpriceorder?.expiry).fromNow() || get_deltatime_str ( cont.minpriceorder?.expiry ) }</li>
                                 <li>{ cont.askpricestats?.min } KLAY</li>
@@ -598,7 +598,7 @@ function Main({ store }) {
                                 <li class="star off"></li>
                               </ul>
                               <div>{ cont.titlename } </div>
-                              <span> { strDot(cont.author , 10 , 0 ) } { moment( cont.createdat ).fromNow() }</span>
+                              <span> { strDot(cont.author?.username , 10 , 0 ) } { moment( cont.createdat ).fromNow() }</span>
 															
                               <ol>
                                 <li>{ cont.minpriceorder?.expiry ? moment.unix ( cont.minpriceorder?.expiry ).fromNow() : '' }</li>

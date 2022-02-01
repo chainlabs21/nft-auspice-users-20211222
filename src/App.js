@@ -3,6 +3,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import Main from "./Main";
 import Header from "./Header";
+
 import ConnectWallet from "./router/ConnectWallet";
 import EmailRequired from "./router/EmailRequired";
 import RecentEmail from "./router/RecentEmail";
@@ -11,6 +12,7 @@ import Signup from "./router/Signup";
 import EmailFailed from "./router/EmailFailed";
 import SignupComplete from "./router/SignupComplete";
 import SentEmail from "./router/SentEmail";
+
 import MarketPlace from "./router/MarketPlace";
 import SingleItem from "./router/SingleItem";
 import BundleItem from "./router/BundleItem";
@@ -19,7 +21,7 @@ import CreateCollection from "./router/CreateCollection";
 import EditCollection from "./router/EditCollection";
 import ImportContract from "./router/ImportContract";
 import MyCollectionSelect from "./router/MyCollectionSelect";
-import LoyaltyCheck from "./router/LoyaltyCheck";
+import Royaltycheck from "./router/Royaltycheck";
 import CreateItem from "./router/CreateItem";
 import SaleFixed from "./router/SaleFixed";
 import AuctionBid from "./router/AuctionBid";
@@ -54,6 +56,7 @@ import { GET_USER_DATA } from "./reducers/userSlice";
 import GlobalStyle from "./components/globalStyle";
 import { setmyinfo , setaddress } from './util/store'
 import { LOGGER , PARSER , STRINGER } from './util/common'
+import { is_two_addresses_same } from "./util/eth";
 function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
@@ -109,14 +112,17 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
         console.log("default Token:", token);
         const resp = await axios.get(API.API_GET_MY_INFO);
 //        dispatch({ type: GET_USER_DATA.type, payload: resp.data });
-				LOGGER( '' , resp.data)
-				let { status }=resp.data
+				LOGGER( '@myinfo' , resp.data)
+				let { status , payload }=resp.data
 				if ( status =='OK' ){ let address_local=localStorage.getItem('address')
-					if ( resp.data.username == address_local ) {}
-					else {
-						await on_wallet_disconnect()
-						login ( address_local )
+					if ( address_local){
+						if ( is_two_addresses_same( payload?.maria?.username , address_local ) ) {}
+						else {
+							await on_wallet_disconnect()
+							login ( address_local )
+						}	
 					}
+					else {}
 				} // console.log("login");
       } catch (error) {
         console.log(error);
@@ -133,7 +139,7 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
     klaytn.on("accountsChanged", async (accounts) => {			console.log(accounts);
 			let address = accounts[ 0 ]
 			let address_local = localStorage.getItem ( 'address' )
-			if ( address == address_local ){ return }
+			if ( is_two_addresses_same(address , address_local)  ){ return }
 			else {}
 			await on_wallet_disconnect ()
       if ( address ) { // disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
@@ -156,7 +162,7 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
 				SetErrorBar( messages.MSG_CURRENT_ADDRESS_IS + address )
 				Setaddress ( address )
 				if ( localStorage.getItem('token')){
-					get_user_data()
+//					get_user_data()
 				}
 				else { login( address ) }
 			}
@@ -218,7 +224,7 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
           <Route path="/editcollection" element={<EditCollection />} />
           <Route path="/importcontract" element={<ImportContract />} />
           <Route path="/mycollectionselect" element={<MyCollectionSelect />} />
-          <Route path="/loyaltycheck" element={<LoyaltyCheck />} />
+          <Route path="/royaltycheck" element={<Royaltycheck />} />
 
           <Route path="/createitem" element={<CreateItem />} />
           <Route path="/salefixed" element={<SaleFixed />} />

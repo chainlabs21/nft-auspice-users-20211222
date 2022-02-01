@@ -479,7 +479,9 @@ function MarketPlace({ store, setConnect }) {
                           <tr key={ idx }>
 													<td> { elem.typestr }</td>
 													<td>
-														<div class="name">
+														<div class="name" onClick={e=>{
+															navigate(`/singleitem?itemid=${elem.item?.itemid}`)
+														}}>
 															<img style={{borderRadius:'50%', width:'70px'}}
 																src={	elem.item?.url || require("../img/sub/hjcollection.png").default																}
 																alt=""

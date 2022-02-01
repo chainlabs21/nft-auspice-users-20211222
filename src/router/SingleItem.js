@@ -1,6 +1,8 @@
 import { connect } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { setConnect , setisloader , setpriceklay } from "../util/store";
+import { setConnect , setisloader , setpriceklay
+	, setitemid
+} from "../util/store";
 import styled from "styled-components";
 import sample from "../img/sub/sample.png";
 import profile_img from "../img/sub/profile_img.png";
@@ -60,7 +62,7 @@ const numFormatter = (num) => {
 	}
 }
 function SingleItem({ store, setConnect , Setisloader
-	, Setpriceklay
+	, Setpriceklay , Setitemid
 }) {
   const navigate = useNavigate(); //  const { itemid } = useParams()
   const itemWrapRef = useRef();
@@ -72,7 +74,7 @@ function SingleItem({ store, setConnect , Setisloader
 //  const [endAutionTime, setEndAutionTime] = useState( singleItem.auctionExpiry ) 
   // const [diffTime, setDiffTime] = useState();
 //  const [nearEnd, setNearEnd] = useState(false);
-	const [itemData, setItemData] = useState({});
+	const [itemdata, setItemData] = useState({});
 	let [ itemdataaux , setitemdataaux ] = useState()
 	const [ userIndex, setUserIndex ] = useState(0)
 	let [ transactionHistory , settransactionHistory ] = useState ( [] )
@@ -115,12 +117,12 @@ function SingleItem({ store, setConnect , Setisloader
 	} , [ window.klaytn ] )
 //	LOGGER( '' , myaddress )
 	const onclickbuy = _ =>{
-		LOGGER( '' , itemData.item?.itemid ) // query_nfttoken_balance () // a little cumbersome
-		let { item }= itemData
+		LOGGER( '' , itemdata.item?.itemid ) // query_nfttoken_balance () // a little cumbersome
+		let { item }= itemdata
 		let aargs =[
 			ADDRESSES.erc1155
-			, itemData.item?.itemid // item?.itemid
-//			, itemData.item?.tokenid // 0
+			, itemdata.item?.itemid // item?.itemid
+//			, itemdata.item?.tokenid // 0
 			, sellorder.asset_amount_bid
 			, item?.authorfee
 //			, item?.decimals
@@ -148,8 +150,8 @@ function SingleItem({ store, setConnect , Setisloader
 				if ( status ){
 					let reqbody={
 						itemid
-						, tokenid : itemData.item?.tokenid
-						, amount : itemData.item?.countcopies
+						, tokenid : itemdata.item?.tokenid
+						, amount : itemdata.item?.countcopies
 						, price : sellorder?.asset_amount_ask
 						, username : myaddress
 						, seller : sellorder?.username
@@ -158,7 +160,7 @@ function SingleItem({ store, setConnect , Setisloader
 						, token_repo_contract : ADDRESSES.erc1155
 						, adminfee :		{ address : ADDRESSES.vault , amount: getfeeamountstr(sellorder?.asset_amount_ask ,FEES_DEF.ADMIN) , rate: FEES_DEF.ADMIN } // 
 						, refererfee : referer ?	{ address : referer ,amount:getfeeamountstr(sellorder?.asset_amount_ask ,FEES_DEF.REFERER ),rate: FEES_DEF.REFERER } : null
-						, authorfee :		{ address : itemData?.item?.author ,amount: getfeeamountstr(sellorder?.asset_amount_ask , itemData.item?.authorfee ) ,rate: itemData?.item?.authorfee }
+						, authorfee :		{ address : itemdata?.item?.author ,amount: getfeeamountstr(sellorder?.asset_amount_ask , itemdata.item?.authorfee ) ,rate: itemdata?.item?.authorfee }
 						, sellorderuuid : sellorder?.uuid
 						, nettype : NETTYPE
 					}
@@ -174,12 +176,12 @@ function SingleItem({ store, setConnect , Setisloader
 				SetErrorBar(messages.MSG_USER_DENIED_TX )
 			}) // LOGGER( ''  , abistr )
 		return
-		if ( itemData?.item?.tokenid ){ 		} // on chain
+		if ( itemdata?.item?.tokenid ){ 		} // on chain
 		else {		}
 	}
-	const resolve_author_seller= itemData =>{
-		if ( itemData?.minpriceorder ){
-			let {username} = itemData?.minpriceorder // ?.username
+	const resolve_author_seller= itemdata =>{
+		if ( itemdata?.minpriceorder ){
+			let {username} = itemdata?.minpriceorder // ?.username
 			axios.get(API.API_OWNED_ITEMS + `/${username}/0/10/id/DESC`).then(resp=>{ LOGGER('' , resp.data )
 				let {status , list }=resp.data
 				if ( status=='OK'){
@@ -188,8 +190,8 @@ function SingleItem({ store, setConnect , Setisloader
 			})
 			setiscollectionbyauthorseller ( 'seller')
 		}
-		else	{// return itemData?.author?.username
-			let { username}= itemData?.author
+		else	{// return itemdata?.author?.username
+			let { username}= itemdata?.author
 			axios.get(API.API_AUTHORS_ITEMS + `/${username}/0/10/id/DESC`).then(resp=>{ LOGGER( '' , resp.data )
 				let { status , list }=resp.data 
 				if ( status =='OK'){
@@ -199,14 +201,16 @@ function SingleItem({ store, setConnect , Setisloader
 			setiscollectionbyauthorseller ( 'author' )
 		}
 	}
-	const fetchitem= _ => {
+	const fetchitem= itemid => {
 		Setisloader ( true )
     axios.get(`${API.API_GET_ITEM_DATA}/${itemid}`).then((res) => {	LOGGER( 'agwwiWSDdf' , res.data )
 			let { status , respdata }=res.data
 			if ( status =='OK'){
 				setItemData( respdata )
-				let {orders_sellside} = respdata
+				let {orders_sellside } = respdata
 				setorders_sell ( orders_sellside )
+				setilikethis( respdata.ilikethisitem )
+				setibookmarkthis ( respdata.ibookmarkthis )
 				if (orders_sellside && orders_sellside.length){
 					orders_sellside.forEach ( ( elem  , idx )  =>{
 						axios.get(API.API_USER_INFO +`/${elem.username}`).then(resp=>{ LOGGER( 'V9kbW2K1sr' , resp.data )
@@ -224,7 +228,7 @@ function SingleItem({ store, setConnect , Setisloader
 					})
 				}
 //				setauthor ( respdata.author_mongo )
-//				axios.get( API.API_OWNED_ITEMS + `/${}`)
+//				axio s.get( API.API_OWNED_ITEMS + `/${}`)
 				resolve_author_seller( respdata )
 			}
 			Setisloader ( false )
@@ -234,18 +238,19 @@ function SingleItem({ store, setConnect , Setisloader
 			if ( status == 'OK'){
 				setitemdataaux ( respdata )
 				setauthor ( respdata.author_mongo )
-/** 				setlogorders ( respdata.logorders )
-				let { logprices , logact ions } =respdata
+				setlogorders ( respdata.logorders )
+				let { logprices }=respdata
 				setlogprices ( logprices )
+				setpricestats ( getMaxMinAvg ( logprices.map(elem=>elem.price) ) )
+/** 				setlogo rders ( respdata.log orders )
+				let { logp rices , logact ions } =respdata
+				setlogpri ces ( logpr ices )
 				setlogactions ( logact ions )
-				setpricestats ( getMaxMinAvg ( logprices ) )*/
+				setprice stats ( getMaxMinAvg ( lo gprices ) )*/
 				if ( respdata.transactions ) {
-					// settransactionHistory ( respdata.transactions )
- 					setlogorders ( respdata.logorders )
-					let { logprices , logactions } =respdata
-					setlogprices ( logprices )
-//					setlogactions ( logactions )
-					setpricestats ( getMaxMinAvg ( logprices ) )
+					// settransactionHistory ( respdata.transactions ) 					
+//					let { logp rices , logactions } =respdata					
+//					setlogactions ( logactions )					
 				}
 			}
 		})
@@ -274,7 +279,7 @@ function SingleItem({ store, setConnect , Setisloader
     else setUserIndex(0);
   }
   useEffect(() => { LOGGER( '8xlWxqxeC2' , itemid , referer )
-		fetchitem()
+		fetchitem( itemid )
 		axios.get(`${API.API_TICKERS}/USDT`).then(resp=>{LOGGER( '' , resp.data )
 			let { status , list }=resp.data
 			if ( status =='OK'){
@@ -282,7 +287,11 @@ function SingleItem({ store, setConnect , Setisloader
 			}
 		})
   }, [] )
-
+	useEffect(_=>{		let { itemid}=store
+		if ( itemid){}
+		else {return }
+		fetchitem( itemid )
+	} , [ store.itemid ])
   useEffect(() => {
 return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
@@ -356,7 +365,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
               <h2>Purchase receipt</h2>
             </div>
             <div class="list_bottom buy_nft">
-              <p class="warn" style={{display: itemData?.item?.isreviewed ? 'none':'block'}}>
+              <p class="warn" style={{display: itemdata?.item?.isreviewed ? 'none':'block'}}>
                 Warning! Contains items
                 <br /> that have not been reviewed and approved
               </p>
@@ -373,7 +382,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                         <h3>
                           { convertLongString( 8 , 4 , sellorder?.username)  }
                           <br />
-                          <span>{ itemData?.item?.titlename } </span>{/**Blackman with neon */}
+                          <span>{ itemdata?.item?.titlename } </span>{/**Blackman with neon */}
                         </h3>
                         <h4 class="m_sub">
                           <img style={{width:'60px'}} src={require("../img/header/logo.png").default} />
@@ -420,7 +429,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
 
                 </div>
                 <form class="ckb_wrap">
-                  <div class="ckb" style={{display : itemData?.item?.isreviewed ? 'none' : 'block'}}>
+                  <div class="ckb" style={{display : itemdata?.item?.isreviewed ? 'none' : 'block'}}>
                     <input type="checkbox" id="chk" name="chk1" />
                     <label for="chk">
                       Aware that Itemverse contains one item that has not been
@@ -456,7 +465,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
           <div class="wrap">
             <div class="bundle_top">
               <div class="bun_tl">
-                <div class="bun_tl_img" style={{backgroundImage :  `url(${itemData?.item?.url})`  }} >
+                <div class="bun_tl_img" style={{backgroundImage :  `url(${itemdata?.item?.url})`  }} >
                   <div class="bt artist">
                     <h2>
 										{/**  <img src={author?.profileimage}></img>*/}
@@ -468,7 +477,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                           backgroundSize: "cover",
                         }}
                       ></span>
-                      @{ itemData.author?.nickname }
+                      @{ itemdata.author?.nickname }
                     </h2>
                   </div>
                   <div class="bt likes">
@@ -477,7 +486,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
 											} }
                       class="like_heart off"
                     >
-                      <h2>{itemData.item?.countfavors} Likes</h2>
+                      <h2>{itemdata.item?.countfavors} Likes</h2>
                     </a>
                   </div>
                   <div class="views">
@@ -486,15 +495,15 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                         className="ownerBox"
                         onClick={() => setOwnerPopup(true)}
                       >
-                        <h3>{itemData.countholders}</h3>
-                        <h4>Owner</h4>
+                        <h3>{itemdata.countholders}</h3>
+                        <h4>{ itemdata.countholders && itemdata.countholders>1? 'Owners' : 'Owner'} </h4>
                       </li>
                       <li>
-                        <h3>{itemData.item?.countcopies}</h3>
-                        <h4>Fragment</h4>
+                        <h3>{itemdata.item?.countcopies}</h3>
+                        <h4> { itemdata.item?.countcopies && itemdata.item?.countcopies>1? 'Fragments' : 'Fragment' }</h4>
                       </li>
                       <li>
-                        <h3>{numFormatter(itemData.item?.countviews)}</h3>
+                        <h3>{numFormatter(itemdata.item?.countviews)}</h3>
                         <h4>views</h4>
                       </li>
                     </ul>
@@ -506,10 +515,10 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                 <div class="bun_right">
                   <div class="right_t">
                     <div class="tt">
-                      <h2>{itemData?.item?.titlename}</h2>
+                      <h2>{itemdata?.item?.titlename}</h2>
                       <div class="icons">
                         <a onClick={_=>{
-													fetchitem()
+													fetchitem( itemdata?.item?.itemid )
 												}}> 
                           <img
                             src={require("../img/sub/refresh.png").default}
@@ -530,8 +539,8 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
 													axios.post ( `${API.API_TOGGLE_FAVOR}/${itemid}` ).then(resp=>{	LOGGER( '' , resp.data )
 														let { status , respdata }=resp.data
 														if ( status =='OK'){
-															if ( respdata) {setilikethis ( true) ; SetErrorBar (messages.MSG_FAVORITED )} 
-															else { setilikethis ( false ) ; SetErrorBar ( messages.MSG_UNFAVORITED ) }
+															if ( respdata) {setilikethis ( true) ; SetErrorBar (messages.MSG_FAVORITED ); fetchitem( itemid )   } 
+															else { setilikethis ( false ) ; SetErrorBar ( messages.MSG_UNFAVORITED ); fetchitem( itemid ) }
 														}
 													})
 												}}><img src={ilikethis ? I_heartOPink : I_heartOGray}></img></a>
@@ -545,23 +554,23 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
 														}
 													})
 												}}												
-												><img src={ require("../img/sub/bookmark.png").default }></img> </a>
+><img src={ibookmarkthis ? require("../img/sub/bookmark-solid.png").default : require("../img/sub/bookmark.png").default }></img> </a>
                       </div>
                     </div>
                     <div class="boxes">
                       <h2>Owner public content include</h2>
                       <div class="black_box">
                         <ul>
-                          <li> {/** itemData.item?.price */}
+                          <li> {/** itemdata.item?.price */}
                             <h3>Price</h3>
                             <h4>
                               { sellorder?.asset_amount_ask } 
                               <span>&nbsp;{ 'KLAY' }</span>
                             </h4>
                             <h5>                              
-															Qty. { sellorder?.asset_amount_bid } of token #{itemData?.item?.tokenid}
-                              {/** itemData.item?.normprice &&
-                                itemData.item.normprice.toLocaleString(
+															Qty. { sellorder?.asset_amount_bid } of token #{itemdata?.item?.tokenid}
+                              {/** itemdata.item?.normprice &&
+                                itemdata.item.normprice.toLocaleString(
                                   "en",
                                   "US"
                                 )*/}
@@ -588,7 +597,7 @@ setBidPopup ( true )
             <div class="bun_full">
               <div class="desc">
                 <h2 class="i_title">Description</h2>
-                <p>{itemData.item?.description}</p>
+                <p>{itemdata.item?.description}</p>
               </div>
             </div>
             <div class="bundle_top top2">
@@ -747,12 +756,12 @@ setBidPopup ( true )
                                   alt=""
                                 />
                                 <p>
-                                  {v.tokenprice} KLAY{" "}
-                                  <span>(${v.priceusd})</span>
+                                  {v.price} KLAY{" "}
+                                  <span>(Qty. {v.asset_amount_bid })</span>
                                 </p>
                               </div>
                             </td>
-                            <td>{moment(v.expired).toNow()}</td>
+                            <td>{moment(v.createdat).fromNow()}</td>
                             <td class="blue">{v.buyer}</td>
                           </tr>
                         ))}
@@ -904,19 +913,20 @@ setBidPopup ( true )
                 <div class="swiper-container swiper-container-trendingitem">
                   <ol class="item item4 buy swiper-wrapper">
                     <div className="slideBox" ref={itemWrapRef}>
-                      { listotheritems.filter(elem => elem.item?.itemid == itemid ? false : true).sort((a,b)=> a.id-b.id ).map((cont, index) => (
+{ listotheritems.filter(elem => elem.item?.itemid == itemid ? false : true).sort((a,b)=> a.id-b.id ).map((cont, index) => (
 
 												<span key={index}>
                           <li
                             class="swiper-slide"
-														onClick={() =>{ // window.location.reload()
-															navigate(`/singleitem/${cont.item?.itemid}`)
+														onClick={() =>{ LOGGER('abc')// window.location.reload()
+															Setitemid(cont.item?.itemid)
+															navigate(`/singleitem?itemid=${cont.item?.itemid}`)
 														}}
                           >
                             <a style={{ backgroundImage: `url(${cont.item?.url })` }}>
                               <div class="on">
                                 <ul>
-                                  <li class="heart off">{ cont?.countfavors }</li>
+                                  <li class={cont.ilikethisitem? 'heart on' : "heart off"} >{ cont?.countfavors }</li>
                                   <li class="star off"></li>
                                 </ul>
                                 <div>{ cont?.item?.titlename }</div>
@@ -988,6 +998,7 @@ function mapDispatchToProps(dispatch) {
 		setConnect: () => dispatch(setConnect()),
 		Setisloader : payload => dispatch ( setisloader ( payload ))
 		, Setpriceklay : payload => dispatch ( setpriceklay ( payload ))
+		, Setitemid : payload => dispatch( setitemid ( payload ) )
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SingleItem);

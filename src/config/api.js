@@ -30,6 +30,7 @@ export const API = {
 	, API_MAIN_TREND_ITEMS : `${apiServer}/queries/rows/items/active/1/0/10/countviews/DESC`
 	, API_MAIN_FEATURED_ITEMS :`${apiServer}/queries/rows/items/isfeatured/1/0/10/id/DESC`
 	, API_MERCHANDISES_LIST : `${apiServer}/merchandises/single/latest/0/10`
+//	, API_MERCHANDISES_LIST : `${apiServer}/merchandises/single/latest/0/10`
 	, API_MYITEMS : `${apiServer}/queries/rows/itembalances/username` // /${username}/0/10/id/DESC	
 	, API_OWNED_ITEMS : `${apiServer}/queries/rows/itembalances/username` // /${username}/0/10/id/DESC
 	, API_AUTHORS_ITEMS : `${apiServer}/queries/rows/items/author`
@@ -40,8 +41,7 @@ export const API = {
 	, API_REPORT_TX_AUCTION_ENGLISH : `${apiServer}/transactions/report/auction/english/open`
 	, API_EDIT_ITEM : `${apiServer}/items/item` // /:itemid/:fieldname/:fieldval' 
 	, API_TOGGLE_ITEM : `${apiServer}/items/item/toggle` // /:itemid/:fieldname/:fieldval , 
-
 	, API_REPORT_TX_CLOSE_SPOT : `${apiServer}/transactions/report/sale/close` // txhash
-
 	, API_LOGFEEPAYS : `${apiServer}/queries/rows/logfeepayouts` // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
+	, API_HIDDEN : `${apiServer}/queries/rows/itembalances/username` 
 }

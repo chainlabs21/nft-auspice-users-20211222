@@ -20,6 +20,8 @@ import { getmyaddress , LOGGER} from "../util/common";
 import { applytoken } from "../util/rest";
 import { API } from "../config/api";
 import moment from 'moment'
+import { messages} from '../config/messages'
+import SetErrorBar from '../util/SetErrorBar'
 
 function MyFavorite({ store }) {
   const navigate = useNavigate();
@@ -29,40 +31,69 @@ function MyFavorite({ store }) {
 	let [ myaddress , setmyaddress ]=useState( getmyaddress() )
 	let axios=applytoken ()
 	let [ info_maria , setinfo_maria ] = useState()
-	let [ info_mongo , setinfo_mongo] = useState()
+	let [ info_mongo , setinfo_mongo ] = useState()
+	let [ info_stats , setinfo_stats ] = useState()
 	let [ list_created , setlist_created]=useState( [] )
 	let [ list_sales , setlist_sales] = useState( [] )
 	let [ list_auction , setlist_auction] = useState( [] )
-	useEffect(_=>{
-		if (myaddress){} else {return }
+	const setsalepath=cont=>{
+		LOGGER('' )
+		if ( cont.itembalance?.avail ){
+			navigate (`/salefixed?itemid=${cont.item?.itemid}`)
+			return
+		}
+		else { SetErrorBar( messages.MSG_OUT_OF_STOCK ) ; return }
+	}
+	const onclickhide=itemid=>{
+		axios.put( API.API_TOGGLE_ITEM + `/${itemid}/visible`).then(resp=>{ LOGGER('' , resp.data)
+			let { status }=resp.data
+			if ( status =='OK'){
+				SetErrorBar( messages.MSG_CHANGED )																											
+//				fetchitems()
+			} else {
+				SetErrorBar( messages.MSG_REQ_FAIL )
+			}
+		})
+	}
+	const fetchdata=_=>{
 		axios.get( API.API_USER_INFO + `/${myaddress}`).then(resp=>{ LOGGER('' , resp.data )
 			let { status , payload }=resp.data
 			if ( status =='OK'){
 				setinfo_maria( payload.maria )
 				setinfo_mongo( payload.mongo )
+				setinfo_stats (payload.stats )
 			}
 		})
-		axios.get( API.API_AUTHORS_ITEMS + `/${myaddress}/0/10/id/DESC`).then(resp=>{ LOGGER( '' , resp.data )
+		axios.get( API.API_AUTHORS_ITEMS + `/${myaddress}/0/10/id/DESC`).then(resp=>{ LOGGER( 'JgCY99Hc83' , resp.data )
 			let { status , list }=resp.data
 			if ( status =='OK' ){
 				setlist_created ( list )
 			}
 		})
 		axios.get( API.API_SELLER_ITEMS_00 + `/${myaddress}/0/10/id/DESC` 
-			, {params: { itemdetail : 1 ,filterkey: 'typestr' , filterval: 'COMMON' }}).then(resp=>{ LOGGER('' , resp.data )
+			, {params: { itemdetail : 1 ,filterkey: 'typestr' , filterval: 'COMMON' }}).then(resp=>{ LOGGER('kxdvjHSJHx' , resp.data )
 			let { status , list }=resp.data
 			if ( status =='OK'){
 				setlist_sales ( list )
 			}
 		})
 		axios.get( API.API_SELLER_ITEMS_00 + `/${myaddress}/0/10/id/DESC`
-		, {params: {itemdetail : 1 , filterkye :'typestr', filterval : 'AUCTION-ENGLISH'}}).then(resp =>{ LOGGER ( '' , resp.data)
+		, {params: {itemdetail : 1 , filterkey :'typestr', filterval : 'AUCTION-ENGLISH'}}).then(resp =>{ LOGGER ( 'yduWcdU26V' , resp.data)
 			let { status , list}=resp.data
 			if ( status =='OK'){
 				setlist_auction ( list )
 			}
 		})		
+	}
+	useEffect(_=>{
+		window.getmyaddress = getmyaddress
+		if (myaddress){} else {return }
+		fetchdata()
 	} , [] )
+	useEffect(_=>{
+		if (myaddress){} else {return }
+		fetchdata()
+	} , [ myaddress ])
 //	, API_SELLER_ITEMS : `${apiServer}/queries/rows/fieldvalues` // /:tablename/:offset/:limit/:orderkey/:orderval
 	//			let {fieldname , fieldvalues , itemdetail } = req.query	
 	
@@ -221,7 +252,7 @@ function MyFavorite({ store }) {
                           </a>
                         </li>
                         <li>
-                          <a onClick={() => navigate("/loyaltycheck")}>
+                          <a onClick={() => navigate("/royaltycheck")}>
                             Royalty History
                           </a>
                         </li>
@@ -246,14 +277,15 @@ function MyFavorite({ store }) {
                     <li>
                       <h5>Avg price</h5>
                       <p>
-                        -<b>KLAY</b>
+                        {info_stats?.countsales ? info_stats?.sumsales / info_stats?.countsales : '0'}<b>KLAY</b>
                         <span>$ -</span>
                       </p>
                     </li>
                     <li>
                       <h5>Volume Traded</h5>
                       <p>
-                        73.12<span>$ 307.21</span>
+												{ (info_stats?.sumsales ? info_stats?.sumsales :0 ) 
+												+ (info_stats?.sumbuys ? info_stats?.sumbuys :0 )   }<span>$ -</span>
                       </p>
                     </li>
                   </ul>
@@ -280,8 +312,9 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-																			onClick={() => navigate(`/singleitem/${cont.item?.itemid}?itemid=${cont.item?.itemid}`  
-																			)}
+																			onClick={e =>{ e.preventDefault(); e.stopPropagation() // return // 
+																				navigate(`/singleitem?itemid=${cont.item?.itemid}`)   // /${cont.item?.itemid}
+																			}}
                                       style={{
                                         backgroundImage: `url(${ cont.item?.url})`,
                                         backgroundRepeat: "no-repeat",
@@ -292,7 +325,7 @@ function MyFavorite({ store }) {
                                       <div class="on">
                                         <ul>
                                           <li class="heart off">{ cont.item?.countfavors }</li>
-                                          <li class="star off"></li>
+                                          <li class={ cont.ilikethisitem? 'star on' : "star off"} ></li>
                                         </ul>
                                         <div>{ cont.item?.titlename }</div>
                                         <span>{ cont.author?.nickname }</span>
@@ -307,11 +340,20 @@ function MyFavorite({ store }) {
                                           <li class="dot">
                                             <div class="choose choose2 on" >
                                               <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
+																								<li onClick={e=>{ e.preventDefault(); e.stopPropagation()
+																									 setsalepath( cont )
+																								}}
+																								style={{ display: cont.itembalance?.avail? 'block' : 'none' }}
+																								>Sale</li>
+																								<li onClick={e=>{	e.preventDefault(); e.stopPropagation()																									
+																									navigate(`/handover?itemid=${cont.item?.itemid}`) }}
+																									style={{display : cont.item?.tokenid && cont.itembalance?.avail ? 'block' : 'none'}}
+																								>Hand Over</li>
+                                                <li style={{display:'none'}}>Edit</li>
+                                                <li style={{display:'none'}}>Collection Change</li>
+                                                <li onClick={e=>{	e.preventDefault(); e.stopPropagation()
+																									onclickhide( cont.item?.itemid )
+																								 }}>{ cont.itembalance?.visible ? 'Hide' : 'Unhide' } </li>
                                               </ul>
                                             </div>
                                           </li>
@@ -348,7 +390,9 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={() => navigate(`/singleitem/${cont.item?.itemid}`)}
+																			onClick={e =>{ e.preventDefault(); e.stopPropagation()																				
+																				navigate(`/singleitem?itemid=${cont.item?.itemid}`)
+																			}}
                                       style={{
                                         backgroundImage: `url(${ cont.item?.url })`,
                                         backgroundRepeat: "no-repeat",
@@ -358,8 +402,8 @@ function MyFavorite({ store }) {
                                     >
                                       <div class="on">
                                         <ul>
-                                          <li class="heart off">{ cont.item?.countfavors }</li>
-                                          <li class="star off"></li>
+                                          <li class="heart on">{ cont.item?.countfavors }</li>
+                                          <li class={cont.ilikethisitem? 'star on' : "star off"}></li>
                                         </ul>
                                         <div>{ cont.item?.titlename }</div>
                                         <span>{ cont.author?.nickname }</span>
@@ -415,7 +459,8 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={() => navigate("/singleitem")}
+                                      onClick={e => { e.preventDefault(); e.stopPropagation()
+																				navigate(`/singleitem?itemid=${cont.item?.itemid }`)}}
                                       style={{
                                         backgroundImage: `url(${s2})`,
                                         backgroundRepeat: "no-repeat",
@@ -426,7 +471,7 @@ function MyFavorite({ store }) {
                                       <div class="on">
                                         <ul>
                                           <li class="heart off">1,389</li>
-                                          <li class="star off"></li>
+                                          <li class={ cont.ilikethisitem? 'star on' : "star off"} ></li>
                                         </ul>
                                         <div>Summer Pool</div>
                                         <span>David</span>

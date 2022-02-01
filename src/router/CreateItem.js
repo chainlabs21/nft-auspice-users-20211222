@@ -187,18 +187,22 @@ function CreateItem( { store, setConnect }) {
 	}
 	const on_request_lazy_mint = async _ =>{
 		const body = {
-			itemid: itemid , // fileR esp.respd ata
-			countcopies: countcopies,
-			amount: 1,
-			decimals: 18,
-			expiry: 0,
-			categorystr: curCategory ,
-			author: myaddress , // userAddress ,
-			authorfee: parseInt( ( royal * 100 ).toFixed(0) ) ,
-			metadataurl : urlmetadata
-			, url : urlfile
-			, titlename : name
+			 url : urlfile 
+			, titlename : name 
 			, description : desc
+			, priceunit : PAYMEANS_DEF
+			, itemid: itemid // fileR esp.respd ata
+			, metadataurl : urlmetadata
+			, contract : ADDRESSES.erc1155
+			, nettype : NETTYPE
+			, paymeans : PAYMEANS_DEF
+			, categorystr: curCategory
+			, author: myaddress // userAddress ,
+			, authorfee: conv_percent_bp(royal ) //parseInt( ( royal * 100 ).toFixed(0) )
+			, countcopies
+		//	amount: 1,
+	//		decimals: 18,
+//			expiry: 0,
 		}
 		const resp = await axios.post( API.API_LAZY_MINT, body )
 		if (resp.data.status === "OK") {
@@ -206,7 +210,8 @@ function CreateItem( { store, setConnect }) {
 			setTimeout( _=>{ navigate (`/salefixed?itemid=${itemid}`) } , 
 				TIME_PAGE_TRANSITION_DEF
 			)
-			navigate(`/salefixed?itemid=${itemid}`); // fileRes p.resp data
+		} else {
+			SetErrorBar( messages.MSG_REGISTER_FAILED )
 		}
 	}
   const fileUpload = async (file) => {

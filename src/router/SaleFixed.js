@@ -32,8 +32,10 @@ import { is_eth_address_valid } from "../util/eth";
 import { applytoken } from '../util/rest'
 import { ADDRESSES } from '../config/addresses'
 import { TIME_PAGE_TRANSITION_ON_REGISTER 
-	, PAYMENT_TOKEN_ADDRESS_DEF,
-	REFERER_FEE_RATE_DEF
+	, PAYMENT_TOKEN_ADDRESS_DEF
+	,	REFERER_FEE_RATE_DEF
+	, MODE_DEV_PROD
+	, RULES
 } from '../config/configs'
 import { useSearchParams } from "react-router-dom";
 import { getabistr_forfunction , query_nfttoken_balance, requesttransaction } from "../util/contract-calls";
@@ -50,18 +52,18 @@ function SaleFixed() {
   const [ endPriceOption, setEndPriceOption ] = useState(false);
   const [ privateOption, setPrivateOption ] = useState(false);
   const [ privateAddress, setPrivateAddress ] = useState("");
-  const [ itemData , setItemData] = useState({});
+  const [ itemdata , setItemData] = useState({});
   const [ sign, setSign] = useState( [] )
   const [ signError, setSignError] = useState( "" )
 	const [ completeSign, setCompleteSign] = useState(true)
 	let [ daystoclose , setdaystoclose ] = useState ( '3 days later' )
 	let [ expirydays , setexpirydays ] = useState(''+7)
-
 	let [ signeddata , setsigneddata ] = useState()
 	let [ itemid , setitemid ]=useState()
 	let [ tokenid , settokenid ] = useState()
 	let [ jsettings , setjsettings ]= useState( {} )
 	let [ searchParams , setSearchParams ] = useSearchParams( )
+	let [ amounttosell , setamounttosell] = useState( 0 )
 	let myaddress = getmyaddress()
 	const axios=applytoken()
 	useEffect( _ => {
@@ -78,7 +80,7 @@ function SaleFixed() {
 	} , [] )
 	
 	const do_dutch_auction= _ =>{
-		let tokenid = itemData?.item?.tokenid
+		let tokenid = itemdata?.item?.tokenid
 		if( tokenid ){}
 		else {SetErrorBar( messages.MSG_DATANOTFOUND ) } // ; return 
 		false && query_nfttoken_balance ( ADDRESSES.erc1155 , myaddress , tokenid ).then (resp=>{
@@ -135,9 +137,11 @@ function SaleFixed() {
 				 "_referer_feerate",
  */		
 	const do_fixed_price_spot=_=>{	
+		if(amounttosell){}
+		else { SetErrorBar( messages.MSG_PLEASE_INPUT ) ; return }
 		const orderData = {
 			seller_address: myaddress,
-			amount: itemData?.item?.countcopies ,
+			amount: amounttosell ?amounttosell : itemdata?.item?.countcopies ,
 			price: itemPrice,
 			priceunit: "0x000000000000000000000000000000000000",
 			expiry : expirydays? moment().add( +expirydays , 'days').endOf('day').unix() : 0 ,
@@ -145,7 +149,7 @@ function SaleFixed() {
 			, tokenid
 //			, exp iry
 		}
-		console.log( '' , endPriceOption , itemData );	console.log( '' , orderData ) //	 return
+		console.log( '' , endPriceOption , itemdata );	console.log( '' , orderData ) //	 return
 		signOrderData( orderData ).then(respsign =>{				LOGGER( '8pdnEvf9uF' , respsign ) // , signCallback
 			if (respsign ){}
 			else {SetErrorBar( messages.MSG_USER_DENIED_TX );return }
@@ -159,22 +163,20 @@ function SaleFixed() {
 				let { status }=resp.data
 				if ( status =='OK') {
 					SetErrorBar( messages.MSG_DONE_REGISTERING )
-					setTimeout(_=>{ 	//						navigate()
+					setTimeout(_=>{ MODE_DEV_PROD ==1 &&	navigate( '/marketplace')
 					} , TIME_PAGE_TRANSITION_ON_REGISTER )
 				}
 			})
 		})
 	}
   const handleSalesStart = async () => {
-    const myaddress = getmyaddress()    
-//    const asyncSalesStart = async () => {	
+    const myaddress = getmyaddress()    //    const asyncSalesStart = async () => {	
 		if( endPriceOption ){
 			do_dutch_auction()
 		}
 		else {			do_fixed_price_spot()
-		} //    };
-  //  asyncSalesStart();
-  };
+		} //    };  //  asyncSalesStart();
+  }
   useEffect(() => {
 //		const { itemid } = queryString.parse(search); 
 		let itemid=searchParams.get('itemid'); LOGGER( 'U9Z2CL8cRt' , itemid )
@@ -239,8 +241,8 @@ function SaleFixed() {
                       alt=""
                     />
                   </a>
-                  <span style={{backgroundImage: `url(${itemData?.item?.url})`}}></span>
-                  <strong>Title: {itemData?.item?.titlename }</strong>
+                  <span style={{backgroundImage: `url(${itemdata?.item?.url})`}}></span>
+                  <strong>Title: {itemdata?.item?.titlename }</strong>
                 </div>
                 <div class="sell_wrap">
                   <div class="create create2">
@@ -261,9 +263,19 @@ function SaleFixed() {
                                 </a>
                               </li>
 <li onClick={() => { 
-	if (itemData?.item?.tokenid){	navigate(`/auctionbid?itemid=${itemid}`) }
-	else {SetErrorBar( messages.MSG_ONCHAIN_ONLY ); return }
-}} style={{borderStyle:itemData?.item?.tokenid ? 'solid' : 'dashed'}} >
+	
+	if (RULES.OPEN_AUCTION_ON_CHAIN_ONLY ) {
+			if (itemdata?.item?.tokenid) {	navigate(`/auctionbid?itemid=${itemid}`) }
+			else {SetErrorBar( messages.MSG_ONCHAIN_ONLY ); return}
+	}
+	else {	navigate(`/auctionbid?itemid=${itemid}`) 
+ }
+	
+}} style={{
+	borderStyle: 
+		 RULES.OPEN_AUCTION_ON_CHAIN_ONLY ? (
+			itemdata?.item?.tokenid ? 'solid' : 'dashed' 
+		) : 'solid'  }} >
                                 <a>
                                   <h4>Auction Bid</h4>
                                   <span>Sell ​​to the highest bidder</span>
@@ -291,6 +303,63 @@ function SaleFixed() {
                               </li>
                             </ol>
                           </li>
+{/******** */}
+                          <li>
+                            <div class="price_info_pc">
+                              <div class="top2">
+                                <h3>Amount to sell</h3>
+                                <div class="toggle border_1">
+                                  <div class="select_left">
+                                    <img src={ require('../img/header/logo.png').default                                      }                                      alt=""                                    />
+                                    <select name="" id="">
+                                      <option>
+																			 { itemdata?.item?.tokenid ? `#${itemdata?.item?.tokenid }` : ''}
+																				</option>
+                                    </select>
+                                  </div>
+                                  <div class="input_right">
+                                    <input
+                                      type="number"
+                                      placeholder=""
+                                      onkeydown="onlyNumber(this)"
+                                      value={ amounttosell }
+                                      onChange={(e) => {
+																				let {value}=e.target																				
+																				if ( ISFINITE(+value)){}
+																				else {return}
+																				if ( +value> itemdata?.itembalance?.avail ){return }
+																				else {}
+                                        setamounttosell ( value)
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <p>Out of ({ itemdata?.itembalance?.avail || '0'}) </p>
+                            </div>
+                            <div class="price_info_m">
+                              <div class="top2">
+                                <h3>Amount to sell</h3>
+                                <p></p>
+                              </div>
+                              <div class="toggle border_1">
+                                <div class="select_left">
+                                  <img src={ require("../img/sub/I_klaytn.svg").default} alt="" />
+                                  <select name="" id="">
+                                    <option>KLAY</option>
+                                  </select>
+                                </div>
+                                <div class="input_right">
+                                  <input
+                                    type="number"
+                                    placeholder=""
+                                    onkeydown="onlyNumber(this)"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+{/******** */}
                           <li>
                             <div class="price_info_pc">
                               <div class="top2">
@@ -623,6 +692,10 @@ function SaleFixed() {
                 >
                   <a>Sales start</a>
                 </div>
+<span> &nbsp;</span>
+								<div onClick={_=>{ navigate('/marketplace')}} class="sales_btn">
+									<a>Do it later</a>
+								</div>
               </div>
             </div>
             <div class="sellbg2_m">
