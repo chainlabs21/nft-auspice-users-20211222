@@ -158,7 +158,10 @@ function SaleFixed() {
 //			return 
 			axios.post ( API.API_ORDER_MAKER_SELLER , { // /orders/maker/seller
 				asset_contract_bid : ADDRESSES.erc1155
-				, ... orderData , ... respsign } // signeddata
+				, ... orderData 
+				, ... respsign
+				, typestr : 'COMMON'
+			} // signeddata
 			).then ( resp=>{ LOGGER( '2UtIKhAjXH' , resp.data )
 				let { status }=resp.data
 				if ( status =='OK') {

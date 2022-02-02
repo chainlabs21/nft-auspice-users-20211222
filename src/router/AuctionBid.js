@@ -33,6 +33,7 @@ import { ADDRESSES } from "../config/addresses";
 import { PAYMENT_TOKEN_ADDRESS_DEF
 	, REFERER_FEE_RATE_DEF
 	, RULES
+	, PAYMEANS_DEF
 } from '../config/configs'
 import { getweirep } from '../util/eth'
 // const AuctionBid = async({ store, setConnect })=> {
@@ -55,7 +56,7 @@ import { getweirep } from '../util/eth'
 	 })
 	const onclickstartauction=_=>{
 		if( RULES.OPEN_AUCTION_ONCHAIN ){on_post_open_onchain() }
-		else {on_post_open_offchain () }
+		else {	on_post_open_offchain () }
 	}
 	const on_post_open_offchain=_=>{
 		window.getmyaddress=getmyaddress; 
@@ -71,8 +72,11 @@ import { getweirep } from '../util/eth'
 		let timenowunix = timenow.unix()
 		let reqbody = {
 			itemid : itemdata?.item?.itemid
-			, tokenid : null 
 			, amount : amounttoauction
+			, buyorsell : 'SELL'
+			, tokenid : itemdata?.item?.tokenid // null 
+			, price  :bidamount_start
+			, priceunit : PAYMEANS_DEF
 			, startingtime : timenowunix
 			, startingprice : bidamount_start
 			, expiry
@@ -80,7 +84,6 @@ import { getweirep } from '../util/eth'
 			, matcher_contract : ADDRESSES.auction_repo_english_simple
 			, token_repo_contract : ADDRESSES.erc1155
 			, typestr : 'AUCTION_ENGLISH'
-			, price  :bidamount_start
 		}
 		LOGGER( 'mHpUwZa3lS' , reqbody)
 //		return

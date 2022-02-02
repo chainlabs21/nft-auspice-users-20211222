@@ -78,7 +78,7 @@ function SingleItem({ store, setConnect , Setisloader
 //  const [endAutionTime, setEndAutionTime] = useState( singleItem.auctionExpiry ) 
   // const [diffTime, setDiffTime] = useState();
 //  const [nearEnd, setNearEnd] = useState(false);
-	const [itemdata, setItemData] = useState({});
+	const [itemdata, setitemdata] = useState({});
 	let [ itemdataaux , setitemdataaux ] = useState()
 	const [ userIndex, setUserIndex ] = useState(0)
 	let [ transactionHistory , settransactionHistory ] = useState ( [] )
@@ -96,6 +96,8 @@ function SingleItem({ store, setConnect , Setisloader
 	let [ priceklay , setpriceklay]= useState()
 	let [ istoschecked , setistoschecked]=useState ( false )
 	let [ listotheritems , setlistotheritems ] = useState ( [] )
+	let [ listitemhistory , setlistitemhistory] = useState( [] )
+	let [ listholder , setlistholder ] = useState( [] )
 	let [ iscollectionbyauthorseller , setiscollectionbyauthorseller ] = useState( )
 	let [ jprofileimages , setjprofileimages ]=useState( [] )
 	let lockjprofileimages={}
@@ -110,8 +112,7 @@ function SingleItem({ store, setConnect , Setisloader
 	let [ myaddress , setmyaddress ]=useState( getmyaddress() )
 	const getfeeamountstr=( amount,rate)=>{ let n =+amount * +rate / 10000 
 		return n.toFixed(4) // String()
-	}
-	
+	}	
 	useEffect(_=>{
 		let { klaytn }=window
 		if ( klaytn){}
@@ -125,13 +126,15 @@ function SingleItem({ store, setConnect , Setisloader
 	useEffect(async _=>{
 		if (sellorder && KEYS(sellorder).length ){}
 		else {return }		
-		let resp = await query_with_arg({
+		return
+		let resp = await query_with_arg( {
 			contractaddress: ADDRESSES.erc1155 ,
       abikind: 'ERC1155',
       methodname: '_itemhash_tokenid',
       aargs: [ itemdata?.item?.itemid ],
 		}) ; LOGGER( 'mohrKFfjxQ' , resp )
 		if ( resp ){ tokenid = resp 
+			return
 			query_with_arg({
 				contractaddress: ADDRESSES.erc1155 ,
 				abikind: 'AUCTION_ENGLISH_BATCH_TASKS',
@@ -156,7 +159,7 @@ function SingleItem({ store, setConnect , Setisloader
 			, sellorder.asset_amount_bid
 			, item?.authorfee
 //			, item?.decimals
-//			, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDRESSES.zero
+//			, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDR ESSES.zero
 			, getweirep( sellorder?.asset_amount_ask ) 
 			, sellorder?.username
 			, myaddress
@@ -209,7 +212,7 @@ function SingleItem({ store, setConnect , Setisloader
 		if ( itemdata?.item?.tokenid ){ 		} // on chain
 		else {		}
 	}
-	const on_bid_auction=_=>{
+	const on_bid_auction= async _=>{
 		if (mybidamount){}
 		else {SetErrorBar( messages.MSG_PLEASE_INPUT ); return }
 		let aargs = [
@@ -218,7 +221,7 @@ function SingleItem({ store, setConnect , Setisloader
 			, sellorder?.itemid
 			, itemdata?.item?.countcopies 
 			, itemdata?.item?.authorfee
-			, itemdata?.item?.tokenid || '0'
+			, tokenid || '0' // itemdata?.item?.
 			, sellorder?.asset_amount_bid
 			, getweirep( sellorder?.asset_amount_ask )
 			, sellorder?.startingtime? sellorder?.startingtime : moment().unix()
@@ -226,20 +229,40 @@ function SingleItem({ store, setConnect , Setisloader
 			, getweirep( mybidamount ) 
 		]
 		let abistr = getabistr_forfunction ({
-			contractaddress  :ADDRESSES.auction_repo_english_simple_no_batch_tasks
+			contractaddress  :ADDRESSES.auction_repo_english_batch_tasks // auction_repo_english_simple_no_batch_tasks
 			, abikind : 'AUCTION_ENGLISH_BATCH_TASKS'
 			, methodname : 'mint_begin_simple_and_bid'
 			, aargs 
 		})
 		requesttransaction({ 
 			from : myaddress
-		, to : ADDRESSES.auction_repo_english_simple_no_batch_tasks
-		, data : abistr
-		, value : getweirep( mybidamount )
-	}).then( resp=>{			LOGGER( '' , resp )
-		let { transactionHash : txhash , status } = resp
-		if (status ) {}
-		else {SetErrorBar (messages.MSG_USER_DENIED_TX ); return }
+			, to : ADDRESSES.auction_repo_english_batch_tasks // auction_repo_english_simple_no_batch_tasks
+			, data : abistr
+			, value : getweirep( mybidamount )
+		}).then( async resp=>{			LOGGER( '' , resp )
+			let { transactionHash : txhash , status } = resp
+			if ( status ) {}
+			else {SetErrorBar (messages.MSG_USER_DENIED_TX ); return }
+			SetErrorBar (messages.MSG_BID_PLACED )
+			let reqbody={
+				itemid : itemdata?.item?.itemid
+				, auctionuuid : sellorder?.uuid
+				, seller : sellorder?.username
+				, username : myaddress
+				, price : mybidamount
+				, priceunit : PAYMEANS_DEF
+				, nettype : NETTYPE
+				, typestr : 'BID_TO_AUCTION'
+				, tokenid : itemdata?.item?.tokenid
+			}		
+			 axios.post (API.API_REPORT_BID_TO_AUCTION + `/${txhash}` , reqbody ).then(resp=>{				LOGGER( 'rehCTxqXLK' , resp.data )
+				let { status }=resp.data
+				if ( status =='OK' ){
+					SetErrorBar(messages.MSG_DONE_REGISTERING )
+					fetchitem( itemdata?.item?.itemid )
+					setbidauctionmodal( false)
+				}
+			 })
 		})
 	}
 	const onclickbuy = _ =>{
@@ -279,13 +302,13 @@ function SingleItem({ store, setConnect , Setisloader
     axios.get(`${API.API_GET_ITEM_DATA}/${itemid}`).then((res) => {	LOGGER( 'agwwiWSDdf' , res.data )
 			let { status , respdata }=res.data
 			if ( status =='OK'){
-				setItemData( respdata )
+				setitemdata( respdata )
 				let {orders_sellside } = respdata
 				setorders_sell ( orders_sellside )
 				setilikethis( respdata.ilikethisitem )
 				setibookmarkthis ( respdata.ibookmarkthis )
-				if ( respdata.logbids ) {
-					 convaj ( respdata.logbids , 'auctionhashid' , 'price' ) 
+				if ( respdata.bids ) {
+					 convaj ( respdata.bids , 'auctionhashid' , 'price' ) 
 				} 
 				if (orders_sellside && orders_sellside.length){
 					orders_sellside.forEach ( ( elem , idx ) =>{
@@ -303,8 +326,14 @@ function SingleItem({ store, setConnect , Setisloader
 						})						
 					})
 				}
-//				setauthor ( respdata.author_mongo )
-//				axio s.get( API.API_OWNED_ITEMS + `/${}`)
+				query_with_arg( {
+					contractaddress: ADDRESSES.erc1155 ,
+					abikind: 'ERC1155',
+					methodname: '_itemhash_tokenid',
+					aargs: [ respdata?.item?.itemid ], // itemdata
+				}).then(resp=>{					LOGGER( 'mohrKFfjxQ' , resp )
+					if ( resp){tokenid = resp }
+				})
 				resolve_author_seller( respdata )
 			}
 			Setisloader ( false )
@@ -336,7 +365,13 @@ function SingleItem({ store, setConnect , Setisloader
 				settransactionHistory( list )
 			}		
 		}) // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
-		
+		axios.get(`${API.API_ITEM_HISTORY}/itemid/${itemid}/0/100/id/DESC`).then(resp=>{ LOGGER('Tz06IcamyG' , resp.data )
+			let { status , list}=resp.data
+			if ( status =='OK'){
+				setlistitemhistory ( list )
+			}
+		})
+
 	}
   function onClickUserPreBtn() {
     const wrapWidth = itemWrapRef.current.offsetWidth;
@@ -354,7 +389,7 @@ function SingleItem({ store, setConnect , Setisloader
     if (userIndex < pageNum - 1) setUserIndex(userIndex + 1);
     else setUserIndex(0);
   }
-  useEffect(() => { LOGGER( '8xlWxqxeC2' , itemid , referer )
+  useEffect(async() => { LOGGER( '8xlWxqxeC2' , itemid , referer )
 		fetchitem( itemid )
 		axios.get(`${API.API_TICKERS}/USDT`).then(resp=>{LOGGER( '' , resp.data )
 			let { status , list }=resp.data
@@ -388,35 +423,6 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
       }
     }
   }, [userIndex] )
-  // useE ffect(() => {
-  //   const setAuctionTimer = () => {
-  //     let now = moment().format("DD/MM/YYYY HH:mm:ss");
-  //     let then = moment(endAutionTime).format("DD/MM/YYYY HH:mm:ss");
-
-  //     let ms = moment(then, "DD/MM/YYYY HH:mm:ss").diff(
-  //       moment(now, "DD/MM/YYYY HH:mm:ss")
-  //     );
-  //     let d = moment.duration(ms);
-  //     let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
-
-  //     if (d.asSeconds() < 0) {
-  //       setDiffTime(moment().format("00:00:00"));
-  //       setNearEnd(false);
-  //       return;
-  //     }
-
-  //     if (!nearEnd && d.asHours() < 12) {
-  //       setNearEnd(true);
-  //     }
-  //     setDiffTime(s);
-  //   };
-
-  //   setInterval(setAuctionTimer, 1000);
-
-  //   return () => {
-  //     clearInterval(setAuctionTimer);
-  //   };
-  // }, [endAutionTime]);
 
   return (
     <SignPopupBox>
@@ -1071,7 +1077,15 @@ else {}
                   {chartCategoryList.map((cont, index) => (
                     <li key={index}
                       class={chartCategory === index && "on"}
-                      onClick={() => setChartCategory(index)}
+											onClick={() => { setChartCategory(index)
+												switch( index ){
+													case 0 : setlistholder ( listitemhistory )
+													break
+													case 1 : setlistholder ( transactionHistory )
+													break
+												}
+											}
+											}
                     >
                       {cont}
                     </li>
@@ -1099,7 +1113,7 @@ else {}
                     </tr>
                   </thead>
                   <tbody class="body">
-                    { transactionHistory.map( (v , idx ) => (
+                    { listholder.map( (v , idx ) => (
                       <tr key={ idx }>
                         <td>{ gettimestr( v.createdat )  }</td>
                         <td class="bold">{ strDot( v.txhash, 8,4) } KLAY</td>
@@ -1250,8 +1264,8 @@ let orders={ asset_amount_ask: "12"
 ,username: "0xaec2f4dd8b08eef0c71b02f97978106d875464ed"
 ,uuid: "39326de3-438c-4ebd-b2ec-092b271db16a"}
 
-/** 				requesttransaction({ from : myaddress
-			, to : ADDRESSES.auction_repo_dutch_bulk
+/** 				reque sttransaction({ from : myaddress
+			, to : ADDRESSES.auction_rep o_dutch_bulk
 			, data : abistr
 			, value : '0x00'
 		}).then(resp=>{ LOGGER( '' , resp )
@@ -1271,3 +1285,32 @@ let orders={ asset_amount_ask: "12"
 			, address _seller
 			, address _to
 */	
+  // useE ffect(() => {
+  //   const setAuctionTimer = () => {
+  //     let now = moment().format("DD/MM/YYYY HH:mm:ss");
+  //     let then = moment(endAutionTime).format("DD/MM/YYYY HH:mm:ss");
+
+  //     let ms = moment(then, "DD/MM/YYYY HH:mm:ss").diff(
+  //       moment(now, "DD/MM/YYYY HH:mm:ss")
+  //     );
+  //     let d = moment.duration(ms);
+  //     let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+
+  //     if (d.asSeconds() < 0) {
+  //       setDiffTime(moment().format("00:00:00"));
+  //       setNearEnd(false);
+  //       return;
+  //     }
+
+  //     if (!nearEnd && d.asHours() < 12) {
+  //       setNearEnd(true);
+  //     }
+  //     setDiffTime(s);
+  //   };
+
+  //   setInterval(setAuctionTimer, 1000);
+
+  //   return () => {
+  //     clearInterval(setAuctionTimer);
+  //   };
+  // }, [endAutionTime]);

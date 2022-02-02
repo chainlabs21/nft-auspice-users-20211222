@@ -334,3 +334,20 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 // import Profile17 from "./router/Profile17";
 // import LogOut from "./router/LogOut";
 // import MProfileMenu from "./router/MProfileMenu";
+
+/** 1.  카이카스 연동
+2.  1차 구현 가능 리스트
+  아이템 등록 (사본 발행 기능포함)
+  고정가격판매/구매
+  경매입찰(최고가경매)/구매
+  로얄티
+  아이템 별 거래내역
+  내 거래내역
+  커뮤니티 거래내역
+  내 정보관리
+--------
+3. 업데이트 스펙
+묶음판매, 레퍼럴, 경매입찰/구매, 컬렉션 , 양도, 잠금 해제 콘텐츠, 메타데이터 프리징
+
+4. 컨트랙트 불러오기(미정)
+*/

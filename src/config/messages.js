@@ -57,6 +57,7 @@ const messages={
 	, MSG_YOUR_OWN_ORDER : '등록하신 사항입니다'
 	, MSG_SALE_TYPE_NOT_DEFINED : '판매방식이 정의되지 않았습니다'
 	, MSG_FAILS_AUCTION_REQ : '경매 요구사항을 충족하지 않습니다'
+	, MSG_BID_PLACED : 'Bid placed'
 }
 export {
 	messages	
