@@ -21,6 +21,7 @@ export const ERR_MSG = {
 
 const messages={
 	MSG_LOGGEDIN : '로그인 되었습니다'
+	, MSG_LOGIN_FAIL : '로그인 실패'
 	, MSG_PLEASEJOIN : '회원가입하세요'
 	, MSG_DONE_REGISTERING: '등록되었습니다'
 	, MSG_REGISTER_FAILED : '등록에러'
@@ -52,7 +53,10 @@ const messages={
 	, MSG_OUT_OF_STOCK : `판매가능한 수량이 없습니다`
 	, MSG_PLEASE_INPUT : '값을 입력하세요'
 	, MSG_NO_TX_FOUND : '거래내역이 없습니다'
-	, 
+	, MSG_WORKINPROGRESS : '준비중입니다'
+	, MSG_YOUR_OWN_ORDER : '등록하신 사항입니다'
+	, MSG_SALE_TYPE_NOT_DEFINED : '판매방식이 정의되지 않았습니다'
+	, MSG_FAILS_AUCTION_REQ : '경매 요구사항을 충족하지 않습니다'
 }
 export {
 	messages	

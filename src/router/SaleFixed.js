@@ -284,7 +284,9 @@ function SaleFixed() {
                               <li>
 
                                 <a>
-                                  <h4>
+																	<h4 onClick={_=>{ SetErrorBar(messages.MSG_WORKINPROGRESS)
+																		return
+																	}}>
                                     Bundle Sale
                                     <img
                                       src={
@@ -462,7 +464,7 @@ function SaleFixed() {
 														</div>
 													</li>
 
-                          <li>
+                          <li style={{display: 'none'}}>
                             <div class="end">
                               <div class="top2">
                                 <h3>End price option</h3>
@@ -562,7 +564,7 @@ function SaleFixed() {
                             </div>
                           </li>
                           <li>
-                            <div class="private">
+                            <div class="private" style={{display: 'none'}} >
                               <div class="top2">
                                 <h3>Private option</h3>
                                 <div class="toggle">

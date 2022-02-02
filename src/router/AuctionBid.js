@@ -20,7 +20,7 @@ import VerifyAccountPopup from "./VerifyAccountPopup";
 import { useEffect , useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { messages } from "../config/messages";
-import { applytoken } from '../util/rest'
+import { applytoken , require_token } from '../util/rest'
 import SetErrorBar from '../util/SetErrorBar'
 import { API} from '../config/api'
 import { LOGGER, getrandomint, ISFINITE , getmyaddress } from '../util/common'
@@ -32,9 +32,11 @@ import { getabistr_forfunction
 import { ADDRESSES } from "../config/addresses";
 import { PAYMENT_TOKEN_ADDRESS_DEF
 	, REFERER_FEE_RATE_DEF
+	, RULES
 } from '../config/configs'
 import { getweirep } from '../util/eth'
-function AuctionBid({ store, setConnect }) {
+// const AuctionBid = async({ store, setConnect })=> {
+	function AuctionBid ({ store, setConnect }) {
   const navigate = useNavigate()
 	const [ verifyPopup, setVerifyPopup] = useState(false);
 	let [ searchParams, setSearchParams ] = useSearchParams()
@@ -46,17 +48,61 @@ function AuctionBid({ store, setConnect }) {
 	let [ daystoclose , setdaystoclose ] = useState( '3 days later' )
 	let [ expiry , setexpiry ] = useState()
 	let [ myaddress , setmyaddress ] = useState( getmyaddress() ) 
-	let axios = applytoken()
-	
-	const onclickpostsale=_=>{ let myaddress =  getmyaddress()
-		if ( myaddress){}
+	// let axios = applytoken()
+	let axios
+	 require_token( ).then(resp=>{
+		 axios=resp
+	 })
+	const onclickstartauction=_=>{
+		if( RULES.OPEN_AUCTION_ONCHAIN ){on_post_open_onchain() }
+		else {on_post_open_offchain () }
+	}
+	const on_post_open_offchain=_=>{
+		window.getmyaddress=getmyaddress; 
+		let myaddress =  getmyaddress()
+		if ( myaddress ){}
+		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET ); return }
+		let days=daystoclose.split(/ /)[0]
+		let expiry = moment().add( +days , 'days' ).endOf('day').unix()
+		LOGGER( '' , itemid , bidamount_start , bidamount_threshold ,  expiry )
+//		if ( itemdata?.item?.tokenid ) {}
+	//	else {	SetErrorBar ( messages.MSG_PLEASE_MINT_AHEAD ) ; return }
+		const timenow = moment(); 
+		let timenowunix = timenow.unix()
+		let reqbody = {
+			itemid : itemdata?.item?.itemid
+			, tokenid : null 
+			, amount : amounttoauction
+			, startingtime : timenowunix
+			, startingprice : bidamount_start
+			, expiry
+			, username : myaddress
+			, matcher_contract : ADDRESSES.auction_repo_english_simple
+			, token_repo_contract : ADDRESSES.erc1155
+			, typestr : 'AUCTION_ENGLISH'
+			, price  :bidamount_start
+		}
+		LOGGER( 'mHpUwZa3lS' , reqbody)
+//		return
+		axios.post ( API.API_SALE_COMMON , reqbody ).then(resp=>{ LOGGER( '' , resp.data )
+			let { status }=resp.data
+			if ( status =='OK' ) {
+				SetErrorBar( messages.MSG_DONE_REGISTERING )
+			} else {
+				SetErrorBar( messages.MSG_REQ_FAIL )
+			}
+		})
+	}
+	const on_post_open_onchain=_=>{ window.getmyaddress=getmyaddress; let myaddress =  getmyaddress()
+		if ( myaddress ){}
 		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET ); return }
 		let days=daystoclose.split(/ /)[0]
 		let expiry = moment().add( +days , 'days' ).endOf('day').unix()
 		LOGGER( '' , itemid , bidamount_start , bidamount_threshold ,  expiry )
 		if ( itemdata?.item?.tokenid ) {}
 		else {	SetErrorBar ( messages.MSG_PLEASE_MINT_AHEAD ) ; return }
-		const timenow = moment(); let timenowunix = timenow.unix()
+		const timenow = moment(); 
+		let timenowunix = timenow.unix()
 		let abistr = getabistr_forfunction ({
 			contractaddress : ADDRESSES.auction_repo_english_simple // erc1155 // 
 			, abikind : 'AUCTION_ENGLISH_SIMPLE'
@@ -90,7 +136,7 @@ function AuctionBid({ store, setConnect }) {
 					, startingprice : bidamount_start
 					, expiry 
 					, username : myaddress
-					, matcher_contract : ADDRESSES.auction_repo_english
+					, matcher_contract : ADDRESSES.auction_repo_english_simple
 					, token_repo_contract : ADDRESSES.erc1155
 				}
 				LOGGER( 'jfG6EHcIaO' ,reqbody)
@@ -133,6 +179,8 @@ _calldata // ",					" internalType": "bytes",
 		if ( itemid ){ setitemid( itemid )}
 		else {SetErrorBar( messages.MSG_PLEASE_SPECIFY_QUERY_VALUE ) ; return }
 		let itemdata
+		if (axios){}
+		else {return }
 		axios.get( `${API.API_GET_ITEM_DATA}/${itemid}`).then(resp=>{
 			LOGGER( 'oWWjCVhIpY' , resp.data )
 			let { status , respdata }=resp.data
@@ -144,12 +192,15 @@ _calldata // ",					" internalType": "bytes",
 			}
 		})
 /** let tokenid = itemda tabatched?.item?.tokenid || 2
-		if( tokenid ){}
-		else {SetErrorBar(messages.MSG_DATANOTFOUND) } // ; return 
+		if( tokenid ){}		else {SetErrorBar(messages.MSG_DATANOTFOUND) } // ; return 
 		query_nfttoken_balance ( ADDRESSES.erc1155 , myaddress , tokenid ).then (resp=>{
 			LOGGER( 'wE2hK5BTA4' , resp )
 		}) */
 //		const query_nfttok en_balance = ( contractaddress , address , tokenid )=>{
+	} , [ axios ] )
+	useEffect(_=>{
+		if (axios){}
+		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET ); return }
 	} , [ ] )
 	
   return (
@@ -195,7 +246,9 @@ _calldata // ",					" internalType": "bytes",
                                   <span>Sell ​​to the highest bidder</span>
                                 </a>
                               </li>
-                              <li onClick={() => navigate("/salebundle")}>
+                              <li onClick={() => { 
+																SetErrorBar(messages.MSG_WORKINPROGRESS) ; return
+																navigate("/salebundle")}}>
                                 <a>
                                   <h4>
                                     Bundle Sale
@@ -512,7 +565,7 @@ _calldata // ",					" internalType": "bytes",
                   </ul>
                 </div>
 								<div class="sales_btn" onClick={() => { // setVerifyPopup(true)
-									onclickpostsale()
+									onclickstartauction()
 								}}>
                   <a>Sales start</a>
                 </div>

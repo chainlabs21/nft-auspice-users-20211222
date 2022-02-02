@@ -5,7 +5,7 @@ const STRINGER=JSON.stringify
 const PARSER=JSON.parse
 const ISFINITE=Number.isFinite
 const moment=require('moment')
-
+const KEYS=Object.keys
 
 const get_last_part_of_path = str=>{
 	return str.substr(str.lastIndexOf('/')+1)
@@ -132,11 +132,12 @@ export {
 	, onClickCopy 
 	, conv_bp_percent ,
 	conv_percent_bp ,
-	convaj	,
+	convaj,
 	LOGGER,
 	STRINGER 
 	, PARSER
 	, ISFINITE
+	, KEYS
 	, generaterandomstr
 	, getrandomint, getRandomElementsFromArray, getrandomwords 
 	, getuseraddress

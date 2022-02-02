@@ -23,10 +23,13 @@ import ItemLikePopup from "../components/ItemLikePopup";
 import { applytoken } from "../util/rest";
 import { onClickCopy
 	, LOGGER
+	, KEYS
 	, getMaxMinAvg
 	, get_last_part_of_path
 	, gettimestr
-	,	getmyaddress
+	,	getmyaddress,
+	convaj,
+	ISFINITE
 	, 
 } from "../util/common"
 import SetErrorBar from "../util/SetErrorBar";
@@ -36,11 +39,11 @@ import I_heartO from "../img/main/I_heartO.svg"
 import I_heartOGray from "../img/sub/I_heartOGray.svg"
 import I_heartOPink from '../img/sub/I_heartOPink.svg'
 import { useSearchParams } from "react-router-dom"
-import { query_nfttoken_balance, requesttransaction , getabistr_forfunction ,  } from "../util/contract-calls";
+import { query_nfttoken_balance, requesttransaction , getabistr_forfunction, query_with_arg ,  } from "../util/contract-calls";
 import I_staroff from '../img/sub/star_off.png'
 import I_staron from '../img/sub/star_on.png'
 import { query_eth_balance } from '../util/contract-calls'
-import { getethrep, getweirep } from '../util/eth'
+import { getethrep, getweirep, is_two_addresses_same } from '../util/eth'
 import rstone from "../img/sub/rstone.png";
 import { ADDRESSES } from '../config/addresses'
 import { strDot } from "../util/Util"
@@ -69,8 +72,9 @@ function SingleItem({ store, setConnect , Setisloader
 /**   const {    likerList,    ownerList,    salesStatus,    pur chaseStatus,    transactionHistory,    chainInformation,  } = singleItem;*/
   const [ownerPopup, setOwnerPopup] = useState(false);
   const [likePopup, setLikePopup] = useState(false);
-  const [bidPopup, setBidPopup] = useState(false);
-  const [chartCategory, setChartCategory] = useState(0);
+	const [ buySpotPopup, setbuySpotPopup] = useState(false);
+	let [ bidauctionmodal , setbidauctionmodal ]=useState( false )
+  const [ chartCategory, setChartCategory] = useState(0);
 //  const [endAutionTime, setEndAutionTime] = useState( singleItem.auctionExpiry ) 
   // const [diffTime, setDiffTime] = useState();
 //  const [nearEnd, setNearEnd] = useState(false);
@@ -98,6 +102,9 @@ function SingleItem({ store, setConnect , Setisloader
 	let [ searchParams, setSearchParams ] = useSearchParams()
 	let [ itemid , setitemid ] = useState( searchParams.get( 'itemid' ))
 	let [ referer , setreferer] = useState( searchParams.get ('referer') )
+	let [ j_auctionuuid_bidprice , setj_auctionuuid_bidprice ]=useState( {} )
+	let [ mybidamount , setmybidamount ] = useState( '' )
+	let tokenid 
 //	let itemid =get_last_part_of_path ( window.location.href )
 	let axios = applytoken()	
 	let [ myaddress , setmyaddress ]=useState( getmyaddress() )
@@ -115,8 +122,31 @@ function SingleItem({ store, setConnect , Setisloader
 			setmyethbalance( getethrep (resp ) )
 		} )
 	} , [ window.klaytn ] )
-//	LOGGER( '' , myaddress )
-	const onclickbuy = _ =>{
+	useEffect(async _=>{
+		if (sellorder && KEYS(sellorder).length ){}
+		else {return }		
+		let resp = await query_with_arg({
+			contractaddress: ADDRESSES.erc1155 ,
+      abikind: 'ERC1155',
+      methodname: '_itemhash_tokenid',
+      aargs: [ itemdata?.item?.itemid ],
+		}) ; LOGGER( 'mohrKFfjxQ' , resp )
+		if ( resp ){ tokenid = resp 
+			query_with_arg({
+				contractaddress: ADDRESSES.erc1155 ,
+				abikind: 'AUCTION_ENGLISH_BATCH_TASKS',
+				methodname: 'get_batch_hashid',
+				aargs: [ sellorder?.username
+					, ADDRESSES.erc1155
+					, tokenid
+					, getweirep( sellorder?.asset_amount_ask )
+					, sellorder?.expiry
+				],
+			}) // 
+		}
+		else { tokenid = 0 } 		
+	} , [ sellorder ])
+	const on_buy_spot_common=_=>{
 		LOGGER( '' , itemdata.item?.itemid ) // query_nfttoken_balance () // a little cumbersome
 		let { item }= itemdata
 		let aargs =[
@@ -179,6 +209,49 @@ function SingleItem({ store, setConnect , Setisloader
 		if ( itemdata?.item?.tokenid ){ 		} // on chain
 		else {		}
 	}
+	const on_bid_auction=_=>{
+		if (mybidamount){}
+		else {SetErrorBar( messages.MSG_PLEASE_INPUT ); return }
+		let aargs = [
+			ADDRESSES.erc1155
+			, sellorder?.username
+			, sellorder?.itemid
+			, itemdata?.item?.countcopies 
+			, itemdata?.item?.authorfee
+			, itemdata?.item?.tokenid || '0'
+			, sellorder?.asset_amount_bid
+			, getweirep( sellorder?.asset_amount_ask )
+			, sellorder?.startingtime? sellorder?.startingtime : moment().unix()
+			, sellorder?.expiry
+			, getweirep( mybidamount ) 
+		]
+		let abistr = getabistr_forfunction ({
+			contractaddress  :ADDRESSES.auction_repo_english_simple_no_batch_tasks
+			, abikind : 'AUCTION_ENGLISH_BATCH_TASKS'
+			, methodname : 'mint_begin_simple_and_bid'
+			, aargs 
+		})
+		requesttransaction({ 
+			from : myaddress
+		, to : ADDRESSES.auction_repo_english_simple_no_batch_tasks
+		, data : abistr
+		, value : getweirep( mybidamount )
+	}).then( resp=>{			LOGGER( '' , resp )
+		let { transactionHash : txhash , status } = resp
+		if (status ) {}
+		else {SetErrorBar (messages.MSG_USER_DENIED_TX ); return }
+		})
+	}
+	const onclickbuy = _ =>{
+		switch ( sellorder?.typestr){
+			case 'COMMON' : on_buy_spot_common ()
+			break
+			case 'AUCTION_ENGLISH' : on_bid_auction ()
+			break
+			default : SetErrorBar( messages.MSG_SALE_TYPE_NOT_DEFINED )
+			break
+		}
+	}
 	const resolve_author_seller= itemdata =>{
 		if ( itemdata?.minpriceorder ){
 			let {username} = itemdata?.minpriceorder // ?.username
@@ -211,10 +284,13 @@ function SingleItem({ store, setConnect , Setisloader
 				setorders_sell ( orders_sellside )
 				setilikethis( respdata.ilikethisitem )
 				setibookmarkthis ( respdata.ibookmarkthis )
+				if ( respdata.logbids ) {
+					 convaj ( respdata.logbids , 'auctionhashid' , 'price' ) 
+				} 
 				if (orders_sellside && orders_sellside.length){
-					orders_sellside.forEach ( ( elem  , idx )  =>{
+					orders_sellside.forEach ( ( elem , idx ) =>{
 						axios.get(API.API_USER_INFO +`/${elem.username}`).then(resp=>{ LOGGER( 'V9kbW2K1sr' , resp.data )
-							let {status , payload }=resp.data
+							let { status , payload }=resp.data
 							if ( status =='OK'){
 								let { profileimage } = payload?.mongo
 								if ( profileimage ) {
@@ -348,11 +424,147 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
 
       {likePopup && <ItemLikePopup off={setLikePopup} itemid={itemid}/>}
 
-      {bidPopup && (
+{bidauctionmodal && (
+	<div class="popup info" id="info_popup" style={{ display: "block" }}>
+	<div class="box_wrap buynft">
+		<a
+			onClick={() => setbidauctionmodal (false) }
+			class="close close2"
+			id="info_close"
+		>
+			<img
+				src={require("../img/sub/icon_close.png").default}
+				alt="close"
+			/>
+		</a>
+		<div class="poptitle nob">
+			<h2>Place a bid</h2>
+		</div>
+		<div class="list_bottom buy_nft">
+			<p class="warn" style={{display: itemdata?.item?.isreviewed ? 'none':'block'}}>
+				Warning! Contains items
+				<br /> that have not been reviewed and approved
+			</p>
+			<div class="receipt_section">
+				<div class="receipt_title">
+					<p class="rec_t">Item</p>
+					<p class="rec_t right">Subtotal</p>
+				</div>
+				<div class="receipt_item">
+					<ul>
+						<li>
+							<span class="pic" style={{backgroundImage: `url(${itemdata?.item?.url})`}}></span>
+							<div class="right_price">
+								<h3>
+									{ convertLongString( 8 , 4 , sellorder?.username)  }
+									<br />
+									<span>{ itemdata?.item?.titlename } </span>{/**Blackman with neon */}
+								</h3>
+								<h4 class="m_sub">
+									<img style={{width:'60px'}} src={require("../img/header/logo.png").default} />
+									<span class="pri">{ sellorder?.asset_amount_bid ? `Qty. ${sellorder?.asset_amount_bid}`:'' } {sellorder?.tokenid ? `of token #${sellorder?.tokenid}`:'' } </span>
+								</h4>
+							</div>
+						</li>
+					</ul>
+					<ul>
+						<li>										
+							<p class="rec_t"  >
+								Current highest bid<span class="red"
+								>
+								{ '-'}
+								</span>
+							</p>
+							<div class="right_price m_left">
+								<h4 class="blue">
+									<img src={require("../img/sub/rock.png").default} />
+									{ j_auctionuuid_bidprice[ sellorder?.uuid ] ? j_auctionuuid_bidprice[ sellorder?.uuid ]: '-'} <span class="pri">
+(${  '-' })</span>
+								</h4>
+							</div>
+						</li>
+					</ul>
+					<ul>
+						<li>										
+							<p class="rec_t"  >
+								Minimum bid<span class="red" style={{color:'black'}} > {'-'}</span>
+							</p>
+							<div class="right_price m_left">
+								<h4 class="blue">
+									<img src={require("../img/sub/rock.png").default} />
+									{ sellorder?.asset_amount_ask }<span class="pri">
+(${ priceklay && sellorder?.asset_amount_ask ? +priceklay * + sellorder?.asset_amount_ask: '' })</span>
+								</h4>
+							</div>
+						</li>
+					</ul>
+
+					<ul>
+						<li>										
+							<p class="rec_t"  >
+								Your bid<span class="red" style={{color:'black'}} > {'-'}</span>
+							</p>
+							<div class="right_price m_left">
+								<h4 class="blue">
+<input value={ mybidamount }
+	onChange={e=>{
+		let {value}=e.target
+		value = + value
+		if (ISFINITE( value )){}
+		else { SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY) ; return }
+		setmybidamount ( ''+value )
+		if( value>= +myethbalance){SetErrorBar(messages.MSG_EXCEEDS_BALANCE) ; return }
+		if( value >=sellorder?.asset_amount_ask ){}
+		else { SetErrorBar( messages.MSG_FAILS_AUCTION_REQ ); return }
+		if ( j_auctionuuid_bidprice[ sellorder?.uuid ] ){
+			if (value >= + j_auctionuuid_bidprice[ sellorder?.uuid ]){}
+			else { SetErrorBar( messages.MSG_FAILS_AUCTION_REQ ); return }
+		}
+	}}
+/>
+								</h4>
+							</div>
+						</li>
+					</ul>
+
+				</div>
+				<form class="ckb_wrap">
+					<div class="ckb" style={{display : itemdata?.item?.isreviewed ? 'none' : 'block'}}>
+						<input type="checkbox" id="chk" name="chk1" />
+						<label for="chk">
+							Aware that Itemverse contains one item that has not been
+							reviewed and approved
+						</label>
+					</div>
+					<div class="ckb">
+						<input type="checkbox" id="chk2" name="chk1" onChange={e=>{
+							setistoschecked( ! istoschecked ) // LOGGER()
+						}}/>
+						<label for="chk2">
+							I agree to Itemverse's <b>Terms of Service</b>
+						</label>
+					</div>
+				</form>
+			</div>
+			<a class="reportit on "
+				disabled={ istoschecked ? false : true }
+				onClick={ _=>{
+					if (istoschecked){}
+					else {SetErrorBar( messages.MSG_PLEASE_CHECK_TOS ); return }
+					LOGGER( 'pHeiL5AWXM' )
+					onclickbuy()
+				}}
+			>Make a payment</a>
+		</div>
+	</div>
+</div>
+
+)}
+      { buySpotPopup && (
         <div class="popup info" id="info_popup" style={{ display: "block" }}>
           <div class="box_wrap buynft">
             <a
-              onClick={() => setBidPopup(false)}
+              onClick={() => setbuySpotPopup(false)}
               class="close close2"
               id="info_close"
             >
@@ -377,7 +589,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                 <div class="receipt_item">
                   <ul>
                     <li>
-                      <span class="pic"></span>
+                      <span class="pic" style={{backgroundImage: `url(${itemdata?.item?.url})`}}></span>
                       <div class="right_price">
                         <h3>
                           { convertLongString( 8 , 4 , sellorder?.username)  }
@@ -386,7 +598,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                         </h3>
                         <h4 class="m_sub">
                           <img style={{width:'60px'}} src={require("../img/header/logo.png").default} />
-                          <span class="pri">{ sellorder?.asset_amount_bid } of token #{sellorder?.tokenid } </span>
+                          <span class="pri">{ sellorder?.asset_amount_bid ? `Qty. ${sellorder?.asset_amount_bid}`:'' } {sellorder?.tokenid ? `of token #${sellorder?.tokenid}`:'' } </span>
                         </h4>
                       </div>
                     </li>
@@ -410,8 +622,6 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                       </div>
                     </li>
                   </ul>
-
-
                   <ul>
                     <li>										
 											<p class="rec_t"  >
@@ -564,11 +774,11 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                           <li> {/** itemdata.item?.price */}
                             <h3>Price</h3>
                             <h4>
-                              { sellorder?.asset_amount_ask } 
+                              { sellorder?.asset_amount_ask ?  (+sellorder?.asset_amount_ask).toFixed(4) : '' } 
                               <span>&nbsp;{ 'KLAY' }</span>
                             </h4>
                             <h5>                              
-															Qty. { sellorder?.asset_amount_bid } of token #{itemdata?.item?.tokenid}
+															{sellorder? 'Qty.':''} { sellorder?.asset_amount_bid } {itemdata?.item?.tokenid ? `of token #${itemdata?.item?.tokenid}`: ''}
                               {/** itemdata.item?.normprice &&
                                 itemdata.item.normprice.toLocaleString(
                                   "en",
@@ -584,7 +794,9 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                           </li> */}
                         </ul>
                         <a onClick={() =>{
-setBidPopup ( true )
+if ( sellorder?.typestr =='COMMON' ) { setbuySpotPopup ( true )}
+else if (sellorder?.typestr=='AUCTION_ENGLISH'){	setbidauctionmodal (true ) }
+else {}
 												} } class="bid">
                           Buy
                         </a>
@@ -635,10 +847,11 @@ setBidPopup ( true )
               </div>
               <div class="bun_tr">
                 <div class="right_b">
-                  <h2 class="i_title">Offer History</h2>
+                  <h2 class="i_title">Offers</h2>
                   <div class="history_s container">
                     <ul>
-                      {orders_sell.map((v , idx ) => {
+											{orders_sell.sort((a,b)=> +a.asset_amount_ask-+b.asset_amount_ask )
+											.map((v , idx ) => {
 												/** if (lockjprofileimages[ v.username ] ){}
 												else {
 													lockjprofileimages[ v.username]=1
@@ -655,20 +868,23 @@ setBidPopup ( true )
 													})
 												} */
 												return (
-												<li key={idx } onClick={_=> {	SetErrorBar('BpAzNi4c1n')
-//													setactiveorder ( v ) 
-													setsellorder ( v )
-													return 
-												} }>
+													<li key={idx } onClick={_=> {	// SetErrorBar('BpAzNi4c1n')
+//														setactiveorder ( v ) 
+														if ( is_two_addresses_same (myaddress ,v.username ) ){SetErrorBar( messages.MSG_YOUR_OWN_ORDER ); return }
+														else {}
+														setsellorder ( v )
+														return 
+													} }>
                           <span class="profile_img" style={{backgroundImage :`url(${jprofileimages[ idx ]})` }}></span>
                           <h3>
-                            { v.asset_amount_ask } KLAY for { v.asset_amount_bid }
+                            { v.asset_amount_ask ? (+v.asset_amount_ask).toFixed(4) :'' } KLAY for { v.asset_amount_bid? `Qty.${v.asset_amount_bid}` : '' }
                             <br />
-                            <span>{ convertLongString(10, 0, v.username)}</span>
+                            <span>{ convertLongString(8, 0, v.username)} </span>
+														<span>{ v.typestr} </span>
 														<span>{ v.nickname }</span>
                           </h3>
                           <h4>{ convertLongString(8, 8, v.address)}</h4>
-                          <h5>{ gettimestr ( v.createdat ) }</h5>
+                          <h5>{'created '+moment(v.createdat).fromNow()} { 'expires '+ moment.unix(v.expiry).fromNow()  }</h5>
                         </li>
 											)	
 										}

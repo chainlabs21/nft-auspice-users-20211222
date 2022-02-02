@@ -20,9 +20,15 @@ const NETTYPE = 'KLAYTN-TESTNET'
 const URL_TX_SCAN ={
 	'KLAYTN-TESTNET' : 'https://baobab.scope.klaytn.com/tx'
 } 
-const  MODE_DEV_PROD=0
+const MODE_DEV_PROD=0
 const RULES ={
 	OPEN_AUCTION_ON_CHAIN_ONLY : 0
+	, OPEN_AUCTION_ONCHAIN : 0 
+}
+const MAP_SALE_TYPES = {
+	COMMON : 1
+	, AUCTION_ENGLISH : 2
+	, AUCTION_DUTCH : 3
 }
 export {
 	PAYMENT_TOKEN_ADDRESS_DEF
@@ -36,4 +42,5 @@ export {
 	, URL_TX_SCAN
 	, MODE_DEV_PROD
 	, RULES
+	, MAP_SALE_TYPES
 }

@@ -21,7 +21,8 @@ const ADDRESSES={
 	, auction_repo_dutch_bulk : '0x9f4f61b4384f83145e19c70f37e3ea27a303764d'
 	, auction_repo_english : '0xe2a872985331c95f6462b3e4dfb6b640687a17a6' // <= owner : 0xa9379265c524ead779cf4f2964c6453c0055c9ad
 
-	, auction_repo_english_simple : '0x04ed6c881dfcc6532f1c4ee9604dfac0e59a2faf'
+	, auction_repo_english_simple_no_batch_tasks : '0x04ed6c881dfcc6532f1c4ee9604dfac0e59a2faf'
+	, auction_repo_english_batch_tasks : '0xdd4cdcc104f7eeedf7fbe741da09f259a2d255c3'
 	, zero  : '0x0000000000000000000000000000000000000000'
 	, 
 }

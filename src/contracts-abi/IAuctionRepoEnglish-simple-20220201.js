@@ -64,6 +64,41 @@ const abi= [
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
+	{
+		"name": "get_batch_hashid",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_holder",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_target_contract",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "_target_item_ids",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "_amounts",
+				"type": "uint256[]"
+			}
+		],
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+
 ]
 export { 
 	abi

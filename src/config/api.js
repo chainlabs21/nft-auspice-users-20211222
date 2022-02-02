@@ -44,4 +44,6 @@ export const API = {
 	, API_REPORT_TX_CLOSE_SPOT : `${apiServer}/transactions/report/sale/close` // txhash
 	, API_LOGFEEPAYS : `${apiServer}/queries/rows/logfeepayouts` // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 	, API_HIDDEN : `${apiServer}/queries/rows/itembalances/username` 
+	, API_SALE_COMMON : `${apiServer}/sales/maker/seller`
+	
 }
