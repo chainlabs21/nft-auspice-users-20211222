@@ -19,26 +19,24 @@ import ho_img from "../img/sub/ho_img.png";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";
 import filter_icon from "../img/sub/filter_icon.png";
+
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css"; // import "./css/style01.css"; // import "./css/style02.css";
+import "../css/style.css";
+
+// import "./css/style01.css";
+// import "./css/style02.css";
+
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import { useRef, useState, useEffect } from "react";
-import Myprofcommonheader  from '../components/Myprofcommonheader'
-import { applytoken } from "../util/rest";
-import { API } from "../config/api";
-import { getmyaddress, LOGGER } from "../util/common";
-import moment from 'moment'
-import SetErrorBar from '../util/SetErrorBar'
-import { messages} from '../config/messages'
+import { useRef, useState } from "react";
 
 function HiddenItem({ store, setConnect }) {
   const itemListRef = useRef();
   const navigate = useNavigate();
-	let axios=applytoken()
+
   const [morePopupIndex, setMorePopupIndex] = useState(-1);
   const [toggleFilter, setToggleFilter] = useState(false);
   const [filterObj, setFilterObj] = useState({});
@@ -48,35 +46,7 @@ function HiddenItem({ store, setConnect }) {
   const [toPrice, setToPrice] = useState("");
   const [priceFilterToggle, setPriceFilterToggle] = useState(false);
   const [callEffect, setCallEffect] = useState(false);
-	const [pricePopup, setPricePopup] = useState(false)
-	let [ myaddress , setmyaddress] = useState( getmyaddress() )
-	let [ list , setlist ]= useState ( [] )
-	const fetchitems=_=>{
-		axios.get(API.API_HIDDEN + `/${myaddress}/0/10/id/DESC` , {params: 
-			{ itemdetail : 1
-			, filterkey : 'visible'
-			, filterval : 0
-			}}).then(resp=>{ LOGGER( '' , resp.data )
-				let { status , list }=resp.data
-				if ( status =='OK'){
-					setlist ( list )
-				}
-			})
-	}
-	const onclickhide=itemid=>{
-		axios.put(API.API_TOGGLE_ITEM + `/${itemid}/visible`).then(resp=>{ LOGGER('' , resp.data)
-			let { status}=resp.data
-			if ( status =='OK'){
-				SetErrorBar( messages.MSG_CHANGED )																											
-				fetchitems()
-			} else {
-				SetErrorBar( messages.MSG_REQ_FAIL )
-			}
-		})
-	}
-	useEffect(_=>{
-		fetchitems()
-	} , [] )
+  const [pricePopup, setPricePopup] = useState(false);
 
   function getSelectText() {
     switch (unit) {
@@ -88,6 +58,7 @@ function HiddenItem({ store, setConnect }) {
         break;
     }
   }
+
   function onClickOption(data) {
     setUnit(data);
     setPriceFilterToggle(false);
@@ -140,8 +111,7 @@ function HiddenItem({ store, setConnect }) {
           <div class="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 
-<Myprofcommonheader />
-{/*            <div class="wrap">
+            <div class="wrap">
               <div class="collection_detail">
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
@@ -164,7 +134,7 @@ function HiddenItem({ store, setConnect }) {
                 </h4>
               </div>
             </div>
-*/}
+
             <div class={toggleFilter ? "move on deal" : "move off"}>
               <div class="cw ucl">
                 <span class="close" onClick={() => setToggleFilter(true)}>
@@ -476,51 +446,7 @@ function HiddenItem({ store, setConnect }) {
                         <ol class="item move_li">
                           <div>
                             <span>
-
-{list.map((elem,idx)=>{ return	(
-		<li key={ idx }
-			onClick={e=>{e.preventDefault() ;e.stopPropagation()
-				navigate( `/singleitem?itemid=${elem.item?.itemid}`)
-			}}
-		>
-		<a style={{ backgroundImage: `url(${elem.item?.url})` || `url(${s5})` }}>
-			<div class="on">
-				<ul>
-					<li class="heart off">{ elem.item?.countfavors }</li>
-					<li
-						class={
-							morePopupIndex === 0
-								? "dot on"
-								: "dot"
-						}
-						onClick={(e) => {
-							e.stopPropagation();
-							onClickMoreBtn( idx ); // 0
-						}}
-					>
-						{morePopupIndex === idx && (
-							<div class="choose">
-								<ul>
-									<li onClick={_=>{ navigate(`/salefixed?itemid=${elem.item?.itemid}`)}}>Sale</li>
-									<li onClick={_=>{ navigate(`/handover?itemid=${elem.item?.itemid}`)}}>Hand Over</li>
-									<li>Edit</li>
-									<li>Item Change</li>
-									<li onClick={_=>{onclickhide( elem.item?.itemid ) } } >
-									{ elem.itembalance?.visible ? 'Hide' : 'Unhide'}									</li>
-								</ul>
-							</div>
-						)}
-					</li>
-				</ul>
-				<span> {elem.item?.titlename } </span>
-				<div>{ moment( elem.createdat ).fromNow() }</div>
-			</div>
-		</a>
-	</li>
-
-	)
-})}															
-{/**                                <li>
+                              <li>
                                 <a style={{ backgroundImage: `url(${s5})` }}>
                                   <div class="on">
                                     <ul>
@@ -553,9 +479,236 @@ function HiddenItem({ store, setConnect }) {
                                     <div>Place Saint-Marc</div>
                                   </div>
                                 </a>
-                              </li> */}
+                              </li>
                             </span>
-
+                            <span>
+                              <li>
+                                <a
+                                  style={{ backgroundImage: `url(${sample})` }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 1
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(1);
+                                        }}
+                                      >
+                                        {morePopupIndex === 1 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </li>
+                                    </ul>
+                                    <span>Mark.X item</span>
+                                    <div>Place Saint-Marc</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  style={{ backgroundImage: `url(${sample})` }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 2
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(2);
+                                        }}
+                                      >
+                                        {morePopupIndex === 2 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  style={{ backgroundImage: `url(${sample})` }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 3
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(3);
+                                        }}
+                                      >
+                                        {morePopupIndex === 3 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  style={{ backgroundImage: `url(${sample})` }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 4
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(4);
+                                        }}
+                                      >
+                                        {morePopupIndex === 4 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  style={{ backgroundImage: `url(${sample})` }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 5
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(5);
+                                        }}
+                                      >
+                                        {morePopupIndex === 5 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li>
+                                <a
+                                  style={{ backgroundImage: `url(${sample})` }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class={
+                                          morePopupIndex === 6
+                                            ? "dot on"
+                                            : "dot"
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          onClickMoreBtn(6);
+                                        }}
+                                      >
+                                        {morePopupIndex === 6 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li>Hand Over</li>
+                                              <li>Edit</li>
+                                              <li>Item Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
                           </div>
                         </ol>
                       </div>

@@ -27,12 +27,14 @@ function Signup({ store, setConnect }) {
   const navigate = useNavigate();
   const boxRef = useRef();
   const photoRef = useRef();
+
   const [photo, setPhoto] = useState("");
   const [photoName, setPhotoName] = useState("");
+
   const [username, setUsername] = useState("");
   const [usernameChk, setUsernameChk] = useState(false);
   const [usernameAlarm, setUsernameAlarm] = useState("");
-  const [ address , setAddress ] = useState("")
+  const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [emailChk, setEmailChk] = useState(false);
   const [emailAlarm, setEmailAlarm] = useState("");
@@ -46,6 +48,7 @@ function Signup({ store, setConnect }) {
     setImgFile(file);
     reader.readAsDataURL(file);
     setPhotoName(file.name);
+
     reader.onload = function () {
       setPhoto(reader.result);
     };
@@ -73,9 +76,9 @@ function Signup({ store, setConnect }) {
           navigate("/sentemaildetail");
         } else {
           // 서버 전송실패 예외처리
-          if ( resp.data.message === "DATA-DUPLICATE") {
-            switch ( resp.data.reason ) {
-              case "address" :
+          if (resp.data.message === "DATA-DUPLICATE") {
+            switch (resp.data.reason) {
+              case "address":
                 alert(ERR_MSG.ERR_DUPLICATE_ADDRESS);
                 break;
               case "email":
@@ -100,7 +103,7 @@ function Signup({ store, setConnect }) {
       return;
     }
     if (!emailChk) {
-      alert ( ERR_MSG.ERR_REG_EMAIL )
+      alert(ERR_MSG.ERR_REG_EMAIL);
       return;
     }
     if (!infoCheck || !ageCheck || !subCheck) {
@@ -140,19 +143,21 @@ function Signup({ store, setConnect }) {
       setEmailAlarm("This is an invalid email address.");
       return;
     }
-    setEmailChk(true);
-  }, [ email ] )
 
-  useEffect(() => {		// address 없을경우
-    if ( userAddress === null ) {
-      alert ( ERR_MSG.ERR_NO_ADDRESS )
-			navigate ( "/connectwallet" )
-//			navigate ( "/connectwallet" )
-      return
+    setEmailChk(true);
+  }, [email]);
+
+  useEffect(() => {
+    // address 없을경우
+    if (userAddress === null) {
+      alert(ERR_MSG.ERR_NO_ADDRESS);
+      navigate("/");
+      return;
     } else {
-      setAddress ( userAddress )
+      setAddress(userAddress);
     }
-  }, [ userAddress ] )
+  }, [userAddress]);
+
   return (
     <SignPopupBox style={{ height: boxRef.current?.offsetHeight * 1.2 }}>
       <div class="popup info" id="info_popup">
@@ -229,9 +234,7 @@ function Signup({ store, setConnect }) {
                   <input
                     type="text"
                     value={address}
-										onChange={(e) => { setAddress(e.target.value)
-										
-										} }
+                    onChange={(e) => setAddress(e.target.value)}
                     placeholder="Please enter your wallet address"
                     disabled
                   />

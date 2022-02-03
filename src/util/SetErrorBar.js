@@ -2,7 +2,6 @@ import I_chkWhite from "../img/icons/I_chkWhite.svg";
 import I_xWhite from "../img/icons/I_xWhite.svg";
 
 export default function SetErrorBar(str = "copied", type = "pc") {
-  
   if (document.getElementsByClassName("errBar")[0]) return;
 
   let errBar = document.createElement("div");
@@ -16,7 +15,7 @@ export default function SetErrorBar(str = "copied", type = "pc") {
   errBar.style.color = "#fff";
   errBar.style.display = "flex";
   errBar.style.justifyContent = "space-between";
-  errBar.style.zIndex = "100";
+  errBar.style.zIndex = "100000";
 
   let leftBox = document.createElement("span");
   leftBox.style.display = "flex";
@@ -112,6 +111,4 @@ export default function SetErrorBar(str = "copied", type = "pc") {
   });
 
   document.body.append(errBar);
-  
- // alert(str);
 }

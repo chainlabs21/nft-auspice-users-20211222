@@ -41,7 +41,7 @@ function Main({ store }) {
       <p onClick={() => navigate("/importcontract")}>import contract</p>
       <p onClick={() => navigate("/myfavorite")}>my favorite</p>
       <p onClick={() => navigate("/mycollectionselect")}>my item select</p>
-      <p onClick={() => navigate("/royaltycheck")}>Royalty check</p>
+      <p onClick={() => navigate("/loyaltycheck")}>loyalty check</p>
 
       <p />
       <p onClick={() => navigate("/createitem")}>create Item</p>

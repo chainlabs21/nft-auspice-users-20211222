@@ -7,14 +7,18 @@ import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
 import collect_img4 from "../img/sub/collect_img4.png";
+
 import stone from "../img/sub/stone.png";
 import rock from "../img/sub/rock.png";
+
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
 import "../css/style.css";
+
 // import "./css/style01.css";
 // import "./css/style02.css";
+
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
@@ -24,55 +28,61 @@ import loupe from "../img/sub/loupe.png";
 import filter_icon from "../img/sub/filter_icon.png";
 import axios from "axios";
 import { API } from "../config/api";
-import { URL_TX_SCAN } from "../config/configs";
-import moment from 'moment'
 
 function ExploreDeal() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
   const [toggleFilter, setToggleFilter] = useState(false);
   const [moMoreObj, setMoMoreObj] = useState({});
   const [dataList, setDataList] = useState([]);
+
   function editFilterList(category, cont) {
     let dataObj = filterObj;
     dataObj[category] = cont;
+
     setFilterObj(dataObj);
     setFilterList([...Object.values(dataObj)]);
   }
+
   function onclickFilterReset() {
     setFilterObj({});
     setFilterList([]);
   }
+
   function onclickFilterCancel(cont) {
     let dataObj = filterObj;
+
     for (var key in dataObj) {
       if (dataObj.hasOwnProperty(key) && dataObj[key] == cont) {
         delete dataObj[key];
       }
     }
+
     setFilterObj(dataObj);
     setFilterList([...Object.values(dataObj)]);
   }
+
   function onClickToggleMoreBtn(index) {
     let moreObj = moMoreObj;
     moreObj[index] = !moreObj[index];
     console.log(moreObj);
     setMoMoreObj({ ...moreObj });
   }
+
   useEffect(() => {
     let token_sec = localStorage.getItem("token");
     axios.defaults.headers.get.token = token_sec;
     axios.defaults.headers.post.token = token_sec;
 
     axios
-      .get(API.API_GET_EXPLORE, {        params: { fieldname: "typestr", fieldvalues: "MINT,SALE", itemdetail : 1 },
+      .get(API.API_GET_EXPLORE, {
+        params: { fieldname: "typestr", fieldvalues: "MINT,SALE" },
       })
-      .then((resp) => {	console.log( 'MAvjoRxUYM' , resp.data )
-				let { status , list }=resp.data
-        if ( status =='OK' ){
-					setDataList( list)
-				}
+      .then((res) => {
+        console.log(res.data.list);
+        setDataList(res.data.list);
       });
   }, []);
 
@@ -300,14 +310,15 @@ function ExploreDeal() {
                       </thead>
                       <tbody>
                         {dataList.map((cont, index) => (
-                          <tr key={index} onClick={_=>{
-														navigate(`/singleitem?itemid=${cont.itemid}`)
-													}}>
+                          <tr key={index}>
                             <td>{cont.typestr}</td>
                             <td>
                               <div class="name">
-                                <img style={{width: '50px' , borderRadius:'50%'}}
-                                  src={ cont.item?.url ||	require("../img/sub/collect_circle.png").default }
+                                <img
+                                  src={
+                                    require("../img/sub/collect_circle.png")
+                                      .default
+                                  }
                                   alt=""
                                 />
                                 <p></p>
@@ -315,7 +326,11 @@ function ExploreDeal() {
                             </td>
                             <td>
                               <div class="name price">
-                                <img                                  src={require("../img/sub/I_klaytn.svg").default}                                  alt=""
+                                <img
+                                  src={
+                                    require("../img/sub/I_klaytn.svg").default
+                                  }
+                                  alt=""
                                 />
                                 <p>{cont.price}</p>
                               </div>
@@ -344,11 +359,9 @@ function ExploreDeal() {
                                 <p>{cont.to_}</p>
                               </div>
                             </td>
-                            <td>{ moment(cont.createdat).fromNow()  }</td>
-                            <td> {cont.amount }</td>
-                            <td onClick={_=>{
-															window.open ( URL_TX_SCAN[cont.nettype ] + `/${cont.txhash}` )
-														}}>
+                            <td></td>
+                            <td></td>
+                            <td>
                               <img
                                 src={
                                   require("../img/sub/icon_link_off.png")
@@ -451,11 +464,9 @@ function ExploreDeal() {
 const SignPopupBox = styled.div`
   .move.off .close {
   }
-
   .mySwiper3 {
     .swiper-wrapper {
       overflow-x: scroll;
-
       &::-webkit-scrollbar {
         display: none;
       }

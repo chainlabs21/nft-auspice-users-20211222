@@ -2,11 +2,14 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
+
 import sample from "../img/sub/sample.png";
+
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
 import "../css/style.css";
+
 // import "./css/style01.css";
 // import "./css/style02.css";
 
@@ -102,7 +105,7 @@ function MyItems({ store, setConnect }) {
                                         </li>
                                         <li
                                           onClick={(e) =>
-                                            onClickLink(e, "royaltycheck")
+                                            onClickLink(e, "loyaltycheck")
                                           }
                                         >
                                           Royalty

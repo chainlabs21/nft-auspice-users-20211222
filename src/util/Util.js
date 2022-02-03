@@ -1,4 +1,3 @@
-
 function putCommaAtPrice(data) {
   let str;
 

@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
+
 import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
@@ -14,55 +15,22 @@ import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
 import click1 from "../img/sub/click1.png";
+
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css"; // import "./css/style01.css"; // import "./css/style02.css";
+import "../css/style.css";
+
+// import "./css/style01.css";
+// import "./css/style02.css";
+
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import Myprofcommonheader  from '../components/Myprofcommonheader'
-import { useEffect, useState } from "react";
-import { applytoken } from "../util/rest";
-import { getmyaddress , LOGGER } from "../util/common"
-import { API } from '../config/api'
-import moment from 'moment'
-import { PAYMEANS_DEF } from '../config/configs'
-function Referals({ store, setConnect }) {
-	const navigate = useNavigate()
-	let [ myaddress , setmyaddress ] = useState( getmyaddress() )
-	let [ list , setlist ]=useState( [] )
-	let [ priceklay , setpriceklay] = useState()
-/** 	useEffect(_=>{
-		let {priceklay}=store
-		if ( priceklay){}
-		else {return }
-		setpriceklay( priceklay )
-	} , [ store.priceklay ])*/
-	let axios=applytoken ()
-	useEffect(_=>{
-		axios.get(`${API.API_TICKERS}/USDT`).then(resp=>{LOGGER( '' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK'){
-				setpriceklay ( list[ PAYMEANS_DEF ] ) // 'KLAY'
-			}
-		})
-	} , [] )
-	useEffect(_=>{
-		if (myaddress){}
-		else {return }
-		axios.get(API.API_LOGFEEPAYS + `/receiver/${myaddress}/0/10/id/DESC` , 
-			{params : {itemdetail : 1
-				, filterkey : 'receiverrolestr'
-				, filterval : 'REFERER'
-			}}).then(resp=>{ LOGGER('' , resp.data 	)
-			let { status , list}=resp.data
-			if ( status =='OK'){
-				setlist ( list )
-			}			
-		})
 
-	} , [ myaddress ] )
+function Referals({ store, setConnect }) {
+  const navigate = useNavigate();
+
   return (
     <SignPopupBox>
       <section id="sub">
@@ -70,8 +38,7 @@ function Referals({ store, setConnect }) {
           <div class="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 
-<Myprofcommonheader />
-{/**             <div class="wrap">
+            <div class="wrap">
               <div class="collection_detail">
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
@@ -92,7 +59,7 @@ function Referals({ store, setConnect }) {
                 </h4>
               </div>
             </div>
-*/}
+
             <div class="move off deal mdeal">
               <div class="right_move">
                 <div class="real_sec">
@@ -161,40 +128,92 @@ function Referals({ store, setConnect }) {
                             </tr>
                           </thead>
                           <tbody>
-{list.map ( (elem,idx)=>{
-return (	<tr key={ idx }>
-	<td>
-		<div class="name">
-			<img				src={ elem.item?.url ||					require("../img/sub/collect_circle.png")						.default				}				alt="" 
-				style={{borderRadius:'50%', width:'70px'}}
-			/>
-			<p>{ elem.item?.titlename }</p>
-		</div>
-	</td>
-	<td>
-		<div class="name price">
-			<img				src={					require("../img/sub/I_klaytn.svg").default				}				alt=""			/>
-			<p>
-				{elem.strikeprice } {'KLAY' }<span>(${+ elem.amount * + priceklay })</span>
-			</p>
-		</div>
-	</td>
-	<td>1</td>
-	<td>
-		<div class="name">
-			<img				src={ elem.author_mongo?.profileimage || require("../img/sub/collect_circle.png")						.default				}				alt=""			
-				style={{borderRadius : '50%' , width: '35px'}}			
-			/>
-			<p>{ elem.seller }</p>
-		</div>
-	</td>
-	<td>{ moment( elem.createdat ).fromNow() }</td>
-	<td>{ elem.createdat }</td>
-	<td>{ elem.amount } { elem.amountunit }</td>
-</tr>
-)
-})
-}
+                            <tr>
+                              <td>
+                                <div class="name">
+                                  <img
+                                    src={
+                                      require("../img/sub/collect_circle.png")
+                                        .default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>Summer Pool</p>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="name price">
+                                  <img
+                                    src={
+                                      require("../img/sub/I_klaytn.svg").default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>
+                                    0.010 KLAY<span>($30.11)</span>
+                                  </p>
+                                </div>
+                              </td>
+                              <td>1</td>
+                              <td>
+                                <div class="name">
+                                  <img
+                                    src={
+                                      require("../img/sub/collect_circle.png")
+                                        .default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>TIDREDQ34...</p>
+                                </div>
+                              </td>
+                              <td>2021.01.01</td>
+                              <td>2021.06</td>
+                              <td>0.0001 KLAY</td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <div class="name">
+                                  <img
+                                    src={
+                                      require("../img/sub/collect_circle.png")
+                                        .default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>Donald DUck</p>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="name price">
+                                  <img
+                                    src={
+                                      require("../img/sub/I_klaytn.svg").default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>
+                                    0.5000 KLAY<span>($30.11)</span>
+                                  </p>
+                                </div>
+                              </td>
+                              <td>1</td>
+                              <td>
+                                <div class="name">
+                                  <img
+                                    src={
+                                      require("../img/sub/collect_circle.png")
+                                        .default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>VOE837548...</p>
+                                </div>
+                              </td>
+                              <td>11 days later</td>
+                              <td>2021.06</td>
+                              <td>0.0005 KLAY</td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>

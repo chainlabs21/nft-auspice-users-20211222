@@ -2,11 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API } from "../config/api";
-import { LOGGER } from "../util/common";
-import moment from 'moment'
 
-export default function ItemLikePopup({ off , itemid }) {
-//  const { itemId } = useParams();
+export default function ItemLikePopup({ off }) {
+  const { itemId } = useParams();
   const limit = 10000;
   const [data, setData] = useState([]);
 
@@ -19,12 +17,11 @@ export default function ItemLikePopup({ off , itemid }) {
   };
 
   useEffect(() => {
-		axios.get(`${API.API_GET_LIKE_LIST}/${itemid}/0/${limit}/id/DESC` , { params: { userdetail : 1 } } ).then((res) => {         LOGGER( '' , res.data )
-		
-				let { status , list }=res.data
-				if (status =='OK' ){
-					setData( list)
-				}        
+    axios
+      .get(`${API.API_GET_LIKE_LIST}/${itemId}/0/${limit}/id/DESC`)
+      .then((res) => {
+        console.log(res.data.list);
+        setData(res.data.list);
       });
   }, []);
 
@@ -41,12 +38,11 @@ export default function ItemLikePopup({ off , itemid }) {
           <ul class="container popcon">
             {data.map((v, i) => (
               <li key={i}>
-                <span class="pop_profile" style={{backgroundImage : v.mongo?.profileimage ? `url(${v.mongo?.profileimage})` : `url(../img/sub/profile_img.png)` }}></span>
+                <span class="pop_profile"></span>
                 <h3>
                   {v.nickname}
                   <br />
-                  <span>{convertLongString(8, 0, v.username)}</span>
-									<span style={{textAlign:'right' , marginRight:'0px' }}>{ moment( v.createdat ).fromNow() } </span>
+                  <span>{convertLongString(8, 8, v.username)}</span>
                 </h3>
               </li>
             ))}

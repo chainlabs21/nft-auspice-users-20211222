@@ -5,10 +5,10 @@ const requesttransaction = async (jreqdata) => {
   let { from, to, data, value } = jreqdata;
   let { klaytn } = window;
   const txparams = {
-		from: from,
-		to: to,
-		data: data,
+    to: to,
+    from: from,
     value: value, // '0x00'
+    data: data,
   };
   let resp;
   try {
