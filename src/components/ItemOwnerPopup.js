@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API } from "../config/api";
 
-export default function ItemLikePopup({ off }) {
+export default function ItemOwnerPopup({ off }) {
   const { itemId } = useParams();
   const limit = 10000;
   const [data, setData] = useState([]);
@@ -18,7 +18,7 @@ export default function ItemLikePopup({ off }) {
 
   useEffect(() => {
     axios
-      .get(`${API.API_GET_LIKE_LIST}/${itemId}/0/${limit}/id/DESC`)
+      .get(`${API.API_GET_OWNER_LIST}/${itemId}/0/${limit}/id/DESC`)
       .then((res) => {
         console.log(res.data.list);
         setData(res.data.list);
@@ -32,7 +32,7 @@ export default function ItemLikePopup({ off }) {
           <img src={require("../img/sub/icon_close.png").default} alt="close" />
         </a>
         <div class="poptitle">
-          <h2>Liked by</h2>
+          <h2>Owner List</h2>
         </div>
         <div class="list_bottom">
           <ul class="container popcon">
@@ -44,6 +44,9 @@ export default function ItemLikePopup({ off }) {
                   <br />
                   <span>{convertLongString(8, 8, v.username)}</span>
                 </h3>
+                <p>
+                  <a>{v.amount} Items</a>
+                </p>
               </li>
             ))}
           </ul>

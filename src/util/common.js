@@ -1,5 +1,39 @@
 import mnemonicwords from "mnemonic-words";
+import SetErrorBar from "../util/SetErrorBar";
 const LOGGER = console.log;
+const STRINGER = JSON.stringify;
+const PARSER = JSON.parse;
+const ISFINITE = Number.isFinite;
+
+function onClickCopy(copyText) {
+  const textArea = document.createElement("textarea");
+  document.body.appendChild(textArea);
+  //	const copyText = `${url}/${document.location.hash}`;
+  textArea.value = copyText;
+  textArea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textArea);
+  SetErrorBar("Link Copied!");
+}
+const conv_bp_percent = (arg) =>
+  ISFINITE(+arg) ? (+arg / 100).toFixed(1) : null;
+const convaj = (arr, keyname, valuename) => {
+  let jdata = {};
+  arr.forEach((elem) => {
+    jdata[elem[keyname]] = elem[valuename];
+  });
+  return jdata;
+};
+function generaterandomstr(length) {
+  var result = "";
+  var characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
 const getrandomint = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
@@ -20,12 +54,11 @@ const getRandomElementsFromArray = (arr, n) => {
 const getrandomwords = (N) => {
   return getRandomElementsFromArray(mnemonicwords, N);
 };
-
-export const getuseraddress = () => {
+const getuseraddress = () => {
   return window.klaytn ? window.klaytn.selectedAddress : null;
   // return window.ethereum ? window.ethereum.selectedAddress : null;
 };
-
+const getmyaddress = getuseraddress;
 export const encodeBase64ImageFile = (image) => {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
@@ -40,7 +73,6 @@ export const encodeBase64ImageFile = (image) => {
     };
   });
 };
-
 export const encodeBase64File = (file) => {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
@@ -56,4 +88,18 @@ export const encodeBase64File = (file) => {
   });
 };
 
-export { LOGGER, getrandomint, getRandomElementsFromArray, getrandomwords };
+export {
+  onClickCopy,
+  conv_bp_percent,
+  convaj,
+  LOGGER,
+  STRINGER,
+  PARSER,
+  ISFINITE,
+  generaterandomstr,
+  getrandomint,
+  getRandomElementsFromArray,
+  getrandomwords,
+  getuseraddress,
+  getmyaddress,
+};

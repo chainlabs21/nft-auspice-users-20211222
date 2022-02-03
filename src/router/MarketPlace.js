@@ -16,6 +16,10 @@ import I_x from "../img/main/I_x.svg";
 import filter_icon from "../img/sub/filter_icon.png";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";
+import heart_off from "../img/sub/heart_off.png";
+import heart_on from "../img/sub/heart_on.png";
+import star_off from "../img/sub/star_off.png";
+import star_on from "../img/sub/star_on.png";
 
 import "../css/common.css";
 import "../css/font.css";
@@ -26,8 +30,10 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useState, useEffect } from "react";
-import { generateItems } from "../mokups/items";
 import moment from "moment";
+import axios from "axios";
+import { API } from "../config/api";
+import { putCommaAtPrice } from "../util/Util";
 
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
@@ -73,21 +79,15 @@ function MarketPlace({ store, setConnect }) {
 
   useEffect(() => {
     const temp = [...itemList];
-    // categorFilter
+
+    // categoryFilter
     const categoryFiltered = temp.filter((v) => {
-      if (categoryFilter === "All") {
-        return true;
-      }
-      let toggle = false;
-      v.categorystr.forEach((cate) => {
-        if (cate === categoryFilter) {
-          toggle = true;
-        } else {
-          toggle = false;
-        }
-      });
-      return toggle;
+      if (categoryFilter === "All") return true;
+
+      if (v.item.categorystr === categoryFilter) return true;
+      else return false;
     });
+
     // statusFilter
     let statusFiltered = [...categoryFiltered];
     let statusToggle = false;
@@ -166,15 +166,18 @@ function MarketPlace({ store, setConnect }) {
   };
 
   useEffect(() => {
-    const originItemList = generateItems(60);
+    axios.get(`${API.API_GET_ITEM_LIST}/single/latest/0/10`).then((res) => {
+      console.log(res.data.list);
+      setItemList(res.data.list);
+      setFilteredList(res.data.list);
+      setTotalItem(res.data.list.length);
+    });
 
-    setItemList(originItemList);
-    setFilteredList(originItemList);
-    setTotalItem(originItemList.length);
     if (location?.state) {
       setCategoryFilter(location.state);
     }
   }, [location.state]);
+
   useEffect(() => {
     const asyncGetItem = async () => {
       try {
@@ -580,7 +583,9 @@ function MarketPlace({ store, setConnect }) {
                               <span>
                                 <li>
                                   <a
-                                    onClick={() => navigate("/singleitem")}
+                                    onClick={() =>
+                                      navigate(`/singleitem/${v.item.itemid}`)
+                                    }
                                     style={{
                                       //backgroundImage: `url(${v.imgsrc})`,
                                       backgroundImage: `url(${s5})`,
@@ -591,19 +596,22 @@ function MarketPlace({ store, setConnect }) {
                                   >
                                     <div class="on">
                                       <ul>
-                                        <li class="heart off">
-                                          {v.countfavors.toLocaleString(
-                                            "eu",
-                                            "US"
-                                          )}
+                                        <li>
+                                          <img src={heart_off} alt="" />
+                                          {v.item.countfavors}
                                         </li>
-                                        <li class="star off"></li>
+                                        <li>
+                                          <img src={star_off} alt="" />
+                                        </li>
                                       </ul>
-                                      <div>{v.itemid}</div>
-                                      <span>{v.owner}</span>
+                                      <div>{v.item.titlename}</div>
+                                      <span>{v.item.owner}</span>
                                       <ol>
-                                        <li>{moment(v.createdat).toNow()}</li>
-                                        <li>{v.tokenprice} KLAY</li>
+                                        <li>{/* {moment().toNow()} */}</li>
+                                        <li>
+                                          {putCommaAtPrice(v.item.price)}{" "}
+                                          {v.item.priceunit}
+                                        </li>
                                       </ol>
                                     </div>
                                   </a>
@@ -645,11 +653,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
+export default MarketPlace;
 
 const statusList = ["Buy Now", "On Auction", "New", "Has Offers"];
-
-const bundleFilterList = ["Single Item", "All", "Bundle sales"];
 
 const categoryList = [
   "Art",
@@ -660,18 +666,6 @@ const categoryList = [
   "Sports",
   "Utility",
   "ETC",
-];
-
-const sortList = [
-  "Latest",
-  "popularity",
-  "Close to finish",
-  "Low price",
-  "high price",
-  "A small bid",
-  "A lot of bids",
-  "Most seen",
-  "oldest",
 ];
 
 const chainList = [
