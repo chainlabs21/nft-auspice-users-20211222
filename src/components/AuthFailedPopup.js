@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { useLayoutEffect } from "react";
 
-const Popup = () => {
+const AuthFailedPopup = () => {
   const [ownerPopup, setLikePopup] = useState(true);
   const navigate = useNavigate();
   function useWindowSize() {
@@ -29,26 +29,31 @@ const Popup = () => {
         <div
           class="box_wrap wrap2"
           style={{
-            width: inWidth < 640 ? "80%" : "600px",
-            height: inWidth < 640 ? "280px" : "381px",
+            width: inWidth < 641 ? "310px" : "600px",
+            height: inWidth < 641 ? "auto" : "auto",
+            paddingBottom: inWidth < 641 ? "30px" : "42px",
           }}
         >
-          <div style={{ marginTop: "21px", display: "flex" }}>
+          <div style={{ display: "flex" }}>
             <h2
               style={{
-                fontSize: inWidth < 640 ? "20px" : "24px",
+                fontFamily: "Poppins",
+                fontSize: inWidth < 641 ? "16px" : "24px",
                 fontWeight: "600",
                 margin: "auto",
+                paddingTop: inWidth < 641 ? "50px" : "21px",
+                paddingBottom: inWidth < 641 ? "8px" : "auto",
               }}
             >
               Cancle Listings
             </h2>
             <a
               style={{
-                width: inWidth < 640 ? "20px" : "30px",
+                width: inWidth < 641 ? "0px" : "30px",
                 position: "absolute",
                 right: "0",
                 marginRight: "20px",
+                paddingTop: "20px",
               }}
               onClick={() => setLikePopup(false)}
             >
@@ -62,13 +67,18 @@ const Popup = () => {
 
           <div
             style={{
-              height: inWidth < 640 ? "165px" : "210px",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <h4 style={{ fontSize: inWidth < 640 ? "12px" : "16px" }}>
+            <h4
+              style={{
+                fontFamily: "Roboto",
+                fontSize: inWidth < 641 ? "12px" : "16px",
+                paddingBottom: inWidth < 641 ? "30px" : "97px",
+              }}
+            >
               Are you sure you want to cancel your listing?
             </h4>
           </div>
@@ -82,23 +92,26 @@ const Popup = () => {
   );
 };
 
-export default Popup;
+export default AuthFailedPopup;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom: "30px";
 `;
 const Button1 = styled.button`
   width: 224px;
   height: 56px;
   border-radius: 28px;
+  font-weight: bold;
   border: solid 1px #011218;
   background-color: #fbfbfb;
   font-size: 22px;
   margin-right: 13px;
   @media screen and (max-width: 640px) {
     font-size: 14px;
-    margin-left: 20px;
+    margin-right: 5px;
+
     width: 130px;
     height: 38px;
     border-radius: 28px;
@@ -111,10 +124,11 @@ const Button2 = styled.button`
   background-color: #222;
   color: white;
   font-size: 22px;
+  font-weight: bold;
   margin-left: 13px;
   @media screen and (max-width: 640px) {
     font-size: 14px;
-    margin-right: 20px;
+    margin-left: 5px;
     width: 130px;
     height: 38px;
     border-radius: 28px;
@@ -124,8 +138,10 @@ const Button2 = styled.button`
 
 const Hr = styled.hr`
   margin-top: 17.5px;
-  height: "1px";
-  color: "#e8e8e8";
+  margin-bottom: 94.5px;
+  height: 0.1px;
+  border-color: #e8e8e8;
+  background-color: #e8e8e8;
   @media screen and (max-width: 640px) {
     display: none;
   }
