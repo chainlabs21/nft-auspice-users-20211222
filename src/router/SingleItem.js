@@ -112,7 +112,7 @@ function SingleItem({ store, setConnect , Setisloader
 	let [ myaddress , setmyaddress ]=useState( getmyaddress() )
 	const getfeeamountstr=( amount,rate)=>{ let n =+amount * +rate / 10000 
 		return n.toFixed(4) // String()
-	}	
+	}
 	useEffect(_=>{
 		let { klaytn }=window
 		if ( klaytn){}
@@ -226,7 +226,7 @@ function SingleItem({ store, setConnect , Setisloader
 			, getweirep( sellorder?.asset_amount_ask )
 			, sellorder?.startingtime? sellorder?.startingtime : moment().unix()
 			, sellorder?.expiry
-			, getweirep( mybidamount ) 
+			, getweirep( mybidamount )
 		]
 		let abistr = getabistr_forfunction ({
 			contractaddress  :ADDRESSES.auction_repo_english_batch_tasks // auction_repo_english_simple_no_batch_tasks
@@ -369,6 +369,7 @@ function SingleItem({ store, setConnect , Setisloader
 			let { status , list}=resp.data
 			if ( status =='OK'){
 				setlistitemhistory ( list )
+				setlistholder ( list )
 			}
 		})
 
@@ -515,10 +516,10 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
 <input value={ mybidamount }
 	onChange={e=>{
 		let {value}=e.target
+		setmybidamount ( ''+value )
 		value = + value
 		if (ISFINITE( value )){}
-		else { SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY) ; return }
-		setmybidamount ( ''+value )
+		else { SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY) } // ; return 
 		if( value>= +myethbalance){SetErrorBar(messages.MSG_EXCEEDS_BALANCE) ; return }
 		if( value >=sellorder?.asset_amount_ask ){}
 		else { SetErrorBar( messages.MSG_FAILS_AUCTION_REQ ); return }

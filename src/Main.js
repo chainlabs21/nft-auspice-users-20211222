@@ -340,13 +340,11 @@ function Main({ store }) {
                           </ul>
                         </div>
                         <div class="button">
-                          <a
-                            onClick={() => navigate(`/singleitem?itemid=${cont.itemid }`)}
+                          <a onClick={() => navigate(`/singleitem?itemid=${cont.itemid }`)}
                           >
                             View Item
                           </a>
-                          <a
-                            onClick={() => navigate(`/singleitem?itemid=${cont.itemid }`)}
+                          <a onClick={() => navigate(`/singleitem?itemid=${cont.itemid }`)}
                           >
                             Place a Bid
                           </a>
