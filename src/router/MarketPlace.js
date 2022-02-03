@@ -16,28 +16,23 @@ import I_x from "../img/main/I_x.svg";
 import filter_icon from "../img/sub/filter_icon.png";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";
-import heart_off from "../img/sub/heart_off.png";
-import heart_on from "../img/sub/heart_on.png";
-import star_off from "../img/sub/star_off.png";
-import star_on from "../img/sub/star_on.png";
+
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
 import "../css/style.css";
+
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useState, useEffect } from "react";
+import { generateItems } from "../mokups/items";
 import moment from "moment";
-// import axi os from "axi os";
-import { API } from "../config/api";
-import { putCommaAtPrice } from "../util/Util";
-import { applytoken } from "../util/rest";
-import { LOGGER } from "../util/common";
-import { PAYMEANS_DEF } from '../config/configs'
+
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
   const location = useLocation();
+
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
@@ -50,11 +45,12 @@ function MarketPlace({ store, setConnect }) {
   const [callEffect, setCallEffect] = useState(false);
   const [totalItem, setTotalItem] = useState(0);
   const [unit, setUnit] = useState("USD");
-	const [pricePopup, setPricePopup] = useState(false)
-	let axios=applytoken()
+  const [pricePopup, setPricePopup] = useState(false);
+
   const handleCateFilter = (category) => {
     setCategoryFilter(category);
   };
+
   function getSelectText() {
     switch (unit) {
       case "USD":
@@ -65,6 +61,7 @@ function MarketPlace({ store, setConnect }) {
         break;
     }
   }
+
   function onClickOption(data) {
     setUnit(data);
     setPriceFilterToggle(false);
@@ -73,13 +70,23 @@ function MarketPlace({ store, setConnect }) {
     setCallEffect(!callEffect);
     setPricePopup(false);
   }
+
   useEffect(() => {
     const temp = [...itemList];
-    // categoryFilter
+    // categorFilter
     const categoryFiltered = temp.filter((v) => {
-      if (categoryFilter === "All") return true;
-      if (v.item.categorystr === categoryFilter) return true;
-      else return false;
+      if (categoryFilter === "All") {
+        return true;
+      }
+      let toggle = false;
+      v.categorystr.forEach((cate) => {
+        if (cate === categoryFilter) {
+          toggle = true;
+        } else {
+          toggle = false;
+        }
+      });
+      return toggle;
     });
     // statusFilter
     let statusFiltered = [...categoryFiltered];
@@ -126,6 +133,7 @@ function MarketPlace({ store, setConnect }) {
         }
       });
     }
+
     //chainsFilter
     setFilteredList(priceFiltered);
   }, [categoryFilter, itemList, filterList, callEffect]);
@@ -157,27 +165,23 @@ function MarketPlace({ store, setConnect }) {
     setFilterList([...Object.values(dataObj)]);
   };
 
-/*  useEffect(() => {
-    axios.g et(`${API.API_GET_ITEM_LIST}/single/latest/0/10`).then((res) => {
-      console.log(res.data.list);
-      setItemList(res.data.list);
-      setFiltere dList(res.data.list);
-      setTotalI tem(res.data.list.length);
-    });
+  useEffect(() => {
+    const originItemList = generateItems(60);
+
+    setItemList(originItemList);
+    setFilteredList(originItemList);
+    setTotalItem(originItemList.length);
     if (location?.state) {
       setCategoryFilter(location.state);
     }
   }, [location.state]);
-*/
   useEffect(() => {
-		axios.get( `${API.API_MERCHANDISES_LIST}` ).then(resp=>{ LOGGER( 'wgNCeNKxXL' , resp.data )
-			let { status , list , payload } = resp.data
-			if ( status == 'OK'){
-				setFilteredList ( list ) 
-				setTotalItem ( payload?.count )
-			}
-		})
-	} , [] );
+    const asyncGetItem = async () => {
+      try {
+        //const resp = axios.get()
+      } catch (error) {}
+    };
+  });
 
   return (
     <MarketPlaceBox>
@@ -571,16 +575,15 @@ function MarketPlace({ store, setConnect }) {
                     <div class="swiper-container">
                       <ol class="item move_li summary summary2">
                         <div>
-                          { filteredList.map((v, i) => {
+                          {filteredList.map((v, i) => {
                             return (
-                              <span key={i}>
+                              <span>
                                 <li>
                                   <a
-                                    onClick={() =>
-                                      navigate(`/singleitem?itemid=${v.item.itemid}`)
-                                    }
-                                    style={{	//backgroundImage: `url(${v.imgsrc})`,
-                                      backgroundImage: `url(${v.item?.url})`,
+                                    onClick={() => navigate("/singleitem")}
+                                    style={{
+                                      //backgroundImage: `url(${v.imgsrc})`,
+                                      backgroundImage: `url(${s5})`,
                                       backgroundRepeat: "no-repeat",
                                       backgroundPosition: "center",
                                       backgroundSize: "cover",
@@ -588,22 +591,19 @@ function MarketPlace({ store, setConnect }) {
                                   >
                                     <div class="on">
                                       <ul>
-                                        <li>
-                                          <img src={heart_off} alt="" />
-                                          {v.item?.countfavors}
+                                        <li class="heart off">
+                                          {v.countfavors.toLocaleString(
+                                            "eu",
+                                            "US"
+                                          )}
                                         </li>
-                                        <li>
-                                          <img src={v.ilikethisitem? 'star_on' : 'star_off'} alt="" />
-                                        </li>
+                                        <li class="star off"></li>
                                       </ul>
-                                      <div>{v.item?.titlename}</div>
-                                      <span>{v.author?.nickname }</span>
+                                      <div>{v.itemid}</div>
+                                      <span>{v.owner}</span>
                                       <ol>
-<li>{ v.minpriceorder?.expiry ? 'expires '+moment.unix(v.minpriceorder?.expiry ).fromNow(): 'created '+moment(v.item?.createdat).fromNow() } </li>
-                                        <li>
-                                          {putCommaAtPrice(v.askpricestats?.min )}{" "}
-                                          { PAYMEANS_DEF }
-                                        </li>
+                                        <li>{moment(v.createdat).toNow()}</li>
+                                        <li>{v.tokenprice} KLAY</li>
                                       </ol>
                                     </div>
                                   </a>
@@ -645,9 +645,11 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default MarketPlace;
+export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
 
 const statusList = ["Buy Now", "On Auction", "New", "Has Offers"];
+
+const bundleFilterList = ["Single Item", "All", "Bundle sales"];
 
 const categoryList = [
   "Art",
@@ -658,6 +660,18 @@ const categoryList = [
   "Sports",
   "Utility",
   "ETC",
+];
+
+const sortList = [
+  "Latest",
+  "popularity",
+  "Close to finish",
+  "Low price",
+  "high price",
+  "A small bid",
+  "A lot of bids",
+  "Most seen",
+  "oldest",
 ];
 
 const chainList = [

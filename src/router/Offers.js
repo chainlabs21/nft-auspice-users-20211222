@@ -20,15 +20,19 @@ import rock from "../img/sub/rock.png";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";
 import filter_icon from "../img/sub/filter_icon.png";
+
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css"; // import "./css/style01.css";// import "./css/style02.css";
+import "../css/style.css";
+
+// import "./css/style01.css";
+// import "./css/style02.css";
+
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useRef, useState } from "react";
-import Myprofcommonheader  from '../components/Myprofcommonheader'
 
 function Offers({ store, setConnect }) {
   const navigate = useNavigate();
@@ -79,6 +83,7 @@ function Offers({ store, setConnect }) {
 
   function onclickFilterCancel(cont) {
     let dataObj = filterObj;
+
     for (var key in dataObj) {
       if (dataObj.hasOwnProperty(key) && dataObj[key] == cont) {
         delete dataObj[key];
@@ -96,8 +101,7 @@ function Offers({ store, setConnect }) {
           <div class="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 
-<Myprofcommonheader />
-{/**             <div class="wrap">
+            <div class="wrap">
               <div class="collection_detail">
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
@@ -118,7 +122,6 @@ function Offers({ store, setConnect }) {
                 </h4>
               </div>
             </div>
-*/}
 
             <div class={toggleFilter ? "move on deal" : "move off deal"}>
               <div class="cw ucl">

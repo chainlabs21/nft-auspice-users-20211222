@@ -1,413 +1,96 @@
 import { connect } from "react-redux";
-import { useNavigate, useParams } from "react-router";
-import { setConnect , setisloader , setpriceklay
-	, setitemid
-} from "../util/store";
+import { useNavigate, useLocation } from "react-router";
+import { setConnect } from "../util/store";
 import styled from "styled-components";
+
+import collect_img from "../img/sub/collect_img.png";
+import collect_img2 from "../img/sub/collect_img2.png";
+import collect_img3 from "../img/sub/collect_img3.png";
+import collect_img4 from "../img/sub/collect_img4.png";
+import s5 from "../img/sub/s5.png";
 import sample from "../img/sub/sample.png";
 import profile_img from "../img/sub/profile_img.png";
+
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css"; // import "./css/style01.css"; // import "./css/style02.css";
+import "../css/style.css";
+
+// import "./css/style01.css";
+// import "./css/style02.css";
+
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import { useEffect , useRef , useState } from "react";
-// import { singleItem } from "../mokups/items";
+import { useEffect, useRef, useState } from "react";
+import { singleItem } from "../mokups/items";
 import moment from "moment";
-// import axios from "axios";
-import { API } from "../config/api";
-import ItemOwnerPopup from "../components/ItemOwnerPopup";
-import ItemLikePopup from "../components/ItemLikePopup";
-import { applytoken } from "../util/rest";
-import { onClickCopy
-	, LOGGER
-	, KEYS
-	, getMaxMinAvg
-	, get_last_part_of_path
-	, gettimestr
-	,	getmyaddress,
-	convaj,
-	ISFINITE
-	, 
-} from "../util/common"
-import SetErrorBar from "../util/SetErrorBar";
-import { messages } from '../config/messages'
-import { PAYMEANS_DEF , URL_TX_SCAN  , FEES_DEF, NETTYPE } from '../config/configs'
-import I_heartO from "../img/main/I_heartO.svg"
-import I_heartOGray from "../img/sub/I_heartOGray.svg"
-import I_heartOPink from '../img/sub/I_heartOPink.svg'
-import { useSearchParams } from "react-router-dom"
-import { query_nfttoken_balance, requesttransaction , getabistr_forfunction, query_with_arg ,  } from "../util/contract-calls";
-import I_staroff from '../img/sub/star_off.png'
-import I_staron from '../img/sub/star_on.png'
-import { query_eth_balance } from '../util/contract-calls'
-import { getethrep, getweirep, is_two_addresses_same } from '../util/eth'
-import rstone from "../img/sub/rstone.png";
-import { ADDRESSES } from '../config/addresses'
-import { strDot } from "../util/Util"
 
-const convertLongString = (startLength, endLength, str) => {
-	if (!str) return;
-	const head = str.substring(0, startLength);
-	const spread = "......";
-	const tail = str.substring( str.length - endLength, str.length )
-	return head + spread + tail;
-}
-const numFormatter = (num) => {
-	if (num > 999 && num < 1000000) {
-		return (num / 1000).toFixed(1) + "K"; // convert to K for number from > 1000 < 1 million
-	} else if (num > 1000000) {
-		return (num / 1000000).toFixed(1) + "M"; // convert to M for number from > 1 million
-	} else if (num < 900) {
-		return num; // if value < 1000, nothing to do
-	}
-}
-function SingleItem({ store, setConnect , Setisloader
-	, Setpriceklay , Setitemid
-}) {
-  const navigate = useNavigate(); //  const { itemid } = useParams()
+function SingleItem({ store, setConnect }) {
+  const navigate = useNavigate();
   const itemWrapRef = useRef();
-/**   const {    likerList,    ownerList,    salesStatus,    pur chaseStatus,    transactionHistory,    chainInformation,  } = singleItem;*/
+  const {
+    likerList,
+    ownerList,
+    salesStatus,
+    purchaseStatus,
+    transactionHistory,
+    chainInformation,
+  } = singleItem;
+
   const [ownerPopup, setOwnerPopup] = useState(false);
   const [likePopup, setLikePopup] = useState(false);
-	const [ buySpotPopup, setbuySpotPopup] = useState(false);
-	let [ bidauctionmodal , setbidauctionmodal ]=useState( false )
-  const [ chartCategory, setChartCategory] = useState(0);
-//  const [endAutionTime, setEndAutionTime] = useState( singleItem.auctionExpiry ) 
-  // const [diffTime, setDiffTime] = useState();
-//  const [nearEnd, setNearEnd] = useState(false);
-	const [itemdata, setitemdata] = useState({});
-	let [ itemdataaux , setitemdataaux ] = useState()
-	const [ userIndex, setUserIndex ] = useState(0)
-	let [ transactionHistory , settransactionHistory ] = useState ( [] )
-	let [ logorders , setlogorders ] = useState( [] )
-	let [ logsales , setlogsales ] = useState ( [] )
-	let [ logprices , setlogprices ] = useState( [] ) 
-//	let [ logactions , setlogactions ] = useState ( [] )
-	let [ pricestats , setpricestats ] = useState ( [] )
-	let [ ilikethis , setilikethis ] = useState( false )
-	let [ ibookmarkthis , setibookmarkthis ] = useState ( false )
-	let [ orders_sell , setorders_sell ] = useState( [] )
-	let [ sellorder , setsellorder ] =useState ( {} )
-	let [ author , setauthor ]= useState()
-	let [ myethbalance , setmyethbalance  ] = useState()
-	let [ priceklay , setpriceklay]= useState()
-	let [ istoschecked , setistoschecked]=useState ( false )
-	let [ listotheritems , setlistotheritems ] = useState ( [] )
-	let [ listitemhistory , setlistitemhistory] = useState( [] )
-	let [ listholder , setlistholder ] = useState( [] )
-	let [ iscollectionbyauthorseller , setiscollectionbyauthorseller ] = useState( )
-	let [ jprofileimages , setjprofileimages ]=useState( [] )
-	let lockjprofileimages={}
-	let [ searchParams, setSearchParams ] = useSearchParams()
-	let [ itemid , setitemid ] = useState( searchParams.get( 'itemid' ))
-	let [ referer , setreferer] = useState( searchParams.get ('referer') )
-	let [ j_auctionuuid_bidprice , setj_auctionuuid_bidprice ]=useState( {} )
-	let [ mybidamount , setmybidamount ] = useState( '' )
-	let tokenid 
-//	let itemid =get_last_part_of_path ( window.location.href )
-	let axios = applytoken()	
-	let [ myaddress , setmyaddress ]=useState( getmyaddress() )
-	const getfeeamountstr=( amount,rate)=>{ let n =+amount * +rate / 10000 
-		return n.toFixed(4) // String()
-	}	
-	useEffect(_=>{
-		let { klaytn }=window
-		if ( klaytn){}
-		else {return }
-		let myaddress = getmyaddress()
-		setmyaddress ( myaddress )
-		myaddress && query_eth_balance( myaddress ).then(resp=>{ LOGGER( 'mylcfti0uE' , resp )
-			setmyethbalance( getethrep (resp ) )
-		} )
-	} , [ window.klaytn ] )
-	useEffect(async _=>{
-		if (sellorder && KEYS(sellorder).length ){}
-		else {return }		
-		return
-		let resp = await query_with_arg( {
-			contractaddress: ADDRESSES.erc1155 ,
-      abikind: 'ERC1155',
-      methodname: '_itemhash_tokenid',
-      aargs: [ itemdata?.item?.itemid ],
-		}) ; LOGGER( 'mohrKFfjxQ' , resp )
-		if ( resp ){ tokenid = resp 
-			return
-			query_with_arg({
-				contractaddress: ADDRESSES.erc1155 ,
-				abikind: 'AUCTION_ENGLISH_BATCH_TASKS',
-				methodname: 'get_batch_hashid',
-				aargs: [ sellorder?.username
-					, ADDRESSES.erc1155
-					, tokenid
-					, getweirep( sellorder?.asset_amount_ask )
-					, sellorder?.expiry
-				],
-			}) // 
-		}
-		else { tokenid = 0 } 		
-	} , [ sellorder ])
-	const on_buy_spot_common=_=>{
-		LOGGER( '' , itemdata.item?.itemid ) // query_nfttoken_balance () // a little cumbersome
-		let { item }= itemdata
-		let aargs =[
-			ADDRESSES.erc1155
-			, itemdata.item?.itemid // item?.itemid
-//			, itemdata.item?.tokenid // 0
-			, sellorder.asset_amount_bid
-			, item?.authorfee
-//			, item?.decimals
-//			, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDR ESSES.zero
-			, getweirep( sellorder?.asset_amount_ask ) 
-			, sellorder?.username
-			, myaddress
-			,  referer ? referer : ADDRESSES.zero
-		]
-		LOGGER( aargs )
-//		return 		
-		let abistr = getabistr_forfunction ( {
-			contractaddress  :ADDRESSES.matcher_simple
-			, abikind : 'MATCHER_SIMPLE'
-			, methodname : 'mint_and_match_single_simple'
-			, aargs } )
-//			return
-			requesttransaction ({
-				from : myaddress
-				, to : ADDRESSES.matcher_simple
-				, data: abistr
-				 , value : getweirep( sellorder.asset_amount_ask ) // '0x00'
-			}).then(resp=>{LOGGER('' , resp )
-				let { transactionHash , status }=resp
-				if ( status ){
-					let reqbody={
-						itemid
-						, tokenid : itemdata.item?.tokenid
-						, amount : itemdata.item?.countcopies
-						, price : sellorder?.asset_amount_ask
-						, username : myaddress
-						, seller : sellorder?.username
-						, buyer : myaddress
-						, matcher_contract : ADDRESSES.matcher_simple_20220131
-						, token_repo_contract : ADDRESSES.erc1155
-						, adminfee :		{ address : ADDRESSES.vault , amount: getfeeamountstr(sellorder?.asset_amount_ask ,FEES_DEF.ADMIN) , rate: FEES_DEF.ADMIN } // 
-						, refererfee : referer ?	{ address : referer ,amount:getfeeamountstr(sellorder?.asset_amount_ask ,FEES_DEF.REFERER ),rate: FEES_DEF.REFERER } : null
-						, authorfee :		{ address : itemdata?.item?.author ,amount: getfeeamountstr(sellorder?.asset_amount_ask , itemdata.item?.authorfee ) ,rate: itemdata?.item?.authorfee }
-						, sellorderuuid : sellorder?.uuid
-						, nettype : NETTYPE
-					}
-					axios.post (API.API_REPORT_TX_CLOSE_SPOT + `/${transactionHash}` , reqbody).then(resp=>{ LOGGER('G6OvdxLxyA' , resp.data )
-						let { status }=resp.data 
-						if ( status=='OK'){
-							SetErrorBar( messages.MSG_DONE_REGISTERING )
-						}
-					})
-				}
-			}).catch(err=>{
-				LOGGER('' , err)
-				SetErrorBar(messages.MSG_USER_DENIED_TX )
-			}) // LOGGER( ''  , abistr )
-		return
-		if ( itemdata?.item?.tokenid ){ 		} // on chain
-		else {		}
-	}
-	const on_bid_auction= async _=>{
-		if (mybidamount){}
-		else {SetErrorBar( messages.MSG_PLEASE_INPUT ); return }
-		let aargs = [
-			ADDRESSES.erc1155
-			, sellorder?.username
-			, sellorder?.itemid
-			, itemdata?.item?.countcopies 
-			, itemdata?.item?.authorfee
-			, tokenid || '0' // itemdata?.item?.
-			, sellorder?.asset_amount_bid
-			, getweirep( sellorder?.asset_amount_ask )
-			, sellorder?.startingtime? sellorder?.startingtime : moment().unix()
-			, sellorder?.expiry
-			, getweirep( mybidamount ) 
-		]
-		let abistr = getabistr_forfunction ({
-			contractaddress  :ADDRESSES.auction_repo_english_batch_tasks // auction_repo_english_simple_no_batch_tasks
-			, abikind : 'AUCTION_ENGLISH_BATCH_TASKS'
-			, methodname : 'mint_begin_simple_and_bid'
-			, aargs 
-		})
-		requesttransaction({ 
-			from : myaddress
-			, to : ADDRESSES.auction_repo_english_batch_tasks // auction_repo_english_simple_no_batch_tasks
-			, data : abistr
-			, value : getweirep( mybidamount )
-		}).then( async resp=>{			LOGGER( '' , resp )
-			let { transactionHash : txhash , status } = resp
-			if ( status ) {}
-			else {SetErrorBar (messages.MSG_USER_DENIED_TX ); return }
-			SetErrorBar (messages.MSG_BID_PLACED )
-			let reqbody={
-				itemid : itemdata?.item?.itemid
-				, auctionuuid : sellorder?.uuid
-				, seller : sellorder?.username
-				, username : myaddress
-				, price : mybidamount
-				, priceunit : PAYMEANS_DEF
-				, nettype : NETTYPE
-				, typestr : 'BID_TO_AUCTION'
-				, tokenid : itemdata?.item?.tokenid
-			}		
-			 axios.post (API.API_REPORT_BID_TO_AUCTION + `/${txhash}` , reqbody ).then(resp=>{				LOGGER( 'rehCTxqXLK' , resp.data )
-				let { status }=resp.data
-				if ( status =='OK' ){
-					SetErrorBar(messages.MSG_DONE_REGISTERING )
-					fetchitem( itemdata?.item?.itemid )
-					setbidauctionmodal( false)
-				}
-			 })
-		})
-	}
-	const onclickbuy = _ =>{
-		switch ( sellorder?.typestr){
-			case 'COMMON' : on_buy_spot_common ()
-			break
-			case 'AUCTION_ENGLISH' : on_bid_auction ()
-			break
-			default : SetErrorBar( messages.MSG_SALE_TYPE_NOT_DEFINED )
-			break
-		}
-	}
-	const resolve_author_seller= itemdata =>{
-		if ( itemdata?.minpriceorder ){
-			let {username} = itemdata?.minpriceorder // ?.username
-			axios.get(API.API_OWNED_ITEMS + `/${username}/0/10/id/DESC`).then(resp=>{ LOGGER('' , resp.data )
-				let {status , list }=resp.data
-				if ( status=='OK'){
-					setlistotheritems ( list )
-				}
-			})
-			setiscollectionbyauthorseller ( 'seller')
-		}
-		else	{// return itemdata?.author?.username
-			let { username}= itemdata?.author
-			axios.get(API.API_AUTHORS_ITEMS + `/${username}/0/10/id/DESC`).then(resp=>{ LOGGER( '' , resp.data )
-				let { status , list }=resp.data 
-				if ( status =='OK'){
-					setlistotheritems ( list )
-				}
-			})
-			setiscollectionbyauthorseller ( 'author' )
-		}
-	}
-	const fetchitem= itemid => {
-		Setisloader ( true )
-    axios.get(`${API.API_GET_ITEM_DATA}/${itemid}`).then((res) => {	LOGGER( 'agwwiWSDdf' , res.data )
-			let { status , respdata }=res.data
-			if ( status =='OK'){
-				setitemdata( respdata )
-				let {orders_sellside } = respdata
-				setorders_sell ( orders_sellside )
-				setilikethis( respdata.ilikethisitem )
-				setibookmarkthis ( respdata.ibookmarkthis )
-				if ( respdata.bids ) {
-					 convaj ( respdata.bids , 'auctionhashid' , 'price' ) 
-				} 
-				if (orders_sellside && orders_sellside.length){
-					orders_sellside.forEach ( ( elem , idx ) =>{
-						axios.get(API.API_USER_INFO +`/${elem.username}`).then(resp=>{ LOGGER( 'V9kbW2K1sr' , resp.data )
-							let { status , payload }=resp.data
-							if ( status =='OK'){
-								let { profileimage } = payload?.mongo
-								if ( profileimage ) {
-//									let jdata={} 
-	//								jdata[v.username ] = profileimage
-									jprofileimages[ idx ]= profileimage
-									setjprofileimages ( jprofileimages )
-								}
-							}
-						})						
-					})
-				}
-				query_with_arg( {
-					contractaddress: ADDRESSES.erc1155 ,
-					abikind: 'ERC1155',
-					methodname: '_itemhash_tokenid',
-					aargs: [ respdata?.item?.itemid ], // itemdata
-				}).then(resp=>{					LOGGER( 'mohrKFfjxQ' , resp )
-					if ( resp){tokenid = resp }
-				})
-				resolve_author_seller( respdata )
-			}
-			Setisloader ( false )
-		})
-		axios.get( `${API.API_ITEM_DATA_AUX}/${itemid}` ).then(resp=>{ LOGGER( '6ENydA38bX' , resp.data )
-			let { status , respdata }=resp.data
-			if ( status == 'OK'){
-				setitemdataaux ( respdata )
-				setauthor ( respdata.author_mongo )
-				setlogorders ( respdata.logorders )
-				let { logprices }=respdata
-				setlogprices ( logprices )
-				setpricestats ( getMaxMinAvg ( logprices.map(elem=>elem.price) ) )
-/** 				setlogo rders ( respdata.log orders )
-				let { logp rices , logact ions } =respdata
-				setlogpri ces ( logpr ices )
-				setlogactions ( logact ions )
-				setprice stats ( getMaxMinAvg ( lo gprices ) )*/
-				if ( respdata.transactions ) {
-					// settransactionHistory ( respdata.transactions ) 					
-//					let { logp rices , logactions } =respdata					
-//					setlogactions ( logactions )					
-				}
-			}
-		})
-		axios.get(`${API.API_TRANSACTIONS}/itemid/${itemid}/0/100/id/DESC`).then(resp=>{ LOGGER( 'KF5RW8IBDT' , resp.data )
-			let {status , list}=resp.data
-			if(status =='OK'){
-				settransactionHistory( list )
-			}		
-		}) // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
-		axios.get(`${API.API_ITEM_HISTORY}/itemid/${itemid}/0/100/id/DESC`).then(resp=>{ LOGGER('Tz06IcamyG' , resp.data )
-			let { status , list}=resp.data
-			if ( status =='OK'){
-				setlistitemhistory ( list )
-			}
-		})
+  const [reportPopup, setReportPopup] = useState(false);
+  const [reportDesc, setReportDesc] = useState("");
+  const [bidPopup, setBidPopup] = useState(false);
+  const [chartCategory, setChartCategory] = useState(0);
+  const [endAutionTime, setEndAutionTime] = useState(singleItem.auctionExpiry);
+  const [diffTime, setDiffTime] = useState();
+  const [nearEnd, setNearEnd] = useState(false);
 
-	}
+  const [userIndex, setUserIndex] = useState(0);
+
+  const convertLongString = (startLength, endLength, str) => {
+    const head = str.substring(0, startLength);
+    const spread = "......";
+    const tail = str.substring(str.length - endLength, str.length);
+    return head + spread + tail;
+  };
+  const numFormatter = (num) => {
+    if (num > 999 && num < 1000000) {
+      return (num / 1000).toFixed(1) + "K"; // convert to K for number from > 1000 < 1 million
+    } else if (num > 1000000) {
+      return (num / 1000000).toFixed(1) + "M"; // convert to M for number from > 1 million
+    } else if (num < 900) {
+      return num; // if value < 1000, nothing to do
+    }
+  };
+
   function onClickUserPreBtn() {
     const wrapWidth = itemWrapRef.current.offsetWidth;
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage)
+    const pageNum = Math.ceil(8 / itemNumByPage);
+
     if (userIndex > 0) setUserIndex(userIndex - 1);
     else setUserIndex(pageNum - 1);
   }
+
   function onClickUserNextBtn() {
     const wrapWidth = itemWrapRef.current.offsetWidth;
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage)
+    const pageNum = Math.ceil(8 / itemNumByPage);
+
     if (userIndex < pageNum - 1) setUserIndex(userIndex + 1);
     else setUserIndex(0);
   }
-  useEffect(async() => { LOGGER( '8xlWxqxeC2' , itemid , referer )
-		fetchitem( itemid )
-		axios.get(`${API.API_TICKERS}/USDT`).then(resp=>{LOGGER( '' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK'){
-				setpriceklay ( list[ PAYMEANS_DEF ] ) // 'KLAY'				
-			}
-		})
-  }, [] )
-	useEffect(_=>{		let { itemid}=store
-		if ( itemid){}
-		else {return }
-		fetchitem( itemid )
-	} , [ store.itemid ])
+
   useEffect(() => {
-return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
+    const wrapWidth = itemWrapRef.current.offsetWidth;
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage )
+    const pageNum = Math.ceil(8 / itemNumByPage);
 
     if (itemWrapRef.current?.scrollTo) {
       if (userIndex < pageNum) {
@@ -422,155 +105,115 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
         });
       }
     }
-  }, [userIndex] )
+  }, [userIndex]);
+  useEffect(() => {
+    const setAuctionTimer = () => {
+      let now = moment().format("DD/MM/YYYY HH:mm:ss");
+      let then = moment(endAutionTime).format("DD/MM/YYYY HH:mm:ss");
+
+      let ms = moment(then, "DD/MM/YYYY HH:mm:ss").diff(
+        moment(now, "DD/MM/YYYY HH:mm:ss")
+      );
+      let d = moment.duration(ms);
+      let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+
+      if (d.asSeconds() < 0) {
+        setDiffTime(moment().format("00:00:00"));
+        setNearEnd(false);
+        return;
+      }
+
+      if (!nearEnd && d.asHours() < 12) {
+        setNearEnd(true);
+      }
+      setDiffTime(s);
+    };
+
+    setInterval(setAuctionTimer, 1000);
+
+    return () => {
+      clearInterval(setAuctionTimer);
+    };
+  }, [endAutionTime]);
 
   return (
     <SignPopupBox>
-      {ownerPopup && <ItemOwnerPopup off={setOwnerPopup} />}
+      {ownerPopup && (
+        <div class="popup info" id="info_popup" style={{ display: "block" }}>
+          <div class="box_wrap wrap2">
+            <a
+              onClick={() => setOwnerPopup(false)}
+              class="close close2"
+              id="info_close"
+            >
+              <img
+                src={require("../img/sub/icon_close.png").default}
+                alt="close"
+              />
+            </a>
+            <div class="poptitle">
+              <h2>Owner List</h2>
+            </div>
+            <div class="list_bottom">
+              <ul class="container popcon">
+                {ownerList.map((v) => (
+                  <li>
+                    <span class="pop_profile"></span>
+                    <h3>
+                      {v.name}
+                      <br />
+                      <span>{convertLongString(8, 8, v.address)}</span>
+                    </h3>
+                    <p>
+                      <a>{v.itemCount} Items</a>
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
 
-      {likePopup && <ItemLikePopup off={setLikePopup} itemid={itemid}/>}
+      {likePopup && (
+        <div class="popup info" id="info_popup" style={{ display: "block" }}>
+          <div class="box_wrap wrap2">
+            <a
+              onClick={() => setLikePopup(false)}
+              class="close close2"
+              id="info_close"
+            >
+              <img
+                src={require("../img/sub/icon_close.png").default}
+                alt="close"
+              />
+            </a>
+            <div class="poptitle">
+              <h2>Liked by</h2>
+            </div>
+            <div class="list_bottom">
+              <ul class="container popcon">
+                {likerList.map((v) => (
+                  <li>
+                    <span class="pop_profile"></span>
+                    <h3>
+                      {v.name}
+                      <br />
+                      <span>{convertLongString(8, 8, v.address)}</span>
+                    </h3>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
 
-{bidauctionmodal && (
-	<div class="popup info" id="info_popup" style={{ display: "block" }}>
-	<div class="box_wrap buynft">
-		<a
-			onClick={() => setbidauctionmodal (false) }
-			class="close close2"
-			id="info_close"
-		>
-			<img
-				src={require("../img/sub/icon_close.png").default}
-				alt="close"
-			/>
-		</a>
-		<div class="poptitle nob">
-			<h2>Place a bid</h2>
-		</div>
-		<div class="list_bottom buy_nft">
-			<p class="warn" style={{display: itemdata?.item?.isreviewed ? 'none':'block'}}>
-				Warning! Contains items
-				<br /> that have not been reviewed and approved
-			</p>
-			<div class="receipt_section">
-				<div class="receipt_title">
-					<p class="rec_t">Item</p>
-					<p class="rec_t right">Subtotal</p>
-				</div>
-				<div class="receipt_item">
-					<ul>
-						<li>
-							<span class="pic" style={{backgroundImage: `url(${itemdata?.item?.url})`}}></span>
-							<div class="right_price">
-								<h3>
-									{ convertLongString( 8 , 4 , sellorder?.username)  }
-									<br />
-									<span>{ itemdata?.item?.titlename } </span>{/**Blackman with neon */}
-								</h3>
-								<h4 class="m_sub">
-									<img style={{width:'60px'}} src={require("../img/header/logo.png").default} />
-									<span class="pri">{ sellorder?.asset_amount_bid ? `Qty. ${sellorder?.asset_amount_bid}`:'' } {sellorder?.tokenid ? `of token #${sellorder?.tokenid}`:'' } </span>
-								</h4>
-							</div>
-						</li>
-					</ul>
-					<ul>
-						<li>										
-							<p class="rec_t"  >
-								Current highest bid<span class="red"
-								>
-								{ '-'}
-								</span>
-							</p>
-							<div class="right_price m_left">
-								<h4 class="blue">
-									<img src={require("../img/sub/rock.png").default} />
-									{ j_auctionuuid_bidprice[ sellorder?.uuid ] ? j_auctionuuid_bidprice[ sellorder?.uuid ]: '-'} <span class="pri">
-(${  '-' })</span>
-								</h4>
-							</div>
-						</li>
-					</ul>
-					<ul>
-						<li>										
-							<p class="rec_t"  >
-								Minimum bid<span class="red" style={{color:'black'}} > {'-'}</span>
-							</p>
-							<div class="right_price m_left">
-								<h4 class="blue">
-									<img src={require("../img/sub/rock.png").default} />
-									{ sellorder?.asset_amount_ask }<span class="pri">
-(${ priceklay && sellorder?.asset_amount_ask ? +priceklay * + sellorder?.asset_amount_ask: '' })</span>
-								</h4>
-							</div>
-						</li>
-					</ul>
-
-					<ul>
-						<li>										
-							<p class="rec_t"  >
-								Your bid<span class="red" style={{color:'black'}} > {'-'}</span>
-							</p>
-							<div class="right_price m_left">
-								<h4 class="blue">
-<input value={ mybidamount }
-	onChange={e=>{
-		let {value}=e.target
-		value = + value
-		if (ISFINITE( value )){}
-		else { SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY) ; return }
-		setmybidamount ( ''+value )
-		if( value>= +myethbalance){SetErrorBar(messages.MSG_EXCEEDS_BALANCE) ; return }
-		if( value >=sellorder?.asset_amount_ask ){}
-		else { SetErrorBar( messages.MSG_FAILS_AUCTION_REQ ); return }
-		if ( j_auctionuuid_bidprice[ sellorder?.uuid ] ){
-			if (value >= + j_auctionuuid_bidprice[ sellorder?.uuid ]){}
-			else { SetErrorBar( messages.MSG_FAILS_AUCTION_REQ ); return }
-		}
-	}}
-/>
-								</h4>
-							</div>
-						</li>
-					</ul>
-
-				</div>
-				<form class="ckb_wrap">
-					<div class="ckb" style={{display : itemdata?.item?.isreviewed ? 'none' : 'block'}}>
-						<input type="checkbox" id="chk" name="chk1" />
-						<label for="chk">
-							Aware that Itemverse contains one item that has not been
-							reviewed and approved
-						</label>
-					</div>
-					<div class="ckb">
-						<input type="checkbox" id="chk2" name="chk1" onChange={e=>{
-							setistoschecked( ! istoschecked ) // LOGGER()
-						}}/>
-						<label for="chk2">
-							I agree to Itemverse's <b>Terms of Service</b>
-						</label>
-					</div>
-				</form>
-			</div>
-			<a class="reportit on "
-				disabled={ istoschecked ? false : true }
-				onClick={ _=>{
-					if (istoschecked){}
-					else {SetErrorBar( messages.MSG_PLEASE_CHECK_TOS ); return }
-					LOGGER( 'pHeiL5AWXM' )
-					onclickbuy()
-				}}
-			>Make a payment</a>
-		</div>
-	</div>
-</div>
-
-)}
-      { buySpotPopup && (
+      {bidPopup && (
         <div class="popup info" id="info_popup" style={{ display: "block" }}>
           <div class="box_wrap buynft">
             <a
-              onClick={() => setbuySpotPopup(false)}
+              onClick={() => setBidPopup(false)}
               class="close close2"
               id="info_close"
             >
@@ -583,7 +226,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
               <h2>Purchase receipt</h2>
             </div>
             <div class="list_bottom buy_nft">
-              <p class="warn" style={{display: itemdata?.item?.isreviewed ? 'none':'block'}}>
+              <p class="warn">
                 Warning! Contains items
                 <br /> that have not been reviewed and approved
               </p>
@@ -595,57 +238,37 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                 <div class="receipt_item">
                   <ul>
                     <li>
-                      <span class="pic" style={{backgroundImage: `url(${itemdata?.item?.url})`}}></span>
+                      <span class="pic"></span>
                       <div class="right_price">
                         <h3>
-                          { convertLongString( 8 , 4 , sellorder?.username)  }
+                          Philip van Kouwenbergh
                           <br />
-                          <span>{ itemdata?.item?.titlename } </span>{/**Blackman with neon */}
+                          <span>Blackman with neon</span>
                         </h3>
                         <h4 class="m_sub">
-                          <img style={{width:'60px'}} src={require("../img/header/logo.png").default} />
-                          <span class="pri">{ sellorder?.asset_amount_bid ? `Qty. ${sellorder?.asset_amount_bid}`:'' } {sellorder?.tokenid ? `of token #${sellorder?.tokenid}`:'' } </span>
+                          <img src={require("../img/sub/stone.png").default} />
+                          25<span class="pri">($58,282.50)</span>
                         </h4>
                       </div>
                     </li>
                   </ul>
                   <ul>
-                    <li>										
-											<p class="rec_t"  >
-                        Total<span class="red"
-												>
-												{+myethbalance && ( +myethbalance > sellorder?.asset_amount_ask )
-												 ? '-' : 'Insufficient KLAY balance' 
-												}
-												</span>
+                    <li>
+                      <p class="rec_t">
+                        Total<span class="red">Insufficient KLAY balance</span>
                       </p>
                       <div class="right_price m_left">
                         <h4 class="blue">
-                          <img src={require("../img/sub/rock.png").default} />
-                          { sellorder?.asset_amount_ask }<span class="pri">
-(${ priceklay && sellorder?.asset_amount_ask ? +priceklay *sellorder?.asset_amount_ask : '' })</span>
+                          <img src={require("../img/sub/stone.png").default} />
+                          25<span class="pri">($58,282.50)</span>
                         </h4>
                       </div>
                     </li>
+                    <li></li>
                   </ul>
-                  <ul>
-                    <li>										
-											<p class="rec_t"  >
-                        Your balance<span class="red" style={{color:'black'}} > {strDot( myaddress, 8,2)}</span>
-                      </p>
-                      <div class="right_price m_left">
-                        <h4 class="blue">
-                          <img src={require("../img/sub/rock.png").default} />
-                          { myethbalance }<span class="pri">
-(${ priceklay && myethbalance ? +priceklay * + myethbalance: '' })</span>
-                        </h4>
-                      </div>
-                    </li>
-                  </ul>
-
                 </div>
                 <form class="ckb_wrap">
-                  <div class="ckb" style={{display : itemdata?.item?.isreviewed ? 'none' : 'block'}}>
+                  <div class="ckb">
                     <input type="checkbox" id="chk" name="chk1" />
                     <label for="chk">
                       Aware that Itemverse contains one item that has not been
@@ -653,24 +276,14 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                     </label>
                   </div>
                   <div class="ckb">
-                    <input type="checkbox" id="chk2" name="chk1" onChange={e=>{
-											setistoschecked( ! istoschecked ) // LOGGER()
-										}}/>
+                    <input type="checkbox" id="chk2" name="chk1" />
                     <label for="chk2">
                       I agree to Itemverse's <b>Terms of Service</b>
                     </label>
                   </div>
                 </form>
               </div>
-							<a class="reportit on "
-								disabled={ istoschecked ? false : true }
-								onClick={ _=>{
-									if (istoschecked){}
-									else {SetErrorBar( messages.MSG_PLEASE_CHECK_TOS ); return }
-									LOGGER( 'pHeiL5AWXM' )
-									onclickbuy()
-								}}
-							>Make a payment</a>
+              <a class="reportit on ">Make a payment</a>
             </div>
           </div>
         </div>
@@ -681,45 +294,40 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
           <div class="wrap">
             <div class="bundle_top">
               <div class="bun_tl">
-                <div class="bun_tl_img" style={{backgroundImage :  `url(${itemdata?.item?.url})`  }} >
+                <div class="bun_tl_img">
                   <div class="bt artist">
                     <h2>
-										{/**  <img src={author?.profileimage}></img>*/}
                       <span
                         style={{
-                          backgroundImage: `url(${author?.profileimage })`,
+                          backgroundImage: `url(${profile_img})`,
                           backgroundRepeat: "no-repeat",
                           backgroundPosition: "center",
                           backgroundSize: "cover",
                         }}
                       ></span>
-                      @{ itemdata.author?.nickname }
+                      @Philip van Kouwenbergh
                     </h2>
                   </div>
                   <div class="bt likes">
                     <a
-											onClick={() => { setLikePopup(true)											
-											} }
+                      onClick={() => setLikePopup(true)}
                       class="like_heart off"
                     >
-                      <h2>{itemdata.item?.countfavors} Likes</h2>
+                      <h2>{likerList.length} Likes</h2>
                     </a>
                   </div>
                   <div class="views">
                     <ul>
-                      <li
-                        className="ownerBox"
-                        onClick={() => setOwnerPopup(true)}
-                      >
-                        <h3>{itemdata.countholders}</h3>
-                        <h4>{ itemdata.countholders && itemdata.countholders>1? 'Owners' : 'Owner'} </h4>
+                      <li onClick={() => setOwnerPopup(true)}>
+                        <h3>{ownerList.length}</h3>
+                        <h4>Owner</h4>
                       </li>
                       <li>
-                        <h3>{itemdata.item?.countcopies}</h3>
-                        <h4> { itemdata.item?.countcopies && itemdata.item?.countcopies>1? 'Fragments' : 'Fragment' }</h4>
+                        <h3>{singleItem.fragmentCount}</h3>
+                        <h4>Fragment</h4>
                       </li>
                       <li>
-                        <h3>{numFormatter(itemdata.item?.countviews)}</h3>
+                        <h3>{numFormatter(singleItem.views)}</h3>
                         <h4>views</h4>
                       </li>
                     </ul>
@@ -731,11 +339,9 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                 <div class="bun_right">
                   <div class="right_t">
                     <div class="tt">
-                      <h2>{itemdata?.item?.titlename}</h2>
+                      <h2>Blackman with neon</h2>
                       <div class="icons">
-                        <a onClick={_=>{
-													fetchitem( itemdata?.item?.itemid )
-												}}> 
+                        <a>
                           <img
                             src={require("../img/sub/refresh.png").default}
                           />
@@ -743,68 +349,35 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                         <a>
                           <img src={require("../img/sub/alert.png").default} />
                         </a>
-
-                        <a onClick={_=>{
-													onClickCopy( window.location.href )
-													SetErrorBar ( messages.MSG_COPIED )
-												}}>
+                        <a>
                           <img src={require("../img/sub/share.png").default} />
                         </a>
-												<a onClick={_=>{
-													LOGGER( 'CodOU75E5r' )
-													axios.post ( `${API.API_TOGGLE_FAVOR}/${itemid}` ).then(resp=>{	LOGGER( '' , resp.data )
-														let { status , respdata }=resp.data
-														if ( status =='OK'){
-															if ( respdata) {setilikethis ( true) ; SetErrorBar (messages.MSG_FAVORITED ); fetchitem( itemid )   } 
-															else { setilikethis ( false ) ; SetErrorBar ( messages.MSG_UNFAVORITED ); fetchitem( itemid ) }
-														}
-													})
-												}}><img src={ilikethis ? I_heartOPink : I_heartOGray}></img></a>
-
-												<a onClick={_=>{
-													axios.post( `${API.API_TOGGLE_BOOKMARK}/${itemid}`).then(resp=>{ LOGGER( '' , resp.data )
-														let { status , respdata } =resp.data
-														if ( status == 'OK'){
-															if ( respdata ){setibookmarkthis (true );	SetErrorBar ( messages.MSG_DID_BOOKMARK )}
-															else {setibookmarkthis (false ); SetErrorBar( messages.MSG_UNDID_BOOKMARK )}
-														}
-													})
-												}}												
-><img src={ibookmarkthis ? require("../img/sub/bookmark-solid.png").default : require("../img/sub/bookmark.png").default }></img> </a>
                       </div>
                     </div>
                     <div class="boxes">
                       <h2>Owner public content include</h2>
                       <div class="black_box">
                         <ul>
-                          <li> {/** itemdata.item?.price */}
-                            <h3>Price</h3>
+                          <li>
+                            <h3>Current Bid</h3>
                             <h4>
-                              { sellorder?.asset_amount_ask ?  (+sellorder?.asset_amount_ask).toFixed(4) : '' } 
-                              <span>&nbsp;{ 'KLAY' }</span>
+                              {singleItem.currentBid}
+                              <span>KLAY</span>
                             </h4>
-                            <h5>                              
-															{sellorder? 'Qty.':''} { sellorder?.asset_amount_bid } {itemdata?.item?.tokenid ? `of token #${itemdata?.item?.tokenid}`: ''}
-                              {/** itemdata.item?.normprice &&
-                                itemdata.item.normprice.toLocaleString(
-                                  "en",
-                                  "US"
-                                )*/}
+                            <h5>
+                              $
+                              {singleItem.currentUSD.toLocaleString("en", "US")}
                             </h5>
                           </li>
-                          {/* <li>
+                          <li>
                             <h3>Auction ending in</h3>
                             <h4 style={nearEnd ? { color: "red" } : {}}>
                               {diffTime}
                             </h4>
-                          </li> */}
+                          </li>
                         </ul>
-                        <a onClick={() =>{
-if ( sellorder?.typestr =='COMMON' ) { setbuySpotPopup ( true )}
-else if (sellorder?.typestr=='AUCTION_ENGLISH'){	setbidauctionmodal (true ) }
-else {}
-												} } class="bid">
-                          Buy
+                        <a onClick={() => setBidPopup(true)} class="bid">
+                          Place a Bid
                         </a>
                       </div>
                     </div>
@@ -815,7 +388,7 @@ else {}
             <div class="bun_full">
               <div class="desc">
                 <h2 class="i_title">Description</h2>
-                <p>{itemdata.item?.description}</p>
+                <p>{singleItem.desc}</p>
               </div>
             </div>
             <div class="bundle_top top2">
@@ -831,15 +404,15 @@ else {}
                     <ul>
                       <li>
                         <h3>Average price</h3>
-                        <p>{ pricestats [ 2 ] || 'NA' }</p>
+                        <p>$31.11</p>
                       </li>
                       <li>
                         <h3>Highest price</h3>
-                        <p>{ pricestats [ 0 ] || 'NA' }</p>
+                        <p>$32.11</p>
                       </li>
                       <li>
                         <h3>Lowest price</h3>
-                        <p>{ pricestats [ 1 ] || 'NA' }</p>
+                        <p>$30.11</p>
                       </li>
                     </ul>
                   </div>
@@ -853,48 +426,21 @@ else {}
               </div>
               <div class="bun_tr">
                 <div class="right_b">
-                  <h2 class="i_title">Offers</h2>
+                  <h2 class="i_title">Offer History</h2>
                   <div class="history_s container">
                     <ul>
-											{orders_sell.sort((a,b)=> +a.asset_amount_ask-+b.asset_amount_ask )
-											.map((v , idx ) => {
-												/** if (lockjprofileimages[ v.username ] ){}
-												else {
-													lockjprofileimages[ v.username]=1
-													axios.get(API.API_USER_INFO +`/${v.username}`).then(resp=>{
-														let {status , payload }=resp.data
-														if ( status =='OK'){
-															let { profileimage } = payload?.mongo
-															if ( profileimage ) {
-																let jdata={} 
-																jdata[v.username ] = profileimage
-																setjprofileimages ({... jprofileimages , ... jdata } )
-															}
-														}
-													})
-												} */
-												return (
-													<li key={idx } onClick={_=> {	// SetErrorBar('BpAzNi4c1n')
-//														setactiveorder ( v ) 
-														if ( is_two_addresses_same (myaddress ,v.username ) ){SetErrorBar( messages.MSG_YOUR_OWN_ORDER ); return }
-														else {}
-														setsellorder ( v )
-														return 
-													} }>
-                          <span class="profile_img" style={{backgroundImage :`url(${jprofileimages[ idx ]})` }}></span>
+                      {singleItem.offerHistory.map((v) => (
+                        <li>
+                          <span class="profile_img"></span>
                           <h3>
-                            { v.asset_amount_ask ? (+v.asset_amount_ask).toFixed(4) :'' } KLAY for { v.asset_amount_bid? `Qty.${v.asset_amount_bid}` : '' }
+                            {v.tokenprice} KLAY
                             <br />
-                            <span>{ convertLongString(8, 0, v.username)} </span>
-														<span>{ v.typestr} </span>
-														<span>{ v.nickname }</span>
+                            <span>{convertLongString(10, 0, v.name)}</span>
                           </h3>
-                          <h4>{ convertLongString(8, 8, v.address)}</h4>
-                          <h5>{'created '+moment(v.createdat).fromNow()} { 'expires '+ moment.unix(v.expiry).fromNow()  }</h5>
+                          <h4>{convertLongString(8, 8, v.address)}</h4>
+                          <h5>{v.createdat}</h5>
                         </li>
-											)	
-										}
-											)}
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -919,7 +465,7 @@ else {}
                         </tr>
                       </thead>
                       <tbody>
-                        {logsales.map((v) => (
+                        {salesStatus.map((v) => (
                           <tr>
                             <td>
                               <div class="name price">
@@ -966,8 +512,8 @@ else {}
                         </tr>
                       </thead>
                       <tbody>
-                        {logorders.map((v , idx ) => (
-                          <tr key={idx}>
+                        {purchaseStatus.map((v) => (
+                          <tr>
                             <td>
                               <div class="name price">
                                 <img
@@ -978,12 +524,12 @@ else {}
                                   alt=""
                                 />
                                 <p>
-                                  {v.price} KLAY{" "}
-                                  <span>(Qty. {v.asset_amount_bid })</span>
+                                  {v.tokenprice} KLAY{" "}
+                                  <span>(${v.priceusd})</span>
                                 </p>
                               </div>
                             </td>
-                            <td>{moment(v.createdat).fromNow()}</td>
+                            <td>{moment(v.expired).toNow()}</td>
                             <td class="blue">{v.buyer}</td>
                           </tr>
                         ))}
@@ -1064,7 +610,76 @@ else {}
                           </td>
                           <td class="blue">Esther</td>
                         </tr>
-
+                        <tr>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ width: "24px" }}
+                                alt=""
+                              />
+                              <p>0.010 KLAY ($30.11)</p>
+                              <span>4 days later</span>
+                            </div>
+                          </td>
+                          <td class="blue">TODD</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ width: "24px" }}
+                                alt=""
+                              />
+                              <p>0.010 KLAY ($30.11)</p>
+                              <span>1 days later</span>
+                            </div>
+                          </td>
+                          <td class="blue">Philip van Kouwenbergh</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ width: "24px" }}
+                                alt=""
+                              />
+                              <p>0.010 KLAY ($30.11)</p>
+                              <span>3 days later</span>
+                            </div>
+                          </td>
+                          <td class="blue">PT_WORK</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ width: "24px" }}
+                                alt=""
+                              />
+                              <p>0.015 KLAY ($0,000,000.50)</p>
+                              <span>3 days later</span>
+                            </div>
+                          </td>
+                          <td class="blue">PT_WORK</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                style={{ width: "24px" }}
+                                alt=""
+                              />
+                              <p>0.010 KLAY ($30.11)</p>
+                              <span>3 days later</span>
+                            </div>
+                          </td>
+                          <td class="blue">PT_WORK</td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -1075,17 +690,9 @@ else {}
               <div class="tab">
                 <ul>
                   {chartCategoryList.map((cont, index) => (
-                    <li key={index}
+                    <li
                       class={chartCategory === index && "on"}
-											onClick={() => { setChartCategory(index)
-												switch( index ){
-													case 0 : setlistholder ( listitemhistory )
-													break
-													case 1 : setlistholder ( transactionHistory )
-													break
-												}
-											}
-											}
+                      onClick={() => setChartCategory(index)}
                     >
                       {cont}
                     </li>
@@ -1096,8 +703,8 @@ else {}
                 <table>
                   <colgroup>
                     <col style={{ width: "10%" }} />
+                    <col style={{ width: "10%" }} />
                     <col style={{ width: "30%" }} />
-                    <col style={{ width: "20%" }} />
                     <col style={{ width: "30%" }} />
                     <col style={{ width: "10%" }} />
                     <col style={{ width: "10%" }} />
@@ -1113,20 +720,17 @@ else {}
                     </tr>
                   </thead>
                   <tbody class="body">
-                    { listholder.map( (v , idx ) => (
-                      <tr key={ idx }>
-                        <td>{ gettimestr( v.createdat )  }</td>
-                        <td class="bold">{ strDot( v.txhash, 8,4) } KLAY</td>
-                        <td class="blue">{ v.username }</td>
-                        <td class="blue">{ v.typestr }</td>												
-                        <td class="gray">{moment(v.createdat).fromNow()}</td>
+                    {transactionHistory.map((v) => (
+                      <tr>
+                        <td>{v.event}</td>
+                        <td class="bold">{v.tokenprice} KLAY</td>
+                        <td class="blue">{v.from}</td>
+                        <td class="blue">{v.to}</td>
+                        <td class="gray">{moment(v.date).toNow()}</td>
                         <td>
-<span onClick={_=>{
-	window.open( URL_TX_SCAN[v.nettype] + `/${v.txhash}` , '_blank').focus();
-}} class={v.chainOn ? "chain on" : "chain off"} ></span>
-{/*                          <a                             class={v.chainOn ? "chain on" : "chain off"}                          ></a>
-										*/}
-
+                          <span
+                            class={v.chainOn ? "chain on" : "chain off"}
+                          ></span>
                         </td>
                       </tr>
                     ))}
@@ -1137,41 +741,35 @@ else {}
           </div>
           <div class="item">
             <div class="wrap">
-              <h4 class="t">Other works from {iscollectionbyauthorseller}</h4>
+              <h4 class="t">Other works in this collection</h4>
 
               <div class="swiper">
                 <div class="swiper-container swiper-container-trendingitem">
                   <ol class="item item4 buy swiper-wrapper">
                     <div className="slideBox" ref={itemWrapRef}>
-{ listotheritems.filter(elem => elem.item?.itemid == itemid ? false : true).sort((a,b)=> a.id-b.id ).map((cont, index) => (
-
-												<span key={index}>
+                      {[1, 2, 3, 4, 5, 6, 7, 8].map((cont, index) => (
+                        <span>
                           <li
                             class="swiper-slide"
-														onClick={() =>{ LOGGER('abc')// window.location.reload()
-															Setitemid(cont.item?.itemid)
-															navigate(`/singleitem?itemid=${cont.item?.itemid}`)
-														}}
+                            onClick={() => window.location.reload()}
                           >
-                            <a style={{ backgroundImage: `url(${cont.item?.url })` }}>
+                            <a style={{ backgroundImage: `url(${sample})` }}>
                               <div class="on">
                                 <ul>
-                                  <li class={cont.ilikethisitem? 'heart on' : "heart off"} >{ cont?.countfavors }</li>
+                                  <li class="heart off">1,389</li>
                                   <li class="star off"></li>
                                 </ul>
-                                <div>{ cont?.item?.titlename }</div>
-                                <span>{ cont?.item?.author?.nickname }</span>
+                                <div>Summer Pool</div>
+                                <span>David</span>
                                 <ol>
-																	<li>{ cont?.minpriceorder? moment.unix( cont?.minpriceorder?.expiry ).fromNow() : 
-																		moment(cont?.item?.createdat).toNow()  }</li>
-                                  <li>{ cont?.minpriceorder? `${cont?.minpriceorder?.price} KLAY` : ''} </li>
+                                  <li>6 minutes left</li>
+                                  <li>1.67 KLAY</li>
                                 </ol>
                                 <p>Buy Now</p>
                               </div>
                             </a>
                           </li>
                         </span>
-
                       ))}
                     </div>
                   </ol>
@@ -1223,94 +821,13 @@ const SignPopupBox = styled.div`
 function mapStateToProps(state) {
   return { store: state };
 }
+
 function mapDispatchToProps(dispatch) {
   return {
-		setConnect: () => dispatch(setConnect()),
-		Setisloader : payload => dispatch ( setisloader ( payload ))
-		, Setpriceklay : payload => dispatch ( setpriceklay ( payload ))
-		, Setitemid : payload => dispatch( setitemid ( payload ) )
+    setConnect: () => dispatch(setConnect()),
   };
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(SingleItem);
 
 const chartCategoryList = ["Transaction History", "Chain Information"];
-
-let orders={ asset_amount_ask: "12"
-,asset_amount_bid: "1"
-,asset_contract_ask: null
-,asset_contract_bid: "0xb7aa9cd318e97f42a477dc1d9185fdec5503e9b5"
-,asset_id_ask: null
-,asset_id_bid: null
-,createdat: "2022-01-24T09:11:17.000Z"
-,datahash: null
-,id: 7
-,isprivate: 0
-,itemid: "QmWFGooUcsbdMMHWxTBwNi3xoX1Wp62EStV3YbGCaTkmrk"
-,makerortaker: 0
-,matcher_contract: null
-,privateaddress: null
-,rawdata_to_sign: "{\"seller_address\":\"0x90033484a520b20169b60f131b4e2f7f46923faf\",\"amount\":1,\"price\":12,\"priceunit\":\"0x000000000000000000000000000000000000\",\"expiry\":0,\"itemid\":\"QmWFGooUcsbdMMHWxTBwNi3xoX1Wp62EStV3YbGCaTkmrk\",\"tokenid\":null}"
-,rawdatahash: "9d26fa13c5595761156898a27d3dfe94d090c9634255b61eaa6bec4ca1d2d7f1"
-,sig_r: "0x3f4510a8753b867bb8e8419fdc0102fa30830d81612c979751bacb1d45c7ffac"
-,sig_s: "0x47db87c9ba82941178a377c517fc0ccc73bf0e41915599cae6c468be47ad7b6c"
-,sig_v: "0x1b"
-,signature: null
-,signaturestr: "0x3f4510a8753b867bb8e8419fdc0102fa30830d81612c979751bacb1d45c7ffac47db87c9ba82941178a377c517fc0ccc73bf0e41915599cae6c468be47ad7b6c1b"
-,supertype: 1
-,supertypestr: "SELL"
-,type: null
-,typestr: null
-,updatedat: null
-,username: "0xaec2f4dd8b08eef0c71b02f97978106d875464ed"
-,uuid: "39326de3-438c-4ebd-b2ec-092b271db16a"}
-
-/** 				reque sttransaction({ from : myaddress
-			, to : ADDRESSES.auction_rep o_dutch_bulk
-			, data : abistr
-			, value : '0x00'
-		}).then(resp=>{ LOGGER( '' , resp )
-			let { transactionHash , status } = resp
-			LOGGER( '' , transactionHash , status )
-		}).catch(err=>{
-			LOGGER('' , err )
-		})
-	address _target_erc1155_contract
-			, string memory _itemid
-			, uint256 _tokenid // ignored for now
-			, uint256 _amount
-			, uint256 _author_royalty
-			, uint256 _decimals
-			, address _paymeans
-			, uint256 _price
-			, address _seller
-			, address _to
-*/	
-  // useE ffect(() => {
-  //   const setAuctionTimer = () => {
-  //     let now = moment().format("DD/MM/YYYY HH:mm:ss");
-  //     let then = moment(endAutionTime).format("DD/MM/YYYY HH:mm:ss");
-
-  //     let ms = moment(then, "DD/MM/YYYY HH:mm:ss").diff(
-  //       moment(now, "DD/MM/YYYY HH:mm:ss")
-  //     );
-  //     let d = moment.duration(ms);
-  //     let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
-
-  //     if (d.asSeconds() < 0) {
-  //       setDiffTime(moment().format("00:00:00"));
-  //       setNearEnd(false);
-  //       return;
-  //     }
-
-  //     if (!nearEnd && d.asHours() < 12) {
-  //       setNearEnd(true);
-  //     }
-  //     setDiffTime(s);
-  //   };
-
-  //   setInterval(setAuctionTimer, 1000);
-
-  //   return () => {
-  //     clearInterval(setAuctionTimer);
-  //   };
-  // }, [endAutionTime]);

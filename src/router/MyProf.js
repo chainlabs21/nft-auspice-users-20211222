@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
+
 import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
@@ -18,78 +19,35 @@ import click1 from "../img/sub/click1.png";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";
 import filter_icon from "../img/sub/filter_icon.png";
+
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css";// import "./css/style01.css";// import "./css/style02.css";
+import "../css/style.css";
+
+// import "./css/style01.css";
+// import "./css/style02.css";
+
 import "../css/header.css";
 import "../css/footer.css";
-import "../css/swiper.min.css"
-import SetErrorBar from '../util/SetErrorBar'
-import { onClickCopy , getmyaddress, LOGGER } from '../util/common'
-import { useEffect , useRef, useState } from "react"
-import { messages } from "../config/messages";
-import { strDot } from "../util/Util";
-import { applytoken } from '../util/rest'
-import { API } from '../config/api'
-import Myprofcommonheader  from '../components/Myprofcommonheader'
-import moment from 'moment'
+import "../css/swiper.min.css";
+import { useRef, useState } from "react";
 
 function MyProf({ store, setConnect }) {
   const itemListRef = useRef();
   const navigate = useNavigate();
-  const [ morePopupIndex, setMorePopupIndex] = useState(-1);
-  const [ toggleFilter, setToggleFilter] = useState(false);
-  const [ filterObj, setFilterObj] = useState({});
-  const [ filterList, setFilterList] = useState([]);
-  const [ selectItemIndex, setSelectItemIndex] = useState(-1);
-  const [ unit, setUnit] = useState("USD");
-  const [ fromPrice, setFromPrice] = useState("");
-  const [ toPrice, setToPrice] = useState("");
-  const [ priceFilterToggle , setPriceFilterToggle] = useState(false);
-  const [ callEffect , setCallEffect] = useState( false )
-  const [ pricePopup , setPricePopup] = useState( false )
-//	let [ myaddress , setmyaddress ] = useState( getmyaddress() )
-	let [ myaddress , setmyaddress ] = useState('0xaec2f4dd8b08eef0c71b02f97978106d875464ed' )
-	let [ myinfo_maria , setmyinfo_maria ]=useState()
-	let [ myinfo_mongo , setmyinfo_mongo ]=useState()
-	let [ listitems , setlistitems ]=useState( [] )
-	let axios= applytoken()
-	const fetchitems=_=>{
-		axios.get( `${API.API_MYITEMS}/${myaddress}/0/10/id/DESC`).then(resp=>{ LOGGER( 'wyBPdUnid7' , resp.data )
-			let { status , list }=resp.data 
-			if ( status =='OK' ){
-				setlistitems( list )
-			}
-		})
-	}
-	const onclickhide=itemid=>{
-		axios.put(API.API_TOGGLE_ITEM + `/${itemid}/visible`).then(resp=>{ LOGGER('' , resp.data)
-		let { status}=resp.data
-		if ( status =='OK'){
-			SetErrorBar( messages.MSG_CHANGED )																											
-			fetchitems()
-		} else {
-			SetErrorBar( messages.MSG_REQ_FAIL )
-		}
-	})
-	}
-	useEffect( _=>{
-		axios.get( `${API.API_GET_MY_INFO}` ).then(resp=>{ LOGGER( 'up9xNJ6kwp' , resp.data )
-			let { status , payload }=resp.data
-			if ( status=='OK' ){
-				setmyinfo_maria ( payload.maria )
-				setmyinfo_mongo ( payload.mongo )
-			} else {}
-		})
-		fetchitems()
-/** 		axios.get( `${API.API_MYITEMS}/${myaddress}/0/10/id/DESC`).then(resp=>{ LOGGER( 'wyBPdUnid7' , resp.data )
-			let { status , list }=resp.data 
-			if ( status =='OK' ){
-				setlistitems( list )
-			}
-		}) */
-	} , [] )
+
+  const [morePopupIndex, setMorePopupIndex] = useState(-1);
+  const [toggleFilter, setToggleFilter] = useState(false);
+  const [filterObj, setFilterObj] = useState({});
+  const [filterList, setFilterList] = useState([]);
+  const [selectItemIndex, setSelectItemIndex] = useState(-1);
+  const [unit, setUnit] = useState("USD");
+  const [fromPrice, setFromPrice] = useState("");
+  const [toPrice, setToPrice] = useState("");
+  const [priceFilterToggle, setPriceFilterToggle] = useState(false);
+  const [callEffect, setCallEffect] = useState(false);
+  const [pricePopup, setPricePopup] = useState(false);
 
   function getSelectText() {
     switch (unit) {
@@ -101,6 +59,7 @@ function MyProf({ store, setConnect }) {
         break;
     }
   }
+
   function onClickOption(data) {
     setUnit(data);
     setPriceFilterToggle(false);
@@ -109,9 +68,11 @@ function MyProf({ store, setConnect }) {
     setCallEffect(!callEffect);
     setPricePopup(false);
   }
+
   function editFilterList(category, cont) {
     let dataObj = filterObj;
     dataObj[category] = cont;
+
     setFilterObj(dataObj);
     setFilterList([...Object.values(dataObj)]);
   }
@@ -142,7 +103,7 @@ function MyProf({ store, setConnect }) {
 
   function onClickLink(e, link) {
     e.stopPropagation();
-    navigate(`${link}`);
+    navigate(`/${link}`);
   }
 
   return (
@@ -152,8 +113,7 @@ function MyProf({ store, setConnect }) {
           <div class="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 
-<Myprofcommonheader />
-{/*            <div class="wrap">
+            <div class="wrap">
               <div class="collection_detail">
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
@@ -161,21 +121,22 @@ function MyProf({ store, setConnect }) {
                     <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
-                    <a onClick={_=>{
-onClickCopy( window.location.href )
-SetErrorBar( messages.MSG_COPIED)
-										}}>
+                    <a>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">{myinfo_maria?.nickname }'s Collection</h2>
-                <h3>{strDot( myaddress , 4 , 4 )}</h3>
-                <h4> { myinfo_mongo?.description }
+                <h2 class="notop">Henry junior's Collection</h2>
+                <h3>0x97bc...8cad2</h3>
+                <h4>
+                  Henry is a mixed-media artist living in the
+                  <br class="mo" /> Bay Area and uses
+                  <br class="pc" />a stream of consciousness
+                  <br class="mo" /> approach to his work.
                 </h4>
               </div>
             </div>
-*/}
+
             <div class={toggleFilter ? "move on deal" : "move off"}>
               <div class="cw ucl">
                 <span class="close" onClick={() => setToggleFilter(true)}>
@@ -488,65 +449,7 @@ SetErrorBar( messages.MSG_COPIED)
                         <ol class="item move_li">
                           <div>
                             <span>
-															{listitems.sort( (a,b)=> a.id<b.id ? +1 : -1 ).map ( (elem,idx) =>{
-																return (
-																	<li key={ idx }
-																		class={selectItemIndex === 0 && "click"}
-																		onClick={e => {	e.preventDefault();	e.stopPropagation()
-																			setSelectItemIndex(0)
-																			navigate(`/singleitem?itemid=${elem.itemid}`)
-																		} }
-																	>
-																	<a
-																		style={{
-																			backgroundImage: `url(${ elem.item?.url })`,
-																			backgroundRepeat: "no-repeat",
-																			backgroundPosition: "center",
-																			backgroundSize: "cover",
-																		}}
-																	>
-																		<div class="on">
-																			<ul>
-																				<li class="heart off">{ elem.item?.countfavors }</li>
-																				<li
-																					class="dot"
-																					onClick={(e) => onClickMoreBtn(e, idx )}
-																				>
-																					{morePopupIndex === idx && (
-																						<div class="choose">
-																							<ul>
-																								<li onClick={e=>{
-																									navigate(`/salefixed?itemid=${elem.item?.itemid}`)
-																								}}
-																								>Sale</li>
-																								<li onClick={(e) =>
-																										{	// onClickLink(e, "/handover")
-																											navigate ( `/handover?itemid=${elem.item?.itemid}`)
-																										}
-																									}
-																								>
-																									Hand Over
-																								</li>
-																								<li>Edit</li>
-																								<li>Collection Change</li>
-																								<li onClick={e=>{	onclickhide( elem.item?.itemid )
-																								}
-																								}> { elem.visible? 'Hide' : 'Unhide' }</li>
-																							</ul>
-																						</div>
-																					)}
-																				</li>
-																			</ul>
-																			<span> {elem.item?.titlename }</span>
-																			<div> { strDot( elem.item?.author, 6, 4 ) } 
-																				<span style={{display:'inline' , textAlign:'right', alignContent:'right'}}>{ moment(elem.createdat).fromNow() }</span>
-																			</div>
-																		</div>
-																	</a>
-																</li>	
-																)
-															})}
-{/*                              <li
+                              <li
                                 class={selectItemIndex === 0 && "click"}
                                 onClick={() => setSelectItemIndex(0)}
                               >
@@ -563,7 +466,7 @@ SetErrorBar( messages.MSG_COPIED)
                                       <li class="heart off">1,389</li>
                                       <li
                                         class="dot"
-                                        onClick={(e) => onClic kMoreBtn(e, 0)}
+                                        onClick={(e) => onClickMoreBtn(e, 0)}
                                       >
                                         {morePopupIndex === 0 && (
                                           <div class="choose">
@@ -589,9 +492,277 @@ SetErrorBar( messages.MSG_COPIED)
                                   </div>
                                 </a>
                               </li>
-*/}
                             </span>
-
+                            <span>
+                              <li
+                                class={selectItemIndex === 1 && "click"}
+                                onClick={() => setSelectItemIndex(1)}
+                              >
+                                <a
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class="dot"
+                                        onClick={(e) => onClickMoreBtn(e, 1)}
+                                      >
+                                        {morePopupIndex === 1 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </li>
+                                    </ul>
+                                    <span>Mark.X collection</span>
+                                    <div>Place Saint-Marc</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li
+                                class={selectItemIndex === 2 && "click"}
+                                onClick={() => setSelectItemIndex(2)}
+                              >
+                                <a
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class="dot"
+                                        onClick={(e) => onClickMoreBtn(e, 2)}
+                                      >
+                                        {morePopupIndex === 2 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li
+                                class={selectItemIndex === 3 && "click"}
+                                onClick={() => setSelectItemIndex(3)}
+                              >
+                                <a
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class="dot"
+                                        onClick={(e) => onClickMoreBtn(e, 3)}
+                                      >
+                                        {morePopupIndex === 3 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li
+                                class={selectItemIndex === 4 && "click"}
+                                onClick={() => setSelectItemIndex(4)}
+                              >
+                                <a
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class="dot"
+                                        onClick={(e) => onClickMoreBtn(e, 4)}
+                                      >
+                                        {morePopupIndex === 4 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li
+                                class={selectItemIndex === 5 && "click"}
+                                onClick={() => setSelectItemIndex(5)}
+                              >
+                                <a
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class="dot"
+                                        onClick={(e) => onClickMoreBtn(e, 5)}
+                                      >
+                                        {morePopupIndex === 5 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
+                            <span>
+                              <li
+                                class={selectItemIndex === 6 && "click"}
+                                onClick={() => setSelectItemIndex(6)}
+                              >
+                                <a
+                                  style={{
+                                    backgroundImage: `url(${sample})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <div class="on">
+                                    <ul>
+                                      <li class="heart on">1,389</li>
+                                      <li
+                                        class="dot"
+                                        onClick={(e) => onClickMoreBtn(e, 6)}
+                                      >
+                                        {morePopupIndex === 6 && (
+                                          <div class="choose">
+                                            <ul>
+                                              <li>Sale</li>
+                                              <li
+                                                onClick={(e) =>
+                                                  onClickLink(e, "/handover")
+                                                }
+                                              >
+                                                Hand Over
+                                              </li>
+                                              <li>Edit</li>
+                                              <li>Collection Change</li>
+                                              <li>Unhide</li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </li>
+                                    </ul>
+                                    <span>David</span>
+                                    <div>Summer Pool</div>
+                                  </div>
+                                </a>
+                              </li>
+                            </span>
                           </div>
                         </ol>
                       </div>
@@ -599,7 +770,7 @@ SetErrorBar( messages.MSG_COPIED)
                   </div>
                 </div>
 
-{/**                  <div class="click_thumb">
+                <div class="click_thumb">
                   <div class="thum_pic">
                     <ul>
                       <li
@@ -629,8 +800,6 @@ SetErrorBar( messages.MSG_COPIED)
                     </div>
                   )}
                 </div>
-*/}
-
               </div>
             </div>
           </div>

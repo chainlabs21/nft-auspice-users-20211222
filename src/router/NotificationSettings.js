@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
-import { useEffect , useState  } from 'react'
-import styled from "styled-components"
+import styled from "styled-components";
+
 import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
@@ -16,34 +16,28 @@ import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
 import rstone from "../img/sub/rstone.png";
 import dollar from "../img/sub/rstone.png";
+
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css"; // import "./css/style01.css"; // import "./css/style02.css";
+import "../css/style.css";
+
+// import "./css/style01.css";
+// import "./css/style02.css";
+
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import Settingssidepanel from '../components/Settingssidepanel'
-import { strDot } from "../util/Util";
-import { getmyaddress, LOGGER } from '../util/common'
 
 function NotificationSettings({ store, setConnect }) {
   const navigate = useNavigate();
-	let myaddress = getmyaddress()
-	let [ 	achecked , setachecked ] = useState( [] )
 
-	useEffect(_=>{
-	} , [] )
-	const togglechecked=idx=>{
-
-	}
   return (
     <SignPopupBox>
       <section id="sub">
         <article class="wallet_wrap">
           <div class="move on">
-{/**  <Settingssidepanel />*/}
-             <div class="left_move wallet_left">
+            <div class="left_move wallet_left">
               <div class="mwallet">
                 <a >Account settings</a>
               </div>
@@ -54,7 +48,7 @@ function NotificationSettings({ store, setConnect }) {
                   onClick={() => navigate("/mywallet")}
                 >
                   <h3>
-                    My wallet<span>{ strDot( myaddress , 6,2)}</span>
+                    My wallet<span>0x9bb...carfb</span>
                   </h3>
                 </div>
                 <div
@@ -70,7 +64,6 @@ function NotificationSettings({ store, setConnect }) {
               </form>
             </div>
 
-
             <div class="right_move wallet_right tor">
               <h2>Notification settings</h2>
               <p>
@@ -79,7 +72,6 @@ function NotificationSettings({ store, setConnect }) {
               </p>
               <div class="wr togpad">
                 <ul>
-
                   <li class="toline">
                     <h5>Sales of products</h5>
                     <p class="tsub">
@@ -87,11 +79,10 @@ function NotificationSettings({ store, setConnect }) {
                       registered for sale
                     </p>
                     <div class="tog">
-                      <input type="checkbox" id="tog" onClick={e=>{ togglechecked (0)  }} />
+                      <input type="checkbox" id="tog" />
                       <label for="tog"></label>
                     </div>
                   </li>
-
                   <li class="toline">
                     <h5>Bidding</h5>
                     <p class="tsub">
@@ -151,16 +142,14 @@ function NotificationSettings({ store, setConnect }) {
                         <li>
                           <h3 style={{ backgroundImage: `url(${rstone})` }}>
                             KLAY
-                          </h3>                   
-													{/* <span>0.005</span>*/}
-													<input placeholder={'123'} value={'123'}></input>
+                          </h3>
+                          <span>0.005</span>
                         </li>
                         <li>
                           <h3 style={{ backgroundImage: `url(${dollar})` }}>
                             USD
                           </h3>
-													{/** <span>30.88</span>*/}
-													<input placeholder={'123'} value={'123'}></input>
+                          <span>30.88</span>
                         </li>
                       </ol>
                     </div>

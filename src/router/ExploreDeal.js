@@ -7,74 +7,66 @@ import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
 import collect_img4 from "../img/sub/collect_img4.png";
+
 import stone from "../img/sub/stone.png";
 import rock from "../img/sub/rock.png";
+
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
 import "../css/style.css";
+
 // import "./css/style01.css";
 // import "./css/style02.css";
+
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";
 import filter_icon from "../img/sub/filter_icon.png";
-import axios from "axios";
-import { API } from "../config/api";
-import { URL_TX_SCAN } from "../config/configs";
-import moment from 'moment'
 
-function ExploreDeal() {
-  const navigate = useNavigate()
+function ExploreDeal({ store, setConnect }) {
+  const navigate = useNavigate();
+
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
   const [toggleFilter, setToggleFilter] = useState(false);
   const [moMoreObj, setMoMoreObj] = useState({});
-  const [dataList, setDataList] = useState([]);
+
   function editFilterList(category, cont) {
     let dataObj = filterObj;
     dataObj[category] = cont;
+
     setFilterObj(dataObj);
     setFilterList([...Object.values(dataObj)]);
   }
+
   function onclickFilterReset() {
     setFilterObj({});
     setFilterList([]);
   }
+
   function onclickFilterCancel(cont) {
     let dataObj = filterObj;
+
     for (var key in dataObj) {
       if (dataObj.hasOwnProperty(key) && dataObj[key] == cont) {
         delete dataObj[key];
       }
     }
+
     setFilterObj(dataObj);
     setFilterList([...Object.values(dataObj)]);
   }
+
   function onClickToggleMoreBtn(index) {
     let moreObj = moMoreObj;
     moreObj[index] = !moreObj[index];
     console.log(moreObj);
     setMoMoreObj({ ...moreObj });
   }
-  useEffect(() => {
-    let token_sec = localStorage.getItem("token");
-    axios.defaults.headers.get.token = token_sec;
-    axios.defaults.headers.post.token = token_sec;
-
-    axios
-      .get(API.API_GET_EXPLORE, {        params: { fieldname: "typestr", fieldvalues: "MINT,SALE", itemdetail : 1 },
-      })
-      .then((resp) => {	console.log( 'MAvjoRxUYM' , resp.data )
-				let { status , list }=resp.data
-        if ( status =='OK' ){
-					setDataList( list)
-				}
-      });
-  }, []);
 
   return (
     <SignPopupBox>
@@ -299,66 +291,528 @@ function ExploreDeal() {
                         </tr>
                       </thead>
                       <tbody>
-                        {dataList.map((cont, index) => (
-                          <tr key={index} onClick={_=>{
-														navigate(`/singleitem?itemid=${cont.itemid}`)
-													}}>
-                            <td>{cont.typestr}</td>
-                            <td>
-                              <div class="name">
-                                <img style={{width: '50px' , borderRadius:'50%'}}
-                                  src={ cont.item?.url ||	require("../img/sub/collect_circle.png").default }
-                                  alt=""
-                                />
-                                <p></p>
-                              </div>
-                            </td>
-                            <td>
-                              <div class="name price">
-                                <img                                  src={require("../img/sub/I_klaytn.svg").default}                                  alt=""
-                                />
-                                <p>{cont.price}</p>
-                              </div>
-                            </td>
-                            <td>
-                              <div class="name">
-                                <img
-                                  src={
-                                    require("../img/sub/collect_circle.png")
-                                      .default
-                                  }
-                                  alt=""
-                                />
-                                <p>{cont.from_}</p>
-                              </div>
-                            </td>
-                            <td>
-                              <div class="name">
-                                <img
-                                  src={
-                                    require("../img/sub/collect_circle.png")
-                                      .default
-                                  }
-                                  alt=""
-                                />
-                                <p>{cont.to_}</p>
-                              </div>
-                            </td>
-                            <td>{ moment(cont.createdat).fromNow()  }</td>
-                            <td> {cont.amount }</td>
-                            <td onClick={_=>{
-															window.open ( URL_TX_SCAN[cont.nettype ] + `/${cont.txhash}` )
-														}}>
+                        <tr>
+                          <td>Sale</td>
+                          <td>
+                            <div class="name">
                               <img
                                 src={
-                                  require("../img/sub/icon_link_off.png")
+                                  require("../img/sub/collect_circle.png")
                                     .default
                                 }
                                 alt=""
                               />
-                            </td>
-                          </tr>
-                        ))}
+                              <p>Summer Pool</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                alt=""
+                              />
+                              <p>0.00050</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>VOE837548548548548</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>VOE837548548</p>
+                            </div>
+                          </td>
+                          <td>1 minutes left</td>
+                          <td>1</td>
+                          <td>
+                            <img
+                              src={
+                                require("../img/sub/icon_link_off.png").default
+                              }
+                              alt=""
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Sale</td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>Donald DUck</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                alt=""
+                              />
+                              <p>0.00050</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>regrerg</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>TOM12</p>
+                            </div>
+                          </td>
+                          <td>5 minutes left</td>
+                          <td>1</td>
+                          <td>
+                            <img
+                              src={
+                                require("../img/sub/icon_link_off.png").default
+                              }
+                              alt=""
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Sale</td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>Crushed He DUck</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                alt=""
+                              />
+                              <p>0.00050</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>Dan</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>AMAMA</p>
+                            </div>
+                          </td>
+                          <td>10 minutes left</td>
+                          <td>1</td>
+                          <td>
+                            <img
+                              src={
+                                require("../img/sub/icon_link_on.png").default
+                              }
+                              alt=""
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Sale</td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>Summer Pool</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                alt=""
+                              />
+                              <p>0.00050</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>VOE837548548</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>VOE837548548</p>
+                            </div>
+                          </td>
+                          <td>1 minutes left</td>
+                          <td>1</td>
+                          <td>
+                            <img
+                              src={
+                                require("../img/sub/icon_link_off.png").default
+                              }
+                              alt=""
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Sale</td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>Donald DUck</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                alt=""
+                              />
+                              <p>0.00050</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>regrerg</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>TOM12</p>
+                            </div>
+                          </td>
+                          <td>5 minutes left</td>
+                          <td>1</td>
+                          <td>
+                            <img
+                              src={
+                                require("../img/sub/icon_link_off.png").default
+                              }
+                              alt=""
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Sale</td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>Crushed He DUck</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                alt=""
+                              />
+                              <p>0.00050</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>Dan</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>AMAMA</p>
+                            </div>
+                          </td>
+                          <td>10 minutes left</td>
+                          <td>1</td>
+                          <td>
+                            <img
+                              src={
+                                require("../img/sub/icon_link_on.png").default
+                              }
+                              alt=""
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Sale</td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>Summer Pool</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                alt=""
+                              />
+                              <p>0.00050</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>VOE837548548</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>VOE837548548</p>
+                            </div>
+                          </td>
+                          <td>1 minutes left</td>
+                          <td>1</td>
+                          <td>
+                            <img
+                              src={
+                                require("../img/sub/icon_link_off.png").default
+                              }
+                              alt=""
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Sale</td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>Donald DUck</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                alt=""
+                              />
+                              <p>0.00050</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>regrerg</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>TOM12</p>
+                            </div>
+                          </td>
+                          <td>5 minutes left</td>
+                          <td>1</td>
+                          <td>
+                            <img
+                              src={
+                                require("../img/sub/icon_link_off.png").default
+                              }
+                              alt=""
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Sale</td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>Crushed He DUck</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name price">
+                              <img
+                                src={require("../img/sub/I_klaytn.svg").default}
+                                alt=""
+                              />
+                              <p>0.00050</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>Dan</p>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="name">
+                              <img
+                                src={
+                                  require("../img/sub/collect_circle.png")
+                                    .default
+                                }
+                                alt=""
+                              />
+                              <p>AMAMA</p>
+                            </div>
+                          </td>
+                          <td>10 minutes left</td>
+                          <td>1</td>
+                          <td>
+                            <img
+                              src={
+                                require("../img/sub/icon_link_on.png").default
+                              }
+                              alt=""
+                            />
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -449,8 +903,7 @@ function ExploreDeal() {
 }
 
 const SignPopupBox = styled.div`
-  .move.off .close {
-  }
+  padding: 40px 0 0 0;
 
   .mySwiper3 {
     .swiper-wrapper {
@@ -463,7 +916,17 @@ const SignPopupBox = styled.div`
   }
 `;
 
-export default ExploreDeal;
+function mapStateToProps(state) {
+  return { store: state };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setConnect: () => dispatch(setConnect()),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExploreDeal);
 
 const statusList = ["Listing", "Sale", "Bid", "Send"];
 

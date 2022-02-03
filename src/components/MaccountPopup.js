@@ -29,7 +29,6 @@ function Main({ store, setAllPopupOff }) {
       <section id="sub">
         <article class="wallet_wrap">
           <div class="move on">
-
             <div class="left_move wallet_left" style={{ display: "block" }}>
               <div class="mwallet">
                 <a onClick={() => navigate(-1)}>Account settings</a>
@@ -48,7 +47,6 @@ function Main({ store, setAllPopupOff }) {
                 </div>
               </form>
             </div>
-						
           </div>
         </article>
       </section>

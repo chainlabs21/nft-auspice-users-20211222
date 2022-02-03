@@ -28,18 +28,21 @@ import I_heartO from "./img/main/I_heartO.svg";
 import I_heart from "./img/main/I_heart.svg";
 import I_starO from "./img/main/I_starO.svg";
 import I_star from "./img/main/I_star.svg";
+// import "./css/common.css";
+// import "./css/font.css";
+// import "./css/layout.css";
+// import "./css/style.css";
+
+// import "./css/style01.css";
+// import "./css/style02.css";
+
 import "./css/header.css";
 import "./css/footer.css";
 import "./css/swiper.min.css";
-import title from "./img/main/title.svg";
-import { putCommaAtPrice } from "./util/Util";
-import { LOGGER , gettimestr , get_deltatime_str } from "./util/common";
-import { applytoken } from './util/rest'
-import { API } from './config/api'
-import { strDot } from "./util/Util"
-import moment from 'moment'
 
-const expItemId = "QmS7RFqoUZei5tQZN6XYyyjcvrtk3eHfibQoxJG4bnh3v3";
+import title from "./img/main/title.svg";
+
+import { putCommaAtPrice } from "./util/Util";
 
 function Main({ store }) {
   const visualSwiperContRef = useRef();
@@ -48,44 +51,23 @@ function Main({ store }) {
   const trendingSwiperRef = useRef();
   const itemSwiperRef = useRef();
   const userWrapRef = useRef();
+
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
+
   let pathArray = pathname.split("/");
   let pathAddress = pathArray[pathArray.length - 1];
+
   const [intervalId, setIntervalId] = useState();
   const [visualSwiperIndex, setVisualSwiperIndex] = useState(0);
   const [collectionIndex, setCollectionIndex] = useState(0);
   const [trendingItemIndex, setTrendingItemIndex] = useState(0);
   const [itemIndex, setItemIndex] = useState(0);
-	const [userIndex, setUserIndex] = useState(0);
-	let [ list_newitems , setlist_newitems ]=useState( [] )
-	let [ list_trenditems , setlist_trenditems ]=useState( [] )
-	let [ list_featured , setlist_featured ] = useState( [] )
-	let axios = applytoken ()
-	useEffect( _=>{
-		axios.get( `${API.API_MAIN_FEATURED_ITEMS}`).then(resp=>{ LOGGER('' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK' ){
-				setlist_featured ( list )
-			}
-		})
-		axios.get( `${API.API_MAIN_NEW_ITEMS}` ).then(resp=>{ LOGGER( 'JBwpoHdvFv' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK' ) {
-				setlist_newitems ( list )
-			}
-		})
-		axios.get ( `${API.API_MAIN_TREND_ITEMS}` ).then(resp=>{ LOGGER ( 'JN8wsASyiL' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK'){
-				setlist_trenditems ( list )
-			}
-		})
-	} , [] )
+  const [userIndex, setUserIndex] = useState(0);
 
-	function onClickVisualSwiperBtn() {
-    if ( visualSwiperRef.current?.scrollTo ) {
-      if ( visualSwiperIndex < visualSwiperRef.current.children.length - 1 ) {
+  function onClickVisualSwiperBtn() {
+    if (visualSwiperRef.current?.scrollTo) {
+      if (visualSwiperIndex < visualSwiperRef.current.children.length - 1) {
         visualSwiperRef.current.style.transform = `translate3d(
           -${
             visualSwiperRef.current.children[0].offsetWidth *
@@ -184,20 +166,23 @@ function Main({ store }) {
     if (userIndex < pageNum - 1) setUserIndex(userIndex + 1);
     else setUserIndex(0);
   }
-  useEffect( () => {return
-    const contWidth = visualSwiperRef.current.children[0].offsetWidth;
-    visualSwiperContRef.current.style.width = `${contWidth * 3}px`;
-  }, [] )
 
   useEffect(() => {
-    if (visualSwiperRef.current.children.length ) {
-      if (intervalId) clearInterval( intervalId )
-      setIntervalId(setInterval( onClickVisualSwiperBtn , 3000));
+    const contWidth = visualSwiperRef.current.children[0].offsetWidth;
+    visualSwiperContRef.current.style.width = `${contWidth * 3}px`;
+  }, []);
+
+  useEffect(() => {
+    if (visualSwiperRef.current.children.length) {
+      if (intervalId) clearInterval(intervalId);
+
+      setIntervalId(setInterval(onClickVisualSwiperBtn, 3000));
     }
+
     return clearInterval(intervalId);
   }, [visualSwiperIndex]);
 
-/**   useEffect(() => {
+  useEffect(() => {
     const wrapWidth = collectionSwiperRef.current.offsetWidth;
     const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -216,10 +201,10 @@ function Main({ store }) {
         });
       }
     }
-  }, [collectionIndex]);*/
+  }, [collectionIndex]);
 
   useEffect(() => {
-/**     const wrapWidth = trendingSwiperRef.current.offsetWidth;
+    const wrapWidth = trendingSwiperRef.current.offsetWidth;
     const contWidth = trendingSwiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(8 / itemNumByPage);
@@ -236,11 +221,11 @@ function Main({ store }) {
           behavior: "smooth",
         });
       }
-		} */
+    }
   }, [trendingItemIndex]);
 
   useEffect(() => {
-/**     const wrapWidth = itemSwiperRef.current.offsetWidth;
+    const wrapWidth = itemSwiperRef.current.offsetWidth;
     const contWidth = itemSwiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(itemList.length / itemNumByPage);
@@ -257,7 +242,7 @@ function Main({ store }) {
           behavior: "smooth",
         });
       }
-    }*/
+    }
   }, [itemIndex]);
 
   useEffect(() => {
@@ -276,7 +261,7 @@ function Main({ store }) {
         userWrapRef.current.scrollTo({
           left: 0,
           behavior: "smooth",
-        })
+        });
       }
     }
   }, [userIndex]);
@@ -295,26 +280,26 @@ function Main({ store }) {
             </p>
             <div>
               <a onClick={() => navigate("/marketplace")}>NFT Navigation</a>
-              <a onClick={() => navigate("/createitem")}>NFT Publication</a>
+              <a onClick={() => navigate("/marketplace")}>NFT Publication</a>
             </div>
           </div>
           <div class="swiper" ref={visualSwiperContRef}>
             <div class="swiper-container swiper-container-visual">
               <ol class="swiper-wrapper" ref={visualSwiperRef}>
-                {list_featured.sort((a,b)=>a.createdat<b.createdat? +1 : -1 ).map((cont, index) => (
+                {[1, 2].map((cont, index) => (
                   <span key={index}>
                     <li class="swiper-slide">
                       <div
                         style={{
-                          backgroundImage: `url(${cont.url})`,
+                          backgroundImage: `url(${image01})`,
                           backgroundRepeat: "no-repeat",
                           backgroundPosition: "center",
                           backgroundSize: "cover",
                         }}
                       ></div>
                       <div>
-                        <h3>{ cont.titlename }</h3>
-                        <p> { cont.username } </p>
+                        <h3>Irregular Shape</h3>
+                        <p>Guzuman</p>
                         <div class="info">
                           <dl>
                             <dt>Current Bid</dt>
@@ -332,22 +317,131 @@ function Main({ store }) {
                           <ul>
                             <li>
                               <img
-                                src={ cont.author_mongo?.profileimage }
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
                               />
-                              <strong>{ cont.askpricestats?.min } KLAY</strong>
-                              <span>{ gettimestr(cont.orders_sellside?.createdat )  }</span>
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
+                            </li>
+                            <li>
+                              <img
+                                src={
+                                  require("./img/main/image_person01.png")
+                                    .default
+                                }
+                              />
+                              <strong>5.44 KLAY</strong>
+                              <span>21:54</span>
                             </li>
                           </ul>
                         </div>
                         <div class="button">
-                          <a
-                            onClick={() => navigate(`/singleitem?itemid=${cont.itemid }`)}
-                          >
+                          <a onClick={() => navigate("/singleitem")}>
                             View Item
                           </a>
-                          <a
-                            onClick={() => navigate(`/singleitem?itemid=${cont.itemid }`)}
-                          >
+                          <a onClick={() => navigate("/singleitem")}>
                             Place a Bid
                           </a>
                         </div>
@@ -370,15 +464,13 @@ function Main({ store }) {
           <div class="wrap">
             <h4 class="t">Trending Collection</h4>
             <div class="swiper">
-{/*              <div class="swiper-container swiper-container-collection">
+              <div class="swiper-container swiper-container-collection">
                 <ol class="list swiper-wrapper" ref={collectionSwiperRef}>
-                  {[1, 2].m ap((cont, index) => (
+                  {[1, 2].map((cont, index) => (
                     <>
                       <span>
                         <li class="swiper-slide">
-                          <a
-                            onClick={() => navigate(`/sing leitem/${ cont.itemid }`)}
-                          >
+                          <a onClick={() => navigate("/singleitem")}>
                             <div
                               style={{
                                 backgroundImage: `url(${collection_list01})`,
@@ -411,11 +503,114 @@ function Main({ store }) {
                           </a>
                         </li>
                       </span>
-
+                      <span>
+                        <li class="swiper-slide">
+                          <a onClick={() => navigate("/singleitem")}>
+                            <div
+                              style={{
+                                backgroundImage: `url(${collection_list02})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                              }}
+                            ></div>
+                            <div>
+                              <span
+                                style={{
+                                  backgroundImage: `url(${collection_person02})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              ></span>
+                              <dl>
+                                <dt>Emilie</dt>
+                                <dd>
+                                  <strong>Antoin</strong>
+                                  <p>
+                                    dot image collection It was made for game
+                                    development and was very popular.
+                                  </p>
+                                </dd>
+                              </dl>
+                            </div>
+                          </a>
+                        </li>
+                      </span>
+                      <span>
+                        <li class="swiper-slide">
+                          <a onClick={() => navigate("/singleitem")}>
+                            <div
+                              style={{
+                                backgroundImage: `url(${collection_list03})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                              }}
+                            ></div>
+                            <div>
+                              <span
+                                style={{
+                                  backgroundImage: `url(${collection_person03})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              ></span>
+                              <dl>
+                                <dt>la piscine</dt>
+                                <dd>
+                                  <strong>Antoin</strong>
+                                  <p>
+                                    This collection pays homage to the works of
+                                    Bead Hockney, allowing you to appreciate
+                                    David's work with a different feel.
+                                  </p>
+                                </dd>
+                              </dl>
+                            </div>
+                          </a>
+                        </li>
+                      </span>
+                      <span>
+                        <li class="swiper-slide">
+                          <a onClick={() => navigate("/singleitem")}>
+                            <div
+                              style={{
+                                backgroundImage: `url(${collection_list04})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                              }}
+                            ></div>
+                            <div>
+                              <span
+                                style={{
+                                  backgroundImage: `url(${collection_person04})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              ></span>
+                              <dl>
+                                <dt>Bleu</dt>
+                                <dd>
+                                  <strong>Henry junior</strong>
+                                  <p>
+                                    It is a work made with thickly pressed
+                                    paint, and you can appreciate the collection
+                                    in a variety of beautiful colors.
+                                  </p>
+                                </dd>
+                              </dl>
+                            </div>
+                          </a>
+                        </li>
+                      </span>
                     </>
                   ))}
                 </ol>
-															</div> */}
+              </div>
 
               <div
                 class="swiper-button-prev swiper-button-collection-prev"
@@ -435,7 +630,11 @@ function Main({ store }) {
 
             <ol class="list">
               <li>
-                <a onClick={() => navigate("/marketplace", { state: "Art" })}>
+                <a
+                  onClick={() =>
+                    navigate("/marketplace", { state: "Digital Art" })
+                  }
+                >
                   <img src={require("./img/main/category_art.png").default} />
                   Digital Art
                 </a>
@@ -449,7 +648,7 @@ function Main({ store }) {
               <li>
                 <a
                   onClick={() =>
-                    navigate("/marketplace", { state: "Virtual World" })
+                    navigate("/marketplace", { state: "Virtual Worlds" })
                   }
                 >
                   <img
@@ -463,7 +662,7 @@ function Main({ store }) {
               <li>
                 <a
                   onClick={() =>
-                    navigate("/marketplace", { state: "Trading Cards" })
+                    navigate("/marketplace", { state: "Trading Card" })
                   }
                 >
                   <img
@@ -526,13 +725,13 @@ function Main({ store }) {
               <div class="swiper-container swiper-container-trendingitem">
                 <ol class="item item4 buy swiper-wrapper">
                   <div className="slideBox" ref={trendingSwiperRef}>
-                    { list_trenditems.filter(elem=>elem.url ).sort((a,b)=>b.countviews- a.countviews ).map( (cont , index) => (
-                      <span key={index}>
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((cont, index) => (
+                      <span>
                         <li class="swiper-slide">
                           <a
-                            onClick={() => navigate(`/singleitem?itemid=${cont.itemid}`)}
+                            onClick={() => navigate("/singleitem")}
                             style={{
-                              backgroundImage: `url(${cont.url})` , 
+                              backgroundImage: `url(${sample})`,
                               backgroundRepeat: "no-repeat",
                               backgroundPosition: "center",
                               backgroundSize: "cover",
@@ -540,15 +739,14 @@ function Main({ store }) {
                           >
                             <div class="on">
                               <ul>
-                                <li class={ cont.ilikethisitem? 'heart on' : "heart off"} >{ cont.countfavors }</li>
-																<li ><img src={require('./img/sub/eye.jpg').default }></img>{cont.countviews } </li>
-                                <li class="star off"> </li>
+                                <li class="heart off">1,389</li>
+                                <li class="star off"></li>
                               </ul>
-                              <div>{ cont.titlename } </div>
-                              <span>{ strDot(cont.author?.nickname , 10, 0)  }</span>
+                              <div>Summer Pool</div>
+                              <span>David</span>
                               <ol>
-                                <li>{ moment.unix(cont.minpriceorder?.expiry).fromNow() || get_deltatime_str ( cont.minpriceorder?.expiry ) }</li>
-                                <li>{ cont.askpricestats?.min } KLAY</li>
+                                <li>6 minutes left</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                               <p>Buy Now</p>
                             </div>
@@ -580,13 +778,13 @@ function Main({ store }) {
               <div class="swiper-container swiper-container-newitem">
                 <ol class="item item4 summary swiper-wrapper">
                   <div className="slideBox" ref={itemSwiperRef}>
-                    { list_newitems.filter(elem => elem.url ).sort((a,b)=>a.createdat<b.createdat? +1 : -1 ).map((cont, index) => (
-                      <span key={index}>
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((cont, index) => (
+                      <span>
                         <li class="swiper-slide">
                           <a
-                            onClick={() => navigate(`/singleitem?itemid=${ cont.itemid }`)}
+                            onClick={() => navigate("/singleitem")}
                             style={{
-                              backgroundImage: `url(${cont.url})`,
+                              backgroundImage: `url(${sample})`,
                               backgroundRepeat: "no-repeat",
                               backgroundPosition: "center",
                               backgroundSize: "cover",
@@ -594,15 +792,14 @@ function Main({ store }) {
                           >
                             <div class="on">
                               <ul>
-                                <li class="heart off">{ cont.countfavors }</li>
+                                <li class="heart off">1,389</li>
                                 <li class="star off"></li>
                               </ul>
-                              <div>{ cont.titlename } </div>
-                              <span> { strDot(cont.author?.username , 10 , 0 ) } { moment( cont.createdat ).fromNow() }</span>
-															
+                              <div>Summer Pool</div>
+                              <span>David</span>
                               <ol>
-                                <li>{ cont.minpriceorder?.expiry ? moment.unix ( cont.minpriceorder?.expiry ).fromNow() : '' }</li>
-                                <li>{ cont.minpriceorder ? `${cont.askpricestats?.min} KLAY` : '' } </li>
+                                <li>6 minutes left</li>
+                                <li>1.67 KLAY</li>
                               </ol>
                             </div>
                           </a>
@@ -634,7 +831,7 @@ function Main({ store }) {
                 <ol class="list swiper-wrapper" ref={userWrapRef}>
                   {[1, 2].map((cont, index) => (
                     <>
-                      <span key={ index }>
+                      <span>
                         <li class="swiper-slide">
                           <a>
                             <div
@@ -963,7 +1160,7 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
-/**  const itemList = [
+const trendingItemList = [
   {
     img: item_list01,
     like: true,
@@ -971,7 +1168,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Main);
     favorite: true,
     title: "Summer Pool",
     creator: "David",
-    time: "6 min utes left",
+    time: "6 minutes left",
     price: "0.35 KLAY",
   },
   {
@@ -982,7 +1179,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Main);
     title: "Donald Duck",
     creator: "Carson",
     time: "7 days left",
-    price: "1.6 7 KLAY",
+    price: "1.67 KLAY",
   },
   {
     img: item_list03,
@@ -1021,7 +1218,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Main);
     favorite: true,
     title: "Summer Pool",
     creator: "David",
-    time: "6 min utes left",
+    time: "6 minutes left",
     price: "0.35 KLAY",
   },
   {
@@ -1032,7 +1229,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Main);
     title: "Donald Duck",
     creator: "Carson",
     time: "7 days left",
-    price: "1.6 7 KLAY",
+    price: "1.67 KLAY",
   },
   {
     img: item_list03,
@@ -1065,4 +1262,148 @@ export default connect(mapStateToProps, mapDispatchToProps)(Main);
     price: "1.02 KLAY",
   },
 ];
-*/
+const itemList = [
+  {
+    img: item_list01,
+    like: true,
+    likeCount: 1389,
+    favorite: true,
+    title: "Summer Pool",
+    creator: "David",
+    time: "6 minutes left",
+    price: "0.35 KLAY",
+  },
+  {
+    img: item_list02,
+    like: false,
+    likeCount: 2865,
+    favorite: false,
+    title: "Donald Duck",
+    creator: "Carson",
+    time: "7 days left",
+    price: "1.67 KLAY",
+  },
+  {
+    img: item_list03,
+    like: true,
+    likeCount: 589,
+    favorite: false,
+    title: "A Girl",
+    creator: "Mark.X",
+    time: "3 days left",
+    price: "0.97 KLAY",
+  },
+  {
+    img: item_list04,
+    like: false,
+    likeCount: 713,
+    favorite: true,
+    title: "Crushed Heard and aaaaaa",
+    creator: "Alexandro Ambrosia",
+    time: "365 days left",
+    price: "12.62 KLAY",
+  },
+  {
+    img: item_list05,
+    like: false,
+    likeCount: 295,
+    favorite: false,
+    title: "With Dogs",
+    creator: "AP.GOD.Ryan",
+    time: "17 minutes left",
+    price: "1.02 KLAY",
+  },
+  {
+    img: item_list01,
+    like: true,
+    likeCount: 1389,
+    favorite: true,
+    title: "Summer Pool",
+    creator: "David",
+    time: "6 minutes left",
+    price: "0.35 KLAY",
+  },
+  {
+    img: item_list02,
+    like: false,
+    likeCount: 2865,
+    favorite: false,
+    title: "Donald Duck",
+    creator: "Carson",
+    time: "7 days left",
+    price: "1.67 KLAY",
+  },
+  {
+    img: item_list03,
+    like: true,
+    likeCount: 589,
+    favorite: false,
+    title: "A Girl",
+    creator: "Mark.X",
+    time: "3 days left",
+    price: "0.97 KLAY",
+  },
+  {
+    img: item_list04,
+    like: false,
+    likeCount: 713,
+    favorite: true,
+    title: "Crushed Heard and aaaaaa",
+    creator: "Alexandro Ambrosia",
+    time: "365 days left",
+    price: "12.62 KLAY",
+  },
+  {
+    img: item_list05,
+    like: false,
+    likeCount: 295,
+    favorite: false,
+    title: "With Dogs",
+    creator: "AP.GOD.Ryan",
+    time: "17 minutes left",
+    price: "1.02 KLAY",
+  },
+];
+
+const userList = [
+  {
+    img: users_list01,
+    title: "Basic Guide",
+    explain: "Before Participating in NFT Items",
+  },
+  {
+    img: users_list02,
+    title: "Buy NFTs",
+    explain: "Discover and buy promising NFTs",
+  },
+  {
+    img: users_list03,
+    title: "production and sales",
+    explain: "Easy-to-follow NFT production and sales",
+  },
+  {
+    img: users_list04,
+    title: "Itemverse Market",
+    explain: "5 reasons to sell your NFTs on Itemverse",
+  },
+  {
+    img: users_list01,
+    title: "Basic Guide",
+    explain: "Before Participating in NFT Items",
+  },
+  {
+    img: users_list02,
+    title: "Buy NFTs",
+    explain: "Discover and buy promising NFTs",
+  },
+  {
+    img: users_list03,
+    title: "production and sales",
+    explain: "Easy-to-follow NFT production and sales",
+  },
+  {
+    img: users_list04,
+    title: "Itemverse Market",
+    explain: "5 reasons to sell your NFTs on Itemverse",
+  },
+];

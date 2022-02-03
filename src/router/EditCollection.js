@@ -189,7 +189,7 @@ function EditCollection({ store, setConnect }) {
                         </li>
                         <li>
                           <div class="top2">
-                            <h3>Royalty setting</h3>
+                            <h3>Loyalty setting</h3>
                             <p>
                               Each time an item is resold, you can receive a
                               certain amount of commission. (up to 20%)
