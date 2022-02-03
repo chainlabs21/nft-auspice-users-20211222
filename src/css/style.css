@@ -5475,7 +5475,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 /* #sub .ntfsell_box .sellbg { max-width:800px; max-height:550px; margin: 0 auto; background-color:#fff; box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2); margin-top:90px; overflow-y:auto; -ms-overflow-style: none; scrollbar-width: none; border-radius:20px; } */
 #sub .ntfsell_box .sell_wrap {
-  padding: 28px 30px 40px;
+  padding: 36px 30px 40px;
 }
 #sub .ntfsell_box .sellbg::-webkit-scrollbar {
   display: none;
@@ -5510,6 +5510,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub .ntfsell_box .top1 strong {
   font-size: 20px;
+  line-height: 20px;
   letter-spacing: -0.4px;
 }
 #sub .ntfsell_box .top1.profile strong {

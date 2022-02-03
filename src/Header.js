@@ -16,14 +16,23 @@ import I_x from "./img/main/I_x.svg";
 import "./css/footer.css";
 import "./css/swiper.min.css";
 import { useState } from "react";
-
+import { useLocation } from "react-router-dom";
 import { setAllPopupOff, setMHeaderPopup } from "./util/store";
 
 function Main({ store, setAllPopupOff, setMHeaderPopup }) {
   const navigate = useNavigate();
+  const pathname = useLocation().pathname.toLocaleLowerCase();
   const { mHeaderPopup } = useSelector((state) => state.store);
+  const isMobile = useSelector((state) => state.common.isMobile);
 
   const [search, setSearch] = useState("");
+
+  function toggleHeader() {
+    let toggle = false;
+    if (pathname.indexOf("/createcollection") !== -1 && isMobile) toggle = true;
+
+    return toggle;
+  }
 
   function onClickConnectWallet() {
     if (window.klaytn.selectedAddress) navigate("/joinmembership");
@@ -31,7 +40,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
   }
 
   return (
-    <HeaderBox id="header">
+    <HeaderBox id="header" style={{ display: toggleHeader() && "none" }}>
       <h1>
         <a onClick={() => navigate("/")}>
           <img src={require("./img/header/logo.png").default} alt={"logo"} />

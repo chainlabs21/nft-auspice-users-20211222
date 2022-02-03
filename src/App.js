@@ -53,6 +53,7 @@ import { GET_USER_DATA } from "./reducers/userSlice";
 import GlobalStyle from "./components/globalStyle";
 import { setmyinfo, setaddress } from "./util/store";
 import { LOGGER, PARSER, STRINGER } from "./util/common";
+import { setMobile } from "./reducers/commonSlice";
 function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
@@ -155,6 +156,21 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         }
       }
     }, 10 * 1000);
+  }, []);
+
+  function handleResize() {
+    if (window.innerWidth > 1024) dispatch(setMobile(false));
+    else dispatch(setMobile(true));
+  }
+
+  useEffect(() => {
+    if (window.innerWidth > 1024) dispatch(setMobile(false));
+    else dispatch(setMobile(true));
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (
