@@ -165,13 +165,14 @@ function SingleItem({ store, setConnect , Setisloader
 			, myaddress
 			, referer ? referer : ADDRESSES.zero
 		]
-		LOGGER( '' , aargs )
-//		return 		
+		LOGGER( 'eKuaiR7aji' , aargs )
+//		return
 		let abistr = getabistr_forfunction ( {
 			contractaddress  :ADDRESSES.matcher_simple
 			, abikind : 'MATCHER_SIMPLE'
 			, methodname : 'mint_and_match_single_simple'
 			, aargs } )
+LOGGER ( '4NH5v22uqw' , abistr ) // remix sig : 0xdc6da5f3000000
 //			return
 			requesttransaction ({
 				from : myaddress
@@ -225,7 +226,7 @@ function SingleItem({ store, setConnect , Setisloader
 		, uint _expiry // 9
 		, uint256 _bidprice // 10
 	) public payable returns ( bool ) { */
-	const on_bid_to_auction= async _=>{
+	const on_bid_to_auction = async _=>{
 		if (mybidamount){}
 		else {SetErrorBar( messages.MSG_PLEASE_INPUT ); return }
 		let aargs = [
@@ -246,13 +247,15 @@ function SingleItem({ store, setConnect , Setisloader
 			, abikind : 'AUCTION_ENGLISH_SIMPLE' // AUCTION_ENGLISH_BATCH_TASKS'
 			, methodname : 'mint_begin_simple_and_bid'
 			, aargs
-		})
-		requesttransaction({ 
+		} )
+		LOGGER( '' ,abistr ) 
+//		return 
+		requesttransaction( {
 			from : myaddress
 			, to : ADDRESSES.auction_repo_english_simple // auction_repo_english_simple_no_batch_tasks
 			, data : abistr
 			, value : getweirep( mybidamount )
-		}).then( async resp=>{			LOGGER( '' , resp )
+		}).then( async resp=>{ LOGGER( '' , resp )
 			let { transactionHash : txhash , status } = resp
 			if ( status ) {}
 			else {SetErrorBar (messages.MSG_USER_DENIED_TX ); return }
@@ -276,6 +279,9 @@ function SingleItem({ store, setConnect , Setisloader
 					setbidauctionmodal( false)
 				}
 			 })
+		}).catch(err=>{
+			LOGGER(err)
+			SetErrorBar( messages.MSG_TX_FAILED )
 		})
 	}
 	const onclickbuy = _ =>{
@@ -435,7 +441,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
         });
       }
     }
-  }, [userIndex] )
+  }, [ userIndex ] )
 
   return (
     <SignPopupBox>
@@ -528,9 +534,9 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
 <input value={ mybidamount }
 	onChange={e=>{
 		let {value}=e.target
-		value = + value
-		if (ISFINITE( value )){}
-		else { SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY) ; return }
+		let value_numeric = + value
+		if (ISFINITE( value_numeric )){}
+		else { SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY)  } // ; return
 		setmybidamount ( ''+value )
 		if( value>= +myethbalance){SetErrorBar(messages.MSG_EXCEEDS_BALANCE) ; return }
 		if( value >=sellorder?.asset_amount_ask ){}
