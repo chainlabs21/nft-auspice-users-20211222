@@ -1,0 +1,112 @@
+#footer { width:100%;max-width: 1280px;margin:0 auto;; }
+#footer > div > div { overflow:hidden; }
+#footer > div > div > div { float:left; }
+#footer > div > div.info { border-top:1px solid #222; padding:79.5px 0 0; }
+#footer > div > div.info > div { width:335px; }
+#footer > div > div.info > div:last-child { width:calc(100% - 335px); }
+#footer > div > div.info > div h5 {  }
+#footer > div > div.info > div h5 a { display:block; }
+#footer > div > div.info > div h5 a img { vertical-align:top; width:283px; }
+#footer > div > div.info > div p { font-size:16px; color:#000; margin:25px 0 0; line-height:1.88; }
+#footer > div > div.info > div div { overflow:hidden; padding:29px 0 0; display:none; }
+#footer > div > div.info > div div span { display:block; float:left; padding:0 20px 0 0; position:relative; }
+#footer > div > div.info > div div span a { font-size:14px; font-weight:700; color:#000; }
+#footer > div > div.info > div div span:last-child:before { content:''; width:0px; height:0px; position:absolute; top:8px; right:5px; border-top:4px solid #000; border-bottom:4px solid none; border-right:4px solid transparent; border-left:4px solid transparent; }
+#footer > div > div.info > div ul { overflow:hidden; padding:0 0 0 154px; }
+#footer > div > div.info > div ul > li { float:left; width:25%; }
+#footer > div > div.info > div ul > li h6 { font-size:20px; color:#000; font-weight:700; margin:0 0 30px; }
+#footer > div > div.info > div ul > li ol {  }
+#footer > div > div.info > div ul > li ol li { margin:0 0 20px 0; }
+#footer > div > div.info > div ul > li ol li a { font-size:16px; }
+
+#footer > div > div.copy { padding:70px 0; }
+#footer > div > div.copy > div { width:50%; text-align:left; }
+#footer > div > div.copy > div:last-child { text-align:right; }
+#footer > div > div.copy > div ul { overflow:hidden; }
+#footer > div > div.copy > div ul li { float:left; }
+#footer > div > div.copy > div ul li a { display:block; color:#000; font-size:16px; position:relative; font-weight:500; }
+#footer > div > div.copy > div ul li:last-child a { margin:0 0 0 32px; }
+#footer > div > div.copy > div ul li:last-child a:before { content:''; position:absolute; transform:translate(0, -50%); top:50%; left:-16.5px; width:1px; height:80%; background-color:#000; }
+#footer > div > div.copy > div address { font-size:16px; color:#a6a6a6; font-style:normal; }
+
+
+@media screen and (max-width:1440px) {
+#footer > div > div.info { padding:75px 0 0; }
+#footer > div > div.info > div { width:320px; }
+#footer > div > div.info > div:last-child { width:calc(100% - 320px); }
+#footer > div > div.info > div h5 a img { width:273px; }
+#footer > div > div.info > div p { font-size:15px; line-height:1.85; }
+#footer > div > div.info > div ul { padding:0 0 0 20%; }
+#footer > div > div.info > div ul > li h6 { font-size:19px; margin:0 0 26px; }
+#footer > div > div.info > div ul > li ol li { margin: 0 0 18px 0; }
+#footer > div > div.info > div ul > li ol li a { }
+
+#footer > div > div.copy > div ul li a { font-size:15px; }
+#footer > div > div.copy > div address { font-size:15px; }
+}
+
+@media screen and (max-width:1280px) {
+#footer > div > div.info { padding:70px 0 0; }
+#footer > div > div.info > div { width:300px; }
+#footer > div > div.info > div:last-child { width:calc(100% - 300px); }
+#footer > div > div.info > div h5 a img { width:263px; }
+#footer > div > div.info > div p { font-size:14px; line-height:1.8; }
+#footer > div > div.info > div div { display:block; }
+#footer > div > div.info > div ul { padding:0 0 0 12%; }
+#footer > div > div.info > div ul > li { width:33.33%; }
+#footer > div > div.info > div ul > li:last-child { display:none; }
+#footer > div > div.info > div ul > li h6 { font-size:18px; margin:0 0 22px; }
+#footer > div > div.info > div ul > li ol li { margin:0 0 15px 0; }
+#footer > div > div.info > div ul > li ol li a { font-size:15px; }
+
+#footer > div > div.copy > div ul li a { font-size:14px; }
+#footer > div > div.copy > div address { font-size:14px; }
+}
+
+@media screen and (max-width:1024px) {
+#footer > div > div.info { padding:65px 0 0; }
+#footer > div > div.info > div { width:280px; }
+#footer > div > div.info > div:last-child { width:calc(100% - 280px); }
+#footer > div > div.info > div h5 a img { width:248px; }
+#footer > div > div.info > div p { font-size:12px; line-height:1.8; }
+#footer > div > div.info > div ul { padding:0 0 0 2%; }
+#footer > div > div.info > div ul > li h6 { font-size:17px; margin:0 0 18px; }
+#footer > div > div.info > div ul > li ol li { margin:0 0 13px 0; }
+#footer > div > div.info > div ul > li ol li a { font-size:14px; }
+
+#footer > div > div.copy > div ul li a { font-size:12px; }
+#footer > div > div.copy > div address { font-size:12px; }
+}
+
+@media screen and (max-width:768px) {
+#footer > div > div.info { border-top:2px solid #222; padding:60px 0 0; }
+#footer > div > div.info > div { float:none !important; width:auto !important; }
+#footer > div > div.info > div h5 a img { width:233px; }
+#footer > div > div.info > div p { font-size:11px; margin:26px 0 0; line-height:1.7; width:233px; }
+#footer > div > div.info > div div span a { font-size:13px; }
+#footer > div > div.info > div ul { padding:40px 0 0; }
+#footer > div > div.info > div ul > li h6 { font-size:15px; margin:0 0 14px; }
+#footer > div > div.info > div ul > li ol li { margin:0 0 10px 0; }
+#footer > div > div.info > div ul > li ol li a { font-size:13px; }
+
+#footer > div > div.copy > div ul li a { font-size:11px; }
+#footer > div > div.copy > div address { font-size:11px; }
+}
+
+@media screen and (max-width:640px) {
+#footer > div > div > div { float:none; }
+
+#footer > div > div.info { padding:50px 0 0; }
+#footer > div > div.info > div { width:218px; }
+#footer > div > div.info > div h5 a img { width:218px; }
+#footer > div > div.info > div p { font-size:10px; line-height:1.6; width:209px; }
+#footer > div > div.info > div div span a { font-size:12px; }
+#footer > div > div.info > div ul > li h6 { font-size:14px; margin:0 0 11px; }
+#footer > div > div.info > div ul > li ol li { margin:0 0 8px 0; }
+#footer > div > div.info > div ul > li ol li a { font-size:12px; }
+
+#footer > div > div.copy { padding:41px 0 51px; }
+#footer > div > div.copy > div { width:auto !important; text-align:left !important; }
+#footer > div > div.copy > div ul li a { font-size:10px; }
+#footer > div > div.copy > div address { font-size:10px; color:#000; margin:8px 0 0; }
+}
