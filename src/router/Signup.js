@@ -155,19 +155,19 @@ function Signup({ store, setConnect }) {
   }, [ userAddress ] )
   return (
     <SignPopupBox style={{ height: boxRef.current?.offsetHeight * 1.2 }}>
-      <div class="popup info" id="info_popup">
-        <div class="box_wrap joinwidth" ref={boxRef}>
-          <div class="box m1">
-            <div class="top0 p0">
+      <div className="popup info" id="info_popup">
+        <div className="box_wrap joinwidth" ref={boxRef}>
+          <div className="box m1">
+            <div className="top0 p0">
               <h2>Sign up</h2>
             </div>
             <form>
-              <div class="form">
-                <div class="join j_file">
+              <div className="form">
+                <div className="join j_file">
                   <h3>Photo registration</h3>
                   <ul>
                     <li>
-                      <div class="photo">
+                      <div className="photo">
                         <input
                           ref={photoRef}
                           type="file"
@@ -186,7 +186,7 @@ function Signup({ store, setConnect }) {
                           <label for="file"></label>
                         )}
                       </div>
-                      <div class="filename">
+                      <div className="filename">
                         <input
                           value={photoName}
                           onChange={(e) => setPhotoName(e.target.value)}
@@ -201,7 +201,7 @@ function Signup({ store, setConnect }) {
                     </li>
                   </ul>
                 </div>
-                <div class="user join">
+                <div className="user join">
                   <h3>User name</h3>
                   <textarea
                     type="text"
@@ -218,13 +218,13 @@ function Signup({ store, setConnect }) {
                     Usernames that can be used
                   </span>
                   <span
-                    class="red"
+                    className="red"
                     style={usernameChk ? { display: "none" } : {}}
                   >
                     Invalid nickname. It must be less than 20 characters.
                   </span>
                 </div>
-                <div class="w_adress join">
+                <div className="w_adress join">
                   <h3>Wallet adress</h3>
                   <input
                     type="text"
@@ -236,7 +236,7 @@ function Signup({ store, setConnect }) {
                     disabled
                   />
                 </div>
-                <div class="email join">
+                <div className="email join">
                   <h3>Email</h3>
                   <input
                     type="email"
@@ -248,11 +248,11 @@ function Signup({ store, setConnect }) {
                   <span style={!emailChk ? { display: "none" } : {}}>
                     A valid email address.
                   </span>
-                  <span class="red" style={emailChk ? { display: "none" } : {}}>
+                  <span className="red" style={emailChk ? { display: "none" } : {}}>
                     This is an invalid email address.
                   </span>
                 </div>
-                <div class="check">
+                <div className="check">
                   <ul>
                     <li>
                       <input
@@ -307,7 +307,7 @@ function Signup({ store, setConnect }) {
                   </ul>
                 </div>
               </div>
-              <div class="btn sign4">
+              <div className="btn sign4">
                 <ul>
                   <li>
                     <a onClick={() => navigate("/")}>Cancel</a>
@@ -323,7 +323,7 @@ function Signup({ store, setConnect }) {
       </div>
 
       <section id="sub">
-        <article class="popup_box"></article>
+        <article className="popup_box"></article>
       </section>
     </SignPopupBox>
   );

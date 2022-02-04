@@ -28,15 +28,15 @@ function VerifyAccountPopup({ store, off }) {
 
   return (
     <SignPopupBox>
-      <div class="popup info" id="info_popup">
-        <div class="box_wrap guidance">
-          <div class="top4">
+      <div className="popup info" id="info_popup">
+        <div className="box_wrap guidance">
+          <div className="top4">
             <strong>Guidance on how to verify your account</strong>
-            <a onClick={() => off()} class="close" id="info_close">
+            <a onClick={() => off()} className="close" id="info_close">
               <img src={require("../img/sub/icon_close.png").default} alt="" />
             </a>
           </div>
-          <div class="howto">
+          <div className="howto">
             <p>
               Please check the connected external wallet and complete the
               transaction.
@@ -45,16 +45,16 @@ function VerifyAccountPopup({ store, off }) {
               <br />
               for the first time.
             </p>
-            <div class="img_m">
+            <div className="img_m">
               <img src={require("../img/sub/img_process.png").default} alt="" />
             </div>
-            <div class="inst_con">
-              <div class="instrucion line1">
-                <div class="dropdown on">
+            <div className="inst_con">
+              <div className="instrucion line1">
+                <div className="dropdown on">
                   <a>
                     <span></span>
                   </a>
-                  <div class="bot_title">
+                  <div className="bot_title">
                     <strong>Instruction</strong>
                     <p>
                       When you sell items for the first time in your account,
@@ -63,7 +63,7 @@ function VerifyAccountPopup({ store, off }) {
                       through the contract approval process.
                     </p>
                   </div>
-                  <div class="info">
+                  <div className="info">
                     <p>
                       - If you are trading for the first time, you will need to
                       reset your account. The process
@@ -85,7 +85,7 @@ function VerifyAccountPopup({ store, off }) {
                 </div>
               </div>
             </div>
-            <div class="img_pc">
+            <div className="img_pc">
               <img src={require("../img/sub/img_process.png").default} alt="" />
             </div>
             <p>

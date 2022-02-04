@@ -2,90 +2,64 @@ import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import styled from "styled-components";
-import image01 from "./img/main/image01.png";
-import image02 from "./img/main/image02.png";
-import collection_list01 from "./img/main/collection_list01.png";
-import collection_person01 from "./img/main/collection_person01.png";
-import collection_list02 from "./img/main/collection_list02.png";
-import collection_person02 from "./img/main/collection_person02.png";
-import collection_list03 from "./img/main/collection_list03.png";
-import collection_person03 from "./img/main/collection_person03.png";
-import collection_list04 from "./img/main/collection_list04.png";
-import collection_person04 from "./img/main/collection_person04.png";
 import users_list01 from "./img/main/users_list01.png";
 import users_list02 from "./img/main/users_list02.png";
 import users_list03 from "./img/main/users_list03.png";
 import users_list04 from "./img/main/users_list04.png";
-import item_list01 from "./img/main/item_list01.png";
-import item_list02 from "./img/main/item_list02.png";
-import item_list03 from "./img/main/item_list03.png";
-import item_list04 from "./img/main/item_list04.png";
-import item_list05 from "./img/main/item_list05.png";
-import sample from "./img/sub/sample.png";
-import I_nextBtn from "./img/main/I_nextBtn.svg";
-import I_prevBtn from "./img/main/I_prevBtn.svg";
-import I_heartO from "./img/main/I_heartO.svg";
-import I_heart from "./img/main/I_heart.svg";
-import I_starO from "./img/main/I_starO.svg";
-import I_star from "./img/main/I_star.svg";
 import "./css/header.css";
 import "./css/footer.css";
 import "./css/swiper.min.css";
-import title from "./img/main/title.svg";
-import { putCommaAtPrice } from "./util/Util";
-import { LOGGER , gettimestr , get_deltatime_str } from "./util/common";
-import { applytoken } from './util/rest'
-import { API } from './config/api'
-import { strDot } from "./util/Util"
-import moment from 'moment'
+import { LOGGER, gettimestr, get_deltatime_str } from "./util/common";
+import { applytoken } from "./util/rest";
+import { API } from "./config/api";
+import { strDot } from "./util/Util";
+import moment from "moment";
 
-const expItemId = "QmS7RFqoUZei5tQZN6XYyyjcvrtk3eHfibQoxJG4bnh3v3";
 
 function Main({ store }) {
   const visualSwiperContRef = useRef();
   const visualSwiperRef = useRef();
-  const collectionSwiperRef = useRef();
   const trendingSwiperRef = useRef();
   const itemSwiperRef = useRef();
   const userWrapRef = useRef();
   const navigate = useNavigate();
-  const pathname = useLocation().pathname;
-  let pathArray = pathname.split("/");
-  let pathAddress = pathArray[pathArray.length - 1];
   const [intervalId, setIntervalId] = useState();
   const [visualSwiperIndex, setVisualSwiperIndex] = useState(0);
-  const [collectionIndex, setCollectionIndex] = useState(0);
   const [trendingItemIndex, setTrendingItemIndex] = useState(0);
   const [itemIndex, setItemIndex] = useState(0);
-	const [userIndex, setUserIndex] = useState(0);
-	let [ list_newitems , setlist_newitems ]=useState( [] )
-	let [ list_trenditems , setlist_trenditems ]=useState( [] )
-	let [ list_featured , setlist_featured ] = useState( [] )
-	let axios = applytoken ()
-	useEffect( _=>{
-		axios.get( `${API.API_MAIN_FEATURED_ITEMS}`).then(resp=>{ LOGGER('' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK' ){
-				setlist_featured ( list )
-			}
-		})
-		axios.get( `${API.API_MAIN_NEW_ITEMS}` ).then(resp=>{ LOGGER( 'JBwpoHdvFv' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK' ) {
-				setlist_newitems ( list )
-			}
-		})
-		axios.get ( `${API.API_MAIN_TREND_ITEMS}` ).then(resp=>{ LOGGER ( 'JN8wsASyiL' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK'){
-				setlist_trenditems ( list )
-			}
-		})
-	} , [] )
+  const [userIndex, setUserIndex] = useState(0);
+  let [list_newitems, setlist_newitems] = useState([]);
+  let [list_trenditems, setlist_trenditems] = useState([]);
+  let [list_featured, setlist_featured] = useState([]);
+  let axios = applytoken();
+  
+  useEffect((_) => {
+    axios.get(`${API.API_MAIN_FEATURED_ITEMS}`).then((resp) => {
+      LOGGER("", resp.data);
+      let { status, list } = resp.data;
+      if (status == "OK") {
+        setlist_featured(list);
+      }
+    });
+    axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
+      LOGGER("JBwpoHdvFv", resp.data);
+      let { status, list } = resp.data;
+      if (status == "OK") {
+        setlist_newitems(list);
+      }
+    });
+    axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
+      LOGGER("JN8wsASyiL", resp.data);
+      let { status, list } = resp.data;
+      if (status == "OK") {
+        setlist_trenditems(list);
+      }
+    });
+  }, []);
 
-	function onClickVisualSwiperBtn() {
-    if ( visualSwiperRef.current?.scrollTo ) {
-      if ( visualSwiperIndex < visualSwiperRef.current.children.length - 1 ) {
+  function onClickVisualSwiperBtn() {
+    if (visualSwiperRef.current?.scrollTo) {
+      if (visualSwiperIndex < visualSwiperRef.current.children.length - 1) {
         visualSwiperRef.current.style.transform = `translate3d(
           -${
             visualSwiperRef.current.children[0].offsetWidth *
@@ -101,26 +75,6 @@ function Main({ store }) {
         )`;
       }
     }
-  }
-
-  function onClickCollectionPreBtn() {
-    const wrapWidth = collectionSwiperRef.current.offsetWidth;
-    const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
-
-    if (collectionIndex > 0) setCollectionIndex(collectionIndex - 1);
-    else setCollectionIndex(pageNum - 1);
-  }
-
-  function onClickCollectionNextBtn() {
-    const wrapWidth = collectionSwiperRef.current.offsetWidth;
-    const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
-
-    if (collectionIndex < pageNum - 1) setCollectionIndex(collectionIndex + 1);
-    else setCollectionIndex(0);
   }
 
   function onClickTrendingPreBtn() {
@@ -184,45 +138,24 @@ function Main({ store }) {
     if (userIndex < pageNum - 1) setUserIndex(userIndex + 1);
     else setUserIndex(0);
   }
-  useEffect( () => {return
-    const contWidth = visualSwiperRef.current.children[0].offsetWidth;
-    visualSwiperContRef.current.style.width = `${contWidth * 3}px`;
-  }, [] )
 
   useEffect(() => {
-    if (visualSwiperRef.current.children.length ) {
-      if (intervalId) clearInterval( intervalId )
-      setIntervalId(setInterval( onClickVisualSwiperBtn , 3000));
+    if (visualSwiperRef.current.children.length) {
+      if (intervalId) clearInterval(intervalId);
+      setIntervalId(setInterval(onClickVisualSwiperBtn, 3000));
     }
     return clearInterval(intervalId);
   }, [visualSwiperIndex]);
 
-/**   useEffect(() => {
-    const wrapWidth = collectionSwiperRef.current.offsetWidth;
-    const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
-
-    if (collectionSwiperRef.current?.scrollTo) {
-      if (collectionIndex < pageNum) {
-        collectionSwiperRef.current.scrollTo({
-          left: contWidth * itemNumByPage * collectionIndex,
-          behavior: "smooth",
-        });
-      } else {
-        collectionSwiperRef.current.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-      }
-    }
-  }, [collectionIndex]);*/
-
   useEffect(() => {
-/**     const wrapWidth = trendingSwiperRef.current.offsetWidth;
+    if (!trendingSwiperRef.current.children[0]) return;
+
+    const wrapWidth = trendingSwiperRef.current.offsetWidth;
     const contWidth = trendingSwiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
+    const pageNum = Math.ceil(
+      trendingSwiperRef.current.children.length / itemNumByPage
+    );
 
     if (trendingSwiperRef.current?.scrollTo) {
       if (trendingItemIndex < pageNum) {
@@ -236,14 +169,18 @@ function Main({ store }) {
           behavior: "smooth",
         });
       }
-		} */
+    }
   }, [trendingItemIndex]);
 
   useEffect(() => {
-/**     const wrapWidth = itemSwiperRef.current.offsetWidth;
+    if (!itemSwiperRef.current.children[0]) return;
+
+    const wrapWidth = itemSwiperRef.current.offsetWidth;
     const contWidth = itemSwiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(itemList.length / itemNumByPage);
+    const pageNum = Math.ceil(
+      itemSwiperRef.current.children.length / itemNumByPage
+    );
 
     if (itemSwiperRef.current?.scrollTo) {
       if (itemIndex < pageNum) {
@@ -257,7 +194,7 @@ function Main({ store }) {
           behavior: "smooth",
         });
       }
-    }*/
+    }
   }, [itemIndex]);
 
   useEffect(() => {
@@ -276,7 +213,7 @@ function Main({ store }) {
         userWrapRef.current.scrollTo({
           left: 0,
           behavior: "smooth",
-        })
+        });
       }
     }
   }, [userIndex]);
@@ -284,8 +221,8 @@ function Main({ store }) {
   return (
     <IndexBox>
       <section id="main">
-        <article class="visual">
-          <div class="title">
+        <article className="visual">
+          <div className="title">
             <h2>
               <img src={require("./img/main/title.png").default} />
             </h2>
@@ -298,142 +235,85 @@ function Main({ store }) {
               <a onClick={() => navigate("/createitem")}>NFT Publication</a>
             </div>
           </div>
-          <div class="swiper" ref={visualSwiperContRef}>
-            <div class="swiper-container swiper-container-visual">
-              <ol class="swiper-wrapper" ref={visualSwiperRef}>
-                {list_featured.sort((a,b)=>a.createdat<b.createdat? +1 : -1 ).map((cont, index) => (
-                  <span key={index}>
-                    <li class="swiper-slide">
-                      <div
-                        style={{
-                          backgroundImage: `url(${cont.url})`,
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "center",
-                          backgroundSize: "cover",
-                        }}
-                      ></div>
-                      <div>
-                        <h3>{ cont.titlename }</h3>
-                        <p> { cont.username } </p>
-                        <div class="info">
-                          <dl>
-                            <dt>Current Bid</dt>
-                            <dd>
-                              2.867<span>KLAY</span>
-                            </dd>
-                          </dl>
-                          <dl>
-                            <dt>Auction ending in</dt>
-                            <dd>05:32:21</dd>
-                          </dl>
+          <div className="swiper" ref={visualSwiperContRef}>
+            <div className="swiper-container swiper-container-visual">
+              <ol className="swiper-wrapper" ref={visualSwiperRef}>
+                {list_featured
+                  .sort((a, b) => (a.createdat < b.createdat ? +1 : -1))
+                  .map((cont, index) => (
+                    <span key={index}>
+                      <li className="swiper-slide">
+                        <div
+                          style={{
+                            backgroundImage: `url(${cont.url})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                          }}
+                        ></div>
+                        <div>
+                          <h3>{cont.titlename}</h3>
+                          <p> {cont.username} </p>
+                          <div className="info">
+                            <dl>
+                              <dt>Current Bid</dt>
+                              <dd>
+                                2.867<span>KLAY</span>
+                              </dd>
+                            </dl>
+                            <dl>
+                              <dt>Auction ending in</dt>
+                              <dd>05:32:21</dd>
+                            </dl>
+                          </div>
+                          <div className="history">
+                            <span>Offer History</span>
+                            <ul>
+                              <li>
+                                <img src={cont.author_mongo?.profileimage} />
+                                <strong>{cont.askpricestats?.min} KLAY</strong>
+                                <span>
+                                  {gettimestr(cont.orders_sellside?.createdat)}
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+                          <div className="button">
+                            <a
+                              onClick={() =>
+                                navigate(`/singleitem?itemid=${cont.itemid}`)
+                              }
+                            >
+                              View Item
+                            </a>
+                            <a
+                              onClick={() =>
+                                navigate(`/singleitem?itemid=${cont.itemid}`)
+                              }
+                            >
+                              Place a Bid
+                            </a>
+                          </div>
                         </div>
-                        <div class="history">
-                          <span>Offer History</span>
-                          <ul>
-                            <li>
-                              <img
-                                src={ cont.author_mongo?.profileimage }
-                              />
-                              <strong>{ cont.askpricestats?.min } KLAY</strong>
-                              <span>{ gettimestr(cont.orders_sellside?.createdat )  }</span>
-                            </li>
-                          </ul>
-                        </div>
-                        <div class="button">
-                          <a
-                            onClick={() => navigate(`/singleitem?itemid=${cont.itemid }`)}
-                          >
-                            View Item
-                          </a>
-                          <a
-                            onClick={() => navigate(`/singleitem?itemid=${cont.itemid }`)}
-                          >
-                            Place a Bid
-                          </a>
-                        </div>
-                      </div>
-                    </li>
-                  </span>
-                ))}
+                      </li>
+                    </span>
+                  ))}
               </ol>
             </div>
 
-            <div class="swiper-button-prev swiper-button-visual-prev"></div>
+            <div className="swiper-button-prev swiper-button-visual-prev"></div>
             <div
-              class="swiper-button-next swiper-button-visual-next"
+              className="swiper-button-next swiper-button-visual-next"
               onClick={onClickVisualSwiperBtn}
             ></div>
           </div>
         </article>
 
-        <article class="collection">
-          <div class="wrap">
-            <h4 class="t">Trending Collection</h4>
-            <div class="swiper">
-{/*              <div class="swiper-container swiper-container-collection">
-                <ol class="list swiper-wrapper" ref={collectionSwiperRef}>
-                  {[1, 2].m ap((cont, index) => (
-                    <>
-                      <span>
-                        <li class="swiper-slide">
-                          <a
-                            onClick={() => navigate(`/sing leitem/${ cont.itemid }`)}
-                          >
-                            <div
-                              style={{
-                                backgroundImage: `url(${collection_list01})`,
-                                backgroundRepeat: "no-repeat",
-                                backgroundPosition: "center",
-                                backgroundSize: "cover",
-                              }}
-                            ></div>
-                            <div>
-                              <span
-                                sstyle={{
-                                  backgroundImage: `url(${collection_person01})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              ></span>
-                              <dl>
-                                <dt>Lalaredtu's Collection</dt>
-                                <dd>
-                                  <strong>Lalaredtu</strong>
-                                  <p>
-                                    This collection is a collection of 80
-                                    individual works and has been exhibited at
-                                    the Museum of Modern Art.
-                                  </p>
-                                </dd>
-                              </dl>
-                            </div>
-                          </a>
-                        </li>
-                      </span>
+        <article className="category">
+          <div className="wrap">
+            <h4 className="t">Market Category</h4>
 
-                    </>
-                  ))}
-                </ol>
-															</div> */}
-
-              <div
-                class="swiper-button-prev swiper-button-collection-prev"
-                onClick={onClickCollectionPreBtn}
-              ></div>
-              <div
-                class="swiper-button-next swiper-button-collection-next"
-                onClick={onClickCollectionNextBtn}
-              ></div>
-            </div>
-          </div>
-        </article>
-
-        <article class="category">
-          <div class="wrap">
-            <h4 class="t">Market Category</h4>
-
-            <ol class="list">
+            <ol className="list">
               <li>
                 <a onClick={() => navigate("/marketplace", { state: "Art" })}>
                   <img src={require("./img/main/category_art.png").default} />
@@ -518,124 +398,170 @@ function Main({ store }) {
           </div>
         </article>
 
-        <article class="item">
-          <div class="wrap">
-            <h4 class="t">Trending NFT Item</h4>
+        <article className="item">
+          <div className="wrap">
+            <h4 className="t">Trending NFT Item</h4>
 
-            <div class="swiper">
-              <div class="swiper-container swiper-container-trendingitem">
-                <ol class="item item4 buy swiper-wrapper">
+            <div className="swiper">
+              <div className="swiper-container swiper-container-trendingitem">
+                <ol className="item item4 buy swiper-wrapper">
                   <div className="slideBox" ref={trendingSwiperRef}>
-                    { list_trenditems.filter(elem=>elem.url ).sort((a,b)=>b.countviews- a.countviews ).map( (cont , index) => (
-                      <span key={index}>
-                        <li class="swiper-slide">
-                          <a
-                            onClick={() => navigate(`/singleitem?itemid=${cont.itemid}`)}
-                            style={{
-                              backgroundImage: `url(${cont.url})` , 
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                              backgroundSize: "cover",
-                            }}
-                          >
-                            <div class="on">
-                              <ul>
-                                <li class={ cont.ilikethisitem? 'heart on' : "heart off"} >{ cont.countfavors }</li>
-																<li ><img src={require('./img/sub/eye.jpg').default }></img>{cont.countviews } </li>
-                                <li class="star off"> </li>
-                              </ul>
-                              <div>{ cont.titlename } </div>
-                              <span>{ strDot(cont.author?.nickname , 10, 0)  }</span>
-                              <ol>
-                                <li>{ moment.unix(cont.minpriceorder?.expiry).fromNow() || get_deltatime_str ( cont.minpriceorder?.expiry ) }</li>
-                                <li>{ cont.askpricestats?.min } KLAY</li>
-                              </ol>
-                              <p>Buy Now</p>
-                            </div>
-                          </a>
-                        </li>
-                      </span>
-                    ))}
+                    {list_trenditems
+                      .filter((elem) => elem.url)
+                      .sort((a, b) => b.countviews - a.countviews)
+                      .map((cont, index) => (
+                        <span key={index}>
+                          <li className="swiper-slide">
+                            <a
+                              onClick={() =>
+                                navigate(`/singleitem?itemid=${cont.itemid}`)
+                              }
+                              style={{
+                                backgroundImage: `url(${cont.url})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                              }}
+                            >
+                              <div className="on">
+                                <ul>
+                                  <li
+                                    className={
+                                      cont.ilikethisitem
+                                        ? "heart on"
+                                        : "heart off"
+                                    }
+                                  >
+                                    {cont.countfavors}
+                                  </li>
+                                  <li>
+                                    <img
+                                      src={require("./img/sub/eye.jpg").default}
+                                    ></img>
+                                    {cont.countviews}{" "}
+                                  </li>
+                                  <li className="star off"> </li>
+                                </ul>
+                                <div>{cont.titlename} </div>
+                                <span>
+                                  {strDot(cont.author?.nickname, 10, 0)}
+                                </span>
+                                <ol>
+                                  <li>
+                                    {moment
+                                      .unix(cont.minpriceorder?.expiry)
+                                      .fromNow() ||
+                                      get_deltatime_str(
+                                        cont.minpriceorder?.expiry
+                                      )}
+                                  </li>
+                                  <li>{cont.askpricestats?.min} KLAY</li>
+                                </ol>
+                                <p>Buy Now</p>
+                              </div>
+                            </a>
+                          </li>
+                        </span>
+                      ))}
                   </div>
                 </ol>
               </div>
 
               <div
-                class="swiper-button-prev swiper-button-trendingitem-prev"
+                className="swiper-button-prev swiper-button-trendingitem-prev"
                 onClick={onClickTrendingPreBtn}
               ></div>
               <div
-                class="swiper-button-next swiper-button-trendingitem-next"
+                className="swiper-button-next swiper-button-trendingitem-next"
                 onClick={onClickTrendingNextBtn}
               ></div>
             </div>
           </div>
         </article>
 
-        <article class="item">
-          <div class="wrap">
-            <h4 class="t">NEW NFT Item</h4>
+        <article className="item">
+          <div className="wrap">
+            <h4 className="t">NEW NFT Item</h4>
 
-            <div class="swiper">
-              <div class="swiper-container swiper-container-newitem">
-                <ol class="item item4 summary swiper-wrapper">
+            <div className="swiper">
+              <div className="swiper-container swiper-container-newitem">
+                <ol className="item item4 summary swiper-wrapper">
                   <div className="slideBox" ref={itemSwiperRef}>
-                    { list_newitems.filter(elem => elem.url ).sort((a,b)=>a.createdat<b.createdat? +1 : -1 ).map((cont, index) => (
-                      <span key={index}>
-                        <li class="swiper-slide">
-                          <a
-                            onClick={() => navigate(`/singleitem?itemid=${ cont.itemid }`)}
-                            style={{
-                              backgroundImage: `url(${cont.url})`,
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                              backgroundSize: "cover",
-                            }}
-                          >
-                            <div class="on">
-                              <ul>
-                                <li class="heart off">{ cont.countfavors }</li>
-                                <li class="star off"></li>
-                              </ul>
-                              <div>{ cont.titlename } </div>
-                              <span> { strDot(cont.author?.username , 10 , 0 ) } { moment( cont.createdat ).fromNow() }</span>
-															
-                              <ol>
-                                <li>{ cont.minpriceorder?.expiry ? moment.unix ( cont.minpriceorder?.expiry ).fromNow() : '' }</li>
-                                <li>{ cont.minpriceorder ? `${cont.askpricestats?.min} KLAY` : '' } </li>
-                              </ol>
-                            </div>
-                          </a>
-                        </li>
-                      </span>
-                    ))}
+                    {list_newitems
+                      .filter((elem) => elem.url)
+                      .sort((a, b) => (a.createdat < b.createdat ? +1 : -1))
+                      .map((cont, index) => (
+                        <span key={index}>
+                          <li className="swiper-slide">
+                            <a
+                              onClick={() =>
+                                navigate(`/singleitem?itemid=${cont.itemid}`)
+                              }
+                              style={{
+                                backgroundImage: `url(${cont.url})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                              }}
+                            >
+                              <div className="on">
+                                <ul>
+                                  <li className="heart off">{cont.countfavors}</li>
+                                  <li className="star off"></li>
+                                </ul>
+                                <div>{cont.titlename} </div>
+                                <span>
+                                  {" "}
+                                  {strDot(cont.author?.username, 10, 0)}{" "}
+                                  {moment(cont.createdat).fromNow()}
+                                </span>
+
+                                <ol>
+                                  <li>
+                                    {cont.minpriceorder?.expiry
+                                      ? moment
+                                          .unix(cont.minpriceorder?.expiry)
+                                          .fromNow()
+                                      : ""}
+                                  </li>
+                                  <li>
+                                    {cont.minpriceorder
+                                      ? `${cont.askpricestats?.min} KLAY`
+                                      : ""}{" "}
+                                  </li>
+                                </ol>
+                              </div>
+                            </a>
+                          </li>
+                        </span>
+                      ))}
                   </div>
                 </ol>
               </div>
 
               <div
-                class="swiper-button-prev swiper-button-newitem-prev"
+                className="swiper-button-prev swiper-button-newitem-prev"
                 onClick={onClickItemPreBtn}
               ></div>
               <div
-                class="swiper-button-next swiper-button-newitem-next"
+                className="swiper-button-next swiper-button-newitem-next"
                 onClick={onClickItemNextBtn}
               ></div>
             </div>
           </div>
         </article>
 
-        <article class="users">
-          <div class="wrap">
-            <h4 class="t">Tips for Itemverse users</h4>
+        <article className="users">
+          <div className="wrap">
+            <h4 className="t">Tips for Itemverse users</h4>
 
-            <div class="swiper">
-              <div class="swiper-container swiper-container-users">
-                <ol class="list swiper-wrapper" ref={userWrapRef}>
+            <div className="swiper">
+              <div className="swiper-container swiper-container-users">
+                <ol className="list swiper-wrapper" ref={userWrapRef}>
                   {[1, 2].map((cont, index) => (
                     <>
-                      <span key={ index }>
-                        <li class="swiper-slide">
+                      <span key={index}>
+                        <li className="swiper-slide">
                           <a>
                             <div
                               style={{
@@ -654,7 +580,7 @@ function Main({ store }) {
                       </span>
 
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a>
                             <div
                               style={{
@@ -672,7 +598,7 @@ function Main({ store }) {
                         </li>
                       </span>
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a>
                             <div
                               style={{
@@ -690,7 +616,7 @@ function Main({ store }) {
                         </li>
                       </span>
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a>
                             <div
                               style={{
@@ -712,11 +638,11 @@ function Main({ store }) {
                 </ol>
               </div>
               <div
-                class="swiper-button-prev swiper-button-users-prev"
+                className="swiper-button-prev swiper-button-users-prev"
                 onClick={onClickUserPreBtn}
               ></div>
               <div
-                class="swiper-button-next swiper-button-users-next"
+                className="swiper-button-next swiper-button-users-next"
                 onClick={onClickUserNextBtn}
               ></div>
             </div>
@@ -725,8 +651,8 @@ function Main({ store }) {
       </section>
 
       <footer id="footer">
-        <div class="wrap">
-          <div class="info">
+        <div className="wrap">
+          <div className="info">
             <div>
               <h5>
                 <a onClick={() => navigate("/")}>
@@ -867,7 +793,7 @@ function Main({ store }) {
               </ul>
             </div>
           </div>
-          <div class="copy">
+          <div className="copy">
             <div>
               <ul>
                 <li>
@@ -962,107 +888,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
-
-/**  const itemList = [
-  {
-    img: item_list01,
-    like: true,
-    likeCount: 1389,
-    favorite: true,
-    title: "Summer Pool",
-    creator: "David",
-    time: "6 min utes left",
-    price: "0.35 KLAY",
-  },
-  {
-    img: item_list02,
-    like: false,
-    likeCount: 2865,
-    favorite: false,
-    title: "Donald Duck",
-    creator: "Carson",
-    time: "7 days left",
-    price: "1.6 7 KLAY",
-  },
-  {
-    img: item_list03,
-    like: true,
-    likeCount: 589,
-    favorite: false,
-    title: "A Girl",
-    creator: "Mark.X",
-    time: "3 days left",
-    price: "0.97 KLAY",
-  },
-  {
-    img: item_list04,
-    like: false,
-    likeCount: 713,
-    favorite: true,
-    title: "Crushed Heard and aaaaaa",
-    creator: "Alexandro Ambrosia",
-    time: "365 days left",
-    price: "12.62 KLAY",
-  },
-  {
-    img: item_list05,
-    like: false,
-    likeCount: 295,
-    favorite: false,
-    title: "With Dogs",
-    creator: "AP.GOD.Ryan",
-    time: "17 minutes left",
-    price: "1.02 KLAY",
-  },
-  {
-    img: item_list01,
-    like: true,
-    likeCount: 1389,
-    favorite: true,
-    title: "Summer Pool",
-    creator: "David",
-    time: "6 min utes left",
-    price: "0.35 KLAY",
-  },
-  {
-    img: item_list02,
-    like: false,
-    likeCount: 2865,
-    favorite: false,
-    title: "Donald Duck",
-    creator: "Carson",
-    time: "7 days left",
-    price: "1.6 7 KLAY",
-  },
-  {
-    img: item_list03,
-    like: true,
-    likeCount: 589,
-    favorite: false,
-    title: "A Girl",
-    creator: "Mark.X",
-    time: "3 days left",
-    price: "0.97 KLAY",
-  },
-  {
-    img: item_list04,
-    like: false,
-    likeCount: 713,
-    favorite: true,
-    title: "Crushed Heard and aaaaaa",
-    creator: "Alexandro Ambrosia",
-    time: "365 days left",
-    price: "12.62 KLAY",
-  },
-  {
-    img: item_list05,
-    like: false,
-    likeCount: 295,
-    favorite: false,
-    title: "With Dogs",
-    creator: "AP.GOD.Ryan",
-    time: "17 minutes left",
-    price: "1.02 KLAY",
-  },
-];
-*/

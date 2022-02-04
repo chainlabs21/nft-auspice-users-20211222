@@ -58,10 +58,10 @@ function CreateCollection({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="ntfsell_box">
-          <div class="sellbg">
-            <div class="ntfsell_con">
-              <div class="top1">
+        <article className="ntfsell_box">
+          <div className="sellbg">
+            <div className="ntfsell_con">
+              <div className="top1">
                 <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
@@ -70,11 +70,11 @@ function CreateCollection({ store, setConnect }) {
                 </a>
                 <strong>Collection home</strong>
               </div>
-              <div class="sell_wrap">
-                <div class="create">
+              <div className="sell_wrap">
+                <div className="create">
                   <h2>Create a new collection</h2>
                   <form action="">
-                    <div class="form">
+                    <div className="form">
                       <ul>
                         <li>
                           <h3>
@@ -90,8 +90,8 @@ function CreateCollection({ store, setConnect }) {
                             <br />
                             Square image (recommended size 350 x 350)
                           </p>
-                          <div class="img logo_img">
-                            <div class="line">
+                          <div className="img logo_img">
+                            <div className="line">
                               <input type="file" name="" id="file" />
                               <label for="file">
                                 <img
@@ -111,7 +111,7 @@ function CreateCollection({ store, setConnect }) {
                               alt=""
                             />
                           </h3>
-                          <div class="inputbox">
+                          <div className="inputbox">
                             <input
                               type="text"
                               placeholder="Example: A collection of atmospheric night view photos"
@@ -130,10 +130,10 @@ function CreateCollection({ store, setConnect }) {
                             <br /> depending on the window size.(Recommended
                             size 1400 x 300)
                           </p>
-                          <div class="img">
-                            <div class="line">
+                          <div className="img">
+                            <div className="line">
                               <input type="file" name id="file" />
-                              <label for="file" class="file_he">
+                              <label for="file" className="file_he">
                                 <p>
                                   JPG , PNG, ICO etc. Image file (Up to 10mb)
                                 </p>
@@ -144,8 +144,8 @@ function CreateCollection({ store, setConnect }) {
                         </li>
                         <li>
                           <h3>Collection Description</h3>
-                          <div class="inputbox">
-                            <div class="txt">
+                          <div className="inputbox">
+                            <div className="txt">
                               <textarea
                                 type="text"
                                 placeholder="Example: I took a picture of the night sky centered on the constellations and a night view of the city."
@@ -156,7 +156,7 @@ function CreateCollection({ store, setConnect }) {
                         <li>
                           <h3>Category</h3>
                           <p>You can easily search by selecting a category.</p>
-                          <div class="cat">
+                          <div className="cat">
                             <ul>
                               <li>
                                 <span>Art</span>
@@ -186,16 +186,16 @@ function CreateCollection({ store, setConnect }) {
                           </div>
                         </li>
                         <li>
-                          <div class="top2">
+                          <div className="top2">
                             <h3>Royalty setting</h3>
                             <p>
                               Each time an item is resold, you can receive a
                               certain
-                              <br class="m" /> amount of commission. (up to 20%)
-                              <br class="pc" />
+                              <br className="m" /> amount of commission. (up to 20%)
+                              <br className="pc" />
                               If not set, it is set to 0%.
                             </p>
-                            <div class="inputbox number percent">
+                            <div className="inputbox number percent">
                               <input
                                 type="text"
                                 placeholder=""
@@ -210,7 +210,7 @@ function CreateCollection({ store, setConnect }) {
                   </form>
                 </div>
               </div>
-              <div class="create_btn mcrea">
+              <div className="create_btn mcrea">
                 <a onClick={()=>navigate(-1)}>Create Item</a>
               </div>
             </div>

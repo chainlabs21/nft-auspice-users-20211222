@@ -17,24 +17,24 @@ const Settingssidepanel=({store})=>{
 // return (
 	return (
 		<>
-		<div class="left_move wallet_left">
-						<div class="mwallet">
+		<div className="left_move wallet_left">
+						<div className="mwallet">
 							<a onClick={() => { navigate(-1)
 							} } >Account settings</a>
 						</div>
 						</div>
 
 												<form>
-							<div class="w1" onClick={() => navigate("/mywallet")}>
+							<div className="w1" onClick={() => navigate("/mywallet")}>
 								<h3>
 									My wallet<span>{ strDot( myaddress , 6, 2 )}</span>
 								</h3>
 							</div>
-							<div class="w2 on">
+							<div className="w2 on">
 								<h3>General settings</h3>
 							</div>
 							<div
-								class="w3"
+								className="w3"
 								onClick={() => navigate("/notificationsettings")}
 							>
 								<h3>Notification settings</h3>

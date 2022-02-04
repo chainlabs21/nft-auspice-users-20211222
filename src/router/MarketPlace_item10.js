@@ -23,10 +23,10 @@ function MarketPlace({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="ntfsell_box">
-          <div class="sellbg">
-            <div class="ntfsell_con">
-              <div class="top1">
+        <article className="ntfsell_box">
+          <div className="sellbg">
+            <div className="ntfsell_con">
+              <div className="top1">
                 <a>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
@@ -35,11 +35,11 @@ function MarketPlace({ store, setConnect }) {
                 </a>
                 <strong>Item home</strong>
               </div>
-              <div class="sell_wrap sell_wrap2">
-                <div class="create">
+              <div className="sell_wrap sell_wrap2">
+                <div className="create">
                   <h2>Import contract</h2>
                   <form action="">
-                    <div class="form">
+                    <div className="form">
                       <ul>
                         <li>
                           <h3>
@@ -49,12 +49,12 @@ function MarketPlace({ store, setConnect }) {
                             Enter the contract address for which NFT issuance
                             has been completed in Klaytn
                           </p>
-                          <div class="inputbox">
-                            <div class="txt">
+                          <div className="inputbox">
+                            <div className="txt">
                               <textarea
                                 type="text"
                                 placeholder="Please enter an ERC721 or ERC 1155 address"
-                                class="text2"
+                                className="text2"
                               ></textarea>
                             </div>
                           </div>
@@ -64,7 +64,7 @@ function MarketPlace({ store, setConnect }) {
                   </form>
                 </div>
               </div>
-              <div class="create_btn mcrea">
+              <div className="create_btn mcrea">
                 <a>Import contract</a>
               </div>
             </div>

@@ -16,7 +16,7 @@ export default function SetErrorBar(str = "copied", type = "pc") {
   errBar.style.color = "#fff";
   errBar.style.display = "flex";
   errBar.style.justifyContent = "space-between";
-  errBar.style.zIndex = "100";
+  errBar.style.zIndex = "10000";
 
   let leftBox = document.createElement("span");
   leftBox.style.display = "flex";

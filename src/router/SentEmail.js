@@ -20,13 +20,13 @@ function SentEmail({ store, setConnect }) {
 
   return (
     <SendEmailBox>
-      <div class="popup info" id="info_popup">
-        <div class="box_wrap confirm">
-          <a onClick={() => navigate(-1)} class="close" id="info_close">
+      <div className="popup info" id="info_popup">
+        <div className="box_wrap confirm">
+          <a onClick={() => navigate(-1)} className="close" id="info_close">
             <img src={require("../img/sub/icon_close.png").default} alt="" />
           </a>
-          <div class="box">
-            <div class="top0 p2">
+          <div className="box">
+            <div className="top0 p2">
               <h2>A verification email has been sent</h2>
               <p>
                 If you do not receive an email, please check
@@ -34,7 +34,7 @@ function SentEmail({ store, setConnect }) {
                 your spam mailbox.
               </p>
             </div>
-            <div class="btn one">
+            <div className="btn one">
               <ul>
                 <li>
                   <a onClick={() => navigate("/")}>OK</a>

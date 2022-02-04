@@ -36,14 +36,14 @@ function LogOut({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="login_wrap">
-          <div class="floatwrap">
-            <div class="login">
+        <article className="login_wrap">
+          <div className="floatwrap">
+            <div className="login">
               <h2>Log in with your wallet</h2>
-              <div class="emo">
+              <div className="emo">
                 <img src={I_klaytn} alt="" />
               </div>
-              <a class="log" onClick={()=>navigate('/connectwallet')}>Login</a>
+              <a className="log" onClick={()=>navigate('/connectwallet')}>Login</a>
             </div>
           </div>
         </article>

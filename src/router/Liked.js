@@ -45,15 +45,15 @@ function Liked({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="profile_home">
-          <div class="collection_home">
+        <article className="profile_home">
+          <div className="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 <Myprofcommonheader />
-{/**             <div class="wrap">
-              <div class="collection_detail">
-                <div class="pro_img">
+{/**             <div className="wrap">
+              <div className="collection_detail">
+                <div className="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
-                  <div class="home_icons">
+                  <div className="home_icons">
                     <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
@@ -62,22 +62,22 @@ function Liked({ store, setConnect }) {
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Item</h2>
+                <h2 className="notop">Henry junior's Item</h2>
                 <h3>0x97bc...8cad2</h3>
                 <h4>
                   Henry is a mixed-media artist living in the
-                  <br class="mo" /> Bay Area and uses
-                  <br class="pc" />a stream of consciousness
-                  <br class="mo" /> approach to his work.
+                  <br className="mo" /> Bay Area and uses
+                  <br className="pc" />a stream of consciousness
+                  <br className="mo" /> approach to his work.
                 </h4>
               </div>
             </div>
 */}
-            <div class="move off">
-              <div class="left_move">
+            <div className="move off">
+              <div className="left_move">
                 <form>
-                  <div class="filter">
-                    <h3 class="filt">
+                  <div className="filter">
+                    <h3 className="filt">
                       <img
                         src={require("../img/sub/filter_icon.png").default}
                       />
@@ -85,20 +85,20 @@ function Liked({ store, setConnect }) {
                     </h3>
                     <img
                       src={require("../img/sub/filter_close.png").default}
-                      class="fc"
+                      className="fc"
                     />
                   </div>
-                  <div class="fold status">
-                    <h3 class="slide_tt">
+                  <div className="fold status">
+                    <h3 className="slide_tt">
                       Status
                       <img
                         src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
+                        className="slide_up"
                       />
                     </h3>
-                    <div class="open status">
+                    <div className="open status">
                       <ul>
-                        <li class="on">Buy Now</li>
+                        <li className="on">Buy Now</li>
                         <li>On Auction</li>
                         <li>New</li>
                         <li>Has Offers</li>
@@ -106,64 +106,64 @@ function Liked({ store, setConnect }) {
                     </div>
                   </div>
 
-                  <div class="fold">
-                    <h3 class="slide_tt">
+                  <div className="fold">
+                    <h3 className="slide_tt">
                       Price
                       <img
                         src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
+                        className="slide_up"
                       />
                     </h3>
-                    <div class="open">
+                    <div className="open">
                       <select>
                         <option disabled selected hidden>
                           United States Dollars (USD)
                         </option>
                         <option>100</option>
                       </select>
-                      <div class="price_area">
+                      <div className="price_area">
                         <input type="text" />
                         <input type="text" />
                       </div>
-                      <a class="slide_btn">Apply</a>
+                      <a className="slide_btn">Apply</a>
                     </div>
                   </div>
 
-                  <div class="fold">
-                    <h3 class="slide_tt">
+                  <div className="fold">
+                    <h3 className="slide_tt">
                       Items
                       <img
                         src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
+                        className="slide_up"
                       />
                     </h3>
-                    <div class="open collection">
+                    <div className="open collection">
                       <input
                         type="text"
                         placeholder="Filter"
-                        class="s_search"
+                        className="s_search"
                       />
                       <ul>
                         <li
-                          class="collec_img"
+                          className="collec_img"
                           style={{ backgroundImage: `url(${collect_img})` }}
                         >
                           <span>Item 01</span>
                         </li>
                         <li
-                          class="collec_img"
+                          className="collec_img"
                           style={{ backgroundImage: `url(${collect_img2})` }}
                         >
                           <span>Item 02</span>
                         </li>
                         <li
-                          class="collec_img"
+                          className="collec_img"
                           style={{ backgroundImage: `url(${collect_img3})` }}
                         >
                           <span>Item 03</span>
                         </li>
                         <li
-                          class="collec_img"
+                          className="collec_img"
                           style={{ backgroundImage: `url(${collect_img4})` }}
                         >
                           <span>Item 04</span>
@@ -172,18 +172,18 @@ function Liked({ store, setConnect }) {
                     </div>
                   </div>
 
-                  <div class="fold">
-                    <h3 class="slide_tt">
+                  <div className="fold">
+                    <h3 className="slide_tt">
                       Chains
                       <img
                         src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
+                        className="slide_up"
                       />
                     </h3>
 
-                    <div class="open">
+                    <div className="open">
                       <ul>
-                        <li class="ra">
+                        <li className="ra">
                           <input type="radio" id="rad2" name="rad" />
                           <label for="rad2">
                             <img src={require("../img/sub/rock.png").default} />
@@ -194,22 +194,22 @@ function Liked({ store, setConnect }) {
                     </div>
                   </div>
 
-                  <div class="fold">
-                    <h3 class="slide_tt">
+                  <div className="fold">
+                    <h3 className="slide_tt">
                       Sales Coin
                       <img
                         src={require("../img/sub/slide_up.png").default}
-                        class="slide_up"
+                        className="slide_up"
                       />
                     </h3>
-                    <div class="open">
+                    <div className="open">
                       <input
                         type="text"
                         placeholder="Filter"
-                        class="s_search"
+                        className="s_search"
                       />
                       <ul>
-                        <li class="ra">
+                        <li className="ra">
                           <input type="radio" id="rad3" name="rad2" />
                           <label for="rad3">KLAY</label>
                         </li>
@@ -218,21 +218,21 @@ function Liked({ store, setConnect }) {
                   </div>
                 </form>
               </div>
-              <div class="right_move">
-                <div class="real_sec">
-                  <ul class="tab">
+              <div className="right_move">
+                <div className="real_sec">
+                  <ul className="tab">
                     <li onClick={() => navigate("/myprof")}>Search Wallet</li>
                     <li onClick={() => navigate("/transactionhistory")}>
                       Transaction history
                     </li>
                     <li onClick={() => navigate("/offers")}>Offers</li>
-                    <li class="onn">Liked</li>
+                    <li className="onn">Liked</li>
                     <li onClick={() => navigate("/hiddenitem")}>Hidden item</li>
                     <li onClick={() => navigate("/referals")}>Referals</li>
                   </ul>
 
-                  <div class="move_item" style={{ marginBottom: "100px" }}>
-                    <ol class="item move_li">
+                  <div className="move_item" style={{ marginBottom: "100px" }}>
+                    <ol className="item move_li">
                       <div>
 												<span>
 											<li >
@@ -240,9 +240,9 @@ function Liked({ store, setConnect }) {
 			onClick={() => navigate(`/singleitem/${''}`)}
 			style={{ backgroundImage: `url(${sample})` }}
 		>
-			<div class="on">
+			<div className="on">
 				<ul>
-					<li class="heart off">1,389</li>
+					<li className="heart off">1,389</li>
 				</ul>
 				<span>{ ''} </span>
 				<div>Place Saint-Marc</div>
@@ -256,9 +256,9 @@ function Liked({ store, setConnect }) {
 			onClick={() => navigate(`/singleitem?itemid=${elem.itemid}`)}
 			style={{ backgroundImage: `url(${sample})` }}
 		>
-			<div class="on">
+			<div className="on">
 				<ul>
-					<li class="heart off">1,389</li>
+					<li className="heart off">1,389</li>
 				</ul>
 				<span>{ elem.itemid } </span>
 				<div>Place Saint-Marc</div>

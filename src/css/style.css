@@ -64,7 +64,7 @@
   box-sizing: border-box;
 }
 .popup .box_wrap .list_bottom ul li .pop_profile {
-	background-image: url(../img/sub/profile_img.png);
+  background-image: url(../img/sub/profile_img.png);
   background-repeat: no-repeat;
   width: 48px;
   height: 48px;
@@ -1580,7 +1580,7 @@
 }
 
 #sub .bundle_box .bundle_top .bun_tl .bun_tl_img {
-/**  background-image: url(../img/sub/bundle_big.png); */
+  /**  background-image: url(../img/sub/bundle_big.png); */
   width: 100%;
   height: 740px;
   margin: 0 0 20px;
@@ -1886,12 +1886,12 @@
 /* right middle */
 #sub .bundle_box.box3 .bundle_top .bun_tl {
   flex: 1;
-  max-width: 740px;
+  max-width: 620px;
   margin: 0;
 }
 #sub .bundle_box.box3 .bundle_top .bun_tr {
-  width: 48%;
-  max-width: 500px;
+  flex: 1;
+  max-width: 620px;
   margin: 0;
 }
 #sub .bundle_box .bundle_top .right_m {
@@ -3296,8 +3296,10 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 .move.off .right_move {
   width: auto;
+  max-width: 1280px;
   float: none !important;
   padding: 0 0 100px 0;
+  margin: 0 auto;
 }
 .move.off .move_item {
   overflow: hidden;
@@ -3694,7 +3696,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 .move .right_move .real_sec .etc ul li {
   float: left;
-  min-width: 10%;
+  min-width: 11%;
   padding: 0 8px;
   text-align: center;
   line-height: 56px;
@@ -3702,6 +3704,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   font-weight: 700;
   color: #000;
   cursor: pointer;
+  box-sizing: border-box;
 }
 .move .right_move .real_sec .etc ul li.onnn {
   background-color: #222;

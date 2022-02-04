@@ -22,9 +22,9 @@ const Popup = () => {
 
   return (
     ownerPopup && (
-      <div class="popup info" id="info_popup" style={{ display: "block" }}>
+      <div className="popup info" id="info_popup" style={{ display: "block" }}>
         <div
-          class="box_wrap wrap2"
+          className="box_wrap wrap2"
           style={{
             width: "600px",
             height: "auto",

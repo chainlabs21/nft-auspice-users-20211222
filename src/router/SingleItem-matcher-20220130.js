@@ -331,11 +331,11 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
       {likePopup && <ItemLikePopup off={setLikePopup} />}
 
       {bidPopup && (
-        <div class="popup info" id="info_popup" style={{ display: "block" }}>
-          <div class="box_wrap buynft">
+        <div className="popup info" id="info_popup" style={{ display: "block" }}>
+          <div className="box_wrap buynft">
             <a
               onClick={() => setBidPopup(false)}
-              class="close close2"
+              className="close close2"
               id="info_close"
             >
               <img
@@ -343,57 +343,57 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                 alt="close"
               />
             </a>
-            <div class="poptitle nob">
+            <div className="poptitle nob">
               <h2>Purchase receipt</h2>
             </div>
-            <div class="list_bottom buy_nft">
-              <p class="warn" style={{display: itemData?.item?.isreviewed ? 'none':'block'}}>
+            <div className="list_bottom buy_nft">
+              <p className="warn" style={{display: itemData?.item?.isreviewed ? 'none':'block'}}>
                 Warning! Contains items
                 <br /> that have not been reviewed and approved
               </p>
-              <div class="receipt_section">
-                <div class="receipt_title">
-                  <p class="rec_t">Item</p>
-                  <p class="rec_t right">Subtotal</p>
+              <div className="receipt_section">
+                <div className="receipt_title">
+                  <p className="rec_t">Item</p>
+                  <p className="rec_t right">Subtotal</p>
                 </div>
-                <div class="receipt_item">
+                <div className="receipt_item">
                   <ul>
                     <li>
-                      <span class="pic"></span>
-                      <div class="right_price">
+                      <span className="pic"></span>
+                      <div className="right_price">
                         <h3>
                           { convertLongString( 8 , 4 , sellorder?.username)  }
                           <br />
                           <span>{ itemData?.item?.titlename } </span>{/**Blackman with neon */}
                         </h3>
-                        <h4 class="m_sub">
+                        <h4 className="m_sub">
                           <img src={require("../img/sub/rock.png").default} />
-                          <span class="pri">{ sellorder?.asset_amount_bid } of token #{sellorder?.tokenid } </span>
+                          <span className="pri">{ sellorder?.asset_amount_bid } of token #{sellorder?.tokenid } </span>
                         </h4>
                       </div>
                     </li>
                   </ul>
                   <ul>
                     <li>										
-											<p class="rec_t"  >
-                        Total<span class="red"
+											<p className="rec_t"  >
+                        Total<span className="red"
 												>
 												{+myethbalance && ( +myethbalance > sellorder?.asset_amount_ask )
 												 ? '-' : 'Insufficient KLAY balance' 
 												}
 												</span>
                       </p>
-                      <div class="right_price m_left">
-                        <h4 class="blue">
+                      <div className="right_price m_left">
+                        <h4 className="blue">
                           <img src={require("../img/sub/rock.png").default} />
-                          { sellorder?.asset_amount_ask }<span class="pri">
+                          { sellorder?.asset_amount_ask }<span className="pri">
 (${ priceklay && sellorder?.asset_amount_ask ? +priceklay *sellorder?.asset_amount_ask : '' })</span>
                         </h4>
                       </div>
                     </li>
                   </ul>
-                    <li><p class='rec_t'>your balance</p>
-										<div class='right_price m_left'>
+                    <li><p className='rec_t'>your balance</p>
+										<div className='right_price m_left'>
 											<h4 className='m_sub'>
 												{myethbalance}
 											</h4>
@@ -401,15 +401,15 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
 										
 										 </li>
                 </div>
-                <form class="ckb_wrap">
-                  <div class="ckb" style={{display : itemData?.item?.isreviewed ? 'none' : 'block'}}>
+                <form className="ckb_wrap">
+                  <div className="ckb" style={{display : itemData?.item?.isreviewed ? 'none' : 'block'}}>
                     <input type="checkbox" id="chk" name="chk1" />
                     <label for="chk">
                       Aware that Itemverse contains one item that has not been
                       reviewed and approved
                     </label>
                   </div>
-                  <div class="ckb">
+                  <div className="ckb">
                     <input type="checkbox" id="chk2" name="chk1" onChange={e=>{
 											setistoschecked( ! istoschecked ) // LOGGER()
 										}}/>
@@ -419,7 +419,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                   </div>
                 </form>
               </div>
-							<a class="reportit on "
+							<a className="reportit on "
 								disabled={ istoschecked ? false : true }
 								onClick={ _=>{
 									if (istoschecked){}
@@ -434,12 +434,12 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
       )}
 
       <section id="sub">
-        <article class="bundle_box box2 box3">
-          <div class="wrap">
-            <div class="bundle_top">
-              <div class="bun_tl">
-                <div class="bun_tl_img" style={{backgroundImage :  `url(${itemData?.item?.url})`  }} >
-                  <div class="bt artist">
+        <article className="bundle_box box2 box3">
+          <div className="wrap">
+            <div className="bundle_top">
+              <div className="bun_tl">
+                <div className="bun_tl_img" style={{backgroundImage :  `url(${itemData?.item?.url})`  }} >
+                  <div className="bt artist">
                     <h2>
 										{/**  <img src={author?.profileimage}></img>*/}
                       <span
@@ -453,16 +453,16 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                       @{ itemData.author?.nickname }
                     </h2>
                   </div>
-                  <div class="bt likes">
+                  <div className="bt likes">
                     <a
 											onClick={() => { setLikePopup(true)											
 											} }
-                      class="like_heart off"
+                      className="like_heart off"
                     >
                       <h2>{itemData.item?.countfavors} Likes</h2>
                     </a>
                   </div>
-                  <div class="views">
+                  <div className="views">
                     <ul>
                       <li
                         className="ownerBox"
@@ -484,12 +484,12 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                 </div>
               </div>
 
-              <div class="bun_tr">
-                <div class="bun_right">
-                  <div class="right_t">
-                    <div class="tt">
+              <div className="bun_tr">
+                <div className="bun_right">
+                  <div className="right_t">
+                    <div className="tt">
                       <h2>{itemData?.item?.titlename}</h2>
-                      <div class="icons">
+                      <div className="icons">
                         <a onClick={_=>{
 													fetchitem()
 												}}> 
@@ -530,9 +530,9 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
 												><img src={ require("../img/sub/alert.png").default }></img> </a>
                       </div>
                     </div>
-                    <div class="boxes">
+                    <div className="boxes">
                       <h2>Owner public content include</h2>
-                      <div class="black_box">
+                      <div className="black_box">
                         <ul>
                           <li> {/** itemData.item?.price */}
                             <h3>Price</h3>
@@ -558,7 +558,7 @@ return ;    const wrapWidth = itemWrapRef.current.offsetWidth;
                         </ul>
                         <a onClick={() =>{
 setBidPopup ( true )
-												} } class="bid">
+												} } className="bid">
                           Buy
                         </a>
                       </div>
@@ -567,22 +567,22 @@ setBidPopup ( true )
                 </div>
               </div>
             </div>
-            <div class="bun_full">
-              <div class="desc">
-                <h2 class="i_title">Description</h2>
+            <div className="bun_full">
+              <div className="desc">
+                <h2 className="i_title">Description</h2>
                 <p>{itemData.item?.description}</p>
               </div>
             </div>
-            <div class="bundle_top top2">
-              <div class="bun_tl">
-                <div class="right_m">
-                  <h2 class="i_title">Price History</h2>
+            <div className="bundle_top top2">
+              <div className="bun_tl">
+                <div className="right_m">
+                  <h2 className="i_title">Price History</h2>
                   <form>
                     <select>
                       <option>Last 60 Days</option>
                     </select>
                   </form>
-                  <div class="prices">
+                  <div className="prices">
                     <ul>
                       <li>
                         <h3>Average price</h3>
@@ -598,7 +598,7 @@ setBidPopup ( true )
                       </li>
                     </ul>
                   </div>
-                  <div class="graph">
+                  <div className="graph">
                     <img
                       src={require("../img/sub/Component.png").default}
                       alt="graph"
@@ -606,10 +606,10 @@ setBidPopup ( true )
                   </div>
                 </div>
               </div>
-              <div class="bun_tr">
-                <div class="right_b">
-                  <h2 class="i_title">Offer History</h2>
-                  <div class="history_s container">
+              <div className="bun_tr">
+                <div className="right_b">
+                  <h2 className="i_title">Offer History</h2>
+                  <div className="history_s container">
                     <ul>
                       {orders_sell.map((v , idx ) => {
 												/** if (lockjprofileimages[ v.username ] ){}
@@ -633,7 +633,7 @@ setBidPopup ( true )
 													setsellorder ( v )
 													return 
 												} }>
-                          <span class="profile_img" style={{backgroundImage :`url(${jprofileimages[ idx ]})` }}></span>
+                          <span className="profile_img" style={{backgroundImage :`url(${jprofileimages[ idx ]})` }}></span>
                           <h3>
                             { v.asset_amount_ask } KLAY for { v.asset_amount_bid }
                             <br />
@@ -651,11 +651,11 @@ setBidPopup ( true )
                 </div>
               </div>
             </div>
-            <div class="status s_pc">
-              <div class="mptable left">
+            <div className="status s_pc">
+              <div className="mptable left">
                 <strong>SALES STATUS</strong>
-                <div class="ranktable_pc p_th">
-                  <div class="table_sales">
+                <div className="ranktable_pc p_th">
+                  <div className="table_sales">
                     <table>
                       <colgroup>
                         <col style={{ width: "48%" }} />
@@ -673,7 +673,7 @@ setBidPopup ( true )
                         {logsales.map((v) => (
                           <tr>
                             <td>
-                              <div class="name price">
+                              <div className="name price">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
@@ -686,12 +686,12 @@ setBidPopup ( true )
                                   <span>(${v.priceusd})</span>
                                 </p>
                               </div>
-                              <div class="pur">
+                              <div className="pur">
                                 <a>{v.kind}</a>
                               </div>
                             </td>
                             <td>{moment(v.expired).toNow()}</td>
-                            <td class="blue">{v.seller}</td>
+                            <td className="blue">{v.seller}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -699,10 +699,10 @@ setBidPopup ( true )
                   </div>
                 </div>
               </div>
-              <div class="mptable right">
+              <div className="mptable right">
                 <strong>PURCHASE STATUS</strong>
-                <div class="ranktable_pc p_th">
-                  <div class="table_sales">
+                <div className="ranktable_pc p_th">
+                  <div className="table_sales">
                     <table>
                       <colgroup>
                         <col style={{ width: "39%" }} />
@@ -720,7 +720,7 @@ setBidPopup ( true )
                         {logorders.map((v , idx ) => (
                           <tr key={idx}>
                             <td>
-                              <div class="name price">
+                              <div className="name price">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
@@ -735,7 +735,7 @@ setBidPopup ( true )
                               </div>
                             </td>
                             <td>{moment(v.expired).toNow()}</td>
-                            <td class="blue">{v.buyer}</td>
+                            <td className="blue">{v.buyer}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -744,11 +744,11 @@ setBidPopup ( true )
                 </div>
               </div>
             </div>
-            <div class="status s_m">
-              <div class="mptable left">
+            <div className="status s_m">
+              <div className="mptable left">
                 <strong>Sales status</strong>
-                <div class="ranktable_pc p_th">
-                  <div class="table_sales">
+                <div className="ranktable_pc p_th">
+                  <div className="table_sales">
                     <table>
                       <colgroup>
                         <col style={{ width: "75%" }} />
@@ -763,7 +763,7 @@ setBidPopup ( true )
                       <tbody>
                         <tr>
                           <td>
-                            <div class="name price">
+                            <div className="name price">
                               <img
                                 src={require("../img/sub/I_klaytn.svg").default}
                                 style={{ width: "24px" }}
@@ -772,12 +772,12 @@ setBidPopup ( true )
                               <p>0.010 KLAY ($30.11)</p>
                               <span>3 days later</span>
                             </div>
-                            <div class="pur">
+                            <div className="pur">
                               <a>Buy</a>
                             </div>
                           </td>
-                          <td class="blue">
-                            <div class="div">Esther</div>
+                          <td className="blue">
+                            <div className="div">Esther</div>
                           </td>
                         </tr>
                       </tbody>
@@ -785,10 +785,10 @@ setBidPopup ( true )
                   </div>
                 </div>
               </div>
-              <div class="mptable right">
+              <div className="mptable right">
                 <strong>Purchase status</strong>
-                <div class="ranktable_pc p_th">
-                  <div class="table_sales">
+                <div className="ranktable_pc p_th">
+                  <div className="table_sales">
                     <table>
                       <colgroup>
                         <col style={{ width: "75%" }} />
@@ -803,7 +803,7 @@ setBidPopup ( true )
                       <tbody>
                         <tr>
                           <td>
-                            <div class="name price">
+                            <div className="name price">
                               <img
                                 src={require("../img/sub/I_klaytn.svg").default}
                                 style={{ width: "24px" }}
@@ -813,7 +813,7 @@ setBidPopup ( true )
                               <span>3 days later</span>
                             </div>
                           </td>
-                          <td class="blue">Esther</td>
+                          <td className="blue">Esther</td>
                         </tr>
 
                       </tbody>
@@ -822,12 +822,12 @@ setBidPopup ( true )
                 </div>
               </div>
             </div>
-            <div class="basic plustab ml2">
-              <div class="tab">
+            <div className="basic plustab ml2">
+              <div className="tab">
                 <ul>
                   {chartCategoryList.map((cont, index) => (
                     <li key={index}
-                      class={chartCategory === index && "on"}
+                      className={chartCategory === index && "on"}
                       onClick={() => setChartCategory(index)}
                     >
                       {cont}
@@ -835,7 +835,7 @@ setBidPopup ( true )
                   ))}
                 </ul>
               </div>
-              <div class="tab_bottom container con3" id="FixedTable">
+              <div className="tab_bottom container con3" id="FixedTable">
                 <table>
                   <colgroup>
                     <col style={{ width: "10%" }} />
@@ -845,29 +845,29 @@ setBidPopup ( true )
                     <col style={{ width: "10%" }} />
                     <col style={{ width: "10%" }} />
                   </colgroup>
-                  <thead class="head">
+                  <thead className="head">
                     <tr>
                       <th>Event</th>
                       <th>Price</th>
                       <th>From</th>
                       <th>To</th>
                       <th>Date</th>
-                      <th class="hchain">Tx confirm</th>
+                      <th className="hchain">Tx confirm</th>
                     </tr>
                   </thead>
-                  <tbody class="body">
+                  <tbody className="body">
                     { transactionHistory.map( (v , idx ) => (
                       <tr key={ idx }>
                         <td>{ gettimestr( v.createdat )  }</td>
-                        <td class="bold">{ strDot( v.txhash, 8,4) } KLAY</td>
-                        <td class="blue">{ v.username }</td>
-                        <td class="blue">{ v.typestr }</td>												
-                        <td class="gray">{moment(v.createdat).fromNow()}</td>
+                        <td className="bold">{ strDot( v.txhash, 8,4) } KLAY</td>
+                        <td className="blue">{ v.username }</td>
+                        <td className="blue">{ v.typestr }</td>												
+                        <td className="gray">{moment(v.createdat).fromNow()}</td>
                         <td>
 <span onClick={_=>{
 	window.open( URL_TX_SCAN[v.nettype] + `/${v.txhash}` , '_blank').focus();
-}} class={v.chainOn ? "chain on" : "chain off"} ></span>
-{/*                          <a                             class={v.chainOn ? "chain on" : "chain off"}                          ></a>
+}} className={v.chainOn ? "chain on" : "chain off"} ></span>
+{/*                          <a                             className={v.chainOn ? "chain on" : "chain off"}                          ></a>
 										*/}
 
                         </td>
@@ -878,28 +878,28 @@ setBidPopup ( true )
               </div>
             </div>
           </div>
-          <div class="item">
-            <div class="wrap">
-              <h4 class="t">Other works from {iscollectionbyauthorseller}</h4>
+          <div className="item">
+            <div className="wrap">
+              <h4 className="t">Other works from {iscollectionbyauthorseller}</h4>
 
-              <div class="swiper">
-                <div class="swiper-container swiper-container-trendingitem">
-                  <ol class="item item4 buy swiper-wrapper">
+              <div className="swiper">
+                <div className="swiper-container swiper-container-trendingitem">
+                  <ol className="item item4 buy swiper-wrapper">
                     <div className="slideBox" ref={itemWrapRef}>
                       { listotheritems.filter(elem => elem.item?.itemid == itemid ? false : true).sort((a,b)=> a.id-b.id ).map((cont, index) => (
 
 												<span key={index}>
                           <li
-                            class="swiper-slide"
+                            className="swiper-slide"
 														onClick={() =>{ // window.location.reload()
 															navigate(`/singleitem/${cont.item?.itemid}`)
 														}}
                           >
                             <a style={{ backgroundImage: `url(${cont.item?.url })` }}>
-                              <div class="on">
+                              <div className="on">
                                 <ul>
-                                  <li class="heart off">{ cont?.countfavors }</li>
-                                  <li class="star off"></li>
+                                  <li className="heart off">{ cont?.countfavors }</li>
+                                  <li className="star off"></li>
                                 </ul>
                                 <div>{ cont?.item?.titlename }</div>
                                 <span>{ cont?.item?.author?.nickname }</span>
@@ -919,11 +919,11 @@ setBidPopup ( true )
                 </div>
 
                 <div
-                  class="swiper-button-prev swiper-button-trendingitem-prev pcno"
+                  className="swiper-button-prev swiper-button-trendingitem-prev pcno"
                   onClick={onClickUserPreBtn}
                 ></div>
                 <div
-                  class="swiper-button-next swiper-button-trendingitem-next pcno"
+                  className="swiper-button-next swiper-button-trendingitem-next pcno"
                   onClick={onClickUserNextBtn}
                 ></div>
               </div>

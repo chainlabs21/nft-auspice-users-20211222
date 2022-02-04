@@ -26,10 +26,10 @@ function ImportContract({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="ntfsell_box">
-          <div class="sellbg">
-            <div class="ntfsell_con">
-              <div class="top1">
+        <article className="ntfsell_box">
+          <div className="sellbg">
+            <div className="ntfsell_con">
+              <div className="top1">
                 <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
@@ -38,11 +38,11 @@ function ImportContract({ store, setConnect }) {
                 </a>
                 <strong>Item home</strong>
               </div>
-              <div class="sell_wrap sell_wrap2">
-                <div class="create">
+              <div className="sell_wrap sell_wrap2">
+                <div className="create">
                   <h2>Import contract</h2>
                   <form action="">
-                    <div class="form">
+                    <div className="form">
                       <ul>
                         <li>
                           <h3>
@@ -52,24 +52,24 @@ function ImportContract({ store, setConnect }) {
                             Enter the contract address for which NFT issuance
                             has been completed in Klaytn
                           </p>
-                          <div class="inputbox">
-                            <div class="txt">
+                          <div className="inputbox">
+                            <div className="txt">
                               <textarea
                                 type="text"
                                 placeholder="Please enter an ERC721 or ERC 1155 address"
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
-                                class="text2"
+                                className="text2"
                               ></textarea>
                             </div>
                           </div>
                           {address ? (
-                            <h4 class="realert">
+                            <h4 className="realert">
                               No valid contract found. Make sure the publication
                               is complete
                             </h4>
                           ) : (
-                            <h4 class="realert">&nbsp;</h4>
+                            <h4 className="realert">&nbsp;</h4>
                           )}
                         </li>
                       </ul>
@@ -77,7 +77,7 @@ function ImportContract({ store, setConnect }) {
                   </form>
                 </div>
               </div>
-              <div class="create_btn mcrea">
+              <div className="create_btn mcrea">
                 <a>Import contract</a>
               </div>
             </div>

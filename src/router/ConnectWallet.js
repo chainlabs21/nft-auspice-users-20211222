@@ -102,17 +102,17 @@ function ConnectWallet(Setmyinfo) {
 
   return (
     <SignPopupBox>
-      <div class="popup info" id="info_popup">
-        <div class="box_wrap">
-          <a onClick={() => navigate(-1)} class="close" id="info_close">
+      <div className="popup info" id="info_popup">
+        <div className="box_wrap">
+          <a onClick={() => navigate(-1)} className="close" id="info_close">
             <img src={require("../img/sub/exit_48.png").default} alt="" />
           </a>
-          <div class="box line">
-            <div class="top0 p1">
+          <div className="box line">
+            <div className="top0 p1">
               <h2>Please connect an available wallet</h2>
               <p>Please connect an available wallet or create a new one</p>
             </div>
-            <div class="wallet_pc">
+            <div className="wallet_pc">
               <ul>
                 <li>
                   <a onClick={connectKaikas}>
@@ -123,7 +123,7 @@ function ConnectWallet(Setmyinfo) {
               </ul>
             </div>
 
-            <div class="wallet_m">
+            <div className="wallet_m">
               <ul>
                 <li>
                   <a onClick={connectKaikas}>
@@ -134,7 +134,7 @@ function ConnectWallet(Setmyinfo) {
               </ul>
             </div>
           </div>
-          <div class="bottom">
+          <div className="bottom">
             <p>Copyright © 2021 Itemverse. All rights reserved.</p>
             <ul>
               <li>Privacy Policy</li>
@@ -145,7 +145,7 @@ function ConnectWallet(Setmyinfo) {
       </div>
 
       <section id="sub">
-        <article class="popup_box"></article>
+        <article className="popup_box"></article>
       </section>
     </SignPopupBox>
   );

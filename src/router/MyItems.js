@@ -35,13 +35,13 @@ function MyItems({ store, setConnect }) {
   return (
     <MyItemsBox>
       <section id="sub">
-        <article class="profile_home">
-          <div class="collection_home add">
-            <div class="move off">
-              <div class="right_move">
-                <div class="real_sec">
-                  <ul class="tab tab4">
-                    <li class="onn">My collection</li>
+        <article className="profile_home">
+          <div className="collection_home add">
+            <div className="move off">
+              <div className="right_move">
+                <div className="real_sec">
+                  <ul className="tab tab4">
+                    <li className="onn">My collection</li>
                     <li onClick={() => navigate("/myprof")}>
                       Profile Management
                     </li>
@@ -53,9 +53,9 @@ function MyItems({ store, setConnect }) {
                 </div>
               </div>
             </div>
-            <div class="wrap">
-              <div class="collection_detail noimg">
-                <div class="pro_img"></div>
+            <div className="wrap">
+              <div className="collection_detail noimg">
+                <div className="pro_img"></div>
                 <h2>Add Collection</h2>
                 <h4>
                   After creating a collection, register a new NFT.
@@ -63,34 +63,34 @@ function MyItems({ store, setConnect }) {
                   Organize your own gallery with different concepts for each
                   collection.
                 </h4>
-                <div class="ad_btn">
+                <div className="ad_btn">
                   <a onClick={() => navigate("/createitem")}>
                     Create a new collection
                   </a>
-                  <a onClick={() => navigate("/importcontract")} class="line">
+                  <a onClick={() => navigate("/importcontract")} className="line">
                     Load from contract
                   </a>
                 </div>
               </div>
 
-              <div class="item">
-                <div class="wrap">
-                  <h4 class="t">My Collection</h4>
+              <div className="item">
+                <div className="wrap">
+                  <h4 className="t">My Collection</h4>
 
-                  <div class="swiper">
-                    <div class="swiper-container swiper-container-trendingitem">
-                      <ol class="item item4 buy swiper-wrapper">
+                  <div className="swiper">
+                    <div className="swiper-container swiper-container-trendingitem">
+                      <ol className="item item4 buy swiper-wrapper">
                         <div>
                           {[1, 2, 3, 4].map((cont, index) => (
                             <span>
                               <li
-                                class="swiper-slide"
+                                className="swiper-slide"
                                 onClick={(e) => navigate("/mycollectionselect")}
                               >
                                 <a
                                   style={{ backgroundImage: `url(${sample})` }}
                                 >
-                                  <article class="choose choose2 on">
+                                  <article className="choose choose2 on">
                                     {popupIndex === index && (
                                       <ul>
                                         <li
@@ -110,11 +110,11 @@ function MyItems({ store, setConnect }) {
                                       </ul>
                                     )}
                                   </article>
-                                  <div class="on">
+                                  <div className="on">
                                     <ul>
-                                      <li class="heart off">1,389</li>
+                                      <li className="heart off">1,389</li>
                                       <li
-                                        class="dot"
+                                        className="dot"
                                         onClick={(e) =>
                                           onclickCollectionPopupBtn(e, index)
                                         }
@@ -136,8 +136,8 @@ function MyItems({ store, setConnect }) {
                       </ol>
                     </div>
 
-                    <div class="swiper-button-prev swiper-button-trendingitem-prev pcno"></div>
-                    <div class="swiper-button-next swiper-button-trendingitem-next pcno"></div>
+                    <div className="swiper-button-prev swiper-button-trendingitem-prev pcno"></div>
+                    <div className="swiper-button-next swiper-button-trendingitem-next pcno"></div>
                   </div>
                 </div>
               </div>

@@ -32,18 +32,18 @@ function Mywallet({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="wallet_wrap">
-          <div class="move on">
-            <div class="left_move wallet_left">
+        <article className="wallet_wrap">
+          <div className="move on">
+            <div className="left_move wallet_left">
               <form>
-                <div class="w1 on">
+                <div className="w1 on">
                   <h3>
                     My wallet<span
 										onClick ={_=>{ LOGGER('L6thSy071a') }}
 										> {strDot( myaddress ,6,6)} </span>
                   </h3>
                 </div>
-                <div class="w2" onClick={() =>{
+                <div className="w2" onClick={() =>{
 
 									navigate("/generalsettings")
 								
@@ -51,7 +51,7 @@ function Mywallet({ store, setConnect }) {
                   <h3>General settings</h3>
                 </div>
                 <div
-                  class="w3"
+                  className="w3"
                   onClick={() => navigate("/notificationsettings")}
                 >
                   <h3>Notification settings</h3>
@@ -59,21 +59,21 @@ function Mywallet({ store, setConnect }) {
               </form>
             </div>
 
-            <div class="right_move wallet_right">
+            <div className="right_move wallet_right">
               <h2>My wallet</h2>
-              <div class="mwr">
-                <div class="wr">
+              <div className="mwr">
+                <div className="wr">
                   <ul>
                     <li>
                       <h4>Wallet address</h4>
                       <div>
-                        <div class="de">
+                        <div className="de">
                           <input type="text" disabled />
-                          <span class="defalut_text">
+                          <span className="defalut_text">
                             {myaddress ? myaddress : ''}
                           </span>
                         </div>
-                        <a class="btn_copy"
+                        <a className="btn_copy"
 													onClick={_=>{
 onClickCopy ( myaddress )
 													}}
@@ -82,7 +82,7 @@ onClickCopy ( myaddress )
                       </div>
                     </li>
                   </ul>
-                  <a onClick={() => navigate("/logout")} class="wbtn">
+                  <a onClick={() => navigate("/logout")} className="wbtn">
                     Logout
                   </a>
                 </div>

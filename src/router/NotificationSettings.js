@@ -40,16 +40,16 @@ function NotificationSettings({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="wallet_wrap">
-          <div class="move on">
+        <article className="wallet_wrap">
+          <div className="move on">
 {/**  <Settingssidepanel />*/}
-             <div class="left_move wallet_left">
-              <div class="mwallet">
+             <div className="left_move wallet_left">
+              <div className="mwallet">
                 <a >Account settings</a>
               </div>
               <form>
                 <div
-                  class="w1"
+                  className="w1"
                   style={{ cursor: "pointer" }}
                   onClick={() => navigate("/mywallet")}
                 >
@@ -58,95 +58,95 @@ function NotificationSettings({ store, setConnect }) {
                   </h3>
                 </div>
                 <div
-                  class="w2"
+                  className="w2"
                   style={{ cursor: "pointer" }}
                   onClick={() => navigate("/generalsettings")}
                 >
                   <h3>General settings</h3>
                 </div>
-                <div class="w3">
+                <div className="w3">
                   <h3>Notification settings</h3>
                 </div>
               </form>
             </div>
 
 
-            <div class="right_move wallet_right tor">
+            <div className="right_move wallet_right tor">
               <h2>Notification settings</h2>
               <p>
                 Please select the type of notifications you want to receive from
                 this account
               </p>
-              <div class="wr togpad">
+              <div className="wr togpad">
                 <ul>
 
-                  <li class="toline">
+                  <li className="toline">
                     <h5>Sales of products</h5>
-                    <p class="tsub">
+                    <p className="tsub">
                       Notification when someone purchases an item that is
                       registered for sale
                     </p>
-                    <div class="tog">
+                    <div className="tog">
                       <input type="checkbox" id="tog" onClick={e=>{ togglechecked (0)  }} />
                       <label for="tog"></label>
                     </div>
                   </li>
 
-                  <li class="toline">
+                  <li className="toline">
                     <h5>Bidding</h5>
-                    <p class="tsub">
+                    <p className="tsub">
                       Notify when someone has participated in a bid for an item
                     </p>
-                    <div class="tog">
+                    <div className="tog">
                       <input type="checkbox" id="tog1" />
                       <label for="tog1"></label>
                     </div>
                   </li>
-                  <li class="toline">
+                  <li className="toline">
                     <h5>Accept the offer</h5>
-                    <p class="tsub">
+                    <p className="tsub">
                       If the item owner who offered the price accepts the offer
                     </p>
-                    <div class="tog">
+                    <div className="tog">
                       <input type="checkbox" id="tog3" />
                       <label for="tog3"></label>
                     </div>
                   </li>
-                  <li class="toline">
+                  <li className="toline">
                     <h5>Auction Period Expired</h5>
-                    <p class="tsub">
+                    <p className="tsub">
                       Notification when the period of an auction set has expired
                     </p>
-                    <div class="tog">
+                    <div className="tog">
                       <input type="checkbox" id="tog4" />
                       <label for="tog4"></label>
                     </div>
                   </li>
-                  <li class="toline">
+                  <li className="toline">
                     <h5>Bid exceeded</h5>
-                    <p class="tsub">
+                    <p className="tsub">
                       When there is a higher bid for an item you bid on
                     </p>
-                    <div class="tog">
+                    <div className="tog">
                       <input type="checkbox" id="tog5" />
                       <label for="tog5"></label>
                     </div>
                   </li>
-                  <li class="toline">
+                  <li className="toline">
                     <h5>Referral Sales</h5>
-                    <p class="tsub">When someone you refer purchases an item</p>
-                    <div class="tog">
+                    <p className="tsub">When someone you refer purchases an item</p>
+                    <div className="tog">
                       <input type="checkbox" id="tog6" />
                       <label for="tog6"></label>
                     </div>
                   </li>
-                  <li class="toline">
+                  <li className="toline">
                     <h5>Minimum bid criteria</h5>
-                    <p class="tsub">
+                    <p className="tsub">
                       You will only be notified when you receive an offer above
                       this KLAY amount
                     </p>
-                    <div class="mbc">
+                    <div className="mbc">
                       <ol>
                         <li>
                           <h3 style={{ backgroundImage: `url(${rstone})` }}>
@@ -166,7 +166,7 @@ function NotificationSettings({ store, setConnect }) {
                     </div>
                   </li>
                 </ul>
-                <a  class="wbtn mm">
+                <a  className="wbtn mm">
                   Save
                 </a>
               </div>

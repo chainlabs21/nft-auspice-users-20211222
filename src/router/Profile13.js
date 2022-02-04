@@ -35,15 +35,15 @@ function MarketPlace({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="profile_home">
-          <div class="collection_home">
+        <article className="profile_home">
+          <div className="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 
-            <div class="wrap">
-              <div class="collection_detail">
-                <div class="pro_img">
+            <div className="wrap">
+              <div className="collection_detail">
+                <div className="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
-                  <div class="home_icons">
+                  <div className="home_icons">
                     <a >
                       <img src={require("../img/sub/re.png").default} />
                     </a>
@@ -52,29 +52,29 @@ function MarketPlace({ store, setConnect }) {
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Item</h2>
+                <h2 className="notop">Henry junior's Item</h2>
                 <h3>0x97bc...8cad2</h3>
                 <h4>
                   Henry is a mixed-media artist living in the
-                  <br class="mo" /> Bay Area and uses
-                  <br class="pc" />a stream of consciousness
-                  <br class="mo" /> approach to his work.
+                  <br className="mo" /> Bay Area and uses
+                  <br className="pc" />a stream of consciousness
+                  <br className="mo" /> approach to his work.
                 </h4>
               </div>
             </div>
 
-            <div class="move off">
-              <div class="cw ucl">
-                <span class="close">
+            <div className="move off">
+              <div className="cw ucl">
+                <span className="close">
                   <img src={require("../img/sub/side_close.png").default} />
-                  <b class="mclose">
+                  <b className="mclose">
                     Filter<span>1</span>
                   </b>
                 </span>
-                <div class="left_move">
+                <div className="left_move">
                   <form>
-                    <div class="filter">
-                      <h3 class="filt">
+                    <div className="filter">
+                      <h3 className="filt">
                         <img
                           src={require("../img/sub/filter_icon.png").default}
                         />
@@ -82,21 +82,21 @@ function MarketPlace({ store, setConnect }) {
                       </h3>
                       <img
                         src={require("../img/sub/filter_close.png").default}
-                        class="fc"
+                        className="fc"
                       />
                     </div>
-                    <div class="fold status">
-                      <h3 class="slide_tt">
+                    <div className="fold status">
+                      <h3 className="slide_tt">
                         Status
                         <img
                           src={require("../img/sub/slide_up.png").default}
-                          class="slide_up"
+                          className="slide_up"
                         />
                       </h3>
 
-                      <div class="open status">
+                      <div className="open status">
                         <ul>
-                          <li class="on">Buy Now</li>
+                          <li className="on">Buy Now</li>
                           <li>On Auction</li>
                           <li>New</li>
                           <li>Has Offers</li>
@@ -104,71 +104,71 @@ function MarketPlace({ store, setConnect }) {
                       </div>
                     </div>
 
-                    <div class="fold">
-                      <h3 class="slide_tt">
+                    <div className="fold">
+                      <h3 className="slide_tt">
                         Price
                         <img
                           src={require("../img/sub/slide_up.png").default}
-                          class="slide_up"
+                          className="slide_up"
                         />
                       </h3>
 
-                      <div class="open">
+                      <div className="open">
                         <select>
                           <option disabled selected hidden>
                             United States Dollars (USD)
                           </option>
                           <option>100</option>
                         </select>
-                        <div class="price_area">
-                          <div class="price_wrap">
+                        <div className="price_area">
+                          <div className="price_wrap">
                             <input type="text" placeholder="0.00" />
-                            <span class="usd">USD</span>
+                            <span className="usd">USD</span>
                           </div>
-                          <div class="price_wrap">
+                          <div className="price_wrap">
                             <input type="text" placeholder="0.00" />
-                            <span class="usd">USD</span>
+                            <span className="usd">USD</span>
                           </div>
                         </div>
-                        <a  class="slide_btn">
+                        <a  className="slide_btn">
                           Apply
                         </a>
                       </div>
                     </div>
 
-                    <div class="fold">
-                      <h3 class="slide_tt">
+                    <div className="fold">
+                      <h3 className="slide_tt">
                         Items
-                        <img src="../img/sub/slide_up.png" class="slide_up" />
+                        <img src="../img/sub/slide_up.png" className="slide_up" />
                       </h3>
 
-                      <div class="open collection">
+                      <div className="open collection">
                         <input
                           type="text"
                           placeholder="Filter"
-                          class="s_search"
+                          className="s_search"
                         />
                         <ul>
                           <li
-                            class="collec_img"
+                            className="collec_img"
                             style={{ backgroundImage: `url(${collect_img})` }}
                           >
                             <span>Item 01</span>
                           </li>
                           <li
-                            class="collec_img"
+                            className="collec_img"
                             style={{ backgroundImage: `url(${collect_img2})` }}
                           >
                             <span>Item 02</span>
                           </li>
                           <li
-                            class="collec_img"
+                            className="collec_img"
                             style={{ backgroundImage: `url(${collect_img3})` }}
                           >
                             <span>Item 03</span>
                           </li>
                           <li
-                            class="collec_img"
+                            className="collec_img"
                             style={{ backgroundImage: `url(${collect_img4})` }}
                           >
                             <span>Item 04</span>
@@ -177,18 +177,18 @@ function MarketPlace({ store, setConnect }) {
                       </div>
                     </div>
 
-                    <div class="fold">
-                      <h3 class="slide_tt">
+                    <div className="fold">
+                      <h3 className="slide_tt">
                         Chains
                         <img
                           src={require("../img/sub/slide_up.png").default}
-                          class="slide_up"
+                          className="slide_up"
                         />
                       </h3>
 
-                      <div class="open">
+                      <div className="open">
                         <ul>
-                          <li class="ra">
+                          <li className="ra">
                             <input type="radio" id="rad" name="rad" />
                             <label for="rad">
                               <img
@@ -197,7 +197,7 @@ function MarketPlace({ store, setConnect }) {
                               Klaytn
                             </label>
                           </li>
-                          <li class="ra">
+                          <li className="ra">
                             <input type="radio" id="rad2" name="rad" />
                             <label for="rad2">
                               <img
@@ -210,27 +210,27 @@ function MarketPlace({ store, setConnect }) {
                       </div>
                     </div>
 
-                    <div class="fold">
-                      <h3 class="slide_tt">
+                    <div className="fold">
+                      <h3 className="slide_tt">
                         Sales Coin
                         <img
                           src={require("../img/sub/slide_up.png").default}
-                          class="slide_up"
+                          className="slide_up"
                         />
                       </h3>
 
-                      <div class="open">
+                      <div className="open">
                         <input
                           type="text"
                           placeholder="Filter"
-                          class="s_search"
+                          className="s_search"
                         />
                         <ul>
-                          <li class="ra">
+                          <li className="ra">
                             <input type="radio" id="rad3" name="rad2" />
                             <label for="rad3">KLAY</label>
                           </li>
-                          <li class="ra">
+                          <li className="ra">
                             <input type="radio" id="rad4" name="rad2" />
                             <label for="rad4">WETH</label>
                           </li>
@@ -241,26 +241,26 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </div>
 
-              <div class="right_move">
-                <div class="real_sec">
-                  <ul class="tab">
+              <div className="right_move">
+                <div className="real_sec">
+                  <ul className="tab">
                     <li>Search Wallet</li>
                     <li>Transaction history</li>
                     <li>Offers</li>
                     <li>Liked</li>
-                    <li class="onn">Hidden item</li>
+                    <li className="onn">Hidden item</li>
                     <li>Referals</li>
                   </ul>
-                  <div class="pad">
-                    <div class="slide_s">
-                      <div class="fl">
+                  <div className="pad">
+                    <div className="slide_s">
+                      <div className="fl">
                         <input
                           type="text"
                           placeholder="Search items, creators"
                         />
                       </div>
-                      <div class="fr">
-                        <div class="select">
+                      <div className="fr">
+                        <div className="select">
                           <div>Single item</div>
                           <ul>
                             <li>
@@ -274,7 +274,7 @@ function MarketPlace({ store, setConnect }) {
                             </li>
                           </ul>
                         </div>
-                        <div class="select">
+                        <div className="select">
                           <div>Latest</div>
                           <ul>
                             <li>
@@ -309,19 +309,19 @@ function MarketPlace({ store, setConnect }) {
                       </div>
                     </div>
 
-                    <div class="move_item">
-                      <div class="swiper_container">
-                        <ol class="item move_li">
+                    <div className="move_item">
+                      <div className="swiper_container">
+                        <ol className="item move_li">
                           <li>
                             <a
                               href="#"
                               style={{ backgroundImage: `url(${s5})` }}
                             >
-                              <div class="on">
+                              <div className="on">
                                 <ul>
-                                  <li class="heart off">1,389</li>
-                                  <li class="dot">
-                                    <div class="choose">
+                                  <li className="heart off">1,389</li>
+                                  <li className="dot">
+                                    <div className="choose">
                                       <ul>
                                         <li>Sale</li>
                                         <li>Hand Over</li>
@@ -342,11 +342,11 @@ function MarketPlace({ store, setConnect }) {
                               href="#"
                               style={{ backgroundImage: `url(${sample})` }}
                             >
-                              <div class="on">
+                              <div className="on">
                                 <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li class="dot">
-                                    <div class="choose">
+                                  <li className="heart on">1,389</li>
+                                  <li className="dot">
+                                    <div className="choose">
                                       <ul>
                                         <li>Sale</li>
                                         <li>Hand Over</li>
@@ -367,11 +367,11 @@ function MarketPlace({ store, setConnect }) {
                               href="#"
                               style={{ backgroundImage: `url(${sample})` }}
                             >
-                              <div class="on">
+                              <div className="on">
                                 <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li class="dot">
-                                    <div class="choose">
+                                  <li className="heart on">1,389</li>
+                                  <li className="dot">
+                                    <div className="choose">
                                       <ul>
                                         <li>Sale</li>
                                         <li>Hand Over</li>
@@ -392,11 +392,11 @@ function MarketPlace({ store, setConnect }) {
                               href="#"
                               style={{ backgroundImage: `url(${sample})` }}
                             >
-                              <div class="on">
+                              <div className="on">
                                 <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li class="dot">
-                                    <div class="choose">
+                                  <li className="heart on">1,389</li>
+                                  <li className="dot">
+                                    <div className="choose">
                                       <ul>
                                         <li>Sale</li>
                                         <li>Hand Over</li>
@@ -417,11 +417,11 @@ function MarketPlace({ store, setConnect }) {
                               href="#"
                               style={{ backgroundImage: `url(${sample})` }}
                             >
-                              <div class="on">
+                              <div className="on">
                                 <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li class="dot">
-                                    <div class="choose">
+                                  <li className="heart on">1,389</li>
+                                  <li className="dot">
+                                    <div className="choose">
                                       <ul>
                                         <li>Sale</li>
                                         <li>Hand Over</li>
@@ -442,11 +442,11 @@ function MarketPlace({ store, setConnect }) {
                               href="#"
                               style={{ backgroundImage: `url(${sample})` }}
                             >
-                              <div class="on">
+                              <div className="on">
                                 <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li class="dot">
-                                    <div class="choose">
+                                  <li className="heart on">1,389</li>
+                                  <li className="dot">
+                                    <div className="choose">
                                       <ul>
                                         <li>Sale</li>
                                         <li>Hand Over</li>
@@ -467,11 +467,11 @@ function MarketPlace({ store, setConnect }) {
                               href="#"
                               style={{ backgroundImage: `url(${sample})` }}
                             >
-                              <div class="on">
+                              <div className="on">
                                 <ul>
-                                  <li class="heart on">1,389</li>
-                                  <li class="dot">
-                                    <div class="choose">
+                                  <li className="heart on">1,389</li>
+                                  <li className="dot">
+                                    <div className="choose">
                                       <ul>
                                         <li>Sale</li>
                                         <li>Hand Over</li>

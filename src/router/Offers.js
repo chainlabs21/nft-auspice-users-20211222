@@ -92,16 +92,16 @@ function Offers({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="profile_home deal_box">
-          <div class="collection_home">
+        <article className="profile_home deal_box">
+          <div className="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 
 <Myprofcommonheader />
-{/**             <div class="wrap">
-              <div class="collection_detail">
-                <div class="pro_img">
+{/**             <div className="wrap">
+              <div className="collection_detail">
+                <div className="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
-                  <div class="home_icons">
+                  <div className="home_icons">
                     <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
@@ -110,7 +110,7 @@ function Offers({ store, setConnect }) {
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Collection</h2>
+                <h2 className="notop">Henry junior's Collection</h2>
                 <h3>0x97bc...8cad2</h3>
                 <h4>
                   Henry is a mixed-media artist living in the Bay Area and uses
@@ -120,33 +120,33 @@ function Offers({ store, setConnect }) {
             </div>
 */}
 
-            <div class={toggleFilter ? "move on deal" : "move off deal"}>
-              <div class="cw ucl">
-                <span class="close" onClick={() => setToggleFilter(true)}>
+            <div className={toggleFilter ? "move on deal" : "move off deal"}>
+              <div className="cw ucl">
+                <span className="close" onClick={() => setToggleFilter(true)}>
                   <img src={require("../img/sub/side_close.png").default} />
-                  <b class="mclose">
+                  <b className="mclose">
                     Filter<span>1</span>
                   </b>
                 </span>
-                <div class="left_move">
+                <div className="left_move">
                   <form className="filterBox">
-                    <div class="topBar">
+                    <div className="topBar">
                       <span className="leftBox">
                         <img src={filter_icon} alt="" />
                         <p>Filter</p>
                       </span>
                       <img
                         src={require("../img/sub/filter_close.png").default}
-                        class="fc"
+                        className="fc"
                         onClick={() => setToggleFilter(false)}
                       />
                     </div>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Status</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
 
                       <ul className="filterContList typeList">
@@ -163,13 +163,13 @@ function Offers({ store, setConnect }) {
                       </ul>
                     </details>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Price</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
-                      <div class="filterContList priceBox">
+                      <div className="filterContList priceBox">
                         <div className="settingBox">
                           <div className="selectPosBox">
                             <div
@@ -198,7 +198,7 @@ function Offers({ store, setConnect }) {
                             )}
                           </div>
 
-                          <div class="priceAreaBox">
+                          <div className="priceAreaBox">
                             <div className="priceInputBox minBox">
                               <input
                                 type="text"
@@ -211,7 +211,7 @@ function Offers({ store, setConnect }) {
 
                             <p>~</p>
 
-                            <div class="priceInputBox maxBox">
+                            <div className="priceInputBox maxBox">
                               <input
                                 type="text"
                                 value={toPrice}
@@ -224,7 +224,7 @@ function Offers({ store, setConnect }) {
                         </div>
 
                         <button
-                          class="applyBtn"
+                          className="applyBtn"
                           onClick={() => {
                             setPriceFilterToggle(true);
                             setCallEffect(!callEffect);
@@ -235,20 +235,20 @@ function Offers({ store, setConnect }) {
                       </div>
                     </details>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Items</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
 
-                      <div class="filterContList searchListBox">
+                      <div className="filterContList searchListBox">
                         <div className="inputBox">
                           <img src={loupe} alt="" />
                           <input
                             type="text"
                             placeholder="Filter"
-                            class="s_search"
+                            className="s_search"
                           />
                         </div>
 
@@ -263,18 +263,18 @@ function Offers({ store, setConnect }) {
                       </div>
                     </details>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Chains</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
 
                       <ul className="filterContList chainList">
                         {chainList.map((cont, index) => (
                           <li
                             key={index}
-                            class="ra"
+                            className="ra"
                             onClick={() => editFilterList("chain", cont.name)}
                           >
                             <span
@@ -296,20 +296,20 @@ function Offers({ store, setConnect }) {
                       </ul>
                     </details>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Sales Coin</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
 
-                      <div class="filterContList searchListBox">
+                      <div className="filterContList searchListBox">
                         <div className="inputBox">
                           <img src={loupe} alt="" />
                           <input
                             type="text"
                             placeholder="Filter"
-                            class="s_search"
+                            className="s_search"
                           />
                         </div>
 
@@ -317,7 +317,7 @@ function Offers({ store, setConnect }) {
                           {coinList.map((cont, index) => (
                             <li
                               key={index}
-                              class="ra"
+                              className="ra"
                               onClick={() => editFilterList("coin", cont)}
                             >
                               <span
@@ -339,20 +339,20 @@ function Offers({ store, setConnect }) {
                 </div>
               </div>
 
-              <div class="right_move">
-                <div class="real_sec">
-                  <ul class="tab tabb">
+              <div className="right_move">
+                <div className="real_sec">
+                  <ul className="tab tabb">
                     <li onClick={() => navigate("/myprof")}>Search Wallet</li>
                     <li onClick={() => navigate("/transactionhistory")}>
                       Transaction history
                     </li>
-                    <li class="onn">Offers</li>
+                    <li className="onn">Offers</li>
                     <li onClick={() => navigate("/liked")}>Liked</li>
                     <li onClick={() => navigate("/hiddenitem")}>Hidden item</li>
                     <li onClick={() => navigate("/referals")}>Referals</li>
                   </ul>
-                  <div class="pad">
-                    <div class="etc">
+                  <div className="pad">
+                    <div className="etc">
                       <ul>
                         {offerCategoryList.map((cont, index) => (
                           <li
@@ -366,10 +366,10 @@ function Offers({ store, setConnect }) {
                       </ul>
                     </div>
 
-                    <div class="se_fi">
-                      <p class="total">Selected Filter</p>
+                    <div className="se_fi">
+                      <p className="total">Selected Filter</p>
                       <ul className="selectFilter moScrollFilter">
-                        <li class="sef" onClick={onclickFilterReset}>
+                        <li className="sef" onClick={onclickFilterReset}>
                           Filter reset
                         </li>
                         {filterList.map((cont, index) => (
@@ -383,7 +383,7 @@ function Offers({ store, setConnect }) {
                       </ul>
                     </div>
 
-                    <div class="ranktable_pc p_th">
+                    <div className="ranktable_pc p_th">
                       <table>
                         <colgroup>
                           <col style={{ width: "auto" }} />
@@ -406,7 +406,7 @@ function Offers({ store, setConnect }) {
                         <tbody>
                           <tr>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -418,7 +418,7 @@ function Offers({ store, setConnect }) {
                               </div>
                             </td>
                             <td>
-                              <div class="name price">
+                              <div className="name price">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
@@ -432,7 +432,7 @@ function Offers({ store, setConnect }) {
                             </td>
                             <td>3</td>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -448,7 +448,7 @@ function Offers({ store, setConnect }) {
                           </tr>
                           <tr>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -460,7 +460,7 @@ function Offers({ store, setConnect }) {
                               </div>
                             </td>
                             <td>
-                              <div class="name price">
+                              <div className="name price">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
@@ -474,7 +474,7 @@ function Offers({ store, setConnect }) {
                             </td>
                             <td>1</td>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -490,7 +490,7 @@ function Offers({ store, setConnect }) {
                           </tr>
                           <tr>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -502,7 +502,7 @@ function Offers({ store, setConnect }) {
                               </div>
                             </td>
                             <td>
-                              <div class="name price">
+                              <div className="name price">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
@@ -516,7 +516,7 @@ function Offers({ store, setConnect }) {
                             </td>
                             <td>2</td>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -532,7 +532,7 @@ function Offers({ store, setConnect }) {
                           </tr>
                           <tr>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -544,7 +544,7 @@ function Offers({ store, setConnect }) {
                               </div>
                             </td>
                             <td>
-                              <div class="name price">
+                              <div className="name price">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
@@ -558,7 +558,7 @@ function Offers({ store, setConnect }) {
                             </td>
                             <td>3</td>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -574,7 +574,7 @@ function Offers({ store, setConnect }) {
                           </tr>
                           <tr>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -586,7 +586,7 @@ function Offers({ store, setConnect }) {
                               </div>
                             </td>
                             <td>
-                              <div class="name price">
+                              <div className="name price">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
@@ -600,7 +600,7 @@ function Offers({ store, setConnect }) {
                             </td>
                             <td>1</td>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -616,7 +616,7 @@ function Offers({ store, setConnect }) {
                           </tr>
                           <tr>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -628,7 +628,7 @@ function Offers({ store, setConnect }) {
                               </div>
                             </td>
                             <td>
-                              <div class="name price">
+                              <div className="name price">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
@@ -642,7 +642,7 @@ function Offers({ store, setConnect }) {
                             </td>
                             <td>2</td>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -658,7 +658,7 @@ function Offers({ store, setConnect }) {
                           </tr>
                           <tr>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -670,7 +670,7 @@ function Offers({ store, setConnect }) {
                               </div>
                             </td>
                             <td>
-                              <div class="name price">
+                              <div className="name price">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
@@ -684,7 +684,7 @@ function Offers({ store, setConnect }) {
                             </td>
                             <td>1</td>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -700,7 +700,7 @@ function Offers({ store, setConnect }) {
                           </tr>
                           <tr>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -712,7 +712,7 @@ function Offers({ store, setConnect }) {
                               </div>
                             </td>
                             <td>
-                              <div class="name price">
+                              <div className="name price">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
@@ -726,7 +726,7 @@ function Offers({ store, setConnect }) {
                             </td>
                             <td>1</td>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -742,7 +742,7 @@ function Offers({ store, setConnect }) {
                           </tr>
                           <tr>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -754,7 +754,7 @@ function Offers({ store, setConnect }) {
                               </div>
                             </td>
                             <td>
-                              <div class="name price">
+                              <div className="name price">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
@@ -768,7 +768,7 @@ function Offers({ store, setConnect }) {
                             </td>
                             <td>1</td>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -784,7 +784,7 @@ function Offers({ store, setConnect }) {
                           </tr>
                           <tr>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -796,7 +796,7 @@ function Offers({ store, setConnect }) {
                               </div>
                             </td>
                             <td>
-                              <div class="name price">
+                              <div className="name price">
                                 <img
                                   src={
                                     require("../img/sub/I_klaytn.svg").default
@@ -810,7 +810,7 @@ function Offers({ store, setConnect }) {
                             </td>
                             <td>1</td>
                             <td>
-                              <div class="name">
+                              <div className="name">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -828,12 +828,12 @@ function Offers({ store, setConnect }) {
                       </table>
                     </div>
 
-                    <div class="ranktable_m">
+                    <div className="ranktable_m">
                       <ul>
                         <li>
-                          <div class="content">
-                            <div class="name_left">
-                              <div class="img">
+                          <div className="content">
+                            <div className="name_left">
+                              <div className="img">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -842,17 +842,17 @@ function Offers({ store, setConnect }) {
                                   alt=""
                                 />
                               </div>
-                              <div class="txt">
+                              <div className="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
                                 <a>
-                                  <span class="more">+ More</span>
-                                  <span class="less">- Less</span>
+                                  <span className="more">+ More</span>
+                                  <span className="less">- Less</span>
                                 </a>
                               </div>
                             </div>
-                            <div class="num_right">
-                              <div class="total">
+                            <div className="num_right">
+                              <div className="total">
                                 <p>
                                   <img
                                     src={
@@ -863,7 +863,7 @@ function Offers({ store, setConnect }) {
                                   0.005
                                 </p>
                               </div>
-                              <div class="time">
+                              <div className="time">
                                 <p>1 minutes left</p>
                                 <img
                                   src={
@@ -875,8 +875,8 @@ function Offers({ store, setConnect }) {
                               </div>
                             </div>
                           </div>
-                          <div class="slide_s slide2">
-                            <div class="etc">
+                          <div className="slide_s slide2">
+                            <div className="etc">
                               <ul>
                                 <li>
                                   <p>Quantity</p>
@@ -895,9 +895,9 @@ function Offers({ store, setConnect }) {
                           </div>
                         </li>
                         <li>
-                          <div class="content">
-                            <div class="name_left">
-                              <div class="img">
+                          <div className="content">
+                            <div className="name_left">
+                              <div className="img">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -906,17 +906,17 @@ function Offers({ store, setConnect }) {
                                   alt=""
                                 />
                               </div>
-                              <div class="txt">
+                              <div className="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
                                 <a>
-                                  <span class="more">+ More</span>
-                                  <span class="less">- Less</span>
+                                  <span className="more">+ More</span>
+                                  <span className="less">- Less</span>
                                 </a>
                               </div>
                             </div>
-                            <div class="num_right">
-                              <div class="total">
+                            <div className="num_right">
+                              <div className="total">
                                 <p>
                                   <img
                                     src={
@@ -927,7 +927,7 @@ function Offers({ store, setConnect }) {
                                   0.005
                                 </p>
                               </div>
-                              <div class="time">
+                              <div className="time">
                                 <p>1 minutes left</p>
                                 <img
                                   src={
@@ -941,9 +941,9 @@ function Offers({ store, setConnect }) {
                           </div>
                         </li>
                         <li>
-                          <div class="content">
-                            <div class="name_left">
-                              <div class="img">
+                          <div className="content">
+                            <div className="name_left">
+                              <div className="img">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -952,17 +952,17 @@ function Offers({ store, setConnect }) {
                                   alt=""
                                 />
                               </div>
-                              <div class="txt">
+                              <div className="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
                                 <a>
-                                  <span class="more">+ More</span>
-                                  <span class="less">- Less</span>
+                                  <span className="more">+ More</span>
+                                  <span className="less">- Less</span>
                                 </a>
                               </div>
                             </div>
-                            <div class="num_right">
-                              <div class="total">
+                            <div className="num_right">
+                              <div className="total">
                                 <p>
                                   <img
                                     src={
@@ -973,7 +973,7 @@ function Offers({ store, setConnect }) {
                                   0.005
                                 </p>
                               </div>
-                              <div class="time">
+                              <div className="time">
                                 <p>1 minutes left</p>
                                 <img
                                   src={
@@ -987,9 +987,9 @@ function Offers({ store, setConnect }) {
                           </div>
                         </li>
                         <li>
-                          <div class="content">
-                            <div class="name_left">
-                              <div class="img">
+                          <div className="content">
+                            <div className="name_left">
+                              <div className="img">
                                 <img
                                   src={
                                     require("../img/sub/hjcollection.png")
@@ -998,17 +998,17 @@ function Offers({ store, setConnect }) {
                                   alt=""
                                 />
                               </div>
-                              <div class="txt">
+                              <div className="txt">
                                 <h4>Sale</h4>
                                 <p>Summer Pool</p>
                                 <a>
-                                  <span class="more">+ More</span>
-                                  <span class="less">- Less</span>
+                                  <span className="more">+ More</span>
+                                  <span className="less">- Less</span>
                                 </a>
                               </div>
                             </div>
-                            <div class="num_right">
-                              <div class="total">
+                            <div className="num_right">
+                              <div className="total">
                                 <p>
                                   <img
                                     src={
@@ -1019,7 +1019,7 @@ function Offers({ store, setConnect }) {
                                   0.005
                                 </p>
                               </div>
-                              <div class="time">
+                              <div className="time">
                                 <p>1 minutes left</p>
                                 <img
                                   src={

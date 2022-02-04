@@ -228,18 +228,18 @@ function MyFavorite({ store }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="profile_home">
-          <div class="collection_home colletcmarket">
+        <article className="profile_home">
+          <div className="collection_home colletcmarket">
             <img src={require("../img/sub/home_bg.png").default} />
-            <div class="wrap">
-              <div class="collection_detail">
-                <div class="pro_img">
+            <div className="wrap">
+              <div className="collection_detail">
+                <div className="pro_img">
                   <img
                     src={require("../img/sub/home_profile.png").default}
-                    class="dotimg"
+                    className="dotimg"
                   />
-                  <div class="home_icons mhome home12 on">
-                    <div class="mhome_wrap">
+                  <div className="home_icons mhome home12 on">
+                    <div className="mhome_wrap">
                       <ul>
                         <li>
                           <a onClick={() => navigate("/transactionhistory")}>
@@ -260,11 +260,11 @@ function MyFavorite({ store }) {
                     </div>
                   </div>
                 </div>
-                <h2 class="notop">{ info_maria?.nickname}'s Collection</h2>
+                <h2 className="notop">{ info_maria?.nickname}'s Collection</h2>
                 <h4>
 									{ info_maria?.description }
                 </h4>
-                <div class="numbers">
+                <div className="numbers">
                   <ul>
                     <li>
                       <h5>Created</h5>
@@ -293,24 +293,24 @@ function MyFavorite({ store }) {
               </div>
             </div>
 
-            <div class="move off">
-              <div class="right_move">
-                <div class="real_sec">
-                  <div class="item marbo">
-                    <div class="full">
-                      <h4 class="t releft">Recently Created</h4>
-                      <a onClick={() => navigate("/createitem")} class="replus">
+            <div className="move off">
+              <div className="right_move">
+                <div className="real_sec">
+                  <div className="item marbo">
+                    <div className="full">
+                      <h4 className="t releft">Recently Created</h4>
+                      <a onClick={() => navigate("/createitem")} className="replus">
                         Register a new item
                       </a>
                     </div>
-                    <div class="swiper">
-                      <div class="swiper-container swiper-container-newitem">
-                        <ol class="item item5 summary swiper-wrapper">
+                    <div className="swiper">
+                      <div className="swiper-container swiper-container-newitem">
+                        <ol className="item item5 summary swiper-wrapper">
                           <div className="slideBox" ref={recentlyRef}>
                             { list_created.map((cont, index) => (
                               <>
                                 <span>
-                                  <li class="swiper-slide">
+                                  <li className="swiper-slide">
                                     <a
 																			onClick={e =>{ e.preventDefault(); e.stopPropagation() // return // 
 																				navigate(`/singleitem?itemid=${cont.item?.itemid}`)   // /${cont.item?.itemid}
@@ -322,10 +322,10 @@ function MyFavorite({ store }) {
                                         backgroundSize: "cover",
                                       }}
                                     >
-                                      <div class="on">
+                                      <div className="on">
                                         <ul>
-                                          <li class="heart off">{ cont.item?.countfavors }</li>
-                                          <li class={ cont.ilikethisitem? 'star on' : "star off"} ></li>
+                                          <li className="heart off">{ cont.item?.countfavors }</li>
+                                          <li className={ cont.ilikethisitem? 'star on' : "star off"} ></li>
                                         </ul>
                                         <div>{ cont.item?.titlename }</div>
                                         <span>{ cont.author?.nickname }</span>
@@ -334,11 +334,11 @@ function MyFavorite({ store }) {
                                           <li>- KLAY</li>
                                         </ol>
                                       </div>
-                                      <div class="top blk">
+                                      <div className="top blk">
                                         <ul>
                                           <li></li>
-                                          <li class="dot">
-                                            <div class="choose choose2 on" >
+                                          <li className="dot">
+                                            <div className="choose choose2 on" >
                                               <ul>
 																								<li onClick={e=>{ e.preventDefault(); e.stopPropagation()
 																									 setsalepath( cont )
@@ -369,26 +369,26 @@ function MyFavorite({ store }) {
                         </ol>
                       </div>
                       <div
-                        class="swiper-button-prev swiper-button-newitem-prev"
+                        className="swiper-button-prev swiper-button-newitem-prev"
                         onClick={onClickRecentlyPreBtn}
                       ></div>
                       <div
-                        class="swiper-button-next swiper-button-newitem-next"
+                        className="swiper-button-next swiper-button-newitem-next"
                         onClick={onClickRecentlyNextBtn}
                       ></div>
                     </div>
                   </div>
 
-                  <div class="item marbo">
-                    <h4 class="t">On Sale Item</h4>
-                    <div class="swiper">
-                      <div class="swiper-container swiper-container-newitem newitem2">
-                        <ol class="item item5 summary swiper-wrapper">
+                  <div className="item marbo">
+                    <h4 className="t">On Sale Item</h4>
+                    <div className="swiper">
+                      <div className="swiper-container swiper-container-newitem newitem2">
+                        <ol className="item item5 summary swiper-wrapper">
                           <div className="slideBox" ref={onSaleRef}>
                             {list_sales.map((cont, index) => (
                               <>
                                 <span>
-                                  <li class="swiper-slide">
+                                  <li className="swiper-slide">
                                     <a
 																			onClick={e =>{ e.preventDefault(); e.stopPropagation()																				
 																				navigate(`/singleitem?itemid=${cont.item?.itemid}`)
@@ -400,10 +400,10 @@ function MyFavorite({ store }) {
                                         backgroundSize: "cover",
                                       }}
                                     >
-                                      <div class="on">
+                                      <div className="on">
                                         <ul>
-                                          <li class="heart on">{ cont.item?.countfavors }</li>
-                                          <li class={cont.ilikethisitem? 'star on' : "star off"}></li>
+                                          <li className="heart on">{ cont.item?.countfavors }</li>
+                                          <li className={cont.ilikethisitem? 'star on' : "star off"}></li>
                                         </ul>
                                         <div>{ cont.item?.titlename }</div>
                                         <span>{ cont.author?.nickname }</span>
@@ -412,11 +412,11 @@ function MyFavorite({ store }) {
                                           <li>{ cont.minpriceorder?.asset_amount_ask } KLAY</li>
                                         </ol>
                                       </div>
-                                      <div class="top blk">
+                                      <div className="top blk">
                                         <ul>
                                           <li></li>
-                                          <li class="dot">
-                                            <div class="choose choose2 on">
+                                          <li className="dot">
+                                            <div className="choose choose2 on">
                                               <ul>
                                                 <li>Sale</li>
                                                 <li>Hand Over</li>
@@ -438,26 +438,26 @@ function MyFavorite({ store }) {
                         </ol>
                       </div>
                       <div
-                        class="swiper-button-prev swiper-button-newitem-prev newitemprev2"
+                        className="swiper-button-prev swiper-button-newitem-prev newitemprev2"
                         onClick={onClickOnSalePreBtn}
                       ></div>
                       <div
-                        class="swiper-button-next swiper-button-newitem-next newitemnext2"
+                        className="swiper-button-next swiper-button-newitem-next newitemnext2"
                         onClick={onClickOnSaleNextBtn}
                       ></div>
                     </div>
                   </div>
 
-                  <div class="item marbo">
-                    <h4 class="t">On Auction</h4>
-                    <div class="swiper">
-                      <div class="swiper-container swiper-container-newitem newitem3">
-                        <ol class="item item5 summary swiper-wrapper">
+                  <div className="item marbo">
+                    <h4 className="t">On Auction</h4>
+                    <div className="swiper">
+                      <div className="swiper-container swiper-container-newitem newitem3">
+                        <ol className="item item5 summary swiper-wrapper">
                           <div className="slideBox" ref={onAuctionRef}>
                             { list_auction.map( (cont, index) => (
                               <>
                                 <span>
-                                  <li class="swiper-slide">
+                                  <li className="swiper-slide">
                                     <a
                                       onClick={e => { e.preventDefault(); e.stopPropagation()
 																				navigate(`/singleitem?itemid=${cont.item?.itemid }`)}}
@@ -468,10 +468,10 @@ function MyFavorite({ store }) {
                                         backgroundSize: "cover",
                                       }}
                                     >
-                                      <div class="on">
+                                      <div className="on">
                                         <ul>
-                                          <li class="heart off">1,389</li>
-                                          <li class={ cont.ilikethisitem? 'star on' : "star off"} ></li>
+                                          <li className="heart off">1,389</li>
+                                          <li className={ cont.ilikethisitem? 'star on' : "star off"} ></li>
                                         </ul>
                                         <div>Summer Pool</div>
                                         <span>David</span>
@@ -480,11 +480,11 @@ function MyFavorite({ store }) {
                                           <li>1.67 KLAY</li>
                                         </ol>
                                       </div>
-                                      <div class="top blk">
+                                      <div className="top blk">
                                         <ul>
                                           <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
+                                          <li className="dot">
+                                            <div className="choose">
                                               <ul>
                                                 <li>Sale</li>
                                                 <li>Hand Over</li>
@@ -505,11 +505,11 @@ function MyFavorite({ store }) {
                         </ol>
                       </div>
                       <div
-                        class="swiper-button-prev swiper-button-newitem-prev newitemprev3"
+                        className="swiper-button-prev swiper-button-newitem-prev newitemprev3"
                         onClick={onClickOnAuctionPreBtn}
                       ></div>
                       <div
-                        class="swiper-button-next swiper-button-newitem-next newitemnext3"
+                        className="swiper-button-next swiper-button-newitem-next newitemnext3"
                         onClick={onClickOnAuctionNextBtn}
                       ></div>
                     </div>

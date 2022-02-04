@@ -25,9 +25,9 @@ const AuthFailedPopup = () => {
 
   return (
     ownerPopup && (
-      <div class="popup info" id="info_popup" style={{ display: "block" }}>
+      <div className="popup info" id="info_popup" style={{ display: "block" }}>
         <div
-          class="box_wrap wrap2"
+          className="box_wrap wrap2"
           style={{
             width: inWidth < 641 ? "310px" : "600px",
             height: inWidth < 641 ? "auto" : "auto",

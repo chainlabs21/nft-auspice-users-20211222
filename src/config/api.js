@@ -29,7 +29,7 @@ export const API = {
 		API_MAIN_NEW_ITEMS : `${apiServer}/queries/rows/items/active/1/0/10/id/DESC`
 	, API_MAIN_TREND_ITEMS : `${apiServer}/queries/rows/items/active/1/0/10/countviews/DESC`
 	, API_MAIN_FEATURED_ITEMS :`${apiServer}/queries/rows/items/isfeatured/1/0/10/id/DESC`
-	, API_MERCHANDISES_LIST : `${apiServer}/merchandises/single/latest/0/10`
+	, API_MERCHANDISES_LIST : `${apiServer}/merchandises/single/latest` // /:index /:limit
 //	, API_MERCHANDISES_LIST : `${apiServer}/merchandises/single/latest/0/10`
 	, API_MYITEMS : `${apiServer}/queries/rows/itembalances/username` // /${username}/0/10/id/DESC	
 	, API_OWNED_ITEMS : `${apiServer}/queries/rows/itembalances/username` // /${username}/0/10/id/DESC

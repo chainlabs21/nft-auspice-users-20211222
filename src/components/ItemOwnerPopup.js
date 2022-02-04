@@ -26,19 +26,19 @@ export default function ItemOwnerPopup({ off }) {
   }, []);
 
   return (
-    <div class="popup info" id="info_popup" style={{ display: "block" }}>
-      <div class="box_wrap wrap2">
-        <a onClick={() => off()} class="close close2" id="info_close">
+    <div className="popup info" id="info_popup" style={{ display: "block" }}>
+      <div className="box_wrap wrap2">
+        <a onClick={() => off()} className="close close2" id="info_close">
           <img src={require("../img/sub/icon_close.png").default} alt="close" />
         </a>
-        <div class="poptitle">
+        <div className="poptitle">
           <h2>Owner List</h2>
         </div>
-        <div class="list_bottom">
-          <ul class="container popcon">
+        <div className="list_bottom">
+          <ul className="container popcon">
             {data.map((v, i) => (
               <li key={i}>
-                <span class="pop_profile"></span>
+                <span className="pop_profile"></span>
                 <h3>
                   {v.nickname}
                   <br />

@@ -148,16 +148,16 @@ function MyProf({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="profile_home">
-          <div class="collection_home">
+        <article className="profile_home">
+          <div className="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 
 <Myprofcommonheader />
-{/*            <div class="wrap">
-              <div class="collection_detail">
-                <div class="pro_img">
+{/*            <div className="wrap">
+              <div className="collection_detail">
+                <div className="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
-                  <div class="home_icons">
+                  <div className="home_icons">
                     <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
@@ -169,40 +169,40 @@ SetErrorBar( messages.MSG_COPIED)
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">{myinfo_maria?.nickname }'s Collection</h2>
+                <h2 className="notop">{myinfo_maria?.nickname }'s Collection</h2>
                 <h3>{strDot( myaddress , 4 , 4 )}</h3>
                 <h4> { myinfo_mongo?.description }
                 </h4>
               </div>
             </div>
 */}
-            <div class={toggleFilter ? "move on deal" : "move off"}>
-              <div class="cw ucl">
-                <span class="close" onClick={() => setToggleFilter(true)}>
+            <div className={toggleFilter ? "move on deal" : "move off"}>
+              <div className="cw ucl">
+                <span className="close" onClick={() => setToggleFilter(true)}>
                   <img src={require("../img/sub/side_close.png").default} />
-                  <b class="mclose" onClick={() => setToggleFilter(true)}>
+                  <b className="mclose" onClick={() => setToggleFilter(true)}>
                     Filter<span>1</span>
                   </b>
                 </span>
-                <div class="left_move">
+                <div className="left_move">
                   <form className="filterBox">
-                    <div class="topBar">
+                    <div className="topBar">
                       <span className="leftBox">
                         <img src={filter_icon} alt="" />
                         <p>Filter</p>
                       </span>
                       <img
                         src={require("../img/sub/filter_close.png").default}
-                        class="fc"
+                        className="fc"
                         onClick={() => setToggleFilter(false)}
                       />
                     </div>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Status</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
 
                       <ul className="filterContList typeList">
@@ -219,13 +219,13 @@ SetErrorBar( messages.MSG_COPIED)
                       </ul>
                     </details>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Price</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
-                      <div class="filterContList priceBox">
+                      <div className="filterContList priceBox">
                         <div className="settingBox">
                           <div className="selectPosBox">
                             <div
@@ -254,7 +254,7 @@ SetErrorBar( messages.MSG_COPIED)
                             )}
                           </div>
 
-                          <div class="priceAreaBox">
+                          <div className="priceAreaBox">
                             <div className="priceInputBox minBox">
                               <input
                                 type="text"
@@ -267,7 +267,7 @@ SetErrorBar( messages.MSG_COPIED)
 
                             <p>~</p>
 
-                            <div class="priceInputBox maxBox">
+                            <div className="priceInputBox maxBox">
                               <input
                                 type="text"
                                 value={toPrice}
@@ -280,7 +280,7 @@ SetErrorBar( messages.MSG_COPIED)
                         </div>
 
                         <button
-                          class="applyBtn"
+                          className="applyBtn"
                           onClick={() => {
                             setPriceFilterToggle(true);
                             setCallEffect(!callEffect);
@@ -291,20 +291,20 @@ SetErrorBar( messages.MSG_COPIED)
                       </div>
                     </details>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Items</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
 
-                      <div class="filterContList searchListBox">
+                      <div className="filterContList searchListBox">
                         <div className="inputBox">
                           <img src={loupe} alt="" />
                           <input
                             type="text"
                             placeholder="Filter"
-                            class="s_search"
+                            className="s_search"
                           />
                         </div>
 
@@ -319,18 +319,18 @@ SetErrorBar( messages.MSG_COPIED)
                       </div>
                     </details>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Chains</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
 
                       <ul className="filterContList chainList">
                         {chainList.map((cont, index) => (
                           <li
                             key={index}
-                            class="ra"
+                            className="ra"
                             onClick={() => editFilterList("chain", cont.name)}
                           >
                             <span
@@ -352,20 +352,20 @@ SetErrorBar( messages.MSG_COPIED)
                       </ul>
                     </details>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Sales Coin</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
 
-                      <div class="filterContList searchListBox">
+                      <div className="filterContList searchListBox">
                         <div className="inputBox">
                           <img src={loupe} alt="" />
                           <input
                             type="text"
                             placeholder="Filter"
-                            class="s_search"
+                            className="s_search"
                           />
                         </div>
 
@@ -373,7 +373,7 @@ SetErrorBar( messages.MSG_COPIED)
                           {coinList.map((cont, index) => (
                             <li
                               key={index}
-                              class="ra"
+                              className="ra"
                               onClick={() => editFilterList("coin", cont)}
                             >
                               <span
@@ -395,10 +395,10 @@ SetErrorBar( messages.MSG_COPIED)
                 </div>
               </div>
 
-              <div class="right_move">
-                <div class="real_sec">
-                  <ul class="tab">
-                    <li class="onn">Search Wallet</li>
+              <div className="right_move">
+                <div className="real_sec">
+                  <ul className="tab">
+                    <li className="onn">Search Wallet</li>
                     <li onClick={() => navigate("/transactionhistory")}>
                       Transaction history
                     </li>
@@ -407,17 +407,17 @@ SetErrorBar( messages.MSG_COPIED)
                     <li onClick={() => navigate("/hiddenitem")}>Hidden item</li>
                     <li onClick={() => navigate("/referals")}>Referals</li>
                   </ul>
-                  <div class="pad">
-                    <div class="real_sec"></div>
-                    <div class="slide_s">
-                      <div class="fl">
+                  <div className="pad">
+                    <div className="real_sec"></div>
+                    <div className="slide_s">
+                      <div className="fl">
                         <input
                           type="text"
                           placeholder="Search items, collections, creators"
                         />
                       </div>
-                      <div class="fr">
-                        <div class="select">
+                      <div className="fr">
+                        <div className="select">
                           <div>Single item</div>
                           <ul>
                             <li>
@@ -431,7 +431,7 @@ SetErrorBar( messages.MSG_COPIED)
                             </li>
                           </ul>
                         </div>
-                        <div class="select">
+                        <div className="select">
                           <div>Latest</div>
                           <ul>
                             <li>
@@ -466,10 +466,10 @@ SetErrorBar( messages.MSG_COPIED)
                       </div>
                     </div>
 
-                    <div class="se_fi">
-                      <p class="total">Selected Filter</p>
+                    <div className="se_fi">
+                      <p className="total">Selected Filter</p>
                       <ul>
-                        <li class="sef" onClick={onClickFilterReset}>
+                        <li className="sef" onClick={onClickFilterReset}>
                           Filter reset
                         </li>
                         {filterList.map((cont, index) => (
@@ -483,18 +483,18 @@ SetErrorBar( messages.MSG_COPIED)
                       </ul>
                     </div>
 
-                    <div class="move_item">
-                      <div class="swiper_container">
-                        <ol class="item move_li">
+                    <div className="move_item">
+                      <div className="swiper_container">
+                        <ol className="item move_li">
                           <div>
                             <span>
 															{listitems.sort( (a,b)=> a.id<b.id ? +1 : -1 ).map ( (elem,idx) =>{
 																return (
 																	<li key={ idx }
-																		class={selectItemIndex === 0 && "click"}
+																		className={selectItemIndex === 0 && "click"}
 																		onClick={e => {	e.preventDefault();	e.stopPropagation()
 																			setSelectItemIndex(0)
-																			navigate(`/singleitem?itemid=${elem.itemid}`)
+																			navigate(`/edititem`);
 																		} }
 																	>
 																	<a
@@ -505,15 +505,15 @@ SetErrorBar( messages.MSG_COPIED)
 																			backgroundSize: "cover",
 																		}}
 																	>
-																		<div class="on">
+																		<div className="on">
 																			<ul>
-																				<li class="heart off">{ elem.item?.countfavors }</li>
+																				<li className="heart off">{ elem.item?.countfavors }</li>
 																				<li
-																					class="dot"
+																					className="dot"
 																					onClick={(e) => onClickMoreBtn(e, idx )}
 																				>
 																					{morePopupIndex === idx && (
-																						<div class="choose">
+																						<div className="choose">
 																							<ul>
 																								<li onClick={e=>{
 																									navigate(`/salefixed?itemid=${elem.item?.itemid}`)
@@ -547,7 +547,7 @@ SetErrorBar( messages.MSG_COPIED)
 																)
 															})}
 {/*                              <li
-                                class={selectItemIndex === 0 && "click"}
+                                className={selectItemIndex === 0 && "click"}
                                 onClick={() => setSelectItemIndex(0)}
                               >
                                 <a
@@ -558,15 +558,15 @@ SetErrorBar( messages.MSG_COPIED)
                                     backgroundSize: "cover",
                                   }}
                                 >
-                                  <div class="on">
+                                  <div className="on">
                                     <ul>
-                                      <li class="heart off">1,389</li>
+                                      <li className="heart off">1,389</li>
                                       <li
-                                        class="dot"
+                                        className="dot"
                                         onClick={(e) => onClic kMoreBtn(e, 0)}
                                       >
                                         {morePopupIndex === 0 && (
-                                          <div class="choose">
+                                          <div className="choose">
                                             <ul>
                                               <li>Sale</li>
                                               <li
@@ -599,8 +599,8 @@ SetErrorBar( messages.MSG_COPIED)
                   </div>
                 </div>
 
-{/**                  <div class="click_thumb">
-                  <div class="thum_pic">
+{/**                  <div className="click_thumb">
+                  <div className="thum_pic">
                     <ul>
                       <li
                         style={{
@@ -621,9 +621,9 @@ SetErrorBar( messages.MSG_COPIED)
                     </ul>
                   </div>
                   {selectItemIndex !== -1 && (
-                    <div class="click_btn">
+                    <div className="click_btn">
                       <a>Cancel</a>
-                      <a class="sell">
+                      <a className="sell">
                         Sell<span>2</span>
                       </a>
                     </div>

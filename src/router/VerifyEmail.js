@@ -47,17 +47,17 @@ function VerifyEmail({ store, setConnect }) {
 
   return (
     <VerfyEmailBox>
-      <div class="popup info" id="info_popup">
-        <div class="box_wrap confirm">
-          <a onClick={() => navigate(-1)} class="close" id="info_close">
+      <div className="popup info" id="info_popup">
+        <div className="box_wrap confirm">
+          <a onClick={() => navigate(-1)} className="close" id="info_close">
             <img src={require("../img/sub/icon_close.png").default} alt="" />
           </a>
-          <div class="box">
-            <div class="top0 p2">
+          <div className="box">
+            <div className="top0 p2">
               <h2>Verify Email</h2>
               <p>We examine your email...</p>
             </div>
-            <div class="btn one">
+            <div className="btn one">
               <ul>
                 <li>
                   <a onClick={() => navigate("/")}>OK</a>

@@ -49,13 +49,13 @@ function SentEmailDetail({ store, setConnect }) {
 
   return (
     <SentEmailDetailBox>
-      <div class="popup info" id="info_popup">
-        <div class="box_wrap confirm">
-          <a onClick={() => navigate(-1)} class="close" id="info_close">
+      <div className="popup info" id="info_popup">
+        <div className="box_wrap confirm">
+          <a onClick={() => navigate(-1)} className="close" id="info_close">
             <img src={require("../img/sub/exit_48.png").default} alt="" />
           </a>
-          <div class="box bot2">
-            <div class="top0 p3">
+          <div className="box bot2">
+            <div className="top0 p3">
               <h2>A verification email has been sent.</h2>
               <p>
                 Please check the verification email in your mailbox
@@ -64,10 +64,10 @@ function SentEmailDetail({ store, setConnect }) {
                 registration is complete.
               </p>
             </div>
-            <div class="notice_pc">
-              <div class="notice_inner">
+            <div className="notice_pc">
+              <div className="notice_inner">
                 <h3>Notice</h3>
-                <ul class="notice_info">
+                <ul className="notice_info">
                   <li>
                     <img
                       src={require("../img/sub/notice.png").default}
@@ -95,7 +95,7 @@ function SentEmailDetail({ store, setConnect }) {
                   </li>
                 </ul>
               </div>
-              <div class="btn one">
+              <div className="btn one">
                 <ul>
                   <li>
                     <a onClick={handleSendEmail}>Resend Email</a>
@@ -103,9 +103,9 @@ function SentEmailDetail({ store, setConnect }) {
                 </ul>
               </div>
             </div>
-            <div class="notice_m">
+            <div className="notice_m">
               <h3>Notice</h3>
-              <ul class="notice_info">
+              <ul className="notice_info">
                 <li>
                   <img src={require("../img/sub/notice.png").default} alt="" />
                   <p>
@@ -123,7 +123,7 @@ function SentEmailDetail({ store, setConnect }) {
                 </li>
               </ul>
             </div>
-            <div class="btn one2">
+            <div className="btn one2">
               <ul>
                 <li>
                   <a onClick={onClickResend}>Resend Email</a>

@@ -35,10 +35,10 @@ function MoveCollection({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="ntfsell_box">
-          <div class="sellbg">
-            <div class="ntfsell_con">
-              <div class="top1">
+        <article className="ntfsell_box">
+          <div className="sellbg">
+            <div className="ntfsell_con">
+              <div className="top1">
                 <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
@@ -47,14 +47,14 @@ function MoveCollection({ store, setConnect }) {
                 </a>
                 <strong>Profile home</strong>
               </div>
-              <div class="sell_wrap">
-                <div class="create">
+              <div className="sell_wrap">
+                <div className="create">
                   <h2>Move Collection</h2>
                   <h3>Please select a collection to move.</h3>
                   <form action="">
-                    <div class="form">
-                      <div class="movecollection">
-                        <div class="select on">
+                    <div className="form">
+                      <div className="movecollection">
+                        <div className="select on">
                           <div>
                             <span>Henry junior's Collection 01</span>
                           </div>
@@ -62,7 +62,7 @@ function MoveCollection({ store, setConnect }) {
                             <li>
                               <a>
                                 Henry junior's Collection 01
-                                <span class="arrow"></span>
+                                <span className="arrow"></span>
                               </a>
                             </li>
                             <li>
@@ -73,7 +73,7 @@ function MoveCollection({ store, setConnect }) {
                             </li>
                           </ul>
                         </div>
-                        <p class="sma">
+                        <p className="sma">
                           Collections may take up to an hour to move.
                         </p>
                       </div>
@@ -81,8 +81,8 @@ function MoveCollection({ store, setConnect }) {
                   </form>
                 </div>
               </div>
-              <div class="move_btn">
-                <a onClick={() => navigate(-1)} class="move">
+              <div className="move_btn">
+                <a onClick={() => navigate(-1)} className="move">
                   Move
                 </a>
               </div>

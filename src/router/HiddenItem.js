@@ -136,16 +136,16 @@ function HiddenItem({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="profile_home">
-          <div class="collection_home">
+        <article className="profile_home">
+          <div className="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 
 <Myprofcommonheader />
-{/*            <div class="wrap">
-              <div class="collection_detail">
-                <div class="pro_img">
+{/*            <div className="wrap">
+              <div className="collection_detail">
+                <div className="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
-                  <div class="home_icons">
+                  <div className="home_icons">
                     <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
@@ -154,44 +154,44 @@ function HiddenItem({ store, setConnect }) {
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Item</h2>
+                <h2 className="notop">Henry junior's Item</h2>
                 <h3>0x97bc...8cad2</h3>
                 <h4>
                   Henry is a mixed-media artist living in the
-                  <br class="mo" /> Bay Area and uses
-                  <br class="pc" />a stream of consciousness
-                  <br class="mo" /> approach to his work.
+                  <br className="mo" /> Bay Area and uses
+                  <br className="pc" />a stream of consciousness
+                  <br className="mo" /> approach to his work.
                 </h4>
               </div>
             </div>
 */}
-            <div class={toggleFilter ? "move on deal" : "move off"}>
-              <div class="cw ucl">
-                <span class="close" onClick={() => setToggleFilter(true)}>
+            <div className={toggleFilter ? "move on deal" : "move off"}>
+              <div className="cw ucl">
+                <span className="close" onClick={() => setToggleFilter(true)}>
                   <img src={require("../img/sub/side_close.png").default} />
-                  <b class="mclose">
+                  <b className="mclose">
                     Filter<span>1</span>
                   </b>
                 </span>
-                <div class="left_move">
+                <div className="left_move">
                   <form className="filterBox">
-                    <div class="topBar">
+                    <div className="topBar">
                       <span className="leftBox">
                         <img src={filter_icon} alt="" />
                         <p>Filter</p>
                       </span>
                       <img
                         src={require("../img/sub/filter_close.png").default}
-                        class="fc"
+                        className="fc"
                         onClick={() => setToggleFilter(false)}
                       />
                     </div>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Status</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
 
                       <ul className="filterContList typeList">
@@ -208,13 +208,13 @@ function HiddenItem({ store, setConnect }) {
                       </ul>
                     </details>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Price</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
-                      <div class="filterContList priceBox">
+                      <div className="filterContList priceBox">
                         <div className="settingBox">
                           <div className="selectPosBox">
                             <div
@@ -243,7 +243,7 @@ function HiddenItem({ store, setConnect }) {
                             )}
                           </div>
 
-                          <div class="priceAreaBox">
+                          <div className="priceAreaBox">
                             <div className="priceInputBox minBox">
                               <input
                                 type="text"
@@ -256,7 +256,7 @@ function HiddenItem({ store, setConnect }) {
 
                             <p>~</p>
 
-                            <div class="priceInputBox maxBox">
+                            <div className="priceInputBox maxBox">
                               <input
                                 type="text"
                                 value={toPrice}
@@ -269,7 +269,7 @@ function HiddenItem({ store, setConnect }) {
                         </div>
 
                         <button
-                          class="applyBtn"
+                          className="applyBtn"
                           onClick={() => {
                             setPriceFilterToggle(true);
                             setCallEffect(!callEffect);
@@ -280,20 +280,20 @@ function HiddenItem({ store, setConnect }) {
                       </div>
                     </details>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Items</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
 
-                      <div class="filterContList searchListBox">
+                      <div className="filterContList searchListBox">
                         <div className="inputBox">
                           <img src={loupe} alt="" />
                           <input
                             type="text"
                             placeholder="Filter"
-                            class="s_search"
+                            className="s_search"
                           />
                         </div>
 
@@ -308,18 +308,18 @@ function HiddenItem({ store, setConnect }) {
                       </div>
                     </details>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Chains</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
 
                       <ul className="filterContList chainList">
                         {chainList.map((cont, index) => (
                           <li
                             key={index}
-                            class="ra"
+                            className="ra"
                             onClick={() => editFilterList("chain", cont.name)}
                           >
                             <span
@@ -341,20 +341,20 @@ function HiddenItem({ store, setConnect }) {
                       </ul>
                     </details>
 
-                    <details class="filterDetails">
-                      <summary class="filterSummary">
+                    <details className="filterDetails">
+                      <summary className="filterSummary">
                         <p className="filterTitle">Sales Coin</p>
 
-                        <img src={I_dnArrow} class="slide_up" />
+                        <img src={I_dnArrow} className="slide_up" />
                       </summary>
 
-                      <div class="filterContList searchListBox">
+                      <div className="filterContList searchListBox">
                         <div className="inputBox">
                           <img src={loupe} alt="" />
                           <input
                             type="text"
                             placeholder="Filter"
-                            class="s_search"
+                            className="s_search"
                           />
                         </div>
 
@@ -362,7 +362,7 @@ function HiddenItem({ store, setConnect }) {
                           {coinList.map((cont, index) => (
                             <li
                               key={index}
-                              class="ra"
+                              className="ra"
                               onClick={() => editFilterList("coin", cont)}
                             >
                               <span
@@ -384,28 +384,28 @@ function HiddenItem({ store, setConnect }) {
                 </div>
               </div>
 
-              <div class="right_move">
-                <div class="real_sec">
-                  <ul class="tab">
+              <div className="right_move">
+                <div className="real_sec">
+                  <ul className="tab">
                     <li onClick={() => navigate("/myprof")}>Search Wallet</li>
                     <li onClick={() => navigate("/transactionhistory")}>
                       Transaction history
                     </li>
                     <li onClick={() => navigate("/offers")}>Offers</li>
                     <li onClick={() => navigate("/liked")}>Liked</li>
-                    <li class="onn">Hidden item</li>
+                    <li className="onn">Hidden item</li>
                     <li onClick={() => navigate("/referals")}>Referals</li>
                   </ul>
-                  <div class="pad">
-                    <div class="slide_s">
-                      <div class="fl">
+                  <div className="pad">
+                    <div className="slide_s">
+                      <div className="fl">
                         <input
                           type="text"
                           placeholder="Search items, creators"
                         />
                       </div>
-                      <div class="fr">
-                        <div class="select">
+                      <div className="fr">
+                        <div className="select">
                           <div>Single item</div>
                           <ul>
                             <li>
@@ -419,7 +419,7 @@ function HiddenItem({ store, setConnect }) {
                             </li>
                           </ul>
                         </div>
-                        <div class="select">
+                        <div className="select">
                           <div>Latest</div>
                           <ul>
                             <li>
@@ -454,10 +454,10 @@ function HiddenItem({ store, setConnect }) {
                       </div>
                     </div>
 
-                    <div class="se_fi">
-                      <p class="total">Selected Filter</p>
+                    <div className="se_fi">
+                      <p className="total">Selected Filter</p>
                       <ul>
-                        <li class="sef" onClick={onClickFilterReset}>
+                        <li className="sef" onClick={onClickFilterReset}>
                           Filter reset
                         </li>
                         {filterList.map((cont, index) => (
@@ -471,9 +471,9 @@ function HiddenItem({ store, setConnect }) {
                       </ul>
                     </div>
 
-                    <div class="move_item">
-                      <div class="swiper_container">
-                        <ol class="item move_li">
+                    <div className="move_item">
+                      <div className="swiper_container">
+                        <ol className="item move_li">
                           <div>
                             <span>
 
@@ -484,11 +484,11 @@ function HiddenItem({ store, setConnect }) {
 			}}
 		>
 		<a style={{ backgroundImage: `url(${elem.item?.url})` || `url(${s5})` }}>
-			<div class="on">
+			<div className="on">
 				<ul>
-					<li class="heart off">{ elem.item?.countfavors }</li>
+					<li className="heart off">{ elem.item?.countfavors }</li>
 					<li
-						class={
+						className={
 							morePopupIndex === 0
 								? "dot on"
 								: "dot"
@@ -499,7 +499,7 @@ function HiddenItem({ store, setConnect }) {
 						}}
 					>
 						{morePopupIndex === idx && (
-							<div class="choose">
+							<div className="choose">
 								<ul>
 									<li onClick={_=>{ navigate(`/salefixed?itemid=${elem.item?.itemid}`)}}>Sale</li>
 									<li onClick={_=>{ navigate(`/handover?itemid=${elem.item?.itemid}`)}}>Hand Over</li>
@@ -522,11 +522,11 @@ function HiddenItem({ store, setConnect }) {
 })}															
 {/**                                <li>
                                 <a style={{ backgroundImage: `url(${s5})` }}>
-                                  <div class="on">
+                                  <div className="on">
                                     <ul>
-                                      <li class="heart off">1,389</li>
+                                      <li className="heart off">1,389</li>
                                       <li
-                                        class={
+                                        className={
                                           morePopupIndex === 0
                                             ? "dot on"
                                             : "dot"
@@ -537,7 +537,7 @@ function HiddenItem({ store, setConnect }) {
                                         }}
                                       >
                                         {morePopupIndex === 0 && (
-                                          <div class="choose">
+                                          <div className="choose">
                                             <ul>
                                               <li>Sale</li>
                                               <li>Hand Over</li>

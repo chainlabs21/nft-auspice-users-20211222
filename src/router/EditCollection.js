@@ -58,10 +58,10 @@ function EditCollection({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="ntfsell_box">
-          <div class="sellbg">
-            <div class="ntfsell_con">
-              <div class="top1">
+        <article className="ntfsell_box">
+          <div className="sellbg">
+            <div className="ntfsell_con">
+              <div className="top1">
                 <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
@@ -70,11 +70,11 @@ function EditCollection({ store, setConnect }) {
                 </a>
                 <strong>Collection home</strong>
               </div>
-              <div class="sell_wrap">
-                <div class="create">
+              <div className="sell_wrap">
+                <div className="create">
                   <h2>Edit Collection</h2>
                   <form action="">
-                    <div class="form">
+                    <div className="form">
                       <ul>
                         <li>
                           <h3>
@@ -90,8 +90,8 @@ function EditCollection({ store, setConnect }) {
                             <br />
                             Square image (recommended size 350 x 350)
                           </p>
-                          <div class="img logo_img">
-                            <div class="line">
+                          <div className="img logo_img">
+                            <div className="line">
                               <input type="file" name="" id="file" />
                               <label for="file">
                                 <img
@@ -111,7 +111,7 @@ function EditCollection({ store, setConnect }) {
                               alt=""
                             />
                           </h3>
-                          <div class="inputbox">
+                          <div className="inputbox">
                             <input
                               type="text"
                               placeholder="Example: A collection of atmospheric night view photos"
@@ -120,7 +120,7 @@ function EditCollection({ store, setConnect }) {
                         </li>
                         <li>
                           <h3>Add Collection Banner</h3>
-                          <p class="topno">
+                          <p className="topno">
                             Register the banner that will appear at the top of
                             the collection home page.
                             <br />
@@ -130,10 +130,10 @@ function EditCollection({ store, setConnect }) {
                             <br /> depending on the window size.(Recommended
                             size 1400 x 300)
                           </p>
-                          <div class="img">
-                            <div class="line">
+                          <div className="img">
+                            <div className="line">
                               <input type="file" name id="file" />
-                              <label for="file" class="file_he">
+                              <label for="file" className="file_he">
                                 <p>
                                   JPG , PNG, ICO etc. Image file (Up to 10mb)
                                 </p>
@@ -144,8 +144,8 @@ function EditCollection({ store, setConnect }) {
                         </li>
                         <li>
                           <h3>Collection Description</h3>
-                          <div class="inputbox">
-                            <div class="txt">
+                          <div className="inputbox">
+                            <div className="txt">
                               <textarea
                                 type="text"
                                 placeholder="Example: I took a picture of the night sky centered on the constellations and a night view of the city."
@@ -155,12 +155,12 @@ function EditCollection({ store, setConnect }) {
                         </li>
                         <li>
                           <h3>Category</h3>
-                          <p class="topno">
+                          <p className="topno">
                             You can easily search by selecting a category.
                           </p>
-                          <div class="cat">
+                          <div className="cat">
                             <ul>
-                              <li class="ca">
+                              <li className="ca">
                                 <span>Art</span>
                               </li>
                               <li>
@@ -172,13 +172,13 @@ function EditCollection({ store, setConnect }) {
                               <li>
                                 <span>Trading Cards</span>
                               </li>
-                              <li class="ca">
+                              <li className="ca">
                                 <span>Collectibles</span>
                               </li>
                               <li>
                                 <span>Sports</span>
                               </li>
-                              <li class="ca">
+                              <li className="ca">
                                 <span>Utility</span>
                               </li>
                               <li>
@@ -188,7 +188,7 @@ function EditCollection({ store, setConnect }) {
                           </div>
                         </li>
                         <li>
-                          <div class="top2">
+                          <div className="top2">
                             <h3>Royalty setting</h3>
                             <p>
                               Each time an item is resold, you can receive a
@@ -196,7 +196,7 @@ function EditCollection({ store, setConnect }) {
                               <br />
                               If not set, it is set to 0%.
                             </p>
-                            <div class="inputbox number percent">
+                            <div className="inputbox number percent">
                               <input
                                 type="text"
                                 placeholder=""
@@ -211,11 +211,11 @@ function EditCollection({ store, setConnect }) {
                   </form>
                 </div>
               </div>
-              <div class="create_btn side">
-                <a onClick={()=>navigate(-1)} class="ls">
+              <div className="create_btn side">
+                <a onClick={()=>navigate(-1)} className="ls">
                   Save
                 </a>
-                <a onClick={()=>navigate(-1)} class="rs">
+                <a onClick={()=>navigate(-1)} className="rs">
                   Delete collection
                 </a>
               </div>

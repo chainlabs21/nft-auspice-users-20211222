@@ -34,10 +34,13 @@ import { API } from "../config/api";
 import { putCommaAtPrice } from "../util/Util";
 import { applytoken } from "../util/rest";
 import { LOGGER } from "../util/common";
-import { PAYMEANS_DEF } from '../config/configs'
+import { PAYMEANS_DEF } from "../config/configs";
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
-  const location = useLocation();
+
+  let loadingBusy = false;
+  let itemIndex = 10;
+
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
@@ -50,11 +53,13 @@ function MarketPlace({ store, setConnect }) {
   const [callEffect, setCallEffect] = useState(false);
   const [totalItem, setTotalItem] = useState(0);
   const [unit, setUnit] = useState("USD");
-	const [pricePopup, setPricePopup] = useState(false)
-	let axios=applytoken()
+  const [pricePopup, setPricePopup] = useState(false);
+
+  let axios = applytoken();
   const handleCateFilter = (category) => {
     setCategoryFilter(category);
   };
+
   function getSelectText() {
     switch (unit) {
       case "USD":
@@ -65,6 +70,7 @@ function MarketPlace({ store, setConnect }) {
         break;
     }
   }
+
   function onClickOption(data) {
     setUnit(data);
     setPriceFilterToggle(false);
@@ -73,61 +79,68 @@ function MarketPlace({ store, setConnect }) {
     setCallEffect(!callEffect);
     setPricePopup(false);
   }
+
   useEffect(() => {
-    const temp = [...itemList];
+    const temp = [...filteredList];
+
     // categoryFilter
     const categoryFiltered = temp.filter((v) => {
       if (categoryFilter === "All") return true;
       if (v.item.categorystr === categoryFilter) return true;
       else return false;
     });
-    // statusFilter
-    let statusFiltered = [...categoryFiltered];
-    let statusToggle = false;
-    filterList.forEach((filter) => {
-      const index = statusList.findIndex((status) => {
-        return filter === status;
-      });
-      if (index !== -1) {
-        statusToggle = true;
-      }
-    });
 
-    if (statusToggle) {
-      statusFiltered = categoryFiltered.filter((data) => {
-        const statusToStringArr = [];
-        data.status.forEach((stat) => {
-          statusToStringArr.push(statusList[stat]);
-        });
-        const temp = filterList.filter((filter) =>
-          statusToStringArr.includes(filter)
-        );
-        if (temp.length === filterList.length) {
-          return true;
-        } else {
-          return false;
-        }
+    // statusFilter
+    let selectedStatus = [];
+    filterList.filter((e) => {
+      let a = statusList.forEach((f) => {
+        // console.log("e", e);
+        // console.log("f", f);
+        if (e === f) selectedStatus.push(f);
       });
-    }
-    //priceFilter
-    let priceFiltered = [...statusFiltered];
-    if (priceFilterToggle) {
-      priceFiltered = statusFiltered.filter((v) => {
-        if (unit === "USD") {
-          if (v.priceusd >= fromPrice && v.priceusd <= toPrice) {
-            return true;
-          }
-          return false;
-        } else if (unit === "KLAY") {
-          if (v.tokenprice >= fromPrice && v.tokenprice <= toPrice) {
-            return true;
-          }
-          return false;
-        }
-      });
-    }
-    //chainsFilter
-    setFilteredList(priceFiltered);
+      
+    });
+    console.log(selectedStatus);
+
+    console.log(filterList, selectedStatus);
+
+    // if (statusToggle) {
+    //   statusFiltered = categoryFiltered.filter((data) => {
+    //     const statusToStringArr = [];
+    //     if (!data.status) return false;
+    //     data.status.forEach((stat) => {
+    //       statusToStringArr.push(statusList[stat]);
+    //     });
+    //     const temp = filterList.filter((filter) =>
+    //       statusToStringArr.includes(filter)
+    //     );
+    //     if (temp.length === filterList.length) {
+    //       return true;
+    //     } else {
+    //       return false;
+    //     }
+    //   });
+    // }
+
+    // //priceFilter
+    // let priceFiltered = [...statusFiltered];
+    // if (priceFilterToggle) {
+    //   priceFiltered = statusFiltered.filter((v) => {
+    //     if (unit === "USD") {
+    //       if (v.priceusd >= fromPrice && v.priceusd <= toPrice) {
+    //         return true;
+    //       }
+    //       return false;
+    //     } else if (unit === "KLAY") {
+    //       if (v.tokenprice >= fromPrice && v.tokenprice <= toPrice) {
+    //         return true;
+    //       }
+    //       return false;
+    //     }
+    //   });
+    // }
+    // //chainsFilter
+    // setFilteredList(priceFiltered);
   }, [categoryFilter, itemList, filterList, callEffect]);
 
   const editFilterList = (category, cont) => {
@@ -157,59 +170,73 @@ function MarketPlace({ store, setConnect }) {
     setFilterList([...Object.values(dataObj)]);
   };
 
-/*  useEffect(() => {
-    axios.g et(`${API.API_GET_ITEM_LIST}/single/latest/0/10`).then((res) => {
-      console.log(res.data.list);
-      setItemList(res.data.list);
-      setFiltere dList(res.data.list);
-      setTotalI tem(res.data.list.length);
+  function getItem(index) {
+    console.log(index);
+    axios.get(`${API.API_MERCHANDISES_LIST}/0/${index}`).then((resp) => {
+      LOGGER("wgNCeNKxXL", resp.data);
+      let { status, list, payload } = resp.data;
+      if (status == "OK") {
+        setFilteredList(list);
+        setTotalItem(payload?.count);
+        loadingBusy = false;
+      }
     });
-    if (location?.state) {
-      setCategoryFilter(location.state);
-    }
-  }, [location.state]);
-*/
+  }
+
   useEffect(() => {
-		axios.get( `${API.API_MERCHANDISES_LIST}` ).then(resp=>{ LOGGER( 'wgNCeNKxXL' , resp.data )
-			let { status , list , payload } = resp.data
-			if ( status == 'OK'){
-				setFilteredList ( list ) 
-				setTotalItem ( payload?.count )
-			}
-		})
-	} , [] );
+    axios.get(`${API.API_MERCHANDISES_LIST}/0/10`).then((resp) => {
+      LOGGER("wgNCeNKxXL", resp.data);
+      let { status, list, payload } = resp.data;
+      if (status == "OK") {
+        setFilteredList(list);
+        setTotalItem(payload?.count);
+      }
+    });
+
+    window.addEventListener("scroll", (e) => {
+      if (
+        window.scrollY + window.innerHeight >
+          document.body.clientHeight - 200 &&
+        !loadingBusy
+      ) {
+        loadingBusy = true;
+        itemIndex += 10;
+        getItem(itemIndex);
+      }
+    });
+  }, []);
 
   return (
     <MarketPlaceBox>
       <section id="sub">
-        <article class="profile_home">
-          <div class={toggleFilter ? "move on deal" : "move off"}>
-            <div class="cw ucl">
-              <span class="close" onClick={() => setToggleFilter(true)}>
+        <article className="profile_home">
+          <div className={toggleFilter ? "move on deal" : "move off"}>
+            <div className="cw ucl">
+              <span className="close" onClick={() => setToggleFilter(true)}>
                 <img src={require("../img/sub/side_close.png").default} />
-                <b class="mclose" onClick={() => setToggleFilter(true)}>
+                <b className="mclose" onClick={() => setToggleFilter(true)}>
                   Filter<span>1</span>
                 </b>
               </span>
-              <div class="left_move">
+              <div className="left_move">
                 <form className="filterBox">
-                  <div class="topBar">
+                  <div className="topBar">
                     <span className="leftBox">
                       <img src={filter_icon} alt="" />
                       <p>Filter</p>
                     </span>
                     <img
                       src={require("../img/sub/filter_close.png").default}
-                      class="fc"
+                      className="fc"
                       onClick={() => setToggleFilter(false)}
                     />
                   </div>
 
-                  <details class="filterDetails">
-                    <summary class="filterSummary">
+                  <details className="filterDetails">
+                    <summary className="filterSummary">
                       <p className="filterTitle">Status</p>
 
-                      <img src={I_dnArrow} class="slide_up" />
+                      <img src={I_dnArrow} className="slide_up" />
                     </summary>
 
                     <ul className="filterContList typeList">
@@ -226,13 +253,13 @@ function MarketPlace({ store, setConnect }) {
                     </ul>
                   </details>
 
-                  <details class="filterDetails">
-                    <summary class="filterSummary">
+                  <details className="filterDetails">
+                    <summary className="filterSummary">
                       <p className="filterTitle">Price</p>
 
-                      <img src={I_dnArrow} class="slide_up" />
+                      <img src={I_dnArrow} className="slide_up" />
                     </summary>
-                    <div class="filterContList priceBox">
+                    <div className="filterContList priceBox">
                       <div className="settingBox">
                         <div className="selectPosBox">
                           <div
@@ -258,7 +285,7 @@ function MarketPlace({ store, setConnect }) {
                           )}
                         </div>
 
-                        <div class="priceAreaBox">
+                        <div className="priceAreaBox">
                           <div className="priceInputBox minBox">
                             <input
                               type="text"
@@ -271,7 +298,7 @@ function MarketPlace({ store, setConnect }) {
 
                           <p>~</p>
 
-                          <div class="priceInputBox maxBox">
+                          <div className="priceInputBox maxBox">
                             <input
                               type="text"
                               value={toPrice}
@@ -284,7 +311,7 @@ function MarketPlace({ store, setConnect }) {
                       </div>
 
                       <button
-                        class="applyBtn"
+                        className="applyBtn"
                         onClick={() => {
                           setPriceFilterToggle(true);
                           setCallEffect(!callEffect);
@@ -295,20 +322,20 @@ function MarketPlace({ store, setConnect }) {
                     </div>
                   </details>
 
-                  <details class="filterDetails">
-                    <summary class="filterSummary">
+                  <details className="filterDetails">
+                    <summary className="filterSummary">
                       <p className="filterTitle">Items</p>
 
-                      <img src={I_dnArrow} class="slide_up" />
+                      <img src={I_dnArrow} className="slide_up" />
                     </summary>
 
-                    <div class="filterContList searchListBox">
+                    <div className="filterContList searchListBox">
                       <div className="inputBox">
                         <img src={loupe} alt="" />
                         <input
                           type="text"
                           placeholder="Filter"
-                          class="s_search"
+                          className="s_search"
                         />
                       </div>
 
@@ -323,18 +350,18 @@ function MarketPlace({ store, setConnect }) {
                     </div>
                   </details>
 
-                  <details class="filterDetails">
-                    <summary class="filterSummary">
+                  <details className="filterDetails">
+                    <summary className="filterSummary">
                       <p className="filterTitle">Chains</p>
 
-                      <img src={I_dnArrow} class="slide_up" />
+                      <img src={I_dnArrow} className="slide_up" />
                     </summary>
 
                     <ul className="filterContList chainList">
                       {chainList.map((cont, index) => (
                         <li
                           key={index}
-                          class="ra"
+                          className="ra"
                           onClick={() => editFilterList("chain", cont.name)}
                         >
                           <span
@@ -356,20 +383,20 @@ function MarketPlace({ store, setConnect }) {
                     </ul>
                   </details>
 
-                  <details class="filterDetails">
-                    <summary class="filterSummary">
+                  <details className="filterDetails">
+                    <summary className="filterSummary">
                       <p className="filterTitle">Sales Coin</p>
 
-                      <img src={I_dnArrow} class="slide_up" />
+                      <img src={I_dnArrow} className="slide_up" />
                     </summary>
 
-                    <div class="filterContList searchListBox">
+                    <div className="filterContList searchListBox">
                       <div className="inputBox">
                         <img src={loupe} alt="" />
                         <input
                           type="text"
                           placeholder="Filter"
-                          class="s_search"
+                          className="s_search"
                         />
                       </div>
 
@@ -377,7 +404,7 @@ function MarketPlace({ store, setConnect }) {
                         {coinList.map((cont, index) => (
                           <li
                             key={index}
-                            class="ra"
+                            className="ra"
                             onClick={() => editFilterList("coin", cont)}
                           >
                             <span
@@ -399,17 +426,17 @@ function MarketPlace({ store, setConnect }) {
               </div>
             </div>
 
-            <div class="right_move">
-              <div class="pad">
-                <div class="real_sec">
-                  <div class="slide_s slide2">
-                    <div class="fl">
-                      <p class="total">
+            <div className="right_move">
+              <div className="pad">
+                <div className="real_sec">
+                  <div className="slide_s slide2">
+                    <div className="fl">
+                      <p className="total">
                         Total {totalItem.toLocaleString("eu", "US")}
                       </p>
                     </div>
-                    <div class="fr">
-                      <div class="select">
+                    <div className="fr">
+                      <div className="select">
                         <div>Single item</div>
                         <ul>
                           <li>
@@ -423,7 +450,7 @@ function MarketPlace({ store, setConnect }) {
                           </li>
                         </ul>
                       </div>
-                      <div class="select metc">
+                      <div className="select metc">
                         <div>{categoryFilter ? categoryFilter : "All"}</div>
                         <ul>
                           <li
@@ -491,7 +518,7 @@ function MarketPlace({ store, setConnect }) {
                           </li>
                         </ul>
                       </div>
-                      <div class="select mselect">
+                      <div className="select mselect">
                         <div>Latest</div>
                         <ul>
                           <li>
@@ -526,10 +553,10 @@ function MarketPlace({ store, setConnect }) {
                     </div>
                   </div>
 
-                  <div class="etc">
+                  <div className="etc">
                     <ul className="cartegoryList">
                       <li
-                        class={
+                        className={
                           (!categoryFilter || categoryFilter === "All") &&
                           "onnn"
                         }
@@ -540,7 +567,7 @@ function MarketPlace({ store, setConnect }) {
 
                       {categoryList.map((cont, index) => (
                         <li
-                          class={categoryFilter === cont && "onnn"}
+                          className={categoryFilter === cont && "onnn"}
                           key={index}
                           onClick={() => handleCateFilter(cont)}
                         >
@@ -550,10 +577,10 @@ function MarketPlace({ store, setConnect }) {
                     </ul>
                   </div>
 
-                  <div class="se_fi">
-                    <p class="total">Selected Filter</p>
+                  <div className="se_fi">
+                    <p className="total">Selected Filter</p>
                     <ul>
-                      <li class="sef" onClick={onclickFilterReset}>
+                      <li className="sef" onClick={onclickFilterReset}>
                         Filter reset
                       </li>
                       {filterList.map((cont, index) => (
@@ -567,42 +594,63 @@ function MarketPlace({ store, setConnect }) {
                     </ul>
                   </div>
 
-                  <div class="move_item">
-                    <div class="swiper-container">
-                      <ol class="item move_li summary summary2">
+                  <div className="move_item">
+                    <div className="swiper-container">
+                      <ol className="item move_li summary summary2">
                         <div>
-                          { filteredList.map((v, i) => {
+                          {filteredList.map((v, i) => {
                             return (
                               <span key={i}>
                                 <li>
                                   <a
                                     onClick={() =>
-                                      navigate(`/singleitem?itemid=${v.item.itemid}`)
+                                      navigate(
+                                        `/singleitem?itemid=${v.item.itemid}`
+                                      )
                                     }
-                                    style={{	//backgroundImage: `url(${v.imgsrc})`,
+                                    style={{
                                       backgroundImage: `url(${v.item?.url})`,
                                       backgroundRepeat: "no-repeat",
                                       backgroundPosition: "center",
                                       backgroundSize: "cover",
                                     }}
                                   >
-                                    <div class="on">
+                                    <div className="on">
                                       <ul>
                                         <li>
                                           <img src={heart_off} alt="" />
                                           {v.item?.countfavors}
                                         </li>
                                         <li>
-                                          <img src={v.ilikethisitem? 'star_on' : 'star_off'} alt="" />
+                                          <img
+                                            src={
+                                              v.ilikethisitem
+                                                ? "star_on"
+                                                : "star_off"
+                                            }
+                                            alt=""
+                                          />
                                         </li>
                                       </ul>
                                       <div>{v.item?.titlename}</div>
-                                      <span>{v.author?.nickname }</span>
+                                      <span>{v.author?.nickname}</span>
                                       <ol>
-<li>{ v.minpriceorder?.expiry ? 'expires '+moment.unix(v.minpriceorder?.expiry ).fromNow(): 'created '+moment(v.item?.createdat).fromNow() } </li>
                                         <li>
-                                          {putCommaAtPrice(v.askpricestats?.min )}{" "}
-                                          { PAYMEANS_DEF }
+                                          {v.minpriceorder?.expiry
+                                            ? "expires " +
+                                              moment
+                                                .unix(v.minpriceorder?.expiry)
+                                                .fromNow()
+                                            : "created " +
+                                              moment(
+                                                v.item?.createdat
+                                              ).fromNow()}{" "}
+                                        </li>
+                                        <li>
+                                          {putCommaAtPrice(
+                                            v.askpricestats?.min
+                                          )}{" "}
+                                          {PAYMEANS_DEF}
                                         </li>
                                       </ol>
                                     </div>

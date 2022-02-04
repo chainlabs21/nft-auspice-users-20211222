@@ -21,14 +21,14 @@ function EmailFailed({ store, setConnect }) {
 
   return (
     <SignPopupBox>
-      <div class="popup info" id="info_popup">
-        <div class="box_wrap confirm">
-          <div class="box bot2">
-            <div class="top0 p2">
+      <div className="popup info" id="info_popup">
+        <div className="box_wrap confirm">
+          <div className="box bot2">
+            <div className="top0 p2">
               <h2>Email verification failed.</h2>
               <p>Please complete email verification to continue.</p>
             </div>
-            <div class="btn">
+            <div className="btn">
               <ul>
                 <li>
                   <a onClick={() => navigate("/")}>Cancel</a>
@@ -45,7 +45,7 @@ function EmailFailed({ store, setConnect }) {
       </div>
 
       <section id="sub">
-        <article class="popup_box"></article>
+        <article className="popup_box"></article>
       </section>
     </SignPopupBox>
   );

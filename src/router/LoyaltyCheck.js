@@ -27,10 +27,10 @@ function LoyaltyCheck({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="ntfsell_box">
-          <div class="sellbg">
-            <div class="ntfsell_con">
-              <div class="top1">
+        <article className="ntfsell_box">
+          <div className="sellbg">
+            <div className="ntfsell_con">
+              <div className="top1">
                 <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
@@ -39,12 +39,12 @@ function LoyaltyCheck({ store, setConnect }) {
                 </a>
                 <strong>Collection home</strong>
               </div>
-              <div class="sell_wrap sell_wrap2">
-                <div class="create">
-                  <p class="loyal">Loyalty check</p>
-                  <h2 class="notop">Collection 1</h2>
+              <div className="sell_wrap sell_wrap2">
+                <div className="create">
+                  <p className="loyal">Loyalty check</p>
+                  <h2 className="notop">Collection 1</h2>
                   <form action="">
-                    <div class="form">
+                    <div className="form">
                       <ul>
                         <li>
                           <p>
@@ -53,10 +53,10 @@ function LoyaltyCheck({ store, setConnect }) {
                             every month. Deposit date and time are subject to
                             change.
                           </p>
-                          <div class="exc">
-                            <a class="cso">Change sort order</a>
+                          <div className="exc">
+                            <a className="cso">Change sort order</a>
                           </div>
-                          <div class="loytable con3">
+                          <div className="loytable con3">
                             <table>
                               <colgroup>
                                 <col />
@@ -76,7 +76,7 @@ function LoyaltyCheck({ store, setConnect }) {
                               </thead>
                               <tbody>
                                 <tr>
-                                  <td class="ig">A girl</td>
+                                  <td className="ig">A girl</td>
                                   <td>
                                     <img
                                       src={
@@ -99,7 +99,7 @@ function LoyaltyCheck({ store, setConnect }) {
                                   <td>payment due</td>
                                 </tr>
                                 <tr>
-                                  <td class="ig">Crushed Hea...</td>
+                                  <td className="ig">Crushed Hea...</td>
                                   <td>
                                     <img
                                       src={
@@ -122,7 +122,7 @@ function LoyaltyCheck({ store, setConnect }) {
                                   <td>2021.04.01</td>
                                 </tr>
                                 <tr>
-                                  <td class="ig">Summer Pool</td>
+                                  <td className="ig">Summer Pool</td>
                                   <td>
                                     <img
                                       src={
@@ -145,7 +145,7 @@ function LoyaltyCheck({ store, setConnect }) {
                                   <td>2021.03.31</td>
                                 </tr>
                                 <tr>
-                                  <td class="ig">Donald DUck</td>
+                                  <td className="ig">Donald DUck</td>
                                   <td>
                                     <img
                                       src={
@@ -168,7 +168,7 @@ function LoyaltyCheck({ store, setConnect }) {
                                   <td>2021.03.05</td>
                                 </tr>
                                 <tr>
-                                  <td class="ig">Summer Pool</td>
+                                  <td className="ig">Summer Pool</td>
                                   <td>
                                     <img
                                       src={
@@ -191,7 +191,7 @@ function LoyaltyCheck({ store, setConnect }) {
                                   <td>2021.01.08</td>
                                 </tr>
                                 <tr>
-                                  <td class="ig">Crushed Hea...</td>
+                                  <td className="ig">Crushed Hea...</td>
                                   <td>
                                     <img
                                       src={
@@ -214,7 +214,7 @@ function LoyaltyCheck({ store, setConnect }) {
                                   <td>2021.01.01</td>
                                 </tr>
                                 <tr>
-                                  <td class="ig">Crushed Hea...</td>
+                                  <td className="ig">Crushed Hea...</td>
                                   <td>
                                     <img
                                       src={

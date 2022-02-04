@@ -66,16 +66,16 @@ function Referals({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="profile_home deal_box">
-          <div class="collection_home">
+        <article className="profile_home deal_box">
+          <div className="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 
 <Myprofcommonheader />
-{/**             <div class="wrap">
-              <div class="collection_detail">
-                <div class="pro_img">
+{/**             <div className="wrap">
+              <div className="collection_detail">
+                <div className="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
-                  <div class="home_icons">
+                  <div className="home_icons">
                     <a>
                       <img src={require("../img/sub/re.png").default} />
                     </a>
@@ -84,7 +84,7 @@ function Referals({ store, setConnect }) {
                     </a>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Item</h2>
+                <h2 className="notop">Henry junior's Item</h2>
                 <h3>0x97bc...8cad2</h3>
                 <h4>
                   Henry is a mixed-media artist living in the Bay Area and uses
@@ -93,10 +93,10 @@ function Referals({ store, setConnect }) {
               </div>
             </div>
 */}
-            <div class="move off deal mdeal">
-              <div class="right_move">
-                <div class="real_sec">
-                  <ul class="tab">
+            <div className="move off deal mdeal">
+              <div className="right_move">
+                <div className="real_sec">
+                  <ul className="tab">
                     <li onClick={() => navigate("/myprof")}>Search Wallet</li>
                     <li onClick={() => navigate("/transactionhistory")}>
                       Transaction history
@@ -104,11 +104,11 @@ function Referals({ store, setConnect }) {
                     <li onClick={() => navigate("/offers")}>Offers</li>
                     <li onClick={() => navigate("/liked")}>Liked</li>
                     <li onClick={() => navigate("/hiddenitem")}>Hidden item</li>
-                    <li class="onn">Referals</li>
+                    <li className="onn">Referals</li>
                   </ul>
-                  <div class="referals">
-                    <div class="re_text">
-                      <span class="refe">Referals</span>
+                  <div className="referals">
+                    <div className="re_text">
+                      <span className="refe">Referals</span>
                       <h2>Itemverse Friend Recommendation</h2>
                       <h3>
                         Share your referral link! When a new user who accesses
@@ -121,23 +121,23 @@ function Referals({ store, setConnect }) {
                         KLAY will be processed.
                       </h3>
                     </div>
-                    <div class="link">
+                    <div className="link">
                       <h4>My Link</h4>
-                      <div class="copy">
+                      <div className="copy">
                         <input type="text" readonly disabled />
                         <span>
                           https://KLAY.io/market/?ref=0x97b155a698d4bdec4c4bf3a92e9071190093cafb
                         </span>
-                        <a class="copybtn">
+                        <a className="copybtn">
                           <img
                             src={require("../img/sub/btn_copy.png").default}
                           />
                         </a>
                       </div>
-                      <h4 class="mlink">Referral Sales History</h4>
+                      <h4 className="mlink">Referral Sales History</h4>
                     </div>
 
-                    <div class="ranktable_pc rp2">
+                    <div className="ranktable_pc rp2">
                       <div className="scrollBox">
                         <table>
                           <colgroup>
@@ -164,7 +164,7 @@ function Referals({ store, setConnect }) {
 {list.map ( (elem,idx)=>{
 return (	<tr key={ idx }>
 	<td>
-		<div class="name">
+		<div className="name">
 			<img				src={ elem.item?.url ||					require("../img/sub/collect_circle.png")						.default				}				alt="" 
 				style={{borderRadius:'50%', width:'70px'}}
 			/>
@@ -172,7 +172,7 @@ return (	<tr key={ idx }>
 		</div>
 	</td>
 	<td>
-		<div class="name price">
+		<div className="name price">
 			<img				src={					require("../img/sub/I_klaytn.svg").default				}				alt=""			/>
 			<p>
 				{elem.strikeprice } {'KLAY' }<span>(${+ elem.amount * + priceklay })</span>
@@ -181,7 +181,7 @@ return (	<tr key={ idx }>
 	</td>
 	<td>1</td>
 	<td>
-		<div class="name">
+		<div className="name">
 			<img				src={ elem.author_mongo?.profileimage || require("../img/sub/collect_circle.png")						.default				}				alt=""			
 				style={{borderRadius : '50%' , width: '35px'}}			
 			/>

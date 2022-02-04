@@ -38,14 +38,14 @@ function Ranking({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="rank_box">
-          <div class="move rank_pc">
-            <div class="right_move">
-              <div class="pad">
-                <div class="real_sec">
-                  <div class="slide_s slide2">
-                    <div class="ranking">
-                      <h4 class="top5">Rankings</h4>
+        <article className="rank_box">
+          <div className="move rank_pc">
+            <div className="right_move">
+              <div className="pad">
+                <div className="real_sec">
+                  <div className="slide_s slide2">
+                    <div className="ranking">
+                      <h4 className="top5">Rankings</h4>
                       <p>
                         We publish the best collections every hour by analyzing
                         multiple indicators from multiple angles
@@ -53,11 +53,11 @@ function Ranking({ store, setConnect }) {
                     </div>
                   </div>
 
-                  <div class="etc">
+                  <div className="etc">
                     <ul>
                       {categoryList.map((cont, index) => (
                         <li
-                          class={category === cont && "onnn"}
+                          className={category === cont && "onnn"}
                           key={index}
                           onClick={() => setCategory(cont)}
                         >
@@ -67,7 +67,7 @@ function Ranking({ store, setConnect }) {
                     </ul>
                   </div>
 
-                  <div class="ranktable">
+                  <div className="ranktable">
                     <table>
                       <colgroup>
                         <col style={{ width: "8%" }} />
@@ -93,7 +93,7 @@ function Ranking({ store, setConnect }) {
                           <th>
                             <strong>
                               Total
-                              <br class="br_m" />
+                              <br className="br_m" />
                               volume
                             </strong>
                             <a>
@@ -105,7 +105,7 @@ function Ranking({ store, setConnect }) {
                               7day
                               <br />
                               trading
-                              <br class="br_m" />
+                              <br className="br_m" />
                               volume
                             </strong>
                             <a>
@@ -151,9 +151,9 @@ function Ranking({ store, setConnect }) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr class="on">
+                        <tr className="on">
                           <td>
-                            <div class="rankings">
+                            <div className="rankings">
                               <span>1</span>
                               <img
                                 src={require("../img/sub/crown.png").default}
@@ -162,7 +162,7 @@ function Ranking({ store, setConnect }) {
                             </div>
                           </td>
                           <td>
-                            <div class="name">
+                            <div className="name">
                               <img
                                 src={
                                   require("../img/sub/collect_circle.png")
@@ -183,7 +183,7 @@ function Ranking({ store, setConnect }) {
                         <tr>
                           <td>2</td>
                           <td>
-                            <div class="name">
+                            <div className="name">
                               <img
                                 src={
                                   require("../img/sub/collect_circle.png")
@@ -204,7 +204,7 @@ function Ranking({ store, setConnect }) {
                         <tr>
                           <td>3</td>
                           <td>
-                            <div class="name">
+                            <div className="name">
                               <img
                                 src={
                                   require("../img/sub/collect_circle.png")
@@ -225,7 +225,7 @@ function Ranking({ store, setConnect }) {
                         <tr>
                           <td>4</td>
                           <td>
-                            <div class="name">
+                            <div className="name">
                               <img
                                 src={
                                   require("../img/sub/collect_circle.png")
@@ -246,7 +246,7 @@ function Ranking({ store, setConnect }) {
                         <tr>
                           <td>5</td>
                           <td>
-                            <div class="name">
+                            <div className="name">
                               <img
                                 src={
                                   require("../img/sub/collect_circle.png")
@@ -267,7 +267,7 @@ function Ranking({ store, setConnect }) {
                         <tr>
                           <td>6</td>
                           <td>
-                            <div class="name">
+                            <div className="name">
                               <img
                                 src={
                                   require("../img/sub/collect_circle.png")
@@ -288,7 +288,7 @@ function Ranking({ store, setConnect }) {
                         <tr>
                           <td>7</td>
                           <td>
-                            <div class="name">
+                            <div className="name">
                               <img
                                 src={
                                   require("../img/sub/collect_circle.png")
@@ -309,7 +309,7 @@ function Ranking({ store, setConnect }) {
                         <tr>
                           <td>8</td>
                           <td>
-                            <div class="name">
+                            <div className="name">
                               <img
                                 src={
                                   require("../img/sub/collect_circle.png")
@@ -330,7 +330,7 @@ function Ranking({ store, setConnect }) {
                         <tr>
                           <td>9</td>
                           <td>
-                            <div class="name">
+                            <div className="name">
                               <img
                                 src={
                                   require("../img/sub/collect_circle.png")
@@ -351,7 +351,7 @@ function Ranking({ store, setConnect }) {
                         <tr>
                           <td>10</td>
                           <td>
-                            <div class="name">
+                            <div className="name">
                               <img
                                 src={
                                   require("../img/sub/collect_circle.png")
@@ -376,13 +376,13 @@ function Ranking({ store, setConnect }) {
               </div>
             </div>
           </div>
-          <div class="move rank_m">
-            <div class="slide_s slide2">
-              <div class="etc swiper mySwiper">
-                <ul class="swiper-wrapper">
+          <div className="move rank_m">
+            <div className="slide_s slide2">
+              <div className="etc swiper mySwiper">
+                <ul className="swiper-wrapper">
                   {categoryList.map((cont, index) => (
                     <li
-                      class={category === cont && "swiper-slide on"}
+                      className={category === cont && "swiper-slide on"}
                       key={index}
                       onClick={() => setCategory(cont)}
                     >
@@ -392,19 +392,19 @@ function Ranking({ store, setConnect }) {
                 </ul>
               </div>
             </div>
-            <div class="right_move">
-              <div class="pad">
-                <div class="real_sec">
-                  <div class="rank_title">
-                    <div class="ranking">
-                      <h4 class="top5">Rankings</h4>
+            <div className="right_move">
+              <div className="pad">
+                <div className="real_sec">
+                  <div className="rank_title">
+                    <div className="ranking">
+                      <h4 className="top5">Rankings</h4>
                       <p>
                         We publish the best collections every hour by
                         <br /> analyzing multiple indicators from multiple
                         angles
                       </p>
                     </div>
-                    <div class="replace">
+                    <div className="replace">
                       <a>
                         <img
                           src={require("../img/sub/exchange_gray.png").default}
@@ -415,15 +415,15 @@ function Ranking({ store, setConnect }) {
                     </div>
                   </div>
 
-                  <div class="ranktable">
+                  <div className="ranktable">
                     <ul>
                       <li>
-                        <div class="content">
-                          <div class="num">
+                        <div className="content">
+                          <div className="num">
                             <span>1</span>
                           </div>
-                          <div class="name_left">
-                            <div class="img">
+                          <div className="name_left">
+                            <div className="img">
                               <img
                                 src={
                                   require("../img/sub/hjcollection.png").default
@@ -432,20 +432,20 @@ function Ranking({ store, setConnect }) {
                               />
                               <img
                                 src={require("../img/sub/crown.png").default}
-                                class="first"
+                                className="first"
                                 alt=""
                               />
                             </div>
-                            <div class="txt">
+                            <div className="txt">
                               <p>Summer Pool</p>
                               <a>
-                                <span class="more">+ More</span>
-                                <span class="less">- Less</span>
+                                <span className="more">+ More</span>
+                                <span className="less">- Less</span>
                               </a>
                             </div>
                           </div>
-                          <div class="num_right">
-                            <div class="total">
+                          <div className="num_right">
+                            <div className="total">
                               <p>
                                 <img
                                   src={
@@ -456,42 +456,42 @@ function Ranking({ store, setConnect }) {
                                 45,323
                               </p>
                             </div>
-                            <div class="percent">
+                            <div className="percent">
                               <p>250.33%</p>
                             </div>
                           </div>
                         </div>
-                        <div class="slide_s slide2">
-                          <div class="etc swiper mySwiper2">
-                            <ul class="swiper-wrapper">
-                              <li class="swiper-slide">
+                        <div className="slide_s slide2">
+                          <div className="etc swiper mySwiper2">
+                            <ul className="swiper-wrapper">
+                              <li className="swiper-slide">
                                 <p>7d trading volume</p>
                                 <span>45,323 KLAY</span>
                               </li>
-                              <li class="swiper-slide">
+                              <li className="swiper-slide">
                                 <p>Average price</p>
                                 <span>156.37</span>
                               </li>
-                              <li class="swiper-slide">
+                              <li className="swiper-slide">
                                 <p>Owner</p>
                                 <span>4,325</span>
                               </li>
-                              <li class="swiper-slide">
+                              <li className="swiper-slide">
                                 <p>Number of items</p>
                                 <span>256</span>
                               </li>
                             </ul>
-                            <div class="swiper-scrollbar"></div>
+                            <div className="swiper-scrollbar"></div>
                           </div>
                         </div>
                       </li>
                       <li>
-                        <div class="content">
-                          <div class="num">
+                        <div className="content">
+                          <div className="num">
                             <span>1</span>
                           </div>
-                          <div class="name_left">
-                            <div class="img">
+                          <div className="name_left">
+                            <div className="img">
                               <img
                                 src={
                                   require("../img/sub/hjcollection.png").default
@@ -499,16 +499,16 @@ function Ranking({ store, setConnect }) {
                                 alt=""
                               />
                             </div>
-                            <div class="txt">
+                            <div className="txt">
                               <p>Summer Pool</p>
                               <a>
-                                <span class="more">+ More</span>
-                                <span class="less">- Less</span>
+                                <span className="more">+ More</span>
+                                <span className="less">- Less</span>
                               </a>
                             </div>
                           </div>
-                          <div class="num_right">
-                            <div class="total">
+                          <div className="num_right">
+                            <div className="total">
                               <p>
                                 <img
                                   src={
@@ -519,19 +519,19 @@ function Ranking({ store, setConnect }) {
                                 45,323
                               </p>
                             </div>
-                            <div class="percent">
+                            <div className="percent">
                               <p>250.33%</p>
                             </div>
                           </div>
                         </div>
                       </li>
                       <li>
-                        <div class="content">
-                          <div class="num">
+                        <div className="content">
+                          <div className="num">
                             <span>2</span>
                           </div>
-                          <div class="name_left">
-                            <div class="img">
+                          <div className="name_left">
+                            <div className="img">
                               <img
                                 src={
                                   require("../img/sub/hjcollection.png").default
@@ -539,16 +539,16 @@ function Ranking({ store, setConnect }) {
                                 alt=""
                               />
                             </div>
-                            <div class="txt">
+                            <div className="txt">
                               <p>Summer Pool</p>
                               <a>
-                                <span class="more">+ More</span>
-                                <span class="less">- Less</span>
+                                <span className="more">+ More</span>
+                                <span className="less">- Less</span>
                               </a>
                             </div>
                           </div>
-                          <div class="num_right">
-                            <div class="total">
+                          <div className="num_right">
+                            <div className="total">
                               <p>
                                 <img
                                   src={
@@ -559,19 +559,19 @@ function Ranking({ store, setConnect }) {
                                 45,323
                               </p>
                             </div>
-                            <div class="percent">
+                            <div className="percent">
                               <p>250.33%</p>
                             </div>
                           </div>
                         </div>
                       </li>
                       <li>
-                        <div class="content">
-                          <div class="num">
+                        <div className="content">
+                          <div className="num">
                             <span>3</span>
                           </div>
-                          <div class="name_left">
-                            <div class="img">
+                          <div className="name_left">
+                            <div className="img">
                               <img
                                 src={
                                   require("../img/sub/hjcollection.png").default
@@ -579,16 +579,16 @@ function Ranking({ store, setConnect }) {
                                 alt=""
                               />
                             </div>
-                            <div class="txt">
+                            <div className="txt">
                               <p>Summer Pool</p>
                               <a>
-                                <span class="more">+ More</span>
-                                <span class="less">- Less</span>
+                                <span className="more">+ More</span>
+                                <span className="less">- Less</span>
                               </a>
                             </div>
                           </div>
-                          <div class="num_right">
-                            <div class="total">
+                          <div className="num_right">
+                            <div className="total">
                               <p>
                                 <img
                                   src={
@@ -599,7 +599,7 @@ function Ranking({ store, setConnect }) {
                                 45,323
                               </p>
                             </div>
-                            <div class="percent">
+                            <div className="percent">
                               <p>250.33%</p>
                             </div>
                           </div>
@@ -607,15 +607,15 @@ function Ranking({ store, setConnect }) {
                       </li>
                     </ul>
                   </div>
-                  <div class="next">
-                    <div class="left">
+                  <div className="next">
+                    <div className="left">
                       <a>
                         <p>
                           <span></span>1 ~ 100
                         </p>
                       </a>
                     </div>
-                    <div class="right">
+                    <div className="right">
                       <a>
                         <p>
                           101 ~ 201<span></span>

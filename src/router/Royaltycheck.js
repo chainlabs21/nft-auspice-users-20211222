@@ -51,10 +51,10 @@ function Royaltycheck({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="ntfsell_box">
-          <div class="sellbg">
-            <div class="ntfsell_con">
-              <div class="top1">
+        <article className="ntfsell_box">
+          <div className="sellbg">
+            <div className="ntfsell_con">
+              <div className="top1">
                 <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
@@ -63,12 +63,12 @@ function Royaltycheck({ store, setConnect }) {
                 </a>
                 <strong>{ myaddress}</strong>
               </div>
-              <div class="sell_wrap sell_wrap2">
-                <div class="create">
-                  <p class="loyal">Royalty check</p>
-                  <h2 class="notop">{ }</h2>
+              <div className="sell_wrap sell_wrap2">
+                <div className="create">
+                  <p className="loyal">Royalty check</p>
+                  <h2 className="notop">{ }</h2>
                   <form action="">
-                    <div class="form">
+                    <div className="form">
                       <ul>
                         <li>
                           <p>
@@ -77,10 +77,10 @@ function Royaltycheck({ store, setConnect }) {
                             every month. Deposit date and time are subject to
                             change.
                           </p>
-                          <div class="exc">
-                            <a class="cso">Change sort order</a>
+                          <div className="exc">
+                            <a className="cso">Change sort order</a>
                           </div>
-                          <div class="loytable con3">
+                          <div className="loytable con3">
                             <table>
                               <colgroup>
                                 <col />
@@ -102,7 +102,7 @@ function Royaltycheck({ store, setConnect }) {
 
 {list.map((elem,idx)=>{return(
 	<tr key={ idx }>
-	<td class="ig"
+	<td className="ig"
 		style={{backgroundImage : `url(${elem.item?.url})`  ,borderRadius:'50%' , width:'40px'  }}
 	>{ elem.item?.titlename }</td>
 	<td>

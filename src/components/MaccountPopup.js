@@ -27,23 +27,23 @@ function Main({ store, setAllPopupOff }) {
   return (
     <MaccountPopupBox className="mMenuBox">
       <section id="sub">
-        <article class="wallet_wrap">
-          <div class="move on">
+        <article className="wallet_wrap">
+          <div className="move on">
 
-            <div class="left_move wallet_left" style={{ display: "block" }}>
-              <div class="mwallet">
+            <div className="left_move wallet_left" style={{ display: "block" }}>
+              <div className="mwallet">
                 <a onClick={() => navigate(-1)}>Account settings</a>
               </div>
               <form>
-                <div class="w1" onClick={() => navigate("/mywallet")}>
+                <div className="w1" onClick={() => navigate("/mywallet")}>
                   <h3>
                     My wallet<span>0x9bb...carfb</span>
                   </h3>
                 </div>
-                <div class="w2" onClick={() => navigate("/mywallet")}>
+                <div className="w2" onClick={() => navigate("/mywallet")}>
                   <h3>General settings</h3>
                 </div>
-                <div class="w3" onClick={() => navigate("/mywallet")}>
+                <div className="w3" onClick={() => navigate("/mywallet")}>
                   <h3>Notification settings</h3>
                 </div>
               </form>

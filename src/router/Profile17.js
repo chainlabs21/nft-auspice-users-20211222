@@ -34,27 +34,27 @@ function Logout({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="login_wrap">
-          <div class="floatwrap">
-            <div class="login">
+        <article className="login_wrap">
+          <div className="floatwrap">
+            <div className="login">
               <h2>Log in with your wallet</h2>
-              <div class="emo">
+              <div className="emo">
                 <img src={require("../img/sub/join_1.png").default} />
               </div>
-              <a  class="log">
+              <a  className="log">
                 Login
               </a>
-              <div class="below">
+              <div className="below">
                 <a >
                   <h3>
                     Log in with another wallet
                     <img
                       src={require("../img/sub/pop_select.png").default}
-                      class="down"
+                      className="down"
                     />
                     <img
                       src={require("../img/sub/pop_select_up.png").default}
-                      class="up"
+                      className="up"
                     />
                   </h3>
                 </a>

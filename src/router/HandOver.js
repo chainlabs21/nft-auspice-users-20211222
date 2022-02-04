@@ -133,10 +133,10 @@ function HandOver({ store, setConnect }) {
   return (
     <SignPopupBox>
       <section id="sub">
-        <article class="ntfsell_box">
-          <div class="sellbg">
-            <div class="ntfsell_con">
-              <div class="top1">
+        <article className="ntfsell_box">
+          <div className="sellbg">
+            <div className="ntfsell_con">
+              <div className="top1">
                 <a onClick={() => navigate(-1)}>
                   <img
                     src={require("../img/sub/nft_arrow.png").default}
@@ -145,18 +145,18 @@ function HandOver({ store, setConnect }) {
                 </a>
                 <strong>Profile home</strong>
               </div>
-              <div class="sell_wrap ho_wrap">
-                <div class="create">
+              <div className="sell_wrap ho_wrap">
+                <div className="create">
                   <h2>Hand Over</h2>
                   <form action="">
-                    <div class="form">
+                    <div className="form">
                       <ul>
                         <li>
-                          <div class="ho">
+                          <div className="ho">
                             <ol>
                               <li>
                                 <span
-                                  class="hoimg"
+                                  className="hoimg"
                                   style={{
                                     backgroundImage: `url(${itemdata?.item?.url})`,
                                     backgroundRepeat: "no-repeat",
@@ -164,7 +164,7 @@ function HandOver({ store, setConnect }) {
                                     backgroundSize: "cover",
                                   }}
                                 ></span>
-                                <div class="ho_info">
+                                <div className="ho_info">
                                   <h3>{ ' '}</h3>{/** renoir collection */}
                                   <h4>{ itemdata?.item?.titlename }</h4>
 																	<h5>{ itemdata?.item?.description } </h5>
@@ -178,14 +178,14 @@ function HandOver({ store, setConnect }) {
                             </ol>
                           </div>
                         </li>
-                        <li class="padline">
+                        <li className="padline">
                           <h3>
                             Enter your ERC20 wallet address or ENS name to send.
                           </h3>
-                          <p class="sma">
+                          <p className="sma">
                             Gas charges are incurred when transferring.
                           </p>
-                          <div class="inputbox">
+                          <div className="inputbox">
                             <input															disabled ={ispageaccessvalid ? false : true }
 															value={address_rcv}
                               type="text"
@@ -205,11 +205,11 @@ function HandOver({ store, setConnect }) {
 													<span style={{color:'red',fontSize:'12px'}}>{ isaddressvalid? '' : 'Invalid address'} </span>
                         </li>
 
-                        <li class="padline">
+                        <li className="padline">
                           <h3>
                             Amount
                           </h3>
-                          <div class="inputbox">
+                          <div className="inputbox">
 														<input disabled ={ispageaccessvalid ? false : true }
 															style={{textAlign:'right'}}
 															value={ amounttosend }
@@ -233,8 +233,8 @@ function HandOver({ store, setConnect }) {
                   </form>
                 </div>
               </div>
-              <div class="create_btn send_btn">
-                <a onClick={onClickSendBtn} class="send">
+              <div className="create_btn send_btn">
+                <a onClick={onClickSendBtn} className="send">
                   Send
                 </a>
               </div>

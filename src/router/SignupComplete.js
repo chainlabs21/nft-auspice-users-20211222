@@ -21,19 +21,19 @@ function SignupComplete({ store, setConnect }) {
 
   return (
     <SignPopupBox>
-      <div class="popup info" id="info_popup">
-        <div class="box_wrap confirm">
-          <div class="box bot3">
-            <div class="top0 p2">
+      <div className="popup info" id="info_popup">
+        <div className="box_wrap confirm">
+          <div className="box bot3">
+            <div className="top0 p2">
               <h2>Sign up is complete.</h2>
               <p>
                 Email verification is complete and you can use
-                <br class="m_br" /> all functions.
+                <br className="m_br" /> all functions.
                 <br />
                 Create your own NFT collection.
               </p>
             </div>
-            <div class="btn">
+            <div className="btn">
               <ul>
                 <li>
                   <a onClick={() => navigate("/")}>Home</a>
@@ -48,7 +48,7 @@ function SignupComplete({ store, setConnect }) {
       </div>
 
       <section id="sub">
-        <article class="popup_box"></article>
+        <article className="popup_box"></article>
       </section>
     </SignPopupBox>
   );

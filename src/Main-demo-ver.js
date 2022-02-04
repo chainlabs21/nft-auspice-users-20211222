@@ -264,8 +264,8 @@ function Main({ store }) {
   return (
     <IndexBox>
       <section id="main">
-        <article class="visual">
-          <div class="title">
+        <article className="visual">
+          <div className="title">
             <h2>
               <img src={require("./img/main/title.png").default} />
             </h2>
@@ -278,12 +278,12 @@ function Main({ store }) {
               <a onClick={() => navigate("/marketplace")}>NFT Publication</a>
             </div>
           </div>
-          <div class="swiper" ref={visualSwiperContRef}>
-            <div class="swiper-container swiper-container-visual">
-              <ol class="swiper-wrapper" ref={visualSwiperRef}>
+          <div className="swiper" ref={visualSwiperContRef}>
+            <div className="swiper-container swiper-container-visual">
+              <ol className="swiper-wrapper" ref={visualSwiperRef}>
                 {[1, 2].map((cont, index) => (
                   <span key={index}>
-                    <li class="swiper-slide">
+                    <li className="swiper-slide">
                       <div
                         style={{
                           backgroundImage: `url(${image01})`,
@@ -295,7 +295,7 @@ function Main({ store }) {
                       <div>
                         <h3>Irregular Shape</h3>
                         <p>Guzuman</p>
-                        <div class="info">
+                        <div className="info">
                           <dl>
                             <dt>Current Bid</dt>
                             <dd>
@@ -307,7 +307,7 @@ function Main({ store }) {
                             <dd>05:32:21</dd>
                           </dl>
                         </div>
-                        <div class="history">
+                        <div className="history">
                           <span>Offer History</span>
                           <ul>
                             <li>
@@ -432,7 +432,7 @@ function Main({ store }) {
                             </li>
                           </ul>
                         </div>
-                        <div class="button">
+                        <div className="button">
                           <a
                             onClick={() => navigate(`/singleitem/${expItemId}`)}
                           >
@@ -451,24 +451,24 @@ function Main({ store }) {
               </ol>
             </div>
 
-            <div class="swiper-button-prev swiper-button-visual-prev"></div>
+            <div className="swiper-button-prev swiper-button-visual-prev"></div>
             <div
-              class="swiper-button-next swiper-button-visual-next"
+              className="swiper-button-next swiper-button-visual-next"
               onClick={onClickVisualSwiperBtn}
             ></div>
           </div>
         </article>
 
-        <article class="collection">
-          <div class="wrap">
-            <h4 class="t">Trending Collection</h4>
-            <div class="swiper">
-              <div class="swiper-container swiper-container-collection">
-                <ol class="list swiper-wrapper" ref={collectionSwiperRef}>
+        <article className="collection">
+          <div className="wrap">
+            <h4 className="t">Trending Collection</h4>
+            <div className="swiper">
+              <div className="swiper-container swiper-container-collection">
+                <ol className="list swiper-wrapper" ref={collectionSwiperRef}>
                   {[1, 2].map((cont, index) => (
                     <>
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a
                             onClick={() => navigate(`/singleitem/${expItemId}`)}
                           >
@@ -505,7 +505,7 @@ function Main({ store }) {
                         </li>
                       </span>
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a
                             onClick={() => navigate(`/singleitem/${expItemId}`)}
                           >
@@ -541,7 +541,7 @@ function Main({ store }) {
                         </li>
                       </span>
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a
                             onClick={() => navigate(`/singleitem/${expItemId}`)}
                           >
@@ -578,7 +578,7 @@ function Main({ store }) {
                         </li>
                       </span>
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a
                             onClick={() => navigate(`/singleitem/${expItemId}`)}
                           >
@@ -620,22 +620,22 @@ function Main({ store }) {
               </div>
 
               <div
-                class="swiper-button-prev swiper-button-collection-prev"
+                className="swiper-button-prev swiper-button-collection-prev"
                 onClick={onClickCollectionPreBtn}
               ></div>
               <div
-                class="swiper-button-next swiper-button-collection-next"
+                className="swiper-button-next swiper-button-collection-next"
                 onClick={onClickCollectionNextBtn}
               ></div>
             </div>
           </div>
         </article>
 
-        <article class="category">
-          <div class="wrap">
-            <h4 class="t">Market Category</h4>
+        <article className="category">
+          <div className="wrap">
+            <h4 className="t">Market Category</h4>
 
-            <ol class="list">
+            <ol className="list">
               <li>
                 <a onClick={() => navigate("/marketplace", { state: "Art" })}>
                   <img src={require("./img/main/category_art.png").default} />
@@ -720,17 +720,17 @@ function Main({ store }) {
           </div>
         </article>
 
-        <article class="item">
-          <div class="wrap">
-            <h4 class="t">Trending NFT Item</h4>
+        <article className="item">
+          <div className="wrap">
+            <h4 className="t">Trending NFT Item</h4>
 
-            <div class="swiper">
-              <div class="swiper-container swiper-container-trendingitem">
-                <ol class="item item4 buy swiper-wrapper">
+            <div className="swiper">
+              <div className="swiper-container swiper-container-trendingitem">
+                <ol className="item item4 buy swiper-wrapper">
                   <div className="slideBox" ref={trendingSwiperRef}>
                     {[1, 2, 3, 4, 5, 6, 7, 8].map((cont, index) => (
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a
                             onClick={() => navigate(`/singleitem/${expItemId}`)}
                             style={{
@@ -740,10 +740,10 @@ function Main({ store }) {
                               backgroundSize: "cover",
                             }}
                           >
-                            <div class="on">
+                            <div className="on">
                               <ul>
-                                <li class="heart off">1,389</li>
-                                <li class="star off"></li>
+                                <li className="heart off">1,389</li>
+                                <li className="star off"></li>
                               </ul>
                               <div>Summer Pool</div>
                               <span>David</span>
@@ -762,28 +762,28 @@ function Main({ store }) {
               </div>
 
               <div
-                class="swiper-button-prev swiper-button-trendingitem-prev"
+                className="swiper-button-prev swiper-button-trendingitem-prev"
                 onClick={onClickTrendingPreBtn}
               ></div>
               <div
-                class="swiper-button-next swiper-button-trendingitem-next"
+                className="swiper-button-next swiper-button-trendingitem-next"
                 onClick={onClickTrendingNextBtn}
               ></div>
             </div>
           </div>
         </article>
 
-        <article class="item">
-          <div class="wrap">
-            <h4 class="t">NEW NFT Item</h4>
+        <article className="item">
+          <div className="wrap">
+            <h4 className="t">NEW NFT Item</h4>
 
-            <div class="swiper">
-              <div class="swiper-container swiper-container-newitem">
-                <ol class="item item4 summary swiper-wrapper">
+            <div className="swiper">
+              <div className="swiper-container swiper-container-newitem">
+                <ol className="item item4 summary swiper-wrapper">
                   <div className="slideBox" ref={itemSwiperRef}>
                     {[1 ].map((cont, index) => (
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a
                             onClick={() => navigate(`/singleitem/${expItemId}`)}
                             style={{
@@ -793,10 +793,10 @@ function Main({ store }) {
                               backgroundSize: "cover",
                             }}
                           >
-                            <div class="on">
+                            <div className="on">
                               <ul>
-                                <li class="heart off">1,389</li>
-                                <li class="star off"></li>
+                                <li className="heart off">1,389</li>
+                                <li className="star off"></li>
                               </ul>
                               <div>Summer Pool</div>
                               <span>David</span>
@@ -814,28 +814,28 @@ function Main({ store }) {
               </div>
 
               <div
-                class="swiper-button-prev swiper-button-newitem-prev"
+                className="swiper-button-prev swiper-button-newitem-prev"
                 onClick={onClickItemPreBtn}
               ></div>
               <div
-                class="swiper-button-next swiper-button-newitem-next"
+                className="swiper-button-next swiper-button-newitem-next"
                 onClick={onClickItemNextBtn}
               ></div>
             </div>
           </div>
         </article>
 
-        <article class="users">
-          <div class="wrap">
-            <h4 class="t">Tips for Itemverse users</h4>
+        <article className="users">
+          <div className="wrap">
+            <h4 className="t">Tips for Itemverse users</h4>
 
-            <div class="swiper">
-              <div class="swiper-container swiper-container-users">
-                <ol class="list swiper-wrapper" ref={userWrapRef}>
+            <div className="swiper">
+              <div className="swiper-container swiper-container-users">
+                <ol className="list swiper-wrapper" ref={userWrapRef}>
                   {[1, 2].map((cont, index) => (
                     <>
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a>
                             <div
                               style={{
@@ -854,7 +854,7 @@ function Main({ store }) {
                       </span>
 
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a>
                             <div
                               style={{
@@ -872,7 +872,7 @@ function Main({ store }) {
                         </li>
                       </span>
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a>
                             <div
                               style={{
@@ -890,7 +890,7 @@ function Main({ store }) {
                         </li>
                       </span>
                       <span>
-                        <li class="swiper-slide">
+                        <li className="swiper-slide">
                           <a>
                             <div
                               style={{
@@ -912,11 +912,11 @@ function Main({ store }) {
                 </ol>
               </div>
               <div
-                class="swiper-button-prev swiper-button-users-prev"
+                className="swiper-button-prev swiper-button-users-prev"
                 onClick={onClickUserPreBtn}
               ></div>
               <div
-                class="swiper-button-next swiper-button-users-next"
+                className="swiper-button-next swiper-button-users-next"
                 onClick={onClickUserNextBtn}
               ></div>
             </div>
@@ -925,8 +925,8 @@ function Main({ store }) {
       </section>
 
       <footer id="footer">
-        <div class="wrap">
-          <div class="info">
+        <div className="wrap">
+          <div className="info">
             <div>
               <h5>
                 <a onClick={() => navigate("/")}>
@@ -1067,7 +1067,7 @@ function Main({ store }) {
               </ul>
             </div>
           </div>
-          <div class="copy">
+          <div className="copy">
             <div>
               <ul>
                 <li>

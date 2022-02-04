@@ -1,14 +1,5 @@
-import { connect } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
-import { setConnect } from "../util/store";
 import styled from "styled-components";
-import s1 from "../img/sub/s2.png";
-import s2 from "../img/sub/s2.png";
-import s3 from "../img/sub/s3.png";
-import s4 from "../img/sub/s4.png";
-import s9 from "../img/sub/s9.png";
-import s8 from "../img/sub/s8.png";
-import sample from "../img/sub/sample.png";
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
@@ -24,106 +15,136 @@ import { ERR_MSG, messages } from "../config/messages";
 // import axios from "axios";
 import { API } from "../config/api";
 import DatePicker from "react-datepicker";
-import { getmyaddress, LOGGER, getrandomint
-	, convaj , conv_bp_percent, ISFINITE
+import {
+  getmyaddress,
+  LOGGER,
+  getrandomint,
+  convaj,
+  conv_bp_percent,
+  ISFINITE,
 } from "../util/common";
 import { signOrderData } from "../util/verifySig";
 import { is_eth_address_valid } from "../util/eth";
-import { applytoken } from '../util/rest'
-import { ADDRESSES } from '../config/addresses'
-import { TIME_PAGE_TRANSITION_ON_REGISTER 
-	, PAYMENT_TOKEN_ADDRESS_DEF
-	,	REFERER_FEE_RATE_DEF
-	, MODE_DEV_PROD
-	, RULES
-} from '../config/configs'
+import { applytoken } from "../util/rest";
+import { ADDRESSES } from "../config/addresses";
+import {
+  TIME_PAGE_TRANSITION_ON_REGISTER,
+  PAYMENT_TOKEN_ADDRESS_DEF,
+  REFERER_FEE_RATE_DEF,
+  MODE_DEV_PROD,
+  RULES,
+} from "../config/configs";
 import { useSearchParams } from "react-router-dom";
-import { getabistr_forfunction , query_nfttoken_balance, requesttransaction } from "../util/contract-calls";
-import moment from 'moment'
+import {
+  getabistr_forfunction,
+  query_nfttoken_balance,
+  requesttransaction,
+} from "../util/contract-calls";
+import moment from "moment";
+import PopupBg from "../components/PopupBg";
+import CertificationContractPopup from "../components/CertificationContractPopup";
+import NowSalePopup from "../components/NowSalePopup";
 
 function SaleFixed() {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const [ verifyPopup, setVerifyPopup] = useState(false);
-  const [ platformFee, setPlatfromFee] = useState(2.5);
-  const [ royalty, setRoyalty] = useState(5);
-  const [ itemPrice, setItemPrice ] = useState(0);
-  const [ endPrice, setEndPrice ] = useState(0);
-  const [ endPriceOption, setEndPriceOption ] = useState(false);
-  const [ privateOption, setPrivateOption ] = useState(false);
-  const [ privateAddress, setPrivateAddress ] = useState("");
-  const [ itemdata , setItemData] = useState({});
-  const [ sign, setSign] = useState( [] )
-  const [ signError, setSignError] = useState( "" )
-	const [ completeSign, setCompleteSign] = useState(true)
-	let [ daystoclose , setdaystoclose ] = useState ( '3 days later' )
-	let [ expirydays , setexpirydays ] = useState(''+7)
-	let [ signeddata , setsigneddata ] = useState()
-	let [ itemid , setitemid ]=useState()
-	let [ tokenid , settokenid ] = useState()
-	let [ jsettings , setjsettings ]= useState( {} )
-	let [ searchParams , setSearchParams ] = useSearchParams( )
-	let [ amounttosell , setamounttosell] = useState( 0 )
-	let myaddress = getmyaddress()
-	const axios=applytoken()
-	useEffect( _ => {
-		let itemprice=getrandomint ( 12 , 17 )
-		setItemPrice ( itemprice )
-		setEndPrice ( getrandomint ( itemprice -10 , itemprice -2 ) )
-		/////
-		axios.get(API.API_PLATFORM_SETTINGS).then(resp=>{ LOGGER ( 'yDc3w8vZgI' , resp.data )
-			let { status , list } =resp.data 
-			if ( status =='OK'){
-				setjsettings ( convaj( list , 'key_' , 'value_') ) 
-			}
-		})
-	} , [] )
-	
-	const do_dutch_auction= _ =>{
-		let tokenid = itemdata?.item?.tokenid
-		if( tokenid ){}
-		else {SetErrorBar( messages.MSG_DATANOTFOUND ) } // ; return 
-		false && query_nfttoken_balance ( ADDRESSES.erc1155 , myaddress , tokenid ).then (resp=>{
-			LOGGER( 'wE2hK5BTA4' , resp )
-		})
-//		const query_nfttok en_balance = ( contractaddress , address , tokenid )=>{
-		if ( ISFINITE( + endPrice ) && + endPrice < + itemPrice ){}
-		else { SetErrorBar( messages.MSG_DUTCH_PRICE_TERMS_INVALID );return  }
-		let days = daystoclose.split(/ /)[0]
-		let expiry = moment().add ( +days , 'days').endOf('days').unix()
-		let abistr = getabistr_forfunction( {
-			contractaddress : ADDRESSES.auction_repo_dutch_bulk
-			, abikind : 'AUCTION_DUTCH_BULK'
-			, methodname : 'begin_auction_batch'
-			, aargs : [ 
-					ADDRESSES.erc1155 // 
-				, ADDRESSES.zero
-				, myaddress
-				, [ tokenid ]
-				, [ 1 ]
-				, PAYMENT_TOKEN_ADDRESS_DEF
-				, itemPrice
-				, endPrice
-				, 5
-				, moment().unix()
-				, expiry // moment().add( 5 , 'days' ).unix()
-				, REFERER_FEE_RATE_DEF
-			]
-		} )
-		LOGGER ( 'bINmVzlWvR' , abistr )
-//		return
-		requesttransaction({ from : myaddress
-			, to : ADDRESSES.auction_repo_dutch_bulk
-			, data : abistr
-			, value : '0x00'
-		}).then(resp=>{ LOGGER( '' , resp )
-			let { transactionHash , status } = resp
-			LOGGER( '' , transactionHash , status )
-		}).catch(err=>{
-			LOGGER('' , err )
-		})
-	}
-/**			 "_target_contract",
+  const [verifyPopup, setVerifyPopup] = useState(false);
+  const [platformFee, setPlatfromFee] = useState(2.5);
+  const [royalty, setRoyalty] = useState(5);
+  const [itemPrice, setItemPrice] = useState(0);
+  const [endPrice, setEndPrice] = useState(0);
+  const [endPriceOption, setEndPriceOption] = useState(false);
+  const [privateOption, setPrivateOption] = useState(false);
+  const [privateAddress, setPrivateAddress] = useState("");
+  const [itemdata, setItemData] = useState({});
+  const [sign, setSign] = useState([]);
+  const [signError, setSignError] = useState("");
+  const [completeSign, setCompleteSign] = useState(true);
+  let [daystoclose, setdaystoclose] = useState("3 days later");
+  let [expirydays, setexpirydays] = useState("" + 7);
+  let [signeddata, setsigneddata] = useState();
+  let [itemid, setitemid] = useState();
+  let [tokenid, settokenid] = useState();
+  let [jsettings, setjsettings] = useState({});
+  let [searchParams, setSearchParams] = useSearchParams();
+  let [amounttosell, setamounttosell] = useState(0);
+  const [listingProcess, setListingProcess] = useState(0);
+  let myaddress = getmyaddress();
+  const axios = applytoken();
+  useEffect((_) => {
+    let itemprice = getrandomint(12, 17);
+    setItemPrice(itemprice);
+    setEndPrice(getrandomint(itemprice - 10, itemprice - 2));
+    /////
+    axios.get(API.API_PLATFORM_SETTINGS).then((resp) => {
+      LOGGER("yDc3w8vZgI", resp.data);
+      let { status, list } = resp.data;
+      if (status == "OK") {
+        setjsettings(convaj(list, "key_", "value_"));
+      }
+    });
+  }, []);
+
+  const do_dutch_auction = (_) => {
+    let tokenid = itemdata?.item?.tokenid;
+    if (tokenid) {
+    } else {
+      SetErrorBar(messages.MSG_DATANOTFOUND);
+    } // ; return
+    false &&
+      query_nfttoken_balance(ADDRESSES.erc1155, myaddress, tokenid).then(
+        (resp) => {
+          LOGGER("wE2hK5BTA4", resp);
+        }
+      );
+    //		const query_nfttok en_balance = ( contractaddress , address , tokenid )=>{
+    if (ISFINITE(+endPrice) && +endPrice < +itemPrice) {
+    } else {
+      SetErrorBar(messages.MSG_DUTCH_PRICE_TERMS_INVALID);
+      return;
+    }
+    let days = daystoclose.split(/ /)[0];
+    let expiry = moment()
+      .add(+days, "days")
+      .endOf("days")
+      .unix();
+    let abistr = getabistr_forfunction({
+      contractaddress: ADDRESSES.auction_repo_dutch_bulk,
+      abikind: "AUCTION_DUTCH_BULK",
+      methodname: "begin_auction_batch",
+      aargs: [
+        ADDRESSES.erc1155, //
+        ADDRESSES.zero,
+        myaddress,
+        [tokenid],
+        [1],
+        PAYMENT_TOKEN_ADDRESS_DEF,
+        itemPrice,
+        endPrice,
+        5,
+        moment().unix(),
+        expiry, // moment().add( 5 , 'days' ).unix()
+        REFERER_FEE_RATE_DEF,
+      ],
+    });
+    LOGGER("bINmVzlWvR", abistr);
+    //		return
+    requesttransaction({
+      from: myaddress,
+      to: ADDRESSES.auction_repo_dutch_bulk,
+      data: abistr,
+      value: "0x00",
+    })
+      .then((resp) => {
+        LOGGER("", resp);
+        let { transactionHash, status } = resp;
+        LOGGER("", transactionHash, status);
+      })
+      .catch((err) => {
+        LOGGER("", err);
+      });
+  };
+  /**			 "_target_contract",
 				 "_user_proxy_registry",
 				 "_holder",
 				 "_target_item_ids",
@@ -135,85 +156,107 @@ function SaleFixed() {
 				 "_starting_time",
 				 "_expiry",
 				 "_referer_feerate",
- */		
-	const do_fixed_price_spot=_=>{	
-		if(amounttosell){}
-		else { SetErrorBar( messages.MSG_PLEASE_INPUT ) ; return }
-		const orderData = {
-			seller_address: myaddress,
-			amount: amounttosell ?amounttosell : itemdata?.item?.countcopies ,
-			price: itemPrice,
-			priceunit: "0x000000000000000000000000000000000000",
-			expiry : expirydays? moment().add( +expirydays , 'days').endOf('day').unix() : 0 ,
-			itemid
-			, tokenid
-//			, exp iry
-		}
-		console.log( '' , endPriceOption , itemdata );	console.log( '' , orderData ) //	 return
-		signOrderData( orderData ).then(respsign =>{				LOGGER( '8pdnEvf9uF' , respsign ) // , signCallback
-			if (respsign ){}
-			else {SetErrorBar( messages.MSG_USER_DENIED_TX );return }
-			SetErrorBar (messages.MSG_DATA_SIGNED )
-			setsigneddata ( respsign )
-//			return 
-			axios.post ( API.API_ORDER_MAKER_SELLER , { // /orders/maker/seller
-				asset_contract_bid : ADDRESSES.erc1155
-				, ... orderData 
-				, ... respsign
-				, typestr : 'COMMON'
-			} // signeddata
-			).then ( resp=>{ LOGGER( '2UtIKhAjXH' , resp.data )
-				let { status }=resp.data
-				if ( status =='OK') {
-					SetErrorBar( messages.MSG_DONE_REGISTERING )
-					setTimeout(_=>{ MODE_DEV_PROD ==1 &&	navigate( '/marketplace')
-					} , TIME_PAGE_TRANSITION_ON_REGISTER )
-				}
-			})
-		})
-	}
+ */
+  const do_fixed_price_spot = (_) => {
+    if (amounttosell) {
+    } else {
+      SetErrorBar(messages.MSG_PLEASE_INPUT);
+      return;
+    }
+    const orderData = {
+      seller_address: myaddress,
+      amount: amounttosell ? amounttosell : itemdata?.item?.countcopies,
+      price: itemPrice,
+      priceunit: "0x000000000000000000000000000000000000",
+      expiry: expirydays
+        ? moment()
+            .add(+expirydays, "days")
+            .endOf("day")
+            .unix()
+        : 0,
+      itemid,
+      tokenid,
+      //			, exp iry
+    };
+    console.log("", endPriceOption, itemdata);
+    console.log("", orderData); //	 return
+    signOrderData(orderData).then((respsign) => {
+      LOGGER("8pdnEvf9uF", respsign); // , signCallback
+      if (respsign) {
+      } else {
+        SetErrorBar(messages.MSG_USER_DENIED_TX);
+        return;
+      }
+      SetErrorBar(messages.MSG_DATA_SIGNED);
+      setsigneddata(respsign);
+      //			return
+      axios
+        .post(
+          API.API_ORDER_MAKER_SELLER,
+          {
+            // /orders/maker/seller
+            asset_contract_bid: ADDRESSES.erc1155,
+            ...orderData,
+            ...respsign,
+            typestr: "COMMON",
+          } // signeddata
+        )
+        .then((resp) => {
+          LOGGER("2UtIKhAjXH", resp.data);
+          let { status } = resp.data;
+          if (status == "OK") {
+            SetErrorBar(messages.MSG_DONE_REGISTERING);
+            setTimeout((_) => {
+              MODE_DEV_PROD == 1 && navigate("/marketplace");
+            }, TIME_PAGE_TRANSITION_ON_REGISTER);
+          }
+        });
+    });
+  };
   const handleSalesStart = async () => {
-    const myaddress = getmyaddress()    //    const asyncSalesStart = async () => {	
-		if( endPriceOption ){
-			do_dutch_auction()
-		}
-		else {			do_fixed_price_spot()
-		} //    };  //  asyncSalesStart();
-  }
+    const myaddress = getmyaddress(); //    const asyncSalesStart = async () => {
+    if (endPriceOption) {
+      do_dutch_auction();
+    } else {
+      do_fixed_price_spot();
+    } //    };  //  asyncSalesStart();
+  };
   useEffect(() => {
-//		const { itemid } = queryString.parse(search); 
-		let itemid=searchParams.get('itemid'); LOGGER( 'U9Z2CL8cRt' , itemid )
-    if ( itemid === undefined) {
+    //		const { itemid } = queryString.parse(search);
+    let itemid = searchParams.get("itemid");
+    LOGGER("U9Z2CL8cRt", itemid);
+    if (itemid === undefined) {
       SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
-//      navigate("/");
-		}
-		setitemid ( itemid )
+      //      navigate("/");
+    }
+    setitemid(itemid);
     const asyncGetItemData = async () => {
       try {
-				const resp = await axios.get( API.API_GET_ITEM_DATA + `/${ itemid }`); 				LOGGER('url', API.API_GET_ITEM_DATA )
-				LOGGER('', resp.data)
-				let { status , respdata } = resp.data
-        if ( status === "OK") {
-          setItemData( respdata ) // .item
-					setRoyalty( respdata.item.authorfee / 100)
-					settokenid ( respdata.item.tokenid ) 
+        const resp = await axios.get(API.API_GET_ITEM_DATA + `/${itemid}`);
+        LOGGER("url", API.API_GET_ITEM_DATA);
+        LOGGER("", resp.data);
+        let { status, respdata } = resp.data;
+        if (status === "OK") {
+          setItemData(respdata); // .item
+          setRoyalty(respdata.item.authorfee / 100);
+          settokenid(respdata.item.tokenid);
         } else {
-					SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
-					setTimeout( _=>{
-						navigate("/")
-					} , TIME_PAGE_TRANSITION_ON_REGISTER )
+          SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
+          setTimeout((_) => {
+            navigate("/");
+          }, TIME_PAGE_TRANSITION_ON_REGISTER);
         }
       } catch (error) {
         SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
-				setTimeout( _=>{
-					navigate("/")
-				} , TIME_PAGE_TRANSITION_ON_REGISTER )				
+        setTimeout((_) => {
+          navigate("/");
+        }, TIME_PAGE_TRANSITION_ON_REGISTER);
       }
     };
     asyncGetItemData();
-  }, [] ) // [ navigate , search ] 
+  }, []); // [ navigate , search ]
 
-  useEffect (() => {
+  useEffect(() => {
     console.log(signError, sign.length);
     if (signError !== "" && signError !== undefined && signError !== null) {
       setCompleteSign(false);
@@ -232,30 +275,44 @@ function SaleFixed() {
     <SignPopupBox>
       {verifyPopup && <VerifyAccountPopup off={setVerifyPopup} />}
 
+      {listingProcess === 1 && (
+        <>
+          <CertificationContractPopup off={setListingProcess} />
+          <PopupBg bg off={setListingProcess} />
+        </>
+      )}
+      {listingProcess === 2 && (
+        <>
+          <NowSalePopup off={setListingProcess} />
+          <PopupBg bg off={setListingProcess} />
+        </>
+      )}
       <section id="sub">
-        <article class="ntfsell_box">
-          <div class="choose_wrap">
-            <div class="sellbg left">
-              <div class="ntfsell_con">
-                <div class="top1 profile">
+        <article className="ntfsell_box">
+          <div className="choose_wrap">
+            <div className="sellbg left">
+              <div className="ntfsell_con">
+                <div className="top1 profile">
                   <a onClick={() => navigate(-1)}>
                     <img
                       src={require("../img/sub/nft_arrow.png").default}
                       alt=""
                     />
                   </a>
-                  <span style={{backgroundImage: `url(${itemdata?.item?.url})`}}></span>
-                  <strong>Title: {itemdata?.item?.titlename }</strong>
+                  <span
+                    style={{ backgroundImage: `url(${itemdata?.item?.url})` }}
+                  ></span>
+                  <strong>Title: {itemdata?.item?.titlename}</strong>
                 </div>
-                <div class="sell_wrap">
-                  <div class="create create2">
+                <div className="sell_wrap">
+                  <div className="create create2">
                     <form action="">
-                      <div class="form">
+                      <div className="form">
                         <ul>
                           <li>
                             <h3>Choose a sales method</h3>
                             <ol>
-                              <li class="on">
+                              <li className="on">
                                 <a>
                                   <h4>Fixed Price</h4>
                                   <span>
@@ -265,31 +322,40 @@ function SaleFixed() {
                                   </span>
                                 </a>
                               </li>
-<li onClick={() => { 
-	
-	if (RULES.OPEN_AUCTION_ON_CHAIN_ONLY ) {
-			if (itemdata?.item?.tokenid) {	navigate(`/auctionbid?itemid=${itemid}`) }
-			else {SetErrorBar( messages.MSG_ONCHAIN_ONLY ); return}
-	}
-	else {	navigate(`/auctionbid?itemid=${itemid}`) 
- }
-	
-}} style={{
-	borderStyle: 
-		 RULES.OPEN_AUCTION_ON_CHAIN_ONLY ? (
-			itemdata?.item?.tokenid ? 'solid' : 'dashed' 
-		) : 'solid'  }} >
+                              <li
+                                onClick={() => {
+                                  if (RULES.OPEN_AUCTION_ON_CHAIN_ONLY) {
+                                    if (itemdata?.item?.tokenid) {
+                                      navigate(`/auctionbid?itemid=${itemid}`);
+                                    } else {
+                                      SetErrorBar(messages.MSG_ONCHAIN_ONLY);
+                                      return;
+                                    }
+                                  } else {
+                                    navigate(`/auctionbid?itemid=${itemid}`);
+                                  }
+                                }}
+                                style={{
+                                  borderStyle: RULES.OPEN_AUCTION_ON_CHAIN_ONLY
+                                    ? itemdata?.item?.tokenid
+                                      ? "solid"
+                                      : "dashed"
+                                    : "solid",
+                                }}
+                              >
                                 <a>
                                   <h4>Auction Bid</h4>
                                   <span>Sell ​​to the highest bidder</span>
                                 </a>
                               </li>
                               <li>
-
                                 <a>
-																	<h4 onClick={_=>{ SetErrorBar(messages.MSG_WORKINPROGRESS)
-																		return
-																	}}>
+                                  <h4
+                                    onClick={(_) => {
+                                      SetErrorBar(messages.MSG_WORKINPROGRESS);
+                                      return;
+                                    }}
+                                  >
                                     Bundle Sale
                                     <img
                                       src={
@@ -308,53 +374,74 @@ function SaleFixed() {
                               </li>
                             </ol>
                           </li>
-{/******** */}
+                          {/******** */}
                           <li>
-                            <div class="price_info_pc">
-                              <div class="top2">
+                            <div className="price_info_pc">
+                              <div className="top2">
                                 <h3>Amount to sell</h3>
-                                <div class="toggle border_1">
-                                  <div class="select_left">
-                                    <img src={ require('../img/header/logo.png').default                                      }                                      alt=""                                    />
+                                <div className="toggle border_1">
+                                  <div className="select_left">
+                                    <img
+                                      src={
+                                        require("../img/header/logo.png")
+                                          .default
+                                      }
+                                      alt=""
+                                    />
                                     <select name="" id="">
                                       <option>
-																			 { itemdata?.item?.tokenid ? `#${itemdata?.item?.tokenid }` : ''}
-																				</option>
+                                        {itemdata?.item?.tokenid
+                                          ? `#${itemdata?.item?.tokenid}`
+                                          : ""}
+                                      </option>
                                     </select>
                                   </div>
-                                  <div class="input_right">
+                                  <div className="input_right">
                                     <input
                                       type="number"
                                       placeholder=""
                                       onkeydown="onlyNumber(this)"
-                                      value={ amounttosell }
+                                      value={amounttosell}
                                       onChange={(e) => {
-																				let {value}=e.target																				
-																				if ( ISFINITE(+value)){}
-																				else {return}
-																				if ( +value> itemdata?.itembalance?.avail ){return }
-																				else {}
-                                        setamounttosell ( value)
+                                        let { value } = e.target;
+                                        if (ISFINITE(+value)) {
+                                        } else {
+                                          return;
+                                        }
+                                        if (
+                                          +value > itemdata?.itembalance?.avail
+                                        ) {
+                                          return;
+                                        } else {
+                                        }
+                                        setamounttosell(value);
                                       }}
                                     />
                                   </div>
                                 </div>
                               </div>
-                              <p>Out of ({ itemdata?.itembalance?.avail || '0'}) </p>
+                              <p>
+                                Out of ({itemdata?.itembalance?.avail || "0"}){" "}
+                              </p>
                             </div>
-                            <div class="price_info_m">
-                              <div class="top2">
+                            <div className="price_info_m">
+                              <div className="top2">
                                 <h3>Amount to sell</h3>
                                 <p></p>
                               </div>
-                              <div class="toggle border_1">
-                                <div class="select_left">
-                                  <img src={ require("../img/sub/I_klaytn.svg").default} alt="" />
+                              <div className="toggle border_1">
+                                <div className="select_left">
+                                  <img
+                                    src={
+                                      require("../img/sub/I_klaytn.svg").default
+                                    }
+                                    alt=""
+                                  />
                                   <select name="" id="">
                                     <option>KLAY</option>
                                   </select>
                                 </div>
-                                <div class="input_right">
+                                <div className="input_right">
                                   <input
                                     type="number"
                                     placeholder=""
@@ -364,13 +451,13 @@ function SaleFixed() {
                               </div>
                             </div>
                           </li>
-{/******** */}
+                          {/******** */}
                           <li>
-                            <div class="price_info_pc">
-                              <div class="top2">
+                            <div className="price_info_pc">
+                              <div className="top2">
                                 <h3>Price</h3>
-                                <div class="toggle border_1">
-                                  <div class="select_left">
+                                <div className="toggle border_1">
+                                  <div className="select_left">
                                     <img
                                       src={
                                         require("../img/sub/I_klaytn.svg")
@@ -382,7 +469,7 @@ function SaleFixed() {
                                       <option>KLAY</option>
                                     </select>
                                   </div>
-                                  <div class="input_right">
+                                  <div className="input_right">
                                     <input
                                       type="number"
                                       placeholder=""
@@ -397,13 +484,13 @@ function SaleFixed() {
                               </div>
                               <p>Items sold until canceled</p>
                             </div>
-                            <div class="price_info_m">
-                              <div class="top2">
+                            <div className="price_info_m">
+                              <div className="top2">
                                 <h3>Price</h3>
                                 <p>Items sold until canceled</p>
                               </div>
-                              <div class="toggle border_1">
-                                <div class="select_left">
+                              <div className="toggle border_1">
+                                <div className="select_left">
                                   <img
                                     src={
                                       require("../img/sub/I_klaytn.svg").default
@@ -414,7 +501,7 @@ function SaleFixed() {
                                     <option>KLAY</option>
                                   </select>
                                 </div>
-                                <div class="input_right">
+                                <div className="input_right">
                                   <input
                                     type="number"
                                     placeholder=""
@@ -426,11 +513,11 @@ function SaleFixed() {
                           </li>
 
                           <li>
-                            <div class="price_info_pc">
-                              <div class="top2">
+                            <div className="price_info_pc">
+                              <div className="top2">
                                 <h3>Expiry</h3>
-                                <div class="toggle border_1">
-                                  <div class="select_left">
+                                <div className="toggle border_1">
+                                  <div className="select_left">
                                     <img
                                       src={
                                         require("../img/sub/I_klaytn.svg")
@@ -442,42 +529,47 @@ function SaleFixed() {
                                       <option>Days later</option>
                                     </select>
                                   </div>
-                                  <div class="input_right">
+                                  <div className="input_right">
                                     <input
                                       type="number"
                                       placeholder=""
                                       onkeydown="onlyNumber(this)"
-                                      value={ expirydays }
+                                      value={expirydays}
                                       onChange={(e) => {
-																				let {value}=e.target
-																				if ( ISFINITE (+value) ){}
-																				else {SetErrorBar( messages.MSG_INPUT_NUMBERS_ONLY ); return }
-                                        setexpirydays( value )
+                                        let { value } = e.target;
+                                        if (ISFINITE(+value)) {
+                                        } else {
+                                          SetErrorBar(
+                                            messages.MSG_INPUT_NUMBERS_ONLY
+                                          );
+                                          return;
+                                        }
+                                        setexpirydays(value);
                                       }}
                                     />
                                   </div>
                                 </div>
                               </div>
-														</div>
-                            <div class="price_info_m">
-                              <div class="top2">
+                            </div>
+                            <div className="price_info_m">
+                              <div className="top2">
                                 <h3>Price</h3>
                                 <p>Items sold until canceled</p>
                               </div>
-														</div>
-													</li>
+                            </div>
+                          </li>
 
-                          <li style={{display: 'none'}}>
-                            <div class="end">
-                              <div class="top2">
+                          <li style={{ display: "none" }}>
+                            <div className="end">
+                              <div className="top2">
                                 <h3>End price option</h3>
-                                <div class="toggle">
+                                <div className="toggle">
                                   <input
                                     type="checkbox"
                                     name=""
                                     id="toggle"
-                                    checked={ endPriceOption }
-                                    onChange={(e) => { 																			
+                                    checked={endPriceOption}
+                                    onChange={(e) => {
                                       setEndPriceOption(e.target.checked);
                                     }}
                                   />
@@ -491,21 +583,21 @@ function SaleFixed() {
                                 The price will gradually decrease until it
                                 expires.
                               </p>
-                              <div class="endprice">
-                                <div class="endpricebox">
+                              <div className="endprice">
+                                <div className="endpricebox">
                                   <ul>
                                     <li>
-                                      <div class="endoption1">
+                                      <div className="endoption1">
                                         <h3>End price</h3>
-                                        <div class="top2">
+                                        <div className="top2">
                                           <p>
                                             The closing price is equal to the
                                             starting price or <br />
                                             It should be lower. prices are
                                             sequential lowers.
                                           </p>
-                                          <div class="toggle border_1">
-                                            <div class="select_left">
+                                          <div className="toggle border_1">
+                                            <div className="select_left">
                                               <img
                                                 src={
                                                   require("../img/sub/I_klaytn.svg")
@@ -517,7 +609,7 @@ function SaleFixed() {
                                                 <option>KLAY</option>
                                               </select>
                                             </div>
-                                            <div class="input_right">
+                                            <div className="input_right">
                                               <input
                                                 type="number"
                                                 placeholder=""
@@ -533,23 +625,29 @@ function SaleFixed() {
                                       </div>
                                     </li>
                                     <li>
-                                      <div class="endoption2">
+                                      <div className="endoption2">
                                         <h3>Expiry</h3>
-                                        <div class="top2">
+                                        <div className="top2">
                                           <p>Items sold until canceled</p>
-                                          <div class="twoselect">
-                                            <div class="toggle_1">
-                                              <select name="" id="" onClick={ evt=>{
-																								LOGGER( '' , evt.target.value )
-																								setdaystoclose ( evt.target.value )
-																							} }>
+                                          <div className="twoselect">
+                                            <div className="toggle_1">
+                                              <select
+                                                name=""
+                                                id=""
+                                                onClick={(evt) => {
+                                                  LOGGER("", evt.target.value);
+                                                  setdaystoclose(
+                                                    evt.target.value
+                                                  );
+                                                }}
+                                              >
                                                 <option>5 days later</option>
                                                 <option>3 days later</option>
                                                 <option>2 days later</option>
                                                 <option>1 days later</option>
                                               </select>
                                             </div>
-                                            <div class="toggle_2">
+                                            <div className="toggle_2">
                                               <select name="" id="">
                                                 <option>PM 02 : 00</option>
                                                 <option>PM 03 : 00</option>
@@ -567,10 +665,10 @@ function SaleFixed() {
                             </div>
                           </li>
                           <li>
-                            <div class="private" style={{display: 'none'}} >
-                              <div class="top2">
+                            <div className="private" style={{ display: "none" }}>
+                              <div className="top2">
                                 <h3>Private option</h3>
-                                <div class="toggle">
+                                <div className="toggle">
                                   <input
                                     type="checkbox"
                                     name=""
@@ -580,15 +678,15 @@ function SaleFixed() {
                                       setPrivateOption(e.target.checked);
                                     }}
                                   />
-																	
+
                                   <label for="toggle2"></label>
-                                </div>																
+                                </div>
                               </div>
                               <p>
                                 If set to private, other than the address
                                 entered below Products are not visible to users
                               </p>
-                              <div class="inputbox">
+                              <div className="inputbox">
                                 <input
                                   type="text"
                                   value={privateAddress}
@@ -597,26 +695,31 @@ function SaleFixed() {
                                     setPrivateAddress(e.target.value);
                                   }}
                                 />
-                              </div>															
+                              </div>
                             </div>
-														<span style={{color :'red'}}>{ privateAddress?.length == 0 ? '' : 
-															(is_eth_address_valid( privateAddress ) ? '' : messages.MSG_INVALID_ADDRESS ) }</span>
+                            <span style={{ color: "red" }}>
+                              {privateAddress?.length == 0
+                                ? ""
+                                : is_eth_address_valid(privateAddress)
+                                ? ""
+                                : messages.MSG_INVALID_ADDRESS}
+                            </span>
                           </li>
                           <li>
-                            <div class="inst_con">
-                              <div class="instrucion line1">
-                                <div class="dropdown">
+                            <div className="inst_con">
+                              <div className="instrucion line1">
+                                <div className="dropdown">
                                   <a>
                                     <span></span>
                                   </a>
-                                  <div class="bot_title">
+                                  <div className="bot_title">
                                     <strong>Instruction</strong>
                                     <p>
                                       We need a process for listing without gas
                                       fees
                                     </p>
                                   </div>
-                                  <div class="info">
+                                  <div className="info">
                                     <p>
                                       - If you are trading for the first time,
                                       you will need to reset your account.
@@ -646,27 +749,27 @@ function SaleFixed() {
                 </div>
               </div>
             </div>
-            <div class="sellbg2_pc">
-              <div class="sell_wrap">
-                <div class="top3">
+            <div className="sellbg2_pc">
+              <div className="sell_wrap">
+                <div className="top3">
                   <h3>Transaction information</h3>
-                  <span class="basic">
+                  <span className="basic">
                     The item is posted for sale
                     <br />
                     at 3,339 KLAY
                   </span>
-                  <span class="red">
+                  <span className="red">
                     End price must be less than start price
                   </span>
                 </div>
-                <div class="referral">
+                <div className="referral">
                   <h3>Referral Fee</h3>
                   <p>
                     If you purchase through a referral link, 1% of the sales
                     amount will be rewarded.
                   </p>
                 </div>
-                <div class="fees">
+                <div className="fees">
                   <h3>Fees</h3>
                   <ul>
                     <li>
@@ -680,7 +783,9 @@ function SaleFixed() {
 
                     <li>
                       <p>Referrer</p>
-                      <span>{ conv_bp_percent(jsettings?.REFERER_FEE_DEF) }%</span>
+                      <span>
+                        {conv_bp_percent(jsettings?.REFERER_FEE_DEF)}%
+                      </span>
                     </li>
 
                     <li>
@@ -690,40 +795,46 @@ function SaleFixed() {
                   </ul>
                 </div>
                 <div
-                  class="sales_btn"
+                  className="sales_btn"
                   onClick={() => {
-                    handleSalesStart ()
+                    setListingProcess(1);
+                    handleSalesStart();
                   }}
                 >
                   <a>Sales start</a>
                 </div>
-<span> &nbsp;</span>
-								<div onClick={_=>{ navigate('/marketplace')}} class="sales_btn">
-									<a>Do it later</a>
-								</div>
+                <span> &nbsp;</span>
+                <div
+                  onClick={(_) => {
+                    navigate("/marketplace");
+                  }}
+                  className="sales_btn"
+                >
+                  <a>Do it later</a>
+                </div>
               </div>
             </div>
-            <div class="sellbg2_m">
-              <div class="sell_wrap">
-                <div class="top3">
+            <div className="sellbg2_m">
+              <div className="sell_wrap">
+                <div className="top3">
                   <h3>Transaction information</h3>
-                  <span class="basic">
+                  <span className="basic">
                     The item is posted for sale
                     <br />
                     at 3,339 KLAY
                   </span>
-                  <span class="red">
+                  <span className="red">
                     End price must be less than start price
                   </span>
                 </div>
-                <div class="referral">
+                <div className="referral">
                   <h3>Referral Fee</h3>
                   <p>
                     If you purchase through a referral link, 1% of the sales
                     amount will be rewarded.
                   </p>
                 </div>
-                <div class="fees">
+                <div className="fees">
                   <h3>Fees</h3>
                   <ul>
                     <li>
@@ -741,7 +852,7 @@ function SaleFixed() {
                   </ul>
                 </div>
               </div>
-              <div class="sales_btn">
+              <div className="sales_btn">
                 <a>Sal??es start</a>
               </div>
             </div>

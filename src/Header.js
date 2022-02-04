@@ -6,42 +6,40 @@ import "./css/font.css";
 import "./css/layout.css";
 import "./css/style.css";
 import I_x from "./img/main/I_x.svg";
-// import "./css/style01.css";
-// import "./css/style02.css";
-// import "./css/header.css";
 import "./css/footer.css";
 import "./css/swiper.min.css";
 import { useState, useEffect } from "react";
-import { setAllPopupOff, setMHeaderPopup  
-	, setaddress
-} from "./util/store"
+import { setAllPopupOff, setMHeaderPopup, setaddress } from "./util/store";
 import { getmyaddress } from "./util/common";
 import { strDot } from "./util/Util";
 import I_spinner from "./img/icons/I_spinner.svg";
-import { onClickCopy } from './util/common'
+import { onClickCopy } from "./util/common";
 import SetErrorBar from "./util/SetErrorBar";
 import { messages } from "./config/messages";
-function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
+function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
   const navigate = useNavigate();
   const { mHeaderPopup } = useSelector((state) => state.store);
   const [search, setSearch] = useState("");
-	let [address, setaddress] = useState()
-	let [ isloader , setisloader ]=useState( false )
-	useEffect(_=>{
-		let {isloader} = store
-		setisloader ( isloader ) 
-	} , [ store.isloader ] )
-	useEffect(_=>{
-		const spinner = document.querySelector("#Spinner");
+  let [address, setaddress] = useState();
+  let [isloader, setisloader] = useState(false);
+  useEffect(
+    (_) => {
+      let { isloader } = store;
+      setisloader(isloader);
+    },
+    [store.isloader]
+  );
+  useEffect((_) => {
+    const spinner = document.querySelector("#Spinner");
     spinner.animate(
       [{ transform: "rotate(0deg)" }, { transform: "rotate(360deg)" }],
       {
         duration: 1000,
         iterations: Infinity,
       }
-    )
-	} , [] )
-  useEffect (
+    );
+  }, []);
+  useEffect(
     (_) => {
       let { address } = store;
       if (address) {
@@ -50,36 +48,45 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
       }
       setaddress(address);
     },
-    [ store.address ]
+    [store.address]
   );
   useEffect((_) => {
-    let { address } = store;  let token
-    if ( address ) {
-      setaddress( address ) 
-		} else if ( token = localStorage.getItem( 'token') ) {	
-			let myaddress=getmyaddress()
-			if ( myaddress ){ Setaddress ( address ) ; 
-				setaddress ( address ) }
-			else {}
-		}	else	{
-      return
+    let { address } = store;
+    let token;
+    if (address) {
+      setaddress(address);
+    } else if ((token = localStorage.getItem("token"))) {
+      let myaddress = getmyaddress();
+      if (myaddress) {
+        Setaddress(address);
+        setaddress(address);
+      } else {
+      }
+    } else {
+      return;
     }
-	}, [] )
-	useEffect( _=>{
-		let {klaytn } = window
-		if ( klaytn){}
-		if ( klaytn.selectedAddress ){
-			setaddress( klaytn.selectedAddress ) // address )
-			Setaddress ( address )
-			localStorage.setItem( 'address' , address )
-		}
-	} , [ window.klaytn ] )
+  }, []);
+  useEffect(
+    (_) => {
+      let { klaytn } = window;
+      if (klaytn) {
+      }
+      if (klaytn.selectedAddress) {
+        setaddress(klaytn.selectedAddress); // address )
+        Setaddress(address);
+        localStorage.setItem("address", address);
+      }
+    },
+    [window.klaytn]
+  );
   function onClickConnectWallet() {
-		let { selectedAddress }=window?.klaytn
-    if ( selectedAddress ){
-			setaddress ( strDot(selectedAddress , 5 , 4 ) )
-		} //		else if ( ) {navigate("/joinmembership"); }
-    else { navigate("/connectwallet"); }
+    let { selectedAddress } = window?.klaytn;
+    if (selectedAddress) {
+      setaddress(strDot(selectedAddress, 5, 4));
+    } //		else if ( ) {navigate("/joinmembership"); }
+    else {
+      navigate("/connectwallet");
+    }
   }
 
   return (
@@ -113,21 +120,26 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
           <span></span>
         </a>
       )}
-<div style={{			display: 'flex'
-		, justifyContent: 'space-between'
-		, alignItems: 'center'			
-}}>
-
-</div>
-<img
-		id="Spinner"
-		className="spinner"
-		src={I_spinner}
-		alt=""
-		style={{ display : isloader ? 'inline' : 'none' , width: '50px' ,
-			position:'fixed',left:'50%' ,top:'1%'
-		}}
-	/>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      ></div>
+      <img
+        id="Spinner"
+        className="spinner"
+        src={I_spinner}
+        alt=""
+        style={{
+          display: isloader ? "inline" : "none",
+          width: "50px",
+          position: "fixed",
+          left: "50%",
+          top: "1%",
+        }}
+      />
 
       <nav>
         <ul style={{}}>
@@ -138,11 +150,11 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
                 <a onClick={() => navigate("/marketplace", { state: "All" })}>
                   <img
                     src={require("./img/header/menu_all.png").default}
-                    class="on"
+                    className="on"
                   />
                   <img
                     src={require("./img/header/menu_all_off.png").default}
-                    class="off"
+                    className="off"
                   />
                   All
                 </a>
@@ -155,13 +167,13 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
                 >
                   <img
                     src={require("./img/header/menu_collectibles.png").default}
-                    class="on"
+                    className="on"
                   />
                   <img
                     src={
                       require("./img/header/menu_collectibles_off.png").default
                     }
-                    class="off"
+                    className="off"
                   />
                   Collectibles
                 </a>
@@ -170,13 +182,13 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
                 <a onClick={() => navigate("/marketplace", { state: "Art" })}>
                   <img
                     src={require("./img/header/menu_digitalart.png").default}
-                    class="on"
+                    className="on"
                   />
                   <img
                     src={
                       require("./img/header/menu_digitalart_off.png").default
                     }
-                    class="off"
+                    className="off"
                   />
                   Digital Art
                 </a>
@@ -189,13 +201,13 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
                 >
                   <img
                     src={require("./img/header/menu_tradingcard.png").default}
-                    class="on"
+                    className="on"
                   />
                   <img
                     src={
                       require("./img/header/menu_tradingcard_off.png").default
                     }
-                    class="off"
+                    className="off"
                   />
                   Trading Card
                 </a>
@@ -204,11 +216,11 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
                 <a onClick={() => navigate("/marketplace", { state: "Music" })}>
                   <img
                     src={require("./img/header/menu_music.png").default}
-                    class="on"
+                    className="on"
                   />
                   <img
                     src={require("./img/header/menu_music_off.png").default}
-                    class="off"
+                    className="off"
                   />
                   Music
                 </a>
@@ -221,13 +233,13 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
                 >
                   <img
                     src={require("./img/header/menu_virtualworlds.png").default}
-                    class="on"
+                    className="on"
                   />
                   <img
                     src={
                       require("./img/header/menu_virtualworlds_off.png").default
                     }
-                    class="off"
+                    className="off"
                   />
                   Virtual Worlds
                 </a>
@@ -238,11 +250,11 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
                 >
                   <img
                     src={require("./img/header/menu_sports.png").default}
-                    class="on"
+                    className="on"
                   />
                   <img
                     src={require("./img/header/menu_sports_off.png").default}
-                    class="off"
+                    className="off"
                   />
                   Sports
                 </a>
@@ -262,7 +274,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
               </li>
             </ol>
           </li>
-          <li style={{display : address ? 'inline' : 'none'}}>
+          <li style={{ display: address ? "inline" : "none" }}>
             <a onClick={() => navigate("/myprof")}>Mypage</a>
             <ol>
               <li>
@@ -279,17 +291,20 @@ function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
               </li>
             </ol>
           </li>
-          <li class="country">
+          <li className="country">
             <a>ENG</a>
           </li>
-          <li class="wallet" style={{width: '200px'}}>
-            <a onClick={e=>{
-							address && onClickCopy (address) && SetErrorBar( messages.MSG_COPIED )
-							onClickConnectWallet() 						
-						}}>
-              { address ? strDot(address , 4,2)  : "Connect Wallet" }
+          <li className="wallet" style={{ width: "200px" }}>
+            <a
+              onClick={(e) => {
+                address &&
+                  onClickCopy(address) &&
+                  SetErrorBar(messages.MSG_COPIED);
+                onClickConnectWallet();
+              }}
+            >
+              {address ? strDot(address, 4, 2) : "Connect Wallet"}
             </a>
-{/*             <span>{address}</span> */}
           </li>
         </ul>
       </nav>
@@ -324,8 +339,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setAllPopupOff: () => dispatch(setAllPopupOff()),
-		setMHeaderPopup: () => dispatch(setMHeaderPopup()),
-		Setaddress : payload => dispatch ( setaddress ( payload ) )
+    setMHeaderPopup: () => dispatch(setMHeaderPopup()),
+    Setaddress: (payload) => dispatch(setaddress(payload)),
   };
 }
 

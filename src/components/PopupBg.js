@@ -24,7 +24,7 @@ const PopupBgBox = styled.div`
   top: 0;
   left: 0;
   cursor: pointer;
-  z-index: 5;
+  z-index: 1001;
 `;
 
 function mapStateToProps(state) {

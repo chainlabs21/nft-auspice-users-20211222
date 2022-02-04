@@ -68,25 +68,25 @@ function GeneralSettings({ store, setConnect }) {
   return (
     <GeneralSettingsBox>
       <section id="sub">
-        <article class="wallet_wrap">
-          <div class="move on">
+        <article className="wallet_wrap">
+          <div className="move on">
 
-              <div class="left_move wallet_left">
-              <div class="mwallet">
+              <div className="left_move wallet_left">
+              <div className="mwallet">
 								<a onClick={() => { navigate(-1)
 								} } >Account settings</a>
               </div>
               <form>
-                <div class="w1" onClick={() => navigate("/mywallet")}>
+                <div className="w1" onClick={() => navigate("/mywallet")}>
                   <h3>
                     My wallet<span>{ strDot( myaddress , 6, 2 )}</span>
                   </h3>
                 </div>
-                <div class="w2 on">
+                <div className="w2 on">
                   <h3>General settings</h3>
                 </div>
                 <div
-                  class="w3"
+                  className="w3"
                   onClick={() => navigate("/notificationsettings")}
                 >
                   <h3>Notification settings</h3>
@@ -95,10 +95,10 @@ function GeneralSettings({ store, setConnect }) {
 						</div>
 {/**  <Settingssidepanel />*/}
 
-            <div class="right_move wallet_right">
+            <div className="right_move wallet_right">
               <h2>General settings</h2>
-              <div class="mwr">
-                <div class="wr togpad">
+              <div className="mwr">
+                <div className="wr togpad">
                   <ul>
                     <li>
                       <h4>Nickname</h4>
@@ -126,7 +126,7 @@ function GeneralSettings({ store, setConnect }) {
                   <a onClick={() => {
 										onclicksave()
 										// navigate(-1)
-									} }									class="wbtn">
+									} }									className="wbtn">
                     Save
                   </a>
                 </div>

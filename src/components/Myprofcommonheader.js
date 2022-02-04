@@ -34,11 +34,11 @@ const Myprofcommonheader=({store})=>{
 	} , [] )
 
 	return (
-							<div class="wrap">
-							<div class="collection_detail">
-								<div class="pro_img">
+							<div className="wrap">
+							<div className="collection_detail">
+								<div className="pro_img">
 									<img src={ myinfo_mongo?.profileimage || require("../img/sub/home_profile.png").default} />
-									<div class="home_icons">
+									<div className="home_icons">
 										<a onClick={_=>{ 										navigate('/generalsettings') 									}}>
 											<img src={require("../img/sub/re.png").default} />
 										</a>
@@ -50,13 +50,13 @@ const Myprofcommonheader=({store})=>{
 										</a>
 									</div>
 								</div>
-								<h2 class="notop">{myinfo_maria?.nickname }'s Collection</h2>
+								<h2 className="notop">{myinfo_maria?.nickname }'s Collection</h2>
 								<h3>{strDot( myaddress , 4 , 4 )}</h3>
 								<h4> { myinfo_mongo?.description }
 	{/**                   Henry is a mixed-media artist living in the
-									<br class="mo" /> Bay Area and uses
-									<br class="pc" />a stream of consciousness
-									<br class="mo" /> approach to his work.
+									<br className="mo" /> Bay Area and uses
+									<br className="pc" />a stream of consciousness
+									<br className="mo" /> approach to his work.
 	*/}
 								</h4>
 							</div>

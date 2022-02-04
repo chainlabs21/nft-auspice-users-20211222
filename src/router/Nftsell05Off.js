@@ -28,15 +28,15 @@ function MarketPlace({ store, setConnect }) {
 
   return (
     <SignPopupBox>
-      <div class="popup info" id="info_popup">
-        <div class="box_wrap guidance">
-          <div class="top4">
+      <div className="popup info" id="info_popup">
+        <div className="box_wrap guidance">
+          <div className="top4">
             <strong>Guidance on how to verify your account</strong>
-            <a onClick={() => navigate(-1)} class="close" id="info_close">
+            <a onClick={() => navigate(-1)} className="close" id="info_close">
               <img src={require("../img/sub/icon_close.png").default} alt="" />
             </a>
           </div>
-          <div class="howto">
+          <div className="howto">
             <p>
               Please check the connected external wallet and complete the
               transaction.
@@ -45,16 +45,16 @@ function MarketPlace({ store, setConnect }) {
               <br />
               for the first time.
             </p>
-            <div class="img_m">
+            <div className="img_m">
               <img src={require("../img/sub/img_process.png").default} alt="" />
             </div>
-            <div class="inst_con">
-              <div class="instrucion line1">
-                <div class="dropdown">
+            <div className="inst_con">
+              <div className="instrucion line1">
+                <div className="dropdown">
                   <a>
                     <span></span>
                   </a>
-                  <div class="bot_title">
+                  <div className="bot_title">
                     <strong>Instruction</strong>
                     <p>
                       When you sell items for the first time in your account,
@@ -63,7 +63,7 @@ function MarketPlace({ store, setConnect }) {
                       through the contract approval process.
                     </p>
                   </div>
-                  <div class="info">
+                  <div className="info">
                     <p>
                       - If you are trading for the first time, you will need to
                       reset your account. The process
@@ -85,7 +85,7 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </div>
             </div>
-            <div class="img_pc">
+            <div className="img_pc">
               <img src={require("../img/sub/img_process.png").default} alt="" />
             </div>
             <p>
@@ -101,11 +101,11 @@ function MarketPlace({ store, setConnect }) {
       </div>
 
       <section id="sub">
-        <article class="ntfsell_box">
-          <div class="choose_wrap">
-            <div class="sellbg left">
-              <div class="ntfsell_con">
-                <div class="top1 profile">
+        <article className="ntfsell_box">
+          <div className="choose_wrap">
+            <div className="sellbg left">
+              <div className="ntfsell_con">
+                <div className="top1 profile">
                   <a>
                     <img
                       src={require("../img/sub/nft_arrow.png").default}
@@ -115,17 +115,17 @@ function MarketPlace({ store, setConnect }) {
                   <span></span>
                   <strong>Henry junior's Item</strong>
                 </div>
-                <div class="sell_wrap">
-                  <div class="create create2">
+                <div className="sell_wrap">
+                  <div className="create create2">
                     <form action="">
-                      <div class="form">
+                      <div className="form">
                         <ul>
                           <li>
-                            <div class="bundle">
-                              <div class="top2">
+                            <div className="bundle">
+                              <div className="top2">
                                 <h3>Bundle Naming</h3>
                               </div>
-                              <div class="bundletext">
+                              <div className="bundletext">
                                 <input
                                   type="text"
                                   placeholder="Bundle name to bundle"
@@ -134,11 +134,11 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </li>
                           <li>
-                            <div class="price_info">
-                              <div class="top2 m2">
+                            <div className="price_info">
+                              <div className="top2 m2">
                                 <h3>Price</h3>
-                                <div class="toggle border_1">
-                                  <div class="select_left">
+                                <div className="toggle border_1">
+                                  <div className="select_left">
                                     <img
                                       src={
                                         require("../img/sub/I_klaytn.svg")
@@ -154,7 +154,7 @@ function MarketPlace({ store, setConnect }) {
                                       <option>KLAY</option>
                                     </select>
                                   </div>
-                                  <div class="input_right">
+                                  <div className="input_right">
                                     <input
                                       type="number"
                                       placeholder=""
@@ -167,10 +167,10 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </li>
                           <li>
-                            <div class="end">
-                              <div class="top2 m2">
+                            <div className="end">
+                              <div className="top2 m2">
                                 <h3>End price option</h3>
-                                <div class="toggle">
+                                <div className="toggle">
                                   <input type="checkbox" name="" id="toggle" />
                                   <label for="toggle"></label>
                                 </div>
@@ -182,21 +182,21 @@ function MarketPlace({ store, setConnect }) {
                                 The price will gradually decrease until it
                                 expires.
                               </p>
-                              <div class="endprice">
-                                <div class="endpricebox">
+                              <div className="endprice">
+                                <div className="endpricebox">
                                   <ul>
                                     <li>
-                                      <div class="endoption1">
+                                      <div className="endoption1">
                                         <h3>End price</h3>
-                                        <div class="top2">
+                                        <div className="top2">
                                           <p>
                                             The closing price is equal to the
                                             starting price or <br />
                                             It should be lower. prices are
                                             sequential lowers.
                                           </p>
-                                          <div class="toggle border_1">
-                                            <div class="select_left">
+                                          <div className="toggle border_1">
+                                            <div className="select_left">
                                               <img
                                                 src={
                                                   require("../img/sub/I_klaytn.svg")
@@ -212,7 +212,7 @@ function MarketPlace({ store, setConnect }) {
                                                 <option>KLAY</option>
                                               </select>
                                             </div>
-                                            <div class="input_right">
+                                            <div className="input_right">
                                               <input
                                                 type="number"
                                                 placeholder=""
@@ -224,12 +224,12 @@ function MarketPlace({ store, setConnect }) {
                                       </div>
                                     </li>
                                     <li>
-                                      <div class="endoption2">
+                                      <div className="endoption2">
                                         <h3>Price</h3>
-                                        <div class="top2">
+                                        <div className="top2">
                                           <p>Items sold until canceled</p>
-                                          <div class="twoselect">
-                                            <div class="toggle_1">
+                                          <div className="twoselect">
+                                            <div className="toggle_1">
                                               <select name="" id="">
                                                 <option>5 days later</option>
                                                 <option>3 days later</option>
@@ -237,7 +237,7 @@ function MarketPlace({ store, setConnect }) {
                                                 <option>1 days later</option>
                                               </select>
                                             </div>
-                                            <div class="toggle_2">
+                                            <div className="toggle_2">
                                               <select name="" id="">
                                                 <option>PM 02 : 00</option>
                                                 <option>PM 03 : 00</option>
@@ -255,10 +255,10 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </li>
                           <li>
-                            <div class="private">
-                              <div class="top2 m2">
+                            <div className="private">
+                              <div className="top2 m2">
                                 <h3>Private option</h3>
-                                <div class="toggle">
+                                <div className="toggle">
                                   <input type="checkbox" name="" id="toggle2" />
                                   <label for="toggle2"></label>
                                 </div>
@@ -267,19 +267,19 @@ function MarketPlace({ store, setConnect }) {
                                 If set to private, other than the address
                                 entered below Products are not visible to users
                               </p>
-                              <div class="privatenum">
+                              <div className="privatenum">
                                 <p>0x8df35T1REFD58984E3F2DG312FD323RE5R4FD5</p>
                               </div>
                             </div>
                           </li>
                           <li>
-                            <div class="inst_con">
-                              <div class="instrucion line1">
-                                <div class="dropdown on">
+                            <div className="inst_con">
+                              <div className="instrucion line1">
+                                <div className="dropdown on">
                                   <a>
                                     <span></span>
                                   </a>
-                                  <div class="bot_title">
+                                  <div className="bot_title">
                                     <strong>Instruction</strong>
                                     <p>
                                       When you sell items for the first time in
@@ -288,7 +288,7 @@ function MarketPlace({ store, setConnect }) {
                                       through the contract approval process.
                                     </p>
                                   </div>
-                                  <div class="info">
+                                  <div className="info">
                                     <p>
                                       - If you are trading for the first time,
                                       you will need to reset your account. The
@@ -315,23 +315,23 @@ function MarketPlace({ store, setConnect }) {
                             </div>
                           </li>
                           <li>
-                            <div class="blackman">
+                            <div className="blackman">
                               <ul>
                                 <li>
-                                  <div class="two_bundle">
-                                    <div class="dropdown">
+                                  <div className="two_bundle">
+                                    <div className="dropdown">
                                       <a>
-                                        <span class="drop2"></span>
+                                        <span className="drop2"></span>
                                       </a>
-                                      <div class="bundle2">
+                                      <div className="bundle2">
                                         <span></span>
-                                        <div class="name">
+                                        <div className="name">
                                           <p>Philip van Kouwenbergh</p>
                                           <strong>Blackman with neon</strong>
                                         </div>
                                       </div>
-                                      <div class="textbox">
-                                        <div class="txt">
+                                      <div className="textbox">
+                                        <div className="txt">
                                           <textarea
                                             name=""
                                             id=""
@@ -344,20 +344,20 @@ function MarketPlace({ store, setConnect }) {
                                   </div>
                                 </li>
                                 <li>
-                                  <div class="two_bundle">
-                                    <div class="dropdown">
+                                  <div className="two_bundle">
+                                    <div className="dropdown">
                                       <a>
-                                        <span class="drop2"></span>
+                                        <span className="drop2"></span>
                                       </a>
-                                      <div class="bundle2">
+                                      <div className="bundle2">
                                         <span></span>
-                                        <div class="name">
+                                        <div className="name">
                                           <p>Philip van Kouwenbergh</p>
                                           <strong>Blackman with neon</strong>
                                         </div>
                                       </div>
-                                      <div class="textbox">
-                                        <div class="txt">
+                                      <div className="textbox">
+                                        <div className="txt">
                                           <textarea
                                             name=""
                                             id=""
@@ -379,24 +379,24 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </div>
             </div>
-            <div class="sellbg2">
-              <div class="sell_wrap">
-                <div class="top3">
+            <div className="sellbg2">
+              <div className="sell_wrap">
+                <div className="top3">
                   <h3>Transaction information</h3>
-                  <span class="basic">
+                  <span className="basic">
                     The item is posted for sale
                     <br />
                     at 3,339 KLAY
                   </span>
                 </div>
-                <div class="referral">
+                <div className="referral">
                   <h3>Referral Fee</h3>
                   <p>
                     If you purchase through a referral link, 1% of the sales
                     amount will be rewarded.
                   </p>
                 </div>
-                <div class="fees">
+                <div className="fees">
                   <h3>Fees</h3>
                   <ul>
                     <li>
@@ -413,7 +413,7 @@ function MarketPlace({ store, setConnect }) {
                     </li>
                   </ul>
                 </div>
-                <div class="sales_btn">
+                <div className="sales_btn">
                   <a>Sales start</a>
                 </div>
               </div>

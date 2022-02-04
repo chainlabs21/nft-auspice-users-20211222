@@ -6,7 +6,6 @@ import Header from "./Header";
 
 import ConnectWallet from "./router/ConnectWallet";
 import EmailRequired from "./router/EmailRequired";
-import RecentEmail from "./router/RecentEmail";
 import JoinMemberShip from "./router/JoinMemberShip";
 import Signup from "./router/Signup";
 import EmailFailed from "./router/EmailFailed";
@@ -51,36 +50,35 @@ import axios from "axios";
 import SetErrorBar from "./util/SetErrorBar";
 import { API } from "./config/api";
 import { messages } from "./config/messages";
-import { SET_ADDRESS } from "./reducers/walletSlice";
-import { GET_USER_DATA } from "./reducers/userSlice";
 import GlobalStyle from "./components/globalStyle";
-import { setmyinfo , setaddress } from './util/store'
-import { LOGGER , PARSER , STRINGER } from './util/common'
+import { setmyinfo, setaddress } from "./util/store";
+import { LOGGER, PARSER } from "./util/common";
 import { is_two_addresses_same } from "./util/eth";
-function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
-  const dispatch = useDispatch();
-  const { userData } = useSelector((state) => state.user);
-	const { mHeaderPopup } = useSelector((state) => state.store)
-	const login= address =>{
-		axios.post ( API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" } )
-		.then((resp) => {
-			let { status, respdata } = resp.data;
-			if (status === "OK") {
-				localStorage.setItem("token", respdata);
-				axios.defaults.headers.common["token"] = resp.data.respdata;
-				localStorage.setItem ('address' , address )
-				Setaddress ( address )
-				SetErrorBar( messages.MSG_ADDRESS_CHANGED + `: ${address}` )
-			} else if (status === "ERR") {
-				localStorage.removeItem("token");
-				axios.defaults.headers.common["token"] = "";
-			}
-		})
-	}
+import EditItem from "./router/EditItem";
+
+function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
+  const { mHeaderPopup } = useSelector((state) => state.store);
+  const login = (address) => {
+    axios
+      .post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
+      .then((resp) => {
+        let { status, respdata } = resp.data;
+        if (status === "OK") {
+          localStorage.setItem("token", respdata);
+          axios.defaults.headers.common["token"] = resp.data.respdata;
+          localStorage.setItem("address", address);
+          Setaddress(address);
+          SetErrorBar(messages.MSG_ADDRESS_CHANGED + `: ${address}`);
+        } else if (status === "ERR") {
+          localStorage.removeItem("token");
+          axios.defaults.headers.common["token"] = "";
+        }
+      });
+  };
   const on_wallet_disconnect = (_) => {
-    let token_sec = localStorage.getItem("token")
-		if (token_sec) {    } 
-		else {
+    let token_sec = localStorage.getItem("token");
+    if (token_sec) {
+    } else {
       LOGGER("h9T8jyxy0L@no token");
       return;
     }
@@ -90,8 +88,8 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
       axios.post(API.API_LOGOUT).then((resp) => {
         LOGGER("3LyOB7GcWr@logout", resp.data);
         let { status } = resp.data;
-        if ( status == "OK" ) {
-//          SetLogut();
+        if (status == "OK") {
+          //          SetLogut();
           localStorage.removeItem("token");
           resolve(true);
         } else {
@@ -99,80 +97,62 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
         }
       });
     });
-  }
-  const get_user_data = async () => {
-		const token = localStorage.getItem("token");
-		let str_myinfo
-		if ( store.myinfo ){}
-		else if ( str_myinfo = localStorage.getItem ( 'myinfo' )){	Setmyinfo ( PARSER ( str_myinfo )   )	 }
-//		return
-    if (token) {
-      try {
-        axios.defaults.headers.common["token"] = token;
-        console.log("default Token:", token);
-        const resp = await axios.get(API.API_GET_MY_INFO);
-//        dispatch({ type: GET_USER_DATA.type, payload: resp.data });
-				LOGGER( '@myinfo' , resp.data)
-				let { status , payload }=resp.data
-				if ( status =='OK' ){ let address_local=localStorage.getItem('address')
-					if ( address_local){
-						if ( is_two_addresses_same( payload?.maria?.username , address_local ) ) {}
-						else {
-							await on_wallet_disconnect()
-							login ( address_local )
-						}	
-					}
-					else {}
-				} // console.log("login");
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      return;
-    }
-  }
+  };
 
-  useEffect( async _ => {
-		let { klaytn }=window
-		if ( klaytn ){}
-		else { return }
-    klaytn.on("accountsChanged", async (accounts) => {			console.log(accounts);
-			let address = accounts[ 0 ]
-			let address_local = localStorage.getItem ( 'address' )
-			if ( is_two_addresses_same(address , address_local)  ){ return }
-			else {}
-			await on_wallet_disconnect ()
-      if ( address ) { // disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
-//				Setaddress( address )				
-				login( address )
+  useEffect(
+    async (_) => {
+      let { klaytn } = window;
+      if (klaytn) {
       } else {
-        SetErrorBar(messages.MSG_WALLET_DISCONNECTED);
-        on_wallet_disconnect();
+        return;
       }
-    });
-  }, [ window.klaytn ] ) 
+      klaytn.on("accountsChanged", async (accounts) => {
+        console.log(accounts);
+        let address = accounts[0];
+        let address_local = localStorage.getItem("address");
+        if (is_two_addresses_same(address, address_local)) {
+          return;
+        } else {
+        }
+        await on_wallet_disconnect();
+        if (address) {
+          // disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
+          //				Setaddress( address )
+          login(address);
+        } else {
+          SetErrorBar(messages.MSG_WALLET_DISCONNECTED);
+          on_wallet_disconnect();
+        }
+      });
+    },
+    [window.klaytn]
+  );
 
-	useEffect(() => { LOGGER ( 'poMFHstZg8' , window.klaytn?.selectedAddress )
-		setTimeout(_=>{
-			let { klaytn }=window
-			if( klaytn ){}
-			else {return }
-			let { selectedAddress : address } = klaytn
-			if( address ){
-				SetErrorBar( messages.MSG_CURRENT_ADDRESS_IS + address )
-				Setaddress ( address )
-				if ( localStorage.getItem('token')){
-//					get_user_data()
-				}
-				else { login( address ) }
-			}
-			if ( window.klaytn?.selectedAddress ) {
-//				Setaddress ( window.klaytn?.selectedAddress ) /**       dispa tch({        type: SET_ADDRESS.type,        payload: window.klaytn.selectedAddress,			});			*/
-	//			if (userData === null) {
-		//			get_user_data();
-			//	}
-			}	
-		} , 3 * 1000 )
+  useEffect(() => {
+    LOGGER("poMFHstZg8", window.klaytn?.selectedAddress);
+    setTimeout((_) => {
+      let { klaytn } = window;
+      if (klaytn) {
+      } else {
+        return;
+      }
+      let { selectedAddress: address } = klaytn;
+      if (address) {
+        SetErrorBar(messages.MSG_CURRENT_ADDRESS_IS + address);
+        Setaddress(address);
+        if (localStorage.getItem("token")) {
+          //					get_user_data()
+        } else {
+          login(address);
+        }
+      }
+      if (window.klaytn?.selectedAddress) {
+        //				Setaddress ( window.klaytn?.selectedAddress ) /**       dispa tch({        type: SET_ADDRESS.type,        payload: window.klaytn.selectedAddress,			});			*/
+        //			if (userData === null) {
+        //			get_user_data();
+        //	}
+      }
+    }, 3 * 1000);
   }, []);
 
   return (
@@ -251,8 +231,8 @@ function App({ store , setHref, setConnect , Setmyinfo , Setaddress }) {
           <Route path="/exploredeal" element={<ExploreDeal />} />
           <Route path="/ranking" element={<Ranking />} />
 
-          {/*
           <Route path="/edititem" element={<EditItem />} />
+          {/*
           <Route path="/mprofilemenu" element={<MProfileMenu />} />
 
 
@@ -308,16 +288,16 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-		Setmyinfo : payload => dispatch ( setmyinfo (payload ) )
-		, Setaddress : payload => dispatch ( setaddress ( payload ) )
-	};
+    Setmyinfo: (payload) => dispatch(setmyinfo(payload)),
+    Setaddress: (payload) => dispatch(setaddress(payload)),
+  };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 // import MarketPlaceItem14 from "./router/MarketPlace_item14";
 // import ItemInfo01 from "./router/ItemInfo01";
 // import ItemInfo02 from "./router/ItemInfo02";
-// import EditItem from "./router/EditItem";
+
 // import ItemInfo04 from "./router/ItemInfo04";
 // import Nftsell04 from "./router/Nftsell04";
 // import Nftsell05 from "./router/VerifyAccountPopup";

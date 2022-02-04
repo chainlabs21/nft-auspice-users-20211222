@@ -61,11 +61,11 @@ function AuctionBid({ store, setConnect }) {
       {verifyPopup && <VerifyAccountPopup off={setVerifyPopup} />}
 
       <section id="sub">
-        <article class="ntfsell_box">
-          <div class="choose_wrap">
-            <div class="sellbg left">
-              <div class="ntfsell_con">
-                <div class="top1 profile">
+        <article className="ntfsell_box">
+          <div className="choose_wrap">
+            <div className="sellbg left">
+              <div className="ntfsell_con">
+                <div className="top1 profile">
                   <a onClick={() => navigate(-1)}>
                     <img
                       src={require("../img/sub/nft_arrow.png").default}
@@ -75,10 +75,10 @@ function AuctionBid({ store, setConnect }) {
                   <span></span>
                   <strong>Henry junior's Item</strong>
                 </div>
-                <div class="sell_wrap">
-                  <div class="create create3">
+                <div className="sell_wrap">
+                  <div className="create create3">
                     <form action="">
-                      <div class="form">
+                      <div className="form">
                         <ul>
                           <li>
                             <h3>Choose a sales method</h3>
@@ -93,7 +93,7 @@ function AuctionBid({ store, setConnect }) {
                                   </span>
                                 </a>
                               </li>
-                              <li class="on">
+                              <li className="on">
                                 <a>
                                   <h4>Auction Bid</h4>
                                   <span>Sell ​​to the highest bidder</span>
@@ -121,10 +121,10 @@ function AuctionBid({ store, setConnect }) {
                             </ol>
                           </li>
                           <li>
-                            <div class="Minimum input2">
-                              <div class="top2">
+                            <div className="Minimum input2">
+                              <div className="top2">
                                 <h3>Starting bid</h3>
-                                <div class="icon">
+                                <div className="icon">
                                   <a>
                                     <img
                                       src={
@@ -133,8 +133,8 @@ function AuctionBid({ store, setConnect }) {
                                       }
                                       alt=""
                                     />
-                                    <div class="bubble_info">
-                                      <div class="bubble">
+                                    <div className="bubble_info">
+                                      <div className="bubble">
                                         <img
                                           src={
                                             require("../img/sub/bubble_icon.png")
@@ -155,8 +155,8 @@ function AuctionBid({ store, setConnect }) {
                                   </a>
                                 </div>
                                 <p>Enter your starting bid.</p>
-                                <div class="toggle border_1">
-                                  <div class="select_left">
+                                <div className="toggle border_1">
+                                  <div className="select_left">
                                     <img
                                       src={
                                         require("../img/sub/I_klaytn.svg")
@@ -168,7 +168,7 @@ function AuctionBid({ store, setConnect }) {
                                       <option>KLAY</option>
                                     </select>
                                   </div>
-                                  <div class="input_right">
+                                  <div className="input_right">
                                     <input value={ bidamount_start }
                                       type="number"
                                       placeholder=""
@@ -186,10 +186,10 @@ function AuctionBid({ store, setConnect }) {
                             </div>
                           </li>
                           <li>
-                            <div class="Target input2">
-                              <div class="top2">
+                            <div className="Target input2">
+                              <div className="top2">
                                 <h3>Minimum bid</h3>
-                                <div class="icon">
+                                <div className="icon">
                                   <a>
                                     <img
                                       src={
@@ -198,8 +198,8 @@ function AuctionBid({ store, setConnect }) {
                                       }
                                       alt=""
                                     />
-                                    <div class="bubble_info">
-                                      <div class="bubble">
+                                    <div className="bubble_info">
+                                      <div className="bubble">
                                         <img
                                           src={
                                             require("../img/sub/bubble_icon.png")
@@ -224,8 +224,8 @@ function AuctionBid({ store, setConnect }) {
                                   <br />a bid above this price, it will close
                                   without sale.
                                 </p>
-                                <div class="toggle border_1">
-                                  <div class="select_left">
+                                <div className="toggle border_1">
+                                  <div className="select_left">
                                     <img
                                       src={
                                         require("../img/sub/I_klaytn.svg")
@@ -241,7 +241,7 @@ function AuctionBid({ store, setConnect }) {
                                       <option>KLAY</option>
                                     </select>
                                   </div>
-                                  <div class="input_right">
+                                  <div className="input_right">
                                     <input
                                       type="number"
                                       placeholder=""
@@ -253,17 +253,17 @@ function AuctionBid({ store, setConnect }) {
                             </div>
                           </li>
                           <li>
-                            <div class="Expiry">
-                              <div class="endoption2">
+                            <div className="Expiry">
+                              <div className="endoption2">
                                 <h3>Expiry date</h3>
-                                <div class="top2">
+                                <div className="top2">
                                   <p>
                                     When the expiration time is reached,
                                     <br />
                                     the sale price is automatically It ends.
                                   </p>
-                                  <div class="twoselect">
-                                    <div class="toggle_1">
+                                  <div className="twoselect">
+                                    <div className="toggle_1">
                                       <select name="" id="" onChange={evt=>{
 																				LOGGER('' , evt.target.value )
 																				setdaystoclose ( evt.target.value )
@@ -274,7 +274,7 @@ function AuctionBid({ store, setConnect }) {
                                         <option>1 days later</option>
                                       </select>
                                     </div>
-                                    <div class="toggle_2">
+                                    <div className="toggle_2">
                                       <select name="" id="">
                                         <option>PM 02 : 00</option>
                                         <option>PM 03 : 00</option>
@@ -288,20 +288,20 @@ function AuctionBid({ store, setConnect }) {
                             </div>
                           </li>
                           <li>
-                            <div class="inst_con">
-                              <div class="instrucion line1">
-                                <div class="dropdown on">
+                            <div className="inst_con">
+                              <div className="instrucion line1">
+                                <div className="dropdown on">
                                   <a>
                                     <span></span>
                                   </a>
-                                  <div class="bot_title">
+                                  <div className="bot_title">
                                     <strong>Instruction</strong>
                                     <p>
                                       We need a process for listing without gas
                                       fees
                                     </p>
                                   </div>
-                                  <div class="info">
+                                  <div className="info">
                                     <p>
                                       - If you are trading for the first time,
                                       you will need to reset your account.
@@ -331,37 +331,37 @@ function AuctionBid({ store, setConnect }) {
                 </div>
               </div>
             </div>
-            <div class="sellbg2_pc">
-              <div class="sell_wrap">
-                <div class="top3">
+            <div className="sellbg2_pc">
+              <div className="sell_wrap">
+                <div className="top3">
                   <h3>
                     Summary of
                     <br />
                     transaction information
                   </h3>
-                  <span class="basic">
+                  <span className="basic">
                     The auction begins. If the bid is
                     <br />
                     more than 1 KLAY, the bid will be
                     <br />
                     awarded at 17:58 on July 28, 2021.
                   </span>
-                  <span class="red2">
+                  <span className="red2">
                     The target bid must be greater
                     <br />
                     than the minimum bid
                   </span>
-                  <span class="red2">Please enter your target bid</span>
-                  <span class="red2">Target bid must be at least 1 KLAY</span>
+                  <span className="red2">Please enter your target bid</span>
+                  <span className="red2">Target bid must be at least 1 KLAY</span>
                 </div>
-                <div class="referral">
+                <div className="referral">
                   <h3>Referral Fee</h3>
                   <p>
                     If you purchase through a referral link, 1% of the sales
                     amount will be rewarded.
                   </p>
                 </div>
-                <div class="fees">
+                <div className="fees">
                   <h3>Fees</h3>
                   <ul>
                     <li>
@@ -378,34 +378,34 @@ function AuctionBid({ store, setConnect }) {
                     </li>
                   </ul>
                 </div>
-								<div class="sales_btn" onClick={() => {setVerifyPopup(true)
+								<div className="sales_btn" onClick={() => {setVerifyPopup(true)
 								
 								}}>
                   <a>Sales start</a>
                 </div>
               </div>
             </div>
-            <div class="sellbg2_m">
-              <div class="sell_wrap">
-                <div class="top3">
+            <div className="sellbg2_m">
+              <div className="sell_wrap">
+                <div className="top3">
                   <h3>Transaction information</h3>
-                  <span class="basic">
+                  <span className="basic">
                     The item is posted for sale
                     <br />
                     at 3,339 KLAY
                   </span>
-                  <span class="red">
+                  <span className="red">
                     End price must be less than start price
                   </span>
                 </div>
-                <div class="referral">
+                <div className="referral">
                   <h3>Referral Fee</h3>
                   <p>
                     If you purchase through a referral link, 1% of the sales
                     amount will be rewarded.
                   </p>
                 </div>
-                <div class="fees">
+                <div className="fees">
                   <h3>Fees</h3>
                   <ul>
                     <li>
@@ -423,7 +423,7 @@ function AuctionBid({ store, setConnect }) {
                   </ul>
                 </div>
               </div>
-              <div class="sales_btn">
+              <div className="sales_btn">
                 <a>Sales start</a>
               </div>
             </div>
