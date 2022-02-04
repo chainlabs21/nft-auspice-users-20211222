@@ -27,7 +27,7 @@ function ConnectWallet(Setmyinfo) {
   useEffect((_) => {}, []);
   const getUserInfo = async () => {
     try {
-      const resp = await axios.get(API.API_GET_USER_INFO);
+      const resp = await axios.get(API.API_GET_MY_INFO);
       dispatch({
         type: GET_USER_DATA.type,
         payload: resp.data.payload,
@@ -63,8 +63,7 @@ function ConnectWallet(Setmyinfo) {
     } else {
     }
     //			if (address_local == ){}
-
-    const resp = await axios.post(API.API_USERS_LOGIN, loginData); //   API_USERS_LOGIN: `${apiServer}/users/login/crypto`,
+    const resp = await axios.post(API.API_USERS_LOGIN, loginData); LOGGER('UkTGc6semq@login' , resp.data ) //   API_USERS _LOGIN: `${apiServer}/users/login/crypto`,
     let { status, respdata, payload } = resp.data;
     if (status === "OK") {
       localStorage.setItem("token", respdata);
@@ -173,3 +172,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectWallet);
+// export default ConnectWallet
+// >>>>>
+// import "./css/style01.css";
+// import "./css/style02.css";

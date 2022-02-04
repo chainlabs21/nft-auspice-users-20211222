@@ -1,46 +1,89 @@
 import { connect, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-
 import "./css/common.css";
 import "./css/font.css";
 import "./css/layout.css";
 import "./css/style.css";
-
 import I_x from "./img/main/I_x.svg";
-
 // import "./css/style01.css";
 // import "./css/style02.css";
-
 // import "./css/header.css";
 import "./css/footer.css";
 import "./css/swiper.min.css";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { setAllPopupOff, setMHeaderPopup } from "./util/store";
-
-function Main({ store, setAllPopupOff, setMHeaderPopup }) {
+import { useState, useEffect } from "react";
+import { setAllPopupOff, setMHeaderPopup  
+	, setaddress
+} from "./util/store"
+import { getmyaddress } from "./util/common";
+import { strDot } from "./util/Util";
+import I_spinner from "./img/icons/I_spinner.svg";
+import { onClickCopy } from './util/common'
+import SetErrorBar from "./util/SetErrorBar";
+import { messages } from "./config/messages";
+function Header({ store, setAllPopupOff, setMHeaderPopup , Setaddress }) {
   const navigate = useNavigate();
-  const pathname = useLocation().pathname.toLocaleLowerCase();
   const { mHeaderPopup } = useSelector((state) => state.store);
-  const isMobile = useSelector((state) => state.common.isMobile);
-
   const [search, setSearch] = useState("");
-
-  function toggleHeader() {
-    let toggle = false;
-    if (pathname.indexOf("/createcollection") !== -1 && isMobile) toggle = true;
-
-    return toggle;
-  }
-
+	let [address, setaddress] = useState()
+	let [ isloader , setisloader ]=useState( false )
+	useEffect(_=>{
+		let {isloader} = store
+		setisloader ( isloader ) 
+	} , [ store.isloader ] )
+	useEffect(_=>{
+		const spinner = document.querySelector("#Spinner");
+    spinner.animate(
+      [{ transform: "rotate(0deg)" }, { transform: "rotate(360deg)" }],
+      {
+        duration: 1000,
+        iterations: Infinity,
+      }
+    )
+	} , [] )
+  useEffect (
+    (_) => {
+      let { address } = store;
+      if (address) {
+      } else {
+        return;
+      }
+      setaddress(address);
+    },
+    [ store.address ]
+  );
+  useEffect((_) => {
+    let { address } = store;  let token
+    if ( address ) {
+      setaddress( address ) 
+		} else if ( token = localStorage.getItem( 'token') ) {	
+			let myaddress=getmyaddress()
+			if ( myaddress ){ Setaddress ( address ) ; 
+				setaddress ( address ) }
+			else {}
+		}	else	{
+      return
+    }
+	}, [] )
+	useEffect( _=>{
+		let {klaytn } = window
+		if ( klaytn){}
+		if ( klaytn.selectedAddress ){
+			setaddress( klaytn.selectedAddress ) // address )
+			Setaddress ( address )
+			localStorage.setItem( 'address' , address )
+		}
+	} , [ window.klaytn ] )
   function onClickConnectWallet() {
-    if (window.klaytn.selectedAddress) navigate("/joinmembership");
-    else navigate("/connectwallet");
+		let { selectedAddress }=window?.klaytn
+    if ( selectedAddress ){
+			setaddress ( strDot(selectedAddress , 5 , 4 ) )
+		} //		else if ( ) {navigate("/joinmembership"); }
+    else { navigate("/connectwallet"); }
   }
 
   return (
-    <HeaderBox id="header" style={{ display: toggleHeader() && "none" }}>
+    <HeaderBox id="header">
       <h1>
         <a onClick={() => navigate("/")}>
           <img src={require("./img/header/logo.png").default} alt={"logo"} />
@@ -70,9 +113,24 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
           <span></span>
         </a>
       )}
+<div style={{			display: 'flex'
+		, justifyContent: 'space-between'
+		, alignItems: 'center'			
+}}>
+
+</div>
+<img
+		id="Spinner"
+		className="spinner"
+		src={I_spinner}
+		alt=""
+		style={{ display : isloader ? 'inline' : 'none' , width: '50px' ,
+			position:'fixed',left:'50%' ,top:'1%'
+		}}
+	/>
 
       <nav>
-        <ul>
+        <ul style={{}}>
           <li>
             <a onClick={() => navigate("/marketplace")}>Marketplace</a>
             <ol>
@@ -204,7 +262,7 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
               </li>
             </ol>
           </li>
-          <li>
+          <li style={{display : address ? 'inline' : 'none'}}>
             <a onClick={() => navigate("/myprof")}>Mypage</a>
             <ol>
               <li>
@@ -224,8 +282,14 @@ function Main({ store, setAllPopupOff, setMHeaderPopup }) {
           <li class="country">
             <a>ENG</a>
           </li>
-          <li class="wallet">
-            <a onClick={() => navigate("/connectwallet")}>Connect Wallet</a>
+          <li class="wallet" style={{width: '200px'}}>
+            <a onClick={e=>{
+							address && onClickCopy (address) && SetErrorBar( messages.MSG_COPIED )
+							onClickConnectWallet() 						
+						}}>
+              { address ? strDot(address , 4,2)  : "Connect Wallet" }
+            </a>
+{/*             <span>{address}</span> */}
           </li>
         </ul>
       </nav>
@@ -260,8 +324,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setAllPopupOff: () => dispatch(setAllPopupOff()),
-    setMHeaderPopup: () => dispatch(setMHeaderPopup()),
+		setMHeaderPopup: () => dispatch(setMHeaderPopup()),
+		Setaddress : payload => dispatch ( setaddress ( payload ) )
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

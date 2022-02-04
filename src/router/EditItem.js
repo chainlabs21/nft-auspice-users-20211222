@@ -10,15 +10,10 @@ import s4 from "../img/sub/s4.png";
 import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
-
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
+import "../css/style.css"; // import "./css/style01.css";// import "./css/style02.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";

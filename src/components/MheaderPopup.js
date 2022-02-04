@@ -1,16 +1,20 @@
 import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-
-import { useState } from "react";
-
+import { useEffect , useState } from "react";
 import { setAllPopupOff } from "../util/store";
 import I_dnArw from "../img/header/I_dnArw.svg";
 import I_dnArwGray from "../img/header/I_dnArwGray.svg";
-
 function Main({ store, setAllPopupOff }) {
   const navigate = useNavigate();
-  const [category, setCategory] = useState(0);
+	const [category, setCategory] = useState(0)
+	let [ address , setaddress ]=useState ()
+	useEffect( _=>{
+		let { address }=store
+		if ( address ){}
+		else {return }
+		setaddress ( address )
+	} , [ store.address ] )
 
   function onclickCategory(index) {
     if (category === index) setCategory(0);
@@ -119,7 +123,7 @@ function Main({ store, setAllPopupOff }) {
 
       <article className="btnBox">
         <button className="connectWalletBtn" onClick={onclickWallet}>
-          Connect Wallet
+          {address ? address : 'Connect Wallet'}
         </button>
       </article>
     </HeaderBox>

@@ -64,7 +64,7 @@
   box-sizing: border-box;
 }
 .popup .box_wrap .list_bottom ul li .pop_profile {
-  background-image: url(../img/sub/profile_img.png);
+	background-image: url(../img/sub/profile_img.png);
   background-repeat: no-repeat;
   width: 48px;
   height: 48px;
@@ -76,7 +76,7 @@
 .popup .box_wrap .list_bottom ul li h3 {
   float: left;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: -0.14px;
   padding: 8px 0 0 0;
   box-sizing: border-box;
@@ -1580,7 +1580,7 @@
 }
 
 #sub .bundle_box .bundle_top .bun_tl .bun_tl_img {
-  background-image: url(../img/sub/bundle_big.png);
+/**  background-image: url(../img/sub/bundle_big.png); */
   width: 100%;
   height: 740px;
   margin: 0 0 20px;
@@ -1829,13 +1829,6 @@
   color: #fff;
   margin-top: -18px;
 }
-#sub .bundle_box .bundle_top .bun_tr .right_t .boxes .black_box ul li h3 {
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 24px;
-  letter-spacing: -0.19px;
-}
-
 #sub .bundle_box .bundle_top .bun_tr .right_t .boxes .black_box ul {
   display: flex;
 }
@@ -1844,6 +1837,12 @@
   flex: 1;
 }
 
+#sub .bundle_box .bundle_top .bun_tr .right_t .boxes .black_box ul li h3 {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.19px;
+}
 #sub .bundle_box .bundle_top .bun_tr .right_t .boxes .black_box ul li h4 {
   font-size: 51px;
   font-weight: 900;
@@ -5475,7 +5474,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 /* #sub .ntfsell_box .sellbg { max-width:800px; max-height:550px; margin: 0 auto; background-color:#fff; box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2); margin-top:90px; overflow-y:auto; -ms-overflow-style: none; scrollbar-width: none; border-radius:20px; } */
 #sub .ntfsell_box .sell_wrap {
-  padding: 36px 30px 40px;
+  padding: 28px 30px 40px;
 }
 #sub .ntfsell_box .sellbg::-webkit-scrollbar {
   display: none;
@@ -5510,7 +5509,6 @@ div.basic .tab_bottom .body tr td span.chain.off {
 }
 #sub .ntfsell_box .top1 strong {
   font-size: 20px;
-  line-height: 20px;
   letter-spacing: -0.4px;
 }
 #sub .ntfsell_box .top1.profile strong {

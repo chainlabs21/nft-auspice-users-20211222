@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
-
+import { useState , useEffect } from 'react'
 import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
@@ -16,29 +16,40 @@ import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
 import click1 from "../img/sub/click1.png";
 import ho_img from "../img/sub/ho_img.png";
-
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
 import "../css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
+// import "./css/style01.css";// import "./css/style02.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import Myprofcommonheader  from '../components/Myprofcommonheader'
+import { applytoken } from "../util/rest"
+import { API } from "../config/api";
+import { LOGGER , getmyaddress } from "../util/common";
 
 function Liked({ store, setConnect }) {
   const navigate = useNavigate();
-
+	let axios=applytoken ()
+	let myaddress = getmyaddress () 
+	let [ list , setlist ] = useState( [] )
+	useEffect( _=>{
+		axios.get( API.API_USER_FAVORITES +`/username/${myaddress}/0/100/id/DESC`).then(resp=>{ LOGGER('' , resp.data )
+			let { status , } = resp.data
+			if ( status =='OK' ){
+				setlist ( list )
+			}
+		})
+	} , [] )
   return (
     <SignPopupBox>
       <section id="sub">
         <article class="profile_home">
           <div class="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
-            <div class="wrap">
+<Myprofcommonheader />
+{/**             <div class="wrap">
               <div class="collection_detail">
                 <div class="pro_img">
                   <img src={require("../img/sub/home_profile.png").default} />
@@ -61,7 +72,7 @@ function Liked({ store, setConnect }) {
                 </h4>
               </div>
             </div>
-
+*/}
             <div class="move off">
               <div class="left_move">
                 <form>
@@ -223,87 +234,40 @@ function Liked({ store, setConnect }) {
                   <div class="move_item" style={{ marginBottom: "100px" }}>
                     <ol class="item move_li">
                       <div>
-                        <span>
-                          <li>
-                            <a
-                              onClick={() => navigate('/singleitem')}
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
-                              <div class="on">
-                                <ul>
-                                  <li class="heart off">1,389</li>
-                                </ul>
-                                <span>Mark.X item</span>
-                                <div>Place Saint-Marc</div>
-                              </div>
-                            </a>
-                          </li>
-                        </span>
+												<span>
+											<li >
+		<a
+			onClick={() => navigate(`/singleitem/${''}`)}
+			style={{ backgroundImage: `url(${sample})` }}
+		>
+			<div class="on">
+				<ul>
+					<li class="heart off">1,389</li>
+				</ul>
+				<span>{ ''} </span>
+				<div>Place Saint-Marc</div>
+			</div>
+		</a>
+	</li>
+{list.map ( (elem, idx) =>(
 
-                        <span>
-                          <li>
-                            <a
-                              onClick={() => navigate('/singleitem')}
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                </ul>
-                                <span>Mark.X item</span>
-                                <div>Place Saint-Marc</div>
-                              </div>
-                            </a>
-                          </li>
-                        </span>
-                        <span>
-                          <li>
-                            <a
-                              onClick={() => navigate('/singleitem')}
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
-                        </span>
-                        <span>
-                          <li>
-                            <a
-                              onClick={() => navigate('/singleitem')}
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
-                        </span>
-                        <span>
-                          <li>
-                            <a
-                              onClick={() => navigate('/singleitem')}
-                              style={{ backgroundImage: `url(${sample})` }}
-                            >
-                              <div class="on">
-                                <ul>
-                                  <li class="heart on">1,389</li>
-                                </ul>
-                                <span>David</span>
-                                <div>Summer Pool</div>
-                              </div>
-                            </a>
-                          </li>
-                        </span>
+	<li key={idx}>
+		<a
+			onClick={() => navigate(`/singleitem?itemid=${elem.itemid}`)}
+			style={{ backgroundImage: `url(${sample})` }}
+		>
+			<div class="on">
+				<ul>
+					<li class="heart off">1,389</li>
+				</ul>
+				<span>{ elem.itemid } </span>
+				<div>Place Saint-Marc</div>
+			</div>
+		</a>
+	</li>
+	))}
+
+	</span>
                       </div>
                     </ol>
                   </div>

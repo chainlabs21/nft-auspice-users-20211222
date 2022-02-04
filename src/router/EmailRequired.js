@@ -15,7 +15,7 @@ import "../css/footer.css";
 import "../css/swiper.min.css";
 import { API } from "../config/api";
 import axios from "axios";
-import { getuseraddress } from "../util/common";
+import { getuseraddress, LOGGER } from "../util/common";
 import { ERR_MSG } from "../config/messages";
 
 function EmailRequired({ store }) {
@@ -33,7 +33,7 @@ function EmailRequired({ store }) {
           API.API_VERIFY_EMAIL_SEND + `/${userData.maria.email}/${useraddress}`
         );
         console.log(resp);
-      } catch (error) {
+      } catch (error) { LOGGER(error)
         alert(ERR_MSG.ERR_AXIOS_REQUEST);
       }
     };

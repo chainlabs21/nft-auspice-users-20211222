@@ -2,33 +2,101 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
-
 import s2 from "../img/sub/s2.png";
 import s6 from "../img/sub/s6.png";
 import s7 from "../img/sub/s7.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
-
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
+import "../css/style.css"; // import "./css/style01.css"; // import "./css/style02.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useEffect, useRef, useState } from "react";
 import { isUserMobile } from "../util/Util";
+import { getmyaddress , LOGGER} from "../util/common";
+import { applytoken } from "../util/rest";
+import { API } from "../config/api";
+import moment from 'moment'
+import { messages} from '../config/messages'
+import SetErrorBar from '../util/SetErrorBar'
 
 function MyFavorite({ store }) {
   const navigate = useNavigate();
   const recentlyRef = useRef();
   const onSaleRef = useRef();
   const onAuctionRef = useRef();
-
+	let [ myaddress , setmyaddress ]=useState( getmyaddress() )
+	let axios=applytoken ()
+	let [ info_maria , setinfo_maria ] = useState()
+	let [ info_mongo , setinfo_mongo ] = useState()
+	let [ info_stats , setinfo_stats ] = useState()
+	let [ list_created , setlist_created]=useState( [] )
+	let [ list_sales , setlist_sales] = useState( [] )
+	let [ list_auction , setlist_auction] = useState( [] )
+	const setsalepath=cont=>{
+		LOGGER('' )
+		if ( cont.itembalance?.avail ){
+			navigate (`/salefixed?itemid=${cont.item?.itemid}`)
+			return
+		}
+		else { SetErrorBar( messages.MSG_OUT_OF_STOCK ) ; return }
+	}
+	const onclickhide=itemid=>{
+		axios.put( API.API_TOGGLE_ITEM + `/${itemid}/visible`).then(resp=>{ LOGGER('' , resp.data)
+			let { status }=resp.data
+			if ( status =='OK'){
+				SetErrorBar( messages.MSG_CHANGED )																											
+//				fetchitems()
+			} else {
+				SetErrorBar( messages.MSG_REQ_FAIL )
+			}
+		})
+	}
+	const fetchdata=_=>{
+		axios.get( API.API_USER_INFO + `/${myaddress}`).then(resp=>{ LOGGER('' , resp.data )
+			let { status , payload }=resp.data
+			if ( status =='OK'){
+				setinfo_maria( payload.maria )
+				setinfo_mongo( payload.mongo )
+				setinfo_stats (payload.stats )
+			}
+		})
+		axios.get( API.API_AUTHORS_ITEMS + `/${myaddress}/0/10/id/DESC`).then(resp=>{ LOGGER( 'JgCY99Hc83' , resp.data )
+			let { status , list }=resp.data
+			if ( status =='OK' ){
+				setlist_created ( list )
+			}
+		})
+		axios.get( API.API_SELLER_ITEMS_00 + `/${myaddress}/0/10/id/DESC` 
+			, {params: { itemdetail : 1 ,filterkey: 'typestr' , filterval: 'COMMON' }}).then(resp=>{ LOGGER('kxdvjHSJHx' , resp.data )
+			let { status , list }=resp.data
+			if ( status =='OK'){
+				setlist_sales ( list )
+			}
+		})
+		axios.get( API.API_SELLER_ITEMS_00 + `/${myaddress}/0/10/id/DESC`
+		, {params: {itemdetail : 1 , filterkey :'typestr', filterval : 'AUCTION-ENGLISH'}}).then(resp =>{ LOGGER ( 'yduWcdU26V' , resp.data)
+			let { status , list}=resp.data
+			if ( status =='OK'){
+				setlist_auction ( list )
+			}
+		})		
+	}
+	useEffect(_=>{
+		window.getmyaddress = getmyaddress
+		if (myaddress){} else {return }
+		fetchdata()
+	} , [] )
+	useEffect(_=>{
+		if (myaddress){} else {return }
+		fetchdata()
+	} , [ myaddress ])
+//	, API_SELLER_ITEMS : `${apiServer}/queries/rows/fieldvalues` // /:tablename/:offset/:limit/:orderkey/:orderval
+	//			let {fieldname , fieldvalues , itemdetail } = req.query	
+	
   const [recentlyIndex, setRecentlyIndex] = useState(0);
   const [onSaleIndex, setOnSaleIndex] = useState(0);
   const [onAuctionIndex, setOnAuctionIndex] = useState(0);
@@ -95,7 +163,7 @@ function MyFavorite({ store }) {
   }
 
   useEffect(() => {
-    const wrapWidth = recentlyRef.current.offsetWidth;
+/**     const wrapWidth = recentlyRef.current.offsetWidth;
     const contWidth = recentlyRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(10 / itemNumByPage);
@@ -112,11 +180,11 @@ function MyFavorite({ store }) {
           behavior: "smooth",
         });
       }
-    }
+    }*/
   }, [recentlyIndex]);
 
   useEffect(() => {
-    const wrapWidth = onSaleRef.current.offsetWidth;
+/**     const wrapWidth = onSaleRef.current.offsetWidth;
     const contWidth = onSaleRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(10 / itemNumByPage);
@@ -133,11 +201,11 @@ function MyFavorite({ store }) {
           behavior: "smooth",
         });
       }
-    }
+    }*/
   }, [onSaleIndex]);
 
   useEffect(() => {
-    const wrapWidth = onAuctionRef.current.offsetWidth;
+/**     const wrapWidth = onAuctionRef.current.offsetWidth;
     const contWidth = onAuctionRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(10 / itemNumByPage);
@@ -154,7 +222,7 @@ function MyFavorite({ store }) {
           behavior: "smooth",
         });
       }
-    }
+    }*/
   }, [onAuctionIndex]);
 
   return (
@@ -174,7 +242,7 @@ function MyFavorite({ store }) {
                     <div class="mhome_wrap">
                       <ul>
                         <li>
-                          <a onClick={() => navigate("/exploredeal")}>
+                          <a onClick={() => navigate("/transactionhistory")}>
                             Transaction History
                           </a>
                         </li>
@@ -184,42 +252,40 @@ function MyFavorite({ store }) {
                           </a>
                         </li>
                         <li>
-                          <a onClick={() => navigate("/loyaltycheck")}>
-                            Loyalty History
+                          <a onClick={() => navigate("/royaltycheck")}>
+                            Royalty History
                           </a>
                         </li>
                       </ul>
                     </div>
                   </div>
                 </div>
-                <h2 class="notop">Henry junior's Collection</h2>
+                <h2 class="notop">{ info_maria?.nickname}'s Collection</h2>
                 <h4>
-                  Henry is a mixed-media artist living in the
-                  <br class="mo" /> Bay Area and uses
-                  <br class="pc" />a stream of consciousness
-                  <br class="mo" /> approach to his work.
+									{ info_maria?.description }
                 </h4>
                 <div class="numbers">
                   <ul>
                     <li>
-                      <h5>Items</h5>
-                      <p>296</p>
+                      <h5>Created</h5>
+                      <p>{ info_maria?.countcreated }</p>
                     </li>
                     <li>
-                      <h5>Owners</h5>
-                      <p>102</p>
+                      <h5>Owned</h5>
+                      <p>{ info_maria?.countowned }</p>
                     </li>
                     <li>
                       <h5>Avg price</h5>
                       <p>
-                        2.22<b>KLAY</b>
-                        <span>$ 307.21</span>
+                        {info_stats?.countsales ? info_stats?.sumsales / info_stats?.countsales : '0'}<b>KLAY</b>
+                        <span>$ -</span>
                       </p>
                     </li>
                     <li>
                       <h5>Volume Traded</h5>
                       <p>
-                        73.12<span>$ 307.21</span>
+												{ (info_stats?.sumsales ? info_stats?.sumsales :0 ) 
+												+ (info_stats?.sumbuys ? info_stats?.sumbuys :0 )   }<span>$ -</span>
                       </p>
                     </li>
                   </ul>
@@ -232,7 +298,7 @@ function MyFavorite({ store }) {
                 <div class="real_sec">
                   <div class="item marbo">
                     <div class="full">
-                      <h4 class="t releft">Recently Listed</h4>
+                      <h4 class="t releft">Recently Created</h4>
                       <a onClick={() => navigate("/createitem")} class="replus">
                         Register a new item
                       </a>
@@ -241,14 +307,16 @@ function MyFavorite({ store }) {
                       <div class="swiper-container swiper-container-newitem">
                         <ol class="item item5 summary swiper-wrapper">
                           <div className="slideBox" ref={recentlyRef}>
-                            {[1, 2].map((cont, index) => (
+                            { list_created.map((cont, index) => (
                               <>
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={() => navigate("/singleitem")}
+																			onClick={e =>{ e.preventDefault(); e.stopPropagation() // return // 
+																				navigate(`/singleitem?itemid=${cont.item?.itemid}`)   // /${cont.item?.itemid}
+																			}}
                                       style={{
-                                        backgroundImage: `url(${s2})`,
+                                        backgroundImage: `url(${ cont.item?.url})`,
                                         backgroundRepeat: "no-repeat",
                                         backgroundPosition: "center",
                                         backgroundSize: "cover",
@@ -256,27 +324,36 @@ function MyFavorite({ store }) {
                                     >
                                       <div class="on">
                                         <ul>
-                                          <li class="heart off">1,389</li>
-                                          <li class="star off"></li>
+                                          <li class="heart off">{ cont.item?.countfavors }</li>
+                                          <li class={ cont.ilikethisitem? 'star on' : "star off"} ></li>
                                         </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
+                                        <div>{ cont.item?.titlename }</div>
+                                        <span>{ cont.author?.nickname }</span>
                                         <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
+                                          <li>{ moment(cont.item?.createdat).fromNow()  }</li>
+                                          <li>- KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
                                         <ul>
                                           <li></li>
                                           <li class="dot">
-                                            <div class="choose">
+                                            <div class="choose choose2 on" >
                                               <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
+																								<li onClick={e=>{ e.preventDefault(); e.stopPropagation()
+																									 setsalepath( cont )
+																								}}
+																								style={{ display: cont.itembalance?.avail? 'block' : 'none' }}
+																								>Sale</li>
+																								<li onClick={e=>{	e.preventDefault(); e.stopPropagation()																									
+																									navigate(`/handover?itemid=${cont.item?.itemid}`) }}
+																									style={{display : cont.item?.tokenid && cont.itembalance?.avail ? 'block' : 'none'}}
+																								>Hand Over</li>
+                                                <li style={{display:'none'}}>Edit</li>
+                                                <li style={{display:'none'}}>Collection Change</li>
+                                                <li onClick={e=>{	e.preventDefault(); e.stopPropagation()
+																									onclickhide( cont.item?.itemid )
+																								 }}>{ cont.itembalance?.visible ? 'Hide' : 'Unhide' } </li>
                                               </ul>
                                             </div>
                                           </li>
@@ -285,174 +362,7 @@ function MyFavorite({ store }) {
                                     </a>
                                   </li>
                                 </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s6})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s8})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s7})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s6})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
+
                               </>
                             ))}
                           </div>
@@ -475,14 +385,16 @@ function MyFavorite({ store }) {
                       <div class="swiper-container swiper-container-newitem newitem2">
                         <ol class="item item5 summary swiper-wrapper">
                           <div className="slideBox" ref={onSaleRef}>
-                            {[1, 2].map((cont, index) => (
+                            {list_sales.map((cont, index) => (
                               <>
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={() => navigate("/singleitem")}
+																			onClick={e =>{ e.preventDefault(); e.stopPropagation()																				
+																				navigate(`/singleitem?itemid=${cont.item?.itemid}`)
+																			}}
                                       style={{
-                                        backgroundImage: `url(${s2})`,
+                                        backgroundImage: `url(${ cont.item?.url })`,
                                         backgroundRepeat: "no-repeat",
                                         backgroundPosition: "center",
                                         backgroundSize: "cover",
@@ -490,21 +402,21 @@ function MyFavorite({ store }) {
                                     >
                                       <div class="on">
                                         <ul>
-                                          <li class="heart off">1,389</li>
-                                          <li class="star off"></li>
+                                          <li class="heart on">{ cont.item?.countfavors }</li>
+                                          <li class={cont.ilikethisitem? 'star on' : "star off"}></li>
                                         </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
+                                        <div>{ cont.item?.titlename }</div>
+                                        <span>{ cont.author?.nickname }</span>
                                         <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
+                                          <li>{ cont.minpriceorder?.asset_amount_bid }</li>
+                                          <li>{ cont.minpriceorder?.asset_amount_ask } KLAY</li>
                                         </ol>
                                       </div>
                                       <div class="top blk">
                                         <ul>
                                           <li></li>
                                           <li class="dot">
-                                            <div class="choose">
+                                            <div class="choose choose2 on">
                                               <ul>
                                                 <li>Sale</li>
                                                 <li>Hand Over</li>
@@ -519,216 +431,7 @@ function MyFavorite({ store }) {
                                     </a>
                                   </li>
                                 </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s6})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${sample})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s8})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s7})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s6})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
+
                               </>
                             ))}
                           </div>
@@ -751,12 +454,13 @@ function MyFavorite({ store }) {
                       <div class="swiper-container swiper-container-newitem newitem3">
                         <ol class="item item5 summary swiper-wrapper">
                           <div className="slideBox" ref={onAuctionRef}>
-                            {[1, 2].map((cont, index) => (
+                            { list_auction.map( (cont, index) => (
                               <>
                                 <span>
                                   <li class="swiper-slide">
                                     <a
-                                      onClick={() => navigate("/singleitem")}
+                                      onClick={e => { e.preventDefault(); e.stopPropagation()
+																				navigate(`/singleitem?itemid=${cont.item?.itemid }`)}}
                                       style={{
                                         backgroundImage: `url(${s2})`,
                                         backgroundRepeat: "no-repeat",
@@ -767,217 +471,7 @@ function MyFavorite({ store }) {
                                       <div class="on">
                                         <ul>
                                           <li class="heart off">1,389</li>
-                                          <li class="star off"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s6})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s8})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s7})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s6})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
-                                        </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
-                                        <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
-                                        </ol>
-                                      </div>
-                                      <div class="top blk">
-                                        <ul>
-                                          <li></li>
-                                          <li class="dot">
-                                            <div class="choose">
-                                              <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
-                                              </ul>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </a>
-                                  </li>
-                                </span>
-                                <span>
-                                  <li class="swiper-slide">
-                                    <a
-                                      onClick={() => navigate("/singleitem")}
-                                      style={{
-                                        backgroundImage: `url(${s6})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                      }}
-                                    >
-                                      <div class="on">
-                                        <ul>
-                                          <li class="heart on">1,389</li>
-                                          <li class="star on"></li>
+                                          <li class={ cont.ilikethisitem? 'star on' : "star off"} ></li>
                                         </ul>
                                         <div>Summer Pool</div>
                                         <span>David</span>

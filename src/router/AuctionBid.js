@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
-
 import s1 from "../img/sub/s2.png";
 import s2 from "../img/sub/s2.png";
 import s3 from "../img/sub/s3.png";
@@ -10,26 +9,203 @@ import s4 from "../img/sub/s4.png";
 import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
-
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
+import "../css/style.css" // import "./css/style01.css";// import "./css/style02.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 import VerifyAccountPopup from "./VerifyAccountPopup";
-import { useState } from "react";
-
-function AuctionBid({ store, setConnect }) {
-  const navigate = useNavigate();
-
-  const [verifyPopup, setVerifyPopup] = useState(false);
-
+import { useEffect , useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { messages } from "../config/messages";
+import { applytoken , require_token } from '../util/rest'
+import SetErrorBar from '../util/SetErrorBar'
+import { API} from '../config/api'
+import { LOGGER, getrandomint, ISFINITE , getmyaddress } from '../util/common'
+import moment from 'moment'
+import { getabistr_forfunction
+ , query_nfttoken_balance
+ , requesttransaction
+} from "../util/contract-calls";
+import { ADDRESSES } from "../config/addresses";
+import { PAYMENT_TOKEN_ADDRESS_DEF
+	, REFERER_FEE_RATE_DEF
+	, RULES
+	, PAYMEANS_DEF
+} from '../config/configs'
+import { getweirep } from '../util/eth'
+// const AuctionBid = async({ store, setConnect })=> {
+	function AuctionBid ({ store, setConnect }) {
+  const navigate = useNavigate()
+	const [ verifyPopup, setVerifyPopup] = useState(false);
+	let [ searchParams, setSearchParams ] = useSearchParams()
+	let [ itemid , setitemid ] = useState ()
+	let [ itemdata , setitemdata ] = useState()
+	let [ amounttoauction , setamounttoauction]= useState( '')
+	let [ bidamount_start , setbidamount_start] = useState( '')
+	let [ bidamount_threshold , setbidamount_threshold ]=useState()
+	let [ daystoclose , setdaystoclose ] = useState( '3 days later' )
+	let [ expiry , setexpiry ] = useState()
+	let [ myaddress , setmyaddress ] = useState( getmyaddress() ) 
+	// let axios = applytoken()
+	let axios
+	 require_token( ).then(resp=>{
+		 axios=resp
+	 })
+	const onclickstartauction=_=>{
+		if( RULES.OPEN_AUCTION_ONCHAIN ){on_post_open_onchain() }
+		else {	on_post_open_offchain () }
+	}
+	const on_post_open_offchain=_=>{
+		window.getmyaddress=getmyaddress; 
+		let myaddress =  getmyaddress()
+		if ( myaddress ){}
+		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET ); return }
+		let days=daystoclose.split(/ /)[0]
+		let expiry = moment().add( +days , 'days' ).endOf('day').unix()
+		LOGGER( '' , itemid , bidamount_start , bidamount_threshold ,  expiry )
+//		if ( itemdata?.item?.tokenid ) {}
+	//	else {	SetErrorBar ( messages.MSG_PLEASE_MINT_AHEAD ) ; return }
+		const timenow = moment(); 
+		let timenowunix = timenow.unix()
+		let reqbody = {
+			itemid : itemdata?.item?.itemid
+			, amount : amounttoauction
+			, buyorsell : 'SELL'
+			, tokenid : itemdata?.item?.tokenid // null 
+			, price  :bidamount_start
+			, priceunit : PAYMEANS_DEF
+			, startingtime : timenowunix
+			, startingprice : bidamount_start
+			, expiry
+			, username : myaddress
+			, matcher_contract : ADDRESSES.auction_repo_english_simple
+			, token_repo_contract : ADDRESSES.erc1155
+			, typestr : 'AUCTION_ENGLISH'
+		}
+		LOGGER( 'mHpUwZa3lS' , reqbody)
+//		return
+		axios.post ( API.API_SALE_COMMON , reqbody ).then(resp=>{ LOGGER( '' , resp.data )
+			let { status }=resp.data
+			if ( status =='OK' ) {
+				SetErrorBar( messages.MSG_DONE_REGISTERING )
+			} else {
+				SetErrorBar( messages.MSG_REQ_FAIL )
+			}
+		})
+	}
+	const on_post_open_onchain=_=>{ window.getmyaddress=getmyaddress; let myaddress =  getmyaddress()
+		if ( myaddress ){}
+		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET ); return }
+		let days=daystoclose.split(/ /)[0]
+		let expiry = moment().add( +days , 'days' ).endOf('day').unix()
+		LOGGER( '' , itemid , bidamount_start , bidamount_threshold ,  expiry )
+		if ( itemdata?.item?.tokenid ) {}
+		else {	SetErrorBar ( messages.MSG_PLEASE_MINT_AHEAD ) ; return }
+		const timenow = moment(); 
+		let timenowunix = timenow.unix()
+		let abistr = getabistr_forfunction ({
+			contractaddress : ADDRESSES.auction_repo_english_simple // erc1155 // 
+			, abikind : 'AUCTION_ENGLISH_SIMPLE'
+			, methodname : 'begin_auction_simple' // begin_auction_batch'
+			, aargs : [ ADDRESSES.erc1155 // auction_repo_english
+				, myaddress
+				, itemdata?.item?.tokenid // []
+				, ''+amounttoauction // []
+				, PAYMENT_TOKEN_ADDRESS_DEF
+				, getweirep (bidamount_start ) 
+				, timenowunix // timenow.unix()
+				, expiry // timenow.add ( days , 'days' ).unix()
+				, REFERER_FEE_RATE_DEF
+				, '0x00'
+			] 
+		})
+// alright:0x22213b6d000000000000000000000000ff817302e7b6d116cdff1a730508551ee155787500000000000000000000000083f714ad20e34748516e8367faf143abde6c3783000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016345785d8a00000000000000000000000000000000000000000000000000000000000061f7f970000000000000000000000000000000000000000000000000000000006245c1f00000000000000000000000000000000000000000000000000000000000000064000000000000000000000000000000000000000000000000000000000000014000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000		
+// failed :0x22213b6d000000000000000000000000ff817302e7b6d116cdff1a730508551ee155787500000000000000000000000083f714ad20e34748516e8367faf143abde6c37830000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e043da6172500000000000000000000000000000000000000000000000000000000000061f90b0a0000000000000000000000000000000000000000000000000000000061ffe26f0000000000000000000000000000000000000000000000000000000000000064000000000000000000000000000000000000000000000000000000000000014000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000
+		LOGGER( '' , abistr ) //		alert(  abistr ) //		return 
+		requesttransaction( { from : myaddress
+			, to : ADDRESSES.auction_repo_english_simple // erc1155
+			, data : abistr
+			, value : '0x00'
+		}).then(resp=>{ LOGGER( 'xMMrjGsBuK' , resp )
+			let { transactionHash , status } = resp //			LOGGER( 'qrXkVAqkKu' , transactionHash , status )
+			if ( status ){
+				let reqbody={					itemid : itemdata?.item?.itemid
+					, tokenid : itemdata?.item?.tokenid
+					, amount : amounttoauction
+					, startingtime : timenowunix
+					, startingprice : bidamount_start
+					, expiry 
+					, username : myaddress
+					, matcher_contract : ADDRESSES.auction_repo_english_simple
+					, token_repo_contract : ADDRESSES.erc1155
+				}
+				LOGGER( 'jfG6EHcIaO' ,reqbody)
+				axios.post ( API.API_REPORT_TX_AUCTION_ENGLISH + `/${transactionHash}` , reqbody ).then(resp=>{ LOGGER('' , resp.data )
+					let {status}=resp.data 
+					if ( status =='OK'){
+						SetErrorBar (messages.MSG_DONE_REGISTERING )
+					}
+				})
+			}
+			else {
+				SetErrorBar( messages.MSG_TX_FAILED )
+			}
+		}).catch(err =>{
+			LOGGER( 'FdNPZN8Dxa' , err )
+			SetErrorBar( messages.MSG_USER_DENIED_TX )
+		})
+		//	let { from , to , data , value } = jdata
+/** 			_target_contract , // ", 				"internalType": "address",
+		_holder , // ",
+		_target_item_ids , // ",				"internalType": "uint256[]",
+		_amounts , // ",				"internalType": "uint256[]",
+			_paymenttoken , // ",				"internalType": "address",
+_offerprice , // ",				"internalType": "uint256",
+_starting_time , // ",				"internalType": "uint256",
+_expiry , // ",								"internalType": "uint256",
+_referer_feerate , // ",								"internalType": "uint256",
+_calldata // ",					" internalType": "bytes",
+*/
+	}
+	useEffect( _=>{
+		let bidamount_start = getrandomint( 1, 10 )
+		let bidamount_threshold = getrandomint ( bidamount_start+1 , 20 )
+		setbidamount_start ( bidamount_start )
+		setbidamount_threshold ( bidamount_threshold )
+		window.getmyaddress= getmyaddress
+	} , [] )
+	useEffect( _=>{
+		let itemid=searchParams.get('itemid')
+		if ( itemid ){ setitemid( itemid )}
+		else {SetErrorBar( messages.MSG_PLEASE_SPECIFY_QUERY_VALUE ) ; return }
+		let itemdata
+		if (axios){}
+		else {return }
+		axios.get( `${API.API_GET_ITEM_DATA}/${itemid}`).then(resp=>{
+			LOGGER( 'oWWjCVhIpY' , resp.data )
+			let { status , respdata }=resp.data
+			if ( status =='OK'){
+				itemdata = respdata
+				setitemdata ( respdata )
+			} else {
+				SetErrorBar(messages.MSG_PLEASE_SPECIFY_QUERY_VALUE )
+			}
+		})
+/** let tokenid = itemda tabatched?.item?.tokenid || 2
+		if( tokenid ){}		else {SetErrorBar(messages.MSG_DATANOTFOUND) } // ; return 
+		query_nfttoken_balance ( ADDRESSES.erc1155 , myaddress , tokenid ).then (resp=>{
+			LOGGER( 'wE2hK5BTA4' , resp )
+		}) */
+//		const query_nfttok en_balance = ( contractaddress , address , tokenid )=>{
+	} , [ axios ] )
+	useEffect(_=>{
+		if (axios){}
+		else {SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET ); return }
+	} , [ ] )
+	
   return (
     <SignPopupBox>
       {verifyPopup && <VerifyAccountPopup off={setVerifyPopup} />}
@@ -46,8 +222,8 @@ function AuctionBid({ store, setConnect }) {
                       alt=""
                     />
                   </a>
-                  <span></span>
-                  <strong>Henry junior's Item</strong>
+                  <span style={{backgroundImage: `url(${itemdata?.item?.url})`}}></span>
+                  <strong>Title: { itemdata?.item?.titlename }</strong>
                 </div>
                 <div class="sell_wrap">
                   <div class="create create3">
@@ -57,7 +233,7 @@ function AuctionBid({ store, setConnect }) {
                           <li>
                             <h3>Choose a sales method</h3>
                             <ol>
-                              <li onClick={() => navigate("/salefixed")}>
+                              <li onClick={() => navigate("/salefixed?itemid=" + `${itemdata?.item?.itemid}`)}>
                                 <a>
                                   <h4>Fixed Price</h4>
                                   <span>
@@ -73,7 +249,9 @@ function AuctionBid({ store, setConnect }) {
                                   <span>Sell ​​to the highest bidder</span>
                                 </a>
                               </li>
-                              <li onClick={() => navigate("/salebundle")}>
+                              <li onClick={() => { 
+																SetErrorBar(messages.MSG_WORKINPROGRESS) ; return
+																navigate("/salebundle")}}>
                                 <a>
                                   <h4>
                                     Bundle Sale
@@ -94,10 +272,55 @@ function AuctionBid({ store, setConnect }) {
                               </li>
                             </ol>
                           </li>
-                          <li>
+                          
+													<li>
                             <div class="Minimum input2">
                               <div class="top2">
-                                <h3>Minimum bid</h3>
+                                <h3>Amount to auction</h3>
+                                <div class="icon">
+                                  <a> <img src={ require("../img/sub/auction_icon.png")                                          .default                                      }                                      alt=""                                    />
+                                    <div class="bubble_info">
+                                      <div class="bubble">
+                                        <img src={ require("../img/sub/bubble_icon.png")                                              .default                                          }                                          alt=""                                        />
+                                        <p>Amount to auction
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </a>
+                                </div>
+                                <p>Out of ({ itemdata?.itembalance?.avail || '0'})</p>
+                                <div class="toggle border_1">
+                                  <div class="select_left">
+                                    <img src={ require('../img/header/logo.png').default } alt=""                                    />
+                                    <select name="" id="">
+                                      <option>#{ itemdata?.item?.tokenid }</option>
+                                    </select>
+                                  </div>
+                                  <div class="input_right">
+                                    <input value={ amounttoauction }
+                                      type="number"
+                                      placeholder=""
+																			onkeydown="onlyNumber(this)"
+																			onChange={evt=>{
+																				let {value }=evt.target
+																				if ( ISFINITE( +value)){}
+																				else {return}
+																				if (+value<= itemdata?.item?.countcopies ){}
+																				else {SetErrorBar( messages.MSG_EXCEEDS_BALANCE) ; return }
+																				setamounttoauction ( value )
+																			}}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+	
+{/******** */}
+													<li>
+                            <div class="Minimum input2">
+                              <div class="top2">
+                                <h3>Starting bid</h3>
                                 <div class="icon">
                                   <a>
                                     <img
@@ -140,17 +363,19 @@ function AuctionBid({ store, setConnect }) {
                                     />
                                     <select name="" id="">
                                       <option>KLAY</option>
-                                      <option>KLAY</option>
-                                      <option>KLAY</option>
-                                      <option>KLAY</option>
-                                      <option>KLAY</option>
                                     </select>
                                   </div>
                                   <div class="input_right">
-                                    <input
+                                    <input value={ bidamount_start }
                                       type="number"
                                       placeholder=""
-                                      onkeydown="onlyNumber(this)"
+																			onkeydown="onlyNumber(this)"
+																			onChange={evt=>{
+																				let {value }=evt.target
+																				if ( ISFINITE( +value)){}
+																				else {return}
+																				setbidamount_start ( value )
+																			}}
                                     />
                                   </div>
                                 </div>
@@ -163,21 +388,11 @@ function AuctionBid({ store, setConnect }) {
                                 <h3>Minimum bid</h3>
                                 <div class="icon">
                                   <a>
-                                    <img
-                                      src={
-                                        require("../img/sub/auction_icon.png")
-                                          .default
-                                      }
-                                      alt=""
+                                    <img src={require("../img/sub/auction_icon.png").default} alt=""
                                     />
                                     <div class="bubble_info">
                                       <div class="bubble">
-                                        <img
-                                          src={
-                                            require("../img/sub/bubble_icon.png")
-                                              .default
-                                          }
-                                          alt=""
+                                        <img src={require("../img/sub/bubble_icon.png").default}                                          alt=""
                                         />
                                         <p>
                                           You can always accept a sale even if
@@ -207,17 +422,19 @@ function AuctionBid({ store, setConnect }) {
                                     />
                                     <select name="" id="">
                                       <option>KLAY</option>
-                                      <option>KLAY</option>
-                                      <option>KLAY</option>
-                                      <option>KLAY</option>
-                                      <option>KLAY</option>
                                     </select>
                                   </div>
                                   <div class="input_right">
-                                    <input
+																		<input value={ bidamount_threshold }																			
                                       type="number"
                                       placeholder=""
-                                      onkeydown="onlyNumber(this)"
+																			onkeydown="onlyNumber(this)"
+																			onChange={evt=>{
+																				let {value}=evt.target ; value=+value
+																				if ( ISFINITE( value )){}
+																				else {return}
+																				setbidamount_threshold ( ''+value)
+																			}}
                                     />
                                   </div>
                                 </div>
@@ -236,7 +453,10 @@ function AuctionBid({ store, setConnect }) {
                                   </p>
                                   <div class="twoselect">
                                     <div class="toggle_1">
-                                      <select name="" id="">
+                                      <select name="" id="" value={daystoclose} onChange={evt=>{
+																				LOGGER('' , evt.target.value )
+																				setdaystoclose ( evt.target.value )
+																			}}>
                                         <option>5 days later</option>
                                         <option>3 days later</option>
                                         <option>2 days later</option>
@@ -347,7 +567,9 @@ function AuctionBid({ store, setConnect }) {
                     </li>
                   </ul>
                 </div>
-                <div class="sales_btn" onClick={() => setVerifyPopup(true)}>
+								<div class="sales_btn" onClick={() => { // setVerifyPopup(true)
+									onclickstartauction()
+								}}>
                   <a>Sales start</a>
                 </div>
               </div>
