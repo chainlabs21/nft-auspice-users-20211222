@@ -42,7 +42,7 @@ function NotificationSettings({ store, setConnect }) {
       <section id="sub">
         <article className="wallet_wrap">
           <div className="move on">
-{/**  <Settingssidepanel />*/}
+
              <div className="left_move wallet_left">
               <div className="mwallet">
                 <a >Account settings</a>
@@ -54,7 +54,7 @@ function NotificationSettings({ store, setConnect }) {
                   onClick={() => navigate("/mywallet")}
                 >
                   <h3>
-                    My wallet<span>{ strDot( myaddress , 6,2)}</span>
+                    My wallet<span> {strDot(myaddress, 6, 2)} </span>
                   </h3>
                 </div>
                 <div

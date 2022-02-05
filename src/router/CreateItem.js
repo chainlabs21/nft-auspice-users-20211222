@@ -559,7 +559,7 @@ function CreateItem({ store, setConnect }) {
                             </div>
                           </div>
                         </li>
-                        <li>
+                        {/* <li>
                           <div className="top2">
                             <h3>Unlocked content</h3>
                             <div className="toggle">
@@ -597,7 +597,7 @@ function CreateItem({ store, setConnect }) {
                               ></textarea>
                             </div>
                           </div>
-                        </li>
+                        </li> */}
                         <li>
                           <div className="top2">
                             <h3>Number of copies to be issued</h3>
@@ -625,7 +625,7 @@ function CreateItem({ store, setConnect }) {
                             />
                           </div>
                         </li>
-                        <li>
+                        {/* <li>
                           <div className="top2">
                             <h3>Freezing metadata</h3>
                             <div className="toggle">
@@ -647,7 +647,7 @@ function CreateItem({ store, setConnect }) {
                             <br />
                             Once selected, it cannot be edited or removed.
                           </p>
-                        </li>
+                        </li> */}
                         <li>
                           <div className="top2">
                             <h3>Active Publish</h3>

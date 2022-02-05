@@ -75,6 +75,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         }
       });
   };
+
   const on_wallet_disconnect = (_) => {
     let token_sec = localStorage.getItem("token");
     if (token_sec) {
@@ -234,8 +235,6 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/edititem" element={<EditItem />} />
           {/*
           <Route path="/mprofilemenu" element={<MProfileMenu />} />
-
-
           */}
         </Routes>
 

@@ -21,65 +21,71 @@ import "../css/style.css"; // import "./css/style01.css"; // import "./css/style
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import { API } from  '../config/api'
-import { useState, useEffect } from 'react'
+import { API } from "../config/api";
+import { useState, useEffect } from "react";
 import { LOGGER, STRINGER } from "../util/common";
-import { applytoken } from "../util/rest"
-import { getmyaddress , getrandomwords } from '../util/common'
+import { applytoken } from "../util/rest";
+import { getmyaddress, getrandomwords } from "../util/common";
 import SetErrorBar from "../util/SetErrorBar";
 import { messages } from "../config/messages";
-import { generateSlug } from  'random-word-slugs'
+import { generateSlug } from "random-word-slugs";
 import { strDot } from "../util/Util";
-import Settingssidepanel from '../components/Settingssidepanel'
+import Settingssidepanel from "../components/Settingssidepanel";
 
 function GeneralSettings({ store, setConnect }) {
-	const navigate = useNavigate();	
-	let [ description , setdescription ]= useState( '' )
-	let [ nickname , setnickname ] = useState( '' )
-	let [ email , setemail ] = useState( '' )
-	let axios=applytoken()
-	let [ myaddress , setmyaddress ] = useState( getmyaddress())
-	const onclicksave = _=>{
-		LOGGER( '' , nickname , description )
-		let reqbody={
-			description
-			, nickname
-		}
-		axios.put(`${API.API_MYINFO}` , reqbody ).then(resp=>{ LOGGER( '' , resp.data ) // }/users/user/myinfo`
-			let { status}=resp.data
-			if ( status == 'OK'){
-				SetErrorBar (messages.MSG_DONE_REGISTERING )
-				return
-			}
-		})
-	}
-	useEffect( _=>{
-		LOGGER( '' , myaddress )
-		axios.get( `${API.API_USER_INFO}/${myaddress}` ).then(resp=>{			LOGGER ( '' , resp.data )
-			let { status , payload }=resp.data
-			if ( status =='OK'){
-				let { maria : myinfo_maria , mongo : myinfo_mongo }=payload
-				setemail ( myinfo_maria?.email )
-			}
-		})
-		setnickname ( generateSlug(3, {format:'camel'}) )
-		setdescription ( 			STRINGER( getrandomwords (12)			 ))
-	} , [] )
+  const navigate = useNavigate();
+  let [description, setdescription] = useState("");
+  let [nickname, setnickname] = useState("");
+  let [email, setemail] = useState("");
+  let axios = applytoken();
+  let [myaddress, setmyaddress] = useState(getmyaddress());
+  const onclicksave = (_) => {
+    LOGGER("", nickname, description);
+    let reqbody = {
+      description,
+      nickname,
+    };
+    axios.put(`${API.API_MYINFO}`, reqbody).then((resp) => {
+      LOGGER("", resp.data); // }/users/user/myinfo`
+      let { status } = resp.data;
+      if (status == "OK") {
+        SetErrorBar(messages.MSG_DONE_REGISTERING);
+        return;
+      }
+    });
+  };
+  useEffect((_) => {
+    LOGGER("", myaddress);
+    axios.get(`${API.API_USER_INFO}/${myaddress}`).then((resp) => {
+      LOGGER("", resp.data);
+      let { status, payload } = resp.data;
+      if (status == "OK") {
+        let { maria: myinfo_maria, mongo: myinfo_mongo } = payload;
+        setemail(myinfo_maria?.email);
+      }
+    });
+    setnickname(generateSlug(3, { format: "camel" }));
+    setdescription(STRINGER(getrandomwords(12)));
+  }, []);
   return (
     <GeneralSettingsBox>
       <section id="sub">
         <article className="wallet_wrap">
           <div className="move on">
-
-              <div className="left_move wallet_left">
+            <div className="left_move wallet_left">
               <div className="mwallet">
-								<a onClick={() => { navigate(-1)
-								} } >Account settings</a>
+                <a
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  Account settings
+                </a>
               </div>
               <form>
                 <div className="w1" onClick={() => navigate("/mywallet")}>
                   <h3>
-                    My wallet<span>{ strDot( myaddress , 6, 2 )}</span>
+                    My wallet<span>{strDot(myaddress, 6, 2)}</span>
                   </h3>
                 </div>
                 <div className="w2 on">
@@ -92,8 +98,8 @@ function GeneralSettings({ store, setConnect }) {
                   <h3>Notification settings</h3>
                 </div>
               </form>
-						</div>
-{/**  <Settingssidepanel />*/}
+            </div>
+            {/**  <Settingssidepanel />*/}
 
             <div className="right_move wallet_right">
               <h2>General settings</h2>
@@ -104,29 +110,34 @@ function GeneralSettings({ store, setConnect }) {
                       <h4>Nickname</h4>
                       <input
                         type="text"
-												placeholder="Please enter your nickname"
-												value={ nickname }
+                        placeholder="Please enter your nickname"
+                        value={nickname}
                       />
                     </li>
                     <li>
                       <h4>About me</h4>
                       <textarea
                         type="text"
-												placeholder="write my introduction"
-												value={ description }
+                        placeholder="write my introduction"
+                        value={description}
                       ></textarea>
                     </li>
                     <li>
                       <h4>Email Address</h4>
-                      <input type="text" placeholder="Input email address" 
-												value={email}
-											/>
+                      <input
+                        type="text"
+                        placeholder="Input email address"
+                        value={email}
+                      />
                     </li>
                   </ul>
-                  <a onClick={() => {
-										onclicksave()
-										// navigate(-1)
-									} }									className="wbtn">
+                  <a
+                    onClick={() => {
+                      onclicksave();
+                      // navigate(-1)
+                    }}
+                    className="wbtn"
+                  >
                     Save
                   </a>
                 </div>
@@ -144,7 +155,9 @@ const GeneralSettingsBox = styled.div`
     padding: 52px 0 0 0;
   }
 
-  .w1,.w2,.w3{
+  .w1,
+  .w2,
+  .w3 {
     cursor: pointer;
   }
 `;

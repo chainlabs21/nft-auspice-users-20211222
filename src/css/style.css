@@ -1932,6 +1932,10 @@
 }
 #sub .bundle_box .bundle_top .right_m .graph {
   float: left;
+  width:100%;
+  max-width: 490px;
+  height: 100%;
+  min-height: 230px;
   margin-top: 20px;
   margin-left: 40px;
 }
@@ -6181,6 +6185,23 @@ div.basic .tab_bottom .body tr td span.chain.off {
   .top2
   .toggle
   .select_left
+  p {
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 15px 40px;
+    background-color: #fbfbfb;
+  }
+#sub
+  .ntfsell_box
+  .create2
+  .form
+  ul
+  li
+  .price_info_pc
+  .top2
+  .toggle
+  .select_left
   select::before {
   content: "";
   position: absolute;
@@ -6862,6 +6883,7 @@ div.basic .tab_bottom .body tr td span.chain.off {
   float: right;
 }
 #sub .ntfsell_box .sellbg2_pc .sales_btn {
+  width: 100%;
   background-color: #000;
   border-radius: 50px;
 }
@@ -10364,6 +10386,10 @@ div.basic .tab_bottom .body tr td span.chain.off {
   .name
   img {
   float: left;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 #sub
   .deal_box
@@ -10391,6 +10417,8 @@ div.basic .tab_bottom .body tr td span.chain.off {
   .name.price
   img {
   width: 24px;
+  height: 24px;
+  object-fit: cover;
 }
 #sub
   .deal_box
@@ -10567,6 +10595,8 @@ div.basic .tab_bottom .body tr td span.chain.off {
     tr
     td
     .name {
+      display: flex;
+      align-items: center;
   }
   #sub
     .deal_box

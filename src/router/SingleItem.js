@@ -60,6 +60,7 @@ import { getethrep, getweirep, is_two_addresses_same } from "../util/eth";
 import rstone from "../img/sub/rstone.png";
 import { ADDRESSES } from "../config/addresses";
 import { putCommaAtPrice, strDot } from "../util/Util";
+import Chart from "react-apexcharts";
 
 const convertLongString = (startLength, endLength, str) => {
   if (!str) return;
@@ -123,6 +124,9 @@ function SingleItem({
   let [referer, setreferer] = useState(searchParams.get("referer"));
   let [j_auctionuuid_bidprice, setj_auctionuuid_bidprice] = useState({});
   let [mybidamount, setmybidamount] = useState("");
+  const [chartXdata, setChartXdata] = useState([]);
+  const [chartYdata, setChartYdata] = useState([]);
+
   let tokenid;
   //	let itemid =get_last_part_of_path ( window.location.href )
   let axios = applytoken();
@@ -131,6 +135,7 @@ function SingleItem({
     let n = (+amount * +rate) / 10000;
     return n.toFixed(4); // String()
   };
+
   useEffect(
     (_) => {
       let { klaytn } = window;
@@ -148,6 +153,7 @@ function SingleItem({
     },
     [window.klaytn]
   );
+
   useEffect(
     async (_) => {
       if (sellorder && KEYS(sellorder).length) {
@@ -183,6 +189,7 @@ function SingleItem({
     },
     [sellorder]
   );
+
   const on_buy_spot_common = (_) => {
     LOGGER("", itemdata.item?.itemid); // query_nfttoken_balance () // a little cumbersome
     let { item } = itemdata;
@@ -278,6 +285,7 @@ function SingleItem({
     else {
     }
   };
+
   const on_bid_auction = async (_) => {
     if (mybidamount) {
     } else {
@@ -438,6 +446,10 @@ function SingleItem({
         let { logprices } = respdata;
         setlogprices(logprices);
         setpricestats(getMaxMinAvg(logprices.map((elem) => elem.price)));
+        setChartXdata(
+          logprices.map((e) => `${moment(e.createdat).format("MM.DD")}`)
+        );
+        setChartYdata(logprices.map((e) => e.price));
         /** 				setlogo rders ( respdata.log orders )
 				let { logp rices , logact ions } =respdata
 				setlogpri ces ( logpr ices )
@@ -475,7 +487,7 @@ function SingleItem({
     const wrapWidth = itemWrapRef.current.offsetWidth;
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
+    const pageNum = Math.ceil(listotheritems.length / itemNumByPage);
     if (userIndex > 0) setUserIndex(userIndex - 1);
     else setUserIndex(pageNum - 1);
   }
@@ -484,7 +496,7 @@ function SingleItem({
     const wrapWidth = itemWrapRef.current.offsetWidth;
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
+    const pageNum = Math.ceil(listotheritems.length / itemNumByPage);
     if (userIndex < pageNum - 1) setUserIndex(userIndex + 1);
     else setUserIndex(0);
   }
@@ -524,11 +536,10 @@ function SingleItem({
   );
 
   useEffect(() => {
-    return;
     const wrapWidth = itemWrapRef.current.offsetWidth;
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
+    const pageNum = Math.ceil(listotheritems.length / itemNumByPage);
 
     if (itemWrapRef.current?.scrollTo) {
       if (userIndex < pageNum) {
@@ -552,7 +563,11 @@ function SingleItem({
       {likePopup && <ItemLikePopup off={setLikePopup} itemid={itemid} />}
 
       {bidauctionmodal && (
-        <div className="popup info" id="info_popup" style={{ display: "block" }}>
+        <div
+          className="popup info"
+          id="info_popup"
+          style={{ display: "block" }}
+        >
           <div className="box_wrap buynft">
             <a
               onClick={() => setbidauctionmodal(false)}
@@ -752,7 +767,11 @@ function SingleItem({
         </div>
       )}
       {buySpotPopup && (
-        <div className="popup info" id="info_popup" style={{ display: "block" }}>
+        <div
+          className="popup info"
+          id="info_popup"
+          style={{ display: "block" }}
+        >
           <div className="box_wrap buynft">
             <a
               onClick={() => setbuySpotPopup(false)}
@@ -1150,9 +1169,25 @@ function SingleItem({
                     </ul>
                   </div>
                   <div className="graph">
-                    <img
-                      src={require("../img/sub/Component.png").default}
-                      alt="graph"
+                    <Chart
+                      {...chartData}
+                      options={{
+                        chart: {
+                          toolbar: {
+                            show: false,
+                          },
+                        },
+                        xaxis: {
+                          categories: [...chartXdata],
+                        },
+                        colors: ["#000"],
+                      }}
+                      series={[
+                        {
+                          name: "price",
+                          data: [...chartYdata],
+                        },
+                      ]}
                     />
                   </div>
                 </div>
@@ -1428,10 +1463,14 @@ function SingleItem({
                     {listholder.map((v, idx) => (
                       <tr key={idx}>
                         <td></td>
-                        <td className="bold">{putCommaAtPrice(v.price * 1)} KLAY</td>
+                        <td className="bold">
+                          {putCommaAtPrice(v.price * 1)} KLAY
+                        </td>
                         <td className="blue">{v.from_}</td>
                         <td className="blue">{v.to_}</td>
-                        <td className="gray">{moment(v.createdat).fromNow()}</td>
+                        <td className="gray">
+                          {moment(v.createdat).fromNow()}
+                        </td>
                         <td>
                           <span
                             onClick={(_) => {
@@ -1456,7 +1495,9 @@ function SingleItem({
           </div>
           <div className="item">
             <div className="wrap">
-              <h4 className="t">Other works from {iscollectionbyauthorseller}</h4>
+              <h4 className="t">
+                Other works from {iscollectionbyauthorseller}
+              </h4>
 
               <div className="swiper">
                 <div className="swiper-container swiper-container-trendingitem">
@@ -1524,11 +1565,11 @@ function SingleItem({
                 </div>
 
                 <div
-                  className="swiper-button-prev swiper-button-trendingitem-prev pcno"
+                  className="swiper-button-prev swiper-button-trendingitem-prev"
                   onClick={onClickUserPreBtn}
                 ></div>
                 <div
-                  className="swiper-button-next swiper-button-trendingitem-next pcno"
+                  className="swiper-button-next swiper-button-trendingitem-next"
                   onClick={onClickUserNextBtn}
                 ></div>
               </div>
@@ -1541,6 +1582,16 @@ function SingleItem({
 }
 
 const SignPopupBox = styled.div`
+  @media screen and (min-width: 1440px) {
+    #sub .item .swiper .swiper-button-trendingitem-prev {
+      left: -26px;
+    }
+
+    #sub .item .swiper .swiper-button-trendingitem-next {
+      right: -26px;
+    }
+  }
+  
   .swiper-wrapper,
   .slideBox {
     overflow-x: scroll;
@@ -1615,53 +1666,29 @@ let orders = {
   uuid: "39326de3-438c-4ebd-b2ec-092b271db16a",
 };
 
-/** 				reque sttransaction({ from : myaddress
-			, to : ADDRESSES.auction_rep o_dutch_bulk
-			, data : abistr
-			, value : '0x00'
-		}).then(resp=>{ LOGGER( '' , resp )
-			let { transactionHash , status } = resp
-			LOGGER( '' , transactionHash , status )
-		}).catch(err=>{
-			LOGGER('' , err )
-		})
-	address _target_erc1155_contract
-			, string memory _itemid
-			, uint256 _tokenid // ignored for now
-			, uint256 _amount
-			, uint256 _author_royalty
-			, uint256 _decimals
-			, address _paymeans
-			, uint256 _price
-			, address _seller
-			, address _to
-*/
-// useE ffect(() => {
-//   const setAuctionTimer = () => {
-//     let now = moment().format("DD/MM/YYYY HH:mm:ss");
-//     let then = moment(endAutionTime).format("DD/MM/YYYY HH:mm:ss");
+const chartData = {
+  width: "100%",
+  height: "100%",
+  type: "line",
+  options: {
+    chart: {
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+      width: 2,
+    },
+    stroke: {
+      curve: "smooth",
+    },
 
-//     let ms = moment(then, "DD/MM/YYYY HH:mm:ss").diff(
-//       moment(now, "DD/MM/YYYY HH:mm:ss")
-//     );
-//     let d = moment.duration(ms);
-//     let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
-
-//     if (d.asSeconds() < 0) {
-//       setDiffTime(moment().format("00:00:00"));
-//       setNearEnd(false);
-//       return;
-//     }
-
-//     if (!nearEnd && d.asHours() < 12) {
-//       setNearEnd(true);
-//     }
-//     setDiffTime(s);
-//   };
-
-//   setInterval(setAuctionTimer, 1000);
-
-//   return () => {
-//     clearInterval(setAuctionTimer);
-//   };
-// }, [endAutionTime]);
+    grid: {
+      row: {
+        colors: ["transparrent"],
+        opacity: 0.5,
+      },
+    },
+  },
+};

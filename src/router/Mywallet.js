@@ -24,11 +24,11 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useState, useEffect } from "react";
-import { getmyaddress , onClickCopy, LOGGER } from "../util/common";
+import { getmyaddress, onClickCopy, LOGGER } from "../util/common";
 import { strDot } from "../util/Util";
 function Mywallet({ store, setConnect }) {
   const navigate = useNavigate();
-	let [ myaddress , setmyaddress]= useState( getmyaddress() )	
+  let [myaddress, setmyaddress] = useState(getmyaddress());
   return (
     <SignPopupBox>
       <section id="sub">
@@ -38,16 +38,16 @@ function Mywallet({ store, setConnect }) {
               <form>
                 <div className="w1 on">
                   <h3>
-                    My wallet<span
-										onClick ={_=>{ LOGGER('L6thSy071a') }}
-										> {strDot( myaddress ,6,6)} </span>
+                    My wallet
+                    <span> {strDot(myaddress, 6, 2)} </span>
                   </h3>
                 </div>
-                <div className="w2" onClick={() =>{
-
-									navigate("/generalsettings")
-								
-								}}>
+                <div
+                  className="w2"
+                  onClick={() => {
+                    navigate("/generalsettings");
+                  }}
+                >
                   <h3>General settings</h3>
                 </div>
                 <div
@@ -70,15 +70,15 @@ function Mywallet({ store, setConnect }) {
                         <div className="de">
                           <input type="text" disabled />
                           <span className="defalut_text">
-                            {myaddress ? myaddress : ''}
+                            {myaddress ? myaddress : ""}
                           </span>
                         </div>
-                        <a className="btn_copy"
-													onClick={_=>{
-onClickCopy ( myaddress )
-													}}
-												
-												>copy</a>
+                        <a
+                          className="btn_copy"
+                          onClick={(_) => onClickCopy(myaddress)}
+                        >
+                          copy
+                        </a>
                       </div>
                     </li>
                   </ul>

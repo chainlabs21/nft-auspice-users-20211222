@@ -49,11 +49,11 @@ function MarketPlace({ store, setConnect }) {
   const [itemList, setItemList] = useState([]);
   const [fromPrice, setFromPrice] = useState("");
   const [toPrice, setToPrice] = useState("");
-  const [priceFilterToggle, setPriceFilterToggle] = useState(false);
   const [callEffect, setCallEffect] = useState(false);
   const [totalItem, setTotalItem] = useState(0);
   const [unit, setUnit] = useState("USD");
   const [pricePopup, setPricePopup] = useState(false);
+  const [index, setIndex] = useState(10);
 
   let axios = applytoken();
   const handleCateFilter = (category) => {
@@ -71,76 +71,15 @@ function MarketPlace({ store, setConnect }) {
     }
   }
 
-  function onClickOption(data) {
-    setUnit(data);
-    setPriceFilterToggle(false);
-    setFromPrice(0.0);
-    setToPrice(0.0);
+  function onClickOption() {
+    setFromPrice("");
+    setToPrice("");
     setCallEffect(!callEffect);
     setPricePopup(false);
   }
 
   useEffect(() => {
-    const temp = [...filteredList];
-
-    // categoryFilter
-    const categoryFiltered = temp.filter((v) => {
-      if (categoryFilter === "All") return true;
-      if (v.item.categorystr === categoryFilter) return true;
-      else return false;
-    });
-
-    // statusFilter
-    let selectedStatus = [];
-    filterList.filter((e) => {
-      let a = statusList.forEach((f) => {
-        // console.log("e", e);
-        // console.log("f", f);
-        if (e === f) selectedStatus.push(f);
-      });
-      
-    });
-    console.log(selectedStatus);
-
-    console.log(filterList, selectedStatus);
-
-    // if (statusToggle) {
-    //   statusFiltered = categoryFiltered.filter((data) => {
-    //     const statusToStringArr = [];
-    //     if (!data.status) return false;
-    //     data.status.forEach((stat) => {
-    //       statusToStringArr.push(statusList[stat]);
-    //     });
-    //     const temp = filterList.filter((filter) =>
-    //       statusToStringArr.includes(filter)
-    //     );
-    //     if (temp.length === filterList.length) {
-    //       return true;
-    //     } else {
-    //       return false;
-    //     }
-    //   });
-    // }
-
-    // //priceFilter
-    // let priceFiltered = [...statusFiltered];
-    // if (priceFilterToggle) {
-    //   priceFiltered = statusFiltered.filter((v) => {
-    //     if (unit === "USD") {
-    //       if (v.priceusd >= fromPrice && v.priceusd <= toPrice) {
-    //         return true;
-    //       }
-    //       return false;
-    //     } else if (unit === "KLAY") {
-    //       if (v.tokenprice >= fromPrice && v.tokenprice <= toPrice) {
-    //         return true;
-    //       }
-    //       return false;
-    //     }
-    //   });
-    // }
-    // //chainsFilter
-    // setFilteredList(priceFiltered);
+    getItem();
   }, [categoryFilter, itemList, filterList, callEffect]);
 
   const editFilterList = (category, cont) => {
@@ -153,7 +92,6 @@ function MarketPlace({ store, setConnect }) {
   const onclickFilterReset = () => {
     setFilterObj({});
     setFilterList([]);
-    setPriceFilterToggle(false);
     setFromPrice(0);
     setToPrice(0);
   };
@@ -170,28 +108,48 @@ function MarketPlace({ store, setConnect }) {
     setFilterList([...Object.values(dataObj)]);
   };
 
-  function getItem(index) {
+  function getItem(index = 10) {
+    if (index === 10) itemIndex = 10;
     console.log(index);
-    axios.get(`${API.API_MERCHANDISES_LIST}/0/${index}`).then((resp) => {
-      LOGGER("wgNCeNKxXL", resp.data);
-      let { status, list, payload } = resp.data;
-      if (status == "OK") {
-        setFilteredList(list);
-        setTotalItem(payload?.count);
-        loadingBusy = false;
-      }
+    const temp = [...filteredList];
+
+    // categoryFilter
+    const categoryFiltered = temp.filter((v) => {
+      if (categoryFilter === "All") return true;
+      if (v.item.categorystr === categoryFilter) return true;
+      else return false;
     });
+
+    // statusFilter
+    let selectedStatus = 0;
+    let a = filterList.filter((e) => {
+      if (e.indexOf("Buy Now") !== -1) selectedStatus += 1;
+      if (e.indexOf("On Auction") !== -1) selectedStatus += 2;
+      if (e.indexOf("New") !== -1) selectedStatus += 4;
+      if (e.indexOf("Has Offers") !== -1) selectedStatus += 8;
+    });
+
+    axios
+      .get(`${API.API_MERCHANDISES_LIST}/${0}/${index}`, {
+        params: {
+          salestatus: selectedStatus,
+          pricemin: fromPrice,
+          pricemax: toPrice,
+        },
+      })
+      .then((resp) => {
+        LOGGER("wgNCeNKxXL", resp.data);
+        let { status, list, payload } = resp.data;
+        if (status == "OK") {
+          setFilteredList(list);
+          setTotalItem(payload?.count);
+          loadingBusy = false;
+        }
+      });
   }
 
   useEffect(() => {
-    axios.get(`${API.API_MERCHANDISES_LIST}/0/10`).then((resp) => {
-      LOGGER("wgNCeNKxXL", resp.data);
-      let { status, list, payload } = resp.data;
-      if (status == "OK") {
-        setFilteredList(list);
-        setTotalItem(payload?.count);
-      }
-    });
+    getItem();
 
     window.addEventListener("scroll", (e) => {
       if (
@@ -313,7 +271,6 @@ function MarketPlace({ store, setConnect }) {
                       <button
                         className="applyBtn"
                         onClick={() => {
-                          setPriceFilterToggle(true);
                           setCallEffect(!callEffect);
                         }}
                       >

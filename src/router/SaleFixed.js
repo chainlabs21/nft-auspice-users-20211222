@@ -516,18 +516,10 @@ function SaleFixed() {
                             <div className="price_info_pc">
                               <div className="top2">
                                 <h3>Expiry</h3>
+                                <p>&nbsp;</p>
                                 <div className="toggle border_1">
                                   <div className="select_left">
-                                    <img
-                                      src={
-                                        require("../img/sub/I_klaytn.svg")
-                                          .default
-                                      }
-                                      alt=""
-                                    />
-                                    <select name="" id="">
-                                      <option>Days later</option>
-                                    </select>
+                                    <p>Days later</p>
                                   </div>
                                   <div className="input_right">
                                     <input
@@ -569,9 +561,9 @@ function SaleFixed() {
                                     name=""
                                     id="toggle"
                                     checked={endPriceOption}
-                                    onChange={(e) => {
-                                      setEndPriceOption(e.target.checked);
-                                    }}
+                                    onChange={(e) =>
+                                      setEndPriceOption(e.target.checked)
+                                    }
                                   />
                                   <label for="toggle"></label>
                                 </div>
@@ -665,7 +657,10 @@ function SaleFixed() {
                             </div>
                           </li>
                           <li>
-                            <div className="private" style={{ display: "none" }}>
+                            <div
+                              className="private"
+                              style={{ display: "none" }}
+                            >
                               <div className="top2">
                                 <h3>Private option</h3>
                                 <div className="toggle">
@@ -794,15 +789,16 @@ function SaleFixed() {
                     </li>
                   </ul>
                 </div>
-                <div
+                <button
                   className="sales_btn"
+                  disabled={true}
                   onClick={() => {
                     setListingProcess(1);
                     handleSalesStart();
                   }}
                 >
                   <a>Sales start</a>
-                </div>
+                </button>
                 <span> &nbsp;</span>
                 <div
                   onClick={(_) => {

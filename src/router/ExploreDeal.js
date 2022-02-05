@@ -25,10 +25,10 @@ import filter_icon from "../img/sub/filter_icon.png";
 import axios from "axios";
 import { API } from "../config/api";
 import { URL_TX_SCAN } from "../config/configs";
-import moment from 'moment'
+import moment from "moment";
 
 function ExploreDeal() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
   const [toggleFilter, setToggleFilter] = useState(false);
@@ -66,13 +66,19 @@ function ExploreDeal() {
     axios.defaults.headers.post.token = token_sec;
 
     axios
-      .get(API.API_GET_EXPLORE, {        params: { fieldname: "typestr", fieldvalues: "MINT,SALE", itemdetail : 1 },
+      .get(API.API_GET_EXPLORE, {
+        params: {
+          fieldname: "typestr",
+          fieldvalues: "MINT,SALE",
+          itemdetail: 1,
+        },
       })
-      .then((resp) => {	console.log( 'MAvjoRxUYM' , resp.data )
-				let { status , list }=resp.data
-        if ( status =='OK' ){
-					setDataList( list)
-				}
+      .then((resp) => {
+        console.log("MAvjoRxUYM", resp.data);
+        let { status, list } = resp.data;
+        if (status == "OK") {
+          setDataList(list);
+        }
       });
   }, []);
 
@@ -300,14 +306,21 @@ function ExploreDeal() {
                       </thead>
                       <tbody>
                         {dataList.map((cont, index) => (
-                          <tr key={index} onClick={_=>{
-														navigate(`/singleitem?itemid=${cont.itemid}`)
-													}}>
+                          <tr
+                            key={index}
+                            onClick={(_) => {
+                              navigate(`/singleitem?itemid=${cont.itemid}`);
+                            }}
+                          >
                             <td>{cont.typestr}</td>
                             <td>
                               <div className="name">
-                                <img style={{width: '50px' , borderRadius:'50%'}}
-                                  src={ cont.item?.url ||	require("../img/sub/collect_circle.png").default }
+                                <img
+                                  src={
+                                    cont.item?.url ||
+                                    require("../img/sub/collect_circle.png")
+                                      .default
+                                  }
                                   alt=""
                                 />
                                 <p></p>
@@ -315,7 +328,11 @@ function ExploreDeal() {
                             </td>
                             <td>
                               <div className="name price">
-                                <img                                  src={require("../img/sub/I_klaytn.svg").default}                                  alt=""
+                                <img
+                                  src={
+                                    require("../img/sub/I_klaytn.svg").default
+                                  }
+                                  alt=""
                                 />
                                 <p>{cont.price}</p>
                               </div>
@@ -344,11 +361,15 @@ function ExploreDeal() {
                                 <p>{cont.to_}</p>
                               </div>
                             </td>
-                            <td>{ moment(cont.createdat).fromNow()  }</td>
-                            <td> {cont.amount }</td>
-                            <td onClick={_=>{
-															window.open ( URL_TX_SCAN[cont.nettype ] + `/${cont.txhash}` )
-														}}>
+                            <td>{moment(cont.createdat).fromNow()}</td>
+                            <td> {cont.amount}</td>
+                            <td
+                              onClick={(_) => {
+                                window.open(
+                                  URL_TX_SCAN[cont.nettype] + `/${cont.txhash}`
+                                );
+                              }}
+                            >
                               <img
                                 src={
                                   require("../img/sub/icon_link_off.png")

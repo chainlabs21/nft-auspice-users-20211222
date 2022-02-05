@@ -15,7 +15,6 @@ import { API } from "./config/api";
 import { strDot } from "./util/Util";
 import moment from "moment";
 
-
 function Main({ store }) {
   const visualSwiperContRef = useRef();
   const visualSwiperRef = useRef();
@@ -32,7 +31,7 @@ function Main({ store }) {
   let [list_trenditems, setlist_trenditems] = useState([]);
   let [list_featured, setlist_featured] = useState([]);
   let axios = applytoken();
-  
+
   useEffect((_) => {
     axios.get(`${API.API_MAIN_FEATURED_ITEMS}`).then((resp) => {
       LOGGER("", resp.data);
@@ -506,7 +505,9 @@ function Main({ store }) {
                             >
                               <div className="on">
                                 <ul>
-                                  <li className="heart off">{cont.countfavors}</li>
+                                  <li className="heart off">
+                                    {cont.countfavors}
+                                  </li>
                                   <li className="star off"></li>
                                 </ul>
                                 <div>{cont.titlename} </div>

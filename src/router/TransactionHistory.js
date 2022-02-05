@@ -27,12 +27,12 @@ import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useState, useEffect } from "react";
-import Myprofcommonheader  from '../components/Myprofcommonheader'
-import { LOGGER , getmyaddress } from '../util/common'
+import Myprofcommonheader from "../components/Myprofcommonheader";
+import { LOGGER, getmyaddress } from "../util/common";
 import { API } from "../config/api";
-import { applytoken, } from '../util/rest'
-import moment from 'moment'
-import { URL_TX_SCAN } from '../config/configs'
+import { applytoken } from "../util/rest";
+import moment from "moment";
+import { URL_TX_SCAN } from "../config/configs";
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
   const [toggleFilter, setToggleFilter] = useState(false);
@@ -46,20 +46,11 @@ function MarketPlace({ store, setConnect }) {
   const [toPrice, setToPrice] = useState("");
   const [priceFilterToggle, setPriceFilterToggle] = useState(false);
   const [callEffect, setCallEffect] = useState(false);
-	const [pricePopup, setPricePopup] = useState(false);
-	let [ list , setlist]=useState( [] )
-	let axios=applytoken()
-	let myaddress=getmyaddress()
-	useEffect(_=>{
-		if ( myaddress){}
-		else {return }
-		axios.get( API.API_TRANSACTIONS +`/username/${myaddress}/0/100/id/DESC` , { params : { itemdetail : 0 } }).then(resp=>{ LOGGER('' , resp.data)
-			let { status , list }=resp.data
-			if ( status =='OK'){
-				setlist ( list )
-			}
-		}) //		,  : `${apiServer}/queries/rows/transactions` // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
-	} , [ myaddress ] )
+  const [pricePopup, setPricePopup] = useState(false);
+  let [list, setlist] = useState([]);
+  let axios = applytoken();
+  let myaddress = getmyaddress();
+
   function getSelectText() {
     switch (unit) {
       case "USD":
@@ -102,6 +93,34 @@ function MarketPlace({ store, setConnect }) {
     setFilterList([...Object.values(dataObj)]);
   }
 
+  useEffect(
+    (_) => {
+      // if (myaddress) {
+      // } else {
+      //   return;
+      // }
+      axios
+        // .get(API.API_TRANSACTIONS + `/username/${myaddress}/0/100/id/DESC`, {
+        //   params: { itemdetail: 0 },
+        // })
+        .get(
+          API.API_TRANSACTIONS +
+            `/username/0xa9379265C524eAD779cf4F2964c6453c0055c9AD/0/100/id/DESC`,
+          {
+            params: { itemdetail: 0 },
+          }
+        )
+        .then((resp) => {
+          LOGGER("", resp.data);
+          let { status, list } = resp.data;
+          if (status == "OK") {
+            setlist(list);
+          }
+        }); //		,  : `${apiServer}/queries/rows/transactions` // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
+    },
+    [myaddress]
+  );
+
   return (
     <SignPopupBox>
       <section id="sub">
@@ -109,29 +128,7 @@ function MarketPlace({ store, setConnect }) {
           <div className="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
 
-<Myprofcommonheader />
-{/**             <div className="wrap">
-              <div className="collection_detail">
-                <div className="pro_img">
-                  <img src={require("../img/sub/home_profile.png").default} />
-                  <div className="home_icons">
-                    <a>
-                      <img src={require("../img/sub/re.png").default} />
-                    </a>
-                    <a>
-                      <img src={require("../img/sub/share.png").default} />
-                    </a>
-                  </div>
-                </div>
-                <h2 className="notop">Henry junior's Item</h2>
-                <h3>0x97bc...8cad2</h3>
-                <h4>
-                  Henry is a mixed-media artist living in the Bay Area and uses
-                  <br /> a stream of consciousness approach to his work.
-                </h4>
-              </div>
-            </div>
-*/}
+            <Myprofcommonheader />
 
             <div className={toggleFilter ? "move on deal" : "move off deal"}>
               <div className="cw ucl">
@@ -471,51 +468,88 @@ function MarketPlace({ store, setConnect }) {
                             <th>To</th>
                             <th>Date</th>
                             <th>Quantity</th>
-														<th>Tx</th>
+                            <th>Tx</th>
                           </tr>
                         </thead>
                         <tbody>
-													{ list.map( ( elem , idx ) =>(
-                          <tr key={ idx }>
-													<td> { elem.typestr }</td>
-													<td>
-														<div className="name" onClick={e=>{
-															navigate(`/singleitem?itemid=${elem.item?.itemid}`)
-														}}>
-															<img style={{borderRadius:'50%', width:'70px'}}
-																src={	elem.item?.url || require("../img/sub/hjcollection.png").default																}
-																alt=""
-															/>
-															<p>{ elem.titlename }</p>
-														</div>
-													</td>
-													<td>
-														<div className="name price">
-															<img																src={																	require("../img/sub/I_klaytn.svg").default																}																alt=""															/>
-															<p>{ elem.price }</p>
-														</div>
-													</td>
-													<td>
-														<div className="name">
-															<img src={ require("../img/sub/hjcollection.png")																		.default}																alt=""															/>
-															<p>{ elem.from_ }</p>
-														</div>
-													</td>
-													<td>
-														<div className="name">
-															<img																src={																	require("../img/sub/hjcollection.png")																		.default																}																alt=""															/>
-															<p>{ elem.to_ }</p>
-														</div>
-													</td>
-													<td>{ moment(elem.createdat).fromNow() }</td>
-													<td> { elem.amount } </td>
-													<td onClick={_=>{														window.open ( URL_TX_SCAN[ elem.nettype ] + `/${elem.txhash}` )													}}>
-														<img															src={																require("../img/sub/icon_link_off.png")																	.default															}															alt=""														/>
-													</td>
-												</tr>
-													))
-													}
-
+                          {list.map((elem, idx) => (
+                            <tr key={idx}>
+                              <td> {elem.typestr}</td>
+                              <td>
+                                <div
+                                  className="name"
+                                  onClick={(e) => {
+                                    navigate(
+                                      `/singleitem?itemid=${elem.item?.itemid}`
+                                    );
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      elem.item?.url ||
+                                      require("../img/sub/hjcollection.png")
+                                        .default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>{elem.item?.titlename}</p>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="name price">
+                                  <img
+                                    src={
+                                      require("../img/sub/I_klaytn.svg").default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>{elem.price}</p>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="name">
+                                  <img
+                                    src={
+                                      require("../img/sub/hjcollection.png")
+                                        .default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>{elem.from_}</p>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="name">
+                                  <img
+                                    src={
+                                      require("../img/sub/hjcollection.png")
+                                        .default
+                                    }
+                                    alt=""
+                                  />
+                                  <p>{elem.to_}</p>
+                                </div>
+                              </td>
+                              <td>{moment(elem.createdat).fromNow()}</td>
+                              <td> {elem.amount} </td>
+                              <td
+                                onClick={(_) => {
+                                  window.open(
+                                    URL_TX_SCAN[elem.nettype] +
+                                      `/${elem.txhash}`
+                                  );
+                                }}
+                              >
+                                <img
+                                  src={
+                                    require("../img/sub/icon_link_off.png")
+                                      .default
+                                  }
+                                  alt=""
+                                />
+                              </td>
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                     </div>

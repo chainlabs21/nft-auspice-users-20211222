@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
-import { useState , useEffect } from 'react'
+import { useState, useEffect } from "react";
 import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
@@ -24,200 +24,41 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import Myprofcommonheader  from '../components/Myprofcommonheader'
-import { applytoken } from "../util/rest"
+import Myprofcommonheader from "../components/Myprofcommonheader";
+import { applytoken } from "../util/rest";
 import { API } from "../config/api";
-import { LOGGER , getmyaddress } from "../util/common";
+import { LOGGER, getmyaddress } from "../util/common";
+import { putCommaAtPrice } from "../util/Util";
 
 function Liked({ store, setConnect }) {
   const navigate = useNavigate();
-	let axios=applytoken ()
-	let myaddress = getmyaddress () 
-	let [ list , setlist ] = useState( [] )
-	useEffect( _=>{
-		axios.get( API.API_USER_FAVORITES +`/username/${myaddress}/0/100/id/DESC`).then(resp=>{ LOGGER('' , resp.data )
-			let { status , } = resp.data
-			if ( status =='OK' ){
-				setlist ( list )
-			}
-		})
-	} , [] )
+  let axios = applytoken();
+  let myaddress = getmyaddress();
+  let [list, setlist] = useState([]);
+  useEffect((_) => {
+    axios
+      .get(
+        API.API_USER_FAVORITES +
+        `/username/${myaddress}/0/100/id/DESC`,
+        { params: { itemdetail: 1 } }
+      )
+      .then((resp) => {
+        LOGGER("", resp.data);
+        let { status ,list} = resp.data;
+        if (status == "OK") {
+          setlist(list);
+        }
+      });
+  }, []);
   return (
     <SignPopupBox>
       <section id="sub">
         <article className="profile_home">
           <div className="collection_home">
             <img src={require("../img/sub/home_bg.png").default} />
-<Myprofcommonheader />
-{/**             <div className="wrap">
-              <div className="collection_detail">
-                <div className="pro_img">
-                  <img src={require("../img/sub/home_profile.png").default} />
-                  <div className="home_icons">
-                    <a>
-                      <img src={require("../img/sub/re.png").default} />
-                    </a>
-                    <a>
-                      <img src={require("../img/sub/share.png").default} />
-                    </a>
-                  </div>
-                </div>
-                <h2 className="notop">Henry junior's Item</h2>
-                <h3>0x97bc...8cad2</h3>
-                <h4>
-                  Henry is a mixed-media artist living in the
-                  <br className="mo" /> Bay Area and uses
-                  <br className="pc" />a stream of consciousness
-                  <br className="mo" /> approach to his work.
-                </h4>
-              </div>
-            </div>
-*/}
+            <Myprofcommonheader />
+            
             <div className="move off">
-              <div className="left_move">
-                <form>
-                  <div className="filter">
-                    <h3 className="filt">
-                      <img
-                        src={require("../img/sub/filter_icon.png").default}
-                      />
-                      Filter
-                    </h3>
-                    <img
-                      src={require("../img/sub/filter_close.png").default}
-                      className="fc"
-                    />
-                  </div>
-                  <div className="fold status">
-                    <h3 className="slide_tt">
-                      Status
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        className="slide_up"
-                      />
-                    </h3>
-                    <div className="open status">
-                      <ul>
-                        <li className="on">Buy Now</li>
-                        <li>On Auction</li>
-                        <li>New</li>
-                        <li>Has Offers</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className="fold">
-                    <h3 className="slide_tt">
-                      Price
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        className="slide_up"
-                      />
-                    </h3>
-                    <div className="open">
-                      <select>
-                        <option disabled selected hidden>
-                          United States Dollars (USD)
-                        </option>
-                        <option>100</option>
-                      </select>
-                      <div className="price_area">
-                        <input type="text" />
-                        <input type="text" />
-                      </div>
-                      <a className="slide_btn">Apply</a>
-                    </div>
-                  </div>
-
-                  <div className="fold">
-                    <h3 className="slide_tt">
-                      Items
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        className="slide_up"
-                      />
-                    </h3>
-                    <div className="open collection">
-                      <input
-                        type="text"
-                        placeholder="Filter"
-                        className="s_search"
-                      />
-                      <ul>
-                        <li
-                          className="collec_img"
-                          style={{ backgroundImage: `url(${collect_img})` }}
-                        >
-                          <span>Item 01</span>
-                        </li>
-                        <li
-                          className="collec_img"
-                          style={{ backgroundImage: `url(${collect_img2})` }}
-                        >
-                          <span>Item 02</span>
-                        </li>
-                        <li
-                          className="collec_img"
-                          style={{ backgroundImage: `url(${collect_img3})` }}
-                        >
-                          <span>Item 03</span>
-                        </li>
-                        <li
-                          className="collec_img"
-                          style={{ backgroundImage: `url(${collect_img4})` }}
-                        >
-                          <span>Item 04</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className="fold">
-                    <h3 className="slide_tt">
-                      Chains
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        className="slide_up"
-                      />
-                    </h3>
-
-                    <div className="open">
-                      <ul>
-                        <li className="ra">
-                          <input type="radio" id="rad2" name="rad" />
-                          <label for="rad2">
-                            <img src={require("../img/sub/rock.png").default} />
-                            Klaytn
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className="fold">
-                    <h3 className="slide_tt">
-                      Sales Coin
-                      <img
-                        src={require("../img/sub/slide_up.png").default}
-                        className="slide_up"
-                      />
-                    </h3>
-                    <div className="open">
-                      <input
-                        type="text"
-                        placeholder="Filter"
-                        className="s_search"
-                      />
-                      <ul>
-                        <li className="ra">
-                          <input type="radio" id="rad3" name="rad2" />
-                          <label for="rad3">KLAY</label>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </form>
-              </div>
               <div className="right_move">
                 <div className="real_sec">
                   <ul className="tab">
@@ -234,40 +75,26 @@ function Liked({ store, setConnect }) {
                   <div className="move_item" style={{ marginBottom: "100px" }}>
                     <ol className="item move_li">
                       <div>
-												<span>
-											<li >
-		<a
-			onClick={() => navigate(`/singleitem/${''}`)}
-			style={{ backgroundImage: `url(${sample})` }}
-		>
-			<div className="on">
-				<ul>
-					<li className="heart off">1,389</li>
-				</ul>
-				<span>{ ''} </span>
-				<div>Place Saint-Marc</div>
-			</div>
-		</a>
-	</li>
-{list.map ( (elem, idx) =>(
-
-	<li key={idx}>
-		<a
-			onClick={() => navigate(`/singleitem?itemid=${elem.itemid}`)}
-			style={{ backgroundImage: `url(${sample})` }}
-		>
-			<div className="on">
-				<ul>
-					<li className="heart off">1,389</li>
-				</ul>
-				<span>{ elem.itemid } </span>
-				<div>Place Saint-Marc</div>
-			</div>
-		</a>
-	</li>
-	))}
-
-	</span>
+                        <span>
+                          {list.map((elem, idx) => (
+                            <li key={idx}>
+                              <a
+                                onClick={() =>
+                                  navigate(`/singleitem?itemid=${elem.itemid}`)
+                                }
+                                style={{ backgroundImage: `url(${elem.item.url})` }}
+                              >
+                                <div className="on">
+                                  <ul>
+                                    <li className="heart on">{putCommaAtPrice(elem.item.countfavors)}</li>
+                                  </ul>
+                                  <span>{elem.item.nickname} </span>
+                                  <div>{elem.item.titlename}</div>
+                                </div>
+                              </a>
+                            </li>
+                          ))}
+                        </span>
                       </div>
                     </ol>
                   </div>

@@ -12,16 +12,17 @@ import { useState, useEffect } from "react";
 import { setAllPopupOff, setMHeaderPopup, setaddress } from "./util/store";
 import { getmyaddress } from "./util/common";
 import { strDot } from "./util/Util";
-import I_spinner from "./img/icons/I_spinner.svg";
 import { onClickCopy } from "./util/common";
 import SetErrorBar from "./util/SetErrorBar";
 import { messages } from "./config/messages";
+
 function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
   const navigate = useNavigate();
   const { mHeaderPopup } = useSelector((state) => state.store);
   const [search, setSearch] = useState("");
   let [address, setaddress] = useState();
   let [isloader, setisloader] = useState(false);
+
   useEffect(
     (_) => {
       let { isloader } = store;
@@ -29,16 +30,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
     },
     [store.isloader]
   );
-  useEffect((_) => {
-    const spinner = document.querySelector("#Spinner");
-    spinner.animate(
-      [{ transform: "rotate(0deg)" }, { transform: "rotate(360deg)" }],
-      {
-        duration: 1000,
-        iterations: Infinity,
-      }
-    );
-  }, []);
+
   useEffect(
     (_) => {
       let { address } = store;
@@ -50,6 +42,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
     },
     [store.address]
   );
+
   useEffect((_) => {
     let { address } = store;
     let token;
@@ -66,11 +59,11 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
       return;
     }
   }, []);
+
   useEffect(
     (_) => {
       let { klaytn } = window;
-      if (klaytn) {
-      }
+      if (!klaytn) return;
       if (klaytn.selectedAddress) {
         setaddress(klaytn.selectedAddress); // address )
         Setaddress(address);
@@ -79,8 +72,12 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
     },
     [window.klaytn]
   );
+
   function onClickConnectWallet() {
-    let { selectedAddress } = window?.klaytn;
+    let { klaytn } = window;
+    if (!klaytn) return;
+    console.log(klaytn);
+    let selectedAddress = klaytn;
     if (selectedAddress) {
       setaddress(strDot(selectedAddress, 5, 4));
     } //		else if ( ) {navigate("/joinmembership"); }
@@ -113,6 +110,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
       <a id="search" onClick={() => navigate("/marketplace")}>
         <img src={require("./img/header/search_icon.png").default} />
       </a>
+
       {mHeaderPopup ? (
         <img id="mobile" src={I_x} alt="" onClick={setAllPopupOff} />
       ) : (
@@ -120,29 +118,9 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
           <span></span>
         </a>
       )}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      ></div>
-      <img
-        id="Spinner"
-        className="spinner"
-        src={I_spinner}
-        alt=""
-        style={{
-          display: isloader ? "inline" : "none",
-          width: "50px",
-          position: "fixed",
-          left: "50%",
-          top: "1%",
-        }}
-      />
 
       <nav>
-        <ul style={{}}>
+        <ul>
           <li>
             <a onClick={() => navigate("/marketplace")}>Marketplace</a>
             <ol>
@@ -274,7 +252,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
               </li>
             </ol>
           </li>
-          <li style={{ display: address ? "inline" : "none" }}>
+          <li style={{ display: address ? "inline-block" : "none" }}>
             <a onClick={() => navigate("/myprof")}>Mypage</a>
             <ol>
               <li>
@@ -294,7 +272,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
           <li className="country">
             <a>ENG</a>
           </li>
-          <li className="wallet" style={{ width: "200px" }}>
+          <li className="wallet">
             <a
               onClick={(e) => {
                 address &&
