@@ -68,7 +68,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           axios.defaults.headers.common["token"] = resp.data.respdata;
           localStorage.setItem("address", address);
           Setaddress(address);
-          SetErrorBar(messages.MSG_ADDRESS_CHANGED + `: ${address}`);
+          SetErrorBar(messages.MSG_ADDRESS_CHANGED + `: ${address}`)
         } else if (status === "ERR") {
           localStorage.removeItem("token");
           axios.defaults.headers.common["token"] = "";

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router";
 import { useLayoutEffect } from "react";
 
-const Popup = () => {
-  const [ownerPopup, setLikePopup] = useState(true);
+const Popup = ({store , itemid }) => {
+	const [ownerPopup, setLikePopup] = useState(true);
+	
   function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
     useLayoutEffect(() => {
@@ -77,7 +77,8 @@ const Popup = () => {
                 alt="contractauth"
               />
             </div>
-            <div className="img">
+            <div className="img" onClick={_=>{ 
+						}}>
               <img
                 src={require("../img/popup/clip.png").default}
                 alt="contractauth"
@@ -85,7 +86,7 @@ const Popup = () => {
             </div>
           </BodyIcons>
 
-          <BodyButton>
+          <BodyButton onClick={_=>{ 						 }}>
             <button className="button">View Item</button>
           </BodyButton>
         </div>

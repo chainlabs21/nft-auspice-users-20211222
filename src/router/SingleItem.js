@@ -536,6 +536,10 @@ function SingleItem({
   );
 
   useEffect(() => {
+		if(itemWrapRef.current && itemWrapRef.current.offsetWidth ){}
+		else {return }
+		if(itemWrapRef.current && itemWrapRef.current.children[0]){}
+		else {return }
     const wrapWidth = itemWrapRef.current.offsetWidth;
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -1231,7 +1235,7 @@ function SingleItem({
                                   : ""}{" "}
                                 KLAY
                                 <br />
-                                <span>{v.nickname}</span>
+                                <span>{`Qty.${v.asset_amount_bid}`}</span>
                               </h3>
                               <h4>{convertLongString(8, 8, v.username)}</h4>
                               <h5>

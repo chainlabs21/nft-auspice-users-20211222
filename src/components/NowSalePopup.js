@@ -5,8 +5,14 @@ import twitter from "../img/sub/twitter.png";
 import telegram from "../img/sub/telegram.png";
 import facebook from "../img/sub/facebook.png";
 import link from "../img/sub/link.png";
+import { onClickCopy, LOGGER } from "../util/common";
+import { singleitem_url } from '../util/common'
+import SetErrorBar from "../util/SetErrorBar";
+import { messages} from '../config/messages'
+import { useNavigate } from "react-router";
 
-export default function CertificationContractPopup({ off }) {
+export default function CertificationContractPopup({ off , itemid }) {
+	let navigate = useNavigate()
   return (
     <CertificationContractPopupBox>
       <article className="topBar">
@@ -36,13 +42,19 @@ export default function CertificationContractPopup({ off }) {
               <li>
                 <img src={facebook} alt="" />
               </li>
-              <li>
+              <li onClick={_=>{
+onClickCopy( singleitem_url(itemid) )
+SetErrorBar( messages.MSG_COPIED )
+							}}							
+							>
                 <img src={link} alt="" />
               </li>
             </ul>
           </div>
 
-          <button className="viewBtn" onClick={() => {}}>
+          <button className="viewBtn" onClick={() => {
+						navigate(`/singleitem?itemid=${itemid}`)
+					}}>
             View Item
           </button>
         </div>

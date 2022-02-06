@@ -45,7 +45,7 @@ import PopupBg from "../components/PopupBg";
 import CertificationContractPopup from "../components/CertificationContractPopup";
 import NowSalePopup from "../components/NowSalePopup";
 
-function SaleFixed() {
+function SaleFixed({ store, setConnect }) {
   const navigate = useNavigate();
   const { search } = useLocation();
   const [verifyPopup, setVerifyPopup] = useState(false);
@@ -205,8 +205,9 @@ function SaleFixed() {
           LOGGER("2UtIKhAjXH", resp.data);
           let { status } = resp.data;
           if (status == "OK") {
-            SetErrorBar(messages.MSG_DONE_REGISTERING);
-            setTimeout((_) => {
+						SetErrorBar(messages.MSG_DONE_REGISTERING);
+						setListingProcess(2)
+            false && setTimeout((_) => {
               MODE_DEV_PROD == 1 && navigate("/marketplace");
             }, TIME_PAGE_TRANSITION_ON_REGISTER);
           }
@@ -283,7 +284,7 @@ function SaleFixed() {
       )}
       {listingProcess === 2 && (
         <>
-          <NowSalePopup off={setListingProcess} />
+          <NowSalePopup off={setListingProcess} itemid={itemid}/>
           <PopupBg bg off={setListingProcess} />
         </>
       )}
@@ -790,9 +791,11 @@ function SaleFixed() {
                   </ul>
                 </div>
                 <button
-                  className="sales_btn"
-                  disabled={true}
+									className="sales_btn"
+                  disabled={amounttosell && itemPrice? false : true }
                   onClick={() => {
+										if ( amounttosell){}
+										else {SetErrorBar( messages.MSG_PLEASE_INPUT );return }
                     setListingProcess(1);
                     handleSalesStart();
                   }}

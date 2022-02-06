@@ -7,6 +7,11 @@ const ISFINITE=Number.isFinite
 const moment=require('moment')
 const KEYS=Object.keys
 
+const geturl=_=>{ let url=window.location
+	return url .protocol + "//" + url.host // + "/" + getUrl.pathname.split('/')[1];
+}
+const singleitem_url=itemid=>{	return `${geturl()}/#/singleitem?itemid=${itemid}`
+}
 const get_last_part_of_path = str=>{
 	return str.substr(str.lastIndexOf('/')+1)
 }
@@ -144,4 +149,5 @@ export {
 	, getmyaddress
 	, get_deltatime_str 
 	, get_deltatime_tkns_unixarg
+	, singleitem_url
 }

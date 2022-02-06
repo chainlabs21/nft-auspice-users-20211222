@@ -54,7 +54,8 @@ import {
 const kiloBytes = 1024;
 const megaBytes = 1024 * kiloBytes;
 const fileTypeList = [
-  "jpg",
+	"jpg",
+	"jpeg",
   "png",
   "gif",
   "svg",
@@ -66,7 +67,8 @@ const fileTypeList = [
 ];
 const MAP_fileextension_contentype = {
   jpg: "image",
-  png: "image",
+  jpeg: "image",
+	png: "image",
   gif: "image",
   svg: "image",
   mp4: "video",
@@ -99,9 +101,9 @@ function CreateItem({ store, setConnect }) {
   let [urlfile, seturlfile] = useState();
   let [itemid, setitemid] = useState();
   let [daystoclose, setdaystoclose] = useState();
-  let axios = applytoken();
-  let myaddress = getmyaddress();
-  //	axios=applyt oken(axios)
+	let axios = applytoken();
+	let [ myaddress , setmyaddress ] = useState( getmyaddress() ) 
+//  let myaddress = getmyaddress();
   function onChangeItem(file) {
     /*    let reader = new FileReader();    reader.readAsDataURL(file);    reader.onload = function () {      setItem(reader.result);    };	*/
   }
@@ -312,7 +314,8 @@ function CreateItem({ store, setConnect }) {
           const base64 = await encodeBase64File(file);
           const base64Data = {
             datainbase64: base64,
-            filename: file.name,
+						filename: file.name,
+						username : myaddress
           };
           LOGGER("ojuEGTDeEU", base64Data);
           //					return
@@ -329,7 +332,8 @@ function CreateItem({ store, setConnect }) {
         } else if (filesize <= 40 * megaBytes) {
           let formData = new FormData();
           formData.append("file", file);
-          formData.append("filename", file.name);
+					formData.append("filename", file.name);
+					formData.append('username' , myaddress )
           const resp = await axios.post(API.API_ITEM_UPLOAD_OVER, formData);
           LOGGER("eERWguRnGR", resp.data);
           let { status, payload, respdata } = resp.data;
@@ -380,10 +384,9 @@ function CreateItem({ store, setConnect }) {
       } else {
       }
     });
-    let token_sec = localStorage.getItem("token");
-    
-    axios.defaults.headers.get.token = token_sec;
-    axios.defaults.headers.post.token = token_sec;
+//    let token_sec = localStorage.getItem("token");    
+  //  axios.defaults.headers.get.token = token_sec;
+    // axios.defaults.headers.p ost.token = token_sec;
   }, []);
   useEffect((_) => {
     setName("" + generateSlug(3, { format: "sentence" }));
@@ -820,7 +823,7 @@ const requesttransaction_response = {
 			originatorfeeinbp: 500,
 			activeorlazymint: activ ePubl,
 		};
-		const resp = await axios.post(
+		const resp = await axios.p ost(
 			API.API_REPORT_TX_MINT +				`/${itemid}/${mokupRndTxHash.trim()}/${userAddress}`,			body // file Resp.resp data
 		);
 		if (resp.data.status === "OK") {

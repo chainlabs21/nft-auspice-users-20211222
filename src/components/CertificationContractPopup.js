@@ -8,7 +8,7 @@ import { useEffect } from "react";
 export default function CertificationContractPopup({ off }) {
   useEffect(() => {
     setTimeout(() => {
-      off(2);
+//      off(2);
     }, 3000);
   }, []);
 
