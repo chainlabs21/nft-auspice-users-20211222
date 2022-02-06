@@ -36,6 +36,7 @@ import { PAYMENT_TOKEN_ADDRESS_DEF
 	, PAYMEANS_DEF
 } from '../config/configs'
 import { getweirep } from '../util/eth'
+
 // const AuctionBid = async({ store, setConnect })=> {
 	function AuctionBid ({ store, setConnect }) {
   const navigate = useNavigate()
@@ -208,8 +209,7 @@ _calldata // ",					" internalType": "bytes",
 	
   return (
     <SignPopupBox>
-      {verifyPopup && <VerifyAccountPopup off={setVerifyPopup} />}
-
+      {verifyPopup && <VerifyAccountPopup off={setVerifyPopup} />}			
       <section id="sub">
         <article className="ntfsell_box">
           <div className="choose_wrap">
@@ -568,10 +568,20 @@ _calldata // ",					" internalType": "bytes",
                   </ul>
                 </div>
 								<div className="sales_btn" onClick={() => { // setVerifyPopup(true)
+									if( bidamount_start && amounttoauction ){}
+									else {SetErrorBar( messages.MSG_PLEASE_INPUT ) ; return }
 									onclickstartauction()
 								}}>
                   <a>Sales start</a>
                 </div>
+								<span> &nbsp;</span>
+								<div
+									onClick={_=>{
+										navigate('/marketplace')
+									}}
+									className='sales_btn'
+								>	<a>Do it later</a>
+								</div>
               </div>
             </div>
             <div className="sellbg2_m">

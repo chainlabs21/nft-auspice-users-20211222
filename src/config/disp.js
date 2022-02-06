@@ -1,0 +1,14 @@
+
+const MAP_SALETYPES={
+	COMMON :'Spot'
+	, AUCTION_ENGLISH : 'Auction'
+
+}
+const MAP_ITEMHISTORY_EVETNS ={
+	REGISTER_ITEM : 'Minted'
+	, AUCTION_ENGLISH : 'Auction'
+}
+export {
+	MAP_SALETYPES
+	, MAP_ITEMHISTORY_EVETNS 
+}

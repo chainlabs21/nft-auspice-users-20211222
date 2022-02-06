@@ -61,6 +61,8 @@ import rstone from "../img/sub/rstone.png";
 import { ADDRESSES } from "../config/addresses";
 import { putCommaAtPrice, strDot } from "../util/Util";
 import Chart from "react-apexcharts";
+import { MAP_SALETYPES , MAP_ITEMHISTORY_EVETNS } from '../config/disp'
+import PlaceBidPopup from '../components/PlaceBidPopup'
 
 const convertLongString = (startLength, endLength, str) => {
   if (!str) return;
@@ -194,17 +196,16 @@ function SingleItem({
     LOGGER("", itemdata.item?.itemid); // query_nfttoken_balance () // a little cumbersome
     let { item } = itemdata;
     let aargs = [
-      ADDRESSES.erc1155,
-      itemdata.item?.itemid, // item?.itemid
-      //			, itemdata.item?.tokenid // 0
-      sellorder.asset_amount_bid,
-      item?.authorfee,
-      //			, item?.decimals
-      //			, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDR ESSES.zero
-      getweirep(sellorder?.asset_amount_ask),
-      sellorder?.username,
-      myaddress,
-      referer ? referer : ADDRESSES.zero,
+      ADDRESSES.erc1155, // 0
+      itemdata.item?.itemid, // 1 item?.itemid			//			, itemdata.item?.tokenid // 0 			
+			itemdata.item?.countcopies , // 2
+			itemdata.item?.authorfee , // 3
+      sellorder.asset_amount_bid, //4 			//			, item?.decimals       //			, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDR ESSES.zero
+			getweirep(sellorder?.asset_amount_ask), // 5
+			itemdata.item?.author , // 6
+      sellorder?.username, // 7
+      myaddress, // 8
+      referer ? referer : ADDRESSES.zero, // 9
     ];
     LOGGER(aargs);
     //		return
@@ -213,8 +214,11 @@ function SingleItem({
       abikind: "MATCHER_SIMPLE",
       methodname: "mint_and_match_single_simple",
       aargs,
-    });
-    //			return
+		});
+		LOGGER(abistr)
+//	return
+// 0xcfc20903000000000000000000000000ff817302e7b6d116cdff1a730508551ee15578750000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000000700000000000000000000000000000000000000000000000000000000000003840000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000017508f1956a8000000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae2404918000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae240491800000000000000000000000083f714ad20e34748516e8367faf143abde6c37830000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002e516d5173564c734c745154654676694743345332547632466b57416f4c4774545937714e57387263546850676f6e000000000000000000000000000000000000 // => 842
+// 0xcfc20903000000000000000000000000ff817302e7b6d116cdff1a730508551ee15578750000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000000700000000000000000000000000000000000000000000000000000000000003840000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000017508f1956a8000000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae2404918000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae2404918000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002e516d5173564c734c745154654676694743345332547632466b57416f4c4774545937714e57387263546850676f6e000000000000000000000000000000000000
     requesttransaction({
       from: myaddress,
       to: ADDRESSES.matcher_simple,
@@ -298,19 +302,26 @@ function SingleItem({
       sellorder?.itemid,
       itemdata?.item?.countcopies,
       itemdata?.item?.authorfee,
-      tokenid || "0", // itemdata?.item?.
+//      tokenid || "0", // itemdata?.item?.
+			sellorder?.username ,
       sellorder?.asset_amount_bid,
       getweirep(sellorder?.asset_amount_ask),
       sellorder?.startingtime ? sellorder?.startingtime : moment().unix(),
       sellorder?.expiry,
       getweirep(mybidamount),
-    ];
+		];
+		LOGGER( '' , aargs )
+// return
     let abistr = getabistr_forfunction({
       contractaddress: ADDRESSES.auction_repo_english_batch_tasks, // auction_repo_english_simple_no_batch_tasks
       abikind: "AUCTION_ENGLISH_BATCH_TASKS",
       methodname: "mint_begin_simple_and_bid",
       aargs,
-    });
+		})
+// remix : 0xfb972d6a000000000000000000000000ff817302e7b6d116cdff1a730508551ee1557875000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000160000000000000000000000000000000000000000000000000000000000000000b00000000000000000000000000000000000000000000000000000000000000c8000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000025bf6196bd100000000000000000000000000000000000000000000000000000000000061ff908f00000000000000000000000000000000000000000000000000000000620679ef000000000000000000000000000000000000000000000000025f839810978000000000000000000000000000000000000000000000000000000000000000002e516d5455734c597a4d694c3178733777484e354454627351437a5043485a6278746874523737634647534a383438000000000000000000000000000000000000		
+// react : 0xfb972d6a0000000000000000000000005ae8f88e15ff42d62b5c1288dc7909bdfa5ef4f4000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000160000000000000000000000000000000000000000000000000000000000000000b00000000000000000000000000000000000000000000000000000000000000c8000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000025bf6196bd100000000000000000000000000000000000000000000000000000000000061ff908f00000000000000000000000000000000000000000000000000000000620679ef000000000000000000000000000000000000000000000000025f839810978000000000000000000000000000000000000000000000000000000000000000002e516d5455734c597a4d694c3178733777484e354454627351437a5043485a6278746874523737634647534a383438000000000000000000000000000000000000
+		LOGGER( '' ,  abistr )
+//		return
     requesttransaction({
       from: myaddress,
       to: ADDRESSES.auction_repo_english_batch_tasks, // auction_repo_english_simple_no_batch_tasks
@@ -566,6 +577,8 @@ function SingleItem({
 
       {likePopup && <ItemLikePopup off={setLikePopup} itemid={itemid} />}
 
+{ false && (<PlaceBidPopup />) }
+
       {bidauctionmodal && (
         <div
           className="popup info"
@@ -666,7 +679,7 @@ function SingleItem({
                           <span className="pri">
                             ($
                             {priceklay && sellorder?.asset_amount_ask
-                              ? +priceklay * +sellorder?.asset_amount_ask
+                              ? (+priceklay * +sellorder?.asset_amount_ask).toFixed(4)
                               : ""}
                             )
                           </span>
@@ -689,14 +702,15 @@ function SingleItem({
                           <input
                             value={mybidamount}
                             onChange={(e) => {
-                              let { value } = e.target;
-                              value = +value;
-                              if (ISFINITE(value)) {
-                              } else {
+                              let { value : value_raw } = e.target;
+															let value = + value_raw
+                               if (ISFINITE(value)) {
+															} else if ( value==0){}
+															else {
                                 SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY);
-                                return;
+//                                return;
                               }
-                              setmybidamount("" + value);
+                              setmybidamount("" + value_raw );
                               if (value >= +myethbalance) {
                                 SetErrorBar(messages.MSG_EXCEEDS_BALANCE);
                                 return;
@@ -1203,7 +1217,11 @@ function SingleItem({
                     <ul>
                       {orders_sell
                         .sort(
-                          (a, b) => +a.asset_amount_ask - +b.asset_amount_ask
+                          (a, b) =>{
+														return (+a.asset_amount_ask == +b.asset_amount_ask)? 
+															( a.createdat > b.createdat ? - 1 : + 1 )
+														  : +a.asset_amount_ask - +b.asset_amount_ask
+													}
                         )
                         .map((v, idx) => {
                           return (
@@ -1235,7 +1253,7 @@ function SingleItem({
                                   : ""}{" "}
                                 KLAY
                                 <br />
-                                <span>{`Qty.${v.asset_amount_bid}`}</span>
+                                <span>{`Qty.${v.asset_amount_bid}`} {MAP_SALETYPES[v.typestr] }</span>
                               </h3>
                               <h4>{convertLongString(8, 8, v.username)}</h4>
                               <h5>
@@ -1466,12 +1484,12 @@ function SingleItem({
                   <tbody className="body">
                     {listholder.map((v, idx) => (
                       <tr key={idx}>
-                        <td></td>
+                        <td> { MAP_ITEMHISTORY_EVETNS [ v.typestr ] } </td>
                         <td className="bold">
                           {putCommaAtPrice(v.price * 1)} KLAY
                         </td>
-                        <td className="blue">{v.from_}</td>
-                        <td className="blue">{v.to_}</td>
+                        <td className="blue">{ strDot(v.from_ , 20,0) }</td>
+                        <td className="blue">{ strDot(v.to_ , 0 , 20 ) }</td>
                         <td className="gray">
                           {moment(v.createdat).fromNow()}
                         </td>

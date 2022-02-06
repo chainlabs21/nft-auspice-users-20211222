@@ -11,11 +11,11 @@ import { abi as abi_admin } from '../contracts-abi/IAdmin'
 import { abi as abi_erc1155 } from '../contracts-abi/IERC1155'
 import { abi as abi_auction_repo_dutch_bulk } from '../contracts-abi/IAuctionRepoDutchBulk'
 import { abi as abi_auction_repo_english } from '../contracts-abi/IAuctionRepoEnglish'
-import { abi as abi_auction_repo_english_simple } from '../contracts-abi/IAuctionRepoEnglish-simple-20220201'
-import { abi as abi_auction_repo_english_batch_tasks } from '../contracts-abi/IAuctionRepoEnglish-batchtasks-20220202'
+// import { abi as abi_auction_repo_english_simple } from '../contracts-abi/IAuctionRepoEnglish-simple-20220201'
+import { abi as abi_auction_repo_english_batch_tasks } from '../contracts-abi/IAuctionRepoEnglish-batchtasks-20220206'
 
 // import { abi as abi_matcher_simple } from '../contracts-abi/IMatcher-simple'
-import { abi as abi_matcher_simple } from '../contracts-abi/IMatcher-simple-20220131'
+import { abi as abi_matcher_simple } from '../contracts-abi/IMatcher-simple'
 // import { getweirep } from '../utils/eth'
 // import { DebugMode } from '../configs/configs'
 // import { requesttransaction } from "../services/kaikas"
@@ -29,7 +29,7 @@ const MAP_STR_ABI = {
 	, ERC1155 : abi_erc1155
 	, AUCTION_DUTCH_BULK : abi_auction_repo_dutch_bulk
 	, AUCTION_ENGLISH : abi_auction_repo_english
-	, AUCTION_ENGLISH_SIMPLE : abi_auction_repo_english_simple
+//	, AUCTION_ENGLISH_SIMPLE : abi_auction_repo_english_simple
 	, AUCTION_ENGLISH_BATCH_TASKS : abi_auction_repo_english_batch_tasks
 	, MATCHER_SIMPLE : abi_matcher_simple
 }
