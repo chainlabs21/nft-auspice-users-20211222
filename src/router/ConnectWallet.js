@@ -1,6 +1,6 @@
 import { connect, useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
-import { setConnect, setmyinfo } from "../util/store";
+import { setaddress, setConnect, setmyinfo } from "../util/store";
 import styled from "styled-components";
 import "../css/common.css";
 import "../css/font.css";
@@ -19,7 +19,8 @@ import { SET_ADDRESS } from "../reducers/walletSlice";
 import { useEffect } from "react";
 import SetErrorBar from "../util/SetErrorBar";
 import { STRINGER, LOGGER } from "../util/common";
-function ConnectWallet(Setmyinfo) {
+// function ConnectWallet( Setmyinfo ) {
+  function ConnectWallet( { Setmyinfo , Setaddress }  ) {
   const navigate = useNavigate();
   const { userData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -59,6 +60,8 @@ function ConnectWallet(Setmyinfo) {
     let token = localStorage.getItem("token");
     if (address_local && token) {
       SetErrorBar(`이미 ${address}에 연결되어 있습니다`);
+      Setaddress ( address_local ) 
+      navigate( '/main' )
       return;
     } else {
     }
@@ -67,8 +70,9 @@ function ConnectWallet(Setmyinfo) {
     let { status, respdata, payload } = resp.data;
     if (status === "OK") {
       localStorage.setItem("token", respdata);
+      localStorage.setItem('address' , address )
       axios.defaults.headers.common["token"] = resp.data.respdata;
-      SetErrorBar(messages.MSG_LOGGEDIN);
+      SetErrorBar(messages.MSG_LOGGEDIN)
       let { myinfo_maria, myinfo_mongo } = payload;
       if (myinfo_maria && myinfo_mongo) {
         Setmyinfo({ ...myinfo_mongo, myinfo_maria });
@@ -79,6 +83,8 @@ function ConnectWallet(Setmyinfo) {
       } else {
         localStorage.removeItem("myinfo");
       } // 					getUserInfo()
+      Setaddress ( address )
+      navigate( '/main' )
     } else {
       // if (resp.data.status === "ERR") {
       SetErrorBar(messages.MSG_PLEASEJOIN);
@@ -168,6 +174,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setConnect: () => dispatch(setConnect()),
     Setmyinfo: (payload) => dispatch(setmyinfo(payload)),
+    Setaddress : payload => dispatch(setaddress( payload ))
   };
 }
 

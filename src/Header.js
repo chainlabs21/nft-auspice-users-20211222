@@ -10,7 +10,7 @@ import "./css/footer.css";
 import "./css/swiper.min.css";
 import { useState, useEffect } from "react";
 import { setAllPopupOff, setMHeaderPopup, setaddress } from "./util/store";
-import { getmyaddress } from "./util/common";
+import { getmyaddress, LOGGER } from "./util/common";
 import { strDot } from "./util/Util";
 import { onClickCopy } from "./util/common";
 import SetErrorBar from "./util/SetErrorBar";
@@ -28,7 +28,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
       let { isloader } = store;
       setisloader(isloader);
     },
-    [store.isloader]
+    [ store.isloader ]
   );
 
   useEffect(
@@ -70,18 +70,18 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
         localStorage.setItem("address", address);
       }
     },
-    [window.klaytn]
+    [ window.klaytn ]
   );
 
   function onClickConnectWallet() {
     let { klaytn } = window;
     if (!klaytn) return;
     console.log(klaytn);
-    let selectedAddress = klaytn;
+    let { selectedAddress}  = klaytn;
     if (selectedAddress) {
       setaddress(strDot(selectedAddress, 5, 4));
     } //		else if ( ) {navigate("/joinmembership"); }
-    else {
+    else { LOGGER('nav to connectwallet')
       navigate("/connectwallet");
     }
   }
@@ -281,7 +281,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
                 onClickConnectWallet();
               }}
             >
-              {address ? strDot(address, 4, 2) : "Connect Wallet"}
+              {address ? strDot(address, 8, 0) : "Connect Wallet"}
             </a>
           </li>
         </ul>
