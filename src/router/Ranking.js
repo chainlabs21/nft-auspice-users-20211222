@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
-
 import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
@@ -16,25 +15,34 @@ import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
 import rstone from "../img/sub/rstone.png";
 import dollar from "../img/sub/rstone.png";
-
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
 import "../css/style.css";
-
 // import "./css/style01.css";
 // import "./css/style02.css";
-
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import { useState } from "react";
+import { useState, useEffect } from "react"
+import { applytoken } from "../util/rest";
+import { API } from "../config/api";
+import { LOGGER } from "../util/common";
+import moment from 'moment'
 
 function Ranking({ store, setConnect }) {
   const navigate = useNavigate();
-
   const [category, setCategory] = useState(categoryList[0]);
-
+	let [ list , setlist ]=useState( [] )
+	let axios=applytoken()
+	useEffect( _=>{ 
+		axios.get( API.API_RANKING , {params : { userdetail : 1 }}).then(resp=>{ LOGGER( 'q25Sf2Htg1' , resp.data )
+			let { status , list }= resp.data
+			if ( status == 'OK'){
+				setlist ( list )
+			}
+		})
+	} , [] )
   return (
     <SignPopupBox>
       <section id="sub">
@@ -85,7 +93,7 @@ function Ranking({ store, setConnect }) {
                             </a>
                           </th>
                           <th>
-                            <strong>Collection</strong>
+                            <strong>Username</strong>
                             <a>
                               <span></span>
                             </a>
@@ -151,224 +159,32 @@ function Ranking({ store, setConnect }) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr className="on">
-                          <td>
-                            <div className="rankings">
-                              <span>1</span>
-                              <img
-                                src={require("../img/sub/crown.png").default}
-                                alt=""
-                              />
-                            </div>
-                          </td>
-                          <td>
-                            <div className="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Collection1</p>
-                            </div>
-                          </td>
-                          <td>45,323 KLAY</td>
-                          <td>88.01 KLAY</td>
-                          <td>250.33%</td>
-                          <td>156.37</td>
-                          <td>4,325</td>
-                          <td>256</td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>
-                            <div className="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>cryptopunks</p>
-                            </div>
-                          </td>
-                          <td>27,322 KLAY</td>
-                          <td>77.11 KLAY</td>
-                          <td>250.33%</td>
-                          <td>156.37</td>
-                          <td>4,325</td>
-                          <td>35</td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>
-                            <div className="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>art book</p>
-                            </div>
-                          </td>
-                          <td>21,323 KLAY</td>
-                          <td>66.00 KLAY</td>
-                          <td>-39.88%</td>
-                          <td>22.00</td>
-                          <td>4,325</td>
-                          <td>33</td>
-                        </tr>
-                        <tr>
-                          <td>4</td>
-                          <td>
-                            <div className="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>good friend</p>
-                            </div>
-                          </td>
-                          <td>12,555 KLAY</td>
-                          <td>88.01 KLAY</td>
-                          <td>250.33%</td>
-                          <td>156.37</td>
-                          <td>4,325</td>
-                          <td>11</td>
-                        </tr>
-                        <tr>
-                          <td>5</td>
-                          <td>
-                            <div className="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>ZED Run</p>
-                            </div>
-                          </td>
-                          <td>5,323 KLAY</td>
-                          <td>88.01 KLAY</td>
-                          <td>250.33%</td>
-                          <td>156.37</td>
-                          <td>4,325</td>
-                          <td>33</td>
-                        </tr>
-                        <tr>
-                          <td>6</td>
-                          <td>
-                            <div className="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Meebits</p>
-                            </div>
-                          </td>
-                          <td>4,303 KLAY</td>
-                          <td>88.01 KLAY</td>
-                          <td>250.33%</td>
-                          <td>156.37</td>
-                          <td>4,325</td>
-                          <td>11</td>
-                        </tr>
-                        <tr>
-                          <td>7</td>
-                          <td>
-                            <div className="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>SandBox</p>
-                            </div>
-                          </td>
-                          <td>2,365 KLAY</td>
-                          <td>88.01 KLAY</td>
-                          <td>250.33%</td>
-                          <td>156.37</td>
-                          <td>4,325</td>
-                          <td>22</td>
-                        </tr>
-                        <tr>
-                          <td>8</td>
-                          <td>
-                            <div className="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>The Gamer</p>
-                            </div>
-                          </td>
-                          <td>823 KLAY</td>
-                          <td>88.01 KLAY</td>
-                          <td>250.33%</td>
-                          <td>156.37</td>
-                          <td>4,325</td>
-                          <td>55</td>
-                        </tr>
-                        <tr>
-                          <td>9</td>
-                          <td>
-                            <div className="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Rarible</p>
-                            </div>
-                          </td>
-                          <td>93 KLAY</td>
-                          <td>88.01 KLAY</td>
-                          <td>250.33%</td>
-                          <td>156.37</td>
-                          <td>4,325</td>
-                          <td>3</td>
-                        </tr>
-                        <tr>
-                          <td>10</td>
-                          <td>
-                            <div className="name">
-                              <img
-                                src={
-                                  require("../img/sub/collect_circle.png")
-                                    .default
-                                }
-                                alt=""
-                              />
-                              <p>Yetis</p>
-                            </div>
-                          </td>
-                          <td>63 KLAY</td>
-                          <td>88.01 KLAY</td>
-                          <td>250.33%</td>
-                          <td>156.37</td>
-                          <td>4,325</td>
-                          <td>2</td>
-                        </tr>
+
+												{list.map((elem , idx )=>{
+													return (
+														<tr class="on">
+														<td>
+															<div class="rankings">
+																<span> { idx } </span>
+																<img	src={ require( "../img/sub/crown.png").default} alt="" />
+															</div>
+														</td>
+														<td>
+															<div class="name">
+																<img style={{width: '30px'}} src={ elem?.mongo?.profileimage || require("../img/sub/collect_circle.png").default } alt="" />
+																<p>{ elem.nickname }</p>
+															</div>
+														</td>
+														<td>{ elem?.sumsales } KLAY</td>
+														<td>{ elem?.countsales } KLAY</td>
+														<td> { elem?.maxstrikeprice } </td>
+														<td>{ moment(elem?.createdat ).fromNow() }</td>
+														<td>4,325</td>
+														<td>256</td>
+													</tr>	
+													)	
+												})}
+
                       </tbody>
                     </table>
                   </div>
