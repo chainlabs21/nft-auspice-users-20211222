@@ -56,7 +56,7 @@ function SaleFixed({ store, setConnect }) {
   const [endPriceOption, setEndPriceOption] = useState(false);
   const [privateOption, setPrivateOption] = useState(false);
   const [privateAddress, setPrivateAddress] = useState("");
-  const [itemdata, setItemData] = useState({});
+  const [itemdata, setitemdata] = useState({});
   const [sign, setSign] = useState([]);
   const [signError, setSignError] = useState("");
   const [completeSign, setCompleteSign] = useState(true);
@@ -68,7 +68,8 @@ function SaleFixed({ store, setConnect }) {
   let [jsettings, setjsettings] = useState({});
   let [searchParams, setSearchParams] = useSearchParams();
   let [amounttosell, setamounttosell] = useState(0);
-  const [listingProcess, setListingProcess] = useState(0);
+	const [listingProcess, setListingProcess] = useState(0);
+	let [ sellorder , setsellorder] = useState()
   let myaddress = getmyaddress();
   const axios = applytoken();
   useEffect((_) => {
@@ -177,7 +178,8 @@ function SaleFixed({ store, setConnect }) {
       itemid,
       tokenid,
       //			, exp iry
-    };
+		};
+		setsellorder ( orderData )
     console.log("", endPriceOption, itemdata);
     console.log("", orderData); //	 return
     signOrderData(orderData).then((respsign) => {
@@ -238,7 +240,7 @@ function SaleFixed({ store, setConnect }) {
         LOGGER("", resp.data);
         let { status, respdata } = resp.data;
         if (status === "OK") {
-          setItemData(respdata); // .item
+          setitemdata(respdata); // .item
           setRoyalty(respdata.item.authorfee / 100);
           settokenid(respdata.item.tokenid);
         } else {
@@ -278,7 +280,7 @@ function SaleFixed({ store, setConnect }) {
 
       {listingProcess === 1 && (
         <>
-          <CertificationContractPopup off={setListingProcess} />
+          <CertificationContractPopup off={setListingProcess} itemdata={ itemdata } sellorder={ sellorder }/>
           <PopupBg bg off={setListingProcess} />
         </>
       )}

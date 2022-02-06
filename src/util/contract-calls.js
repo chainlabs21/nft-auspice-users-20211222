@@ -99,13 +99,13 @@ const requesttransaction=async jdata=>{
 		SetErrorBar( messages.MSG_PLEASE_CONNECT_TO_WALLET )
 		LOGGER(`caver not found` ); return null 
 	}
-	let { from , to , data , value } = jdata
+	let { from , to , data , value , gas } = jdata
 	let resp = await caver.klay.sendTransaction ({
 		from // : myaddress
 		, to // : ADDRESSES.erc20 // ''
 		, data // : abistr
 		, value // : '0x00'
-		, gas: 250000, // 25000
+		, gas: gas || '250000' , // 25000
 	})
 	return resp
 }

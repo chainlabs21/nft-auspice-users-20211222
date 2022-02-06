@@ -51,6 +51,7 @@ import {
   NETTYPE,
   TIME_PAGE_TRANSITION_DEF,
 } from "../config/configs";
+import { setisloader } from '../util/store'
 const kiloBytes = 1024;
 const megaBytes = 1024 * kiloBytes;
 const fileTypeList = [
@@ -77,7 +78,7 @@ const MAP_fileextension_contentype = {
   wav: "audio",
   ogg: "audio",
 };
-function CreateItem({ store, setConnect }) {
+function CreateItem({ store, setConnect , Setisloader }) {
   const navigate = useNavigate();
   const userAddress = useSelector((state) => state.wallet.address);
   const [item, setItem] = useState("");
@@ -168,18 +169,19 @@ function CreateItem({ store, setConnect }) {
           authorfee: conv_percent_bp(royal),
           countcopies,
         };
-        if (resp) {
+        if (resp) { Setisloader(true)
           axios
             .post(
               `${API.API_REPORT_TX_MINT}/${itemid}/${txhash}/${myaddress}`,
               reqbody
             ) // t/:hexid/:txhash/:address'
-            .then((resp) => {
+            .then((resp) => { setisloader( false )
               LOGGER("", resp.data);
               let { status } = resp.data;
               if (status == "OK") {
-                SetErrorBar(messages.MSG_DONE_REGISTERING);
-                setTimeout((_) => {
+								SetErrorBar(messages.MSG_DONE_REGISTERING);
+								Setisloader( true )
+                setTimeout((_) => {Setisloader( false )
                   navigate(`/salefixed?itemid=${itemid}`);
                 }, TIME_PAGE_TRANSITION_DEF);
               }
@@ -192,7 +194,7 @@ function CreateItem({ store, setConnect }) {
       awaitTransactionMined
         .awaitTx(web3, txhash, TX_POLL_OPTIONS)
         .then((minedtxreceipt) => {
-          LOGGER("f9slc6vfyh", minedtxreceipt); //				Setisloader(false);
+          LOGGER("f9slc6vfyh", minedtxreceipt); //				Setislo ader(false);
         });
     });
     // tx ok : https://baobab.scope.klaytn.com/tx/0x1c69e43e3dd606415bab7aa6420b2632cee1d47d74dcb353ee6dd3e014bad2fa :gas used-208,171
@@ -222,13 +224,14 @@ function CreateItem({ store, setConnect }) {
         metaData
       );
       LOGGER("rbPatKJrSt", metaResp.data);
-      let { status } = metaResp.data;
+      let { status , message } = metaResp.data;
       if (status == "OK") {
         const metaResult = metaResp.data;
         seturlmetadata(metaResult.payload.url);
         SetErrorBar(messages.MSG_DONE_REGISTERING);
       } else {
-        SetErrorBar(messages.MSG_REGISTER_FAILED);
+				if ( message == 'DATA-DUPLICATE' ){SetErrorBar( messages.MSG_DUPLICATE_ITEM ); return }
+				SetErrorBar(messages.MSG_REGISTER_FAILED);
       }
     } catch (err) {
       LOGGER(err);
@@ -771,7 +774,21 @@ function CreateItem({ store, setConnect }) {
   );
 }
 const SignPopupBox = styled.div``;
-export default CreateItem;
+// export default CreateItem;
+
+function mapStateToProps(state) {
+  return { store: state };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    Setisloader: (payload) => dispatch(setisloader(payload)),
+
+	};
+}
+export default connect(mapStateToProps, mapDispatchToProps)( CreateItem );
+
+
+
 // import "./css/style01.css";
 // import "./css/style02.css";
 

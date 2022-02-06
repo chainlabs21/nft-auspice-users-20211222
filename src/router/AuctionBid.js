@@ -55,6 +55,18 @@ import { getweirep } from '../util/eth'
 	 require_token( ).then(resp=>{
 		 axios=resp
 	 })
+	const fetchitem=itemid=>{
+		axios.get( `${API.API_GET_ITEM_DATA}/${itemid}`).then(resp=>{
+			LOGGER( 'oWWjCVhIpY' , resp.data )
+			let { status , respdata }=resp.data
+			if ( status =='OK'){
+				itemdata = respdata
+				setitemdata ( respdata )
+			} else {
+				SetErrorBar(messages.MSG_PLEASE_SPECIFY_QUERY_VALUE )
+			}
+		})
+	}
 	const onclickstartauction=_=>{
 		if( RULES.OPEN_AUCTION_ONCHAIN ){on_post_open_onchain() }
 		else {	on_post_open_offchain () }
@@ -92,6 +104,7 @@ import { getweirep } from '../util/eth'
 			let { status }=resp.data
 			if ( status =='OK' ) {
 				SetErrorBar( messages.MSG_DONE_REGISTERING )
+				fetchitem( itemid )				
 			} else {
 				SetErrorBar( messages.MSG_REQ_FAIL )
 			}
@@ -185,16 +198,7 @@ _calldata // ",					" internalType": "bytes",
 		let itemdata
 		if (axios){}
 		else {return }
-		axios.get( `${API.API_GET_ITEM_DATA}/${itemid}`).then(resp=>{
-			LOGGER( 'oWWjCVhIpY' , resp.data )
-			let { status , respdata }=resp.data
-			if ( status =='OK'){
-				itemdata = respdata
-				setitemdata ( respdata )
-			} else {
-				SetErrorBar(messages.MSG_PLEASE_SPECIFY_QUERY_VALUE )
-			}
-		})
+		fetchitem( itemid )
 /** let tokenid = itemda tabatched?.item?.tokenid || 2
 		if( tokenid ){}		else {SetErrorBar(messages.MSG_DATANOTFOUND) } // ; return 
 		query_nfttoken_balance ( ADDRESSES.erc1155 , myaddress , tokenid ).then (resp=>{

@@ -1,17 +1,33 @@
 import styled from "styled-components";
 import icon_close from "../img/sub/icon_close.png";
-import item1 from "../img/popup/item1.png";
+// import item1 from "../img/popup/item1.png";
 import I_klaytn from "../img/sub/I_klaytn.svg";
 import loader from "../img/sub/loader.png";
 import { useEffect } from "react";
+import moment from 'moment'
+import { TIMEFORMATSTR } from '../config/configs'
+import axios from 'axios'
+import { API } from '../config/api'
+import {PAYMEANS_DEF} from '../config/configs'
+import { useState} from 'react'
+import { LOGGER} from '../util/common'
 
-export default function CertificationContractPopup({ off }) {
+export default function CertificationContractPopup({ off , itemdata , sellorder }) {
+	let [ priceklay , setpriceklay ]=useState()
   useEffect(() => {
     setTimeout(() => {
 //      off(2);
     }, 3000);
   }, []);
+	useEffect(_=>{
+    axios.get(`${API.API_TICKERS}/USDT`).then((resp) => {      LOGGER("", resp.data);
+      let { status, list } = resp.data;
+      if (status == "OK") {
+        setpriceklay(list[PAYMEANS_DEF]); // 'KLAY'
+      }
+    });
 
+	} , [] )
   return (
     <CertificationContractPopupBox>
       <article className="topBar">
@@ -24,11 +40,11 @@ export default function CertificationContractPopup({ off }) {
 
       <article className="contBox">
         <div className="itemBox cont">
-          <img src={item1} alt="" />
+          <img src={ itemdata?.item?.url } alt="" />
 
           <div className="textBox">
-            <p className="creator">Philip van Kouwenbergh</p>
-            <p className="title">Blackman with neon</p>
+            <p className="creator">{ itemdata?.author?.nickname }</p>
+            <p className="title">{ itemdata?.item?.titlename }</p>
           </div>
         </div>
 
@@ -39,33 +55,33 @@ export default function CertificationContractPopup({ off }) {
               <div className="value priceContainer">
                 <img src={I_klaytn} alt="" />
                 <span className="priceBox">
-                  <p className="price">0.010</p>
+                  <p className="price">{ sellorder?.price }</p>
                   <p className="unit">KLAY</p>
                 </span>
               </div>
             </div>
 
             <div className="explainLine">
-              <p className="explain">≈ $30.11 </p>
+              <p className="explain">≈ ${ priceklay && sellorder?.price ? (+priceklay * +sellorder?.price ).toFixed(4) : '' } </p>
             </div>
           </li>
 
           <li>
             <div className="contLine">
               <p className="key">Quantity</p>
-              <p className="value ">1</p>
+              <p className="value "> {sellorder?.amount } </p>
             </div>
           </li>
 
           <li>
             <div className="contLine">
               <p className="key">Sales Period </p>
-              <p className="value ">6 month</p>
+              <p className="value ">{ sellorder?.expiry? moment.unix( sellorder?.expiry ).fromNow() : ''}</p>
             </div>
 
             <div className="explainLine">
               <p className="explain">
-                (12/21, 2021 7:32 PM – 06/21, 2022 7:32 PM)
+                ({moment().format(TIMEFORMATSTR)} – {sellorder?.expiry? moment.unix( sellorder?.expiry).format( TIMEFORMATSTR ) : '' })
               </p>
             </div>
           </li>

@@ -19,6 +19,7 @@ const PAYMEANS_DEF = 'KLAY'
 const NETTYPE = 'KLAYTN-TESTNET'
 const URL_TX_SCAN ={
 	'KLAYTN-TESTNET' : 'https://baobab.scope.klaytn.com/tx'
+	, 'ETH-TESTNET' : 'https://ropsten.etherscan.io'
 } 
 const MODE_DEV_PROD=0
 const RULES ={
@@ -30,6 +31,7 @@ const MAP_SALE_TYPES = {
 	, AUCTION_ENGLISH : 2
 	, AUCTION_DUTCH : 3
 }
+const TIMEFORMATSTR='YYYY-MM-DD HH:mm:ss'
 export {
 	PAYMENT_TOKEN_ADDRESS_DEF
 	, REFERER_FEE_RATE_DEF
@@ -43,4 +45,5 @@ export {
 	, MODE_DEV_PROD
 	, RULES
 	, MAP_SALE_TYPES
+	, TIMEFORMATSTR
 }

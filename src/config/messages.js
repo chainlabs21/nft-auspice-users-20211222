@@ -58,6 +58,10 @@ const messages={
 	, MSG_SALE_TYPE_NOT_DEFINED : '판매방식이 정의되지 않았습니다'
 	, MSG_FAILS_AUCTION_REQ : '경매 요구사항을 충족하지 않습니다'
 	, MSG_BID_PLACED : 'Bid placed'
+	, MSG_BID_AMOUNT_OUTBID : '입찰 금액이 기존 입찰금액보다 크지 않습니다' 
+	, MSG_BID_AMOUNT_NOT_ENOUGH : '입찰 금액이 최저입찰가 미만입니다'
+	, MSG_DUPLICATE_ITEM : '동일한 아이템이 이미 등록되었습니다'
+	, MSG_IT_IS_OFFCHAIN : 'Off chain 액션입니다'
 }
 export {
 	messages	

@@ -111,7 +111,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         console.log(accounts);
         let address = accounts[0];
         let address_local = localStorage.getItem("address");
-        if (is_two_addresses_same(address, address_local)) {
+        if (address && address_local && is_two_addresses_same(address, address_local)) {
           return;
         } else {
         }

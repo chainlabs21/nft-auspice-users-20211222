@@ -6,7 +6,10 @@ const MAP_SALETYPES={
 }
 const MAP_ITEMHISTORY_EVETNS ={
 	REGISTER_ITEM : 'Minted'
+	, COMMON :'Listed'
 	, AUCTION_ENGLISH : 'Auction'
+	, CLOSE_SALE : 'Bought'
+	, BID_TO_AUCTION : 'Bid'
 }
 export {
 	MAP_SALETYPES
