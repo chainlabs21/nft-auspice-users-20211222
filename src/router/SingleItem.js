@@ -318,7 +318,7 @@ function SingleItem({
       sellorder?.startingtime ? sellorder?.startingtime : moment().unix(),
       sellorder?.expiry,
       getweirep(mybidamount),
-		];
+		]
 		LOGGER( '' , aargs )
 // return
     let abistr = getabistr_forfunction({
