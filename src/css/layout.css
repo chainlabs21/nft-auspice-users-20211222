@@ -1764,7 +1764,7 @@
   top: -190px;
   right: 0px;
   width: 150px;
-  display: block;
+  display: none;
   z-index: 2;
 }
 .item > div > span > li a .choose.choose2 {
@@ -1777,7 +1777,10 @@
   display: block;
 }
 .item > div > span > li a .choose ul {
+  display: flex;
+  flex-direction: column;
   border-radius: 10px;
+  overflow: hidden;
 }
 .item > div > span > li a .choose ul li {
   width: 100%;

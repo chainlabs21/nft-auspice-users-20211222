@@ -516,7 +516,7 @@ function MarketPlace() {
                                   >
                                     <div className="on">
                                       <ul>
-                                        <li>
+                                        <li style={{ padding: 0 }}>
                                           <img src={heart_off} alt="" />
                                           {v.item?.countfavors}
                                         </li>
