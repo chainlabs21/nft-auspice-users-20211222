@@ -763,6 +763,19 @@
 #main article.collection {
   margin: 0 0 90px;
 }
+
+@media screen and (max-width: 1440px) {
+  #main article.collection .wrap .t {
+    margin: 0 0 19px;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  #main article.collection .wrap .t {
+    margin: 0 0 17px;
+  }
+}
+
 #main article.collection .swiper {
   position: relative;
 }
@@ -797,7 +810,8 @@
 }
 #main article.collection .list > span {
   width: 25%;
-  padding: 0 8px 19px;
+  min-width: 25%;
+  padding: 19px 8px;
   box-sizing: border-box;
 }
 #main article.collection .list li {
@@ -839,31 +853,39 @@
   box-sizing: border-box;
 }
 #main article.collection .list li a div dl dt {
-  color: #000;
-  font-weight: 700;
-  font-size: 22px;
+  width: 100%;
   margin: 30px 0 0;
+  font-size: 22px;
+  font-weight: 700;
   line-height: 31px;
+  color: #000;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 #main article.collection .list li a div dl dd {
   color: #000;
 }
 #main article.collection .list li a div dl dd strong {
-  font-size: 14px;
-  font-weight: 500;
   display: block;
   margin: 3px 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 #main article.collection .list li a div dl dd p {
   font-size: 14px;
   line-height: 18px;
   margin: 15px auto 0;
-  width: 285px;
+  width: 100%;
   opacity: 0.8;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  word-break: break-all;
 }
 
 @media screen and (max-width: 1440px) {
@@ -1878,8 +1900,16 @@
   height: 213px;
 }
 .item.buy > div > span > li a > div ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 0 0 12px;
 }
+
+.item.buy > div > span > li a > div ul li {
+  padding: 0 0 0 30px;
+}
+
 .item.buy > div > span > li a > div div {
   margin: 0 0 4px;
 }
@@ -1900,6 +1930,9 @@
   justify-content: space-between;
   align-items: center;
   margin: 0 0 10px;
+}
+.item.summary > div > span > li a > div ul li {
+  padding: 0 0 0 30px;
 }
 .item.summary > div > span > li a > div div {
   margin: 0 0 3px;

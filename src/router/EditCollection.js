@@ -92,8 +92,8 @@ function EditCollection({ store, setConnect }) {
                           </p>
                           <div className="img logo_img">
                             <div className="line">
-                              <input type="file" name="" id="file" />
-                              <label for="file">
+                              <input type="file"  id="file" />
+                              <label htmlFor="file">
                                 <img
                                   src={
                                     require("../img/sub/logo_img.png").default
@@ -133,7 +133,7 @@ function EditCollection({ store, setConnect }) {
                           <div className="img">
                             <div className="line">
                               <input type="file" name id="file" />
-                              <label for="file" className="file_he">
+                              <label htmlFor="file" className="file_he">
                                 <p>
                                   JPG , PNG, ICO etc. Image file (Up to 10mb)
                                 </p>
@@ -200,7 +200,7 @@ function EditCollection({ store, setConnect }) {
                               <input
                                 type="text"
                                 placeholder=""
-                                onkeydown="onlyNumber(this)"
+                                onKeyDown="onlyNumber(this)"
                               />
                               <span>%</span>
                             </div>

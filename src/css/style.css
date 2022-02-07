@@ -1821,6 +1821,7 @@
   display: inline-block;
 }
 #sub .bundle_box .bundle_top .bun_tr .right_t .boxes .black_box {
+  
   width: 100%;
   padding: 61px 40px 30px;
   box-sizing: border-box;
@@ -1886,12 +1887,12 @@
 /* right middle */
 #sub .bundle_box.box3 .bundle_top .bun_tl {
   flex: 1;
-  max-width: 620px;
+  max-width: 740px;
   margin: 0;
 }
 #sub .bundle_box.box3 .bundle_top .bun_tr {
   flex: 1;
-  max-width: 620px;
+  max-width: 500px;
   margin: 0;
 }
 #sub .bundle_box .bundle_top .right_m {

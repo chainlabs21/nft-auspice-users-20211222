@@ -329,7 +329,7 @@ function Offers({ store, setConnect }) {
                                 <span />
                               </span>
 
-                              <label for={cont}>{cont}</label>
+                              <label htmlFor={cont}>{cont}</label>
                             </li>
                           ))}
                         </ul>

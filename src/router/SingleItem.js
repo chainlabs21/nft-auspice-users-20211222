@@ -7,8 +7,6 @@ import {
   setitemid,
 } from "../util/store";
 import styled from "styled-components";
-import sample from "../img/sub/sample.png";
-import profile_img from "../img/sub/profile_img.png";
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
@@ -29,8 +27,6 @@ import {
   LOGGER,
   KEYS,
   getMaxMinAvg,
-  get_last_part_of_path,
-  gettimestr,
   getmyaddress,
   convaj,
   ISFINITE,
@@ -61,8 +57,8 @@ import rstone from "../img/sub/rstone.png";
 import { ADDRESSES } from "../config/addresses";
 import { putCommaAtPrice, strDot } from "../util/Util";
 import Chart from "react-apexcharts";
-import { MAP_SALETYPES , MAP_ITEMHISTORY_EVETNS } from '../config/disp'
-import PlaceBidPopup from '../components/PlaceBidPopup'
+import { MAP_SALETYPES, MAP_ITEMHISTORY_EVETNS } from "../config/disp";
+import PlaceBidPopup from "../components/PlaceBidPopup";
 
 const convertLongString = (startLength, endLength, str) => {
   if (!str) return;
@@ -124,13 +120,13 @@ function SingleItem({
   let [searchParams, setSearchParams] = useSearchParams();
   let [itemid, setitemid] = useState(searchParams.get("itemid"));
   let [referer, setreferer] = useState(searchParams.get("referer"));
-	let [ j_auctionuuid_bidprice , setj_auctionuuid_bidprice] = useState({})
-	let [ j_auctionuuid_bidder , setj_auctionuuid_bidder ] =useState( {} )
+  let [j_auctionuuid_bidprice, setj_auctionuuid_bidprice] = useState({});
+  let [j_auctionuuid_bidder, setj_auctionuuid_bidder] = useState({});
   let [mybidamount, setmybidamount] = useState("");
   const [chartXdata, setChartXdata] = useState([]);
   const [chartYdata, setChartYdata] = useState([]);
 
-  let tokenid;  //	let itemid =get_last_part_of_path ( window.location.href )
+  let tokenid; //	let itemid =get_last_part_of_path ( window.location.href )
   let axios = applytoken();
   let [myaddress, setmyaddress] = useState(getmyaddress());
   const getfeeamountstr = (amount, rate) => {
@@ -197,12 +193,12 @@ function SingleItem({
     let { item } = itemdata;
     let aargs = [
       ADDRESSES.erc1155, // 0
-      itemdata.item?.itemid, // 1 item?.itemid			//			, itemdata.item?.tokenid // 0 			
-			itemdata.item?.countcopies , // 2
-			itemdata.item?.authorfee , // 3
+      itemdata.item?.itemid, // 1 item?.itemid			//			, itemdata.item?.tokenid // 0
+      itemdata.item?.countcopies, // 2
+      itemdata.item?.authorfee, // 3
       sellorder.asset_amount_bid, //4 			//			, item?.decimals       //			, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDR ESSES.zero
-			getweirep(sellorder?.asset_amount_ask), // 5
-			itemdata.item?.author , // 6
+      getweirep(sellorder?.asset_amount_ask), // 5
+      itemdata.item?.author, // 6
       sellorder?.username, // 7
       myaddress, // 8
       referer ? referer : ADDRESSES.zero, // 9
@@ -214,18 +210,18 @@ function SingleItem({
       abikind: "MATCHER_SIMPLE",
       methodname: "mint_and_match_single_simple",
       aargs,
-		});
-		LOGGER(abistr)
-//	return
-// remix : 0xcfc209030000000000000000000000005ae8f88e15ff42d62b5c1288dc7909bdfa5ef4f40000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000000700000000000000000000000000000000000000000000000000000000000003840000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000016a6075a71700000000000000000000000000008f4559c842a96e308c6fe7d56054dffd6a158e390000000000000000000000008f4559c842a96e308c6fe7d56054dffd6a158e39000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae24049180000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002e516d5a417854327234786848466b6864634743655a48515347507939524d57704d516a6f6b61707852386274516a000000000000000000000000000000000000
-// 0xcfc20903000000000000000000000000ff817302e7b6d116cdff1a730508551ee15578750000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000000700000000000000000000000000000000000000000000000000000000000003840000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000017508f1956a8000000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae2404918000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae240491800000000000000000000000083f714ad20e34748516e8367faf143abde6c37830000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002e516d5173564c734c745154654676694743345332547632466b57416f4c4774545937714e57387263546850676f6e000000000000000000000000000000000000 // => 842
-// 0xcfc20903000000000000000000000000ff817302e7b6d116cdff1a730508551ee15578750000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000000700000000000000000000000000000000000000000000000000000000000003840000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000017508f1956a8000000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae2404918000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae2404918000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002e516d5173564c734c745154654676694743345332547632466b57416f4c4774545937714e57387263546850676f6e000000000000000000000000000000000000
+    });
+    LOGGER(abistr);
+    //	return
+    // remix : 0xcfc209030000000000000000000000005ae8f88e15ff42d62b5c1288dc7909bdfa5ef4f40000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000000700000000000000000000000000000000000000000000000000000000000003840000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000016a6075a71700000000000000000000000000008f4559c842a96e308c6fe7d56054dffd6a158e390000000000000000000000008f4559c842a96e308c6fe7d56054dffd6a158e39000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae24049180000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002e516d5a417854327234786848466b6864634743655a48515347507939524d57704d516a6f6b61707852386274516a000000000000000000000000000000000000
+    // 0xcfc20903000000000000000000000000ff817302e7b6d116cdff1a730508551ee15578750000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000000700000000000000000000000000000000000000000000000000000000000003840000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000017508f1956a8000000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae2404918000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae240491800000000000000000000000083f714ad20e34748516e8367faf143abde6c37830000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002e516d5173564c734c745154654676694743345332547632466b57416f4c4774545937714e57387263546850676f6e000000000000000000000000000000000000 // => 842
+    // 0xcfc20903000000000000000000000000ff817302e7b6d116cdff1a730508551ee15578750000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000000700000000000000000000000000000000000000000000000000000000000003840000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000017508f1956a8000000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae2404918000000000000000000000000df7f660ecb4d96b56856d6b555a9ee9ae2404918000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002e516d5173564c734c745154654676694743345332547632466b57416f4c4774545937714e57387263546850676f6e000000000000000000000000000000000000
     requesttransaction({
       from: myaddress,
       to: ADDRESSES.matcher_simple,
       data: abistr,
-			value: getweirep(sellorder.asset_amount_ask), // '0x00'
-			gas : '' + 800_000 // 320,948
+      value: getweirep(sellorder.asset_amount_ask), // '0x00'
+      gas: "" + 800_000, // 320,948
     })
       .then((resp) => {
         LOGGER("", resp);
@@ -234,12 +230,12 @@ function SingleItem({
           let reqbody = {
             itemid,
             tokenid: itemdata.item?.tokenid,
-            amount: sellorder?.asset_amount_bid , // itemdata.item?.countcopies,
+            amount: sellorder?.asset_amount_bid, // itemdata.item?.countcopies,
             price: sellorder?.asset_amount_ask,
             username: myaddress,
             seller: sellorder?.username,
             buyer: myaddress,
-            matcher_contract: ADDRESSES.matcher_simple , // _2022 0131,
+            matcher_contract: ADDRESSES.matcher_simple, // _2022 0131,
             token_repo_contract: ADDRESSES.erc1155,
             adminfee: {
               address: ADDRESSES.vault,
@@ -276,8 +272,8 @@ function SingleItem({
               LOGGER("G6OvdxLxyA", resp.data);
               let { status } = resp.data;
               if (status == "OK") {
-								SetErrorBar(messages.MSG_DONE_REGISTERING);
-								fetchitem( itemdata?.item?.itemid )
+                SetErrorBar(messages.MSG_DONE_REGISTERING);
+                fetchitem(itemdata?.item?.itemid);
               }
             });
         }
@@ -298,45 +294,57 @@ function SingleItem({
     } else {
       SetErrorBar(messages.MSG_PLEASE_INPUT);
       return;
-		}
-		if ( j_auctionuuid_bidprice[sellorder?.uuid ] ){
-			if (+mybidamount > j_auctionuuid_bidprice[sellorder?.uuid ] )	{}
-			else {SetErrorBar( messages.MSG_BID_AMOUNT_OUTBID ) ; return }
-		}
-		if (+mybidamount >= sellorder?.asset_amount_ask ){}
-		else { SetErrorBar( messages.MSG_BID_AMOUNT_NOT_ENOUGH ); return }
+    }
+    if (j_auctionuuid_bidprice[sellorder?.uuid]) {
+      if (+mybidamount > j_auctionuuid_bidprice[sellorder?.uuid]) {
+      } else {
+        SetErrorBar(messages.MSG_BID_AMOUNT_OUTBID);
+        return;
+      }
+    }
+    if (+mybidamount >= sellorder?.asset_amount_ask) {
+    } else {
+      SetErrorBar(messages.MSG_BID_AMOUNT_NOT_ENOUGH);
+      return;
+    }
     let aargs = [
       ADDRESSES.erc1155,
       sellorder?.username,
       sellorder?.itemid,
       itemdata?.item?.countcopies,
       itemdata?.item?.authorfee,
-//      tokenid || "0", // itemdata?.item?.
-			sellorder?.username ,
+      //      tokenid || "0", // itemdata?.item?.
+      sellorder?.username,
       sellorder?.asset_amount_bid,
       getweirep(sellorder?.asset_amount_ask),
       sellorder?.startingtime ? sellorder?.startingtime : moment().unix(),
       sellorder?.expiry,
       getweirep(mybidamount),
+<<<<<<< HEAD
 		]
 		LOGGER( '' , aargs )
 // return
+=======
+    ];
+    LOGGER("", aargs);
+    // return
+>>>>>>> aa4ae608543672c5d5eb296c5acd8babf4bc8cf0
     let abistr = getabistr_forfunction({
       contractaddress: ADDRESSES.auction_repo_english_batch_tasks, // auction_repo_english_simple_no_batch_tasks
       abikind: "AUCTION_ENGLISH_BATCH_TASKS",
       methodname: "mint_begin_simple_and_bid",
       aargs,
-		})
-// remix : 0xfb972d6a000000000000000000000000ff817302e7b6d116cdff1a730508551ee1557875000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000160000000000000000000000000000000000000000000000000000000000000000b00000000000000000000000000000000000000000000000000000000000000c8000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000025bf6196bd100000000000000000000000000000000000000000000000000000000000061ff908f00000000000000000000000000000000000000000000000000000000620679ef000000000000000000000000000000000000000000000000025f839810978000000000000000000000000000000000000000000000000000000000000000002e516d5455734c597a4d694c3178733777484e354454627351437a5043485a6278746874523737634647534a383438000000000000000000000000000000000000		
-// react : 0xfb972d6a0000000000000000000000005ae8f88e15ff42d62b5c1288dc7909bdfa5ef4f4000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000160000000000000000000000000000000000000000000000000000000000000000b00000000000000000000000000000000000000000000000000000000000000c8000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000025bf6196bd100000000000000000000000000000000000000000000000000000000000061ff908f00000000000000000000000000000000000000000000000000000000620679ef000000000000000000000000000000000000000000000000025f839810978000000000000000000000000000000000000000000000000000000000000000002e516d5455734c597a4d694c3178733777484e354454627351437a5043485a6278746874523737634647534a383438000000000000000000000000000000000000
-		LOGGER( '' ,  abistr )
-//		return
+    });
+    // remix : 0xfb972d6a000000000000000000000000ff817302e7b6d116cdff1a730508551ee1557875000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000160000000000000000000000000000000000000000000000000000000000000000b00000000000000000000000000000000000000000000000000000000000000c8000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000025bf6196bd100000000000000000000000000000000000000000000000000000000000061ff908f00000000000000000000000000000000000000000000000000000000620679ef000000000000000000000000000000000000000000000000025f839810978000000000000000000000000000000000000000000000000000000000000000002e516d5455734c597a4d694c3178733777484e354454627351437a5043485a6278746874523737634647534a383438000000000000000000000000000000000000
+    // react : 0xfb972d6a0000000000000000000000005ae8f88e15ff42d62b5c1288dc7909bdfa5ef4f4000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000160000000000000000000000000000000000000000000000000000000000000000b00000000000000000000000000000000000000000000000000000000000000c8000000000000000000000000fbbd5d0e27fabf2b57dd3660892684485fbd43dc0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000025bf6196bd100000000000000000000000000000000000000000000000000000000000061ff908f00000000000000000000000000000000000000000000000000000000620679ef000000000000000000000000000000000000000000000000025f839810978000000000000000000000000000000000000000000000000000000000000000002e516d5455734c597a4d694c3178733777484e354454627351437a5043485a6278746874523737634647534a383438000000000000000000000000000000000000
+    LOGGER("", abistr);
+    //		return
     requesttransaction({
       from: myaddress,
       to: ADDRESSES.auction_repo_english_batch_tasks, // auction_repo_english_simple_no_batch_tasks
       data: abistr,
-			value: getweirep(mybidamount),
-			gas : '' + 1400_000 // 610,174
+      value: getweirep(mybidamount),
+      gas: "" + 1400_000, // 610,174
     }).then(async (resp) => {
       LOGGER("", resp);
       let { transactionHash: txhash, status } = resp;
@@ -413,51 +421,61 @@ function SingleItem({
   };
   const fetchitem = (itemid) => {
     Setisloader(true);
-    axios.get(`${API.API_GET_ITEM_DATA}/${itemid}` , {params : { incviewcount : 1 } } ).then((res) => {
-      LOGGER("agwwiWSDdf", res.data);
-      let { status, respdata } = res.data;
-      if (status == "OK") {
-        setitemdata(respdata);
-        let { orders_sellside } = respdata;
-        setorders_sell(orders_sellside);
-        setilikethis(respdata.ilikethisitem);
-        setibookmarkthis(respdata.ibookmarkthis);
-        if (respdata.bids) {
-					setj_auctionuuid_bidprice (convaj(respdata.bids, "basesaleuuid", "price"))  // auctionhashid
-					setj_auctionuuid_bidder ( convaj(respdata.bids , 'basesaleuuid' , 'username' ) )
-        }
-        if (orders_sellside && orders_sellside.length) {
-          orders_sellside.forEach((elem, idx) => {
-            axios.get(API.API_USER_INFO + `/${elem.username}`).then((resp) => {
-              LOGGER("V9kbW2K1sr", resp.data);
-              let { status, payload } = resp.data;
-              if (status == "OK") {
-                let { profileimage } = payload?.mongo;
-                if (profileimage) {
-                  //									let jdata={}
-                  //								jdata[v.username ] = profileimage
-                  jprofileimages[idx] = profileimage;
-                  setjprofileimages(jprofileimages);
-                }
-              }
-            });
-          });
-        }
-        query_with_arg({
-          contractaddress: ADDRESSES.erc1155,
-          abikind: "ERC1155",
-          methodname: "_itemhash_tokenid",
-          aargs: [respdata?.item?.itemid], // itemdata
-        }).then((resp) => {
-          LOGGER("mohrKFfjxQ", resp);
-          if (resp) {
-            tokenid = resp;
+    axios
+      .get(`${API.API_GET_ITEM_DATA}/${itemid}`, {
+        params: { incviewcount: 1 },
+      })
+      .then((res) => {
+        LOGGER("agwwiWSDdf", res.data);
+        let { status, respdata } = res.data;
+        if (status == "OK") {
+          setitemdata(respdata);
+          let { orders_sellside } = respdata;
+          setorders_sell(orders_sellside);
+          setilikethis(respdata.ilikethisitem);
+          setibookmarkthis(respdata.ibookmarkthis);
+          if (respdata.bids) {
+            setj_auctionuuid_bidprice(
+              convaj(respdata.bids, "basesaleuuid", "price")
+            ); // auctionhashid
+            setj_auctionuuid_bidder(
+              convaj(respdata.bids, "basesaleuuid", "username")
+            );
           }
-        });
-        resolve_author_seller(respdata);
-      }
-      Setisloader(false);
-    });
+          if (orders_sellside && orders_sellside.length) {
+            orders_sellside.forEach((elem, idx) => {
+              axios
+                .get(API.API_USER_INFO + `/${elem.username}`)
+                .then((resp) => {
+                  LOGGER("V9kbW2K1sr", resp.data);
+                  let { status, payload } = resp.data;
+                  if (status == "OK") {
+                    let { profileimage } = payload?.mongo;
+                    if (profileimage) {
+                      //									let jdata={}
+                      //								jdata[v.username ] = profileimage
+                      jprofileimages[idx] = profileimage;
+                      setjprofileimages(jprofileimages);
+                    }
+                  }
+                });
+            });
+          }
+          query_with_arg({
+            contractaddress: ADDRESSES.erc1155,
+            abikind: "ERC1155",
+            methodname: "_itemhash_tokenid",
+            aargs: [respdata?.item?.itemid], // itemdata
+          }).then((resp) => {
+            LOGGER("mohrKFfjxQ", resp);
+            if (resp) {
+              tokenid = resp;
+            }
+          });
+          resolve_author_seller(respdata);
+        }
+        Setisloader(false);
+      });
     axios.get(`${API.API_ITEM_DATA_AUX}/${itemid}`).then((resp) => {
       LOGGER("6ENydA38bX", resp.data);
       let { status, respdata } = resp.data;
@@ -558,10 +576,14 @@ function SingleItem({
   );
 
   useEffect(() => {
-		if(itemWrapRef.current && itemWrapRef.current.offsetWidth ){}
-		else {return }
-		if(itemWrapRef.current && itemWrapRef.current.children[0]){}
-		else {return }
+    if (itemWrapRef.current && itemWrapRef.current.offsetWidth) {
+    } else {
+      return;
+    }
+    if (itemWrapRef.current && itemWrapRef.current.children[0]) {
+    } else {
+      return;
+    }
     const wrapWidth = itemWrapRef.current.offsetWidth;
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
@@ -588,7 +610,7 @@ function SingleItem({
 
       {likePopup && <ItemLikePopup off={setLikePopup} itemid={itemid} />}
 
-{ false && (<PlaceBidPopup />) }
+      {false && <PlaceBidPopup />}
 
       {bidauctionmodal && (
         <div
@@ -661,15 +683,29 @@ function SingleItem({
                   <ul>
                     <li>
                       <p className="rec_t">
-                        Current highest bid<span className="red" style={{color:'gray'}}>{ strDot(j_auctionuuid_bidder[ sellorder?.uuid ] , 8 ,0)  }</span>
+                        Current highest bid
+                        <span className="red" style={{ color: "gray" }}>
+                          {strDot(j_auctionuuid_bidder[sellorder?.uuid], 8, 0)}
+                        </span>
                       </p>
                       <div className="right_price m_left">
                         <h4 className="blue">
                           <img src={require("../img/sub/rock.png").default} />
                           {j_auctionuuid_bidprice[sellorder?.uuid]
                             ? j_auctionuuid_bidprice[sellorder?.uuid]
-                            : " "} &nbsp;
-                          <span className="pri">(${ (priceklay && j_auctionuuid_bidprice[sellorder?.uuid] )? (+priceklay * +j_auctionuuid_bidprice[sellorder?.uuid]).toFixed(4) : ''  })</span>
+                            : " "}{" "}
+                          &nbsp;
+                          <span className="pri">
+                            ($
+                            {priceklay &&
+                            j_auctionuuid_bidprice[sellorder?.uuid]
+                              ? (
+                                  +priceklay *
+                                  +j_auctionuuid_bidprice[sellorder?.uuid]
+                                ).toFixed(4)
+                              : ""}
+                            )
+                          </span>
                         </h4>
                       </div>
                     </li>
@@ -690,7 +726,9 @@ function SingleItem({
                           <span className="pri">
                             ($
                             {priceklay && sellorder?.asset_amount_ask
-                              ? (+priceklay * +sellorder?.asset_amount_ask).toFixed(4)
+                              ? (
+                                  +priceklay * +sellorder?.asset_amount_ask
+                                ).toFixed(4)
                               : ""}
                             )
                           </span>
@@ -704,8 +742,8 @@ function SingleItem({
                       <p className="rec_t">
                         Your bid
                         <span className="red" style={{ color: "black" }}>
-													(Current balance: {myethbalance? (+myethbalance).toFixed(4):'0'})
-                          
+                          (Current balance:{" "}
+                          {myethbalance ? (+myethbalance).toFixed(4) : "0"})
                         </span>
                       </p>
                       <div className="right_price m_left">
@@ -713,15 +751,15 @@ function SingleItem({
                           <input
                             value={mybidamount}
                             onChange={(e) => {
-                              let { value : value_raw } = e.target;
-															let value = + value_raw
-                               if (ISFINITE(value)) {
-															} else if ( value==0){}
-															else {
+                              let { value: value_raw } = e.target;
+                              let value = +value_raw;
+                              if (ISFINITE(value)) {
+                              } else if (value == 0) {
+                              } else {
                                 SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY);
-//                                return;
+                                //                                return;
                               }
-                              setmybidamount("" + value_raw );
+                              setmybidamount("" + value_raw);
                               if (value >= +myethbalance) {
                                 SetErrorBar(messages.MSG_EXCEEDS_BALANCE);
                                 return;
@@ -756,7 +794,7 @@ function SingleItem({
                     }}
                   >
                     <input type="checkbox" id="chk" name="chk1" />
-                    <label for="chk">
+                    <label htmlFor="chk">
                       Aware that Itemverse contains one item that has not been
                       reviewed and approved
                     </label>
@@ -770,7 +808,7 @@ function SingleItem({
                         setistoschecked(!istoschecked); // LOGGER()
                       }}
                     />
-                    <label for="chk2">
+                    <label htmlFor="chk2">
                       I agree to Itemverse's <b>Terms of Service</b>
                     </label>
                   </div>
@@ -782,8 +820,8 @@ function SingleItem({
                 onClick={(_) => {
                   if (istoschecked) {
                   } else {
-//                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
-  //                  return;
+                    //                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
+                    //                  return;
                   }
                   LOGGER("pHeiL5AWXM");
                   onclickbuy();
@@ -870,7 +908,7 @@ function SingleItem({
                         <span className="red">
                           {+myethbalance &&
                           +myethbalance > sellorder?.asset_amount_ask
-                            ? '\u00A0'
+                            ? "\u00A0"
                             : "Insufficient KLAY balance"}
                         </span>
                       </p>
@@ -881,7 +919,9 @@ function SingleItem({
                           <span className="pri">
                             ($
                             {priceklay && sellorder?.asset_amount_ask
-                              ? ( +priceklay * sellorder?.asset_amount_ask ).toFixed( 4 )
+                              ? (
+                                  +priceklay * sellorder?.asset_amount_ask
+                                ).toFixed(4)
                               : ""}
                             )
                           </span>
@@ -901,7 +941,7 @@ function SingleItem({
                       <div className="right_price m_left">
                         <h4 className="blue">
                           <img src={require("../img/sub/rock.png").default} />
-                          {myethbalance? (+myethbalance).toFixed(4):'0'}
+                          {myethbalance ? (+myethbalance).toFixed(4) : "0"}
                           <span className="pri">
                             ($
                             {priceklay && myethbalance
@@ -922,7 +962,7 @@ function SingleItem({
                     }}
                   >
                     <input type="checkbox" id="chk" name="chk1" />
-                    <label for="chk">
+                    <label htmlFor="chk">
                       Aware that Itemverse contains one item that has not been
                       reviewed and approved
                     </label>
@@ -936,7 +976,7 @@ function SingleItem({
                         setistoschecked(!istoschecked); // LOGGER()
                       }}
                     />
-                    <label for="chk2">
+                    <label htmlFor="chk2">
                       I agree to Itemverse's <b>Terms of Service</b>
                     </label>
                   </div>
@@ -948,8 +988,8 @@ function SingleItem({
                 onClick={(_) => {
                   if (istoschecked) {
                   } else {
-//                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
-  //                  return;
+                    //                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
+                    //                  return;
                   }
                   LOGGER("pHeiL5AWXM");
                   onclickbuy();
@@ -1033,13 +1073,10 @@ function SingleItem({
                     <div className="tt">
                       <h2>{itemdata?.item?.titlename}</h2>
                       <div className="icons">
-                        <a
-                          onClick={(_) => {
-                            fetchitem(itemdata?.item?.itemid);
-                          }}
-                        >
+                        <a onClick={(_) => fetchitem(itemdata?.item?.itemid)}>
                           <img
                             src={require("../img/sub/refresh.png").default}
+                            alt=""
                           />
                         </a>
                         <a>
@@ -1053,61 +1090,6 @@ function SingleItem({
                           }}
                         >
                           <img src={require("../img/sub/share.png").default} />
-                        </a>
-                        <a
-                          onClick={(_) => {
-                            LOGGER("CodOU75E5r");
-                            axios
-                              .post(`${API.API_TOGGLE_FAVOR}/${itemid}`)
-                              .then((resp) => {
-                                LOGGER("", resp.data);
-                                let { status, respdata } = resp.data;
-                                if (status == "OK") {
-                                  if (respdata) {
-                                    setilikethis(true);
-                                    SetErrorBar(messages.MSG_FAVORITED);
-                                    fetchitem(itemid);
-                                  } else {
-                                    setilikethis(false);
-                                    SetErrorBar(messages.MSG_UNFAVORITED);
-                                    fetchitem(itemid);
-                                  }
-                                }
-                              });
-                          }}
-                        >
-                          <img
-                            src={ilikethis ? I_heartOPink : I_heartOGray}
-                          ></img>
-                        </a>
-
-                        <a
-                          onClick={(_) => {
-                            axios
-                              .post(`${API.API_TOGGLE_BOOKMARK}/${itemid}`)
-                              .then((resp) => {
-                                LOGGER("", resp.data);
-                                let { status, respdata } = resp.data;
-                                if (status == "OK") {
-                                  if (respdata) {
-                                    setibookmarkthis(true);
-                                    SetErrorBar(messages.MSG_DID_BOOKMARK);
-                                  } else {
-                                    setibookmarkthis(false);
-                                    SetErrorBar(messages.MSG_UNDID_BOOKMARK);
-                                  }
-                                }
-                              });
-                          }}
-                        >
-                          <img
-                            src={
-                              ibookmarkthis
-                                ? require("../img/sub/bookmark-solid.png")
-                                    .default
-                                : require("../img/sub/bookmark.png").default
-                            }
-                          ></img>{" "}
                         </a>
                       </div>
                     </div>
@@ -1227,13 +1209,13 @@ function SingleItem({
                   <div className="history_s container">
                     <ul>
                       {orders_sell
-                        .sort(
-                          (a, b) =>{
-														return (+a.asset_amount_ask == +b.asset_amount_ask)? 
-															( a.createdat > b.createdat ? - 1 : + 1 )
-														  : +a.asset_amount_ask - +b.asset_amount_ask
-													}
-                        )
+                        .sort((a, b) => {
+                          return +a.asset_amount_ask == +b.asset_amount_ask
+                            ? a.createdat > b.createdat
+                              ? -1
+                              : +1
+                            : +a.asset_amount_ask - +b.asset_amount_ask;
+                        })
                         .map((v, idx) => {
                           return (
                             <li
@@ -1264,7 +1246,10 @@ function SingleItem({
                                   : ""}{" "}
                                 KLAY
                                 <br />
-                                <span>{`Qty.${v.asset_amount_bid}`} {MAP_SALETYPES[v.typestr] }</span>
+                                <span>
+                                  {`Qty.${v.asset_amount_bid}`}{" "}
+                                  {MAP_SALETYPES[v.typestr]}
+                                </span>
                               </h3>
                               <h4>{convertLongString(8, 8, v.username)}</h4>
                               <h5>
@@ -1495,20 +1480,23 @@ function SingleItem({
                   <tbody className="body">
                     {listholder.map((v, idx) => (
                       <tr key={idx}>
-                        <td> { MAP_ITEMHISTORY_EVETNS [ v.typestr ] } </td>
+                        <td> {MAP_ITEMHISTORY_EVETNS[v.typestr]} </td>
                         <td className="bold">
                           {putCommaAtPrice(v.price * 1)} KLAY
                         </td>
-                        <td className="blue">{ strDot(v.from_ , 20,0) }</td>
-                        <td className="blue">{ strDot(v.to_ , 0 , 20 ) }</td>
+                        <td className="blue">{strDot(v.from_, 20, 0)}</td>
+                        <td className="blue">{strDot(v.to_, 0, 20)}</td>
                         <td className="gray">
                           {moment(v.createdat).fromNow()}
                         </td>
                         <td>
                           <span
                             onClick={(_) => {
-															if( v.isonchain){}
-															else { SetErrorBar( messages.MSG_IT_IS_OFFCHAIN ) ; return }
+                              if (v.isonchain) {
+                              } else {
+                                SetErrorBar(messages.MSG_IT_IS_OFFCHAIN);
+                                return;
+                              }
                               window
                                 .open(
                                   URL_TX_SCAN[v.nettype] + `/${v.txhash}`,
@@ -1516,7 +1504,7 @@ function SingleItem({
                                 )
                                 .focus();
                             }}
-                            className={v.isonchain  ? "chain on" : "chain off"}
+                            className={v.isonchain ? "chain on" : "chain off"}
                           ></span>
                           {/*                          <a                             className={v.chainOn ? "chain on" : "chain off"}                          ></a>
                            */}
@@ -1626,7 +1614,7 @@ const SignPopupBox = styled.div`
       right: -26px;
     }
   }
-  
+
   .swiper-wrapper,
   .slideBox {
     overflow-x: scroll;

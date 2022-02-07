@@ -183,7 +183,7 @@ function Signup({ store, setConnect }) {
                             <img src={photo} alt="" />
                           </button>
                         ) : (
-                          <label for="file"></label>
+                          <label htmlFor="file"></label>
                         )}
                       </div>
                       <div className="filename">
@@ -257,28 +257,28 @@ function Signup({ store, setConnect }) {
                     <li>
                       <input
                         type="checkbox"
-                        name=""
+                        
                         id="agree"
                         checked={ageCheck}
                         onChange={(e) => {
                           setAgeCheck(e.target.checked);
                         }}
                       />
-                      <label for="agree">
+                      <label htmlFor="agree">
                         <h4>19 years of age or older (required)</h4>
                       </label>
                     </li>
                     <li>
                       <input
                         type="checkbox"
-                        name=""
+                        
                         id="agree2"
                         checked={subCheck}
                         onChange={(e) => {
                           setSubCheck(e.target.checked);
                         }}
                       />
-                      <label for="agree2">
+                      <label htmlFor="agree2">
                         <h4>
                           Subscribe <a>Terms of Service</a> (required)
                         </h4>
@@ -287,14 +287,14 @@ function Signup({ store, setConnect }) {
                     <li>
                       <input
                         type="checkbox"
-                        name=""
+                        
                         id="agree3"
                         checked={infoCheck}
                         onChange={(e) => {
                           setInfoCheck(e.target.checked);
                         }}
                       />
-                      <label for="agree3">
+                      <label htmlFor="agree3">
                         <h4>
                           <a>
                             Personal Information Collection

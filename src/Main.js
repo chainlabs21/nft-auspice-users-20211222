@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import users_list01 from "./img/main/users_list01.png";
 import users_list02 from "./img/main/users_list02.png";
@@ -14,19 +14,24 @@ import { applytoken } from "./util/rest";
 import { API } from "./config/api";
 import { strDot } from "./util/Util";
 import moment from "moment";
+import SetErrorBar from "./util/SetErrorBar";
 
 function Main({ store }) {
-  const visualSwiperContRef = useRef();
+  const navigate = useNavigate();
+
   const visualSwiperRef = useRef();
+  const collectionSwiperRef = useRef();
   const trendingSwiperRef = useRef();
   const itemSwiperRef = useRef();
   const userWrapRef = useRef();
-  const navigate = useNavigate();
+
   const [intervalId, setIntervalId] = useState();
   const [visualSwiperIndex, setVisualSwiperIndex] = useState(0);
+  const [collectionIndex, setCollectionIndex] = useState(0);
   const [trendingItemIndex, setTrendingItemIndex] = useState(0);
   const [itemIndex, setItemIndex] = useState(0);
   const [userIndex, setUserIndex] = useState(0);
+  const [creatorlist, setCreatorList] = useState([]);
   let [list_newitems, setlist_newitems] = useState([]);
   let [list_trenditems, setlist_trenditems] = useState([]);
   let [list_featured, setlist_featured] = useState([]);
@@ -34,19 +39,19 @@ function Main({ store }) {
 
   useEffect((_) => {
     axios.get(`${API.API_MAIN_FEATURED_ITEMS}`).then((resp) => {
-      LOGGER("", resp.data);
       let { status, list } = resp.data;
       if (status == "OK") {
         setlist_featured(list);
       }
     });
-    axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
-      LOGGER("JBwpoHdvFv", resp.data);
+
+    axios.get(`${API.API_GET_CREATORS}`).then((resp) => {
       let { status, list } = resp.data;
       if (status == "OK") {
-        setlist_newitems(list);
+        setCreatorList(list);
       }
     });
+
     axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
       LOGGER("JN8wsASyiL", resp.data);
       let { status, list } = resp.data;
@@ -54,26 +59,120 @@ function Main({ store }) {
         setlist_trenditems(list);
       }
     });
+
+    axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
+      LOGGER("JBwpoHdvFv", resp.data);
+      let { status, list } = resp.data;
+      if (status == "OK") {
+        setlist_newitems(list);
+      }
+    });
   }, []);
 
+  function onClickFavorBtn(e, itemid) {
+    e.stopPropagation();
+    LOGGER("CodOU75E5r");
+    axios.post(`${API.API_TOGGLE_FAVOR}/${itemid}`).then((resp) => {
+      LOGGER("", resp.data);
+      let { status, respdata, message } = resp.data;
+
+      if (status == "OK") {
+        axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
+          LOGGER("JN8wsASyiL", resp.data);
+          let { status, list } = resp.data;
+          if (status == "OK") {
+            setlist_trenditems(list);
+          }
+        });
+
+        axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
+          LOGGER("JBwpoHdvFv", resp.data);
+          let { status, list } = resp.data;
+          if (status == "OK") {
+            setlist_newitems(list);
+          }
+        });
+      } else if (message === "PLEASE-LOGIN") {
+        SetErrorBar("로그인을 해주세요");
+      }
+    });
+  }
+
+  function onClickBookMarkBtn(e, itemid) {
+    e.preventDefault();
+
+    axios.post(`${API.API_TOGGLE_BOOKMARK}/${itemid}`).then((resp) => {
+      LOGGER("", resp.data);
+      let { status, respdata, message } = resp.data;
+      if (status == "OK") {
+        if (status == "OK") {
+          axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
+            LOGGER("JN8wsASyiL", resp.data);
+            let { status, list } = resp.data;
+            if (status == "OK") {
+              setlist_trenditems(list);
+            }
+          });
+
+          axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
+            LOGGER("JBwpoHdvFv", resp.data);
+            let { status, list } = resp.data;
+            if (status == "OK") {
+              setlist_newitems(list);
+            }
+          });
+        } else if (message === "PLEASE-LOGIN") {
+          SetErrorBar("로그인을 해주세요");
+        }
+      }
+    });
+  }
+
   function onClickVisualSwiperBtn() {
-    if (visualSwiperRef.current?.scrollTo) {
-      if (visualSwiperIndex < visualSwiperRef.current.children.length - 1) {
-        visualSwiperRef.current.style.transform = `translate3d(
+    if (window.innerWidth < 1280) {
+      if (visualSwiperRef.current?.scrollTo) {
+        if (visualSwiperIndex < visualSwiperRef.current.children.length - 1) {
+          visualSwiperRef.current.style.transform = `translate3d(
           -${
             visualSwiperRef.current.children[0].offsetWidth *
             (visualSwiperIndex + 1)
           }px,0,0
         )`;
 
-        setVisualSwiperIndex(visualSwiperIndex + 1);
-      } else {
-        setVisualSwiperIndex(0);
-        visualSwiperRef.current.style.transform = `translate3d(
+          setVisualSwiperIndex(visualSwiperIndex + 1);
+        } else {
+          setVisualSwiperIndex(0);
+          visualSwiperRef.current.style.transform = `translate3d(
           0,0,0
         )`;
+        }
       }
+    } else {
+      if (visualSwiperRef.current) visualSwiperRef.current.style.transform = "";
+      if (visualSwiperIndex < creatorlist.length - 1)
+        setVisualSwiperIndex(visualSwiperIndex + 1);
+      else setVisualSwiperIndex(0);
     }
+  }
+
+  function onClickCollectionPreBtn() {
+    const wrapWidth = collectionSwiperRef.current.offsetWidth;
+    const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(8 / itemNumByPage);
+
+    if (collectionIndex > 0) setCollectionIndex(collectionIndex - 1);
+    else setCollectionIndex(pageNum - 1);
+  }
+
+  function onClickCollectionNextBtn() {
+    const wrapWidth = collectionSwiperRef.current.offsetWidth;
+    const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(8 / itemNumByPage);
+
+    if (collectionIndex < pageNum - 1) setCollectionIndex(collectionIndex + 1);
+    else setCollectionIndex(0);
   }
 
   function onClickTrendingPreBtn() {
@@ -81,7 +180,6 @@ function Main({ store }) {
     const contWidth = trendingSwiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(8 / itemNumByPage);
-    //Math.ceil;
 
     if (trendingItemIndex > 0) setTrendingItemIndex(trendingItemIndex - 1);
     else setTrendingItemIndex(pageNum - 1);
@@ -139,12 +237,53 @@ function Main({ store }) {
   }
 
   useEffect(() => {
+    if (!visualSwiperRef.current.children[0]) return;
+
+    const contWidth = visualSwiperRef.current.children[0].offsetWidth;
+    const pageNum = Math.ceil(visualSwiperRef.current.children.length);
+
+    if (visualSwiperRef.current?.scrollTo) {
+      if (visualSwiperIndex < pageNum) {
+        visualSwiperRef.current.scrollTo({
+          left: contWidth * visualSwiperIndex,
+          behavior: "smooth",
+        });
+      } else {
+        visualSwiperRef.current.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+
     if (visualSwiperRef.current.children.length) {
       if (intervalId) clearInterval(intervalId);
       setIntervalId(setInterval(onClickVisualSwiperBtn, 3000));
     }
     return clearInterval(intervalId);
   }, [visualSwiperIndex]);
+
+  useEffect(() => {
+    if (!collectionSwiperRef.current.children[0]) return;
+
+    const wrapWidth = collectionSwiperRef.current.offsetWidth;
+    const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(8 / itemNumByPage);
+    if (collectionSwiperRef.current?.scrollTo) {
+      if (collectionIndex < pageNum) {
+        collectionSwiperRef.current.scrollTo({
+          left: contWidth * itemNumByPage * collectionIndex,
+          behavior: "smooth",
+        });
+      } else {
+        collectionSwiperRef.current.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [collectionIndex]);
 
   useEffect(() => {
     if (!trendingSwiperRef.current.children[0]) return;
@@ -234,7 +373,7 @@ function Main({ store }) {
               <a onClick={() => navigate("/createitem")}>NFT Publication</a>
             </div>
           </div>
-          <div className="swiper" ref={visualSwiperContRef}>
+          <div className="swiper">
             <div className="swiper-container swiper-container-visual">
               <ol className="swiper-wrapper" ref={visualSwiperRef}>
                 {list_featured
@@ -305,6 +444,66 @@ function Main({ store }) {
               className="swiper-button-next swiper-button-visual-next"
               onClick={onClickVisualSwiperBtn}
             ></div>
+          </div>
+        </article>
+
+        <article class="collection">
+          <div class="wrap">
+            <h4 class="t">Trending Collection</h4>
+            <div class="swiper">
+              <div class="swiper-container swiper-container-collection">
+                <ol class="list swiper-wrapper" ref={collectionSwiperRef}>
+                  {creatorlist.map((cont, index) => (
+                    <>
+                      <span>
+                        <li class="swiper-slide">
+                          <a
+                          // onClick={() =>
+                          //   navigate(``)
+                          // }
+                          >
+                            <div
+                              style={{
+                                backgroundImage: `url(${cont.backgroundimgsrc})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                              }}
+                            />
+                            <div>
+                              <span
+                                style={{
+                                  backgroundImage: `url(${cont.mongo?.profileimage})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              />
+                              <dl>
+                                <dt>{cont.storename}</dt>
+                                <dd>
+                                  <strong>{cont?.nickname}</strong>
+                                  <p>{cont.mongo?.description}</p>
+                                </dd>
+                              </dl>
+                            </div>
+                          </a>
+                        </li>
+                      </span>
+                    </>
+                  ))}
+                </ol>
+              </div>
+
+              <div
+                class="swiper-button-prev swiper-button-collection-prev"
+                onClick={onClickCollectionPreBtn}
+              ></div>
+              <div
+                class="swiper-button-next swiper-button-collection-next"
+                onClick={onClickCollectionNextBtn}
+              ></div>
+            </div>
           </div>
         </article>
 
@@ -407,7 +606,7 @@ function Main({ store }) {
                   <div className="slideBox" ref={trendingSwiperRef}>
                     {list_trenditems
                       .filter((elem) => elem.url)
-                      .sort((a, b) => b.countviews - a.countviews)
+                      .sort((a, b) => b.countfavors - a.countfavors)
                       .map((cont, index) => (
                         <span key={index}>
                           <li className="swiper-slide">
@@ -430,18 +629,21 @@ function Main({ store }) {
                                         ? "heart on"
                                         : "heart off"
                                     }
+                                    onClick={(e) =>
+                                      onClickFavorBtn(e, cont.itemid)
+                                    }
                                   >
                                     {cont.countfavors}
                                   </li>
-                                  <li>
-                                    <img
-                                      src={require("./img/sub/eye.jpg").default}
-                                    ></img>
-                                    {cont.countviews}{" "}
-                                  </li>
-                                  <li className="star off"> </li>
+
+                                  <li
+                                    className="star off"
+                                    onClick={(e) =>
+                                      onClickBookMarkBtn(e, cont.itemid)
+                                    }
+                                  />
                                 </ul>
-                                <div>{cont.titlename} </div>
+                                <div>{cont.titlename}</div>
                                 <span>
                                   {strDot(cont.author?.nickname, 10, 0)}
                                 </span>
@@ -505,10 +707,22 @@ function Main({ store }) {
                             >
                               <div className="on">
                                 <ul>
-                                  <li className="heart off">
+                                  <li
+                                    className={
+                                      cont.ilikethisitem
+                                        ? "heart on"
+                                        : "heart off"
+                                    }
+                                    onClick={(e) =>
+                                      onClickFavorBtn(e, cont.itemid)
+                                    }
+                                  >
                                     {cont.countfavors}
                                   </li>
-                                  <li className="star off"></li>
+                                  <li
+                                    className="star off"
+                                    onClick={(e) => e.preventDefault()}
+                                  />
                                 </ul>
                                 <div>{cont.titlename} </div>
                                 <span>

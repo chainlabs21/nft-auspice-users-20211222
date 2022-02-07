@@ -16,7 +16,6 @@ function putCommaAtPrice(data) {
 }
 
 const strDot = (str, startNum, endNum = 0) => {
-  console.log(str);
   if (typeof str !== "string") return;
 
   return `${str.substr(0, startNum)}...${str.substr(str.length - endNum)}`;

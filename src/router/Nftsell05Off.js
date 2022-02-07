@@ -146,7 +146,7 @@ function MarketPlace({ store, setConnect }) {
                                       }
                                       alt=""
                                     />
-                                    <select name="" id="">
+                                    <select  id="">
                                       <option>KLAY</option>
                                       <option>KLAY</option>
                                       <option>KLAY</option>
@@ -158,7 +158,7 @@ function MarketPlace({ store, setConnect }) {
                                     <input
                                       type="number"
                                       placeholder=""
-                                      onkeydown="onlyNumber(this)"
+                                      onKeyDown="onlyNumber(this)"
                                     />
                                   </div>
                                 </div>
@@ -171,8 +171,8 @@ function MarketPlace({ store, setConnect }) {
                               <div className="top2 m2">
                                 <h3>End price option</h3>
                                 <div className="toggle">
-                                  <input type="checkbox" name="" id="toggle" />
-                                  <label for="toggle"></label>
+                                  <input type="checkbox"  id="toggle" />
+                                  <label htmlFor="toggle"></label>
                                 </div>
                               </div>
                               <p>
@@ -204,7 +204,7 @@ function MarketPlace({ store, setConnect }) {
                                                 }
                                                 alt=""
                                               />
-                                              <select name="" id="">
+                                              <select  id="">
                                                 <option>KLAY</option>
                                                 <option>KLAY</option>
                                                 <option>KLAY</option>
@@ -216,7 +216,7 @@ function MarketPlace({ store, setConnect }) {
                                               <input
                                                 type="number"
                                                 placeholder=""
-                                                onkeydown="onlyNumber(this)"
+                                                onKeyDown="onlyNumber(this)"
                                               />
                                             </div>
                                           </div>
@@ -230,7 +230,7 @@ function MarketPlace({ store, setConnect }) {
                                           <p>Items sold until canceled</p>
                                           <div className="twoselect">
                                             <div className="toggle_1">
-                                              <select name="" id="">
+                                              <select  id="">
                                                 <option>5 days later</option>
                                                 <option>3 days later</option>
                                                 <option>2 days later</option>
@@ -238,7 +238,7 @@ function MarketPlace({ store, setConnect }) {
                                               </select>
                                             </div>
                                             <div className="toggle_2">
-                                              <select name="" id="">
+                                              <select  id="">
                                                 <option>PM 02 : 00</option>
                                                 <option>PM 03 : 00</option>
                                                 <option>AM 01 : 00</option>
@@ -259,8 +259,8 @@ function MarketPlace({ store, setConnect }) {
                               <div className="top2 m2">
                                 <h3>Private option</h3>
                                 <div className="toggle">
-                                  <input type="checkbox" name="" id="toggle2" />
-                                  <label for="toggle2"></label>
+                                  <input type="checkbox"  id="toggle2" />
+                                  <label htmlFor="toggle2"></label>
                                 </div>
                               </div>
                               <p>
@@ -333,7 +333,7 @@ function MarketPlace({ store, setConnect }) {
                                       <div className="textbox">
                                         <div className="txt">
                                           <textarea
-                                            name=""
+                                            
                                             id=""
                                             cols="30"
                                             rows="10"
@@ -359,7 +359,7 @@ function MarketPlace({ store, setConnect }) {
                                       <div className="textbox">
                                         <div className="txt">
                                           <textarea
-                                            name=""
+                                            
                                             id=""
                                             cols="30"
                                             rows="10"

@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
-import { useEffect , useState  } from 'react'
-import styled from "styled-components"
+import { useEffect, useState } from "react";
+import styled from "styled-components";
 import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
@@ -23,29 +23,25 @@ import "../css/style.css"; // import "./css/style01.css"; // import "./css/style
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import Settingssidepanel from '../components/Settingssidepanel'
+import Settingssidepanel from "../components/Settingssidepanel";
 import { strDot } from "../util/Util";
-import { getmyaddress, LOGGER } from '../util/common'
+import { getmyaddress, LOGGER } from "../util/common";
 
 function NotificationSettings({ store, setConnect }) {
   const navigate = useNavigate();
-	let myaddress = getmyaddress()
-	let [ 	achecked , setachecked ] = useState( [] )
+  let myaddress = getmyaddress();
+  let [achecked, setachecked] = useState([]);
 
-	useEffect(_=>{
-	} , [] )
-	const togglechecked=idx=>{
-
-	}
+  useEffect((_) => {}, []);
+  const togglechecked = (idx) => {};
   return (
     <SignPopupBox>
       <section id="sub">
         <article className="wallet_wrap">
           <div className="move on">
-
-             <div className="left_move wallet_left">
+            <div className="left_move wallet_left">
               <div className="mwallet">
-                <a >Account settings</a>
+                <a>Account settings</a>
               </div>
               <form>
                 <div
@@ -64,12 +60,11 @@ function NotificationSettings({ store, setConnect }) {
                 >
                   <h3>General settings</h3>
                 </div>
-                <div className="w3">
+                <div className="w3 on">
                   <h3>Notification settings</h3>
                 </div>
               </form>
             </div>
-
 
             <div className="right_move wallet_right tor">
               <h2>Notification settings</h2>
@@ -79,7 +74,6 @@ function NotificationSettings({ store, setConnect }) {
               </p>
               <div className="wr togpad">
                 <ul>
-
                   <li className="toline">
                     <h5>Sales of products</h5>
                     <p className="tsub">
@@ -87,8 +81,14 @@ function NotificationSettings({ store, setConnect }) {
                       registered for sale
                     </p>
                     <div className="tog">
-                      <input type="checkbox" id="tog" onClick={e=>{ togglechecked (0)  }} />
-                      <label for="tog"></label>
+                      <input
+                        type="checkbox"
+                        id="tog"
+                        onClick={(e) => {
+                          togglechecked(0);
+                        }}
+                      />
+                      <label htmlFor="tog"></label>
                     </div>
                   </li>
 
@@ -99,7 +99,7 @@ function NotificationSettings({ store, setConnect }) {
                     </p>
                     <div className="tog">
                       <input type="checkbox" id="tog1" />
-                      <label for="tog1"></label>
+                      <label htmlFor="tog1"></label>
                     </div>
                   </li>
                   <li className="toline">
@@ -109,7 +109,7 @@ function NotificationSettings({ store, setConnect }) {
                     </p>
                     <div className="tog">
                       <input type="checkbox" id="tog3" />
-                      <label for="tog3"></label>
+                      <label htmlFor="tog3"></label>
                     </div>
                   </li>
                   <li className="toline">
@@ -119,7 +119,7 @@ function NotificationSettings({ store, setConnect }) {
                     </p>
                     <div className="tog">
                       <input type="checkbox" id="tog4" />
-                      <label for="tog4"></label>
+                      <label htmlFor="tog4"></label>
                     </div>
                   </li>
                   <li className="toline">
@@ -129,15 +129,17 @@ function NotificationSettings({ store, setConnect }) {
                     </p>
                     <div className="tog">
                       <input type="checkbox" id="tog5" />
-                      <label for="tog5"></label>
+                      <label htmlFor="tog5"></label>
                     </div>
                   </li>
                   <li className="toline">
                     <h5>Referral Sales</h5>
-                    <p className="tsub">When someone you refer purchases an item</p>
+                    <p className="tsub">
+                      When someone you refer purchases an item
+                    </p>
                     <div className="tog">
                       <input type="checkbox" id="tog6" />
-                      <label for="tog6"></label>
+                      <label htmlFor="tog6"></label>
                     </div>
                   </li>
                   <li className="toline">
@@ -151,24 +153,22 @@ function NotificationSettings({ store, setConnect }) {
                         <li>
                           <h3 style={{ backgroundImage: `url(${rstone})` }}>
                             KLAY
-                          </h3>                   
-													{/* <span>0.005</span>*/}
-													<input placeholder={'123'} value={'123'}></input>
+                          </h3>
+                          {/* <span>0.005</span>*/}
+                          <input placeholder={"123"} value={"123"}></input>
                         </li>
                         <li>
                           <h3 style={{ backgroundImage: `url(${dollar})` }}>
                             USD
                           </h3>
-													{/** <span>30.88</span>*/}
-													<input placeholder={'123'} value={'123'}></input>
+                          {/** <span>30.88</span>*/}
+                          <input placeholder={"123"} value={"123"}></input>
                         </li>
                       </ol>
                     </div>
                   </li>
                 </ul>
-                <a  className="wbtn mm">
-                  Save
-                </a>
+                <a className="wbtn mm">Save</a>
               </div>
             </div>
           </div>
@@ -196,4 +196,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotificationSettings);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NotificationSettings);

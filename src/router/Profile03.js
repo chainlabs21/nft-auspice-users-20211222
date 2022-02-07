@@ -192,7 +192,7 @@ function MarketPlace({ store, setConnect }) {
                         <ul>
                           <li className="ra">
                             <input type="radio" id="rad" name="rad" />
-                            <label for="rad">
+                            <label htmlFor="rad">
                               <img
                                 src={require("../img/sub/stone.png").default}
                               />
@@ -201,7 +201,7 @@ function MarketPlace({ store, setConnect }) {
                           </li>
                           <li className="ra">
                             <input type="radio" id="rad2" name="rad" />
-                            <label for="rad2">
+                            <label htmlFor="rad2">
                               <img
                                 src={require("../img/sub/rock.png").default}
                               />
@@ -230,11 +230,11 @@ function MarketPlace({ store, setConnect }) {
                         <ul>
                           <li className="ra">
                             <input type="radio" id="rad3" name="rad2" />
-                            <label for="rad3">KLAY</label>
+                            <label htmlFor="rad3">KLAY</label>
                           </li>
                           <li className="ra">
                             <input type="radio" id="rad4" name="rad2" />
-                            <label for="rad4">WETH</label>
+                            <label htmlFor="rad4">WETH</label>
                           </li>
                         </ul>
                       </div>
