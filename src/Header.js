@@ -21,15 +21,6 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
   const { mHeaderPopup } = useSelector((state) => state.store);
   const [search, setSearch] = useState("");
   let [address, setaddress] = useState();
-  let [isloader, setisloader] = useState(false);
-
-  useEffect(
-    (_) => {
-      let { isloader } = store;
-      setisloader(isloader);
-    },
-    [ store.isloader ]
-  );
 
   useEffect(
     (_) => {
@@ -70,18 +61,19 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
         localStorage.setItem("address", address);
       }
     },
-    [ window.klaytn ]
+    [window.klaytn]
   );
 
   function onClickConnectWallet() {
     let { klaytn } = window;
     if (!klaytn) return;
     console.log(klaytn);
-    let { selectedAddress}  = klaytn;
+    let { selectedAddress } = klaytn;
     if (selectedAddress) {
       setaddress(strDot(selectedAddress, 5, 4));
     } //		else if ( ) {navigate("/joinmembership"); }
-    else { LOGGER('nav to connectwallet')
+    else {
+      LOGGER("nav to connectwallet");
       navigate("/connectwallet");
     }
   }
@@ -102,7 +94,11 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search items, collections, creators"
         />
-        <button type="submit">
+
+        <button
+          type="button"
+          onClick={() => navigate(`/marketplace/${search}`)}
+        >
           <img src={require("./img/header/search_form.png").default} />
         </button>
       </form>

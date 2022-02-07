@@ -34,11 +34,13 @@ import Settingssidepanel from "../components/Settingssidepanel";
 
 function GeneralSettings({ store, setConnect }) {
   const navigate = useNavigate();
+
   let [description, setdescription] = useState("");
   let [nickname, setnickname] = useState("");
   let [email, setemail] = useState("");
   let axios = applytoken();
   let [myaddress, setmyaddress] = useState(getmyaddress());
+
   const onclicksave = (_) => {
     LOGGER("", nickname, description);
     let reqbody = {
@@ -54,6 +56,7 @@ function GeneralSettings({ store, setConnect }) {
       }
     });
   };
+
   useEffect((_) => {
     LOGGER("", myaddress);
     axios.get(`${API.API_USER_INFO}/${myaddress}`).then((resp) => {
@@ -67,28 +70,26 @@ function GeneralSettings({ store, setConnect }) {
     setnickname(generateSlug(3, { format: "camel" }));
     setdescription(STRINGER(getrandomwords(12)));
   }, []);
+
   return (
     <GeneralSettingsBox>
       <section id="sub">
         <article className="wallet_wrap">
           <div className="move on">
             <div className="left_move wallet_left">
-              <div className="mwallet">
-                <a
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                >
-                  Account settings
-                </a>
-              </div>
               <form>
-                <div className="w1" onClick={() => navigate("/mywallet")}>
+                <div className="w1">
                   <h3>
-                    My wallet<span>{strDot(myaddress, 6, 2)}</span>
+                    My wallet
+                    <span> {strDot(myaddress, 6, 2)} </span>
                   </h3>
                 </div>
-                <div className="w2 on">
+                <div
+                  className="w2 on"
+                  onClick={() => {
+                    navigate("/generalsettings");
+                  }}
+                >
                   <h3>General settings</h3>
                 </div>
                 <div
@@ -99,7 +100,6 @@ function GeneralSettings({ store, setConnect }) {
                 </div>
               </form>
             </div>
-            {/**  <Settingssidepanel />*/}
 
             <div className="right_move wallet_right">
               <h2>General settings</h2>
@@ -171,6 +171,3 @@ function mapDispatchToProps(dispatch) {
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(GeneralSettings);
-
-// http://itemverse1.net:36119/users/user/myinfo
-// {"description":"abcde","nickname":"fghij"}

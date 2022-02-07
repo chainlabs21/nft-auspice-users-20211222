@@ -391,7 +391,7 @@ function SaleFixed({ store, setConnect }) {
                                       }
                                       alt=""
                                     />
-                                    <select name="" id="">
+                                    <select  id="">
                                       <option>
                                         {itemdata?.item?.tokenid
                                           ? `#${itemdata?.item?.tokenid}`
@@ -403,7 +403,7 @@ function SaleFixed({ store, setConnect }) {
                                     <input
                                       type="number"
                                       placeholder=""
-                                      onkeydown="onlyNumber(this)"
+                                      onKeyDown="onlyNumber(this)"
                                       value={amounttosell}
                                       onChange={(e) => {
                                         let { value } = e.target;
@@ -440,7 +440,7 @@ function SaleFixed({ store, setConnect }) {
                                     }
                                     alt=""
                                   />
-                                  <select name="" id="">
+                                  <select  id="">
                                     <option>KLAY</option>
                                   </select>
                                 </div>
@@ -448,7 +448,7 @@ function SaleFixed({ store, setConnect }) {
                                   <input
                                     type="number"
                                     placeholder=""
-                                    onkeydown="onlyNumber(this)"
+                                    onKeyDown="onlyNumber(this)"
                                   />
                                 </div>
                               </div>
@@ -468,7 +468,7 @@ function SaleFixed({ store, setConnect }) {
                                       }
                                       alt=""
                                     />
-                                    <select name="" id="">
+                                    <select  id="">
                                       <option>KLAY</option>
                                     </select>
                                   </div>
@@ -476,7 +476,7 @@ function SaleFixed({ store, setConnect }) {
                                     <input
                                       type="number"
                                       placeholder=""
-                                      onkeydown="onlyNumber(this)"
+                                      onKeyDown="onlyNumber(this)"
                                       value={itemPrice}
                                       onChange={(e) => {
                                         setItemPrice(e.target.value);
@@ -500,7 +500,7 @@ function SaleFixed({ store, setConnect }) {
                                     }
                                     alt=""
                                   />
-                                  <select name="" id="">
+                                  <select  id="">
                                     <option>KLAY</option>
                                   </select>
                                 </div>
@@ -508,7 +508,7 @@ function SaleFixed({ store, setConnect }) {
                                   <input
                                     type="number"
                                     placeholder=""
-                                    onkeydown="onlyNumber(this)"
+                                    onKeyDown="onlyNumber(this)"
                                   />
                                 </div>
                               </div>
@@ -528,7 +528,7 @@ function SaleFixed({ store, setConnect }) {
                                     <input
                                       type="number"
                                       placeholder=""
-                                      onkeydown="onlyNumber(this)"
+                                      onKeyDown="onlyNumber(this)"
                                       value={expirydays}
                                       onChange={(e) => {
                                         let { value } = e.target;
@@ -561,14 +561,14 @@ function SaleFixed({ store, setConnect }) {
                                 <div className="toggle">
                                   <input
                                     type="checkbox"
-                                    name=""
+                                    
                                     id="toggle"
                                     checked={endPriceOption}
                                     onChange={(e) =>
                                       setEndPriceOption(e.target.checked)
                                     }
                                   />
-                                  <label for="toggle"></label>
+                                  <label htmlFor="toggle"></label>
                                 </div>
                               </div>
                               <p>
@@ -600,7 +600,7 @@ function SaleFixed({ store, setConnect }) {
                                                 }
                                                 alt=""
                                               />
-                                              <select name="" id="">
+                                              <select  id="">
                                                 <option>KLAY</option>
                                               </select>
                                             </div>
@@ -608,7 +608,7 @@ function SaleFixed({ store, setConnect }) {
                                               <input
                                                 type="number"
                                                 placeholder=""
-                                                onkeydown="onlyNumber(this)"
+                                                onKeyDown="onlyNumber(this)"
                                                 value={endPrice}
                                                 onChange={(e) => {
                                                   setEndPrice(e.target.value);
@@ -627,7 +627,7 @@ function SaleFixed({ store, setConnect }) {
                                           <div className="twoselect">
                                             <div className="toggle_1">
                                               <select
-                                                name=""
+                                                
                                                 id=""
                                                 onClick={(evt) => {
                                                   LOGGER("", evt.target.value);
@@ -643,7 +643,7 @@ function SaleFixed({ store, setConnect }) {
                                               </select>
                                             </div>
                                             <div className="toggle_2">
-                                              <select name="" id="">
+                                              <select  id="">
                                                 <option>PM 02 : 00</option>
                                                 <option>PM 03 : 00</option>
                                                 <option>AM 01 : 00</option>
@@ -669,7 +669,7 @@ function SaleFixed({ store, setConnect }) {
                                 <div className="toggle">
                                   <input
                                     type="checkbox"
-                                    name=""
+                                    
                                     id="toggle2"
                                     checked={privateOption}
                                     onChange={(e) => {
@@ -677,7 +677,7 @@ function SaleFixed({ store, setConnect }) {
                                     }}
                                   />
 
-                                  <label for="toggle2"></label>
+                                  <label htmlFor="toggle2"></label>
                                 </div>
                               </div>
                               <p>

@@ -11,10 +11,10 @@ import SetErrorBar from "../util/SetErrorBar";
 import { messages} from '../config/messages'
 import { useNavigate } from "react-router";
 
-export default function CertificationContractPopup({ off , itemid }) {
+export default function NowSalePopup({ off , itemid }) {
 	let navigate = useNavigate()
   return (
-    <CertificationContractPopupBox>
+    <NowSalePopupBox>
       <article className="topBar">
         <span className="blank" />
         <strong className="title">Your item is now listed for sale</strong>
@@ -59,11 +59,11 @@ SetErrorBar( messages.MSG_COPIED )
           </button>
         </div>
       </article>
-    </CertificationContractPopupBox>
+    </NowSalePopupBox>
   );
 }
 
-const CertificationContractPopupBox = styled.div`
+const NowSalePopupBox = styled.div`
   width: 600px;
   background: #fff;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);

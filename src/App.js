@@ -196,6 +196,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/signupcomplete" element={<SignupComplete />} />
 
           <Route path="/marketplace" element={<MarketPlace />} />
+          <Route path="/marketplace/:searchKey" element={<MarketPlace />} />
           <Route path="/singleitem" element={<SingleItem />} />
           <Route path="/bundleitem" element={<BundleItem />} />
           <Route path="/selectitem" element={<SelectItem />} />

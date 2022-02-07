@@ -1,25 +1,17 @@
-import { connect } from "react-redux";
-import { useNavigate, useLocation } from "react-router";
-import { setConnect } from "../util/store";
+import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 
 import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
 import collect_img4 from "../img/sub/collect_img4.png";
-import s5 from "../img/sub/s5.png";
-import sample from "../img/sub/sample.png";
-import stone from "../img/sub/stone.png";
-import rstone from "../img/sub/rstone.png";
+
 import rock from "../img/sub/rock.png";
-import I_x from "../img/main/I_x.svg";
 import filter_icon from "../img/sub/filter_icon.png";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";
 import heart_off from "../img/sub/heart_off.png";
 import heart_on from "../img/sub/heart_on.png";
-import star_off from "../img/sub/star_off.png";
-import star_on from "../img/sub/star_on.png";
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
@@ -27,36 +19,37 @@ import "../css/style.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import moment from "moment";
-// import axi os from "axi os";
 import { API } from "../config/api";
 import { putCommaAtPrice } from "../util/Util";
 import { applytoken } from "../util/rest";
 import { LOGGER } from "../util/common";
 import { PAYMEANS_DEF } from "../config/configs";
-function MarketPlace({ store, setConnect }) {
+function MarketPlace() {
   const navigate = useNavigate();
+  const params = useParams();
 
   let loadingBusy = false;
-  let itemIndex = 10;
+  let itemIndex = 0;
+  let itemList = [];
 
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [toggleFilter, setToggleFilter] = useState(false);
-  const [itemList, setItemList] = useState([]);
   const [fromPrice, setFromPrice] = useState("");
   const [toPrice, setToPrice] = useState("");
   const [callEffect, setCallEffect] = useState(false);
   const [totalItem, setTotalItem] = useState(0);
   const [unit, setUnit] = useState("USD");
   const [pricePopup, setPricePopup] = useState(false);
-  const [index, setIndex] = useState(10);
+  const [searchKey, setSearchKey] = useState(params.searchKey);
 
   let axios = applytoken();
   const handleCateFilter = (category) => {
+    editFilterList("category", category);
     setCategoryFilter(category);
   };
 
@@ -78,10 +71,6 @@ function MarketPlace({ store, setConnect }) {
     setPricePopup(false);
   }
 
-  useEffect(() => {
-    getItem();
-  }, [categoryFilter, itemList, filterList, callEffect]);
-
   const editFilterList = (category, cont) => {
     let dataObj = filterObj;
     dataObj[category] = cont;
@@ -92,8 +81,8 @@ function MarketPlace({ store, setConnect }) {
   const onclickFilterReset = () => {
     setFilterObj({});
     setFilterList([]);
-    setFromPrice(0);
-    setToPrice(0);
+    setFromPrice("");
+    setToPrice("");
   };
 
   const onclickFilterCancel = (cont) => {
@@ -108,61 +97,61 @@ function MarketPlace({ store, setConnect }) {
     setFilterList([...Object.values(dataObj)]);
   };
 
-  function getItem(index = 10) {
-    if (index === 10) itemIndex = 10;
-    console.log(index);
-    const temp = [...filteredList];
+  function windowScrollHander() {
+    if (
+      window.scrollY + window.innerHeight > document.body.clientHeight - 200 &&
+      !loadingBusy
+    ) {
+      loadingBusy = true;
+      itemIndex += 10;
+      getItem(itemIndex);
+    }
+  }
 
-    // categoryFilter
-    const categoryFiltered = temp.filter((v) => {
-      if (categoryFilter === "All") return true;
-      if (v.item.categorystr === categoryFilter) return true;
-      else return false;
-    });
+  function getItem(itemIndex = 0) {
+    const filterKeys = Object.keys(filterObj);
 
     // statusFilter
     let selectedStatus = 0;
-    let a = filterList.filter((e) => {
-      if (e.indexOf("Buy Now") !== -1) selectedStatus += 1;
-      if (e.indexOf("On Auction") !== -1) selectedStatus += 2;
-      if (e.indexOf("New") !== -1) selectedStatus += 4;
-      if (e.indexOf("Has Offers") !== -1) selectedStatus += 8;
+
+    filterKeys.map((e) => {
+      if (e.indexOf("status") !== -1) selectedStatus += e.slice(6) * 1;
     });
 
     axios
-      .get(`${API.API_MERCHANDISES_LIST}/${0}/${index}`, {
+      .get(`${API.API_MERCHANDISES_LIST}/${itemIndex}/${10}`, {
         params: {
+          categorystr: filterObj.category,
           salestatus: selectedStatus,
           pricemin: fromPrice,
           pricemax: toPrice,
+          searchKey,
         },
       })
       .then((resp) => {
         LOGGER("wgNCeNKxXL", resp.data);
         let { status, list, payload } = resp.data;
         if (status == "OK") {
-          setFilteredList(list);
-          setTotalItem(payload?.count);
+          itemList = [...itemList, ...list];
+          setFilteredList([...itemList]);
+          setTotalItem(payload.count);
           loadingBusy = false;
         }
       });
   }
 
+  useLayoutEffect(() => {
+    window.addEventListener("scroll", windowScrollHander);
+  }, []);
+
+  useLayoutEffect(() => {
+    setSearchKey(params.searchKey);
+    if (searchKey) editFilterList("searchKey", params.searchKey);
+  }, [params]);
+
   useEffect(() => {
     getItem();
-
-    window.addEventListener("scroll", (e) => {
-      if (
-        window.scrollY + window.innerHeight >
-          document.body.clientHeight - 200 &&
-        !loadingBusy
-      ) {
-        loadingBusy = true;
-        itemIndex += 10;
-        getItem(itemIndex);
-      }
-    });
-  }, []);
+  }, [categoryFilter, filterList, callEffect]);
 
   return (
     <MarketPlaceBox>
@@ -187,6 +176,7 @@ function MarketPlace({ store, setConnect }) {
                       src={require("../img/sub/filter_close.png").default}
                       className="fc"
                       onClick={() => setToggleFilter(false)}
+                      alt=""
                     />
                   </div>
 
@@ -202,10 +192,15 @@ function MarketPlace({ store, setConnect }) {
                         <li
                           key={index}
                           style={{ cursor: "pointer" }}
-                          className={filterObj[cont] === cont && "on"}
-                          onClick={() => editFilterList(cont, cont)}
+                          className={
+                            filterObj[`status${cont.value}`] === cont.key &&
+                            "on"
+                          }
+                          onClick={() =>
+                            editFilterList(`status${cont.value}`, cont.key)
+                          }
                         >
-                          {cont}
+                          {cont.key}
                         </li>
                       ))}
                     </ul>
@@ -270,9 +265,7 @@ function MarketPlace({ store, setConnect }) {
 
                       <button
                         className="applyBtn"
-                        onClick={() => {
-                          setCallEffect(!callEffect);
-                        }}
+                        onClick={() => setCallEffect(!callEffect)}
                       >
                         Apply
                       </button>
@@ -373,7 +366,7 @@ function MarketPlace({ store, setConnect }) {
                               <span />
                             </span>
 
-                            <label for={cont}>{cont}</label>
+                            <label htmlFor={cont}>{cont}</label>
                           </li>
                         ))}
                       </ul>
@@ -410,69 +403,18 @@ function MarketPlace({ store, setConnect }) {
                       <div className="select metc">
                         <div>{categoryFilter ? categoryFilter : "All"}</div>
                         <ul>
-                          <li
-                            onClick={() => {
-                              handleCateFilter("All");
-                            }}
-                          >
+                          <li onClick={() => handleCateFilter("All")}>
                             <a>All</a>
                           </li>
-                          <li
-                            onClick={() => {
-                              handleCateFilter("Art");
-                            }}
-                          >
-                            <a>Art</a>
-                          </li>
-                          <li
-                            onClick={() => {
-                              handleCateFilter("Music");
-                            }}
-                          >
-                            <a>Music</a>
-                          </li>
-                          <li
-                            onClick={() => {
-                              handleCateFilter("Virtual World");
-                            }}
-                          >
-                            <a>Virtual World</a>
-                          </li>
-                          <li
-                            onClick={() => {
-                              handleCateFilter("Trading Cards");
-                            }}
-                          >
-                            <a>Trading Cards</a>
-                          </li>
-                          <li
-                            onClick={() => {
-                              handleCateFilter("Collectibles");
-                            }}
-                          >
-                            <a>Collectibles</a>
-                          </li>
-                          <li
-                            onClick={() => {
-                              handleCateFilter("Sports");
-                            }}
-                          >
-                            <a>Sports</a>
-                          </li>
-                          <li
-                            onClick={() => {
-                              handleCateFilter("Utility");
-                            }}
-                          >
-                            <a>Utility</a>
-                          </li>
-                          <li
-                            onClick={() => {
-                              handleCateFilter("ETC");
-                            }}
-                          >
-                            <a>ETC</a>
-                          </li>
+
+                          {categoryList.map((cont, index) => (
+                            <li
+                              key={index}
+                              onClick={() => handleCateFilter(cont)}
+                            >
+                              <a>{cont}</a>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                       <div className="select mselect">
@@ -640,20 +582,14 @@ const MarketPlaceBox = styled.div`
   }
 `;
 
-function mapStateToProps(state) {
-  return { store: state };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    setConnect: () => dispatch(setConnect()),
-  };
-}
-
 export default MarketPlace;
 
-const statusList = ["Buy Now", "On Auction", "New", "Has Offers"];
-
+const statusList = [
+  { key: "Buy Now", value: 1 },
+  { key: "On Auction", value: 2 },
+  { key: "New", value: 4 },
+  { key: "Has Offers", value: 8 },
+];
 const categoryList = [
   "Art",
   "Music",

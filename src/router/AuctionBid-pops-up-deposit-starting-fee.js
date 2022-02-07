@@ -164,7 +164,7 @@ function AuctionBid({ store, setConnect }) {
                                       }
                                       alt=""
                                     />
-                                    <select name="" id="">
+                                    <select  id="">
                                       <option>KLAY</option>
                                     </select>
                                   </div>
@@ -172,7 +172,7 @@ function AuctionBid({ store, setConnect }) {
                                     <input value={ bidamount_start }
                                       type="number"
                                       placeholder=""
-																			onkeydown="onlyNumber(this)"
+																			onKeyDown="onlyNumber(this)"
 																			onChange={evt=>{
 																				let {value }=evt.target
 																				if ( ISFINITE( +value)){}
@@ -233,7 +233,7 @@ function AuctionBid({ store, setConnect }) {
                                       }
                                       alt=""
                                     />
-                                    <select name="" id="">
+                                    <select  id="">
                                       <option>KLAY</option>
                                       <option>KLAY</option>
                                       <option>KLAY</option>
@@ -245,7 +245,7 @@ function AuctionBid({ store, setConnect }) {
                                     <input
                                       type="number"
                                       placeholder=""
-                                      onkeydown="onlyNumber(this)"
+                                      onKeyDown="onlyNumber(this)"
                                     />
                                   </div>
                                 </div>
@@ -264,7 +264,7 @@ function AuctionBid({ store, setConnect }) {
                                   </p>
                                   <div className="twoselect">
                                     <div className="toggle_1">
-                                      <select name="" id="" onChange={evt=>{
+                                      <select  id="" onChange={evt=>{
 																				LOGGER('' , evt.target.value )
 																				setdaystoclose ( evt.target.value )
 																			}}>
@@ -275,7 +275,7 @@ function AuctionBid({ store, setConnect }) {
                                       </select>
                                     </div>
                                     <div className="toggle_2">
-                                      <select name="" id="">
+                                      <select  id="">
                                         <option>PM 02 : 00</option>
                                         <option>PM 03 : 00</option>
                                         <option>AM 01 : 00</option>

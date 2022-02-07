@@ -51,12 +51,15 @@ import {
   NETTYPE,
   TIME_PAGE_TRANSITION_DEF,
 } from "../config/configs";
-import { setisloader } from '../util/store'
+import { setisloader } from "../util/store";
+import CertificationContractPopup from "../components/CertificationContractPopup";
+import PopupBg from "../components/PopupBg";
+import NowSalePopup from "../components/NowSalePopup";
 const kiloBytes = 1024;
 const megaBytes = 1024 * kiloBytes;
 const fileTypeList = [
-	"jpg",
-	"jpeg",
+  "jpg",
+  "jpeg",
   "png",
   "gif",
   "svg",
@@ -69,7 +72,7 @@ const fileTypeList = [
 const MAP_fileextension_contentype = {
   jpg: "image",
   jpeg: "image",
-	png: "image",
+  png: "image",
   gif: "image",
   svg: "image",
   mp4: "video",
@@ -78,7 +81,7 @@ const MAP_fileextension_contentype = {
   wav: "audio",
   ogg: "audio",
 };
-function CreateItem({ store, setConnect , Setisloader }) {
+function CreateItem({ store, setConnect, Setisloader }) {
   const navigate = useNavigate();
   const userAddress = useSelector((state) => state.wallet.address);
   const [item, setItem] = useState("");
@@ -102,9 +105,11 @@ function CreateItem({ store, setConnect , Setisloader }) {
   let [urlfile, seturlfile] = useState();
   let [itemid, setitemid] = useState();
   let [daystoclose, setdaystoclose] = useState();
-	let axios = applytoken();
-	let [ myaddress , setmyaddress ] = useState( getmyaddress() ) 
-//  let myaddress = getmyaddress();
+  let axios = applytoken();
+  let [myaddress, setmyaddress] = useState(getmyaddress());
+  const [listingProcess, setListingProcess] = useState(0);
+
+  //  let myaddress = getmyaddress();
   function onChangeItem(file) {
     /*    let reader = new FileReader();    reader.readAsDataURL(file);    reader.onload = function () {      setItem(reader.result);    };	*/
   }
@@ -169,19 +174,22 @@ function CreateItem({ store, setConnect , Setisloader }) {
           authorfee: conv_percent_bp(royal),
           countcopies,
         };
-        if (resp) { Setisloader(true)
+        if (resp) {
+          Setisloader(true);
           axios
             .post(
               `${API.API_REPORT_TX_MINT}/${itemid}/${txhash}/${myaddress}`,
               reqbody
             ) // t/:hexid/:txhash/:address'
-            .then((resp) => { setisloader( false )
+            .then((resp) => {
+              setisloader(false);
               LOGGER("", resp.data);
               let { status } = resp.data;
               if (status == "OK") {
-								SetErrorBar(messages.MSG_DONE_REGISTERING);
-								Setisloader( true )
-                setTimeout((_) => {Setisloader( false )
+                SetErrorBar(messages.MSG_DONE_REGISTERING);
+                Setisloader(true);
+                setTimeout((_) => {
+                  Setisloader(false);
                   navigate(`/salefixed?itemid=${itemid}`);
                 }, TIME_PAGE_TRANSITION_DEF);
               }
@@ -224,14 +232,17 @@ function CreateItem({ store, setConnect , Setisloader }) {
         metaData
       );
       LOGGER("rbPatKJrSt", metaResp.data);
-      let { status , message } = metaResp.data;
+      let { status, message } = metaResp.data;
       if (status == "OK") {
         const metaResult = metaResp.data;
         seturlmetadata(metaResult.payload.url);
         SetErrorBar(messages.MSG_DONE_REGISTERING);
       } else {
-				if ( message == 'DATA-DUPLICATE' ){SetErrorBar( messages.MSG_DUPLICATE_ITEM ); return }
-				SetErrorBar(messages.MSG_REGISTER_FAILED);
+        if (message == "DATA-DUPLICATE") {
+          SetErrorBar(messages.MSG_DUPLICATE_ITEM);
+          return;
+        }
+        SetErrorBar(messages.MSG_REGISTER_FAILED);
       }
     } catch (err) {
       LOGGER(err);
@@ -317,8 +328,8 @@ function CreateItem({ store, setConnect , Setisloader }) {
           const base64 = await encodeBase64File(file);
           const base64Data = {
             datainbase64: base64,
-						filename: file.name,
-						username : myaddress
+            filename: file.name,
+            username: myaddress,
           };
           LOGGER("ojuEGTDeEU", base64Data);
           //					return
@@ -335,8 +346,8 @@ function CreateItem({ store, setConnect , Setisloader }) {
         } else if (filesize <= 40 * megaBytes) {
           let formData = new FormData();
           formData.append("file", file);
-					formData.append("filename", file.name);
-					formData.append('username' , myaddress )
+          formData.append("filename", file.name);
+          formData.append("username", myaddress);
           const resp = await axios.post(API.API_ITEM_UPLOAD_OVER, formData);
           LOGGER("eERWguRnGR", resp.data);
           let { status, payload, respdata } = resp.data;
@@ -387,8 +398,8 @@ function CreateItem({ store, setConnect , Setisloader }) {
       } else {
       }
     });
-//    let token_sec = localStorage.getItem("token");    
-  //  axios.defaults.headers.get.token = token_sec;
+    //    let token_sec = localStorage.getItem("token");
+    //  axios.defaults.headers.get.token = token_sec;
     // axios.defaults.headers.p ost.token = token_sec;
   }, []);
   useEffect((_) => {
@@ -426,6 +437,22 @@ function CreateItem({ store, setConnect , Setisloader }) {
 
   return (
     <SignPopupBox>
+      {listingProcess === 1 && (
+        <>
+          <CertificationContractPopup
+            off={setListingProcess}
+            // itemdata={itemdata}
+          />
+          <PopupBg bg off={setListingProcess} />
+        </>
+      )}
+      {listingProcess === 2 && (
+        <>
+          <NowSalePopup off={setListingProcess} itemid={itemid} />
+          <PopupBg bg off={setListingProcess} />
+        </>
+      )}
+
       <section id="sub">
         <article className="ntfsell_box">
           <div className="sellbg">
@@ -466,7 +493,7 @@ function CreateItem({ store, setConnect , Setisloader }) {
                               />
 
                               <label
-                                for="file"
+                                htmlFor="file"
                                 style={{
                                   padding: item && 0,
                                 }}
@@ -575,10 +602,10 @@ function CreateItem({ store, setConnect , Setisloader }) {
                                 onChange={(e) => {
                                   setUnlocked(e.target.checked);
                                 }}
-                                name=""
+                                
                                 id="toggle"
                               />
-                              <label for="toggle"></label>
+                              <label htmlFor="toggle"></label>
                             </div>
                           </div>
                           <p>
@@ -617,7 +644,7 @@ function CreateItem({ store, setConnect , Setisloader }) {
                             <input
                               type="text"
                               placeholder=""
-                              onkeydown="onlyNumber(this)"
+                              onKeyDown="onlyNumber(this)"
                               value={countcopies}
                               onChange={(e) => {
                                 let { value } = e.target;
@@ -637,14 +664,14 @@ function CreateItem({ store, setConnect , Setisloader }) {
                             <div className="toggle">
                               <input
                                 type="checkbox"
-                                name=""
+                                
                                 id="toggle2"
                                 checked={freezing}
                                 onChange={(e) => {
                                   setFreezing(e.target.checked);
                                 }}
                               />
-                              <label for="toggle2"></label>
+                              <label htmlFor="toggle2"></label>
                             </div>
                           </div>
                           <p>
@@ -660,14 +687,13 @@ function CreateItem({ store, setConnect , Setisloader }) {
                             <div className="toggle">
                               <input
                                 type="checkbox"
-                                name=""
                                 id="toggle3"
                                 checked={activePubl}
                                 onChange={(e) => {
                                   setActivePubl(e.target.checked);
                                 }}
                               />
-                              <label for="toggle3"></label>
+                              <label htmlFor="toggle3"></label>
                             </div>
                           </div>
                           <p>
@@ -692,7 +718,7 @@ function CreateItem({ store, setConnect , Setisloader }) {
                               <input
                                 type="text"
                                 placeholder=""
-                                onkeydown="onlyNumber(this)"
+                                onKeyDown="onlyNumber(this)"
                                 value={royal}
                                 onChange={(e) => {
                                   let value = e.target.value;
@@ -719,7 +745,7 @@ function CreateItem({ store, setConnect , Setisloader }) {
                               <input
                                 type="text"
                                 placeholder=""
-                                onkeydown="onlyNumber(this)"
+                                onKeyDown="onlyNumber(this)"
                                 value={royal}
 																onChange={(e) => { LOGGER()
 																	let {value}=e.target
@@ -782,12 +808,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     Setisloader: (payload) => dispatch(setisloader(payload)),
-
-	};
+  };
 }
-export default connect(mapStateToProps, mapDispatchToProps)( CreateItem );
-
-
+export default connect(mapStateToProps, mapDispatchToProps)(CreateItem);
 
 // import "./css/style01.css";
 // import "./css/style02.css";

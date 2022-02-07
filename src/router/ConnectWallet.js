@@ -20,7 +20,7 @@ import { useEffect } from "react";
 import SetErrorBar from "../util/SetErrorBar";
 import { STRINGER, LOGGER } from "../util/common";
 // function ConnectWallet( Setmyinfo ) {
-  function ConnectWallet( { Setmyinfo , Setaddress }  ) {
+function ConnectWallet({ Setmyinfo, Setaddress }) {
   const navigate = useNavigate();
   const { userData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -60,19 +60,20 @@ import { STRINGER, LOGGER } from "../util/common";
     let token = localStorage.getItem("token");
     if (address_local && token) {
       SetErrorBar(`이미 ${address}에 연결되어 있습니다`);
-      Setaddress ( address_local ) 
-      navigate( '/main' )
+      Setaddress(address_local);
+      navigate("/main");
       return;
     } else {
     }
     //			if (address_local == ){}
-    const resp = await axios.post(API.API_USERS_LOGIN, loginData); LOGGER('UkTGc6semq@login' , resp.data ) //   API_USERS _LOGIN: `${apiServer}/users/login/crypto`,
+    const resp = await axios.post(API.API_USERS_LOGIN, loginData);
+    LOGGER("UkTGc6semq@login", resp.data); //   API_USERS _LOGIN: `${apiServer}/users/login/crypto`,
     let { status, respdata, payload } = resp.data;
     if (status === "OK") {
       localStorage.setItem("token", respdata);
-      localStorage.setItem('address' , address )
+      localStorage.setItem("address", address);
       axios.defaults.headers.common["token"] = resp.data.respdata;
-      SetErrorBar(messages.MSG_LOGGEDIN)
+      SetErrorBar(messages.MSG_LOGGEDIN);
       let { myinfo_maria, myinfo_mongo } = payload;
       if (myinfo_maria && myinfo_mongo) {
         Setmyinfo({ ...myinfo_mongo, myinfo_maria });
@@ -82,11 +83,10 @@ import { STRINGER, LOGGER } from "../util/common";
         );
       } else {
         localStorage.removeItem("myinfo");
-      } // 					getUserInfo()
-      Setaddress ( address )
-      navigate( '/main' )
+      }
+      Setaddress(address);
+      navigate("/main");
     } else {
-      // if (resp.data.status === "ERR") {
       SetErrorBar(messages.MSG_PLEASEJOIN);
       navigate("/joinmembership");
       return;
@@ -100,10 +100,6 @@ import { STRINGER, LOGGER } from "../util/common";
           console.log(resp.data.message);
       }
     }
-    /**     } catch (error) {
-      SetErrorBar(ERR_MSG.ERR_AXIOS_REQUEST);
-      console.log(error);
-    }*/
   }
 
   return (
@@ -174,12 +170,8 @@ function mapDispatchToProps(dispatch) {
   return {
     setConnect: () => dispatch(setConnect()),
     Setmyinfo: (payload) => dispatch(setmyinfo(payload)),
-    Setaddress : payload => dispatch(setaddress( payload ))
+    Setaddress: (payload) => dispatch(setaddress(payload)),
   };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectWallet);
-// export default ConnectWallet
-// >>>>>
-// import "./css/style01.css";
-// import "./css/style02.css";

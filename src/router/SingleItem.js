@@ -756,7 +756,7 @@ function SingleItem({
                     }}
                   >
                     <input type="checkbox" id="chk" name="chk1" />
-                    <label for="chk">
+                    <label htmlFor="chk">
                       Aware that Itemverse contains one item that has not been
                       reviewed and approved
                     </label>
@@ -770,7 +770,7 @@ function SingleItem({
                         setistoschecked(!istoschecked); // LOGGER()
                       }}
                     />
-                    <label for="chk2">
+                    <label htmlFor="chk2">
                       I agree to Itemverse's <b>Terms of Service</b>
                     </label>
                   </div>
@@ -922,7 +922,7 @@ function SingleItem({
                     }}
                   >
                     <input type="checkbox" id="chk" name="chk1" />
-                    <label for="chk">
+                    <label htmlFor="chk">
                       Aware that Itemverse contains one item that has not been
                       reviewed and approved
                     </label>
@@ -936,7 +936,7 @@ function SingleItem({
                         setistoschecked(!istoschecked); // LOGGER()
                       }}
                     />
-                    <label for="chk2">
+                    <label htmlFor="chk2">
                       I agree to Itemverse's <b>Terms of Service</b>
                     </label>
                   </div>

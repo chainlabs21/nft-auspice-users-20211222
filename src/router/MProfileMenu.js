@@ -72,7 +72,7 @@ function MarketPlace({ store, setConnect }) {
                     </p>
                     <div className="tog">
                       <input type="checkbox" id="tog" />
-                      <label for="tog"></label>
+                      <label htmlFor="tog"></label>
                     </div>
                   </li>
                   <li className="toline">
@@ -82,7 +82,7 @@ function MarketPlace({ store, setConnect }) {
                     </p>
                     <div className="tog">
                       <input type="checkbox" id="tog" />
-                      <label for="tog"></label>
+                      <label htmlFor="tog"></label>
                     </div>
                   </li>
                   <li className="toline">
@@ -92,7 +92,7 @@ function MarketPlace({ store, setConnect }) {
                     </p>
                     <div className="tog">
                       <input type="checkbox" id="tog" />
-                      <label for="tog"></label>
+                      <label htmlFor="tog"></label>
                     </div>
                   </li>
                   <li className="toline">
@@ -102,7 +102,7 @@ function MarketPlace({ store, setConnect }) {
                     </p>
                     <div className="tog">
                       <input type="checkbox" id="tog" />
-                      <label for="tog"></label>
+                      <label htmlFor="tog"></label>
                     </div>
                   </li>
                   <li className="toline">
@@ -112,7 +112,7 @@ function MarketPlace({ store, setConnect }) {
                     </p>
                     <div className="tog">
                       <input type="checkbox" id="tog" />
-                      <label for="tog"></label>
+                      <label htmlFor="tog"></label>
                     </div>
                   </li>
                   <li className="toline">
@@ -120,7 +120,7 @@ function MarketPlace({ store, setConnect }) {
                     <p className="tsub">When someone you refer purchases an item</p>
                     <div className="tog">
                       <input type="checkbox" id="tog" />
-                      <label for="tog"></label>
+                      <label htmlFor="tog"></label>
                     </div>
                   </li>
                   <li className="toline">

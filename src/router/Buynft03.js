@@ -78,7 +78,7 @@ function MarketPlace({ store, setConnect }) {
               <form className="ckb_wrap">
                 <div className="ckb">
                   <input type="checkbox" id="chk2" name="chk1" />
-                  <label for="chk2">
+                  <label htmlFor="chk2">
                     I agree to Itemverse's <b>Terms of Service</b>
                   </label>
                 </div>

@@ -230,7 +230,7 @@ _calldata // ",					" internalType": "bytes",
                                 <div className="toggle border_1">
                                   <div className="select_left">
                                     <img src={ require('../img/header/logo.png').default                                      }                                      alt=""                                    />
-                                    <select name="" id="">
+                                    <select  id="">
                                       <option>#{ itemdata?.item?.tokenid }</option>
                                     </select>
                                   </div>
@@ -238,7 +238,7 @@ _calldata // ",					" internalType": "bytes",
                                     <input value={ amounttoauction }
                                       type="number"
                                       placeholder=""
-																			onkeydown="onlyNumber(this)"
+																			onKeyDown="onlyNumber(this)"
 																			onChange={evt=>{
 																				let {value }=evt.target
 																				if ( ISFINITE( +value)){}
@@ -299,7 +299,7 @@ _calldata // ",					" internalType": "bytes",
                                       }
                                       alt=""
                                     />
-                                    <select name="" id="">
+                                    <select  id="">
                                       <option>KLAY</option>
                                     </select>
                                   </div>
@@ -307,7 +307,7 @@ _calldata // ",					" internalType": "bytes",
                                     <input value={ bidamount_start }
                                       type="number"
                                       placeholder=""
-																			onkeydown="onlyNumber(this)"
+																			onKeyDown="onlyNumber(this)"
 																			onChange={evt=>{
 																				let {value }=evt.target
 																				if ( ISFINITE( +value)){}
@@ -368,7 +368,7 @@ _calldata // ",					" internalType": "bytes",
                                       }
                                       alt=""
                                     />
-                                    <select name="" id="">
+                                    <select  id="">
                                       <option>KLAY</option>
                                     </select>
                                   </div>
@@ -376,7 +376,7 @@ _calldata // ",					" internalType": "bytes",
 																		<input value={ bidamount_threshold }																			
                                       type="number"
                                       placeholder=""
-																			onkeydown="onlyNumber(this)"
+																			onKeyDown="onlyNumber(this)"
 																			onChange={evt=>{
 																				let {value}=evt.target ; value=+value
 																				if ( ISFINITE( value )){}
@@ -401,7 +401,7 @@ _calldata // ",					" internalType": "bytes",
                                   </p>
                                   <div className="twoselect">
                                     <div className="toggle_1">
-                                      <select name="" id="" value={daystoclose} onChange={evt=>{
+                                      <select  id="" value={daystoclose} onChange={evt=>{
 																				LOGGER('' , evt.target.value )
 																				setdaystoclose ( evt.target.value )
 																			}}>
@@ -412,7 +412,7 @@ _calldata // ",					" internalType": "bytes",
                                       </select>
                                     </div>
                                     <div className="toggle_2">
-                                      <select name="" id="">
+                                      <select  id="">
                                         <option>PM 02 : 00</option>
                                         <option>PM 03 : 00</option>
                                         <option>AM 01 : 00</option>

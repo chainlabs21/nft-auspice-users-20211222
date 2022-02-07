@@ -16,23 +16,36 @@ import { strDot } from "./util/Util";
 import moment from "moment";
 
 function Main({ store }) {
+  const navigate = useNavigate();
+
   const visualSwiperContRef = useRef();
   const visualSwiperRef = useRef();
+  const collectionSwiperRef = useRef();
   const trendingSwiperRef = useRef();
   const itemSwiperRef = useRef();
   const userWrapRef = useRef();
-  const navigate = useNavigate();
+
   const [intervalId, setIntervalId] = useState();
   const [visualSwiperIndex, setVisualSwiperIndex] = useState(0);
+  const [collectionIndex, setCollectionIndex] = useState(0);
   const [trendingItemIndex, setTrendingItemIndex] = useState(0);
   const [itemIndex, setItemIndex] = useState(0);
   const [userIndex, setUserIndex] = useState(0);
+  const [creatorlist, setCreatorList] = useState([]);
   let [list_newitems, setlist_newitems] = useState([]);
   let [list_trenditems, setlist_trenditems] = useState([]);
   let [list_featured, setlist_featured] = useState([]);
   let axios = applytoken();
 
   useEffect((_) => {
+    axios.get(`${API.API_GET_CREATORS}`).then((resp) => {
+      LOGGER("dddd", resp.data);
+      let { status, list } = resp.data;
+      if (status == "OK") {
+        setCreatorList(list);
+      }
+    });
+
     axios.get(`${API.API_MAIN_FEATURED_ITEMS}`).then((resp) => {
       LOGGER("", resp.data);
       let { status, list } = resp.data;
@@ -74,6 +87,26 @@ function Main({ store }) {
         )`;
       }
     }
+  }
+
+  function onClickCollectionPreBtn() {
+    const wrapWidth = collectionSwiperRef.current.offsetWidth;
+    const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(8 / itemNumByPage);
+
+    if (collectionIndex > 0) setCollectionIndex(collectionIndex - 1);
+    else setCollectionIndex(pageNum - 1);
+  }
+
+  function onClickCollectionNextBtn() {
+    const wrapWidth = collectionSwiperRef.current.offsetWidth;
+    const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(8 / itemNumByPage);
+
+    if (collectionIndex < pageNum - 1) setCollectionIndex(collectionIndex + 1);
+    else setCollectionIndex(0);
   }
 
   function onClickTrendingPreBtn() {
@@ -145,6 +178,28 @@ function Main({ store }) {
     }
     return clearInterval(intervalId);
   }, [visualSwiperIndex]);
+
+  useEffect(() => {
+    if (!collectionSwiperRef.current.children[0]) return;
+
+    const wrapWidth = collectionSwiperRef.current.offsetWidth;
+    const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(8 / itemNumByPage);
+    if (collectionSwiperRef.current?.scrollTo) {
+      if (collectionIndex < pageNum) {
+        collectionSwiperRef.current.scrollTo({
+          left: contWidth * itemNumByPage * collectionIndex,
+          behavior: "smooth",
+        });
+      } else {
+        collectionSwiperRef.current.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [collectionIndex]);
 
   useEffect(() => {
     if (!trendingSwiperRef.current.children[0]) return;
@@ -308,6 +363,66 @@ function Main({ store }) {
           </div>
         </article>
 
+        <article class="collection">
+          <div class="wrap">
+            <h4 class="t">Trending Collection</h4>
+            <div class="swiper">
+              <div class="swiper-container swiper-container-collection">
+                <ol class="list swiper-wrapper" ref={collectionSwiperRef}>
+                  {creatorlist.map((cont, index) => (
+                    <>
+                      <span>
+                        <li class="swiper-slide">
+                          <a
+                            onClick={() =>
+                              navigate(`/sing leitem/${cont.itemid}`)
+                            }
+                          >
+                            <div
+                              style={{
+                                backgroundImage: `url(${cont.backgroundimgsrc})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                              }}
+                            />
+                            <div>
+                              <span
+                                style={{
+                                  backgroundImage: `url(${cont.mongo?.profileimage})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                }}
+                              />
+                              <dl>
+                                <dt>{cont.storename}</dt>
+                                <dd>
+                                  <strong>{cont?.nickname}</strong>
+                                  <p>{cont.mongo?.description}</p>
+                                </dd>
+                              </dl>
+                            </div>
+                          </a>
+                        </li>
+                      </span>
+                    </>
+                  ))}
+                </ol>
+              </div>
+
+              <div
+                class="swiper-button-prev swiper-button-collection-prev"
+                onClick={onClickCollectionPreBtn}
+              ></div>
+              <div
+                class="swiper-button-next swiper-button-collection-next"
+                onClick={onClickCollectionNextBtn}
+              ></div>
+            </div>
+          </div>
+        </article>
+
         <article className="category">
           <div className="wrap">
             <h4 className="t">Market Category</h4>
@@ -407,7 +522,7 @@ function Main({ store }) {
                   <div className="slideBox" ref={trendingSwiperRef}>
                     {list_trenditems
                       .filter((elem) => elem.url)
-                      .sort((a, b) => b.countviews - a.countviews)
+                      .sort((a, b) => b.countfavors - a.countfavors)
                       .map((cont, index) => (
                         <span key={index}>
                           <li className="swiper-slide">
@@ -433,13 +548,8 @@ function Main({ store }) {
                                   >
                                     {cont.countfavors}
                                   </li>
-                                  <li>
-                                    <img
-                                      src={require("./img/sub/eye.jpg").default}
-                                    ></img>
-                                    {cont.countviews}{" "}
-                                  </li>
-                                  <li className="star off"> </li>
+
+                                  <li className="star off" />
                                 </ul>
                                 <div>{cont.titlename} </div>
                                 <span>
