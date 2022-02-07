@@ -110,6 +110,16 @@ function MyFavorite({ store }) {
       });
   };
 
+  function onClickRecentlyMoreBtn(e, index) {
+    e.stopPropagation();
+    setRecentlyMorePopup(index);
+  }
+
+  function onClickOnsaleMoreBtn(e, index) {
+    e.stopPropagation();
+    setOnsaleMorePopup(index);
+  }
+
   useEffect((_) => {
     window.getmyaddress = getmyaddress;
     if (myaddress) {
@@ -118,7 +128,7 @@ function MyFavorite({ store }) {
     }
     fetchdata();
   }, []);
-  
+
   useEffect(
     (_) => {
       if (myaddress) {
@@ -135,7 +145,8 @@ function MyFavorite({ store }) {
   const [recentlyIndex, setRecentlyIndex] = useState(0);
   const [onSaleIndex, setOnSaleIndex] = useState(0);
   const [onAuctionIndex, setOnAuctionIndex] = useState(0);
-  const [mMenuPopup, setMMenuPopup] = useState(false);
+  const [recentlyMorePopup, setRecentlyMorePopup] = useState(-1);
+  const [onsaleMorePopup, setOnsaleMorePopup] = useState(-1);
 
   function onClickRecentlyPreBtn() {
     const wrapWidth = recentlyRef.current.offsetWidth;
@@ -243,27 +254,6 @@ function MyFavorite({ store }) {
     }
   }, [onSaleIndex]);
 
-  useEffect(() => {
-    /**     const wrapWidth = onAuctionRef.current.offsetWidth;
-    const contWidth = onAuctionRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(10 / itemNumByPage);
-
-    if (onAuctionRef.current?.scrollTo) {
-      if (onAuctionIndex < pageNum) {
-        onAuctionRef.current.scrollTo({
-          left: contWidth * itemNumByPage * onAuctionIndex,
-          behavior: "smooth",
-        });
-      } else {
-        onAuctionRef.current.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-      }
-    }*/
-  }, [onAuctionIndex]);
-
   return (
     <SignPopupBox>
       <section id="sub">
@@ -356,13 +346,11 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li className="swiper-slide">
                                     <a
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation(); // return //
+                                      onClick={() =>
                                         navigate(
                                           `/singleitem?itemid=${cont.item?.itemid}`
-                                        ); // /${cont.item?.itemid}
-                                      }}
+                                        )
+                                      }
                                       style={{
                                         backgroundImage: `url(${cont.item?.url})`,
                                         backgroundRepeat: "no-repeat",
@@ -397,48 +385,47 @@ function MyFavorite({ store }) {
                                       <div className="top blk">
                                         <ul>
                                           <li></li>
-                                          <li className="dot">
-                                            <div className="choose choose2 on">
+                                          <li
+                                            className="dot"
+                                            onClick={(e) =>
+                                              onClickRecentlyMoreBtn(e, index)
+                                            }
+                                          >
+                                            <div
+                                              className={
+                                                recentlyMorePopup === index
+                                                  ? "choose choose2 on"
+                                                  : "choose choose2 off"
+                                              }
+                                              style={{ top: 34 }}
+                                            >
                                               <ul>
-                                                <li
-                                                  onClick={(e) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    setsalepath(cont);
-                                                  }}
-                                                  style={{
-                                                    display: cont.itembalance
-                                                      ?.avail
-                                                      ? "block"
-                                                      : "none",
-                                                  }}
-                                                >
-                                                  Sale
-                                                </li>
-                                                <li
-                                                  onClick={(e) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    navigate(
-                                                      `/handover?itemid=${cont.item?.itemid}`
-                                                    );
-                                                  }}
-                                                  style={{
-                                                    display:
-                                                      cont.item?.tokenid &&
-                                                      cont.itembalance?.avail
-                                                        ? "block"
-                                                        : "none",
-                                                  }}
-                                                >
-                                                  Hand Over
-                                                </li>
-                                                <li style={{ display: "none" }}>
-                                                  Edit
-                                                </li>
-                                                <li style={{ display: "none" }}>
-                                                  Collection Change
-                                                </li>
+                                                {cont.itembalance?.avail && (
+                                                  <li
+                                                    onClick={(e) => {
+                                                      e.preventDefault();
+                                                      e.stopPropagation();
+                                                      setsalepath(cont);
+                                                    }}
+                                                  >
+                                                    Sale
+                                                  </li>
+                                                )}
+                                                {cont.item?.tokenid &&
+                                                  cont.itembalance?.avail && (
+                                                    <li
+                                                      onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        navigate(
+                                                          `/handover?itemid=${cont.item?.itemid}`
+                                                        );
+                                                      }}
+                                                    >
+                                                      Hand Over
+                                                    </li>
+                                                  )}
+
                                                 <li
                                                   onClick={(e) => {
                                                     e.preventDefault();
@@ -535,8 +522,20 @@ function MyFavorite({ store }) {
                                       <div className="top blk">
                                         <ul>
                                           <li></li>
-                                          <li className="dot">
-                                            <div className="choose choose2 on">
+                                          <li
+                                            className="dot"
+                                            onClick={(e) =>
+                                              onClickOnsaleMoreBtn(e, index)
+                                            }
+                                          >
+                                            <div
+                                              className={
+                                                onsaleMorePopup === index
+                                                  ? "choose choose2 on"
+                                                  : "choose choose2"
+                                              }
+                                              style={{ top: 34 }}
+                                            >
                                               <ul>
                                                 <li>Sale</li>
                                                 <li>Hand Over</li>
