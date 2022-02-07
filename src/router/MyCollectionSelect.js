@@ -16,87 +16,122 @@ import "../css/footer.css";
 import "../css/swiper.min.css";
 import { useEffect, useRef, useState } from "react";
 import { isUserMobile } from "../util/Util";
-import { getmyaddress , LOGGER} from "../util/common";
+import { getmyaddress, LOGGER } from "../util/common";
 import { applytoken } from "../util/rest";
 import { API } from "../config/api";
-import moment from 'moment'
-import { messages} from '../config/messages'
-import SetErrorBar from '../util/SetErrorBar'
+import moment from "moment";
+import { messages } from "../config/messages";
+import SetErrorBar from "../util/SetErrorBar";
 
 function MyFavorite({ store }) {
   const navigate = useNavigate();
+
   const recentlyRef = useRef();
   const onSaleRef = useRef();
   const onAuctionRef = useRef();
-	let [ myaddress , setmyaddress ]=useState( getmyaddress() )
-	let axios=applytoken ()
-	let [ info_maria , setinfo_maria ] = useState()
-	let [ info_mongo , setinfo_mongo ] = useState()
-	let [ info_stats , setinfo_stats ] = useState()
-	let [ list_created , setlist_created]=useState( [] )
-	let [ list_sales , setlist_sales] = useState( [] )
-	let [ list_auction , setlist_auction] = useState( [] )
-	const setsalepath=cont=>{
-		LOGGER('' )
-		if ( cont.itembalance?.avail ){
-			navigate (`/salefixed?itemid=${cont.item?.itemid}`)
-			return
-		}
-		else { SetErrorBar( messages.MSG_OUT_OF_STOCK ) ; return }
-	}
-	const onclickhide=itemid=>{
-		axios.put( API.API_TOGGLE_ITEM + `/${itemid}/visible`).then(resp=>{ LOGGER('' , resp.data)
-			let { status }=resp.data
-			if ( status =='OK'){
-				SetErrorBar( messages.MSG_CHANGED )																											
-//				fetchitems()
-			} else {
-				SetErrorBar( messages.MSG_REQ_FAIL )
-			}
-		})
-	}
-	const fetchdata=_=>{
-		axios.get( API.API_USER_INFO + `/${myaddress}`).then(resp=>{ LOGGER('' , resp.data )
-			let { status , payload }=resp.data
-			if ( status =='OK'){
-				setinfo_maria( payload.maria )
-				setinfo_mongo( payload.mongo )
-				setinfo_stats (payload.stats )
-			}
-		})
-		axios.get( API.API_AUTHORS_ITEMS + `/${myaddress}/0/10/id/DESC`).then(resp=>{ LOGGER( 'JgCY99Hc83' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK' ){
-				setlist_created ( list )
-			}
-		})
-		axios.get( API.API_SELLER_ITEMS_00 + `/${myaddress}/0/10/id/DESC` 
-			, {params: { itemdetail : 1 ,filterkey: 'typestr' , filterval: 'COMMON' }}).then(resp=>{ LOGGER('kxdvjHSJHx' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK'){
-				setlist_sales ( list )
-			}
-		})
-		axios.get( API.API_SELLER_ITEMS_00 + `/${myaddress}/0/10/id/DESC`
-		, {params: {itemdetail : 1 , filterkey :'typestr', filterval : 'AUCTION-ENGLISH'}}).then(resp =>{ LOGGER ( 'yduWcdU26V' , resp.data)
-			let { status , list}=resp.data
-			if ( status =='OK'){
-				setlist_auction ( list )
-			}
-		})		
-	}
-	useEffect(_=>{
-		window.getmyaddress = getmyaddress
-		if (myaddress){} else {return }
-		fetchdata()
-	} , [] )
-	useEffect(_=>{
-		if (myaddress){} else {return }
-		fetchdata()
-	} , [ myaddress ])
-//	, API_SELLER_ITEMS : `${apiServer}/queries/rows/fieldvalues` // /:tablename/:offset/:limit/:orderkey/:orderval
-	//			let {fieldname , fieldvalues , itemdetail } = req.query	
-	
+
+  let [myaddress, setmyaddress] = useState(getmyaddress());
+  let axios = applytoken();
+  let [info_maria, setinfo_maria] = useState();
+  let [info_mongo, setinfo_mongo] = useState();
+  let [info_stats, setinfo_stats] = useState();
+  let [list_created, setlist_created] = useState([]);
+  let [list_sales, setlist_sales] = useState([]);
+  let [list_auction, setlist_auction] = useState([]);
+
+  const setsalepath = (cont) => {
+    LOGGER("");
+    if (cont.itembalance?.avail) {
+      navigate(`/salefixed?itemid=${cont.item?.itemid}`);
+      return;
+    } else {
+      SetErrorBar(messages.MSG_OUT_OF_STOCK);
+      return;
+    }
+  };
+
+  const onclickhide = (itemid) => {
+    axios.put(API.API_TOGGLE_ITEM + `/${itemid}/visible`).then((resp) => {
+      LOGGER("", resp.data);
+      let { status } = resp.data;
+      if (status == "OK") {
+        SetErrorBar(messages.MSG_CHANGED);
+        //				fetchitems()
+      } else {
+        SetErrorBar(messages.MSG_REQ_FAIL);
+      }
+    });
+  };
+
+  const fetchdata = (_) => {
+    axios.get(API.API_USER_INFO + `/${myaddress}`).then((resp) => {
+      LOGGER("", resp.data);
+      let { status, payload } = resp.data;
+      if (status == "OK") {
+        setinfo_maria(payload.maria);
+        setinfo_mongo(payload.mongo);
+        setinfo_stats(payload.stats);
+      }
+    });
+    axios
+      .get(API.API_AUTHORS_ITEMS + `/${myaddress}/0/10/id/DESC`)
+      .then((resp) => {
+        LOGGER("JgCY99Hc83", resp.data);
+        let { status, list } = resp.data;
+        if (status == "OK") {
+          setlist_created(list);
+        }
+      });
+    axios
+      .get(API.API_SELLER_ITEMS_00 + `/${myaddress}/0/10/id/DESC`, {
+        params: { itemdetail: 1, filterkey: "typestr", filterval: "COMMON" },
+      })
+      .then((resp) => {
+        LOGGER("kxdvjHSJHx", resp.data);
+        let { status, list } = resp.data;
+        if (status == "OK") {
+          setlist_sales(list);
+        }
+      });
+    axios
+      .get(API.API_SELLER_ITEMS_00 + `/${myaddress}/0/10/id/DESC`, {
+        params: {
+          itemdetail: 1,
+          filterkey: "typestr",
+          filterval: "AUCTION-ENGLISH",
+        },
+      })
+      .then((resp) => {
+        LOGGER("yduWcdU26V", resp.data);
+        let { status, list } = resp.data;
+        if (status == "OK") {
+          setlist_auction(list);
+        }
+      });
+  };
+
+  useEffect((_) => {
+    window.getmyaddress = getmyaddress;
+    if (myaddress) {
+    } else {
+      return;
+    }
+    fetchdata();
+  }, []);
+  
+  useEffect(
+    (_) => {
+      if (myaddress) {
+      } else {
+        return;
+      }
+      fetchdata();
+    },
+    [myaddress]
+  );
+  //	, API_SELLER_ITEMS : `${apiServer}/queries/rows/fieldvalues` // /:tablename/:offset/:limit/:orderkey/:orderval
+  //			let {fieldname , fieldvalues , itemdetail } = req.query
+
   const [recentlyIndex, setRecentlyIndex] = useState(0);
   const [onSaleIndex, setOnSaleIndex] = useState(0);
   const [onAuctionIndex, setOnAuctionIndex] = useState(0);
@@ -163,7 +198,9 @@ function MyFavorite({ store }) {
   }
 
   useEffect(() => {
-/**     const wrapWidth = recentlyRef.current.offsetWidth;
+    if (!recentlyRef.current.children[0]) return;
+
+    const wrapWidth = recentlyRef.current.offsetWidth;
     const contWidth = recentlyRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(10 / itemNumByPage);
@@ -180,11 +217,13 @@ function MyFavorite({ store }) {
           behavior: "smooth",
         });
       }
-    }*/
+    }
   }, [recentlyIndex]);
 
   useEffect(() => {
-/**     const wrapWidth = onSaleRef.current.offsetWidth;
+    if (!onSaleRef.current.children[0]) return;
+
+    const wrapWidth = onSaleRef.current.offsetWidth;
     const contWidth = onSaleRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(10 / itemNumByPage);
@@ -201,11 +240,11 @@ function MyFavorite({ store }) {
           behavior: "smooth",
         });
       }
-    }*/
+    }
   }, [onSaleIndex]);
 
   useEffect(() => {
-/**     const wrapWidth = onAuctionRef.current.offsetWidth;
+    /**     const wrapWidth = onAuctionRef.current.offsetWidth;
     const contWidth = onAuctionRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(10 / itemNumByPage);
@@ -260,32 +299,34 @@ function MyFavorite({ store }) {
                     </div>
                   </div>
                 </div>
-                <h2 className="notop">{ info_maria?.nickname}'s Collection</h2>
-                <h4>
-									{ info_maria?.description }
-                </h4>
+                <h2 className="notop">{info_maria?.nickname}'s Collection</h2>
+                <h4>{info_maria?.description}</h4>
                 <div className="numbers">
                   <ul>
                     <li>
                       <h5>Created</h5>
-                      <p>{ info_maria?.countcreated }</p>
+                      <p>{info_maria?.countcreated}</p>
                     </li>
                     <li>
                       <h5>Owned</h5>
-                      <p>{ info_maria?.countowned }</p>
+                      <p>{info_maria?.countowned}</p>
                     </li>
                     <li>
                       <h5>Avg price</h5>
                       <p>
-                        {info_stats?.countsales ? info_stats?.sumsales / info_stats?.countsales : '0'}<b>KLAY</b>
+                        {info_stats?.countsales
+                          ? info_stats?.sumsales / info_stats?.countsales
+                          : "0"}
+                        <b>KLAY</b>
                         <span>$ -</span>
                       </p>
                     </li>
                     <li>
                       <h5>Volume Traded</h5>
                       <p>
-												{ (info_stats?.sumsales ? info_stats?.sumsales :0 ) 
-												+ (info_stats?.sumbuys ? info_stats?.sumbuys :0 )   }<span>$ -</span>
+                        {(info_stats?.sumsales ? info_stats?.sumsales : 0) +
+                          (info_stats?.sumbuys ? info_stats?.sumbuys : 0)}
+                        <span>$ -</span>
                       </p>
                     </li>
                   </ul>
@@ -299,7 +340,10 @@ function MyFavorite({ store }) {
                   <div className="item marbo">
                     <div className="full">
                       <h4 className="t releft">Recently Created</h4>
-                      <a onClick={() => navigate("/createitem")} className="replus">
+                      <a
+                        onClick={() => navigate("/createitem")}
+                        className="replus"
+                      >
                         Register a new item
                       </a>
                     </div>
@@ -307,16 +351,20 @@ function MyFavorite({ store }) {
                       <div className="swiper-container swiper-container-newitem">
                         <ol className="item item5 summary swiper-wrapper">
                           <div className="slideBox" ref={recentlyRef}>
-                            { list_created.map((cont, index) => (
+                            {list_created.map((cont, index) => (
                               <>
                                 <span>
                                   <li className="swiper-slide">
                                     <a
-																			onClick={e =>{ e.preventDefault(); e.stopPropagation() // return // 
-																				navigate(`/singleitem?itemid=${cont.item?.itemid}`)   // /${cont.item?.itemid}
-																			}}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation(); // return //
+                                        navigate(
+                                          `/singleitem?itemid=${cont.item?.itemid}`
+                                        ); // /${cont.item?.itemid}
+                                      }}
                                       style={{
-                                        backgroundImage: `url(${ cont.item?.url})`,
+                                        backgroundImage: `url(${cont.item?.url})`,
                                         backgroundRepeat: "no-repeat",
                                         backgroundPosition: "center",
                                         backgroundSize: "cover",
@@ -324,13 +372,25 @@ function MyFavorite({ store }) {
                                     >
                                       <div className="on">
                                         <ul>
-                                          <li className="heart off">{ cont.item?.countfavors }</li>
-                                          <li className={ cont.ilikethisitem? 'star on' : "star off"} ></li>
+                                          <li className="heart off">
+                                            {cont.item?.countfavors}
+                                          </li>
+                                          <li
+                                            className={
+                                              cont.ilikethisitem
+                                                ? "star on"
+                                                : "star off"
+                                            }
+                                          ></li>
                                         </ul>
-                                        <div>{ cont.item?.titlename }</div>
-                                        <span>{ cont.author?.nickname }</span>
+                                        <div>{cont.item?.titlename}</div>
+                                        <span>{cont.author?.nickname}</span>
                                         <ol>
-                                          <li>{ moment(cont.item?.createdat).fromNow()  }</li>
+                                          <li>
+                                            {moment(
+                                              cont.item?.createdat
+                                            ).fromNow()}
+                                          </li>
                                           <li>- KLAY</li>
                                         </ol>
                                       </div>
@@ -338,22 +398,60 @@ function MyFavorite({ store }) {
                                         <ul>
                                           <li></li>
                                           <li className="dot">
-                                            <div className="choose choose2 on" >
+                                            <div className="choose choose2 on">
                                               <ul>
-																								<li onClick={e=>{ e.preventDefault(); e.stopPropagation()
-																									 setsalepath( cont )
-																								}}
-																								style={{ display: cont.itembalance?.avail? 'block' : 'none' }}
-																								>Sale</li>
-																								<li onClick={e=>{	e.preventDefault(); e.stopPropagation()																									
-																									navigate(`/handover?itemid=${cont.item?.itemid}`) }}
-																									style={{display : cont.item?.tokenid && cont.itembalance?.avail ? 'block' : 'none'}}
-																								>Hand Over</li>
-                                                <li style={{display:'none'}}>Edit</li>
-                                                <li style={{display:'none'}}>Collection Change</li>
-                                                <li onClick={e=>{	e.preventDefault(); e.stopPropagation()
-																									onclickhide( cont.item?.itemid )
-																								 }}>{ cont.itembalance?.visible ? 'Hide' : 'Unhide' } </li>
+                                                <li
+                                                  onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    setsalepath(cont);
+                                                  }}
+                                                  style={{
+                                                    display: cont.itembalance
+                                                      ?.avail
+                                                      ? "block"
+                                                      : "none",
+                                                  }}
+                                                >
+                                                  Sale
+                                                </li>
+                                                <li
+                                                  onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    navigate(
+                                                      `/handover?itemid=${cont.item?.itemid}`
+                                                    );
+                                                  }}
+                                                  style={{
+                                                    display:
+                                                      cont.item?.tokenid &&
+                                                      cont.itembalance?.avail
+                                                        ? "block"
+                                                        : "none",
+                                                  }}
+                                                >
+                                                  Hand Over
+                                                </li>
+                                                <li style={{ display: "none" }}>
+                                                  Edit
+                                                </li>
+                                                <li style={{ display: "none" }}>
+                                                  Collection Change
+                                                </li>
+                                                <li
+                                                  onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    onclickhide(
+                                                      cont.item?.itemid
+                                                    );
+                                                  }}
+                                                >
+                                                  {cont.itembalance?.visible
+                                                    ? "Hide"
+                                                    : "Unhide"}{" "}
+                                                </li>
                                               </ul>
                                             </div>
                                           </li>
@@ -362,7 +460,6 @@ function MyFavorite({ store }) {
                                     </a>
                                   </li>
                                 </span>
-
                               </>
                             ))}
                           </div>
@@ -390,11 +487,15 @@ function MyFavorite({ store }) {
                                 <span>
                                   <li className="swiper-slide">
                                     <a
-																			onClick={e =>{ e.preventDefault(); e.stopPropagation()																				
-																				navigate(`/singleitem?itemid=${cont.item?.itemid}`)
-																			}}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        navigate(
+                                          `/singleitem?itemid=${cont.item?.itemid}`
+                                        );
+                                      }}
                                       style={{
-                                        backgroundImage: `url(${ cont.item?.url })`,
+                                        backgroundImage: `url(${cont.item?.url})`,
                                         backgroundRepeat: "no-repeat",
                                         backgroundPosition: "center",
                                         backgroundSize: "cover",
@@ -402,14 +503,33 @@ function MyFavorite({ store }) {
                                     >
                                       <div className="on">
                                         <ul>
-                                          <li className="heart on">{ cont.item?.countfavors }</li>
-                                          <li className={cont.ilikethisitem? 'star on' : "star off"}></li>
+                                          <li className="heart on">
+                                            {cont.item?.countfavors}
+                                          </li>
+                                          <li
+                                            className={
+                                              cont.ilikethisitem
+                                                ? "star on"
+                                                : "star off"
+                                            }
+                                          ></li>
                                         </ul>
-                                        <div>{ cont.item?.titlename }</div>
-                                        <span>{ cont.author?.nickname }</span>
+                                        <div>{cont.item?.titlename}</div>
+                                        <span>{cont.author?.nickname}</span>
                                         <ol>
-                                          <li>{ cont.minpriceorder?.asset_amount_bid }</li>
-                                          <li>{ cont.minpriceorder?.asset_amount_ask } KLAY</li>
+                                          <li>
+                                            {
+                                              cont.minpriceorder
+                                                ?.asset_amount_bid
+                                            }
+                                          </li>
+                                          <li>
+                                            {
+                                              cont.minpriceorder
+                                                ?.asset_amount_ask
+                                            }{" "}
+                                            KLAY
+                                          </li>
                                         </ol>
                                       </div>
                                       <div className="top blk">
@@ -431,7 +551,6 @@ function MyFavorite({ store }) {
                                     </a>
                                   </li>
                                 </span>
-
                               </>
                             ))}
                           </div>
@@ -454,13 +573,18 @@ function MyFavorite({ store }) {
                       <div className="swiper-container swiper-container-newitem newitem3">
                         <ol className="item item5 summary swiper-wrapper">
                           <div className="slideBox" ref={onAuctionRef}>
-                            { list_auction.map( (cont, index) => (
+                            {list_auction.map((cont, index) => (
                               <>
                                 <span>
                                   <li className="swiper-slide">
                                     <a
-                                      onClick={e => { e.preventDefault(); e.stopPropagation()
-																				navigate(`/singleitem?itemid=${cont.item?.itemid }`)}}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        navigate(
+                                          `/singleitem?itemid=${cont.item?.itemid}`
+                                        );
+                                      }}
                                       style={{
                                         backgroundImage: `url(${s2})`,
                                         backgroundRepeat: "no-repeat",
@@ -471,7 +595,13 @@ function MyFavorite({ store }) {
                                       <div className="on">
                                         <ul>
                                           <li className="heart off">1,389</li>
-                                          <li className={ cont.ilikethisitem? 'star on' : "star off"} ></li>
+                                          <li
+                                            className={
+                                              cont.ilikethisitem
+                                                ? "star on"
+                                                : "star off"
+                                            }
+                                          ></li>
                                         </ul>
                                         <div>Summer Pool</div>
                                         <span>David</span>

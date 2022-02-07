@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import users_list01 from "./img/main/users_list01.png";
 import users_list02 from "./img/main/users_list02.png";
@@ -14,11 +14,11 @@ import { applytoken } from "./util/rest";
 import { API } from "./config/api";
 import { strDot } from "./util/Util";
 import moment from "moment";
+import SetErrorBar from "./util/SetErrorBar";
 
 function Main({ store }) {
   const navigate = useNavigate();
 
-  const visualSwiperContRef = useRef();
   const visualSwiperRef = useRef();
   const collectionSwiperRef = useRef();
   const trendingSwiperRef = useRef();
@@ -38,28 +38,20 @@ function Main({ store }) {
   let axios = applytoken();
 
   useEffect((_) => {
+    axios.get(`${API.API_MAIN_FEATURED_ITEMS}`).then((resp) => {
+      let { status, list } = resp.data;
+      if (status == "OK") {
+        setlist_featured(list);
+      }
+    });
+
     axios.get(`${API.API_GET_CREATORS}`).then((resp) => {
-      LOGGER("dddd", resp.data);
       let { status, list } = resp.data;
       if (status == "OK") {
         setCreatorList(list);
       }
     });
 
-    axios.get(`${API.API_MAIN_FEATURED_ITEMS}`).then((resp) => {
-      LOGGER("", resp.data);
-      let { status, list } = resp.data;
-      if (status == "OK") {
-        setlist_featured(list);
-      }
-    });
-    axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
-      LOGGER("JBwpoHdvFv", resp.data);
-      let { status, list } = resp.data;
-      if (status == "OK") {
-        setlist_newitems(list);
-      }
-    });
     axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
       LOGGER("JN8wsASyiL", resp.data);
       let { status, list } = resp.data;
@@ -67,25 +59,99 @@ function Main({ store }) {
         setlist_trenditems(list);
       }
     });
+
+    axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
+      LOGGER("JBwpoHdvFv", resp.data);
+      let { status, list } = resp.data;
+      if (status == "OK") {
+        setlist_newitems(list);
+      }
+    });
   }, []);
 
+  function onClickFavorBtn(e, itemid) {
+    e.stopPropagation();
+    LOGGER("CodOU75E5r");
+    axios.post(`${API.API_TOGGLE_FAVOR}/${itemid}`).then((resp) => {
+      LOGGER("", resp.data);
+      let { status, respdata, message } = resp.data;
+
+      if (status == "OK") {
+        axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
+          LOGGER("JN8wsASyiL", resp.data);
+          let { status, list } = resp.data;
+          if (status == "OK") {
+            setlist_trenditems(list);
+          }
+        });
+
+        axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
+          LOGGER("JBwpoHdvFv", resp.data);
+          let { status, list } = resp.data;
+          if (status == "OK") {
+            setlist_newitems(list);
+          }
+        });
+      } else if (message === "PLEASE-LOGIN") {
+        SetErrorBar("로그인을 해주세요");
+      }
+    });
+  }
+
+  function onClickBookMarkBtn(e, itemid) {
+    e.preventDefault();
+
+    axios.post(`${API.API_TOGGLE_BOOKMARK}/${itemid}`).then((resp) => {
+      LOGGER("", resp.data);
+      let { status, respdata, message } = resp.data;
+      if (status == "OK") {
+        if (status == "OK") {
+          axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
+            LOGGER("JN8wsASyiL", resp.data);
+            let { status, list } = resp.data;
+            if (status == "OK") {
+              setlist_trenditems(list);
+            }
+          });
+
+          axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
+            LOGGER("JBwpoHdvFv", resp.data);
+            let { status, list } = resp.data;
+            if (status == "OK") {
+              setlist_newitems(list);
+            }
+          });
+        } else if (message === "PLEASE-LOGIN") {
+          SetErrorBar("로그인을 해주세요");
+        }
+      }
+    });
+  }
+
   function onClickVisualSwiperBtn() {
-    if (visualSwiperRef.current?.scrollTo) {
-      if (visualSwiperIndex < visualSwiperRef.current.children.length - 1) {
-        visualSwiperRef.current.style.transform = `translate3d(
+    if (window.innerWidth < 1280) {
+      if (visualSwiperRef.current?.scrollTo) {
+        if (visualSwiperIndex < visualSwiperRef.current.children.length - 1) {
+          visualSwiperRef.current.style.transform = `translate3d(
           -${
             visualSwiperRef.current.children[0].offsetWidth *
             (visualSwiperIndex + 1)
           }px,0,0
         )`;
 
-        setVisualSwiperIndex(visualSwiperIndex + 1);
-      } else {
-        setVisualSwiperIndex(0);
-        visualSwiperRef.current.style.transform = `translate3d(
+          setVisualSwiperIndex(visualSwiperIndex + 1);
+        } else {
+          setVisualSwiperIndex(0);
+          visualSwiperRef.current.style.transform = `translate3d(
           0,0,0
         )`;
+        }
       }
+    } else {
+      if (visualSwiperRef.current) visualSwiperRef.current.style.transform = "";
+      if (visualSwiperIndex < creatorlist.length - 1)
+        setVisualSwiperIndex(visualSwiperIndex + 1);
+      else setVisualSwiperIndex(0);
     }
   }
 
@@ -114,7 +180,6 @@ function Main({ store }) {
     const contWidth = trendingSwiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(8 / itemNumByPage);
-    //Math.ceil;
 
     if (trendingItemIndex > 0) setTrendingItemIndex(trendingItemIndex - 1);
     else setTrendingItemIndex(pageNum - 1);
@@ -172,6 +237,25 @@ function Main({ store }) {
   }
 
   useEffect(() => {
+    if (!visualSwiperRef.current.children[0]) return;
+
+    const contWidth = visualSwiperRef.current.children[0].offsetWidth;
+    const pageNum = Math.ceil(visualSwiperRef.current.children.length);
+
+    if (visualSwiperRef.current?.scrollTo) {
+      if (visualSwiperIndex < pageNum) {
+        visualSwiperRef.current.scrollTo({
+          left: contWidth * visualSwiperIndex,
+          behavior: "smooth",
+        });
+      } else {
+        visualSwiperRef.current.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+
     if (visualSwiperRef.current.children.length) {
       if (intervalId) clearInterval(intervalId);
       setIntervalId(setInterval(onClickVisualSwiperBtn, 3000));
@@ -289,7 +373,7 @@ function Main({ store }) {
               <a onClick={() => navigate("/createitem")}>NFT Publication</a>
             </div>
           </div>
-          <div className="swiper" ref={visualSwiperContRef}>
+          <div className="swiper">
             <div className="swiper-container swiper-container-visual">
               <ol className="swiper-wrapper" ref={visualSwiperRef}>
                 {list_featured
@@ -374,9 +458,9 @@ function Main({ store }) {
                       <span>
                         <li class="swiper-slide">
                           <a
-                            onClick={() =>
-                              navigate(`/sing leitem/${cont.itemid}`)
-                            }
+                          // onClick={() =>
+                          //   navigate(``)
+                          // }
                           >
                             <div
                               style={{
@@ -545,13 +629,21 @@ function Main({ store }) {
                                         ? "heart on"
                                         : "heart off"
                                     }
+                                    onClick={(e) =>
+                                      onClickFavorBtn(e, cont.itemid)
+                                    }
                                   >
                                     {cont.countfavors}
                                   </li>
 
-                                  <li className="star off" />
+                                  <li
+                                    className="star off"
+                                    onClick={(e) =>
+                                      onClickBookMarkBtn(e, cont.itemid)
+                                    }
+                                  />
                                 </ul>
-                                <div>{cont.titlename} </div>
+                                <div>{cont.titlename}</div>
                                 <span>
                                   {strDot(cont.author?.nickname, 10, 0)}
                                 </span>
@@ -615,10 +707,22 @@ function Main({ store }) {
                             >
                               <div className="on">
                                 <ul>
-                                  <li className="heart off">
+                                  <li
+                                    className={
+                                      cont.ilikethisitem
+                                        ? "heart on"
+                                        : "heart off"
+                                    }
+                                    onClick={(e) =>
+                                      onClickFavorBtn(e, cont.itemid)
+                                    }
+                                  >
                                     {cont.countfavors}
                                   </li>
-                                  <li className="star off"></li>
+                                  <li
+                                    className="star off"
+                                    onClick={(e) => e.preventDefault()}
+                                  />
                                 </ul>
                                 <div>{cont.titlename} </div>
                                 <span>

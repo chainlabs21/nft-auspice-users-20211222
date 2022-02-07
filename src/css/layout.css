@@ -811,7 +811,7 @@
 #main article.collection .list > span {
   width: 25%;
   min-width: 25%;
-  padding: 8px 19px;
+  padding: 19px 8px;
   box-sizing: border-box;
 }
 #main article.collection .list li {
