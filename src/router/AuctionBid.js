@@ -29,23 +29,26 @@ import {
   getabistr_forfunction,
   query_nfttoken_balance,
   requesttransaction,
+	query_with_arg,
+	query_noarg,
 } from "../util/contract-calls";
 import { ADDRESSES } from "../config/addresses";
 import {
   PAYMENT_TOKEN_ADDRESS_DEF,
   REFERER_FEE_RATE_DEF,
   RULES,
-  PAYMEANS_DEF,
+	PAYMEANS_DEF,
+	PAYMEANS_ADDRESS_DEF
 } from "../config/configs";
 import { getweirep } from "../util/eth";
 import NowSalePopup from "../components/NowSalePopup";
 import PopupBg from "../components/PopupBg";
 import CertificationContractPopup from "../components/CertificationContractPopup";
-
+import { signOrderData } from '../util/verifySig'
 // const AuctionBid = async({ store, setConnect })=> {
 function AuctionBid({ store, setConnect }) {
   const navigate = useNavigate();
-  const [verifyPopup, setVerifyPopup] = useState(false);
+  const [ verifyPopup, setVerifyPopup] = useState( false );
   let [searchParams, setSearchParams] = useSearchParams();
   let [itemid, setitemid] = useState();
   let [itemdata, setitemdata] = useState();
@@ -54,9 +57,10 @@ function AuctionBid({ store, setConnect }) {
   let [bidamount_threshold, setbidamount_threshold] = useState();
   let [daystoclose, setdaystoclose] = useState("3 days later");
   let [expiry, setexpiry] = useState();
-  let [myaddress, setmyaddress] = useState(getmyaddress());
-  const [listingProcess, setListingProcess] = useState(0);
-
+  let [myaddress, setmyaddress] = useState( getmyaddress());
+  const [ listingProcess, setListingProcess] = useState(0);
+	let [ signeddata, setsigneddata ] = useState()
+	let [ mindeposit , setmindeposit ] =useState() // let [ mindeposit , setmindeposit ] = 
   // let axios = applytoken()
   let axios;
   require_token().then((resp) => {
@@ -81,7 +85,7 @@ function AuctionBid({ store, setConnect }) {
       on_post_open_offchain();
     }
   };
-  const on_post_open_offchain = (_) => {
+  const on_post_open_offchain = async (_) => {
     window.getmyaddress = getmyaddress;
     let myaddress = getmyaddress();
     if (myaddress) {
@@ -97,7 +101,25 @@ function AuctionBid({ store, setConnect }) {
     LOGGER("", itemid, bidamount_start, bidamount_threshold, expiry);
     //		if ( itemdata?.item?.tokenid ) {}
     //	else {	SetErrorBar ( messages.MSG_PLEASE_MINT_AHEAD ) ; return }
-    const timenow = moment();
+		const timenow = moment();
+		let orderdata = { 
+			seller_address : myaddress 
+			, amount : amounttoauction 
+			, price : bidamount_start
+			, priceunit : PAYMEANS_ADDRESS_DEF
+			, expiry
+			, itemid 
+		}
+		let respsign = await signOrderData ( orderdata )
+		LOGGER( respsign )
+		if ( respsign ){		}
+		else {
+			SetErrorBar (messages.MSG_USER_DENIED_TX)
+			setListingProcess( 0 )
+			return 
+		}
+		SetErrorBar( messages.MSG_DATA_SIGNED )
+		setsigneddata ( respsign )
     let timenowunix = timenow.unix();
     let reqbody = {
       itemid: itemdata?.item?.itemid,
@@ -120,7 +142,8 @@ function AuctionBid({ store, setConnect }) {
       LOGGER("", resp.data);
       let { status } = resp.data;
       if (status == "OK") {
-        SetErrorBar(messages.MSG_DONE_REGISTERING);
+				SetErrorBar(messages.MSG_DONE_REGISTERING);
+				setListingProcess ( 2 )
         fetchitem(itemid);
       } else {
         SetErrorBar(messages.MSG_REQ_FAIL);
@@ -261,10 +284,32 @@ _calldata // ",					" internalType": "bytes",
       return;
     }
   }, []);
-
+	useEffect(async _=>{
+		if (myaddress){}
+		else {return }
+		query_with_arg({
+			contractaddress: ADDRESSES.registerproxy,
+			abikind: "REGISTER_PROXY",
+			methodname: "_registered",
+			aargs: [ myaddress ],
+		}).then(async resp=>{
+			LOGGER( '' , resp ) //			alert ( resp )
+			if ( resp){return }
+			else {
+				let respmindeposit = await query_noarg ( {
+					contractaddress: ADDRESSES.registerproxy,
+					abikind: "REGISTER_PROXY",
+					methodname: "_min_deposit_amount",
+				})
+				LOGGER( 'IWxWhnxbwp' , respmindeposit ) // ; alert(respmindeposit)
+				setmindeposit ( respmindeposit ) 
+				setVerifyPopup ( true )
+			}
+		})
+	} , [ myaddress ])
   return (
     <SignPopupBox>
-      {verifyPopup && <VerifyAccountPopup off={setVerifyPopup} />}
+      { verifyPopup && <VerifyAccountPopup off={setVerifyPopup} mindeposit={ mindeposit }/>}
 
       {listingProcess === 1 && (
         <>
@@ -716,7 +761,8 @@ _calldata // ",					" internalType": "bytes",
                     } else {
                       SetErrorBar(messages.MSG_PLEASE_INPUT);
                       return;
-                    }
+										}
+										setListingProcess ( 1 )
                     onclickstartauction();
                   }}
                 >

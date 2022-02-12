@@ -13,9 +13,9 @@ import { abi as abi_auction_repo_dutch_bulk } from '../contracts-abi/IAuctionRep
 import { abi as abi_auction_repo_english } from '../contracts-abi/IAuctionRepoEnglish'
 // import { abi as abi_auction_repo_english_simple } from '../contracts-abi/IAuctionRepoEnglish-simple-20220201'
 import { abi as abi_auction_repo_english_batch_tasks } from '../contracts-abi/IAuctionRepoEnglish-batchtasks-20220206'
-
 // import { abi as abi_matcher_simple } from '../contracts-abi/IMatcher-simple'
 import { abi as abi_matcher_simple } from '../contracts-abi/IMatcher-simple'
+import { abi as abi_register_proxy } from '../contracts-abi/IRegisterProxy'
 // import { getweirep } from '../utils/eth'
 // import { DebugMode } from '../configs/configs'
 // import { requesttransaction } from "../services/kaikas"
@@ -32,6 +32,7 @@ const MAP_STR_ABI = {
 //	, AUCTION_ENGLISH_SIMPLE : abi_auction_repo_english_simple
 	, AUCTION_ENGLISH_BATCH_TASKS : abi_auction_repo_english_batch_tasks
 	, MATCHER_SIMPLE : abi_matcher_simple
+	, REGISTER_PROXY : abi_register_proxy
 }
 const query_noarg = jargs=>{ // {contractaddress , abikind , methodname  }=
 	let {contractaddress , abikind , methodname  }=jargs

@@ -86,7 +86,7 @@ function SingleItem({
   const navigate = useNavigate(); //  const { itemid } = useParams()
   const itemWrapRef = useRef();
   /**   const {    likerList,    ownerList,    salesStatus,    pur chaseStatus,    transactionHistory,    chainInformation,  } = singleItem;*/
-  const [ownerPopup, setOwnerPopup] = useState(false);
+  const [ownerPopup, setOwnerPopup] = useState( false ); // true 
   const [likePopup, setLikePopup] = useState(false);
   const [buySpotPopup, setbuySpotPopup] = useState(false);
   let [bidauctionmodal, setbidauctionmodal] = useState(false);
@@ -103,8 +103,8 @@ function SingleItem({
   let [logprices, setlogprices] = useState([]);
   //	let [ logactions , setlogactions ] = useState ( [] )
   let [pricestats, setpricestats] = useState([]);
-  let [ilikethis, setilikethis] = useState(false);
-  let [ibookmarkthis, setibookmarkthis] = useState(false);
+  let [ ilikethis, setilikethis] = useState(false);
+  let [ ibookmarkthis, setibookmarkthis] = useState(false);
   let [orders_sell, setorders_sell] = useState([]);
   let [sellorder, setsellorder] = useState({});
   let [author, setauthor] = useState();
@@ -119,13 +119,13 @@ function SingleItem({
   let lockjprofileimages = {};
   let [searchParams, setSearchParams] = useSearchParams();
   let [itemid, setitemid] = useState(searchParams.get("itemid"));
-  let [referer, setreferer] = useState(searchParams.get("referer"));
-  let [j_auctionuuid_bidprice, setj_auctionuuid_bidprice] = useState({});
-  let [j_auctionuuid_bidder, setj_auctionuuid_bidder] = useState({});
-  let [mybidamount, setmybidamount] = useState("");
+  let [ referer, setreferer] = useState(searchParams.get("referer"));
+  let [ j_auctionuuid_bidprice, setj_auctionuuid_bidprice] = useState({});
+  let [ j_auctionuuid_bidder, setj_auctionuuid_bidder] = useState({});
+  let [ mybidamount, setmybidamount] = useState("");
   const [chartXdata, setChartXdata] = useState([]);
   const [chartYdata, setChartYdata] = useState([]);
-
+	let [ reportPopup  , setreportPopup] = useState( true )
   let tokenid; //	let itemid =get_last_part_of_path ( window.location.href )
   let axios = applytoken();
   let [myaddress, setmyaddress] = useState(getmyaddress());
@@ -320,15 +320,9 @@ function SingleItem({
       sellorder?.startingtime ? sellorder?.startingtime : moment().unix(),
       sellorder?.expiry,
       getweirep(mybidamount),
-<<<<<<< HEAD
 		]
 		LOGGER( '' , aargs )
 // return
-=======
-    ];
-    LOGGER("", aargs);
-    // return
->>>>>>> aa4ae608543672c5d5eb296c5acd8babf4bc8cf0
     let abistr = getabistr_forfunction({
       contractaddress: ADDRESSES.auction_repo_english_batch_tasks, // auction_repo_english_simple_no_batch_tasks
       abikind: "AUCTION_ENGLISH_BATCH_TASKS",
@@ -423,7 +417,7 @@ function SingleItem({
     Setisloader(true);
     axios
       .get(`${API.API_GET_ITEM_DATA}/${itemid}`, {
-        params: { incviewcount: 1 },
+        params: { incviewcount: 1 ,  },
       })
       .then((res) => {
         LOGGER("agwwiWSDdf", res.data);
@@ -606,7 +600,43 @@ function SingleItem({
 
   return (
     <SignPopupBox>
-      {ownerPopup && <ItemOwnerPopup off={setOwnerPopup} />}
+      {ownerPopup && <ItemOwnerPopup off={setOwnerPopup} itemid={ itemid } />}
+
+      {reportPopup && (
+        <div className="popup info" id="info_popup" style={{ display: "block" }}>
+          <div className="box_wrap wrap3">
+            <a
+              onClick={() => setreportPopup(false)}
+              className="close close2"
+              id="info_close"
+            >
+              <img
+                src={require("../img/sub/icon_close.png").default}
+                alt="close"
+              />
+            </a>
+            <div className="poptitle">
+              <h2>Report inappropriate items</h2>
+            </div>
+            <form>
+              <div className="list_bottom bottom2">
+                <h3>Category</h3>
+                <select>
+                  <option disable selected hidden>
+                    Please select a reason for reporting
+                  </option>
+                  <option>Similar to another artist's work</option>
+                </select>
+                <h3>Detailed description</h3>
+                <textarea placeholder="Please describe in detail why you would like to report the item."></textarea>
+              </div>
+              <div className="report_wrap">
+                <a className="reportit">Report it</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {likePopup && <ItemLikePopup off={setLikePopup} itemid={itemid} />}
 
@@ -1120,12 +1150,12 @@ function SingleItem({
                                 )*/}
                             </h5>
                           </li>
-                          {/* <li>
-                            <h3>Auction ending in</h3>
-                            <h4 style={nearEnd ? { color: "red" } : {}}>
-                              {diffTime}
+                           <li>
+                            <h3>Auction ending </h3>
+                            <h4 style={true ? { color: "red" } : {}}>
+                              {sellorder?.expiry?  moment.unix( sellorder?.expiry ).fromNow() : '' }
                             </h4>
-                          </li> */}
+                          </li> 
                         </ul>
                         <a
                           onClick={() => {

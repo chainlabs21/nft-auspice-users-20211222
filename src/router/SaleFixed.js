@@ -39,6 +39,8 @@ import {
   getabistr_forfunction,
   query_nfttoken_balance,
   requesttransaction,
+	query_with_arg,
+	query_noarg,
 } from "../util/contract-calls";
 import moment from "moment";
 import PopupBg from "../components/PopupBg";
@@ -70,6 +72,7 @@ function SaleFixed({ store, setConnect }) {
   let [amounttosell, setamounttosell] = useState(0);
 	const [listingProcess, setListingProcess] = useState(0);
 	let [ sellorder , setsellorder] = useState()
+	let [ mindeposit , setmindeposit ] = useState( )
   let myaddress = getmyaddress();
   const axios = applytoken();
   useEffect((_) => {
@@ -186,7 +189,8 @@ function SaleFixed({ store, setConnect }) {
       LOGGER("8pdnEvf9uF", respsign); // , signCallback
       if (respsign) {
       } else {
-        SetErrorBar(messages.MSG_USER_DENIED_TX);
+				SetErrorBar(messages.MSG_USER_DENIED_TX);
+				setListingProcess ( 0 )
         return;
       }
       SetErrorBar(messages.MSG_DATA_SIGNED);
@@ -221,7 +225,7 @@ function SaleFixed({ store, setConnect }) {
     if (endPriceOption) {
       do_dutch_auction();
     } else {
-      do_fixed_price_spot();
+      do_fixed_price_spot()
     } //    };  //  asyncSalesStart();
   };
   useEffect(() => {
@@ -273,10 +277,32 @@ function SaleFixed({ store, setConnect }) {
       setVerifyPopup(true);
     }
   }, [sign.length]);
-
+	useEffect (async _=>{
+		if (myaddress){}
+		else { return }
+		query_with_arg ({
+			contractaddress : ADDRESSES.registerproxy
+			, abikind : 'REGISTER_PROXY'
+			, methodname : '_registered'
+			, aargs : [ myaddress ]			
+		}).then(async resp => {
+			LOGGER( '' , resp )
+			if ( resp){ return }
+			else {
+				let respmindeposit = await query_noarg ({
+					contractaddress : ADDRESSES.registerproxy
+					, abikind : 'REGISTER_PROXY'
+					, methodname : '_min_deposit_amount'
+				})
+				LOGGER('' , respmindeposit )
+				setmindeposit ( respmindeposit )
+				setVerifyPopup ( true )
+			}
+		})
+	} , [ myaddress ] )
   return (
     <SignPopupBox>
-      {verifyPopup && <VerifyAccountPopup off={setVerifyPopup} />}
+      {verifyPopup && <VerifyAccountPopup off={setVerifyPopup} mindeposit= { mindeposit }/>}
 
       {listingProcess === 1 && (
         <>
@@ -796,7 +822,7 @@ function SaleFixed({ store, setConnect }) {
 									className="sales_btn"
                   disabled={amounttosell && itemPrice? false : true }
                   onClick={() => {
-										if ( amounttosell){}
+										if ( amounttosell ){}
 										else {SetErrorBar( messages.MSG_PLEASE_INPUT );return }
                     setListingProcess(1);
                     handleSalesStart();

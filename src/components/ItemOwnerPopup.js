@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API } from "../config/api";
 
-export default function ItemOwnerPopup({ off }) {
-  const { itemId } = useParams();
+export default function ItemOwnerPopup({ off , itemid }) {
+//  const { itemId } = useParams();
   const limit = 10000;
   const [data, setData] = useState([]);
 
@@ -17,13 +17,17 @@ export default function ItemOwnerPopup({ off }) {
   };
 
   useEffect(() => {
+		if (itemid ){}
+		else {return }
     axios
-      .get(`${API.API_GET_OWNER_LIST}/${itemId}/0/${limit}/id/DESC`)
-      .then((res) => {
-        console.log(res.data.list);
-        setData(res.data.list);
+      .get(`${API.API_GET_OWNER_LIST}/${itemid}/0/${limit}/id/DESC` , { params : { userdetail : 1 }})
+			.then((res) => {         console.log('uZbHfdImsi' , res.data )
+				let { status , list }=res.data 
+				if ( status =='OK'){
+					setData( list);
+				}        
       });
-  }, []);
+  }, [ itemid ]);
 
   return (
     <div className="popup info" id="info_popup" style={{ display: "block" }}>
@@ -38,14 +42,14 @@ export default function ItemOwnerPopup({ off }) {
           <ul className="container popcon">
             {data.map((v, i) => (
               <li key={i}>
-                <span className="pop_profile"></span>
+                <span className="pop_profile" style={{backgroundImage: ``}}></span>
                 <h3>
                   {v.nickname}
                   <br />
                   <span>{convertLongString(8, 8, v.username)}</span>
                 </h3>
                 <p>
-                  <a>{v.amount} Items</a>
+                  <a>{v.amount} {+v.amount>1? 'Items':'Item'}</a>
                 </p>
               </li>
             ))}

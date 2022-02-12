@@ -2,7 +2,8 @@
 const NETTYPE='KLAYTN-TESTNET'  // baobab
 const ADDRESSES={
 
-	 matcher_simple_20220131 :	'0x144449346f10a8e5305189e3669506e4eeb7d8a4' // <= owner : 0x144449346f10a8e5305189e3669506e4eeb7d8a4
+	registerproxy : '0xc833b48c786fc2b67cc1aca4fb31be7ee1f4a260' 
+	, matcher_simple_20220131 :	'0x144449346f10a8e5305189e3669506e4eeb7d8a4' // <= owner : 0x144449346f10a8e5305189e3669506e4eeb7d8a4
 //	, matcher_simple :					'0x144449346f10a8e5305189e3669506e4eeb7d8a4'
 	, matcher_simple : '0xf5cf4458b1ef6be0dc78da5776700a3c8547304a'
 	,	match : '0x052773017abe46bffaeafb82cd464099d2a7883b'

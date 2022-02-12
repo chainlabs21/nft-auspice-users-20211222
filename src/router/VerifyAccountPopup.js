@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
-
 import s1 from "../img/sub/s2.png";
 import s2 from "../img/sub/s2.png";
 import s3 from "../img/sub/s3.png";
@@ -10,22 +9,73 @@ import s4 from "../img/sub/s4.png";
 import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
-
 import "../css/common.css";
 import "../css/font.css";
 import "../css/layout.css";
-import "../css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
+import "../css/style.css"; // import "./css/style01.css"; // import "./css/style02.css";
 import "../css/header.css";
 import "../css/footer.css";
 import "../css/swiper.min.css";
+import { LOGGER
+	, getmyaddress
+} from '../util/common'
+import { requesttransaction, getabistr_forfunction } from "../util/contract-calls";
+import { ADDRESSES } from '../config/addresses'
+import { useState } from 'react'
+import SetErrorBar from '../util/SetErrorBar'
+import { messages } from '../config/messages'
+import { TIME_PAGE_TRANSITION_DEF , NETTYPE, PAYMEANS_DEF } from "../config/configs";
+import { applytoken } from "../util/rest";
+import { API } from "../config/api";
 
-function VerifyAccountPopup({ store, off }) {
-  const navigate = useNavigate();
-
+function VerifyAccountPopup({ store, off , mindeposit }) {
+	const navigate = useNavigate();
+	let [myaddress, setmyaddress] = useState( getmyaddress());
+	let axios=applytoken()
+	const onclick_register_proxy=_=>{		LOGGER('abc')
+		let abistr = getabistr_forfunction ({
+			contractaddress : ADDRESSES.registerproxy
+			, abikind : 'REGISTER_PROXY'
+			, methodname : 'register'
+			, aargs : [ myaddress	, mindeposit ]
+		}) ; LOGGER ( '' , abistr )
+		requesttransaction( {
+			from: myaddress ,
+      to: ADDRESSES.registerproxy , // erc1155
+      data: abistr,
+      value: mindeposit ,
+		}).then(resp=>{
+			LOGGER( "", resp);
+      let { transactionHash: txhash, status } = resp
+      if (status) {
+				let reqbody={
+					username : myaddress
+					 , address : myaddress
+					 , feeamount : mindeposit
+					 , priceunit : PAYMEANS_DEF
+					 , nettype : NETTYPE 
+				}
+				axios.post ( API.API_REPORT_TX_REGISTER_PROXY + `/${txhash}`, reqbody ).then(resp=>{ LOGGER('' , resp.data )
+					let { status , }=resp.data
+					if ( status =='OK'){
+						SetErrorBar( messages.MSG_DONE_REGISTERING )						
+					}
+				})
+      } else {
+				SetErrorBar(messages.MSG_USER_DENIED_TX);
+				setTimeout(_=>{
+					navigate ( -1 )
+				}, TIME_PAGE_TRANSITION_DEF ) 
+        return;
+      }
+      SetErrorBar(messages.MSG_TX_REQUEST_SENT);
+			off()
+		}).catch(err=>{
+			LOGGER( err )
+			SetErrorBar ( messages.MSG_USER_DENIED_TX )
+			navigate ( -1 )
+		})
+	}
   return (
     <SignPopupBox>
       <div className="popup info" id="info_popup">
@@ -85,6 +135,13 @@ function VerifyAccountPopup({ store, off }) {
                 </div>
               </div>
             </div>
+<div>
+	<button style={{border:'2px'}} onClick={_=>{
+		onclick_register_proxy ()
+	}	}>Set up your proxy
+
+	</button>
+</div>
             <div className="img_pc">
               <img src={require("../img/sub/img_process.png").default} alt="" />
             </div>

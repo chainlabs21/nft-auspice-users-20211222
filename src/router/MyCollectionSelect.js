@@ -566,7 +566,7 @@ function MyFavorite({ store }) {
                     </div>
                   </div>
 
-                  <div className="item marbo">
+                  <div className="item marbo" style={{display : list_auction.length ? 'block' : 'none'}}>
                     <h4 className="t">On Auction</h4>
                     <div className="swiper">
                       <div className="swiper-container swiper-container-newitem newitem3">

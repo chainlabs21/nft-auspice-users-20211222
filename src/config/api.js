@@ -47,6 +47,6 @@ export const API = {
   API_SALE_COMMON: `${apiServer}/sales/maker/seller`,
   API_REPORT_BID_TO_AUCTION: `${apiServer}/transactions/report/auction/english/bid`, // /:txhash
   API_ITEM_HISTORY: `${apiServer}/queries/rows/itemhistory`, // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
-
+	API_REPORT_TX_REGISTER_PROXY : `${apiServer}/transactions/report/registerproxy` , // /:txhash
   API_RANKING: `${apiServer}/queries/rows/users02/active/1/0/20/sumsalesfloat/DESC`,
 };
