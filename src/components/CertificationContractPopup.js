@@ -75,7 +75,7 @@ export default function CertificationContractPopup({ off , itemdata , sellorder 
 
           <li>
             <div className="contLine">
-              <p className="key">Sales Period </p>
+              <p className="key">{sellorder?.typestr=='COMMON' ? 'Sales':'Auction'} Period </p>
               <p className="value ">{ sellorder?.expiry? moment.unix( sellorder?.expiry ).fromNow() : ''}</p>
             </div>
 

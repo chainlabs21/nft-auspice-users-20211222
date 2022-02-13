@@ -63,7 +63,8 @@ function AuctionBid({ store, setConnect }) {
 	let [ mindeposit , setmindeposit ] =useState() // let [ mindeposit , setmindeposit ] = 
 	let [ sellorder , setsellorder] = useState()
   // let axios = applytoken()
-  let axios;
+	let axios;
+	let typestr= "AUCTION_ENGLISH"
   require_token().then((resp) => {
     axios = resp;
   });
@@ -109,7 +110,8 @@ function AuctionBid({ store, setConnect }) {
 			, price : bidamount_start
 			, priceunit : PAYMEANS_ADDRESS_DEF
 			, expiry
-			, itemid 
+			, itemid
+			,typestr  
 		}
 		setsellorder ( orderdata )
 		let respsign = await signOrderData ( orderdata )
@@ -137,7 +139,8 @@ function AuctionBid({ store, setConnect }) {
       username: myaddress,
       matcher_contract: ADDRESSES.auction_repo_english_simple,
       token_repo_contract: ADDRESSES.erc1155,
-      typestr: "AUCTION_ENGLISH",
+			typestr
+			,... respsign
     };
     LOGGER("mHpUwZa3lS", reqbody);
     //		return
@@ -234,7 +237,7 @@ function AuctionBid({ store, setConnect }) {
       })
       .catch((err) => {
         LOGGER("FdNPZN8Dxa", err);
-        SetErrorBar(messages.MSG_USER_DENIED_TX);
+				SetErrorBar(messages.MSG_USER_DENIED_TX);
       });
     //	let { from , to , data , value } = jdata
     /** 			_target_contract , // ", 				"internalType": "address",

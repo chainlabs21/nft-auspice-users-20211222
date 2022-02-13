@@ -356,7 +356,8 @@ function SingleItem({
         priceunit: PAYMEANS_DEF,
         nettype: NETTYPE,
         typestr: "BID_TO_AUCTION",
-        tokenid: itemdata?.item?.tokenid,
+				tokenid: itemdata?.item?.tokenid,
+				expiry : sellorder?.expiry
       };
       axios
         .post(API.API_REPORT_BID_TO_AUCTION + `/${txhash}`, reqbody)
@@ -369,7 +370,10 @@ function SingleItem({
             setbidauctionmodal(false);
           }
         });
-    });
+    }).catch(err=>{ LOGGER( '' , err )
+			SetErrorBar( messages.MSG_USER_DENIED_TX )
+			setbidauctionmodal ( false )
+		})
   };
   const onclickbuy = (_) => {
     switch (sellorder?.typestr) {
@@ -1243,7 +1247,7 @@ function SingleItem({
               </div>
               <div className="bun_tr">
                 <div className="right_b">
-                  <h2 className="i_title">Offers</h2>
+                  <h2 className="i_title">Offers ({orders_sell?.length})</h2>
                   <div className="history_s container">
                     <ul>
                       {orders_sell
@@ -1367,7 +1371,7 @@ function SingleItem({
                         </tr>
                       </thead>
                       <tbody>
-                        {logorders.map((v, idx) => (
+                        {logorders.sort((a , b)=>a.createdat>b.createdat? -1:+1 ).map((v, idx) => (
                           <tr key={idx}>
                             <td>
                               <div className="name price">

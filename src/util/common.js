@@ -45,17 +45,19 @@ const get_deltatime_str= unixtime01=>{ LOGGER( 'uK0U16mQDC' , unixtime01 )
 const getMaxMinAvg = arr => {
 	 if ( arr && arr.length ){}
 	 else {return [ null , null , null ]}
-	let max = arr[0];
-	let min = arr[0];
-	let sum = arr[0];
+	 let el= +arr[ 0 ]
+	let max = el
+	let min = el
+	let sum = el
 	for (var i = 1; i < arr.length; i++){
-		if (arr[i] > max){
-			max = arr[i]
+		let el = + arr[i]
+		if ( el > max){
+			max = el
 		}
-		if (arr[i] < min){
-			min = arr[i];
+		if (el < min){
+			min = el
 		}
-		sum = sum + arr[i];
+		sum = sum + el
 	}
 	return [max, min, sum / arr.length ]
 }

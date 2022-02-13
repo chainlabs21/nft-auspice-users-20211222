@@ -75,7 +75,8 @@ function SaleFixed({ store, setConnect }) {
 	let [ sellorder , setsellorder] = useState()
 	let [ mindeposit , setmindeposit ] = useState( )
   let myaddress = getmyaddress();
-  const axios = applytoken();
+	const axios = applytoken();
+	let typestr='COMMON'
   useEffect((_) => {
     let itemprice = getrandomint(12, 17);
     setItemPrice(itemprice);
@@ -182,8 +183,8 @@ function SaleFixed({ store, setConnect }) {
             .unix()
         : 0,
       itemid,
-      tokenid,
-      //			, exp iry
+			tokenid,
+			typestr       //			, exp iry
 		};
 		setsellorder ( orderData )
     console.log("", endPriceOption, itemdata);
@@ -207,7 +208,7 @@ function SaleFixed({ store, setConnect }) {
             asset_contract_bid: ADDRESSES.erc1155,
             ...orderData,
             ...respsign,
-            typestr: "COMMON",
+            typestr
           } // signeddata
         )
         .then((resp) => {
