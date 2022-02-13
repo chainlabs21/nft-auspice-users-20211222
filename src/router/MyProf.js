@@ -50,7 +50,7 @@ function MyProf({ store, setConnect }) {
   const [ callEffect , setCallEffect] = useState( false )
   const [ pricePopup , setPricePopup] = useState( false )
 //	let [ myaddress , setmyaddress ] = useState( getmyaddress() )
-	let [ myaddress , setmyaddress ] = useState('0xaec2f4dd8b08eef0c71b02f97978106d875464ed' )
+	let [ myaddress , setmyaddress ] = useState( getmyaddress() )
 	let [ myinfo_maria , setmyinfo_maria ]=useState()
 	let [ myinfo_mongo , setmyinfo_mongo ]=useState()
 	let [ listitems , setlistitems ]=useState( [] )
@@ -170,7 +170,7 @@ SetErrorBar( messages.MSG_COPIED)
                   </div>
                 </div>
                 <h2 className="notop">{myinfo_maria?.nickname }'s Collection</h2>
-                <h3>{strDot( myaddress , 4 , 4 )}</h3>
+                <h3>{strDo t( myaddress , 4 , 4 )}</h3>
                 <h4> { myinfo_mongo?.description }
                 </h4>
               </div>
@@ -510,9 +510,12 @@ SetErrorBar( messages.MSG_COPIED)
 																				<li className="heart off">{ elem.item?.countfavors }</li>
 																				<li
 																					className="dot"
-																					onClick={(e) => onClickMoreBtn(e, idx )}
+																					onClick={(e) => {
+																						LOGGER( 'j5HrbPLkUo' , idx )
+																						onClickMoreBtn(e, idx )																						
+																					}}
 																				>
-																					{morePopupIndex === idx && (
+																					{( morePopupIndex === idx) && (
 																						<div className="choose">
 																							<ul>
 																								<li onClick={e=>{

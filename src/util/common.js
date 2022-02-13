@@ -7,6 +7,14 @@ const ISFINITE=Number.isFinite
 const moment=require('moment')
 const KEYS=Object.keys
 
+const resolvedatedisp=elem=>{
+	return elem.expiry? 
+		( moment().unix()>elem.expiry ?
+			'expired '+moment.unix(elem.expiry).fromNow() :
+			'expires '+moment.unix(elem.expiry).fromNow() 
+		) :			
+		'created'+ moment( elem.createdat ).fromNow()
+}
 const geturl=_=>{ let url=window.location
 	return url .protocol + "//" + url.host // + "/" + getUrl.pathname.split('/')[1];
 }
@@ -131,7 +139,8 @@ export const encodeBase64File = (file) => {
 };
 
 export { 
-	getMaxMinAvg
+	resolvedatedisp
+	, getMaxMinAvg
 	, gettimestr
 	, get_last_part_of_path
 	, onClickCopy 

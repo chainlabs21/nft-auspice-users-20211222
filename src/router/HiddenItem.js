@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
-
 import collect_img from "../img/sub/collect_img.png";
 import collect_img2 from "../img/sub/collect_img2.png";
 import collect_img3 from "../img/sub/collect_img3.png";
@@ -34,7 +33,6 @@ import { getmyaddress, LOGGER } from "../util/common";
 import moment from 'moment'
 import SetErrorBar from '../util/SetErrorBar'
 import { messages} from '../config/messages'
-
 function HiddenItem({ store, setConnect }) {
   const itemListRef = useRef();
   const navigate = useNavigate();
@@ -51,11 +49,19 @@ function HiddenItem({ store, setConnect }) {
 	const [pricePopup, setPricePopup] = useState(false)
 	let [ myaddress , setmyaddress] = useState( getmyaddress() )
 	let [ list , setlist ]= useState ( [] )
+	const resolvedatedisp=elem=>{
+		return elem.expiry? 
+			( moment().unix()>elem.expiry ?
+				'expired '+moment.unix(elem.expiry).fromNow() :
+				'expires '+moment.unix(elem.expiry).fromNow() 
+			) :			
+			'created'+ moment( elem.createdat ).fromNow()
+	}
 	const fetchitems=_=>{
 		axios.get(API.API_HIDDEN + `/${myaddress}/0/10/id/DESC` , {params: 
 			{ itemdetail : 1
-			, filterkey : 'visible'
-			, filterval : 0
+//			, filterkey : 'visible'
+	//		, filterval : 0
 			}}).then(resp=>{ LOGGER( '' , resp.data )
 				let { status , list }=resp.data
 				if ( status =='OK'){
@@ -513,7 +519,7 @@ function HiddenItem({ store, setConnect }) {
 					</li>
 				</ul>
 				<span> {elem.item?.titlename } </span>
-				<div>{ moment( elem.createdat ).fromNow() }</div>
+				<div>{ resolvedatedisp( elem ) }</div>
 			</div>
 		</a>
 	</li>

@@ -11,7 +11,7 @@ import SetErrorBar from "../util/SetErrorBar";
 import { messages} from '../config/messages'
 import { useNavigate } from "react-router";
 
-export default function NowSalePopup({ off , itemid }) {
+export default function NowSalePopup({ off , itemid , itemdata }) {
 	let navigate = useNavigate()
   return (
     <NowSalePopupBox>
@@ -25,7 +25,7 @@ export default function NowSalePopup({ off , itemid }) {
 
       <article className="contBox">
         <div className="itemBox cont">
-          <img src={item1} alt="" />
+          <img src={ itemdata?.item?.url } alt="" />
         </div>
 
         <div className="btnBox cont">

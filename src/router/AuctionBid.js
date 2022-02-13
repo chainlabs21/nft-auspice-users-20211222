@@ -51,7 +51,7 @@ function AuctionBid({ store, setConnect }) {
   const [ verifyPopup, setVerifyPopup] = useState( false );
   let [searchParams, setSearchParams] = useSearchParams();
   let [itemid, setitemid] = useState();
-  let [itemdata, setitemdata] = useState();
+  let [ itemdata , setitemdata] = useState();
   let [amounttoauction, setamounttoauction] = useState("");
   let [bidamount_start, setbidamount_start] = useState("");
   let [bidamount_threshold, setbidamount_threshold] = useState();
@@ -61,6 +61,7 @@ function AuctionBid({ store, setConnect }) {
   const [ listingProcess, setListingProcess] = useState(0);
 	let [ signeddata, setsigneddata ] = useState()
 	let [ mindeposit , setmindeposit ] =useState() // let [ mindeposit , setmindeposit ] = 
+	let [ sellorder , setsellorder] = useState()
   // let axios = applytoken()
   let axios;
   require_token().then((resp) => {
@@ -110,6 +111,7 @@ function AuctionBid({ store, setConnect }) {
 			, expiry
 			, itemid 
 		}
+		setsellorder ( orderdata )
 		let respsign = await signOrderData ( orderdata )
 		LOGGER( respsign )
 		if ( respsign ){		}
@@ -126,8 +128,9 @@ function AuctionBid({ store, setConnect }) {
       amount: amounttoauction,
       buyorsell: "SELL",
       tokenid: itemdata?.item?.tokenid, // null
-      price: bidamount_start,
-      priceunit: PAYMEANS_DEF,
+			price: bidamount_start,
+			asset_contract_ask : ADDRESSES.zero ,
+      priceunitname: PAYMEANS_DEF,
       startingtime: timenowunix,
       startingprice: bidamount_start,
       expiry,
@@ -315,14 +318,15 @@ _calldata // ",					" internalType": "bytes",
         <>
           <CertificationContractPopup
             off={setListingProcess}
-            itemdata={itemdata}
+						itemdata={itemdata}
+						sellorder = {sellorder}
           />
           <PopupBg bg off={setListingProcess} />
         </>
       )}
       {listingProcess === 2 && (
         <>
-          <NowSalePopup off={setListingProcess} itemid={itemid} />
+          <NowSalePopup off={setListingProcess} itemid={itemid} itemdata={itemdata}/>
           <PopupBg bg off={setListingProcess} />
         </>
       )}

@@ -30,14 +30,14 @@ function MyFavorite({ store }) {
   const onSaleRef = useRef();
   const onAuctionRef = useRef();
 
-  let [myaddress, setmyaddress] = useState(getmyaddress());
+  let [ myaddress, setmyaddress] = useState(getmyaddress());
   let axios = applytoken();
-  let [info_maria, setinfo_maria] = useState();
-  let [info_mongo, setinfo_mongo] = useState();
-  let [info_stats, setinfo_stats] = useState();
-  let [list_created, setlist_created] = useState([]);
-  let [list_sales, setlist_sales] = useState([]);
-  let [list_auction, setlist_auction] = useState([]);
+  let [ info_maria, setinfo_maria] = useState();
+  let [ info_mongo, setinfo_mongo] = useState();
+  let [ info_stats, setinfo_stats] = useState();
+  let [ list_created, setlist_created] = useState([]);
+  let [ list_sales, setlist_sales] = useState([]);
+  let [ list_auction, setlist_auction] = useState([]);
 
   const setsalepath = (cont) => {
     LOGGER("");
@@ -98,7 +98,7 @@ function MyFavorite({ store }) {
         params: {
           itemdetail: 1,
           filterkey: "typestr",
-          filterval: "AUCTION-ENGLISH",
+          filterval: "AUCTION_ENGLISH",
         },
       })
       .then((resp) => {
@@ -145,9 +145,10 @@ function MyFavorite({ store }) {
   const [recentlyIndex, setRecentlyIndex] = useState(0);
   const [onSaleIndex, setOnSaleIndex] = useState(0);
   const [onAuctionIndex, setOnAuctionIndex] = useState(0);
-  const [recentlyMorePopup, setRecentlyMorePopup] = useState(-1);
-  const [onsaleMorePopup, setOnsaleMorePopup] = useState(-1);
 
+	const [recentlyMorePopup, setRecentlyMorePopup] = useState(-1);
+  const [onsaleMorePopup, setOnsaleMorePopup] = useState(-1);
+	let [ onauctionmorepopup , setonauctionmorepopup ] = useState( -1 )
   function onClickRecentlyPreBtn() {
     const wrapWidth = recentlyRef.current.offsetWidth;
     const contWidth = recentlyRef.current.children[0].offsetWidth;
@@ -411,7 +412,7 @@ function MyFavorite({ store }) {
                                                     Sale
                                                   </li>
                                                 )}
-                                                {cont.item?.tokenid &&
+                                                {false && cont.item?.tokenid &&
                                                   cont.itembalance?.avail && (
                                                     <li
                                                       onClick={(e) => {
@@ -537,11 +538,11 @@ function MyFavorite({ store }) {
                                               style={{ top: 34 }}
                                             >
                                               <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
-                                                <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
+                                                {/**  <li>Sale</li>*/}
+                                                {/**  <li>Hand Over</li>*/}
+                                                {/** <li onClick={_=>{ navigate(`/salefixed?itemid=`) }}>Edit</li>*/}
+                                                {/**  <li>Collection Change</li>*/}
+                                                <li >{ cont.ishidden? 'Unhide':'Hide'} </li>
                                               </ul>
                                             </div>
                                           </li>
@@ -585,7 +586,7 @@ function MyFavorite({ store }) {
                                         );
                                       }}
                                       style={{
-                                        backgroundImage: `url(${s2})`,
+                                        backgroundImage: `url(${cont.item?.url})`,
                                         backgroundRepeat: "no-repeat",
                                         backgroundPosition: "center",
                                         backgroundSize: "cover",
@@ -593,7 +594,7 @@ function MyFavorite({ store }) {
                                     >
                                       <div className="on">
                                         <ul>
-                                          <li className="heart off">1,389</li>
+                                          <li className="heart off">{ cont.item?.countfavors }</li>
                                           <li
                                             className={
                                               cont.ilikethisitem
@@ -602,24 +603,28 @@ function MyFavorite({ store }) {
                                             }
                                           ></li>
                                         </ul>
-                                        <div>Summer Pool</div>
-                                        <span>David</span>
+                                        <div>{ cont.item?.titlename }</div>
+                                        <span>{ cont.author?.nickname }</span>
                                         <ol>
-                                          <li>6 minutes left</li>
-                                          <li>1.67 KLAY</li>
+                                          <li>{cont.expiry? 'expires '+moment.unix(cont.expiry).fromNow() : ''}</li>
+                                          <li>{ cont.asset_amount_ask } { cont.priceunitname} </li>
                                         </ol>
                                       </div>
                                       <div className="top blk">
                                         <ul>
                                           <li></li>
                                           <li className="dot">
-                                            <div className="choose">
+                                            <div className={ 
+																							onauctionmorepopup == index ? 
+																								'choose choose2 on'
+																							: 'choose choose2'
+																							} >
                                               <ul>
-                                                <li>Sale</li>
-                                                <li>Hand Over</li>
+                                                {/** <li>Sale</li>
+                                                <li>Hand Over</li>*/}
                                                 <li>Edit</li>
-                                                <li>Collection Change</li>
-                                                <li>Unhide</li>
+                                                {/** <li>Collection Change</li>*/}
+                                                <li> { cont.ishidden? 'Unhide': 'Hide' }</li>
                                               </ul>
                                             </div>
                                           </li>

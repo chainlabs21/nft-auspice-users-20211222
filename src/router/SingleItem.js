@@ -66,7 +66,7 @@ const convertLongString = (startLength, endLength, str) => {
   const spread = "......";
   const tail = str.substring(str.length - endLength, str.length);
   return head + spread + tail;
-};
+}
 const numFormatter = (num) => {
   if (num > 999 && num < 1000000) {
     return (num / 1000).toFixed(1) + "K"; // convert to K for number from > 1000 < 1 million
@@ -90,10 +90,7 @@ function SingleItem({
   const [likePopup, setLikePopup] = useState(false);
   const [buySpotPopup, setbuySpotPopup] = useState(false);
   let [bidauctionmodal, setbidauctionmodal] = useState(false);
-  const [chartCategory, setChartCategory] = useState(0);
-  //  const [endAutionTime, setEndAutionTime] = useState( singleItem.auctionExpiry )
-  // const [diffTime, setDiffTime] = useState();
-  //  const [nearEnd, setNearEnd] = useState(false);
+  const [chartCategory, setChartCategory] = useState(0);  //  const [endAutionTime, setEndAutionTime] = useState( singleItem.auctionExpiry )  // const [diffTime, setDiffTime] = useState();  //  const [nearEnd, setNearEnd] = useState(false);
   const [itemdata, setitemdata] = useState({});
   let [itemdataaux, setitemdataaux] = useState();
   const [userIndex, setUserIndex] = useState(0);
@@ -125,7 +122,8 @@ function SingleItem({
   let [ mybidamount, setmybidamount] = useState("");
   const [chartXdata, setChartXdata] = useState([]);
   const [chartYdata, setChartYdata] = useState([]);
-	let [ reportPopup  , setreportPopup] = useState( true )
+	let [ reportPopup  , setreportPopup] = useState( false )
+	let [ reportcatlist , setreportcatlist] = useState( [] )
   let tokenid; //	let itemid =get_last_part_of_path ( window.location.href )
   let axios = applytoken();
   let [myaddress, setmyaddress] = useState(getmyaddress());
@@ -272,8 +270,9 @@ function SingleItem({
               LOGGER("G6OvdxLxyA", resp.data);
               let { status } = resp.data;
               if (status == "OK") {
-                SetErrorBar(messages.MSG_DONE_REGISTERING);
-                fetchitem(itemdata?.item?.itemid);
+                SetErrorBar( messages.MSG_DONE_REGISTERING );
+								fetchitem(itemdata?.item?.itemid);
+								setbuySpotPopup( false )
               }
             });
         }
@@ -545,7 +544,6 @@ function SingleItem({
         setpriceklay(list[PAYMEANS_DEF]); // 'KLAY'
       }
     });
-
     axios
       .get(`${API.API_TRANSACTIONS}/itemid/${itemid}/0/100/id/DESC`)
       .then((resp) => {
@@ -554,7 +552,13 @@ function SingleItem({
         if (status == "OK") {
           settransactionHistory(list);
         }
-      });
+			});
+		axios.get( API.API_REPORT_SPAM_CATEGORIES ).then(resp=>{ LOGGER( 'PmwDwJ2AGw' , resp.data ) 
+			let { status ,list }=resp.data 
+			if ( status  =='OK'){
+				setreportcatlist ( list )
+			}
+		})
   }, []);
 
   useEffect(
@@ -582,7 +586,6 @@ function SingleItem({
     const contWidth = itemWrapRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
     const pageNum = Math.ceil(listotheritems.length / itemNumByPage);
-
     if (itemWrapRef.current?.scrollTo) {
       if (userIndex < pageNum) {
         itemWrapRef.current.scrollTo({
@@ -625,10 +628,15 @@ function SingleItem({
                   <option disable selected hidden>
                     Please select a reason for reporting
                   </option>
-                  <option>Similar to another artist's work</option>
+                  { reportcatlist.sort((a,b)=>a>b? +1:-1).map ( ( elem , idx ) =>{
+										return 										(<option>{ elem.textdisp } </option>)
+									})}
                 </select>
                 <h3>Detailed description</h3>
-                <textarea placeholder="Please describe in detail why you would like to report the item."></textarea>
+                <textarea placeholder="Please describe in detail why you would like to report the item."
+									onChange={e=>{
+									}}								
+								></textarea>
               </div>
               <div className="report_wrap">
                 <a className="reportit">Report it</a>
@@ -715,7 +723,7 @@ function SingleItem({
                       <p className="rec_t">
                         Current highest bid
                         <span className="red" style={{ color: "gray" }}>
-                          {strDot(j_auctionuuid_bidder[sellorder?.uuid], 8, 0)}
+                          {j_auctionuuid_bidder[sellorder?.uuid] ? strDot(j_auctionuuid_bidder[sellorder?.uuid], 8, 0): '\u00A0' }
                         </span>
                       </p>
                       <div className="right_price m_left">
@@ -1109,7 +1117,7 @@ function SingleItem({
                             alt=""
                           />
                         </a>
-                        <a>
+                        <a onClick={_=>{ setreportPopup (true) }}>
                           <img src={require("../img/sub/alert.png").default} />
                         </a>
 
@@ -1151,7 +1159,7 @@ function SingleItem({
                             </h5>
                           </li>
                            <li>
-                            <h3>Auction ending </h3>
+                            <h3>{sellorder?.typestr=='COMMON'? 'Sale':'Auction'} ending </h3>
                             <h4 style={true ? { color: "red" } : {}}>
                               {sellorder?.expiry?  moment.unix( sellorder?.expiry ).fromNow() : '' }
                             </h4>
@@ -1515,7 +1523,7 @@ function SingleItem({
                           {putCommaAtPrice(v.price * 1)} KLAY
                         </td>
                         <td className="blue">{strDot(v.from_, 20, 0)}</td>
-                        <td className="blue">{strDot(v.to_, 0, 20)}</td>
+                        <td className="blue">{strDot(v.to_, 20, 0)}</td>
                         <td className="gray">
                           {moment(v.createdat).fromNow()}
                         </td>

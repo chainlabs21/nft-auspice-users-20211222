@@ -33,6 +33,7 @@ import {
   REFERER_FEE_RATE_DEF,
   MODE_DEV_PROD,
   RULES,
+	PAYMEANS_DEF,
 } from "../config/configs";
 import { useSearchParams } from "react-router-dom";
 import {
@@ -171,7 +172,9 @@ function SaleFixed({ store, setConnect }) {
       seller_address: myaddress,
       amount: amounttosell ? amounttosell : itemdata?.item?.countcopies,
       price: itemPrice,
-      priceunit: "0x000000000000000000000000000000000000",
+//			priceunitaddress : 
+			asset_contract_ask : ADDRESSES.zero  , // "0x000000000000000000000000000000000000",
+			priceunitname : PAYMEANS_DEF ,
       expiry: expirydays
         ? moment()
             .add(+expirydays, "days")
@@ -213,13 +216,37 @@ function SaleFixed({ store, setConnect }) {
           if (status == "OK") {
 						SetErrorBar(messages.MSG_DONE_REGISTERING);
 						setListingProcess(2)
+						fetchitem( itemid )
             false && setTimeout((_) => {
               MODE_DEV_PROD == 1 && navigate("/marketplace");
             }, TIME_PAGE_TRANSITION_ON_REGISTER);
           }
         });
     });
-  };
+	};
+	const fetchitem = async itemid => {
+		try {
+			const resp = await axios.get(API.API_GET_ITEM_DATA + `/${itemid}`);
+			LOGGER("url", API.API_GET_ITEM_DATA);
+			LOGGER("", resp.data);
+			let { status, respdata } = resp.data;
+			if (status === "OK") {
+				setitemdata(respdata); // .item
+				setRoyalty(respdata.item.authorfee / 100);
+				settokenid(respdata.item.tokenid);
+			} else {
+				SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
+				setTimeout((_) => {
+					navigate("/");
+				}, TIME_PAGE_TRANSITION_ON_REGISTER);
+			}
+		} catch (error) {
+			SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
+			setTimeout((_) => {
+				navigate("/");
+			}, TIME_PAGE_TRANSITION_ON_REGISTER);
+		}
+	}
   const handleSalesStart = async () => {
     const myaddress = getmyaddress(); //    const asyncSalesStart = async () => {
     if (endPriceOption) {
@@ -233,34 +260,10 @@ function SaleFixed({ store, setConnect }) {
     let itemid = searchParams.get("itemid");
     LOGGER("U9Z2CL8cRt", itemid);
     if (itemid === undefined) {
-      SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
-      //      navigate("/");
+      SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);      //      navigate("/");
     }
     setitemid(itemid);
-    const asyncGetItemData = async () => {
-      try {
-        const resp = await axios.get(API.API_GET_ITEM_DATA + `/${itemid}`);
-        LOGGER("url", API.API_GET_ITEM_DATA);
-        LOGGER("", resp.data);
-        let { status, respdata } = resp.data;
-        if (status === "OK") {
-          setitemdata(respdata); // .item
-          setRoyalty(respdata.item.authorfee / 100);
-          settokenid(respdata.item.tokenid);
-        } else {
-          SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
-          setTimeout((_) => {
-            navigate("/");
-          }, TIME_PAGE_TRANSITION_ON_REGISTER);
-        }
-      } catch (error) {
-        SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA);
-        setTimeout((_) => {
-          navigate("/");
-        }, TIME_PAGE_TRANSITION_ON_REGISTER);
-      }
-    };
-    asyncGetItemData();
+    fetchitem( itemid );
   }, []); // [ navigate , search ]
 
   useEffect(() => {
@@ -312,7 +315,7 @@ function SaleFixed({ store, setConnect }) {
       )}
       {listingProcess === 2 && (
         <>
-          <NowSalePopup off={setListingProcess} itemid={itemid}/>
+          <NowSalePopup off={setListingProcess} itemid={itemid} itemdata={ itemdata }/>
           <PopupBg bg off={setListingProcess} />
         </>
       )}

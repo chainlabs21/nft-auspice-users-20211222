@@ -22,6 +22,17 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
   const [search, setSearch] = useState("");
   let [address, setaddress] = useState();
 
+/** 	useEffect(_=>{
+		const spinner = document.querySelector("#Spinner");
+    spinner.animate(
+      [{ transform: "rotate(0deg)" }, { transform: "rotate(360deg)" }],
+      {
+        duration: 1000,
+        iterations: Infinity,
+      }
+    )
+	} , [] )*/
+
   useEffect(
     (_) => {
       let { address } = store;

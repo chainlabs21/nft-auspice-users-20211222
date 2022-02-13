@@ -105,7 +105,7 @@ function MarketPlace({ store, setConnect }) {
         // })
         .get(
           API.API_TRANSACTIONS +
-            `/username/0xa9379265C524eAD779cf4F2964c6453c0055c9AD/0/100/id/DESC`,
+            `/username/${myaddress}/0/100/id/DESC`,
           {
             params: { itemdetail: 0 },
           }
