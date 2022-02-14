@@ -4,8 +4,14 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userSlice from "./userSlice";
 import storeSlice from "./storeReducer";
 import walletSlice from "./walletSlice";
+import commonSlice from "./commonSlice";
 
-const slices = { user: userSlice, store: storeSlice, wallet: walletSlice };
+const slices = {
+  common: commonSlice,
+  user: userSlice,
+  store: storeSlice,
+  wallet: walletSlice,
+};
 const reducers = combineReducers(slices);
 
 const createStore = () => {

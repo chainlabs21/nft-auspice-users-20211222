@@ -11,13 +11,7 @@ import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
 import profile_img from "../img/sub/profile_img.png";
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css"; // import "./css/style01.css";// import "./css/style02.css";
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
+
 import { useState } from "react";
 import PopupBg from "../components/PopupBg";
 import CancelListingPopup from "../components/CancelListingPopup";
@@ -138,7 +132,10 @@ export default function EditItem({ store, setConnect }) {
                               <h4>05:32:21</h4>
                             </li>
                           </ul>
-                          <a onClick={() => setPlacePopup(true)} className="bid">
+                          <a
+                            onClick={() => setPlacePopup(true)}
+                            className="bid"
+                          >
                             Place a Bid
                           </a>
                         </div>

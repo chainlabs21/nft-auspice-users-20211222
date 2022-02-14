@@ -5,17 +5,6 @@ import styled from "styled-components";
 
 import sample from "../img/sub/sample.png";
 
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
 import { useRef, useState } from "react";
 
 function EditCollection({ store, setConnect }) {
@@ -92,7 +81,7 @@ function EditCollection({ store, setConnect }) {
                           </p>
                           <div className="img logo_img">
                             <div className="line">
-                              <input type="file"  id="file" />
+                              <input type="file" id="file" />
                               <label htmlFor="file">
                                 <img
                                   src={
@@ -212,10 +201,10 @@ function EditCollection({ store, setConnect }) {
                 </div>
               </div>
               <div className="create_btn side">
-                <a onClick={()=>navigate(-1)} className="ls">
+                <a onClick={() => navigate(-1)} className="ls">
                   Save
                 </a>
-                <a onClick={()=>navigate(-1)} className="rs">
+                <a onClick={() => navigate(-1)} className="rs">
                   Delete collection
                 </a>
               </div>

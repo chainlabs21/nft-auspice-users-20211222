@@ -11,17 +11,17 @@ import s9 from "../img/sub/s9.png";
 import chk_on from "../img/sub/chk_on.png";
 import chk_off from "../img/sub/chk_off.png";
 
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css";
+
+
+
+
 
 // import "./css/style01.css";
 // import "./css/style02.css";
 
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
+
+
+
 import { useEffect, useRef, useState } from "react";
 
 function SelectItem({ store, setConnect }) {

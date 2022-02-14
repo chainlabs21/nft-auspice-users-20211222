@@ -2,15 +2,9 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { setaddress, setConnect, setmyinfo } from "../util/store";
 import styled from "styled-components";
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css";
+
 import I_klaytn from "../img/sub/I_klaytn.svg";
 
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
 import { API } from "../config/api";
 import { ERR_MSG, messages } from "../config/messages";
 import axios from "axios";

@@ -4,13 +4,13 @@ import { setConnect , setisloader } from "../util/store";
 import styled from "styled-components";
 import sample from "../img/sub/sample.png";
 import profile_img from "../img/sub/profile_img.png";
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css"; // import "./css/style01.css"; // import "./css/style02.css";
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
+
+
+
+ // import "./css/style01.css"; // import "./css/style02.css";
+
+
+
 import { useEffect , useRef , useState } from "react";
 // import { singleItem } from "../mokups/items";
 import moment from "moment";

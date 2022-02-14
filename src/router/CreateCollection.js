@@ -5,17 +5,6 @@ import styled from "styled-components";
 
 import sample from "../img/sub/sample.png";
 
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
 import { useRef, useState } from "react";
 
 function CreateCollection({ store, setConnect }) {
@@ -92,7 +81,7 @@ function CreateCollection({ store, setConnect }) {
                           </p>
                           <div className="img logo_img">
                             <div className="line">
-                              <input type="file"  id="file" />
+                              <input type="file" id="file" />
                               <label htmlFor="file">
                                 <img
                                   src={
@@ -191,7 +180,8 @@ function CreateCollection({ store, setConnect }) {
                             <p>
                               Each time an item is resold, you can receive a
                               certain
-                              <br className="m" /> amount of commission. (up to 20%)
+                              <br className="m" /> amount of commission. (up to
+                              20%)
                               <br className="pc" />
                               If not set, it is set to 0%.
                             </p>
@@ -211,7 +201,7 @@ function CreateCollection({ store, setConnect }) {
                 </div>
               </div>
               <div className="create_btn mcrea">
-                <a onClick={()=>navigate(-1)}>Create Item</a>
+                <a onClick={() => navigate(-1)}>Create Item</a>
               </div>
             </div>
           </div>

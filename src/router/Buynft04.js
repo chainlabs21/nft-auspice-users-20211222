@@ -11,18 +11,6 @@ import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
 
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
-
 function MarketPlace({ store, setConnect }) {
   const navigate = useNavigate();
 
@@ -30,7 +18,11 @@ function MarketPlace({ store, setConnect }) {
     <SignPopupBox>
       <div className="popup info" id="info_popup" style={{ display: "block" }}>
         <div className="box_wrap buynft">
-          <a onClick={() => navigate(-1)} className="close close2" id="info_close">
+          <a
+            onClick={() => navigate(-1)}
+            className="close close2"
+            id="info_close"
+          >
             <img
               src={require("../img/sub/icon_close.png").default}
               alt="close"
@@ -69,7 +61,8 @@ function MarketPlace({ store, setConnect }) {
                 <ul>
                   <li>
                     <p className="rec_t">
-                      Total<span className="red">Insufficient KLAY balance</span>
+                      Total
+                      <span className="red">Insufficient KLAY balance</span>
                     </p>
                     <div className="right_price m_left">
                       <h4 className="blue">
@@ -97,9 +90,7 @@ function MarketPlace({ store, setConnect }) {
                 </div>
               </form>
             </div>
-            <a  className="reportit on ">
-              Make a payment
-            </a>
+            <a className="reportit on ">Make a payment</a>
           </div>
         </div>
       </div>
@@ -116,7 +107,7 @@ function MarketPlace({ store, setConnect }) {
                     </h2>
                   </div>
                   <div className="bt likes">
-                    <a  className="like_heart off">
+                    <a className="like_heart off">
                       <h2>1,486 Likes</h2>
                     </a>
                   </div>
@@ -140,8 +131,8 @@ function MarketPlace({ store, setConnect }) {
                 <div className="desc">
                   <h2 className="i_title">Description</h2>
                   <p>
-                    This is a item of digitals produced on April 28th,
-                    with beautiful night views. It's about the
+                    This is a item of digitals produced on April 28th, with
+                    beautiful night views. It's about the
                     <br />
                     harmony of neon signs. It's an expression of modern art.
                     <br />
@@ -152,13 +143,13 @@ function MarketPlace({ store, setConnect }) {
                     It's an expression of modern art.
                   </p>
                   <div className="mcons">
-                    <a >
+                    <a>
                       <img src={require("../img/sub/refresh.png").default} />
                     </a>
-                    <a >
+                    <a>
                       <img src={require("../img/sub/alert.png").default} />
                     </a>
-                    <a >
+                    <a>
                       <img src={require("../img/sub/share.png").default} />
                     </a>
                   </div>
@@ -174,15 +165,15 @@ function MarketPlace({ store, setConnect }) {
                         with neon
                       </h2>
                       <div className="icons">
-                        <a >
+                        <a>
                           <img
                             src={require("../img/sub/refresh.png").default}
                           />
                         </a>
-                        <a >
+                        <a>
                           <img src={require("../img/sub/alert.png").default} />
                         </a>
-                        <a >
+                        <a>
                           <img src={require("../img/sub/share.png").default} />
                         </a>
                       </div>
@@ -203,9 +194,7 @@ function MarketPlace({ store, setConnect }) {
                             <h4>05:32:21</h4>
                           </li>
                         </ul>
-                        <a  className="bid">
-                          Place a Bid
-                        </a>
+                        <a className="bid">Place a Bid</a>
                       </div>
                     </div>
                   </div>
@@ -320,7 +309,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div className="pur">
-                              <a >Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -338,7 +327,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div className="pur">
-                              <a >Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>4 days later</td>
@@ -356,7 +345,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div className="pur">
-                              <a >Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>1 days later</td>
@@ -374,7 +363,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div className="pur">
-                              <a >Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -392,7 +381,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div className="pur">
-                              <a >Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -410,7 +399,7 @@ function MarketPlace({ store, setConnect }) {
                               </p>
                             </div>
                             <div className="pur">
-                              <a >Purchase</a>
+                              <a>Purchase</a>
                             </div>
                           </td>
                           <td>3 days later</td>
@@ -563,7 +552,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div className="pur">
-                              <a >Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td className="blue">
@@ -581,7 +570,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>4 days later</span>
                             </div>
                             <div className="pur">
-                              <a >Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td className="blue">
@@ -599,7 +588,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div className="pur">
-                              <a >Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td className="blue">
@@ -617,7 +606,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div className="pur">
-                              <a >Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td className="blue">
@@ -635,7 +624,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div className="pur">
-                              <a >Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td className="blue">
@@ -653,7 +642,7 @@ function MarketPlace({ store, setConnect }) {
                               <span>3 days later</span>
                             </div>
                             <div className="pur">
-                              <a >Buy</a>
+                              <a>Buy</a>
                             </div>
                           </td>
                           <td className="blue">

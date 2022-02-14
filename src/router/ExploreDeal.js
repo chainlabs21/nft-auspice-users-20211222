@@ -9,15 +9,7 @@ import collect_img3 from "../img/sub/collect_img3.png";
 import collect_img4 from "../img/sub/collect_img4.png";
 import stone from "../img/sub/stone.png";
 import rock from "../img/sub/rock.png";
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css";
-// import "./css/style01.css";
-// import "./css/style02.css";
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
+
 import { useEffect, useState } from "react";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";

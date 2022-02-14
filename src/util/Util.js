@@ -70,4 +70,11 @@ export const generateRandomString = (length) => {
 
   return result;
 };
+
+export function getStyle(ref, getStyle) {
+  const style = window.getComputedStyle(ref.current);
+  let styleGap = style.getPropertyValue(getStyle);
+  return Number(styleGap.replace("px", ""));
+}
+
 export { putCommaAtPrice, strDot, displayTime, splitTime, isUserMobile };

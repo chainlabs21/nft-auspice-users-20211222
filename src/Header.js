@@ -1,13 +1,8 @@
 import { connect, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import "./css/common.css";
-import "./css/font.css";
-import "./css/layout.css";
-import "./css/style.css";
 import I_x from "./img/main/I_x.svg";
-import "./css/footer.css";
-import "./css/swiper.min.css";
+
 import { useState, useEffect } from "react";
 import { setAllPopupOff, setMHeaderPopup, setaddress } from "./util/store";
 import { getmyaddress, LOGGER } from "./util/common";
@@ -22,7 +17,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
   const [search, setSearch] = useState("");
   let [address, setaddress] = useState();
 
-/** 	useEffect(_=>{
+  /** 	useEffect(_=>{
 		const spinner = document.querySelector("#Spinner");
     spinner.animate(
       [{ transform: "rotate(0deg)" }, { transform: "rotate(360deg)" }],

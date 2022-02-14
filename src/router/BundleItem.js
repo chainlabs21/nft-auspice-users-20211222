@@ -13,18 +13,6 @@ import bun_slide_img1 from "../img/sub/s2.png";
 import bun_slide_img2 from "../img/sub/s4.png";
 import bun_slide_img3 from "../img/sub/s3.png";
 import bun_slide_img4 from "../img/sub/s9.png";
-
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
 import { useState } from "react";
 
 function BundleItem({ store, setConnect }) {
@@ -55,7 +43,11 @@ function BundleItem({ store, setConnect }) {
   return (
     <SignPopupBox>
       {bidPopup && (
-        <div className="popup info" id="info_popup" style={{ display: "block" }}>
+        <div
+          className="popup info"
+          id="info_popup"
+          style={{ display: "block" }}
+        >
           <div className="box_wrap buynft">
             <a
               onClick={() => setBidPopup(false)}
@@ -100,7 +92,8 @@ function BundleItem({ store, setConnect }) {
                   <ul>
                     <li>
                       <p className="rec_t">
-                        Total<span className="red">Insufficient KLAY balance</span>
+                        Total
+                        <span className="red">Insufficient KLAY balance</span>
                       </p>
                       <div className="right_price m_left">
                         <h4 className="blue">

@@ -9,53 +9,48 @@ import s4 from "../img/sub/s4.png";
 import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css" // import "./css/style01.css";// import "./css/style02.css";
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
 import VerifyAccountPopup from "./VerifyAccountPopup";
-import { useEffect , useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { messages } from "../config/messages";
-import { applytoken } from '../util/rest'
-import SetErrorBar from '../util/SetErrorBar'
-import { API} from '../config/api'
-import { LOGGER, getrandomint, ISFINITE } from '../util/common'
+import { applytoken } from "../util/rest";
+import SetErrorBar from "../util/SetErrorBar";
+import { API } from "../config/api";
+import { LOGGER, getrandomint, ISFINITE } from "../util/common";
 
 function AuctionBid({ store, setConnect }) {
   const navigate = useNavigate();
-	const [verifyPopup, setVerifyPopup] = useState(false);
-	let  [ searchParams, setSearchParams ] = useSearchParams()
-	let [ itemid , setitemid ] = useState ()
-	let [ itemdatabatched , setitemdatabatched ] = useState()
-	let [ bidamount_start , setbidamount_start] = useState( '')
-	let [ daystoclose , setdaystoclose ] = useState()
-	let [ expiry , setexpiry ] = useState()
-	let axios=applytoken()
-	useEffect( _=>{
-		let bidamount_start = getrandomint( 1, 10 )
-		let bidamount_max = getrandomint ( bidamount_start+1 , 20 )
-		setbidamount_start ( bidamount_start )
+  const [verifyPopup, setVerifyPopup] = useState(false);
+  let [searchParams, setSearchParams] = useSearchParams();
+  let [itemid, setitemid] = useState();
+  let [itemdatabatched, setitemdatabatched] = useState();
+  let [bidamount_start, setbidamount_start] = useState("");
+  let [daystoclose, setdaystoclose] = useState();
+  let [expiry, setexpiry] = useState();
+  let axios = applytoken();
+  useEffect((_) => {
+    let bidamount_start = getrandomint(1, 10);
+    let bidamount_max = getrandomint(bidamount_start + 1, 20);
+    setbidamount_start(bidamount_start);
+  }, []);
+  useEffect((_) => {
+    let itemid = searchParams.get("itemid");
+    if (itemid) {
+    } else {
+      SetErrorBar(messages.MSG_PLEASE_SPECIFY_QUERY_VALUE);
+      return;
+    }
+    axios.get(`${API.API_GET_ITEM_DATA}/${itemid}`).then((resp) => {
+      LOGGER("oWWjCVhIpY", resp.data);
+      let { status, respdata } = resp.data;
+      if (status == "OK") {
+        setitemdatabatched(respdata);
+      } else {
+        SetErrorBar(messages.MSG_PLEASE_SPECIFY_QUERY_VALUE);
+      }
+    });
+  }, []);
 
-	} , [] )
-	useEffect( _=>{
-		let itemid=searchParams.get('itemid')
-		if (itemid ){}
-		else {SetErrorBar( messages.MSG_PLEASE_SPECIFY_QUERY_VALUE ) ; return }
-		axios.get( `${API.API_GET_ITEM_DATA}/${itemid}`).then(resp=>{
-			LOGGER( 'oWWjCVhIpY' , resp.data )
-			let { status , respdata }=resp.data
-			if ( status =='OK'){
-				setitemdatabatched ( respdata ) 
-			} else {
-				SetErrorBar(messages.MSG_PLEASE_SPECIFY_QUERY_VALUE )
-			}
-		})
-	} , [ ] )
-	
   return (
     <SignPopupBox>
       {verifyPopup && <VerifyAccountPopup off={setVerifyPopup} />}
@@ -164,21 +159,24 @@ function AuctionBid({ store, setConnect }) {
                                       }
                                       alt=""
                                     />
-                                    <select  id="">
+                                    <select id="">
                                       <option>KLAY</option>
                                     </select>
                                   </div>
                                   <div className="input_right">
-                                    <input value={ bidamount_start }
+                                    <input
+                                      value={bidamount_start}
                                       type="number"
                                       placeholder=""
-																			onKeyDown="onlyNumber(this)"
-																			onChange={evt=>{
-																				let {value }=evt.target
-																				if ( ISFINITE( +value)){}
-																				else {return}
-																				setbidamount_start ( value )
-																			}}
+                                      onKeyDown="onlyNumber(this)"
+                                      onChange={(evt) => {
+                                        let { value } = evt.target;
+                                        if (ISFINITE(+value)) {
+                                        } else {
+                                          return;
+                                        }
+                                        setbidamount_start(value);
+                                      }}
                                     />
                                   </div>
                                 </div>
@@ -233,7 +231,7 @@ function AuctionBid({ store, setConnect }) {
                                       }
                                       alt=""
                                     />
-                                    <select  id="">
+                                    <select id="">
                                       <option>KLAY</option>
                                       <option>KLAY</option>
                                       <option>KLAY</option>
@@ -264,10 +262,13 @@ function AuctionBid({ store, setConnect }) {
                                   </p>
                                   <div className="twoselect">
                                     <div className="toggle_1">
-                                      <select  id="" onChange={evt=>{
-																				LOGGER('' , evt.target.value )
-																				setdaystoclose ( evt.target.value )
-																			}}>
+                                      <select
+                                        id=""
+                                        onChange={(evt) => {
+                                          LOGGER("", evt.target.value);
+                                          setdaystoclose(evt.target.value);
+                                        }}
+                                      >
                                         <option>5 days later</option>
                                         <option>3 days later</option>
                                         <option>2 days later</option>
@@ -275,7 +276,7 @@ function AuctionBid({ store, setConnect }) {
                                       </select>
                                     </div>
                                     <div className="toggle_2">
-                                      <select  id="">
+                                      <select id="">
                                         <option>PM 02 : 00</option>
                                         <option>PM 03 : 00</option>
                                         <option>AM 01 : 00</option>
@@ -352,7 +353,9 @@ function AuctionBid({ store, setConnect }) {
                     than the minimum bid
                   </span>
                   <span className="red2">Please enter your target bid</span>
-                  <span className="red2">Target bid must be at least 1 KLAY</span>
+                  <span className="red2">
+                    Target bid must be at least 1 KLAY
+                  </span>
                 </div>
                 <div className="referral">
                   <h3>Referral Fee</h3>
@@ -378,9 +381,12 @@ function AuctionBid({ store, setConnect }) {
                     </li>
                   </ul>
                 </div>
-								<div className="sales_btn" onClick={() => {setVerifyPopup(true)
-								
-								}}>
+                <div
+                  className="sales_btn"
+                  onClick={() => {
+                    setVerifyPopup(true);
+                  }}
+                >
                   <a>Sales start</a>
                 </div>
               </div>

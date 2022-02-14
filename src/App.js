@@ -1,8 +1,7 @@
-import { connect, useDispatch, useSelector } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import Main from "./Main";
-import Header from "./Header";
 
 import ConnectWallet from "./router/ConnectWallet";
 import EmailRequired from "./router/EmailRequired";
@@ -56,6 +55,13 @@ import { LOGGER, PARSER } from "./util/common";
 import { is_two_addresses_same } from "./util/eth";
 import EditItem from "./router/EditItem";
 
+import "./css/font.css";
+import "./css/footer.css";
+import "./css/layout.css";
+import "./css/style.css";
+import "./css/swiper.min.css";
+import EventListener from "./components/EventListener";
+
 function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const { mHeaderPopup } = useSelector((state) => state.store);
   const login = (address) => {
@@ -68,7 +74,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           axios.defaults.headers.common["token"] = resp.data.respdata;
           localStorage.setItem("address", address);
           Setaddress(address);
-          SetErrorBar(messages.MSG_ADDRESS_CHANGED + `: ${address}`)
+          SetErrorBar(messages.MSG_ADDRESS_CHANGED + `: ${address}`);
         } else if (status === "ERR") {
           localStorage.removeItem("token");
           axios.defaults.headers.common["token"] = "";
@@ -111,7 +117,11 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         console.log(accounts);
         let address = accounts[0];
         let address_local = localStorage.getItem("address");
-        if (address && address_local && is_two_addresses_same(address, address_local)) {
+        if (
+          address &&
+          address_local &&
+          is_two_addresses_same(address, address_local)
+        ) {
           return;
         } else {
         }
@@ -157,11 +167,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   }, []);
 
   return (
-    <AppBox
-      className="appBox"
-      width={window.innerWidth}
-      height={window.innerHeight}
-    >
+    <AppBox className="appBox">
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link
         rel="preconnect"
@@ -173,13 +179,18 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         rel="stylesheet"
       />
       <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
+        rel="stylesheet"
+      />
+      <link
         href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css"
         rel="stylesheet"
         type="text/css"
       />
 
       <HashRouter>
-        <Header />
+        {/* <Header /> */}
+        <EventListener />
         <GlobalStyle />
 
         <Routes>

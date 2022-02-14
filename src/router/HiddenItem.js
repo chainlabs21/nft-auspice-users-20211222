@@ -18,13 +18,13 @@ import ho_img from "../img/sub/ho_img.png";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";
 import filter_icon from "../img/sub/filter_icon.png";
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css"; // import "./css/style01.css"; // import "./css/style02.css";
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
+
+
+
+ // import "./css/style01.css"; // import "./css/style02.css";
+
+
+
 import { useRef, useState, useEffect } from "react";
 import Myprofcommonheader  from '../components/Myprofcommonheader'
 import { applytoken } from "../util/rest";

@@ -12,13 +12,13 @@ import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";
 import heart_off from "../img/sub/heart_off.png";
 import heart_on from "../img/sub/heart_on.png";
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css";
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
+
+
+
+
+
+
+
 import { useState, useEffect, useLayoutEffect } from "react";
 import moment from "moment";
 import { API } from "../config/api";

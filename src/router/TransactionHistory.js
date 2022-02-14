@@ -19,13 +19,13 @@ import rock from "../img/sub/rock.png";
 import I_dnArrow from "../img/icons/I_dnArrow.svg";
 import loupe from "../img/sub/loupe.png";
 import filter_icon from "../img/sub/filter_icon.png";
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css"; // import "./css/style01.css"; // import "./css/style02.css";
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
+
+
+
+ // import "./css/style01.css"; // import "./css/style02.css";
+
+
+
 import { useState, useEffect } from "react";
 import Myprofcommonheader from "../components/Myprofcommonheader";
 import { LOGGER, getmyaddress } from "../util/common";

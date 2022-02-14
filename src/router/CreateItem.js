@@ -16,13 +16,7 @@ import {
   requesttransaction,
   query_with_arg,
 } from "../util/contract-calls";
-import "../css/common.css";
-import "../css/font.css";
-import "../css/layout.css";
-import "../css/style.css";
-import "../css/header.css";
-import "../css/footer.css";
-import "../css/swiper.min.css";
+
 import { useEffect, useState } from "react";
 import {
   encodeBase64File,
@@ -811,9 +805,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CreateItem);
-
-// import "./css/style01.css";
-// import "./css/style02.css";
 
 const requesttransaction_response = {
   blockHash:
