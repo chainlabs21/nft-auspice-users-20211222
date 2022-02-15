@@ -196,7 +196,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         <Routes>
           <Route path="/index" element={<List />} />
           <Route path="/" element={<Main />} />
-          
+
           <Route path="/connectwallet" element={<ConnectWallet />} />
           <Route path="/emailrequired" element={<EmailRequired />} />
           <Route path="/sentemail" element={<SentEmail />} />
@@ -262,6 +262,17 @@ const AppBox = styled.div`
   width: 100%;
   background: #fff;
   position: relative;
+
+  .filterBtn {
+    position: absolute;
+    left: -6px;
+    top: 240px;
+    z-index: 2;
+
+    img {
+      height: 64px;
+    }
+  }
 
   a,
   img {

@@ -49,7 +49,7 @@ body{
     outline: none;
     user-select: auto;
     background: unset;
-    font-weight: 300;
+    min-width: 0;
 
     &::placeholder{
       color: #bbb;
@@ -99,6 +99,10 @@ body{
     position: fixed;
     transform: translate(-50%, -50%);
     z-index: 6;
+  }
+
+  .posBox{
+    position: relative;
   }
 `;
 

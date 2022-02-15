@@ -18,13 +18,13 @@ function PopupBg({ store, setAllPopupOff, bg, off }) {
 }
 
 const PopupBgBox = styled.div`
-  position: fixed;
   width: 100vw;
   height: 100vh;
   top: 0;
   left: 0;
+  position: fixed;
+  z-index: 5;
   cursor: pointer;
-  z-index: 1001;
 `;
 
 function mapStateToProps(state) {

@@ -275,199 +275,308 @@ export default function Main({ store }) {
 
   if (isMobile)
     return (
-      <MmainBox>
+      <>
         <DefaultHeader />
-        <section className="innerBox">
-          <article className="visual">
-            <div className="titleContainer">
-              <div className="titleBox">
-                <img className="titleImg" src={title} />
-                <p className="explain">
-                  Make money with NFTs that are easily issued and managed.
-                  <br /> Only in your own NFT gallery
-                </p>
+        <MmainBox>
+          <section className="innerBox">
+            <article className="visual">
+              <div className="titleContainer">
+                <div className="titleBox">
+                  <img className="titleImg" src={title} />
+                  <p className="explain">
+                    Make money with NFTs that are easily issued and managed.
+                    <br /> Only in your own NFT gallery
+                  </p>
+                </div>
+
+                <div className="btnBox">
+                  <button
+                    className="navBtn"
+                    onClick={() => navigate("/marketplace")}
+                  >
+                    NFT Navigation
+                  </button>
+                  <button
+                    className="pubBtn"
+                    onClick={() => navigate("/createitem")}
+                  >
+                    NFT Publication
+                  </button>
+                </div>
               </div>
 
-              <div className="btnBox">
-                <button
-                  className="navBtn"
-                  onClick={() => navigate("/marketplace")}
-                >
-                  NFT Navigation
-                </button>
-                <button
-                  className="pubBtn"
-                  onClick={() => navigate("/createitem")}
-                >
-                  NFT Publication
+              <div className="swiperContainer">
+                <div className="swiperBox">
+                  <ul className="swiperList" ref={visualSwiperRef}>
+                    {list_featured
+                      .sort((a, b) => (a.createdat < b.createdat ? +1 : -1))
+                      .map((cont, index) => (
+                        <li className="swiperContBox" key={index}>
+                          <span
+                            className="itemImg"
+                            style={{
+                              backgroundImage: `url(${cont.url})`,
+                              backgroundRepeat: "no-repeat",
+                              backgroundPosition: "center",
+                              backgroundSize: "cover",
+                            }}
+                          />
+
+                          <div className="infoContainer">
+                            <div className="titleBox">
+                              <strong className="title">
+                                {cont.titlename}
+                              </strong>
+                              <strong>{cont.username}</strong>
+                            </div>
+
+                            <div className="infoBox">
+                              <ul className="infoList">
+                                <li>
+                                  <strong className="key">Current Bid</strong>
+                                  <p className="value">2.867 KLAY</p>
+                                </li>
+                                <li>
+                                  <strong className="key">
+                                    Auction ending in
+                                  </strong>
+                                  <p className="value">05:32:21</p>
+                                </li>
+                              </ul>
+
+                              <div className="btnBox">
+                                <button
+                                  className="bidBtn"
+                                  onClick={() =>
+                                    navigate(
+                                      `/singleitem?itemid=${cont.itemid}`
+                                    )
+                                  }
+                                >
+                                  Place a Bid
+                                </button>
+                                <button
+                                  className="viewBtn"
+                                  onClick={() =>
+                                    navigate(
+                                      `/singleitem?itemid=${cont.itemid}`
+                                    )
+                                  }
+                                >
+                                  View Artwork
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+
+                <button className="nextBtn" onClick={onClickVisualSwiperBtn}>
+                  <img src={I_rtArw3BlackBtn} alt="" />
                 </button>
               </div>
-            </div>
+            </article>
 
-            <div className="swiperContainer">
-              <div className="swiperBox">
-                <ul className="swiperList" ref={visualSwiperRef}>
-                  {list_featured
-                    .sort((a, b) => (a.createdat < b.createdat ? +1 : -1))
-                    .map((cont, index) => (
-                      <li className="swiperContBox" key={index}>
-                        <span
-                          className="itemImg"
+            <article class="collectionArticle swiperArticle contArticle">
+              <strong className="title">Trending Collection</strong>
+
+              <div className="swiperContainer">
+                <div class="swiperBox">
+                  <ul class="swiperList" ref={collectionSwiperRef}>
+                    {creatorlist.map((cont, index) => (
+                      <li class="swiperContBox">
+                        <div
+                          className="bg"
                           style={{
-                            backgroundImage: `url(${cont.url})`,
+                            backgroundImage: `url(${cont.backgroundimgsrc})`,
                             backgroundRepeat: "no-repeat",
                             backgroundPosition: "center",
                             backgroundSize: "cover",
+                            background: "#000",
                           }}
                         />
 
                         <div className="infoContainer">
-                          <div className="titleBox">
-                            <strong className="title">{cont.titlename}</strong>
-                            <strong>{cont.username}</strong>
-                          </div>
+                          <span
+                            className="profImg"
+                            style={{
+                              backgroundImage: `url(${cont.mongo?.profileimage})`,
+                              backgroundRepeat: "no-repeat",
+                              backgroundPosition: "center",
+                              backgroundSize: "cover",
+                              background: "#f00",
+                            }}
+                          />
 
                           <div className="infoBox">
-                            <ul className="infoList">
-                              <li>
-                                <strong className="key">Current Bid</strong>
-                                <p className="value">2.867 KLAY</p>
-                              </li>
-                              <li>
-                                <strong className="key">
-                                  Auction ending in
-                                </strong>
-                                <p className="value">05:32:21</p>
-                              </li>
-                            </ul>
-
-                            <div className="btnBox">
-                              <button
-                                className="bidBtn"
-                                onClick={() =>
-                                  navigate(`/singleitem?itemid=${cont.itemid}`)
-                                }
-                              >
-                                Place a Bid
-                              </button>
-                              <button
-                                className="viewBtn"
-                                onClick={() =>
-                                  navigate(`/singleitem?itemid=${cont.itemid}`)
-                                }
-                              >
-                                View Artwork
-                              </button>
-                            </div>
+                            <strong className="store">{cont.storename}</strong>
+                            <strong className="nickname">
+                              {cont?.nickname}
+                            </strong>
+                            <p className="description">
+                              {cont.mongo?.description}
+                            </p>
                           </div>
                         </div>
                       </li>
                     ))}
-                </ul>
+                  </ul>
+
+                  <button
+                    className="nextBtn pageBtn"
+                    onClick={() =>
+                      onClickSwiperNextBtn(
+                        collectionSwiperRef,
+                        creatorlist,
+                        collectionIndex,
+                        setCollectionIndex
+                      )
+                    }
+                  >
+                    <img src={I_rtArw3BlackBtn} alt="" />
+                  </button>
+                </div>
               </div>
+            </article>
 
-              <button className="nextBtn" onClick={onClickVisualSwiperBtn}>
-                <img src={I_rtArw3BlackBtn} alt="" />
-              </button>
-            </div>
-          </article>
+            <article className="categoryArticle contArticle">
+              <strong className="title">Market Category</strong>
 
-          <article class="collectionArticle swiperArticle contArticle">
-            <strong className="title">Trending Collection</strong>
+              <ul className="categroyList">
+                {D_categoryList.map((category, index) => (
+                  <li
+                    key={index}
+                    onClick={() =>
+                      navigate("/marketplace", { state: category.state })
+                    }
+                  >
+                    <strong>{category.text}</strong>
+                  </li>
+                ))}
+              </ul>
+            </article>
 
-            <div className="swiperContainer">
-              <div class="swiperBox">
-                <ul class="swiperList" ref={collectionSwiperRef}>
-                  {creatorlist.map((cont, index) => (
-                    <li class="swiperContBox">
-                      <div
-                        className="bg"
-                        style={{
-                          backgroundImage: `url(${cont.backgroundimgsrc})`,
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "center",
-                          backgroundSize: "cover",
-                          background: "#000",
-                        }}
-                      />
+            <article class="trendingArticle swiperArticle contArticle">
+              <strong className="title">Trending NFT Item</strong>
 
-                      <div className="infoContainer">
-                        <span
-                          className="profImg"
-                          style={{
-                            backgroundImage: `url(${cont.mongo?.profileimage})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                            background: "#f00",
-                          }}
-                        />
+              <div className="swiperContainer">
+                <div class="swiperBox">
+                  <ul class="swiperList" ref={trendingSwiperRef}>
+                    {list_trenditems
+                      .filter((elem) => elem.url)
+                      .sort((a, b) => b.countfavors - a.countfavors)
+                      .map((cont, index) => (
+                        <li
+                          key={index}
+                          class="swiperContBox"
+                          onClick={() =>
+                            navigate(`/singleitem?itemid=${cont.itemid}`)
+                          }
+                        >
+                          <div
+                            className="itemBox"
+                            style={{
+                              backgroundImage: `url(${cont.url})`,
+                              backgroundRepeat: "no-repeat",
+                              backgroundPosition: "center",
+                              backgroundSize: "cover",
+                            }}
+                          >
+                            <div className="infoBox">
+                              <div className="topBar">
+                                <button
+                                  className="likeBtn"
+                                  onClick={(e) =>
+                                    onClickFavorBtn(e, cont.itemid)
+                                  }
+                                >
+                                  <img
+                                    src={
+                                      cont.ilikethisitem ? heart_on : heart_off
+                                    }
+                                    alt=""
+                                  />
 
-                        <div className="infoBox">
-                          <strong className="store">{cont.storename}</strong>
-                          <strong className="nickname">{cont?.nickname}</strong>
-                          <p className="description">
-                            {cont.mongo?.description}
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                                  <p>{cont.countfavors}</p>
+                                </button>
 
-                <button
-                  className="nextBtn pageBtn"
-                  onClick={() =>
-                    onClickSwiperNextBtn(
-                      collectionSwiperRef,
-                      creatorlist,
-                      collectionIndex,
-                      setCollectionIndex
-                    )
-                  }
-                >
-                  <img src={I_rtArw3BlackBtn} alt="" />
-                </button>
+                                <button
+                                  className="bookmarkBtn"
+                                  onClick={(e) =>
+                                    onClickBookMarkBtn(e, cont.itemid)
+                                  }
+                                >
+                                  <img
+                                    src={cont.ididbookmark ? star_on : star_off}
+                                    alt=""
+                                  />
+                                </button>
+                              </div>
+
+                              <p className="title">{cont.titlename}</p>
+                              <p className="nickname">
+                                {strDot(cont.author?.nickname, 10, 0)}
+                              </p>
+
+                              <div className="etcBox">
+                                <p className="time">
+                                  {moment
+                                    .unix(cont.minpriceorder?.expiry)
+                                    .fromNow() ||
+                                    get_deltatime_str(
+                                      cont.minpriceorder?.expiry
+                                    )}
+                                </p>
+
+                                <strong className="priceBox">
+                                  {cont.askpricestats?.min} KLAY
+                                </strong>
+                              </div>
+                            </div>
+                          </div>
+
+                          <button className="buyBtn" onClick={() => {}}>
+                            Buy Now
+                          </button>
+                        </li>
+                      ))}
+                  </ul>
+
+                  <button
+                    className="nextBtn pageBtn"
+                    onClick={() =>
+                      onClickSwiperNextBtn(
+                        trendingSwiperRef,
+                        list_trenditems,
+                        trendingItemIndex,
+                        setTrendingItemIndex
+                      )
+                    }
+                  >
+                    <img src={I_rtArw3BlackBtn} alt="" />
+                  </button>
+                </div>
               </div>
-            </div>
-          </article>
+            </article>
 
-          <article className="categoryArticle contArticle">
-            <strong className="title">Market Category</strong>
+            <article class="newArticle swiperArticle contArticle">
+              <strong className="title">NEW NFT Item</strong>
 
-            <ul className="categroyList">
-              {D_categoryList.map((category, index) => (
-                <li
-                  key={index}
-                  onClick={() =>
-                    navigate("/marketplace", { state: category.state })
-                  }
-                >
-                  <strong>{category.text}</strong>
-                </li>
-              ))}
-            </ul>
-          </article>
-
-          <article class="trendingArticle swiperArticle contArticle">
-            <strong className="title">Trending NFT Item</strong>
-
-            <div className="swiperContainer">
-              <div class="swiperBox">
-                <ul class="swiperList" ref={trendingSwiperRef}>
-                  {list_trenditems
-                    .filter((elem) => elem.url)
-                    .sort((a, b) => b.countfavors - a.countfavors)
-                    .map((cont, index) => (
-                      <li
-                        key={index}
-                        class="swiperContBox"
-                        onClick={() =>
-                          navigate(`/singleitem?itemid=${cont.itemid}`)
-                        }
-                      >
-                        <div
-                          className="itemBox"
+              <div className="swiperContainer">
+                <div class="swiperBox">
+                  <ul class="swiperList" ref={itemSwiperRef}>
+                    {list_newitems
+                      .filter((elem) => elem.url)
+                      .sort((a, b) => b.countfavors - a.countfavors)
+                      .map((cont, index) => (
+                        <li
+                          key={index}
+                          class="swiperContBox"
+                          onClick={() =>
+                            navigate(`/singleitem?itemid=${cont.itemid}`)
+                          }
                           style={{
                             backgroundImage: `url(${cont.url})`,
                             backgroundRepeat: "no-repeat",
@@ -522,223 +631,130 @@ export default function Main({ store }) {
                               </strong>
                             </div>
                           </div>
-                        </div>
+                        </li>
+                      ))}
+                  </ul>
 
-                        <button className="buyBtn" onClick={() => {}}>
-                          Buy Now
-                        </button>
-                      </li>
-                    ))}
-                </ul>
-
-                <button
-                  className="nextBtn pageBtn"
-                  onClick={() =>
-                    onClickSwiperNextBtn(
-                      trendingSwiperRef,
-                      list_trenditems,
-                      trendingItemIndex,
-                      setTrendingItemIndex
-                    )
-                  }
-                >
-                  <img src={I_rtArw3BlackBtn} alt="" />
-                </button>
+                  <button
+                    className="nextBtn pageBtn"
+                    onClick={() =>
+                      onClickSwiperNextBtn(
+                        itemSwiperRef,
+                        list_newitems,
+                        itemIndex,
+                        setItemIndex
+                      )
+                    }
+                  >
+                    <img src={I_rtArw3BlackBtn} alt="" />
+                  </button>
+                </div>
               </div>
-            </div>
-          </article>
+            </article>
 
-          <article class="newArticle swiperArticle contArticle">
-            <strong className="title">NEW NFT Item</strong>
+            <article class="tipArticle swiperArticle contArticle">
+              <strong className="title">Tips for Itemverse users</strong>
 
-            <div className="swiperContainer">
-              <div class="swiperBox">
-                <ul class="swiperList" ref={itemSwiperRef}>
-                  {list_newitems
-                    .filter((elem) => elem.url)
-                    .sort((a, b) => b.countfavors - a.countfavors)
-                    .map((cont, index) => (
-                      <li
-                        key={index}
-                        class="swiperContBox"
-                        onClick={() =>
-                          navigate(`/singleitem?itemid=${cont.itemid}`)
-                        }
-                        style={{
-                          backgroundImage: `url(${cont.url})`,
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "center",
-                          backgroundSize: "cover",
-                        }}
-                      >
+              <div className="swiperContainer">
+                <div class="swiperBox">
+                  <ul class="swiperList" ref={tipWrapRef}>
+                    {D_Tips.map((cont, index) => (
+                      <li key={index} class="swiperContBox">
+                        <img src={cont.img} alt="" />
                         <div className="infoBox">
-                          <div className="topBar">
-                            <button
-                              className="likeBtn"
-                              onClick={(e) => onClickFavorBtn(e, cont.itemid)}
-                            >
-                              <img
-                                src={cont.ilikethisitem ? heart_on : heart_off}
-                                alt=""
-                              />
-
-                              <p>{cont.countfavors}</p>
-                            </button>
-
-                            <button
-                              className="bookmarkBtn"
-                              onClick={(e) =>
-                                onClickBookMarkBtn(e, cont.itemid)
-                              }
-                            >
-                              <img
-                                src={cont.ididbookmark ? star_on : star_off}
-                                alt=""
-                              />
-                            </button>
-                          </div>
-
-                          <p className="title">{cont.titlename}</p>
-                          <p className="nickname">
-                            {strDot(cont.author?.nickname, 10, 0)}
-                          </p>
-
-                          <div className="etcBox">
-                            <p className="time">
-                              {moment
-                                .unix(cont.minpriceorder?.expiry)
-                                .fromNow() ||
-                                get_deltatime_str(cont.minpriceorder?.expiry)}
-                            </p>
-
-                            <strong className="priceBox">
-                              {cont.askpricestats?.min} KLAY
-                            </strong>
-                          </div>
+                          <p className="title">{cont.title}</p>
+                          <p className="explain">{cont.explain}</p>
                         </div>
                       </li>
                     ))}
-                </ul>
+                  </ul>
 
-                <button
-                  className="nextBtn pageBtn"
-                  onClick={() =>
-                    onClickSwiperNextBtn(
-                      itemSwiperRef,
-                      list_newitems,
-                      itemIndex,
-                      setItemIndex
-                    )
-                  }
-                >
-                  <img src={I_rtArw3BlackBtn} alt="" />
-                </button>
+                  <button
+                    className="nextBtn pageBtn"
+                    onClick={() =>
+                      onClickSwiperNextBtn(
+                        tipWrapRef,
+                        D_Tips,
+                        tipIndex,
+                        setTipIndex
+                      )
+                    }
+                  >
+                    <img src={I_rtArw3BlackBtn} alt="" />
+                  </button>
+                </div>
               </div>
-            </div>
-          </article>
+            </article>
+          </section>
 
-          <article class="tipArticle swiperArticle contArticle">
-            <strong className="title">Tips for Itemverse users</strong>
+          <footer className="footer">
+            <section className="innerBox">
+              <article className="contBox">
+                <span className="logoBox">
+                  <button className="logoBtn" onClick={() => navigate("/")}>
+                    <img src={verse_logo} alt="" />
+                  </button>
 
-            <div className="swiperContainer">
-              <div class="swiperBox">
-                <ul class="swiperList" ref={tipWrapRef}>
-                  {D_Tips.map((cont, index) => (
-                    <li key={index} class="swiperContBox">
-                      <img src={cont.img} alt="" />
-                      <div className="infoBox">
-                        <p className="title">{cont.title}</p>
-                        <p className="explain">{cont.explain}</p>
-                      </div>
+                  <p className="explain">
+                    Decentralized NFT marketplace AUSPICE makes
+                    <br />
+                    it easy and convenient to trade non-fungible
+                    <br />
+                    tokens (NFTs) and crypto collectibles.
+                    <br />
+                  </p>
+
+                  <div className="contactBox">
+                    <p className="key">Contact us</p>
+
+                    <button className="langBtn" onClick={() => {}}>
+                      <p>English</p>
+                      <img src={I_dnPolygon} alt="" />
+                    </button>
+                  </div>
+                </span>
+
+                <ul className="navBar">
+                  {D_navList.map((cont, index) => (
+                    <li key={index}>
+                      <strong className="title">{cont.title}</strong>
+
+                      <ul className="detailList">
+                        {cont.detailNav.map((detail, index) => (
+                          <li key={index}>
+                            <button
+                              className="navBtn"
+                              onClick={() => navigate(`${detail.url}`)}
+                            >
+                              {detail.text}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
                     </li>
                   ))}
                 </ul>
+              </article>
 
-                <button
-                  className="nextBtn pageBtn"
-                  onClick={() =>
-                    onClickSwiperNextBtn(
-                      tipWrapRef,
-                      D_Tips,
-                      tipIndex,
-                      setTipIndex
-                    )
-                  }
-                >
-                  <img src={I_rtArw3BlackBtn} alt="" />
-                </button>
-              </div>
-            </div>
-          </article>
-        </section>
-
-        <footer className="footer">
-          <section className="innerBox">
-            <article className="contBox">
-              <span className="logoBox">
-                <button className="logoBtn" onClick={() => navigate("/")}>
-                  <img src={verse_logo} alt="" />
-                </button>
-
-                <p className="explain">
-                  Decentralized NFT marketplace AUSPICE makes
-                  <br />
-                  it easy and convenient to trade non-fungible
-                  <br />
-                  tokens (NFTs) and crypto collectibles.
-                  <br />
-                </p>
-
-                <div className="contactBox">
-                  <p className="key">Contact us</p>
-
-                  <button className="langBtn" onClick={() => {}}>
-                    <p>English</p>
-                    <img src={I_dnPolygon} alt="" />
+              <article className="bottomBar">
+                <span className="leftBox">
+                  <button className="privacyBtn" onClick={() => {}}>
+                    Privacy Policy
                   </button>
-                </div>
-              </span>
+                  <p>|</p>
+                  <button className="termBtn" onClick={() => {}}>
+                    Terms of Service
+                  </button>
+                </span>
 
-              <ul className="navBar">
-                {D_navList.map((cont, index) => (
-                  <li key={index}>
-                    <strong className="title">{cont.title}</strong>
-
-                    <ul className="detailList">
-                      {cont.detailNav.map((detail, index) => (
-                        <li key={index}>
-                          <button
-                            className="navBtn"
-                            onClick={() => navigate(`${detail.url}`)}
-                          >
-                            {detail.text}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </ul>
-            </article>
-
-            <article className="bottomBar">
-              <span className="leftBox">
-                <button className="privacyBtn" onClick={() => {}}>
-                  Privacy Policy
-                </button>
-                <p>|</p>
-                <button className="termBtn" onClick={() => {}}>
-                  Terms of Service
-                </button>
-              </span>
-
-              <p className="copyRight">
-                Copyright © 2021 AUSPICE. All rights reserved.
-              </p>
-            </article>
-          </section>
-        </footer>
-      </MmainBox>
+                <p className="copyRight">
+                  Copyright © 2021 AUSPICE. All rights reserved.
+                </p>
+              </article>
+            </section>
+          </footer>
+        </MmainBox>
+      </>
     );
   else
     return (
