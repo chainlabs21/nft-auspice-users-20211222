@@ -9,6 +9,12 @@ import users_list04 from "./img/main/users_list04.png";
 import I_ltArw3BlackBtn from "./img/design/I_ltArw3BlackBtn.png";
 import I_rtArw3BlackBtn from "./img/design/I_rtArw3BlackBtn.png";
 import title from "./img/main/title.png";
+import heart_off from "./img/sub/heart_off.png";
+import heart_on from "./img/sub/heart_on.png";
+import star_off from "./img/sub/star_off.png";
+import star_on from "./img/sub/star_on.png";
+import verse_logo from "./img/sub/verse_logo.png";
+import I_dnPolygon from "./img/icons/I_dnPolygon.svg";
 
 import { LOGGER, gettimestr, get_deltatime_str } from "./util/common";
 import { applytoken } from "./util/rest";
@@ -17,8 +23,9 @@ import { getStyle, strDot } from "./util/Util";
 import moment from "moment";
 import SetErrorBar from "./util/SetErrorBar";
 import DefaultHeader from "./components/header/DefaultHeader";
+import { D_categoryList, D_navList, D_Tips } from "./data/D_main";
 
-function Main({ store }) {
+export default function Main({ store }) {
   const navigate = useNavigate();
 
   const isMobile = useSelector((state) => state.common.isMobile);
@@ -27,14 +34,14 @@ function Main({ store }) {
   const collectionSwiperRef = useRef();
   const trendingSwiperRef = useRef();
   const itemSwiperRef = useRef();
-  const userWrapRef = useRef();
+  const tipWrapRef = useRef();
 
   const [intervalId, setIntervalId] = useState();
   const [visualSwiperIndex, setVisualSwiperIndex] = useState(0);
   const [collectionIndex, setCollectionIndex] = useState(0);
   const [trendingItemIndex, setTrendingItemIndex] = useState(0);
   const [itemIndex, setItemIndex] = useState(0);
-  const [userIndex, setUserIndex] = useState(0);
+  const [tipIndex, setTipIndex] = useState(0);
   const [creatorlist, setCreatorList] = useState([]);
   let [list_newitems, setlist_newitems] = useState([]);
   let [list_trenditems, setlist_trenditems] = useState([]);
@@ -178,85 +185,51 @@ function Main({ store }) {
     // }
   }
 
-  function onClickCollectionPreBtn() {
-    const wrapWidth = collectionSwiperRef.current.offsetWidth;
-    const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
+  function onClickSwiperPreBtn(swiperRef, items, index, setIndex) {
+    const wrapWidth = swiperRef.current.offsetWidth;
+    const contWidth = swiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
+    const pageNum = Math.ceil(items.length / itemNumByPage);
+    console.log(index);
 
-    if (collectionIndex > 0) setCollectionIndex(collectionIndex - 1);
-    else setCollectionIndex(pageNum - 1);
+    if (index > 0) setIndex(index - 1);
+    else setIndex(pageNum - 1);
   }
 
-  function onClickCollectionNextBtn() {
-    const wrapWidth = collectionSwiperRef.current.offsetWidth;
-    const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
+  function onClickSwiperNextBtn(swiperRef, items, index, setIndex) {
+    const wrapWidth = swiperRef.current.offsetWidth;
+    const contWidth = swiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
+    const pageNum = Math.ceil(items.length / itemNumByPage);
 
-    if (collectionIndex < pageNum - 1) setCollectionIndex(collectionIndex + 1);
-    else setCollectionIndex(0);
+    if (index < pageNum - 1) setIndex(index + 1);
+    else setIndex(0);
   }
 
-  function onClickTrendingPreBtn() {
-    const wrapWidth = trendingSwiperRef.current.offsetWidth;
-    const contWidth = trendingSwiperRef.current.children[0].offsetWidth;
+  function handlerByIndex(swiperRef, index) {
+    if (!swiperRef.current.children[0]) return;
+
+    const wrapWidth = swiperRef.current.offsetWidth;
+    const contWidth = swiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
+    const pageNum = Math.ceil(
+      swiperRef.current.children.length / itemNumByPage
+    );
 
-    if (trendingItemIndex > 0) setTrendingItemIndex(trendingItemIndex - 1);
-    else setTrendingItemIndex(pageNum - 1);
-  }
-
-  function onClickTrendingNextBtn() {
-    const wrapWidth = trendingSwiperRef.current.offsetWidth;
-    const contWidth = trendingSwiperRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
-
-    if (trendingItemIndex < pageNum - 1)
-      setTrendingItemIndex(trendingItemIndex + 1);
-    else setTrendingItemIndex(0);
-  }
-
-  function onClickItemPreBtn() {
-    const wrapWidth = itemSwiperRef.current.offsetWidth;
-    const contWidth = itemSwiperRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
-
-    if (itemIndex > 0) setItemIndex(itemIndex - 1);
-    else setItemIndex(pageNum - 1);
-  }
-
-  function onClickItemNextBtn() {
-    const wrapWidth = itemSwiperRef.current.offsetWidth;
-    const contWidth = itemSwiperRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
-
-    if (itemIndex < pageNum - 1) setItemIndex(itemIndex + 1);
-    else setItemIndex(0);
-  }
-
-  function onClickUserPreBtn() {
-    const wrapWidth = userWrapRef.current.offsetWidth;
-    const contWidth = userWrapRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
-
-    if (userIndex > 0) setUserIndex(userIndex - 1);
-    else setUserIndex(pageNum - 1);
-  }
-
-  function onClickUserNextBtn() {
-    const wrapWidth = userWrapRef.current.offsetWidth;
-    const contWidth = userWrapRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
-
-    if (userIndex < pageNum - 1) setUserIndex(userIndex + 1);
-    else setUserIndex(0);
+    if (swiperRef.current?.scrollTo) {
+      if (index < pageNum) {
+        swiperRef.current.scrollTo({
+          left:
+            (contWidth + getStyle(swiperRef, "gap")) * itemNumByPage * index,
+          behavior: "smooth",
+        });
+      } else {
+        swiperRef.current.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    }
   }
 
   useEffect(() => {
@@ -286,788 +259,484 @@ function Main({ store }) {
     return clearInterval(intervalId);
   }, [visualSwiperIndex]);
 
-  useEffect(() => {
-    if (!collectionSwiperRef.current.children[0]) return;
+  useEffect(
+    () => handlerByIndex(collectionSwiperRef, collectionIndex),
+    [collectionIndex]
+  );
 
-    const wrapWidth = collectionSwiperRef.current.offsetWidth;
-    const contWidth = collectionSwiperRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
-    if (collectionSwiperRef.current?.scrollTo) {
-      if (collectionIndex < pageNum) {
-        collectionSwiperRef.current.scrollTo({
-          left: contWidth * itemNumByPage * collectionIndex,
-          behavior: "smooth",
-        });
-      } else {
-        collectionSwiperRef.current.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-      }
-    }
-  }, [collectionIndex]);
+  useEffect(
+    () => handlerByIndex(trendingSwiperRef, trendingItemIndex),
+    [trendingItemIndex]
+  );
 
-  useEffect(() => {
-    if (!trendingSwiperRef.current.children[0]) return;
+  useEffect(() => handlerByIndex(itemSwiperRef, itemIndex), [itemIndex]);
 
-    const wrapWidth = trendingSwiperRef.current.offsetWidth;
-    const contWidth = trendingSwiperRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(
-      trendingSwiperRef.current.children.length / itemNumByPage
-    );
-
-    if (trendingSwiperRef.current?.scrollTo) {
-      if (trendingItemIndex < pageNum) {
-        trendingSwiperRef.current.scrollTo({
-          left: contWidth * itemNumByPage * trendingItemIndex,
-          behavior: "smooth",
-        });
-      } else {
-        trendingSwiperRef.current.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-      }
-    }
-  }, [trendingItemIndex]);
-
-  useEffect(() => {
-    if (!itemSwiperRef.current.children[0]) return;
-
-    const wrapWidth = itemSwiperRef.current.offsetWidth;
-    const contWidth = itemSwiperRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(
-      itemSwiperRef.current.children.length / itemNumByPage
-    );
-
-    if (itemSwiperRef.current?.scrollTo) {
-      if (itemIndex < pageNum) {
-        itemSwiperRef.current.scrollTo({
-          left: contWidth * itemNumByPage * itemIndex,
-          behavior: "smooth",
-        });
-      } else {
-        itemSwiperRef.current.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-      }
-    }
-  }, [itemIndex]);
-
-  useEffect(() => {
-    const wrapWidth = userWrapRef.current.offsetWidth;
-    const contWidth = userWrapRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(8 / itemNumByPage);
-
-    if (userWrapRef.current?.scrollTo) {
-      if (userIndex < pageNum) {
-        userWrapRef.current.scrollTo({
-          left: contWidth * itemNumByPage * userIndex,
-          behavior: "smooth",
-        });
-      } else {
-        userWrapRef.current.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-      }
-    }
-  }, [userIndex]);
+  useEffect(() => handlerByIndex(tipWrapRef, tipIndex), [tipIndex]);
 
   if (isMobile)
     return (
       <MmainBox>
         <DefaultHeader />
-
-        <section id="innerBox">
+        <section className="innerBox">
           <article className="visual">
-            <div className="title">
-              <h2>
-                <img src={title} />
-              </h2>
-              <p>
-                Make money with NFTs that are easily issued and managed.
-                <br /> Only in your own NFT gallery
-              </p>
-              <div>
-                <a onClick={() => navigate("/marketplace")}>NFT Navigation</a>
-                <a onClick={() => navigate("/createitem")}>NFT Publication</a>
+            <div className="titleContainer">
+              <div className="titleBox">
+                <img className="titleImg" src={title} />
+                <p className="explain">
+                  Make money with NFTs that are easily issued and managed.
+                  <br /> Only in your own NFT gallery
+                </p>
+              </div>
+
+              <div className="btnBox">
+                <button
+                  className="navBtn"
+                  onClick={() => navigate("/marketplace")}
+                >
+                  NFT Navigation
+                </button>
+                <button
+                  className="pubBtn"
+                  onClick={() => navigate("/createitem")}
+                >
+                  NFT Publication
+                </button>
               </div>
             </div>
-            <div className="swiper">
-              <div className="swiper-container swiper-container-visual">
-                <ol className="swiper-wrapper" ref={visualSwiperRef}>
+
+            <div className="swiperContainer">
+              <div className="swiperBox">
+                <ul className="swiperList" ref={visualSwiperRef}>
                   {list_featured
                     .sort((a, b) => (a.createdat < b.createdat ? +1 : -1))
                     .map((cont, index) => (
-                      <span key={index}>
-                        <li className="swiper-slide">
-                          <div
-                            style={{
-                              backgroundImage: `url(${cont.url})`,
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                              backgroundSize: "cover",
-                            }}
-                          ></div>
-                          <div>
-                            <h3>{cont.titlename}</h3>
-                            <p> {cont.username} </p>
-                            <div className="info">
-                              <dl>
-                                <dt>Current Bid</dt>
-                                <dd>
-                                  2.867<span>KLAY</span>
-                                </dd>
-                              </dl>
-                              <dl>
-                                <dt>Auction ending in</dt>
-                                <dd>05:32:21</dd>
-                              </dl>
-                            </div>
-                            <div className="history">
-                              <span>Offer History</span>
-                              <ul>
-                                <li>
-                                  <img src={cont.author_mongo?.profileimage} />
-                                  <strong>
-                                    {cont.askpricestats?.min} KLAY
-                                  </strong>
-                                  <span>
-                                    {gettimestr(
-                                      cont.orders_sellside?.createdat
-                                    )}
-                                  </span>
-                                </li>
-                              </ul>
-                            </div>
-                            <div className="button">
-                              <a
-                                onClick={() =>
-                                  navigate(`/singleitem?itemid=${cont.itemid}`)
-                                }
-                              >
-                                View Item
-                              </a>
-                              <a
+                      <li className="swiperContBox" key={index}>
+                        <span
+                          className="itemImg"
+                          style={{
+                            backgroundImage: `url(${cont.url})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                          }}
+                        />
+
+                        <div className="infoContainer">
+                          <div className="titleBox">
+                            <strong className="title">{cont.titlename}</strong>
+                            <strong>{cont.username}</strong>
+                          </div>
+
+                          <div className="infoBox">
+                            <ul className="infoList">
+                              <li>
+                                <strong className="key">Current Bid</strong>
+                                <p className="value">2.867 KLAY</p>
+                              </li>
+                              <li>
+                                <strong className="key">
+                                  Auction ending in
+                                </strong>
+                                <p className="value">05:32:21</p>
+                              </li>
+                            </ul>
+
+                            <div className="btnBox">
+                              <button
+                                className="bidBtn"
                                 onClick={() =>
                                   navigate(`/singleitem?itemid=${cont.itemid}`)
                                 }
                               >
                                 Place a Bid
-                              </a>
+                              </button>
+                              <button
+                                className="viewBtn"
+                                onClick={() =>
+                                  navigate(`/singleitem?itemid=${cont.itemid}`)
+                                }
+                              >
+                                View Artwork
+                              </button>
                             </div>
                           </div>
-                        </li>
-                      </span>
+                        </div>
+                      </li>
                     ))}
-                </ol>
+                </ul>
               </div>
 
-              <div className="swiper-button-prev swiper-button-visual-prev"></div>
-              <div
-                className="swiper-button-next swiper-button-visual-next"
-                onClick={onClickVisualSwiperBtn}
-              ></div>
+              <button className="nextBtn" onClick={onClickVisualSwiperBtn}>
+                <img src={I_rtArw3BlackBtn} alt="" />
+              </button>
             </div>
           </article>
 
-          <article class="collection">
-            <div class="wrap">
-              <h4 class="t">Trending Collection</h4>
-              <div class="swiper">
-                <div class="swiper-container swiper-container-collection">
-                  <ol class="list swiper-wrapper" ref={collectionSwiperRef}>
-                    {creatorlist.map((cont, index) => (
-                      <>
-                        <span>
-                          <li class="swiper-slide">
-                            <a
-                            // onClick={() =>
-                            //   navigate(``)
-                            // }
-                            >
-                              <div
-                                style={{
-                                  backgroundImage: `url(${cont.backgroundimgsrc})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              />
-                              <div>
-                                <span
-                                  style={{
-                                    backgroundImage: `url(${cont.mongo?.profileimage})`,
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center",
-                                    backgroundSize: "cover",
-                                  }}
+          <article class="collectionArticle swiperArticle contArticle">
+            <strong className="title">Trending Collection</strong>
+
+            <div className="swiperContainer">
+              <div class="swiperBox">
+                <ul class="swiperList" ref={collectionSwiperRef}>
+                  {creatorlist.map((cont, index) => (
+                    <li class="swiperContBox">
+                      <div
+                        className="bg"
+                        style={{
+                          backgroundImage: `url(${cont.backgroundimgsrc})`,
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                          background: "#000",
+                        }}
+                      />
+
+                      <div className="infoContainer">
+                        <span
+                          className="profImg"
+                          style={{
+                            backgroundImage: `url(${cont.mongo?.profileimage})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                            background: "#f00",
+                          }}
+                        />
+
+                        <div className="infoBox">
+                          <strong className="store">{cont.storename}</strong>
+                          <strong className="nickname">{cont?.nickname}</strong>
+                          <p className="description">
+                            {cont.mongo?.description}
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  className="nextBtn pageBtn"
+                  onClick={() =>
+                    onClickSwiperNextBtn(
+                      collectionSwiperRef,
+                      creatorlist,
+                      collectionIndex,
+                      setCollectionIndex
+                    )
+                  }
+                >
+                  <img src={I_rtArw3BlackBtn} alt="" />
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article className="categoryArticle contArticle">
+            <strong className="title">Market Category</strong>
+
+            <ul className="categroyList">
+              {D_categoryList.map((category, index) => (
+                <li
+                  key={index}
+                  onClick={() =>
+                    navigate("/marketplace", { state: category.state })
+                  }
+                >
+                  <strong>{category.text}</strong>
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          <article class="trendingArticle swiperArticle contArticle">
+            <strong className="title">Trending NFT Item</strong>
+
+            <div className="swiperContainer">
+              <div class="swiperBox">
+                <ul class="swiperList" ref={trendingSwiperRef}>
+                  {list_trenditems
+                    .filter((elem) => elem.url)
+                    .sort((a, b) => b.countfavors - a.countfavors)
+                    .map((cont, index) => (
+                      <li
+                        key={index}
+                        class="swiperContBox"
+                        onClick={() =>
+                          navigate(`/singleitem?itemid=${cont.itemid}`)
+                        }
+                      >
+                        <div
+                          className="itemBox"
+                          style={{
+                            backgroundImage: `url(${cont.url})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                          }}
+                        >
+                          <div className="infoBox">
+                            <div className="topBar">
+                              <button
+                                className="likeBtn"
+                                onClick={(e) => onClickFavorBtn(e, cont.itemid)}
+                              >
+                                <img
+                                  src={
+                                    cont.ilikethisitem ? heart_on : heart_off
+                                  }
+                                  alt=""
                                 />
-                                <dl>
-                                  <dt>{cont.storename}</dt>
-                                  <dd>
-                                    <strong>{cont?.nickname}</strong>
-                                    <p>{cont.mongo?.description}</p>
-                                  </dd>
-                                </dl>
-                              </div>
-                            </a>
-                          </li>
-                        </span>
-                      </>
-                    ))}
-                  </ol>
-                </div>
 
-                <div
-                  class="swiper-button-prev swiper-button-collection-prev"
-                  onClick={onClickCollectionPreBtn}
-                ></div>
-                <div
-                  class="swiper-button-next swiper-button-collection-next"
-                  onClick={onClickCollectionNextBtn}
-                ></div>
-              </div>
-            </div>
-          </article>
+                                <p>{cont.countfavors}</p>
+                              </button>
 
-          <article className="category">
-            <div className="wrap">
-              <h4 className="t">Market Category</h4>
-
-              <ol className="list">
-                <li>
-                  <a onClick={() => navigate("/marketplace", { state: "Art" })}>
-                    <img src={require("./img/main/category_art.png").default} />
-                    Digital Art
-                  </a>
-                </li>
-                <li>
-                  <a
-                    onClick={() => navigate("/marketplace", { state: "Music" })}
-                  >
-                    <img
-                      src={require("./img/main/category_music.png").default}
-                    />
-                    Music
-                  </a>
-                </li>
-                <li>
-                  <a
-                    onClick={() =>
-                      navigate("/marketplace", { state: "Virtual World" })
-                    }
-                  >
-                    <img
-                      src={
-                        require("./img/main/category_virtualworld.png").default
-                      }
-                    />
-                    Virtual World
-                  </a>
-                </li>
-                <li>
-                  <a
-                    onClick={() =>
-                      navigate("/marketplace", { state: "Trading Cards" })
-                    }
-                  >
-                    <img
-                      src={
-                        require("./img/main/category_tradingcards.png").default
-                      }
-                    />
-                    Trading Cards
-                  </a>
-                </li>
-                <li>
-                  <a
-                    onClick={() =>
-                      navigate("/marketplace", { state: "Collectibles" })
-                    }
-                  >
-                    <img
-                      src={
-                        require("./img/main/category_collectibles.png").default
-                      }
-                    />
-                    Collectibles
-                  </a>
-                </li>
-                <li>
-                  <a
-                    onClick={() =>
-                      navigate("/marketplace", { state: "Sports" })
-                    }
-                  >
-                    <img
-                      src={require("./img/main/category_sports.png").default}
-                    />
-                    Sports
-                  </a>
-                </li>
-                <li>
-                  <a
-                    onClick={() =>
-                      navigate("/marketplace", { state: "Utility" })
-                    }
-                  >
-                    <img
-                      src={require("./img/main/category_utility.png").default}
-                    />
-                    Utility
-                  </a>
-                </li>
-                <li>
-                  <a onClick={() => navigate("/marketplace", { state: "ETC" })}>
-                    <img src={require("./img/main/category_etc.png").default} />
-                    ETC
-                  </a>
-                </li>
-              </ol>
-            </div>
-          </article>
-
-          <article className="item">
-            <div className="wrap">
-              <h4 className="t">Trending NFT Item</h4>
-
-              <div className="swiper">
-                <div className="swiper-container swiper-container-trendingitem">
-                  <ol className="item item4 buy swiper-wrapper">
-                    <div className="slideBox" ref={trendingSwiperRef}>
-                      {list_trenditems
-                        .filter((elem) => elem.url)
-                        .sort((a, b) => b.countfavors - a.countfavors)
-                        .map((cont, index) => (
-                          <span key={index}>
-                            <li className="swiper-slide">
-                              <a
-                                onClick={() =>
-                                  navigate(`/singleitem?itemid=${cont.itemid}`)
+                              <button
+                                className="bookmarkBtn"
+                                onClick={(e) =>
+                                  onClickBookMarkBtn(e, cont.itemid)
                                 }
-                                style={{
-                                  backgroundImage: `url(${cont.url})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
                               >
-                                <div className="on">
-                                  <ul>
-                                    <li
-                                      className={
-                                        cont.ilikethisitem
-                                          ? "heart on"
-                                          : "heart off"
-                                      }
-                                      onClick={(e) =>
-                                        onClickFavorBtn(e, cont.itemid)
-                                      }
-                                    >
-                                      {cont.countfavors}
-                                    </li>
+                                <img
+                                  src={cont.ididbookmark ? star_on : star_off}
+                                  alt=""
+                                />
+                              </button>
+                            </div>
 
-                                    <li
-                                      className="star off"
-                                      onClick={(e) =>
-                                        onClickBookMarkBtn(e, cont.itemid)
-                                      }
-                                    />
-                                  </ul>
-                                  <div>{cont.titlename}</div>
-                                  <span>
-                                    {strDot(cont.author?.nickname, 10, 0)}
-                                  </span>
-                                  <ol>
-                                    <li>
-                                      {moment
-                                        .unix(cont.minpriceorder?.expiry)
-                                        .fromNow() ||
-                                        get_deltatime_str(
-                                          cont.minpriceorder?.expiry
-                                        )}
-                                    </li>
-                                    <li>{cont.askpricestats?.min} KLAY</li>
-                                  </ol>
-                                  <p>Buy Now</p>
-                                </div>
-                              </a>
-                            </li>
-                          </span>
-                        ))}
-                    </div>
-                  </ol>
-                </div>
+                            <p className="title">{cont.titlename}</p>
+                            <p className="nickname">
+                              {strDot(cont.author?.nickname, 10, 0)}
+                            </p>
 
-                <div
-                  className="swiper-button-prev swiper-button-trendingitem-prev"
-                  onClick={onClickTrendingPreBtn}
-                ></div>
-                <div
-                  className="swiper-button-next swiper-button-trendingitem-next"
-                  onClick={onClickTrendingNextBtn}
-                ></div>
-              </div>
-            </div>
-          </article>
+                            <div className="etcBox">
+                              <p className="time">
+                                {moment
+                                  .unix(cont.minpriceorder?.expiry)
+                                  .fromNow() ||
+                                  get_deltatime_str(cont.minpriceorder?.expiry)}
+                              </p>
 
-          <article className="item">
-            <div className="wrap">
-              <h4 className="t">NEW NFT Item</h4>
+                              <strong className="priceBox">
+                                {cont.askpricestats?.min} KLAY
+                              </strong>
+                            </div>
+                          </div>
+                        </div>
 
-              <div className="swiper">
-                <div className="swiper-container swiper-container-newitem">
-                  <ol className="item item4 summary swiper-wrapper">
-                    <div className="slideBox" ref={itemSwiperRef}>
-                      {list_newitems
-                        .filter((elem) => elem.url)
-                        .sort((a, b) => (a.createdat < b.createdat ? +1 : -1))
-                        .map((cont, index) => (
-                          <span key={index}>
-                            <li className="swiper-slide">
-                              <a
-                                onClick={() =>
-                                  navigate(`/singleitem?itemid=${cont.itemid}`)
-                                }
-                                style={{
-                                  backgroundImage: `url(${cont.url})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              >
-                                <div className="on">
-                                  <ul>
-                                    <li
-                                      className={
-                                        cont.ilikethisitem
-                                          ? "heart on"
-                                          : "heart off"
-                                      }
-                                      onClick={(e) =>
-                                        onClickFavorBtn(e, cont.itemid)
-                                      }
-                                    >
-                                      {cont.countfavors}
-                                    </li>
-                                    <li
-                                      className="star off"
-                                      onClick={(e) => e.preventDefault()}
-                                    />
-                                  </ul>
-                                  <div>{cont.titlename} </div>
-                                  <span>
-                                    {" "}
-                                    {strDot(cont.author?.username, 10, 0)}{" "}
-                                    {moment(cont.createdat).fromNow()}
-                                  </span>
-
-                                  <ol>
-                                    <li>
-                                      {cont.minpriceorder?.expiry
-                                        ? moment
-                                            .unix(cont.minpriceorder?.expiry)
-                                            .fromNow()
-                                        : ""}
-                                    </li>
-                                    <li>
-                                      {cont.minpriceorder
-                                        ? `${cont.askpricestats?.min} KLAY`
-                                        : ""}{" "}
-                                    </li>
-                                  </ol>
-                                </div>
-                              </a>
-                            </li>
-                          </span>
-                        ))}
-                    </div>
-                  </ol>
-                </div>
-
-                <div
-                  className="swiper-button-prev swiper-button-newitem-prev"
-                  onClick={onClickItemPreBtn}
-                ></div>
-                <div
-                  className="swiper-button-next swiper-button-newitem-next"
-                  onClick={onClickItemNextBtn}
-                ></div>
-              </div>
-            </div>
-          </article>
-
-          <article className="users">
-            <div className="wrap">
-              <h4 className="t">Tips for Itemverse users</h4>
-
-              <div className="swiper">
-                <div className="swiper-container swiper-container-users">
-                  <ol className="list swiper-wrapper" ref={userWrapRef}>
-                    {[1, 2].map((cont, index) => (
-                      <>
-                        <span key={index}>
-                          <li className="swiper-slide">
-                            <a>
-                              <div
-                                style={{
-                                  backgroundImage: `url(${users_list01})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              ></div>
-                              <dl>
-                                <dt>Basic Guide</dt>
-                                <dd>Before Participating in NFT Collection</dd>
-                              </dl>
-                            </a>
-                          </li>
-                        </span>
-
-                        <span>
-                          <li className="swiper-slide">
-                            <a>
-                              <div
-                                style={{
-                                  backgroundImage: `url(${users_list02})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              ></div>
-                              <dl>
-                                <dt>Buy NFTs</dt>
-                                <dd>Discover and buy promising NFTs</dd>
-                              </dl>
-                            </a>
-                          </li>
-                        </span>
-                        <span>
-                          <li className="swiper-slide">
-                            <a>
-                              <div
-                                style={{
-                                  backgroundImage: `url(${users_list03})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              ></div>
-                              <dl>
-                                <dt>production and sales</dt>
-                                <dd>Easy-to-follow NFT production and sales</dd>
-                              </dl>
-                            </a>
-                          </li>
-                        </span>
-                        <span>
-                          <li className="swiper-slide">
-                            <a>
-                              <div
-                                style={{
-                                  backgroundImage: `url(${users_list04})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundPosition: "center",
-                                  backgroundSize: "cover",
-                                }}
-                              ></div>
-                              <dl>
-                                <dt>Itemverse Market</dt>
-                                <dd>
-                                  5 reasons to sell your NFTs on Itemverse
-                                </dd>
-                              </dl>
-                            </a>
-                          </li>
-                        </span>
-                      </>
+                        <button className="buyBtn" onClick={() => {}}>
+                          Buy Now
+                        </button>
+                      </li>
                     ))}
-                  </ol>
-                </div>
-                <div
-                  className="swiper-button-prev swiper-button-users-prev"
-                  onClick={onClickUserPreBtn}
-                ></div>
-                <div
-                  className="swiper-button-next swiper-button-users-next"
-                  onClick={onClickUserNextBtn}
-                ></div>
+                </ul>
+
+                <button
+                  className="nextBtn pageBtn"
+                  onClick={() =>
+                    onClickSwiperNextBtn(
+                      trendingSwiperRef,
+                      list_trenditems,
+                      trendingItemIndex,
+                      setTrendingItemIndex
+                    )
+                  }
+                >
+                  <img src={I_rtArw3BlackBtn} alt="" />
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="newArticle swiperArticle contArticle">
+            <strong className="title">NEW NFT Item</strong>
+
+            <div className="swiperContainer">
+              <div class="swiperBox">
+                <ul class="swiperList" ref={itemSwiperRef}>
+                  {list_newitems
+                    .filter((elem) => elem.url)
+                    .sort((a, b) => b.countfavors - a.countfavors)
+                    .map((cont, index) => (
+                      <li
+                        key={index}
+                        class="swiperContBox"
+                        onClick={() =>
+                          navigate(`/singleitem?itemid=${cont.itemid}`)
+                        }
+                        style={{
+                          backgroundImage: `url(${cont.url})`,
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                        }}
+                      >
+                        <div className="infoBox">
+                          <div className="topBar">
+                            <button
+                              className="likeBtn"
+                              onClick={(e) => onClickFavorBtn(e, cont.itemid)}
+                            >
+                              <img
+                                src={cont.ilikethisitem ? heart_on : heart_off}
+                                alt=""
+                              />
+
+                              <p>{cont.countfavors}</p>
+                            </button>
+
+                            <button
+                              className="bookmarkBtn"
+                              onClick={(e) =>
+                                onClickBookMarkBtn(e, cont.itemid)
+                              }
+                            >
+                              <img
+                                src={cont.ididbookmark ? star_on : star_off}
+                                alt=""
+                              />
+                            </button>
+                          </div>
+
+                          <p className="title">{cont.titlename}</p>
+                          <p className="nickname">
+                            {strDot(cont.author?.nickname, 10, 0)}
+                          </p>
+
+                          <div className="etcBox">
+                            <p className="time">
+                              {moment
+                                .unix(cont.minpriceorder?.expiry)
+                                .fromNow() ||
+                                get_deltatime_str(cont.minpriceorder?.expiry)}
+                            </p>
+
+                            <strong className="priceBox">
+                              {cont.askpricestats?.min} KLAY
+                            </strong>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                </ul>
+
+                <button
+                  className="nextBtn pageBtn"
+                  onClick={() =>
+                    onClickSwiperNextBtn(
+                      itemSwiperRef,
+                      list_newitems,
+                      itemIndex,
+                      setItemIndex
+                    )
+                  }
+                >
+                  <img src={I_rtArw3BlackBtn} alt="" />
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="tipArticle swiperArticle contArticle">
+            <strong className="title">Tips for Itemverse users</strong>
+
+            <div className="swiperContainer">
+              <div class="swiperBox">
+                <ul class="swiperList" ref={tipWrapRef}>
+                  {D_Tips.map((cont, index) => (
+                    <li key={index} class="swiperContBox">
+                      <img src={cont.img} alt="" />
+                      <div className="infoBox">
+                        <p className="title">{cont.title}</p>
+                        <p className="explain">{cont.explain}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  className="nextBtn pageBtn"
+                  onClick={() =>
+                    onClickSwiperNextBtn(
+                      tipWrapRef,
+                      D_Tips,
+                      tipIndex,
+                      setTipIndex
+                    )
+                  }
+                >
+                  <img src={I_rtArw3BlackBtn} alt="" />
+                </button>
               </div>
             </div>
           </article>
         </section>
 
-        <footer id="footer">
-          <div className="wrap">
-            <div className="info">
-              <div>
-                <h5>
-                  <a onClick={() => navigate("/")}>
-                    <img src={require("./img/sub/verse_logo.png").default} />
-                  </a>
-                </h5>
-                <p>
-                  Decentralized NFT marketplace Itemverse makes it easy and
-                  convenient to trade non-fungible tokens (NFTs) and crypto
-                  collectibles.
+        <footer className="footer">
+          <section className="innerBox">
+            <article className="contBox">
+              <span className="logoBox">
+                <button className="logoBtn" onClick={() => navigate("/")}>
+                  <img src={verse_logo} alt="" />
+                </button>
+
+                <p className="explain">
+                  Decentralized NFT marketplace AUSPICE makes
+                  <br />
+                  it easy and convenient to trade non-fungible
+                  <br />
+                  tokens (NFTs) and crypto collectibles.
+                  <br />
                 </p>
-                <div>
-                  <span>
-                    <a href="mailto:contact@Itemverse.com">Contact us</a>
-                  </span>
-                  <span>
-                    <a>English</a>
-                  </span>
+
+                <div className="contactBox">
+                  <p className="key">Contact us</p>
+
+                  <button className="langBtn" onClick={() => {}}>
+                    <p>English</p>
+                    <img src={I_dnPolygon} alt="" />
+                  </button>
                 </div>
-              </div>
-              <div>
-                <ul>
-                  <li>
-                    <h6>MARKET</h6>
-                    <ol>
-                      <li>
-                        <a onClick={() => navigate("/marketplace")}>
-                          all about NFT
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          onClick={() =>
-                            navigate("/marketplace", { state: "Digital Art" })
-                          }
-                        >
-                          Digital art
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          onClick={() =>
-                            navigate("/marketplace", { state: "Trading Card" })
-                          }
-                        >
-                          Trading cards
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          onClick={() =>
-                            navigate("/marketplace", { state: "Music" })
-                          }
-                        >
-                          Music
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          onClick={() =>
-                            navigate("/marketplace", {
-                              state: "Virtual Worlds",
-                            })
-                          }
-                        >
-                          Virtual Worlds
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          onClick={() =>
-                            navigate("/marketplace", { state: "Utility" })
-                          }
-                        >
-                          Utility
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          onClick={() =>
-                            navigate("/marketplace", { state: "Sports" })
-                          }
-                        >
-                          Sports
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          onClick={() =>
-                            navigate("/marketplace", { state: "ETC" })
-                          }
-                        >
-                          ETC
-                        </a>
-                      </li>
-                    </ol>
+              </span>
+
+              <ul className="navBar">
+                {D_navList.map((cont, index) => (
+                  <li key={index}>
+                    <strong className="title">{cont.title}</strong>
+
+                    <ul className="detailList">
+                      {cont.detailNav.map((detail, index) => (
+                        <li key={index}>
+                          <button
+                            className="navBtn"
+                            onClick={() => navigate(`${detail.url}`)}
+                          >
+                            {detail.text}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
                   </li>
-                  <li>
-                    <h6>MY ACCOUNT</h6>
-                    <ol>
-                      <li>
-                        <a onClick={() => navigate("/myprof")}>My Profile</a>
-                      </li>
-                      <li>
-                        <a onClick={() => navigate("/myitem")}>My Items</a>
-                      </li>
-                      <li>
-                        <a onClick={() => navigate("/liked")}>My Favourite</a>
-                      </li>
-                      <li>
-                        <a onClick={() => navigate("/mywallet")}>
-                          account setting
-                        </a>
-                      </li>
-                    </ol>
-                  </li>
-                  <li>
-                    <h6>EXPLORE</h6>
-                    <ol>
-                      <li>
-                        <a onClick={() => navigate("/ranking")}>User Ranking</a>
-                      </li>
-                      <li>
-                        <a onClick={() => navigate("/exploredeal")}>
-                          Transaction details
-                        </a>
-                      </li>
-                    </ol>
-                  </li>
-                  <li>
-                    <h6>CONTACT US</h6>
-                    <ol>
-                      <li>
-                        <a href="mailto:contact@Itemverse.com">
-                          contact@Itemverse.com
-                        </a>
-                      </li>
-                    </ol>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="copy">
-              <div>
-                <ul>
-                  <li>
-                    <a>Privacy Policy</a>
-                  </li>
-                  <li>
-                    <a>Terms of Service</a>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <address>
-                  Copyright © 2021 Itemverse. All rights reserved.
-                </address>
-              </div>
-            </div>
-          </div>
+                ))}
+              </ul>
+            </article>
+
+            <article className="bottomBar">
+              <span className="leftBox">
+                <button className="privacyBtn" onClick={() => {}}>
+                  Privacy Policy
+                </button>
+                <p>|</p>
+                <button className="termBtn" onClick={() => {}}>
+                  Terms of Service
+                </button>
+              </span>
+
+              <p className="copyRight">
+                Copyright © 2021 AUSPICE. All rights reserved.
+              </p>
+            </article>
+          </section>
         </footer>
       </MmainBox>
     );
@@ -1151,25 +820,22 @@ function Main({ store }) {
 
                                   <span className="scrollBox">
                                     <ul className="historyList">
-                                      {[1, 2, 3, 4, 5, 6, 7, 8].map(
-                                        (con, index) => (
-                                          <li key={index}>
-                                            <span className="profBox">
-                                              <img
-                                                src={
-                                                  cont.author_mongo
-                                                    ?.profileimage
-                                                }
-                                              />
-                                              <strong>
-                                                {cont.askpricestats?.min} KLAY
-                                              </strong>
-                                            </span>
+                                      {[1].map((con, index) => (
+                                        <li key={index}>
+                                          <span className="profBox">
+                                            <img
+                                              src={
+                                                cont.author_mongo?.profileimage
+                                              }
+                                            />
+                                            <strong>
+                                              {cont.askpricestats?.min} KLAY
+                                            </strong>
+                                          </span>
 
-                                            <p className="time">21:54</p>
-                                          </li>
-                                        )
-                                      )}
+                                          <p className="time">21:54</p>
+                                        </li>
+                                      ))}
                                     </ul>
                                   </span>
                                 </div>
@@ -1210,8 +876,9 @@ function Main({ store }) {
               </div>
             </article>
 
-            <article class="collection">
+            <article class="collectionArticle swiperArticle contArticle">
               <strong className="title">Trending Collection</strong>
+
               <div className="swiperContainer">
                 <div class="swiperBox">
                   <ul class="swiperList" ref={collectionSwiperRef}>
@@ -1257,599 +924,1041 @@ function Main({ store }) {
               </div>
               <button
                 className="preBtn pageBtn"
-                onClick={onClickCollectionPreBtn}
+                onClick={() =>
+                  onClickSwiperPreBtn(
+                    collectionSwiperRef,
+                    creatorlist,
+                    collectionIndex,
+                    setCollectionIndex
+                  )
+                }
               >
                 <img src={I_ltArw3BlackBtn} alt="" />
               </button>
               <button
                 className="nextBtn pageBtn"
-                onClick={onClickCollectionNextBtn}
+                onClick={() =>
+                  onClickSwiperNextBtn(
+                    collectionSwiperRef,
+                    creatorlist,
+                    collectionIndex,
+                    setCollectionIndex
+                  )
+                }
               >
                 <img src={I_rtArw3BlackBtn} alt="" />
               </button>
             </article>
 
-            <article className="category">
-              <div className="wrap">
-                <h4 className="t">Market Category</h4>
+            <article className="categoryArticle contArticle">
+              <strong className="title">Market Category</strong>
 
-                <ol className="list">
-                  <li>
-                    <a
-                      onClick={() => navigate("/marketplace", { state: "Art" })}
-                    >
-                      <img
-                        src={require("./img/main/category_art.png").default}
-                      />
-                      Digital Art
-                    </a>
+              <ul className="categroyList">
+                {D_categoryList.map((category, index) => (
+                  <li
+                    key={index}
+                    onClick={() =>
+                      navigate("/marketplace", { state: category.state })
+                    }
+                  >
+                    <img src={category.img} alt="" />
+                    <strong>{category.text}</strong>
+                    {/* {category.text.length < 13
+                    &&
+                    } */}
+                    <span className="blank" />
                   </li>
-                  <li>
-                    <a
-                      onClick={() =>
-                        navigate("/marketplace", { state: "Music" })
-                      }
-                    >
-                      <img
-                        src={require("./img/main/category_music.png").default}
-                      />
-                      Music
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      onClick={() =>
-                        navigate("/marketplace", { state: "Virtual World" })
-                      }
-                    >
-                      <img
-                        src={
-                          require("./img/main/category_virtualworld.png")
-                            .default
-                        }
-                      />
-                      Virtual World
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      onClick={() =>
-                        navigate("/marketplace", { state: "Trading Cards" })
-                      }
-                    >
-                      <img
-                        src={
-                          require("./img/main/category_tradingcards.png")
-                            .default
-                        }
-                      />
-                      Trading Cards
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      onClick={() =>
-                        navigate("/marketplace", { state: "Collectibles" })
-                      }
-                    >
-                      <img
-                        src={
-                          require("./img/main/category_collectibles.png")
-                            .default
-                        }
-                      />
-                      Collectibles
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      onClick={() =>
-                        navigate("/marketplace", { state: "Sports" })
-                      }
-                    >
-                      <img
-                        src={require("./img/main/category_sports.png").default}
-                      />
-                      Sports
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      onClick={() =>
-                        navigate("/marketplace", { state: "Utility" })
-                      }
-                    >
-                      <img
-                        src={require("./img/main/category_utility.png").default}
-                      />
-                      Utility
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      onClick={() => navigate("/marketplace", { state: "ETC" })}
-                    >
-                      <img
-                        src={require("./img/main/category_etc.png").default}
-                      />
-                      ETC
-                    </a>
-                  </li>
-                </ol>
-              </div>
+                ))}
+              </ul>
             </article>
 
-            <article className="item">
-              <div className="wrap">
-                <h4 className="t">Trending NFT Item</h4>
+            <article class="trendingArticle swiperArticle contArticle">
+              <strong className="title">Trending NFT Item</strong>
 
-                <div className="swiper">
-                  <div className="swiper-container swiper-container-trendingitem">
-                    <ol className="item item4 buy swiper-wrapper">
-                      <div className="slideBox" ref={trendingSwiperRef}>
-                        {list_trenditems
-                          .filter((elem) => elem.url)
-                          .sort((a, b) => b.countfavors - a.countfavors)
-                          .map((cont, index) => (
-                            <span key={index}>
-                              <li className="swiper-slide">
-                                <a
-                                  onClick={() =>
-                                    navigate(
-                                      `/singleitem?itemid=${cont.itemid}`
-                                    )
+              <div className="swiperContainer">
+                <div class="swiperBox">
+                  <ul class="swiperList" ref={trendingSwiperRef}>
+                    {list_trenditems
+                      .filter((elem) => elem.url)
+                      .sort((a, b) => b.countfavors - a.countfavors)
+                      .map((cont, index) => (
+                        <li
+                          key={index}
+                          class="swiperContBox"
+                          onClick={() =>
+                            navigate(`/singleitem?itemid=${cont.itemid}`)
+                          }
+                        >
+                          <div
+                            className="itemBox"
+                            style={{
+                              backgroundImage: `url(${cont.url})`,
+                              backgroundRepeat: "no-repeat",
+                              backgroundPosition: "center",
+                              backgroundSize: "cover",
+                            }}
+                          >
+                            <div className="infoBox">
+                              <div className="topBar">
+                                <button
+                                  className="likeBtn"
+                                  onClick={(e) =>
+                                    onClickFavorBtn(e, cont.itemid)
                                   }
-                                  style={{
-                                    backgroundImage: `url(${cont.url})`,
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center",
-                                    backgroundSize: "cover",
-                                  }}
                                 >
-                                  <div className="on">
-                                    <ul>
-                                      <li
-                                        className={
-                                          cont.ilikethisitem
-                                            ? "heart on"
-                                            : "heart off"
-                                        }
-                                        onClick={(e) =>
-                                          onClickFavorBtn(e, cont.itemid)
-                                        }
-                                      >
-                                        {cont.countfavors}
-                                      </li>
+                                  <img
+                                    src={
+                                      cont.ilikethisitem ? heart_on : heart_off
+                                    }
+                                    alt=""
+                                  />
 
-                                      <li
-                                        className="star off"
-                                        onClick={(e) =>
-                                          onClickBookMarkBtn(e, cont.itemid)
-                                        }
-                                      />
-                                    </ul>
-                                    <div>{cont.titlename}</div>
-                                    <span>
-                                      {strDot(cont.author?.nickname, 10, 0)}
-                                    </span>
-                                    <ol>
-                                      <li>
-                                        {moment
-                                          .unix(cont.minpriceorder?.expiry)
-                                          .fromNow() ||
-                                          get_deltatime_str(
-                                            cont.minpriceorder?.expiry
-                                          )}
-                                      </li>
-                                      <li>{cont.askpricestats?.min} KLAY</li>
-                                    </ol>
-                                    <p>Buy Now</p>
-                                  </div>
-                                </a>
-                              </li>
-                            </span>
-                          ))}
-                      </div>
-                    </ol>
-                  </div>
+                                  <p>{cont.countfavors}</p>
+                                </button>
 
-                  <div
-                    className="swiper-button-prev swiper-button-trendingitem-prev"
-                    onClick={onClickTrendingPreBtn}
-                  ></div>
-                  <div
-                    className="swiper-button-next swiper-button-trendingitem-next"
-                    onClick={onClickTrendingNextBtn}
-                  ></div>
-                </div>
-              </div>
-            </article>
-
-            <article className="item">
-              <div className="wrap">
-                <h4 className="t">NEW NFT Item</h4>
-
-                <div className="swiper">
-                  <div className="swiper-container swiper-container-newitem">
-                    <ol className="item item4 summary swiper-wrapper">
-                      <div className="slideBox" ref={itemSwiperRef}>
-                        {list_newitems
-                          .filter((elem) => elem.url)
-                          .sort((a, b) => (a.createdat < b.createdat ? +1 : -1))
-                          .map((cont, index) => (
-                            <span key={index}>
-                              <li className="swiper-slide">
-                                <a
-                                  onClick={() =>
-                                    navigate(
-                                      `/singleitem?itemid=${cont.itemid}`
-                                    )
+                                <button
+                                  className="bookmarkBtn"
+                                  onClick={(e) =>
+                                    onClickBookMarkBtn(e, cont.itemid)
                                   }
-                                  style={{
-                                    backgroundImage: `url(${cont.url})`,
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center",
-                                    backgroundSize: "cover",
-                                  }}
                                 >
-                                  <div className="on">
-                                    <ul>
-                                      <li
-                                        className={
-                                          cont.ilikethisitem
-                                            ? "heart on"
-                                            : "heart off"
-                                        }
-                                        onClick={(e) =>
-                                          onClickFavorBtn(e, cont.itemid)
-                                        }
-                                      >
-                                        {cont.countfavors}
-                                      </li>
-                                      <li
-                                        className="star off"
-                                        onClick={(e) => e.preventDefault()}
-                                      />
-                                    </ul>
-                                    <div>{cont.titlename} </div>
-                                    <span>
-                                      {" "}
-                                      {strDot(
-                                        cont.author?.username,
-                                        10,
-                                        0
-                                      )}{" "}
-                                      {moment(cont.createdat).fromNow()}
-                                    </span>
+                                  <img
+                                    src={cont.ididbookmark ? star_on : star_off}
+                                    alt=""
+                                  />
+                                </button>
+                              </div>
 
-                                    <ol>
-                                      <li>
-                                        {cont.minpriceorder?.expiry
-                                          ? moment
-                                              .unix(cont.minpriceorder?.expiry)
-                                              .fromNow()
-                                          : ""}
-                                      </li>
-                                      <li>
-                                        {cont.minpriceorder
-                                          ? `${cont.askpricestats?.min} KLAY`
-                                          : ""}{" "}
-                                      </li>
-                                    </ol>
-                                  </div>
-                                </a>
-                              </li>
-                            </span>
-                          ))}
-                      </div>
-                    </ol>
-                  </div>
+                              <p className="title">{cont.titlename}</p>
+                              <p className="nickname">
+                                {strDot(cont.author?.nickname, 10, 0)}
+                              </p>
 
-                  <div
-                    className="swiper-button-prev swiper-button-newitem-prev"
-                    onClick={onClickItemPreBtn}
-                  ></div>
-                  <div
-                    className="swiper-button-next swiper-button-newitem-next"
-                    onClick={onClickItemNextBtn}
-                  ></div>
-                </div>
-              </div>
-            </article>
+                              <div className="etcBox">
+                                <p className="time">
+                                  {moment
+                                    .unix(cont.minpriceorder?.expiry)
+                                    .fromNow() ||
+                                    get_deltatime_str(
+                                      cont.minpriceorder?.expiry
+                                    )}
+                                </p>
 
-            <article className="users">
-              <div className="wrap">
-                <h4 className="t">Tips for Itemverse users</h4>
+                                <strong className="priceBox">
+                                  {cont.askpricestats?.min} KLAY
+                                </strong>
+                              </div>
+                            </div>
+                          </div>
 
-                <div className="swiper">
-                  <div className="swiper-container swiper-container-users">
-                    <ol className="list swiper-wrapper" ref={userWrapRef}>
-                      {[1, 2].map((cont, index) => (
-                        <>
-                          <span key={index}>
-                            <li className="swiper-slide">
-                              <a>
-                                <div
-                                  style={{
-                                    backgroundImage: `url(${users_list01})`,
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center",
-                                    backgroundSize: "cover",
-                                  }}
-                                ></div>
-                                <dl>
-                                  <dt>Basic Guide</dt>
-                                  <dd>
-                                    Before Participating in NFT Collection
-                                  </dd>
-                                </dl>
-                              </a>
-                            </li>
-                          </span>
-
-                          <span>
-                            <li className="swiper-slide">
-                              <a>
-                                <div
-                                  style={{
-                                    backgroundImage: `url(${users_list02})`,
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center",
-                                    backgroundSize: "cover",
-                                  }}
-                                ></div>
-                                <dl>
-                                  <dt>Buy NFTs</dt>
-                                  <dd>Discover and buy promising NFTs</dd>
-                                </dl>
-                              </a>
-                            </li>
-                          </span>
-                          <span>
-                            <li className="swiper-slide">
-                              <a>
-                                <div
-                                  style={{
-                                    backgroundImage: `url(${users_list03})`,
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center",
-                                    backgroundSize: "cover",
-                                  }}
-                                ></div>
-                                <dl>
-                                  <dt>production and sales</dt>
-                                  <dd>
-                                    Easy-to-follow NFT production and sales
-                                  </dd>
-                                </dl>
-                              </a>
-                            </li>
-                          </span>
-                          <span>
-                            <li className="swiper-slide">
-                              <a>
-                                <div
-                                  style={{
-                                    backgroundImage: `url(${users_list04})`,
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center",
-                                    backgroundSize: "cover",
-                                  }}
-                                ></div>
-                                <dl>
-                                  <dt>Itemverse Market</dt>
-                                  <dd>
-                                    5 reasons to sell your NFTs on Itemverse
-                                  </dd>
-                                </dl>
-                              </a>
-                            </li>
-                          </span>
-                        </>
+                          <button className="buyBtn" onClick={() => {}}>
+                            Buy Now
+                          </button>
+                        </li>
                       ))}
-                    </ol>
-                  </div>
-                  <div
-                    className="swiper-button-prev swiper-button-users-prev"
-                    onClick={onClickUserPreBtn}
-                  ></div>
-                  <div
-                    className="swiper-button-next swiper-button-users-next"
-                    onClick={onClickUserNextBtn}
-                  ></div>
+                  </ul>
+                </div>
+              </div>
+              <button
+                className="preBtn pageBtn"
+                onClick={() =>
+                  onClickSwiperPreBtn(
+                    trendingSwiperRef,
+                    list_trenditems,
+                    trendingItemIndex,
+                    setTrendingItemIndex
+                  )
+                }
+              >
+                <img src={I_ltArw3BlackBtn} alt="" />
+              </button>
+              <button
+                className="nextBtn pageBtn"
+                onClick={() =>
+                  onClickSwiperNextBtn(
+                    trendingSwiperRef,
+                    list_trenditems,
+                    trendingItemIndex,
+                    setTrendingItemIndex
+                  )
+                }
+              >
+                <img src={I_rtArw3BlackBtn} alt="" />
+              </button>
+            </article>
+
+            <article class="newArticle swiperArticle contArticle">
+              <strong className="title">NEW NFT Item</strong>
+
+              <div className="swiperContainer">
+                <div class="swiperBox">
+                  <ul class="swiperList" ref={itemSwiperRef}>
+                    {list_newitems
+                      .filter((elem) => elem.url)
+                      .sort((a, b) => b.countfavors - a.countfavors)
+                      .map((cont, index) => (
+                        <li
+                          key={index}
+                          class="swiperContBox"
+                          onClick={() =>
+                            navigate(`/singleitem?itemid=${cont.itemid}`)
+                          }
+                          style={{
+                            backgroundImage: `url(${cont.url})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                          }}
+                        >
+                          <div className="infoBox">
+                            <div className="topBar">
+                              <button
+                                className="likeBtn"
+                                onClick={(e) => onClickFavorBtn(e, cont.itemid)}
+                              >
+                                <img
+                                  src={
+                                    cont.ilikethisitem ? heart_on : heart_off
+                                  }
+                                  alt=""
+                                />
+
+                                <p>{cont.countfavors}</p>
+                              </button>
+
+                              <button
+                                className="bookmarkBtn"
+                                onClick={(e) =>
+                                  onClickBookMarkBtn(e, cont.itemid)
+                                }
+                              >
+                                <img
+                                  src={cont.ididbookmark ? star_on : star_off}
+                                  alt=""
+                                />
+                              </button>
+                            </div>
+
+                            <p className="title">{cont.titlename}</p>
+                            <p className="nickname">
+                              {strDot(cont.author?.nickname, 10, 0)}
+                            </p>
+
+                            <div className="etcBox">
+                              <p className="time">
+                                {moment
+                                  .unix(cont.minpriceorder?.expiry)
+                                  .fromNow() ||
+                                  get_deltatime_str(cont.minpriceorder?.expiry)}
+                              </p>
+
+                              <strong className="priceBox">
+                                {cont.askpricestats?.min} KLAY
+                              </strong>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
+              <button
+                className="preBtn pageBtn"
+                onClick={() =>
+                  onClickSwiperPreBtn(
+                    itemSwiperRef,
+                    list_newitems,
+                    itemIndex,
+                    setItemIndex
+                  )
+                }
+              >
+                <img src={I_ltArw3BlackBtn} alt="" />
+              </button>
+              <button
+                className="nextBtn pageBtn"
+                onClick={() =>
+                  onClickSwiperNextBtn(
+                    itemSwiperRef,
+                    list_newitems,
+                    itemIndex,
+                    setItemIndex
+                  )
+                }
+              >
+                <img src={I_rtArw3BlackBtn} alt="" />
+              </button>
+            </article>
+
+            <article class="tipArticle swiperArticle contArticle">
+              <strong className="title">Tips for Itemverse users</strong>
+
+              <div className="swiperContainer">
+                <div class="swiperBox">
+                  <ul class="swiperList" ref={tipWrapRef}>
+                    {D_Tips.map((cont, index) => (
+                      <li key={index} class="swiperContBox">
+                        <img src={cont.img} alt="" />
+                        <div className="infoBox">
+                          <p className="title">{cont.title}</p>
+                          <p className="explain">{cont.explain}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </article>
           </section>
 
-          <footer id="footer">
-            <div className="wrap">
-              <div className="info">
-                <div>
-                  <h5>
-                    <a onClick={() => navigate("/")}>
-                      <img src={require("./img/sub/verse_logo.png").default} />
-                    </a>
-                  </h5>
-                  <p>
-                    Decentralized NFT marketplace Itemverse makes it easy and
-                    convenient to trade non-fungible tokens (NFTs) and crypto
-                    collectibles.
-                  </p>
-                  <div>
-                    <span>
-                      <a href="mailto:contact@Itemverse.com">Contact us</a>
-                    </span>
-                    <span>
-                      <a>English</a>
-                    </span>
-                  </div>
-                </div>
-                <div>
+          <footer className="footer">
+            <article className="contBox">
+              <span className="logoBox">
+                <button className="logoBtn" onClick={() => navigate("/")}>
+                  <img src={verse_logo} alt="" />
+                </button>
+
+                <p className="explain">
+                  Decentralized NFT marketplace AUSPICE makes
+                  <br />
+                  it easy and convenient to trade non-fungible
+                  <br />
+                  tokens (NFTs) and crypto collectibles.
+                  <br />
+                </p>
+              </span>
+
+              <ul className="navBar">
+                {D_navList.map((cont, index) => (
+                  <li key={index}>
+                    <strong className="title">{cont.title}</strong>
+
+                    <ul className="detailList">
+                      {cont.detailNav.map((detail, index) => (
+                        <li key={index}>
+                          <button
+                            className="navBtn"
+                            onClick={() => navigate(`${detail.url}`)}
+                          >
+                            {detail.text}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+
+                <li>
+                  <strong className="title">CONTACT US</strong>
                   <ul>
-                    <li>
-                      <h6>MARKET</h6>
-                      <ol>
-                        <li>
-                          <a onClick={() => navigate("/marketplace")}>
-                            all about NFT
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            onClick={() =>
-                              navigate("/marketplace", { state: "Digital Art" })
-                            }
-                          >
-                            Digital art
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            onClick={() =>
-                              navigate("/marketplace", {
-                                state: "Trading Card",
-                              })
-                            }
-                          >
-                            Trading cards
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            onClick={() =>
-                              navigate("/marketplace", { state: "Music" })
-                            }
-                          >
-                            Music
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            onClick={() =>
-                              navigate("/marketplace", {
-                                state: "Virtual Worlds",
-                              })
-                            }
-                          >
-                            Virtual Worlds
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            onClick={() =>
-                              navigate("/marketplace", { state: "Utility" })
-                            }
-                          >
-                            Utility
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            onClick={() =>
-                              navigate("/marketplace", { state: "Sports" })
-                            }
-                          >
-                            Sports
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            onClick={() =>
-                              navigate("/marketplace", { state: "ETC" })
-                            }
-                          >
-                            ETC
-                          </a>
-                        </li>
-                      </ol>
-                    </li>
-                    <li>
-                      <h6>MY ACCOUNT</h6>
-                      <ol>
-                        <li>
-                          <a onClick={() => navigate("/myprof")}>My Profile</a>
-                        </li>
-                        <li>
-                          <a onClick={() => navigate("/myitem")}>My Items</a>
-                        </li>
-                        <li>
-                          <a onClick={() => navigate("/liked")}>My Favourite</a>
-                        </li>
-                        <li>
-                          <a onClick={() => navigate("/mywallet")}>
-                            account setting
-                          </a>
-                        </li>
-                      </ol>
-                    </li>
-                    <li>
-                      <h6>EXPLORE</h6>
-                      <ol>
-                        <li>
-                          <a onClick={() => navigate("/ranking")}>
-                            User Ranking
-                          </a>
-                        </li>
-                        <li>
-                          <a onClick={() => navigate("/exploredeal")}>
-                            Transaction details
-                          </a>
-                        </li>
-                      </ol>
-                    </li>
-                    <li>
-                      <h6>CONTACT US</h6>
-                      <ol>
-                        <li>
-                          <a href="mailto:contact@Itemverse.com">
-                            contact@Itemverse.com
-                          </a>
-                        </li>
-                      </ol>
-                    </li>
+                    <li>contact@Auspice.com</li>
                   </ul>
-                </div>
-              </div>
-              <div className="copy">
-                <div>
-                  <ul>
-                    <li>
-                      <a>Privacy Policy</a>
-                    </li>
-                    <li>
-                      <a>Terms of Service</a>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <address>
-                    Copyright © 2021 Itemverse. All rights reserved.
-                  </address>
-                </div>
-              </div>
-            </div>
+                </li>
+              </ul>
+            </article>
+
+            <article className="bottomBar">
+              <span className="leftBox">
+                <button className="privacyBtn" onClick={() => {}}>
+                  Privacy Policy
+                </button>
+                <p>|</p>
+                <button className="termBtn" onClick={() => {}}>
+                  Terms of Service
+                </button>
+              </span>
+
+              <p className="copyRight">
+                Copyright © 2021 AUSPICE. All rights reserved.
+              </p>
+            </article>
           </footer>
         </PmainBox>
       </>
     );
 }
 
-const MmainBox = styled.div``;
+const MmainBox = styled.div`
+  padding: 72px 0 0 0;
+
+  & > .innerBox {
+    padding: 0 0 27.77vw 0;
+
+    .visual {
+      display: flex;
+      flex-direction: column;
+      gap: 7.22vw;
+
+      .titleContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 7.22vw;
+
+        .titleBox {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 3.88vw;
+
+          .titleImg {
+            width: 72.77vw;
+          }
+
+          .explain {
+            font-size: 3.33vw;
+            font-weight: 500;
+            line-height: 4.44vw;
+            text-align: center;
+          }
+        }
+
+        .btnBox {
+          display: flex;
+          justify-content: center;
+          gap: 2.77vw;
+
+          button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 41.66vw;
+            height: 11.66vw;
+            font-size: 4.44vw;
+            font-weight: 700;
+            border: solid 1px #000;
+            border-radius: 16.66vw;
+
+            &.navBtn {
+            }
+
+            &.pubBtn {
+              color: #fff;
+              background: #000;
+            }
+          }
+        }
+      }
+
+      .swiperContainer {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .swiperBox {
+          display: flex;
+          position: relative;
+
+          .swiperList {
+            display: flex;
+            gap: 5.55vw;
+            padding: 5.55vw;
+            transition: all 0.8s;
+
+            .swiperContBox {
+              display: flex;
+              flex-direction: column;
+              width: 88.88vw;
+              height: 158.33vw;
+              border-radius: 5.55vw;
+              overflow: hidden;
+              box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.1);
+
+              .itemImg {
+                flex: 1;
+              }
+
+              .infoContainer {
+                display: flex;
+                flex-direction: column;
+                gap: 10vw;
+                height: 69.44vw;
+                padding: 4.16vw;
+
+                .titleBox {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 1.66vw;
+
+                  * {
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                  }
+
+                  .title {
+                    font-size: 6.66vw;
+                    line-height: 9.16vw;
+                  }
+
+                  .creator {
+                    font-size: 3.88vw;
+                    line-height: 4.44vw;
+                  }
+                }
+
+                .infoBox {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 7.22vw;
+
+                  .infoList {
+                    display: flex;
+                    justify-content: space-between;
+
+                    li {
+                      display: flex;
+                      flex-direction: column;
+                      gap: 2.77vw;
+
+                      .key {
+                        font-size: 3.88vw;
+                        line-height: 3.88vw;
+                      }
+
+                      .value {
+                        display: flex;
+                        align-items: flex-end;
+                        gap: 2px;
+                        font-size: 22px;
+                        line-height: 7.77vw;
+                        font-weight: 900;
+                      }
+                    }
+                  }
+
+                  .btnBox {
+                    display: flex;
+                    gap: 2.22vw;
+
+                    button {
+                      flex: 1;
+                      height: 11.66vw;
+                      font-size: 3.88vw;
+                      font-weight: 500;
+                      border-radius: 5.55vw;
+                      border: solid 1px #000;
+
+                      &.viewBtn {
+                        color: #fff;
+                        background: #000;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .nextBtn {
+          position: absolute;
+          right: 1.94vw;
+
+          img {
+            width: 10vw;
+            height: 10vw;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+
+    .contArticle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2.77vw;
+      margin: 13.88vw auto 0 auto;
+
+      .title {
+        font-size: 5vw;
+        font-weight: 700;
+      }
+
+      &.swiperArticle {
+        position: relative;
+
+        & > .title {
+        }
+
+        .swiperContainer {
+          width: 100%;
+
+          .swiperBox {
+            display: flex;
+            align-items: center;
+            position: relative;
+
+            .swiperList {
+              display: flex;
+              gap: 4.44vw;
+              overflow-x: scroll;
+              padding: 5.55vw;
+
+              &::-webkit-scrollbar {
+                display: none;
+              }
+
+              .swiperContBox {
+                display: flex;
+                flex-direction: column;
+                width: 88.88vw;
+                min-width: 88.88vw;
+                border-radius: 5.55vw;
+                box-shadow: 0 1.66vw 2.77vw 0 rgba(0, 0, 0, 0.16);
+                overflow: hidden;
+              }
+            }
+
+            .pageBtn {
+              position: absolute;
+
+              &.nextBtn {
+                right: 2.22vw;
+
+                img {
+                  width: 10vw;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.collectionArticle {
+        .swiperContainer {
+          .swiperBox {
+            .swiperList {
+              .swiperContBox {
+                height: 138.33vw;
+
+                .bg {
+                  height: 83.33vw;
+                }
+
+                .infoContainer {
+                  flex: 1;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  padding: 10.55vw 4.44vw 6.94vw 4.44vw;
+                  position: relative;
+
+                  .profImg {
+                    width: 12.22vw;
+                    height: 12.22vw;
+                    border-radius: 50%;
+                    top: -6.11vw;
+                    position: absolute;
+                  }
+
+                  .infoBox {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    height: 100%;
+                    text-align: center;
+
+                    .store {
+                      font-size: 4.44vw;
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                    }
+
+                    .nickname {
+                      margin: 2.22vw 0 0 0;
+                      font-size: 3.88vw;
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                    }
+
+                    .description {
+                      flex: 1;
+                      word-break: break-all;
+                      margin: 6.11vw 0 0 0;
+                      font-size: 3.33vw;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.categoryArticle {
+        margin: 8.33vw 0 0 0;
+
+        .categroyList {
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 3.3vw 2.22vw;
+          padding: 5.55vw;
+
+          li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 43.33vw;
+            height: 11.66vw;
+            font-size: 4.44vw;
+            white-space: nowrap;
+            background: #fff;
+            border: solid 2px #ebebeb;
+            border-radius: 22.22vw;
+            box-shadow: 0 0.83vw 1.38vw 0 rgba(21, 85, 96, 0.1);
+
+            cursor: pointer;
+
+            img,
+            .blank {
+              width: 21px;
+              object-fit: contain;
+            }
+          }
+        }
+      }
+
+      &.trendingArticle {
+        .swiperContainer {
+          .swiperBox {
+            .swiperContBox {
+              display: flex;
+              flex-direction: column;
+              height: 144.44vw;
+              color: #fff;
+
+              .itemBox {
+                flex: 1;
+                display: flex;
+                align-items: flex-end;
+
+                .infoBox {
+                  width: 100%;
+                  height: 41.66vw;
+                  padding: 2.77vw 5.55vw 5vw 5.55vw;
+                  background: linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.3),
+                    rgba(84, 84, 84, 0.3)
+                  );
+
+                  .topBar {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    img {
+                      width: 5.55vw;
+                    }
+
+                    .likeBtn {
+                      display: flex;
+                      align-items: center;
+                      gap: 2.77vw;
+                      font-size: 3.88vw;
+                      font-weight: 500;
+                      line-height: 3.88vw;
+                      color: #fff;
+                    }
+
+                    .bookmarkBtn {
+                    }
+                  }
+
+                  .title {
+                    margin: 10px 0 0 0;
+                    font-size: 7.22vw;
+                    font-weight: 500;
+                    line-height: 10vw;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                  }
+
+                  .nickname {
+                    margin: 1.11vw 0 0 0;
+                    font-size: 5vw;
+                    font-weight: 500;
+                  }
+
+                  .etcBox {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    height: 22px;
+                    margin: 12px 0 0 0;
+
+                    .time {
+                      font-size: 3.88vw;
+                      color: #e5e5e5;
+                    }
+
+                    .priceBox {
+                      font-size: 5vw;
+                      font-weight: 700;
+                    }
+                  }
+                }
+              }
+
+              .buyBtn {
+                height: 17.77vw;
+                font-size: 5vw;
+                font-weight: 500;
+                color: #fff;
+                background: #222;
+              }
+            }
+          }
+        }
+      }
+
+      &.newArticle {
+        .swiperContainer {
+          .swiperBox {
+            .swiperList {
+              .swiperContBox {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-end;
+                height: 125.55vw;
+                color: #fff;
+
+                .infoBox {
+                  width: 100%;
+                  padding: 4.44vw 5.55vw;
+                  background: linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.3),
+                    rgba(84, 84, 84, 0.3)
+                  );
+
+                  .topBar {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    img {
+                      width: 5.55vw;
+                    }
+
+                    .likeBtn {
+                      display: flex;
+                      align-items: center;
+                      gap: 3.33vw;
+                      font-size: 3.88vw;
+                      font-weight: 500;
+                      line-height: 3.88vw;
+                      color: #fff;
+                    }
+
+                    .bookmarkBtn {
+                    }
+                  }
+
+                  .title {
+                    margin: 4.44vw 0 0 0;
+                    font-size: 22px;
+                    font-weight: 7.22vw;
+                    line-height: 10vw;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                  }
+
+                  .nickname {
+                    margin: 0.83vw 0 0 0;
+                    font-size: 5vw;
+                    font-weight: 500;
+                  }
+
+                  .etcBox {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    height: 22px;
+                    margin: 12px 0 0 0;
+
+                    .time {
+                      font-size: 3.88vw;
+                      font-weight: 500;
+                      color: #e5e5e5;
+                    }
+
+                    .priceBox {
+                      font-size: 5vw;
+                      font-weight: 700;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.tipArticle {
+        .swiperContainer {
+          .swiperBox {
+            .swiperList {
+              .swiperContBox {
+                display: flex;
+                flex-direction: column;
+                height: 95vw;
+
+                .infoBox {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 2.22vw;
+                  width: 100%;
+                  height: 26.66vw;
+                  padding: 4.44vw;
+
+                  .title {
+                    font-size: 5.55vw;
+                    line-height: 6.66vw;
+                  }
+
+                  .explain {
+                    font-size: 3.88vw;
+                    line-height: 4.44vw;
+                    color: #555;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .footer {
+    padding: 0 5.55vw;
+    margin: 0 auto;
+
+    .innerBox {
+      display: flex;
+      flex-direction: column;
+      gap: 11.11vw;
+      padding: 13.33vw 0 14.44vw 0;
+      border-top: 1px solid #222;
+
+      .contBox {
+        display: flex;
+        flex-direction: column;
+        gap: 11.11vw;
+
+        .logoBox {
+          .logoBtn {
+            img {
+              height: 17.77vw;
+            }
+          }
+
+          .explain {
+            margin: 7.22vw 0 0 0;
+            font-size: 2.77vw;
+            font-weight: 500;
+            line-height: 3.88vw;
+          }
+
+          .contactBox {
+            display: flex;
+            gap: 5.55vw;
+            margin: 8.33vw 0 0 0;
+
+            * {
+              font-size: 3.33vw;
+              font-weight: 700;
+            }
+
+            .langBtn {
+              display: flex;
+              align-items: center;
+              gap: 2.22vw;
+            }
+          }
+        }
+
+        .navBar {
+          display: flex;
+
+          & > li {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 3.33vw;
+
+            .title {
+              font-size: 3.88vw;
+            }
+
+            .detailList {
+              display: flex;
+              flex-direction: column;
+              gap: 2.22vw;
+
+              li {
+                .navBtn {
+                  font-size: 3.33vw;
+                  font-weight: 500;
+                  color: #222;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .bottomBar {
+        display: flex;
+        flex-direction: column;
+        gap: 2.22vw;
+
+        .leftBox {
+          display: flex;
+          align-items: center;
+          gap: 1.66vw;
+
+          * {
+            font-size: 2.77vw;
+            font-weight: 700;
+          }
+        }
+
+        .copyRight {
+          font-size: 2.77vw;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+`;
+
 const PmainBox = styled.div`
   padding: 120px 0 0 0;
 
   & > .innerBox {
+    padding: 0 0 258px 0;
+
     .visual {
       display: flex;
       align-items: flex-start;
+      height: 606px;
 
       .titleContainer {
         flex: 1;
         display: flex;
         justify-content: flex-end;
         max-width: 50%;
-        padding: 100px 138px 156px 0;
+        height: inherit;
+        padding: 100px 138px 0 0;
         background: #fff;
         z-index: 3;
 
@@ -1858,7 +1967,6 @@ const PmainBox = styled.div`
           flex-direction: column;
           gap: 70px;
           max-width: 486px;
-          height: 584px;
 
           .titleBox {
             display: flex;
@@ -1928,6 +2036,7 @@ const PmainBox = styled.div`
               border-radius: 20px;
               overflow: hidden;
               box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+              cursor: pointer;
 
               .itemImg {
                 flex: 1;
@@ -2108,91 +2217,371 @@ const PmainBox = styled.div`
       }
     }
 
-    .collection {
+    .contArticle {
       display: flex;
       flex-direction: column;
       justify-content: center;
       gap: 30px;
-      max-width: 1312px;
-      margin: 0 auto;
-      position: relative;
+      margin: 70px auto 0 auto;
+      max-width: 1280px;
 
       .title {
         font-size: 22px;
         font-weight: 900;
       }
 
-      .swiperContainer {
-        padding: 0 16px 20px 16px;
-        overflow: hidden;
-      }
-
-      .swiperBox {
-        display: flex;
-        align-items: center;
+      &.swiperArticle {
+        max-width: 1312px;
         position: relative;
+        gap: 10px;
 
-        .swiperList {
-          display: flex;
-          gap: 16px;
+        & > .title {
+          padding: 0 16px;
+        }
 
-          .swiperContBox {
+        .swiperContainer {
+          overflow: hidden;
+          .swiperBox {
             display: flex;
-            flex-direction: column;
-            width: 308px;
-            min-width: 308px;
-            height: 480px;
-            border-radius: 20px;
-            box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.16);
-            overflow: hidden;
+            align-items: center;
+            position: relative;
 
-            .bg {
-              height: 290px;
-            }
-
-            .infoContainer {
-              flex: 1;
+            .swiperList {
               display: flex;
-              flex-direction: column;
-              align-items: center;
-              padding: 40px 15px 18px 15px;
-              position: relative;
+              gap: 16px;
+              overflow-x: scroll;
+              padding: 20px 16px;
 
-              .profImg {
-                width: 66px;
-                height: 66px;
-                border-radius: 50%;
-                top: -33px;
-                position: absolute;
+              &::-webkit-scrollbar {
+                display: none;
               }
 
-              .infoBox {
+              .swiperContBox {
                 display: flex;
                 flex-direction: column;
-                width: 100%;
-                height: 100%;
-                text-align: center;
+                width: 308px;
+                min-width: 308px;
+                border-radius: 20px;
+                box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.16);
+                overflow: hidden;
+                cursor: pointer;
+              }
+            }
+          }
+        }
 
-                .store {
-                  font-size: 22px;
-                  overflow: hidden;
-                  white-space: nowrap;
-                  text-overflow: ellipsis;
+        .pageBtn {
+          position: absolute;
+
+          &.preBtn {
+            top: 270px;
+            left: -8px;
+          }
+          &.nextBtn {
+            top: 270px;
+            right: -8px;
+          }
+        }
+      }
+
+      &.collectionArticle {
+        .swiperContainer {
+          .swiperBox {
+            .swiperList {
+              .swiperContBox {
+                height: 480px;
+
+                .bg {
+                  height: 290px;
                 }
 
-                .nickname {
-                  margin: 4px 0 0 0;
-                  font-size: 14px;
-                  overflow: hidden;
-                  white-space: nowrap;
-                  text-overflow: ellipsis;
-                }
-
-                .description {
+                .infoContainer {
                   flex: 1;
-                  word-break: break-all;
-                  margin: 16px 0 0 0;
-                  font-size: 14px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  padding: 40px 15px 18px 15px;
+                  position: relative;
+
+                  .profImg {
+                    width: 66px;
+                    height: 66px;
+                    border-radius: 50%;
+                    top: -33px;
+                    position: absolute;
+                  }
+
+                  .infoBox {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    height: 100%;
+                    text-align: center;
+
+                    .store {
+                      font-size: 22px;
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                    }
+
+                    .nickname {
+                      margin: 4px 0 0 0;
+                      font-size: 14px;
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                    }
+
+                    .description {
+                      flex: 1;
+                      word-break: break-all;
+                      margin: 16px 0 0 0;
+                      font-size: 14px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.categoryArticle {
+        .categroyList {
+          display: flex;
+          justify-content: space-between;
+
+          li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 7px;
+            width: 146px;
+            height: 48px;
+            padding: 0 10px;
+            font-size: 14px;
+            line-height: 14px;
+            white-space: nowrap;
+            background: #fff;
+            border-radius: 80px;
+            box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+
+            img,
+            .blank {
+              width: 21px;
+              object-fit: contain;
+            }
+          }
+        }
+      }
+
+      &.trendingArticle {
+        .swiperContainer {
+          .swiperBox {
+            .swiperContBox {
+              display: flex;
+              flex-direction: column;
+              height: 500px;
+              color: #fff;
+
+              .itemBox {
+                flex: 1;
+                display: flex;
+                align-items: flex-end;
+
+                .infoBox {
+                  width: 100%;
+                  padding: 16px;
+                  background: linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.3),
+                    rgba(84, 84, 84, 0.3)
+                  );
+
+                  .topBar {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    img {
+                      width: 20px;
+                    }
+
+                    .likeBtn {
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      font-size: 14px;
+                      font-weight: 500;
+                      line-height: 14px;
+                      color: #fff;
+                    }
+
+                    .bookmarkBtn {
+                    }
+                  }
+
+                  .title {
+                    margin: 10px 0 0 0;
+                    font-size: 22px;
+                    font-weight: 500;
+                    line-height: 30px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                  }
+
+                  .nickname {
+                    margin: 4px 0 0 0;
+                    font-size: 14px;
+                    font-weight: 500;
+                  }
+
+                  .etcBox {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    height: 22px;
+                    margin: 12px 0 0 0;
+
+                    .time {
+                      font-size: 14px;
+                      font-weight: 500;
+                      color: #e5e5e5;
+                    }
+
+                    .priceBox {
+                      font-size: 18px;
+                    }
+                  }
+                }
+              }
+
+              .buyBtn {
+                height: 64px;
+                font-size: 22px;
+                font-weight: 500;
+                color: #fff;
+                background: #222;
+              }
+            }
+          }
+        }
+      }
+
+      &.newArticle {
+        .swiperContainer {
+          .swiperBox {
+            .swiperList {
+              .swiperContBox {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-end;
+                height: 404px;
+                color: #fff;
+
+                .infoBox {
+                  width: 100%;
+                  padding: 16px;
+                  background: linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.3),
+                    rgba(84, 84, 84, 0.3)
+                  );
+
+                  .topBar {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    img {
+                      width: 20px;
+                    }
+
+                    .likeBtn {
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      font-size: 14px;
+                      font-weight: 500;
+                      line-height: 14px;
+                      color: #fff;
+                    }
+
+                    .bookmarkBtn {
+                    }
+                  }
+
+                  .title {
+                    margin: 10px 0 0 0;
+                    font-size: 22px;
+                    font-weight: 500;
+                    line-height: 30px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                  }
+
+                  .nickname {
+                    margin: 4px 0 0 0;
+                    font-size: 14px;
+                    font-weight: 500;
+                  }
+
+                  .etcBox {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    height: 22px;
+                    margin: 12px 0 0 0;
+
+                    .time {
+                      font-size: 14px;
+                      font-weight: 500;
+                      color: #e5e5e5;
+                    }
+
+                    .priceBox {
+                      font-size: 18px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.tipArticle {
+        .swiperContainer {
+          .swiperBox {
+            .swiperList {
+              .swiperContBox {
+                display: flex;
+                flex-direction: column;
+                height: 330px;
+
+                .infoBox {
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  gap: 6px;
+                  width: 100%;
+                  height: 92px;
+                  padding: 0 16px;
+
+                  .title {
+                    font-size: 20px;
+                    line-height: 24px;
+                  }
+
+                  .explain {
+                    font-size: 14px;
+                    line-height: 16px;
+                    color: #555;
+                  }
                 }
               }
             }
@@ -2200,91 +2589,91 @@ const PmainBox = styled.div`
         }
       }
     }
+  }
 
-    .pageBtn {
-      position: absolute;
+  .footer {
+    display: flex;
+    flex-direction: column;
+    gap: 70px;
+    max-width: 1280px;
+    padding: 80px 0 102px 0;
+    margin: 0 auto;
+    border-top: 1px solid #222;
 
-      &.preBtn {
-        top: 270px;
-        left: -8px;
+    .contBox {
+      display: flex;
+      justify-content: space-between;
+
+      .logoBox {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+
+        .logoBtn {
+          img {
+            height: 84px;
+          }
+        }
+
+        .explain {
+          font-size: 16px;
+          font-weight: 500;
+          line-height: 26px;
+        }
       }
-      &.nextBtn {
-        top: 270px;
-        right: -8px;
+
+      .navBar {
+        display: flex;
+
+        & > li {
+          display: flex;
+          flex-direction: column;
+          gap: 30px;
+          width: 200px;
+
+          .title {
+            font-size: 20px;
+          }
+
+          .detailList {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            li {
+              * {
+                font-size: 16px;
+                font-weight: 500;
+                color: #222;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .bottomBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .leftBox {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        * {
+          font-size: 16px;
+          font-weight: 700;
+        }
+      }
+
+      .copyRight {
+        font-size: 16px;
+        font-weight: 500;
+        color: #a6a6a6;
       }
     }
   }
 `;
-
-// const MmainBox = styled.div`
-//   width: 100%;
-//   overflow: hidden;
-
-//   .swiper-wrapper,
-//   .slideBox {
-//     overflow-x: scroll;
-//     transition: 0.8s;
-
-//     &::-webkit-scrollbar {
-//       display: none;
-//     }
-//   }
-
-//   #main {
-//     .visual {
-//       .swiper {
-//         .swiper-container {
-//           .swiper-wrapper {
-//             & > span {
-//               padding: 16px;
-
-//               & > li {
-//                 margin: 0;
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-
-//     article.collection {
-//       .wrap {
-//         .swiper {
-//           .swiper-container {
-//             .swiper-wrapper {
-//               & > span {
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-
-//     article.item {
-//       .wrap {
-//         .swiper {
-//           .swiper-container {
-//             .swiper-wrapper {
-//               width: 100%;
-//               .slideListBox {
-//                 overflow-x: scroll;
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
-
-function mapStateToProps(state) {
-  return { store: state };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    // setHeaderPopup: () => dispatch(setHeaderPopup()),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);

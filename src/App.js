@@ -196,6 +196,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         <Routes>
           <Route path="/index" element={<List />} />
           <Route path="/" element={<Main />} />
+          
           <Route path="/connectwallet" element={<ConnectWallet />} />
           <Route path="/emailrequired" element={<EmailRequired />} />
           <Route path="/sentemail" element={<SentEmail />} />
