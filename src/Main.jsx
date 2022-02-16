@@ -1296,6 +1296,8 @@ export default function Main({ store }) {
 
 const MmainBox = styled.div`
   padding: 72px 0 0 0;
+  height: 100%;
+  overflow-y: scroll;
 
   & > .innerBox {
     padding: 0 0 27.77vw 0;
@@ -1976,7 +1978,7 @@ const PmainBox = styled.div`
         height: inherit;
         padding: 100px 138px 0 0;
         background: #fff;
-        z-index: 3;
+        z-index: 2;
 
         .titleInnerBox {
           display: flex;
@@ -2222,7 +2224,7 @@ const PmainBox = styled.div`
         .nextBtn {
           position: absolute;
           left: -24px;
-          z-index: 4;
+          z-index: 3;
 
           img {
             width: 48px;

@@ -1,23 +1,20 @@
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
 import sample from "../img/sub/sample.png";
 
-
-
-
 // import "./css/style01.css";
 // import "./css/style02.css";
 
-
-
-
 import { useRef, useState } from "react";
+import DefaultHeader from "../components/header/DefaultHeader";
 
 function MyItems({ store, setConnect }) {
   const navigate = useNavigate();
   const collectionRef = useRef();
+
+  const isMobile = useSelector((state) => state.common.isMobile);
 
   const [popupIndex, setPopupIndex] = useState(-1);
 
@@ -32,124 +29,283 @@ function MyItems({ store, setConnect }) {
     navigate(`/${link}`);
   }
 
-  return (
-    <MyItemsBox>
-      <section id="sub">
-        <article className="profile_home">
-          <div className="collection_home add">
-            <div className="move off">
-              <div className="right_move">
-                <div className="real_sec">
-                  <ul className="tab tab4">
-                    <li className="onn">My collection</li>
-                    <li onClick={() => navigate("/myprof")}>
-                      Profile Management
-                    </li>
-                    <li onClick={() => navigate("/liked")}>My Favorite</li>
-                    <li onClick={() => navigate("/mywallet")}>
-                      Account Management
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="wrap">
-              <div className="collection_detail noimg">
-                <div className="pro_img"></div>
-                <h2>Add Collection</h2>
-                <h4>
-                  After creating a collection, register a new NFT.
-                  <br />
-                  Organize your own gallery with different concepts for each
-                  collection.
-                </h4>
-                <div className="ad_btn">
-                  <a onClick={() => navigate("/createitem")}>
-                    Create a new collection
-                  </a>
-                  <a onClick={() => navigate("/importcontract")} className="line">
-                    Load from contract
-                  </a>
-                </div>
-              </div>
+  if (isMobile)
+    return (
+      <>
+        <DefaultHeader />
 
-              <div className="item">
-                <div className="wrap">
-                  <h4 className="t">My Collection</h4>
-
-                  <div className="swiper">
-                    <div className="swiper-container swiper-container-trendingitem">
-                      <ol className="item item4 buy swiper-wrapper">
-                        <div>
-                          {[1, 2, 3, 4].map((cont, index) => (
-                            <span>
-                              <li
-                                className="swiper-slide"
-                                onClick={(e) => navigate("/mycollectionselect")}
-                              >
-                                <a
-                                  style={{ backgroundImage: `url(${sample})` }}
-                                >
-                                  <article className="choose choose2 on">
-                                    {popupIndex === index && (
-                                      <ul>
-                                        <li
-                                          onClick={(e) =>
-                                            onClickLink(e, "editcollection")
-                                          }
-                                        >
-                                          Changing Information
-                                        </li>
-                                        <li
-                                          onClick={(e) =>
-                                            onClickLink(e, "royaltycheck")
-                                          }
-                                        >
-                                          Royalty
-                                        </li>
-                                      </ul>
-                                    )}
-                                  </article>
-                                  <div className="on">
-                                    <ul>
-                                      <li className="heart off">1,389</li>
-                                      <li
-                                        className="dot"
-                                        onClick={(e) =>
-                                          onclickCollectionPopupBtn(e, index)
-                                        }
-                                      ></li>
-                                    </ul>
-                                    <div>Summer Pool</div>
-                                    <span>David</span>
-                                    <ol>
-                                      <li>6 minutes left</li>
-                                      <li>1.67 KLAY</li>
-                                    </ol>
-                                    <p>Buy Now</p>
-                                  </div>
-                                </a>
-                              </li>
-                            </span>
-                          ))}
-                        </div>
-                      </ol>
+        <MmyItemsBox>
+          <section id="sub">
+            <article className="profile_home">
+              <div className="collection_home add">
+                <div className="move off">
+                  <div className="right_move">
+                    <div className="real_sec">
+                      <ul className="tab tab4">
+                        <li className="onn">My collection</li>
+                        <li onClick={() => navigate("/myprof")}>
+                          Profile Management
+                        </li>
+                        <li onClick={() => navigate("/liked")}>My Favorite</li>
+                        <li onClick={() => navigate("/mywallet")}>
+                          Account Management
+                        </li>
+                      </ul>
                     </div>
+                  </div>
+                </div>
+                <div className="wrap">
+                  <div className="collection_detail noimg">
+                    <div className="pro_img"></div>
+                    <h2>Add Collection</h2>
+                    <h4>
+                      After creating a collection, register a new NFT.
+                      <br />
+                      Organize your own gallery with different concepts for each
+                      collection.
+                    </h4>
+                    <div className="ad_btn">
+                      <a onClick={() => navigate("/createitem")}>
+                        Create a new collection
+                      </a>
+                      <a
+                        onClick={() => navigate("/importcontract")}
+                        className="line"
+                      >
+                        Load from contract
+                      </a>
+                    </div>
+                  </div>
 
-                    <div className="swiper-button-prev swiper-button-trendingitem-prev pcno"></div>
-                    <div className="swiper-button-next swiper-button-trendingitem-next pcno"></div>
+                  <div className="item">
+                    <div className="wrap">
+                      <h4 className="t">My Collection</h4>
+
+                      <div className="swiper">
+                        <div className="swiper-container swiper-container-trendingitem">
+                          <ol className="item item4 buy swiper-wrapper">
+                            <div>
+                              {[1, 2, 3, 4].map((cont, index) => (
+                                <span>
+                                  <li
+                                    className="swiper-slide"
+                                    onClick={(e) =>
+                                      navigate("/mycollectionselect")
+                                    }
+                                  >
+                                    <a
+                                      style={{
+                                        backgroundImage: `url(${sample})`,
+                                      }}
+                                    >
+                                      <article className="choose choose2 on">
+                                        {popupIndex === index && (
+                                          <ul>
+                                            <li
+                                              onClick={(e) =>
+                                                onClickLink(e, "editcollection")
+                                              }
+                                            >
+                                              Changing Information
+                                            </li>
+                                            <li
+                                              onClick={(e) =>
+                                                onClickLink(e, "royaltycheck")
+                                              }
+                                            >
+                                              Royalty
+                                            </li>
+                                          </ul>
+                                        )}
+                                      </article>
+                                      <div className="on">
+                                        <ul>
+                                          <li className="heart off">1,389</li>
+                                          <li
+                                            className="dot"
+                                            onClick={(e) =>
+                                              onclickCollectionPopupBtn(
+                                                e,
+                                                index
+                                              )
+                                            }
+                                          ></li>
+                                        </ul>
+                                        <div>Summer Pool</div>
+                                        <span>David</span>
+                                        <ol>
+                                          <li>6 minutes left</li>
+                                          <li>1.67 KLAY</li>
+                                        </ol>
+                                        <p>Buy Now</p>
+                                      </div>
+                                    </a>
+                                  </li>
+                                </span>
+                              ))}
+                            </div>
+                          </ol>
+                        </div>
+
+                        <div className="swiper-button-prev swiper-button-trendingitem-prev pcno"></div>
+                        <div className="swiper-button-next swiper-button-trendingitem-next pcno"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </article>
-      </section>
-    </MyItemsBox>
-  );
+            </article>
+          </section>
+        </MmyItemsBox>
+      </>
+    );
+  else
+    return (
+      <>
+        <DefaultHeader />
+        <PmyItemsBox>
+          <section className="innerBox">
+            <nav className="navBar">
+              <button className="" onClick={() => {}}></button>
+            </nav>
+            <article className="profile_home">
+              <div className="collection_home add">
+                <div className="move off">
+                  <div className="right_move">
+                    <div className="real_sec">
+                      <ul className="tab tab4">
+                        <li className="onn">My collection</li>
+                        <li onClick={() => navigate("/myprof")}>
+                          Profile Management
+                        </li>
+                        <li onClick={() => navigate("/liked")}>My Favorite</li>
+                        <li onClick={() => navigate("/mywallet")}>
+                          Account Management
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="wrap">
+                  <div className="collection_detail noimg">
+                    <div className="pro_img"></div>
+                    <h2>Add Collection</h2>
+                    <h4>
+                      After creating a collection, register a new NFT.
+                      <br />
+                      Organize your own gallery with different concepts for each
+                      collection.
+                    </h4>
+                    <div className="ad_btn">
+                      <a onClick={() => navigate("/createitem")}>
+                        Create a new collection
+                      </a>
+                      <a
+                        onClick={() => navigate("/importcontract")}
+                        className="line"
+                      >
+                        Load from contract
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="item">
+                    <div className="wrap">
+                      <h4 className="t">My Collection</h4>
+
+                      <div className="swiper">
+                        <div className="swiper-container swiper-container-trendingitem">
+                          <ol className="item item4 buy swiper-wrapper">
+                            <div>
+                              {[1, 2, 3, 4].map((cont, index) => (
+                                <span>
+                                  <li
+                                    className="swiper-slide"
+                                    onClick={(e) =>
+                                      navigate("/mycollectionselect")
+                                    }
+                                  >
+                                    <a
+                                      style={{
+                                        backgroundImage: `url(${sample})`,
+                                      }}
+                                    >
+                                      <article className="choose choose2 on">
+                                        {popupIndex === index && (
+                                          <ul>
+                                            <li
+                                              onClick={(e) =>
+                                                onClickLink(e, "editcollection")
+                                              }
+                                            >
+                                              Changing Information
+                                            </li>
+                                            <li
+                                              onClick={(e) =>
+                                                onClickLink(e, "royaltycheck")
+                                              }
+                                            >
+                                              Royalty
+                                            </li>
+                                          </ul>
+                                        )}
+                                      </article>
+                                      <div className="on">
+                                        <ul>
+                                          <li className="heart off">1,389</li>
+                                          <li
+                                            className="dot"
+                                            onClick={(e) =>
+                                              onclickCollectionPopupBtn(
+                                                e,
+                                                index
+                                              )
+                                            }
+                                          ></li>
+                                        </ul>
+                                        <div>Summer Pool</div>
+                                        <span>David</span>
+                                        <ol>
+                                          <li>6 minutes left</li>
+                                          <li>1.67 KLAY</li>
+                                        </ol>
+                                        <p>Buy Now</p>
+                                      </div>
+                                    </a>
+                                  </li>
+                                </span>
+                              ))}
+                            </div>
+                          </ol>
+                        </div>
+
+                        <div className="swiper-button-prev swiper-button-trendingitem-prev pcno"></div>
+                        <div className="swiper-button-next swiper-button-trendingitem-next pcno"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+        </PmyItemsBox>
+      </>
+    );
 }
 
-const MyItemsBox = styled.div``;
+const MmyItemsBox = styled.div``;
+const PmyItemsBox = styled.div`
+  padding: 120px 0 0 0;
+
+  .innerBox {
+    max-width: 1280px;
+    padding: 90px 0;
+    margin: 0 auto;
+
+    .navBar {
+    }
+  }
+`;
 
 function mapStateToProps(state) {
   return { store: state };

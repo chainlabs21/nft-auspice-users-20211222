@@ -81,7 +81,7 @@ export const D_navList = [
   {
     title: "MARKET",
     detailNav: [
-      { text: "all about NFT", url: "/" },
+      { text: "All about NFT", url: "/" },
       { text: "Digital art", url: "/" },
       { text: "Trading cards", url: "/" },
       { text: "Music", url: "/" },
@@ -94,10 +94,10 @@ export const D_navList = [
   {
     title: "MY ACCOUNT",
     detailNav: [
-      { text: "Profile setting", url: "/" },
+      { text: "Profile Setting", url: "/" },
       { text: "My Collection", url: "/" },
       { text: "My Favourite", url: "/" },
-      { text: "account setting", url: "/" },
+      { text: "Account Setting", url: "/" },
     ],
   },
   {

@@ -3,15 +3,15 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import Main from "./Main";
 
-import ConnectWallet from "./router/ConnectWallet";
-import EmailRequired from "./router/EmailRequired";
-import JoinMemberShip from "./router/JoinMemberShip";
-import Signup from "./router/Signup";
-import EmailFailed from "./router/EmailFailed";
-import SignupComplete from "./router/SignupComplete";
-import SentEmail from "./router/SentEmail";
+import ConnectWallet from "./router/join/ConnectWallet";
+import EmailRequired from "./router/join/EmailRequired";
+import JoinMemberShip from "./router/join/JoinMemberShip";
+import Signup from "./router/join/Signup";
+import EmailFailed from "./router/join/EmailFailed";
+import SignupComplete from "./router/join/SignupComplete";
+import SentEmail from "./router/join/SentEmail";
 
-import MarketPlace from "./router/MarketPlace";
+import MarketPlace from "./router/market/MarketPlace";
 import SingleItem from "./router/SingleItem";
 import BundleItem from "./router/BundleItem";
 import MyItems from "./router/MyItems";
@@ -33,14 +33,14 @@ import Liked from "./router/Liked";
 import HiddenItem from "./router/HiddenItem";
 import Referals from "./router/Referals";
 import Mywallet from "./router/Mywallet";
-import VerifyEmail from "./router/VerifyEmail";
+import VerifyEmail from "./router/join/VerifyEmail";
 import GeneralSettings from "./router/GeneralSettings";
 import NotificationSettings from "./router/NotificationSettings";
 import ExploreDeal from "./router/ExploreDeal";
 import Ranking from "./router/Ranking";
 import MheaderPopup from "./components/MheaderPopup";
 import List from "./util/List";
-import SentEmailDetail from "./router/SentEmailDetail";
+import SentEmailDetail from "./router/join/SentEmailDetail";
 import SelectItem from "./router/SelectItem";
 import LogOut from "./router/LogOut";
 import MaccountPopup from "./components/MaccountPopup";
@@ -208,12 +208,13 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/signupcomplete" element={<SignupComplete />} />
 
           <Route path="/marketplace" element={<MarketPlace />} />
+          {/* ing */}
           <Route path="/marketplace/:searchKey" element={<MarketPlace />} />
           <Route path="/singleitem" element={<SingleItem />} />
           <Route path="/bundleitem" element={<BundleItem />} />
           <Route path="/selectitem" element={<SelectItem />} />
 
-          <Route path="/myitem" element={<MyItems />} />
+          <Route path="/myitems" element={<MyItems />} />
           <Route path="/createcollection" element={<CreateCollection />} />
           <Route path="/editcollection" element={<EditCollection />} />
           <Route path="/importcontract" element={<ImportContract />} />
@@ -264,13 +265,37 @@ const AppBox = styled.div`
   position: relative;
 
   .filterBtn {
-    position: absolute;
-    left: -6px;
-    top: 240px;
     z-index: 2;
 
-    img {
-      height: 64px;
+    &.mo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 27.77vw;
+      height: 13.33vw;
+      padding: 0 5.55vw;
+      font-size: 4.44vw;
+      font-weight: 700;
+      color: #fff;
+      background: #1c7eff;
+      border-radius: 6.66vw;
+      right: 5.55vw;
+      bottom: 5.55vw;
+      position: fixed;
+
+      img{
+        width: 5vw;
+      }
+    }
+
+    &.pc {
+      left: -6px;
+      top: 246px;
+      position: absolute;
+
+      img {
+        height: 64px;
+      }
     }
   }
 

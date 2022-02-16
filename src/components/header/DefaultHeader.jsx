@@ -4,6 +4,7 @@ import styled from "styled-components";
 import logo from "../../img/header/logo.png";
 import I_search from "../../img/icons/I_search.png";
 import I_hamburger from "../../img/icons/I_hamburger.png";
+import I_x from "../../img/icons/I_x.svg";
 import search_form from "../../img/header/search_form.png";
 import menu_all from "../../img/header/menu_all.png";
 import menu_all_off from "../../img/header/menu_all_off.png";
@@ -27,6 +28,7 @@ import { useSelector } from "react-redux";
 import { onClickCopy } from "../../util/common";
 import SetErrorBar from "../../util/SetErrorBar";
 import { messages } from "../../config/messages";
+import MmenuPopup from "./MmenuPoupup";
 
 export default function DefaultHeader() {
   const navigate = useNavigate();
@@ -36,6 +38,7 @@ export default function DefaultHeader() {
   const address = useSelector((state) => state.wallet.address);
 
   const [search, setSearch] = useState("");
+  const [mMenuPopup, setMenuPopup] = useState(false);
 
   function onClickConnectWallet() {
     let { klaytn } = window;
@@ -48,24 +51,39 @@ export default function DefaultHeader() {
 
   if (isMobile)
     return (
-      <MdefaultHeaderBox>
-        <section className="innerBox">
-          <article className="leftBox">
-            <button className="logoBtn" onClick={() => navigate("/")}>
-              <img src={logo} alt="" />
-            </button>
-          </article>
+      <>
+        {mMenuPopup && <MmenuPopup />}
+        <MdefaultHeaderBox>
+          <section className="innerBox">
+            <article className="leftBox">
+              <button className="logoBtn" onClick={() => navigate("/")}>
+                <img src={logo} alt="" />
+              </button>
+            </article>
 
-          <article className="rightBox">
-            <button className="searchBtn" onClick={() => {}}>
-              <img src={I_search} alt="" />
-            </button>
-            <button className="menuBtn" onClick={() => {}}>
-              <img src={I_hamburger} alt="" />
-            </button>
-          </article>
-        </section>
-      </MdefaultHeaderBox>
+            <article className="rightBox">
+              <button className="searchBtn" onClick={() => {}}>
+                <img src={I_search} alt="" />
+              </button>
+              {mMenuPopup ? (
+                <button
+                  className="menuBtn on"
+                  onClick={() => setMenuPopup(false)}
+                >
+                  <img src={I_x} alt="" />
+                </button>
+              ) : (
+                <button
+                  className="menuBtn off"
+                  onClick={() => setMenuPopup(true)}
+                >
+                  <img src={I_hamburger} alt="" />
+                </button>
+              )}
+            </article>
+          </section>
+        </MdefaultHeaderBox>
+      </>
     );
   else
     return (
@@ -188,7 +206,7 @@ export default function DefaultHeader() {
 const MdefaultHeaderBox = styled.header`
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
   height: 72px;
   background: #fff;
   top: 0;
@@ -217,6 +235,14 @@ const MdefaultHeaderBox = styled.header`
 
       img {
         height: 24px;
+      }
+
+      .menuBtn {
+        &.on {
+          img {
+            height: 20px;
+          }
+        }
       }
     }
   }

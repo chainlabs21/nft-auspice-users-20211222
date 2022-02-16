@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import {
   setConnect,
@@ -8,11 +8,7 @@ import {
 } from "../util/store";
 import styled from "styled-components";
 
-
-
- // import "./css/style01.css"; // import "./css/style02.css";
-
-
+// import "./css/style01.css"; // import "./css/style02.css";
 
 import { useEffect, useRef, useState } from "react";
 // import { singleItem } from "../mokups/items";
@@ -30,6 +26,7 @@ import {
   getmyaddress,
   convaj,
   ISFINITE,
+  get_deltatime_str,
 } from "../util/common";
 import SetErrorBar from "../util/SetErrorBar";
 import { messages } from "../config/messages";
@@ -39,9 +36,7 @@ import {
   FEES_DEF,
   NETTYPE,
 } from "../config/configs";
-import I_heartO from "../img/main/I_heartO.svg";
-import I_heartOGray from "../img/sub/I_heartOGray.svg";
-import I_heartOPink from "../img/sub/I_heartOPink.svg";
+import I_heart from "../img/icons/I_heart.png";
 import { useSearchParams } from "react-router-dom";
 import {
   query_nfttoken_balance,
@@ -49,16 +44,30 @@ import {
   getabistr_forfunction,
   query_with_arg,
 } from "../util/contract-calls";
-import I_staroff from "../img/sub/star_off.png";
-import I_staron from "../img/sub/star_on.png";
+
+import I_klaytn from "../img/sub/I_klaytn.svg";
+import refresh from "../img/sub/refresh.png";
+import alert from "../img/sub/alert.png";
+import share from "../img/sub/share.png";
 import { query_eth_balance } from "../util/contract-calls";
 import { getethrep, getweirep, is_two_addresses_same } from "../util/eth";
 import rstone from "../img/sub/rstone.png";
+import I_dnArw from "../img/header/I_dnArw.svg";
+import icon_link_on from "../img/sub/icon_link_on.png";
+import heart_off from "../img/sub/heart_off.png";
+import heart_on from "../img/sub/heart_on.png";
+import star_off from "../img/sub/star_off.png";
+import star_on from "../img/sub/star_on.png";
+import I_ltArw3BlackBtn from "../img/design/I_ltArw3BlackBtn.png";
+import I_rtArw3BlackBtn from "../img/design/I_rtArw3BlackBtn.png";
+
 import { ADDRESSES } from "../config/addresses";
-import { putCommaAtPrice, strDot } from "../util/Util";
+import { getStyle, putCommaAtPrice, strDot } from "../util/Util";
 import Chart from "react-apexcharts";
 import { MAP_SALETYPES, MAP_ITEMHISTORY_EVETNS } from "../config/disp";
 import PlaceBidPopup from "../components/PlaceBidPopup";
+import DefaultHeader from "../components/header/DefaultHeader";
+import { D_categoryList } from "../data/D_item";
 
 const convertLongString = (startLength, endLength, str) => {
   if (!str) return;
@@ -66,7 +75,7 @@ const convertLongString = (startLength, endLength, str) => {
   const spread = "......";
   const tail = str.substring(str.length - endLength, str.length);
   return head + spread + tail;
-}
+};
 const numFormatter = (num) => {
   if (num > 999 && num < 1000000) {
     return (num / 1000).toFixed(1) + "K"; // convert to K for number from > 1000 < 1 million
@@ -84,13 +93,19 @@ function SingleItem({
   Setitemid,
 }) {
   const navigate = useNavigate(); //  const { itemid } = useParams()
-  const itemWrapRef = useRef();
+  const otherWorkRef = useRef();
+
+  const isMobile = useSelector((state) => state.common.isMobile);
+
+  const [listCategory, setListCategory] = useState(0);
+  const [otherWorkIndex, setOtherWorkIndex] = useState(0);
+
   /**   const {    likerList,    ownerList,    salesStatus,    pur chaseStatus,    transactionHistory,    chainInformation,  } = singleItem;*/
-  const [ownerPopup, setOwnerPopup] = useState( false ); // true 
+  const [ownerPopup, setOwnerPopup] = useState(false); // true
   const [likePopup, setLikePopup] = useState(false);
   const [buySpotPopup, setbuySpotPopup] = useState(false);
   let [bidauctionmodal, setbidauctionmodal] = useState(false);
-  const [chartCategory, setChartCategory] = useState(0);  //  const [endAutionTime, setEndAutionTime] = useState( singleItem.auctionExpiry )  // const [diffTime, setDiffTime] = useState();  //  const [nearEnd, setNearEnd] = useState(false);
+  const [chartCategory, setChartCategory] = useState(0); //  const [endAutionTime, setEndAutionTime] = useState( singleItem.auctionExpiry )  // const [diffTime, setDiffTime] = useState();  //  const [nearEnd, setNearEnd] = useState(false);
   const [itemdata, setitemdata] = useState({});
   let [itemdataaux, setitemdataaux] = useState();
   const [userIndex, setUserIndex] = useState(0);
@@ -100,8 +115,8 @@ function SingleItem({
   let [logprices, setlogprices] = useState([]);
   //	let [ logactions , setlogactions ] = useState ( [] )
   let [pricestats, setpricestats] = useState([]);
-  let [ ilikethis, setilikethis] = useState(false);
-  let [ ibookmarkthis, setibookmarkthis] = useState(false);
+  let [ilikethis, setilikethis] = useState(false);
+  let [ibookmarkthis, setibookmarkthis] = useState(false);
   let [orders_sell, setorders_sell] = useState([]);
   let [sellorder, setsellorder] = useState({});
   let [author, setauthor] = useState();
@@ -116,14 +131,14 @@ function SingleItem({
   let lockjprofileimages = {};
   let [searchParams, setSearchParams] = useSearchParams();
   let [itemid, setitemid] = useState(searchParams.get("itemid"));
-  let [ referer, setreferer] = useState(searchParams.get("referer"));
-  let [ j_auctionuuid_bidprice, setj_auctionuuid_bidprice] = useState({});
-  let [ j_auctionuuid_bidder, setj_auctionuuid_bidder] = useState({});
-  let [ mybidamount, setmybidamount] = useState("");
+  let [referer, setreferer] = useState(searchParams.get("referer"));
+  let [j_auctionuuid_bidprice, setj_auctionuuid_bidprice] = useState({});
+  let [j_auctionuuid_bidder, setj_auctionuuid_bidder] = useState({});
+  let [mybidamount, setmybidamount] = useState("");
   const [chartXdata, setChartXdata] = useState([]);
   const [chartYdata, setChartYdata] = useState([]);
-	let [ reportPopup  , setreportPopup] = useState( false )
-	let [ reportcatlist , setreportcatlist] = useState( [] )
+  let [reportPopup, setreportPopup] = useState(false);
+  let [reportcatlist, setreportcatlist] = useState([]);
   let tokenid; //	let itemid =get_last_part_of_path ( window.location.href )
   let axios = applytoken();
   let [myaddress, setmyaddress] = useState(getmyaddress());
@@ -270,9 +285,9 @@ function SingleItem({
               LOGGER("G6OvdxLxyA", resp.data);
               let { status } = resp.data;
               if (status == "OK") {
-                SetErrorBar( messages.MSG_DONE_REGISTERING );
-								fetchitem(itemdata?.item?.itemid);
-								setbuySpotPopup( false )
+                SetErrorBar(messages.MSG_DONE_REGISTERING);
+                fetchitem(itemdata?.item?.itemid);
+                setbuySpotPopup(false);
               }
             });
         }
@@ -319,9 +334,9 @@ function SingleItem({
       sellorder?.startingtime ? sellorder?.startingtime : moment().unix(),
       sellorder?.expiry,
       getweirep(mybidamount),
-		]
-		LOGGER( '' , aargs )
-// return
+    ];
+    LOGGER("", aargs);
+    // return
     let abistr = getabistr_forfunction({
       contractaddress: ADDRESSES.auction_repo_english_batch_tasks, // auction_repo_english_simple_no_batch_tasks
       abikind: "AUCTION_ENGLISH_BATCH_TASKS",
@@ -338,42 +353,45 @@ function SingleItem({
       data: abistr,
       value: getweirep(mybidamount),
       gas: "" + 1400_000, // 610,174
-    }).then(async (resp) => {
-      LOGGER("", resp);
-      let { transactionHash: txhash, status } = resp;
-      if (status) {
-      } else {
+    })
+      .then(async (resp) => {
+        LOGGER("", resp);
+        let { transactionHash: txhash, status } = resp;
+        if (status) {
+        } else {
+          SetErrorBar(messages.MSG_USER_DENIED_TX);
+          return;
+        }
+        SetErrorBar(messages.MSG_BID_PLACED);
+        let reqbody = {
+          itemid: itemdata?.item?.itemid,
+          auctionuuid: sellorder?.uuid,
+          seller: sellorder?.username,
+          username: myaddress,
+          price: mybidamount,
+          priceunit: PAYMEANS_DEF,
+          nettype: NETTYPE,
+          typestr: "BID_TO_AUCTION",
+          tokenid: itemdata?.item?.tokenid,
+          expiry: sellorder?.expiry,
+        };
+        axios
+          .post(API.API_REPORT_BID_TO_AUCTION + `/${txhash}`, reqbody)
+          .then((resp) => {
+            LOGGER("rehCTxqXLK", resp.data);
+            let { status } = resp.data;
+            if (status == "OK") {
+              SetErrorBar(messages.MSG_DONE_REGISTERING);
+              fetchitem(itemdata?.item?.itemid);
+              setbidauctionmodal(false);
+            }
+          });
+      })
+      .catch((err) => {
+        LOGGER("", err);
         SetErrorBar(messages.MSG_USER_DENIED_TX);
-        return;
-      }
-      SetErrorBar(messages.MSG_BID_PLACED);
-      let reqbody = {
-        itemid: itemdata?.item?.itemid,
-        auctionuuid: sellorder?.uuid,
-        seller: sellorder?.username,
-        username: myaddress,
-        price: mybidamount,
-        priceunit: PAYMEANS_DEF,
-        nettype: NETTYPE,
-        typestr: "BID_TO_AUCTION",
-				tokenid: itemdata?.item?.tokenid,
-				expiry : sellorder?.expiry
-      };
-      axios
-        .post(API.API_REPORT_BID_TO_AUCTION + `/${txhash}`, reqbody)
-        .then((resp) => {
-          LOGGER("rehCTxqXLK", resp.data);
-          let { status } = resp.data;
-          if (status == "OK") {
-            SetErrorBar(messages.MSG_DONE_REGISTERING);
-            fetchitem(itemdata?.item?.itemid);
-            setbidauctionmodal(false);
-          }
-        });
-    }).catch(err=>{ LOGGER( '' , err )
-			SetErrorBar( messages.MSG_USER_DENIED_TX )
-			setbidauctionmodal ( false )
-		})
+        setbidauctionmodal(false);
+      });
   };
   const onclickbuy = (_) => {
     switch (sellorder?.typestr) {
@@ -420,7 +438,7 @@ function SingleItem({
     Setisloader(true);
     axios
       .get(`${API.API_GET_ITEM_DATA}/${itemid}`, {
-        params: { incviewcount: 1 ,  },
+        params: { incviewcount: 1 },
       })
       .then((res) => {
         LOGGER("agwwiWSDdf", res.data);
@@ -520,22 +538,50 @@ function SingleItem({
       });
   };
 
-  function onClickUserPreBtn() {
-    const wrapWidth = itemWrapRef.current.offsetWidth;
-    const contWidth = itemWrapRef.current.children[0].offsetWidth;
+  function onClickSwiperPreBtn(swiperRef, items, index, setIndex) {
+    const wrapWidth = swiperRef.current.offsetWidth;
+    const contWidth = swiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(listotheritems.length / itemNumByPage);
-    if (userIndex > 0) setUserIndex(userIndex - 1);
-    else setUserIndex(pageNum - 1);
+    const pageNum = Math.ceil(items.length / itemNumByPage);
+
+    if (index > 0) setIndex(index - 1);
+    else setIndex(pageNum - 1);
   }
 
-  function onClickUserNextBtn() {
-    const wrapWidth = itemWrapRef.current.offsetWidth;
-    const contWidth = itemWrapRef.current.children[0].offsetWidth;
+  function onClickSwiperNextBtn(swiperRef, items, index, setIndex) {
+    const wrapWidth = swiperRef.current.offsetWidth;
+    const contWidth = swiperRef.current.children[0].offsetWidth;
     const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(listotheritems.length / itemNumByPage);
-    if (userIndex < pageNum - 1) setUserIndex(userIndex + 1);
-    else setUserIndex(0);
+    const pageNum = Math.ceil(items.length / itemNumByPage);
+
+    if (index < pageNum - 1) setIndex(index + 1);
+    else setIndex(0);
+  }
+
+  function handlerByIndex(swiperRef, index) {
+    if (!swiperRef.current.children[0]) return;
+
+    const wrapWidth = swiperRef.current.offsetWidth;
+    const contWidth = swiperRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(
+      swiperRef.current.children.length / itemNumByPage
+    );
+
+    if (swiperRef.current?.scrollTo) {
+      if (index < pageNum) {
+        swiperRef.current.scrollTo({
+          left:
+            (contWidth + getStyle(swiperRef, "gap")) * itemNumByPage * index,
+          behavior: "smooth",
+        });
+      } else {
+        swiperRef.current.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    }
   }
 
   useEffect(() => {
@@ -556,13 +602,14 @@ function SingleItem({
         if (status == "OK") {
           settransactionHistory(list);
         }
-			});
-		axios.get( API.API_REPORT_SPAM_CATEGORIES ).then(resp=>{ LOGGER( 'PmwDwJ2AGw' , resp.data ) 
-			let { status ,list }=resp.data 
-			if ( status  =='OK'){
-				setreportcatlist ( list )
-			}
-		})
+      });
+    axios.get(API.API_REPORT_SPAM_CATEGORIES).then((resp) => {
+      LOGGER("PmwDwJ2AGw", resp.data);
+      let { status, list } = resp.data;
+      if (status == "OK") {
+        setreportcatlist(list);
+      }
+    });
   }, []);
 
   useEffect(
@@ -577,651 +624,609 @@ function SingleItem({
     [store.itemid]
   );
 
-  useEffect(() => {
-    if (itemWrapRef.current && itemWrapRef.current.offsetWidth) {
-    } else {
-      return;
-    }
-    if (itemWrapRef.current && itemWrapRef.current.children[0]) {
-    } else {
-      return;
-    }
-    const wrapWidth = itemWrapRef.current.offsetWidth;
-    const contWidth = itemWrapRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(listotheritems.length / itemNumByPage);
-    if (itemWrapRef.current?.scrollTo) {
-      if (userIndex < pageNum) {
-        itemWrapRef.current.scrollTo({
-          left: contWidth * itemNumByPage * userIndex,
-          behavior: "smooth",
-        });
-      } else {
-        itemWrapRef.current.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-      }
-    }
-  }, [userIndex]);
+  useEffect(
+    () => handlerByIndex(otherWorkRef, otherWorkIndex),
+    [otherWorkIndex]
+  );
 
-  return (
-    <SignPopupBox>
-      {ownerPopup && <ItemOwnerPopup off={setOwnerPopup} itemid={ itemid } />}
+  if (isMobile)
+    return (
+      <>
+        <DefaultHeader />
+        <MsignPopupBox>
+          {ownerPopup && <ItemOwnerPopup off={setOwnerPopup} itemid={itemid} />}
 
-      {reportPopup && (
-        <div className="popup info" id="info_popup" style={{ display: "block" }}>
-          <div className="box_wrap wrap3">
-            <a
-              onClick={() => setreportPopup(false)}
-              className="close close2"
-              id="info_close"
+          {reportPopup && (
+            <div
+              className="popup info"
+              id="info_popup"
+              style={{ display: "block" }}
             >
-              <img
-                src={require("../img/sub/icon_close.png").default}
-                alt="close"
-              />
-            </a>
-            <div className="poptitle">
-              <h2>Report inappropriate items</h2>
-            </div>
-            <form>
-              <div className="list_bottom bottom2">
-                <h3>Category</h3>
-                <select>
-                  <option disable selected hidden>
-                    Please select a reason for reporting
-                  </option>
-                  { reportcatlist.sort((a,b)=>a>b? +1:-1).map ( ( elem , idx ) =>{
-										return 										(<option>{ elem.textdisp } </option>)
-									})}
-                </select>
-                <h3>Detailed description</h3>
-                <textarea placeholder="Please describe in detail why you would like to report the item."
-									onChange={e=>{
-									}}								
-								></textarea>
-              </div>
-              <div className="report_wrap">
-                <a className="reportit">Report it</a>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {likePopup && <ItemLikePopup off={setLikePopup} itemid={itemid} />}
-
-      {false && <PlaceBidPopup />}
-
-      {bidauctionmodal && (
-        <div
-          className="popup info"
-          id="info_popup"
-          style={{ display: "block" }}
-        >
-          <div className="box_wrap buynft">
-            <a
-              onClick={() => setbidauctionmodal(false)}
-              className="close close2"
-              id="info_close"
-            >
-              <img
-                src={require("../img/sub/icon_close.png").default}
-                alt="close"
-              />
-            </a>
-            <div className="poptitle nob">
-              <h2>Place a bid</h2>
-            </div>
-            <div className="list_bottom buy_nft">
-              <p
-                className="warn"
-                style={{
-                  display: itemdata?.item?.isreviewed ? "none" : "block",
-                }}
-              >
-                Warning! Contains items
-                <br /> that have not been reviewed and approved
-              </p>
-              <div className="receipt_section">
-                <div className="receipt_title">
-                  <p className="rec_t">Item</p>
-                  <p className="rec_t right">Subtotal</p>
-                </div>
-                <div className="receipt_item">
-                  <ul>
-                    <li>
-                      <span
-                        className="pic"
-                        style={{
-                          backgroundImage: `url(${itemdata?.item?.url})`,
-                        }}
-                      ></span>
-                      <div className="right_price">
-                        <h3>
-                          {convertLongString(8, 4, sellorder?.username)}
-                          <br />
-                          <span>{itemdata?.item?.titlename} </span>
-                          {/**Blackman with neon */}
-                        </h3>
-                        <h4 className="m_sub">
-                          <img
-                            style={{ width: "60px" }}
-                            src={require("../img/header/logo.png").default}
-                          />
-                          <span className="pri">
-                            {sellorder?.asset_amount_bid
-                              ? `Qty. ${sellorder?.asset_amount_bid}`
-                              : ""}{" "}
-                            {sellorder?.tokenid
-                              ? `of token #${sellorder?.tokenid}`
-                              : ""}{" "}
-                          </span>
-                        </h4>
-                      </div>
-                    </li>
-                  </ul>
-                  <ul>
-                    <li>
-                      <p className="rec_t">
-                        Current highest bid
-                        <span className="red" style={{ color: "gray" }}>
-                          {j_auctionuuid_bidder[sellorder?.uuid] ? strDot(j_auctionuuid_bidder[sellorder?.uuid], 8, 0): '\u00A0' }
-                        </span>
-                      </p>
-                      <div className="right_price m_left">
-                        <h4 className="blue">
-                          <img src={require("../img/sub/rock.png").default} />
-                          {j_auctionuuid_bidprice[sellorder?.uuid]
-                            ? j_auctionuuid_bidprice[sellorder?.uuid]
-                            : " "}{" "}
-                          &nbsp;
-                          <span className="pri">
-                            ($
-                            {priceklay &&
-                            j_auctionuuid_bidprice[sellorder?.uuid]
-                              ? (
-                                  +priceklay *
-                                  +j_auctionuuid_bidprice[sellorder?.uuid]
-                                ).toFixed(4)
-                              : ""}
-                            )
-                          </span>
-                        </h4>
-                      </div>
-                    </li>
-                  </ul>
-                  <ul>
-                    <li>
-                      <p className="rec_t">
-                        Minimum bid
-                        <span className="red" style={{ color: "black" }}>
-                          {" "}
-                          &nbsp;
-                        </span>
-                      </p>
-                      <div className="right_price m_left">
-                        <h4 className="blue">
-                          <img src={require("../img/sub/rock.png").default} />
-                          {sellorder?.asset_amount_ask}
-                          <span className="pri">
-                            ($
-                            {priceklay && sellorder?.asset_amount_ask
-                              ? (
-                                  +priceklay * +sellorder?.asset_amount_ask
-                                ).toFixed(4)
-                              : ""}
-                            )
-                          </span>
-                        </h4>
-                      </div>
-                    </li>
-                  </ul>
-
-                  <ul>
-                    <li>
-                      <p className="rec_t">
-                        Your bid
-                        <span className="red" style={{ color: "black" }}>
-                          (Current balance:{" "}
-                          {myethbalance ? (+myethbalance).toFixed(4) : "0"})
-                        </span>
-                      </p>
-                      <div className="right_price m_left">
-                        <h4 className="blue">
-                          <input
-                            value={mybidamount}
-                            onChange={(e) => {
-                              let { value: value_raw } = e.target;
-                              let value = +value_raw;
-                              if (ISFINITE(value)) {
-                              } else if (value == 0) {
-                              } else {
-                                SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY);
-                                //                                return;
-                              }
-                              setmybidamount("" + value_raw);
-                              if (value >= +myethbalance) {
-                                SetErrorBar(messages.MSG_EXCEEDS_BALANCE);
-                                return;
-                              }
-                              if (value >= sellorder?.asset_amount_ask) {
-                              } else {
-                                SetErrorBar(messages.MSG_FAILS_AUCTION_REQ);
-                                return;
-                              }
-                              if (j_auctionuuid_bidprice[sellorder?.uuid]) {
-                                if (
-                                  value >=
-                                  +j_auctionuuid_bidprice[sellorder?.uuid]
-                                ) {
-                                } else {
-                                  SetErrorBar(messages.MSG_FAILS_AUCTION_REQ);
-                                  return;
-                                }
-                              }
-                            }}
-                          />
-                        </h4>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <form className="ckb_wrap">
-                  <div
-                    className="ckb"
-                    style={{
-                      display: itemdata?.item?.isreviewed ? "none" : "block",
-                    }}
-                  >
-                    <input type="checkbox" id="chk" name="chk1" />
-                    <label htmlFor="chk">
-                      Aware that Itemverse contains one item that has not been
-                      reviewed and approved
-                    </label>
-                  </div>
-                  <div className="ckb">
-                    <input
-                      type="checkbox"
-                      id="chk2"
-                      name="chk1"
-                      onChange={(e) => {
-                        setistoschecked(!istoschecked); // LOGGER()
-                      }}
-                    />
-                    <label htmlFor="chk2">
-                      I agree to Itemverse's <b>Terms of Service</b>
-                    </label>
-                  </div>
-                </form>
-              </div>
-              <a
-                className="reportit on "
-                disabled={istoschecked ? false : true}
-                onClick={(_) => {
-                  if (istoschecked) {
-                  } else {
-                    //                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
-                    //                  return;
-                  }
-                  LOGGER("pHeiL5AWXM");
-                  onclickbuy();
-                }}
-              >
-                Place bid
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
-      {buySpotPopup && (
-        <div
-          className="popup info"
-          id="info_popup"
-          style={{ display: "block" }}
-        >
-          <div className="box_wrap buynft">
-            <a
-              onClick={() => setbuySpotPopup(false)}
-              className="close close2"
-              id="info_close"
-            >
-              <img
-                src={require("../img/sub/icon_close.png").default}
-                alt="close"
-              />
-            </a>
-            <div className="poptitle nob">
-              <h2>Purchase receipt</h2>
-            </div>
-            <div className="list_bottom buy_nft">
-              <p
-                className="warn"
-                style={{
-                  display: itemdata?.item?.isreviewed ? "none" : "block",
-                }}
-              >
-                Warning! Contains items
-                <br /> that have not been reviewed and approved
-              </p>
-              <div className="receipt_section">
-                <div className="receipt_title">
-                  <p className="rec_t">Item</p>
-                  <p className="rec_t right">Subtotal</p>
-                </div>
-                <div className="receipt_item">
-                  <ul>
-                    <li>
-                      <span
-                        className="pic"
-                        style={{
-                          backgroundImage: `url(${itemdata?.item?.url})`,
-                        }}
-                      ></span>
-                      <div className="right_price">
-                        <h3>
-                          {convertLongString(8, 4, sellorder?.username)}
-                          <br />
-                          <span>{itemdata?.item?.titlename} </span>
-                          {/**Blackman with neon */}
-                        </h3>
-                        <h4 className="m_sub">
-                          <img
-                            style={{ width: "60px" }}
-                            src={require("../img/header/logo.png").default}
-                          />
-                          <span className="pri">
-                            {sellorder?.asset_amount_bid
-                              ? `Qty. ${sellorder?.asset_amount_bid}`
-                              : ""}{" "}
-                            {sellorder?.tokenid
-                              ? `of token #${sellorder?.tokenid}`
-                              : ""}{" "}
-                          </span>
-                        </h4>
-                      </div>
-                    </li>
-                  </ul>
-                  <ul>
-                    <li>
-                      <p className="rec_t">
-                        Total
-                        <span className="red">
-                          {+myethbalance &&
-                          +myethbalance > sellorder?.asset_amount_ask
-                            ? "\u00A0"
-                            : "Insufficient KLAY balance"}
-                        </span>
-                      </p>
-                      <div className="right_price m_left">
-                        <h4 className="blue">
-                          <img src={require("../img/sub/rock.png").default} />
-                          {sellorder?.asset_amount_ask}
-                          <span className="pri">
-                            ($
-                            {priceklay && sellorder?.asset_amount_ask
-                              ? (
-                                  +priceklay * sellorder?.asset_amount_ask
-                                ).toFixed(4)
-                              : ""}
-                            )
-                          </span>
-                        </h4>
-                      </div>
-                    </li>
-                  </ul>
-                  <ul>
-                    <li>
-                      <p className="rec_t">
-                        Your balance
-                        <span className="red" style={{ color: "black" }}>
-                          {" "}
-                          {strDot(myaddress, 8, 2)}
-                        </span>
-                      </p>
-                      <div className="right_price m_left">
-                        <h4 className="blue">
-                          <img src={require("../img/sub/rock.png").default} />
-                          {myethbalance ? (+myethbalance).toFixed(4) : "0"}
-                          <span className="pri">
-                            ($
-                            {priceklay && myethbalance
-                              ? (+priceklay * +myethbalance).toFixed(4)
-                              : ""}
-                            )
-                          </span>
-                        </h4>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <form className="ckb_wrap">
-                  <div
-                    className="ckb"
-                    style={{
-                      display: itemdata?.item?.isreviewed ? "none" : "block",
-                    }}
-                  >
-                    <input type="checkbox" id="chk" name="chk1" />
-                    <label htmlFor="chk">
-                      Aware that Itemverse contains one item that has not been
-                      reviewed and approved
-                    </label>
-                  </div>
-                  <div className="ckb">
-                    <input
-                      type="checkbox"
-                      id="chk2"
-                      name="chk1"
-                      onChange={(e) => {
-                        setistoschecked(!istoschecked); // LOGGER()
-                      }}
-                    />
-                    <label htmlFor="chk2">
-                      I agree to Itemverse's <b>Terms of Service</b>
-                    </label>
-                  </div>
-                </form>
-              </div>
-              <a
-                className="reportit on "
-                disabled={istoschecked ? false : true}
-                onClick={(_) => {
-                  if (istoschecked) {
-                  } else {
-                    //                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
-                    //                  return;
-                  }
-                  LOGGER("pHeiL5AWXM");
-                  onclickbuy();
-                }}
-              >
-                Make a payment
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <section id="sub">
-        <article className="bundle_box box2 box3">
-          <div className="wrap">
-            <div className="bundle_top">
-              <div className="bun_tl">
-                <div
-                  className="bun_tl_img"
-                  style={{ backgroundImage: `url(${itemdata?.item?.url})` }}
+              <div className="box_wrap wrap3">
+                <a
+                  onClick={() => setreportPopup(false)}
+                  className="close close2"
+                  id="info_close"
                 >
-                  <div className="bt artist">
-                    <h2>
-                      {/**  <img src={author?.profileimage}></img>*/}
-                      <span
-                        style={{
-                          backgroundImage: `url(${author?.profileimage})`,
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "center",
-                          backgroundSize: "cover",
-                        }}
-                      ></span>
-                      @{itemdata.author?.nickname}
-                    </h2>
-                  </div>
-                  <div className="bt likes">
-                    <a
-                      onClick={() => {
-                        setLikePopup(true);
-                      }}
-                      className="like_heart off"
-                    >
-                      <h2>{itemdata.item?.countfavors} Likes</h2>
-                    </a>
-                  </div>
-                  <div className="views">
-                    <ul>
-                      <li
-                        className="ownerBox"
-                        onClick={() => setOwnerPopup(true)}
-                      >
-                        <h3>{itemdata.countholders}</h3>
-                        <h4>
-                          {itemdata.countholders && itemdata.countholders > 1
-                            ? "Owners"
-                            : "Owner"}{" "}
-                        </h4>
-                      </li>
-                      <li>
-                        <h3>{itemdata.item?.countcopies}</h3>
-                        <h4>
-                          {" "}
-                          {itemdata.item?.countcopies &&
-                          itemdata.item?.countcopies > 1
-                            ? "Fragments"
-                            : "Fragment"}
-                        </h4>
-                      </li>
-                      <li>
-                        <h3>{numFormatter(itemdata.item?.countviews)}</h3>
-                        <h4>views</h4>
-                      </li>
-                    </ul>
-                  </div>
+                  <img
+                    src={require("../img/sub/icon_close.png").default}
+                    alt="close"
+                  />
+                </a>
+                <div className="poptitle">
+                  <h2>Report inappropriate items</h2>
                 </div>
-              </div>
-
-              <div className="bun_tr">
-                <div className="bun_right">
-                  <div className="right_t">
-                    <div className="tt">
-                      <h2>{itemdata?.item?.titlename}</h2>
-                      <div className="icons">
-                        <a onClick={(_) => fetchitem(itemdata?.item?.itemid)}>
-                          <img
-                            src={require("../img/sub/refresh.png").default}
-                            alt=""
-                          />
-                        </a>
-                        <a onClick={_=>{ setreportPopup (true) }}>
-                          <img src={require("../img/sub/alert.png").default} />
-                        </a>
-
-                        <a
-                          onClick={(_) => {
-                            onClickCopy(window.location.href);
-                            SetErrorBar(messages.MSG_COPIED);
-                          }}
-                        >
-                          <img src={require("../img/sub/share.png").default} />
-                        </a>
-                      </div>
-                    </div>
-                    <div className="boxes">
-                      <h2>Owner public content include</h2>
-                      <div className="black_box">
-                        <ul>
-                          <li>
-                            {" "}
-                            {/** itemdata.item?.price */}
-                            <h3>Price</h3>
-                            <h4>
-                              {sellorder?.asset_amount_ask
-                                ? (+sellorder?.asset_amount_ask).toFixed(4)
-                                : ""}
-                              <span>&nbsp;{"KLAY"}</span>
-                            </h4>
-                            <h5>
-                              {sellorder ? "Qty." : ""}{" "}
-                              {sellorder?.asset_amount_bid}{" "}
-                              {itemdata?.item?.tokenid
-                                ? `of token #${itemdata?.item?.tokenid}`
-                                : ""}
-                              {/** itemdata.item?.normprice &&
-                                itemdata.item.normprice.toLocaleString(
-                                  "en",
-                                  "US"
-                                )*/}
-                            </h5>
-                          </li>
-                           <li>
-                            <h3>{sellorder?.typestr=='COMMON'? 'Sale':'Auction'} ending </h3>
-                            <h4 style={true ? { color: "red" } : {}}>
-                              {sellorder?.expiry?  moment.unix( sellorder?.expiry ).fromNow() : '' }
-                            </h4>
-                          </li> 
-                        </ul>
-                        <a
-                          onClick={() => {
-                            if (sellorder?.typestr == "COMMON") {
-                              setbuySpotPopup(true);
-                            } else if (
-                              sellorder?.typestr == "AUCTION_ENGLISH"
-                            ) {
-                              setbidauctionmodal(true);
-                            } else {
-                            }
-                          }}
-                          className="bid"
-                        >
-                          Buy
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="bun_full">
-              <div className="desc">
-                <h2 className="i_title">Description</h2>
-                <p>{itemdata.item?.description}</p>
-              </div>
-            </div>
-            <div className="bundle_top top2">
-              <div className="bun_tl">
-                <div className="right_m">
-                  <h2 className="i_title">Price History</h2>
-                  <form>
+                <form>
+                  <div className="list_bottom bottom2">
+                    <h3>Category</h3>
                     <select>
-                      <option>Last 60 Days</option>
+                      <option disable selected hidden>
+                        Please select a reason for reporting
+                      </option>
+                      {reportcatlist
+                        .sort((a, b) => (a > b ? +1 : -1))
+                        .map((elem, idx) => {
+                          return <option>{elem.textdisp} </option>;
+                        })}
                     </select>
-                  </form>
-                  <div className="prices">
-                    <ul>
-                      <li>
-                        <h3>Average price</h3>
-                        <p>{pricestats[2] || "NA"}</p>
-                      </li>
-                      <li>
-                        <h3>Highest price</h3>
-                        <p>{pricestats[0] || "NA"}</p>
-                      </li>
-                      <li>
-                        <h3>Lowest price</h3>
-                        <p>{pricestats[1] || "NA"}</p>
-                      </li>
-                    </ul>
+                    <h3>Detailed description</h3>
+                    <textarea
+                      placeholder="Please describe in detail why you would like to report the item."
+                      onChange={(e) => {}}
+                    ></textarea>
                   </div>
-                  <div className="graph">
+                  <div className="report_wrap">
+                    <a className="reportit">Report it</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {likePopup && <ItemLikePopup off={setLikePopup} itemid={itemid} />}
+
+          {false && <PlaceBidPopup />}
+
+          {bidauctionmodal && (
+            <div
+              className="popup info"
+              id="info_popup"
+              style={{ display: "block" }}
+            >
+              <div className="box_wrap buynft">
+                <a
+                  onClick={() => setbidauctionmodal(false)}
+                  className="close close2"
+                  id="info_close"
+                >
+                  <img
+                    src={require("../img/sub/icon_close.png").default}
+                    alt="close"
+                  />
+                </a>
+                <div className="poptitle nob">
+                  <h2>Place a bid</h2>
+                </div>
+                <div className="list_bottom buy_nft">
+                  <p
+                    className="warn"
+                    style={{
+                      display: itemdata?.item?.isreviewed ? "none" : "block",
+                    }}
+                  >
+                    Warning! Contains items
+                    <br /> that have not been reviewed and approved
+                  </p>
+                  <div className="receipt_section">
+                    <div className="receipt_title">
+                      <p className="rec_t">Item</p>
+                      <p className="rec_t right">Subtotal</p>
+                    </div>
+                    <div className="receipt_item">
+                      <ul>
+                        <li>
+                          <span
+                            className="pic"
+                            style={{
+                              backgroundImage: `url(${itemdata?.item?.url})`,
+                            }}
+                          ></span>
+                          <div className="right_price">
+                            <h3>
+                              {convertLongString(8, 4, sellorder?.username)}
+                              <br />
+                              <span>{itemdata?.item?.titlename} </span>
+                              {/**Blackman with neon */}
+                            </h3>
+                            <h4 className="m_sub">
+                              <img
+                                style={{ width: "60px" }}
+                                src={require("../img/header/logo.png").default}
+                              />
+                              <span className="pri">
+                                {sellorder?.asset_amount_bid
+                                  ? `Qty. ${sellorder?.asset_amount_bid}`
+                                  : ""}{" "}
+                                {sellorder?.tokenid
+                                  ? `of token #${sellorder?.tokenid}`
+                                  : ""}{" "}
+                              </span>
+                            </h4>
+                          </div>
+                        </li>
+                      </ul>
+                      <ul>
+                        <li>
+                          <p className="rec_t">
+                            Current highest bid
+                            <span className="red" style={{ color: "gray" }}>
+                              {j_auctionuuid_bidder[sellorder?.uuid]
+                                ? strDot(
+                                    j_auctionuuid_bidder[sellorder?.uuid],
+                                    8,
+                                    0
+                                  )
+                                : "\u00A0"}
+                            </span>
+                          </p>
+                          <div className="right_price m_left">
+                            <h4 className="blue">
+                              <img
+                                src={require("../img/sub/rock.png").default}
+                              />
+                              {j_auctionuuid_bidprice[sellorder?.uuid]
+                                ? j_auctionuuid_bidprice[sellorder?.uuid]
+                                : " "}{" "}
+                              &nbsp;
+                              <span className="pri">
+                                ($
+                                {priceklay &&
+                                j_auctionuuid_bidprice[sellorder?.uuid]
+                                  ? (
+                                      +priceklay *
+                                      +j_auctionuuid_bidprice[sellorder?.uuid]
+                                    ).toFixed(4)
+                                  : ""}
+                                )
+                              </span>
+                            </h4>
+                          </div>
+                        </li>
+                      </ul>
+                      <ul>
+                        <li>
+                          <p className="rec_t">
+                            Minimum bid
+                            <span className="red" style={{ color: "black" }}>
+                              {" "}
+                              &nbsp;
+                            </span>
+                          </p>
+                          <div className="right_price m_left">
+                            <h4 className="blue">
+                              <img
+                                src={require("../img/sub/rock.png").default}
+                              />
+                              {sellorder?.asset_amount_ask}
+                              <span className="pri">
+                                ($
+                                {priceklay && sellorder?.asset_amount_ask
+                                  ? (
+                                      +priceklay * +sellorder?.asset_amount_ask
+                                    ).toFixed(4)
+                                  : ""}
+                                )
+                              </span>
+                            </h4>
+                          </div>
+                        </li>
+                      </ul>
+
+                      <ul>
+                        <li>
+                          <p className="rec_t">
+                            Your bid
+                            <span className="red" style={{ color: "black" }}>
+                              (Current balance:{" "}
+                              {myethbalance ? (+myethbalance).toFixed(4) : "0"})
+                            </span>
+                          </p>
+                          <div className="right_price m_left">
+                            <h4 className="blue">
+                              <input
+                                value={mybidamount}
+                                onChange={(e) => {
+                                  let { value: value_raw } = e.target;
+                                  let value = +value_raw;
+                                  if (ISFINITE(value)) {
+                                  } else if (value == 0) {
+                                  } else {
+                                    SetErrorBar(
+                                      messages.MSG_INPUT_NUMBERS_ONLY
+                                    );
+                                    //                                return;
+                                  }
+                                  setmybidamount("" + value_raw);
+                                  if (value >= +myethbalance) {
+                                    SetErrorBar(messages.MSG_EXCEEDS_BALANCE);
+                                    return;
+                                  }
+                                  if (value >= sellorder?.asset_amount_ask) {
+                                  } else {
+                                    SetErrorBar(messages.MSG_FAILS_AUCTION_REQ);
+                                    return;
+                                  }
+                                  if (j_auctionuuid_bidprice[sellorder?.uuid]) {
+                                    if (
+                                      value >=
+                                      +j_auctionuuid_bidprice[sellorder?.uuid]
+                                    ) {
+                                    } else {
+                                      SetErrorBar(
+                                        messages.MSG_FAILS_AUCTION_REQ
+                                      );
+                                      return;
+                                    }
+                                  }
+                                }}
+                              />
+                            </h4>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <form className="ckb_wrap">
+                      <div
+                        className="ckb"
+                        style={{
+                          display: itemdata?.item?.isreviewed
+                            ? "none"
+                            : "block",
+                        }}
+                      >
+                        <input type="checkbox" id="chk" name="chk1" />
+                        <label htmlFor="chk">
+                          Aware that Itemverse contains one item that has not
+                          been reviewed and approved
+                        </label>
+                      </div>
+                      <div className="ckb">
+                        <input
+                          type="checkbox"
+                          id="chk2"
+                          name="chk1"
+                          onChange={(e) => {
+                            setistoschecked(!istoschecked); // LOGGER()
+                          }}
+                        />
+                        <label htmlFor="chk2">
+                          I agree to Itemverse's <b>Terms of Service</b>
+                        </label>
+                      </div>
+                    </form>
+                  </div>
+                  <a
+                    className="reportit on "
+                    disabled={istoschecked ? false : true}
+                    onClick={(_) => {
+                      if (istoschecked) {
+                      } else {
+                        //                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
+                        //                  return;
+                      }
+                      LOGGER("pHeiL5AWXM");
+                      onclickbuy();
+                    }}
+                  >
+                    Place bid
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+          {buySpotPopup && (
+            <div
+              className="popup info"
+              id="info_popup"
+              style={{ display: "block" }}
+            >
+              <div className="box_wrap buynft">
+                <a
+                  onClick={() => setbuySpotPopup(false)}
+                  className="close close2"
+                  id="info_close"
+                >
+                  <img
+                    src={require("../img/sub/icon_close.png").default}
+                    alt="close"
+                  />
+                </a>
+                <div className="poptitle nob">
+                  <h2>Purchase receipt</h2>
+                </div>
+                <div className="list_bottom buy_nft">
+                  <p
+                    className="warn"
+                    style={{
+                      display: itemdata?.item?.isreviewed ? "none" : "block",
+                    }}
+                  >
+                    Warning! Contains items
+                    <br /> that have not been reviewed and approved
+                  </p>
+                  <div className="receipt_section">
+                    <div className="receipt_title">
+                      <p className="rec_t">Item</p>
+                      <p className="rec_t right">Subtotal</p>
+                    </div>
+                    <div className="receipt_item">
+                      <ul>
+                        <li>
+                          <span
+                            className="pic"
+                            style={{
+                              backgroundImage: `url(${itemdata?.item?.url})`,
+                            }}
+                          ></span>
+                          <div className="right_price">
+                            <h3>
+                              {convertLongString(8, 4, sellorder?.username)}
+                              <br />
+                              <span>{itemdata?.item?.titlename} </span>
+                              {/**Blackman with neon */}
+                            </h3>
+                            <h4 className="m_sub">
+                              <img
+                                style={{ width: "60px" }}
+                                src={require("../img/header/logo.png").default}
+                              />
+                              <span className="pri">
+                                {sellorder?.asset_amount_bid
+                                  ? `Qty. ${sellorder?.asset_amount_bid}`
+                                  : ""}{" "}
+                                {sellorder?.tokenid
+                                  ? `of token #${sellorder?.tokenid}`
+                                  : ""}{" "}
+                              </span>
+                            </h4>
+                          </div>
+                        </li>
+                      </ul>
+                      <ul>
+                        <li>
+                          <p className="rec_t">
+                            Total
+                            <span className="red">
+                              {+myethbalance &&
+                              +myethbalance > sellorder?.asset_amount_ask
+                                ? "\u00A0"
+                                : "Insufficient KLAY balance"}
+                            </span>
+                          </p>
+                          <div className="right_price m_left">
+                            <h4 className="blue">
+                              <img
+                                src={require("../img/sub/rock.png").default}
+                              />
+                              {sellorder?.asset_amount_ask}
+                              <span className="pri">
+                                ($
+                                {priceklay && sellorder?.asset_amount_ask
+                                  ? (
+                                      +priceklay * sellorder?.asset_amount_ask
+                                    ).toFixed(4)
+                                  : ""}
+                                )
+                              </span>
+                            </h4>
+                          </div>
+                        </li>
+                      </ul>
+                      <ul>
+                        <li>
+                          <p className="rec_t">
+                            Your balance
+                            <span className="red" style={{ color: "black" }}>
+                              {" "}
+                              {strDot(myaddress, 8, 2)}
+                            </span>
+                          </p>
+                          <div className="right_price m_left">
+                            <h4 className="blue">
+                              <img
+                                src={require("../img/sub/rock.png").default}
+                              />
+                              {myethbalance ? (+myethbalance).toFixed(4) : "0"}
+                              <span className="pri">
+                                ($
+                                {priceklay && myethbalance
+                                  ? (+priceklay * +myethbalance).toFixed(4)
+                                  : ""}
+                                )
+                              </span>
+                            </h4>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <form className="ckb_wrap">
+                      <div
+                        className="ckb"
+                        style={{
+                          display: itemdata?.item?.isreviewed
+                            ? "none"
+                            : "block",
+                        }}
+                      >
+                        <input type="checkbox" id="chk" name="chk1" />
+                        <label htmlFor="chk">
+                          Aware that Itemverse contains one item that has not
+                          been reviewed and approved
+                        </label>
+                      </div>
+                      <div className="ckb">
+                        <input
+                          type="checkbox"
+                          id="chk2"
+                          name="chk1"
+                          onChange={(e) => {
+                            setistoschecked(!istoschecked); // LOGGER()
+                          }}
+                        />
+                        <label htmlFor="chk2">
+                          I agree to Itemverse's <b>Terms of Service</b>
+                        </label>
+                      </div>
+                    </form>
+                  </div>
+                  <a
+                    className="reportit on "
+                    disabled={istoschecked ? false : true}
+                    onClick={(_) => {
+                      if (istoschecked) {
+                      } else {
+                        //                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
+                        //                  return;
+                      }
+                      LOGGER("pHeiL5AWXM");
+                      onclickbuy();
+                    }}
+                  >
+                    Make a payment
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <section className="innerBox">
+            <article className="itemArea">
+              <div
+                className="itemBox"
+                style={{
+                  backgroundImage: `url(${itemdata?.item?.url})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
+              >
+                <div className="topBar">
+                  <button className="sellerBtn" onClick={() => {}}>
+                    <img
+                      className="profImg"
+                      src={author?.profileimage}
+                      alt=""
+                    />
+                    <p>@{itemdata.author?.nickname}</p>
+                  </button>
+
+                  <button
+                    className="likeBtn"
+                    onClick={() => setLikePopup(true)}
+                  >
+                    <img src={I_heart} alt="" />
+                  </button>
+                </div>
+
+                <div className="bottomBar">
+                  <button
+                    className="ownerBtn"
+                    onClick={() => setOwnerPopup(true)}
+                  >
+                    <p className="value">{itemdata.countholders}</p>
+                    <p className="key">Owner</p>
+                  </button>
+                  <button className="fragmentBtn">
+                    <p className="value">{itemdata.item?.countcopies}</p>
+                    <p className="key">Fragment</p>
+                  </button>
+                  <button className="viewBtn">
+                    <p className="value">
+                      {numFormatter(itemdata.item?.countviews)}
+                    </p>
+                    <p className="key">Views</p>
+                  </button>
+                </div>
+              </div>
+
+              <div className="priceContainer">
+                <div className="titleBox">Owner public content include</div>
+
+                <div className="priceList">
+                  <div className="priceBox">
+                    <p className="title">Current Bid</p>
+                    <div className="price">
+                      <p className="value">2.867</p>
+                      <p className="key">AUSP</p>
+                    </div>
+                    <p className="exchange">$1,234.25</p>
+                  </div>
+
+                  <div className="timeBox">
+                    <p className="title">Auction ending in</p>
+                    <strong className="time">05:32:21</strong>
+                  </div>
+                </div>
+
+                <button
+                  className="bidBtn"
+                  onClick={() => setbidauctionmodal(true)}
+                >
+                  Place a Bid
+                </button>
+              </div>
+            </article>
+
+            <article className="rightBox">
+              <strong className="title">Blackman with neon</strong>
+
+              <div className="descriptionBox">
+                <strong className="title">Description</strong>
+
+                <p className="description">{itemdata.item?.description}</p>
+              </div>
+
+              <div className="btnBox">
+                <button className="reloadBtn" onClick={() => {}}>
+                  <img src={refresh} alt="" />
+                </button>
+                <button className="alertBtn" onClick={() => {}}>
+                  <img src={alert} alt="" />
+                </button>
+                <button className="shareBtn" onClick={() => {}}>
+                  <img src={share} alt="" />
+                </button>
+              </div>
+            </article>
+
+            <article className="historyArea">
+              <strong className="title">Price History</strong>
+
+              <div className="contBox">
+                <div className="termBox posBox">
+                  <button className="termBtn" onClick={() => {}}>
+                    <p>Last 60 Days</p>
+                    <img src={I_dnArw} alt="" />
+                  </button>
+                </div>
+
+                <div className="chartContainer">
+                  <ul className="priceList">
+                    <li>
+                      <p className="key">Average price</p>
+                      <strong className="value">$31.11</strong>
+                    </li>
+                    <li>
+                      <p className="key">Highest price</p>
+                      <strong className="value">$32.11</strong>
+                    </li>
+                    <li>
+                      <p className="key">Lowest price</p>
+                      <strong className="value">$30.11</strong>
+                    </li>
+                  </ul>
+
+                  <div className="chartBox">
                     <Chart
                       {...chartData}
                       options={{
@@ -1245,440 +1250,2184 @@ function SingleItem({
                   </div>
                 </div>
               </div>
-              <div className="bun_tr">
-                <div className="right_b">
-                  <h2 className="i_title">Offers ({orders_sell?.length})</h2>
-                  <div className="history_s container">
-                    <ul>
-                      {orders_sell
-                        .sort((a, b) => {
-                          return +a.asset_amount_ask == +b.asset_amount_ask
-                            ? a.createdat > b.createdat
-                              ? -1
-                              : +1
-                            : +a.asset_amount_ask - +b.asset_amount_ask;
-                        })
-                        .map((v, idx) => {
-                          return (
-                            <li
-                              key={idx}
-                              onClick={(_) => {
-                                // SetErrorBar('BpAzNi4c1n')
-                                //														setactiveorder ( v )
-                                if (
-                                  is_two_addresses_same(myaddress, v.username)
-                                ) {
-                                  SetErrorBar(messages.MSG_YOUR_OWN_ORDER);
-                                  return;
-                                } else {
-                                }
-                                setsellorder(v);
-                                return;
-                              }}
-                            >
-                              <span
-                                className="profile_img"
-                                style={{
-                                  backgroundImage: `url(${jprofileimages[idx]})`,
-                                }}
-                              ></span>
-                              <h3>
-                                {v.asset_amount_ask
-                                  ? (+v.asset_amount_ask).toFixed(4)
-                                  : ""}{" "}
-                                KLAY
-                                <br />
-                                <span>
-                                  {`Qty.${v.asset_amount_bid}`}{" "}
-                                  {MAP_SALETYPES[v.typestr]}
-                                </span>
-                              </h3>
-                              <h4>{convertLongString(8, 8, v.username)}</h4>
-                              <h5>
-                                {"created " + moment(v.createdat).fromNow()}
-                              </h5>
-                            </li>
-                          );
-                        })}
-                    </ul>
-                  </div>
+            </article>
+
+            <article className="statusArea">
+              <div className="saleBox">
+                <strong className="title">SALES STATUS</strong>
+
+                <div className="scrollBox">
+                  <ul className="listHeader">
+                    <li>Price</li>
+                    <li>Expired</li>
+                    <li>Seller</li>
+                  </ul>
+
+                  <ul className="list">
+                    {[1, 2, 3, 4, 5, 6].map((cont, index) => (
+                      <li key={index}>
+                        <span>
+                          <div className="priceBox">
+                            <img src={I_klaytn} alt="" />
+                            <p>0.015 KLAY ($30.11)</p>
+                          </div>
+
+                          <button className="purchaseBtn" onClick={() => {}}>
+                            Purchase
+                          </button>
+                        </span>
+
+                        <span>3 days later</span>
+                        <span>Philip van Kouwenbergh</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-            </div>
-            <div className="status s_pc">
-              <div className="mptable left">
-                <strong>SALES STATUS</strong>
-                <div className="ranktable_pc p_th">
-                  <div className="table_sales">
-                    <table>
-                      <colgroup>
-                        <col style={{ width: "48%" }} />
-                        <col style={{ width: "22%" }} />
-                        <col style={{ width: "auto" }} />
-                      </colgroup>
-                      <thead>
-                        <tr>
-                          <th>Price</th>
-                          <th>Expired</th>
-                          <th>Seller</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {logsales.map((v) => (
-                          <tr>
-                            <td>
-                              <div className="name price">
-                                <img
-                                  src={
-                                    require("../img/sub/I_klaytn.svg").default
-                                  }
-                                  style={{ width: "24px" }}
-                                  alt=""
-                                />
-                                <p>
-                                  {v.tokenprice} KLAY{" "}
-                                  <span>(${v.priceusd})</span>
-                                </p>
-                              </div>
-                              <div className="pur">
-                                <a>{v.kind}</a>
-                              </div>
-                            </td>
-                            <td>{moment(v.expired).toNow()}</td>
-                            <td className="blue">{v.seller}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+
+              <div className="offerBox">
+                <strong className="title">PURCHASE STATUS</strong>
+
+                <div className="scrollBox">
+                  <ul className="listHeader">
+                    <li>Price</li>
+                    <li>Expired</li>
+                    <li>Buyer</li>
+                  </ul>
+
+                  <ul className="list">
+                    {[1, 2, 3, 4, 5, 6].map((cont, index) => (
+                      <li key={index}>
+                        <span>
+                          <div className="priceBox">
+                            <img src={I_klaytn} alt="" />
+                            <p>0.015 KLAY ($30.11)</p>
+                          </div>
+
+                          <button className="purchaseBtn" onClick={() => {}}>
+                            Purchase
+                          </button>
+                        </span>
+
+                        <span>3 days later</span>
+                        <span>Philip van Kouwenbergh</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-              <div className="mptable right">
-                <strong>PURCHASE STATUS</strong>
-                <div className="ranktable_pc p_th">
-                  <div className="table_sales">
-                    <table>
-                      <colgroup>
-                        <col style={{ width: "39%" }} />
-                        <col style={{ width: "auto" }} />
-                        <col style={{ width: "auto" }} />
-                      </colgroup>
-                      <thead>
-                        <tr>
-                          <th>Price</th>
-                          <th>Expired</th>
-                          <th>Buyer</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {logorders.sort((a , b)=>a.createdat>b.createdat? -1:+1 ).map((v, idx) => (
-                          <tr key={idx}>
-                            <td>
-                              <div className="name price">
-                                <img
-                                  src={
-                                    require("../img/sub/I_klaytn.svg").default
-                                  }
-                                  style={{ width: "24px" }}
-                                  alt=""
-                                />
-                                <p>
-                                  {v.price} KLAY{" "}
-                                  <span>(Qty. {v.asset_amount_bid})</span>
-                                </p>
-                              </div>
-                            </td>
-                            <td>{moment(v.createdat).fromNow()}</td>
-                            <td className="blue">{v.buyer}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="status s_m">
-              <div className="mptable left">
-                <strong>Sales status</strong>
-                <div className="ranktable_pc p_th">
-                  <div className="table_sales">
-                    <table>
-                      <colgroup>
-                        <col style={{ width: "75%" }} />
-                        <col style={{ width: "auto" }} />
-                      </colgroup>
-                      <thead>
-                        <tr>
-                          <th>Price/Expired</th>
-                          <th>Seller</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <div className="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>0.010 KLAY ($30.11)</p>
-                              <span>3 days later</span>
-                            </div>
-                            <div className="pur">
-                              <a>Buy</a>
-                            </div>
-                          </td>
-                          <td className="blue">
-                            <div className="div">Esther</div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div className="mptable right">
-                <strong>Purchase status</strong>
-                <div className="ranktable_pc p_th">
-                  <div className="table_sales">
-                    <table>
-                      <colgroup>
-                        <col style={{ width: "75%" }} />
-                        <col style={{ width: "auto" }} />
-                      </colgroup>
-                      <thead>
-                        <tr>
-                          <th>Price/Expired</th>
-                          <th>Buyer</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <div className="name price">
-                              <img
-                                src={require("../img/sub/I_klaytn.svg").default}
-                                style={{ width: "24px" }}
-                                alt=""
-                              />
-                              <p>0.010 KLAY ($30.11)</p>
-                              <span>3 days later</span>
-                            </div>
-                          </td>
-                          <td className="blue">Esther</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="basic plustab ml2">
-              <div className="tab">
-                <ul>
-                  {chartCategoryList.map((cont, index) => (
-                    <li
-                      key={index}
-                      className={chartCategory === index && "on"}
-                      onClick={() => {
-                        setChartCategory(index);
-                        switch (index) {
-                          case 0:
-                            setlistholder(listitemhistory);
-                            break;
-                          case 1:
-                            setlistholder(transactionHistory);
-                            break;
-                        }
-                      }}
-                    >
-                      {cont}
+            </article>
+
+            <article className="categoryListArea">
+              <ul className="categoryList">
+                {D_categoryList.map((cont, index) => (
+                  <li
+                    key={index}
+                    className={listCategory === index && "on"}
+                    onClick={() => setListCategory(index)}
+                  >
+                    {cont}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="scrollBox">
+                <ul className="listHeader">
+                  <li>Event</li>
+                  <li>Price</li>
+                  <li>From</li>
+                  <li>To</li>
+                  <li>Date</li>
+                  <li>Tx confirm</li>
+                </ul>
+
+                <ul className="list">
+                  {[1, 2, 3, 4, 5, 6].map((cont, index) => (
+                    <li key={index}>
+                      <span>purchase</span>
+                      <span>0.0020 KLAY</span>
+                      <span>0xb9e83064c381bd64cb2b2f8406203e584b81a7e1</span>
+                      <span>0x495f947276749ce646f68ac8c248420045cb7b5e</span>
+                      <span>1 month ago</span>
+                      <span>
+                        <button onClick={() => {}}>
+                          <img src={icon_link_on} alt="" />
+                        </button>
+                      </span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="tab_bottom container con3" id="FixedTable">
-                <table>
-                  <colgroup>
-                    <col style={{ width: "10%" }} />
-                    <col style={{ width: "10%" }} />
-                    <col style={{ width: "30%" }} />
-                    <col style={{ width: "30%" }} />
-                    <col style={{ width: "10%" }} />
-                    <col style={{ width: "10%" }} />
-                  </colgroup>
-                  <thead className="head">
-                    <tr>
-                      <th>Event</th>
-                      <th>Price</th>
-                      <th>From</th>
-                      <th>To</th>
-                      <th>Date</th>
-                      <th className="hchain">Tx confirm</th>
-                    </tr>
-                  </thead>
-                  <tbody className="body">
-                    {listholder.map((v, idx) => (
-                      <tr key={idx}>
-                        <td> {MAP_ITEMHISTORY_EVETNS[v.typestr]} </td>
-                        <td className="bold">
-                          {putCommaAtPrice(v.price * 1)} KLAY
-                        </td>
-                        <td className="blue">{strDot(v.from_, 20, 0)}</td>
-                        <td className="blue">{strDot(v.to_, 20, 0)}</td>
-                        <td className="gray">
-                          {moment(v.createdat).fromNow()}
-                        </td>
-                        <td>
-                          <span
-                            onClick={(_) => {
-                              if (v.isonchain) {
-                              } else {
-                                SetErrorBar(messages.MSG_IT_IS_OFFCHAIN);
-                                return;
-                              }
-                              window
-                                .open(
-                                  URL_TX_SCAN[v.nettype] + `/${v.txhash}`,
-                                  "_blank"
-                                )
-                                .focus();
+            </article>
+
+            <article className="otherWorkArea">
+              <strong className="title">Other works in this collection</strong>
+
+              <div className="swiperContainer">
+                <div class="swiperBox">
+                  <ul class="swiperList" ref={otherWorkRef}>
+                    {listotheritems
+                      .filter((elem) =>
+                        elem.item?.itemid == itemid ? false : true
+                      )
+                      .sort((a, b) => a.id - b.id)
+                      .map((cont, index) => (
+                        <li
+                          key={index}
+                          class="swiperContBox"
+                          onClick={() =>
+                            navigate(`/singleitem?itemid=${cont.item?.itemid}`)
+                          }
+                        >
+                          <div
+                            className="itemBox"
+                            style={{
+                              backgroundImage: `url(${cont.item?.url})`,
+                              backgroundRepeat: "no-repeat",
+                              backgroundPosition: "center",
+                              backgroundSize: "cover",
                             }}
-                            className={v.isonchain ? "chain on" : "chain off"}
-                          ></span>
-                          {/*                          <a                             className={v.chainOn ? "chain on" : "chain off"}                          ></a>
-                           */}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          >
+                            <div className="infoBox">
+                              <div className="topBar">
+                                <button
+                                  className="likeBtn"
+                                  onClick={(e) => {
+                                    // onClickFavorBtn(e, cont.itemid)
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      cont.ilikethisitem ? heart_on : heart_off
+                                    }
+                                    alt=""
+                                  />
+
+                                  <p>{cont.countfavors}</p>
+                                </button>
+
+                                <button
+                                  className="bookmarkBtn"
+                                  onClick={(e) => {
+                                    // onClickBookMarkBtn(e, cont.itemid)
+                                  }}
+                                >
+                                  <img
+                                    src={cont.ididbookmark ? star_on : star_off}
+                                    alt=""
+                                  />
+                                </button>
+                              </div>
+
+                              <p className="title">{cont?.item?.titlename}</p>
+                              <p className="nickname">
+                                {strDot(cont.item?.author?.nickname, 10, 0)}
+                              </p>
+
+                              <div className="etcBox">
+                                <p className="time">
+                                  {cont?.minpriceorder
+                                    ? moment
+                                        .unix(cont?.minpriceorder?.expiry)
+                                        .fromNow()
+                                    : moment(cont?.item?.createdat).toNow()}
+                                </p>
+
+                                <strong className="priceBox">
+                                  {cont?.minpriceorder?.price} KLAY
+                                </strong>
+                              </div>
+                            </div>
+                          </div>
+
+                          <button className="buyBtn" onClick={() => {}}>
+                            Buy Now
+                          </button>
+                        </li>
+                      ))}
+                  </ul>
+
+                  <button
+                    className="preBtn pageBtn"
+                    onClick={() =>
+                      onClickSwiperPreBtn(
+                        otherWorkRef,
+                        listotheritems,
+                        otherWorkIndex,
+                        setOtherWorkIndex
+                      )
+                    }
+                  >
+                    <img src={I_ltArw3BlackBtn} alt="" />
+                  </button>
+
+                  <button
+                    className="nextBtn pageBtn"
+                    onClick={() =>
+                      onClickSwiperNextBtn(
+                        otherWorkRef,
+                        listotheritems,
+                        otherWorkIndex,
+                        setOtherWorkIndex
+                      )
+                    }
+                  >
+                    <img src={I_rtArw3BlackBtn} alt="" />
+                  </button>
+                </div>
+              </div>
+            </article>
+          </section>
+        </MsignPopupBox>
+      </>
+    );
+  else
+    return (
+      <>
+        {ownerPopup && <ItemOwnerPopup off={setOwnerPopup} itemid={itemid} />}
+
+        {reportPopup && (
+          <div
+            className="popup info"
+            id="info_popup"
+            style={{ display: "block" }}
+          >
+            <div className="box_wrap wrap3">
+              <a
+                onClick={() => setreportPopup(false)}
+                className="close close2"
+                id="info_close"
+              >
+                <img
+                  src={require("../img/sub/icon_close.png").default}
+                  alt="close"
+                />
+              </a>
+              <div className="poptitle">
+                <h2>Report inappropriate items</h2>
+              </div>
+              <form>
+                <div className="list_bottom bottom2">
+                  <h3>Category</h3>
+                  <select>
+                    <option disable selected hidden>
+                      Please select a reason for reporting
+                    </option>
+                    {reportcatlist
+                      .sort((a, b) => (a > b ? +1 : -1))
+                      .map((elem, idx) => {
+                        return <option>{elem.textdisp} </option>;
+                      })}
+                  </select>
+                  <h3>Detailed description</h3>
+                  <textarea
+                    placeholder="Please describe in detail why you would like to report the item."
+                    onChange={(e) => {}}
+                  ></textarea>
+                </div>
+                <div className="report_wrap">
+                  <a className="reportit">Report it</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {likePopup && <ItemLikePopup off={setLikePopup} itemid={itemid} />}
+
+        {false && <PlaceBidPopup />}
+
+        {bidauctionmodal && (
+          <div
+            className="popup info"
+            id="info_popup"
+            style={{ display: "block" }}
+          >
+            <div className="box_wrap buynft">
+              <a
+                onClick={() => setbidauctionmodal(false)}
+                className="close close2"
+                id="info_close"
+              >
+                <img
+                  src={require("../img/sub/icon_close.png").default}
+                  alt="close"
+                />
+              </a>
+              <div className="poptitle nob">
+                <h2>Place a bid</h2>
+              </div>
+              <div className="list_bottom buy_nft">
+                <p
+                  className="warn"
+                  style={{
+                    display: itemdata?.item?.isreviewed ? "none" : "block",
+                  }}
+                >
+                  Warning! Contains items
+                  <br /> that have not been reviewed and approved
+                </p>
+                <div className="receipt_section">
+                  <div className="receipt_title">
+                    <p className="rec_t">Item</p>
+                    <p className="rec_t right">Subtotal</p>
+                  </div>
+                  <div className="receipt_item">
+                    <ul>
+                      <li>
+                        <span
+                          className="pic"
+                          style={{
+                            backgroundImage: `url(${itemdata?.item?.url})`,
+                          }}
+                        ></span>
+                        <div className="right_price">
+                          <h3>
+                            {convertLongString(8, 4, sellorder?.username)}
+                            <br />
+                            <span>{itemdata?.item?.titlename} </span>
+                            {/**Blackman with neon */}
+                          </h3>
+                          <h4 className="m_sub">
+                            <img
+                              style={{ width: "60px" }}
+                              src={require("../img/header/logo.png").default}
+                            />
+                            <span className="pri">
+                              {sellorder?.asset_amount_bid
+                                ? `Qty. ${sellorder?.asset_amount_bid}`
+                                : ""}{" "}
+                              {sellorder?.tokenid
+                                ? `of token #${sellorder?.tokenid}`
+                                : ""}{" "}
+                            </span>
+                          </h4>
+                        </div>
+                      </li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <p className="rec_t">
+                          Current highest bid
+                          <span className="red" style={{ color: "gray" }}>
+                            {j_auctionuuid_bidder[sellorder?.uuid]
+                              ? strDot(
+                                  j_auctionuuid_bidder[sellorder?.uuid],
+                                  8,
+                                  0
+                                )
+                              : "\u00A0"}
+                          </span>
+                        </p>
+                        <div className="right_price m_left">
+                          <h4 className="blue">
+                            <img src={require("../img/sub/rock.png").default} />
+                            {j_auctionuuid_bidprice[sellorder?.uuid]
+                              ? j_auctionuuid_bidprice[sellorder?.uuid]
+                              : " "}{" "}
+                            &nbsp;
+                            <span className="pri">
+                              ($
+                              {priceklay &&
+                              j_auctionuuid_bidprice[sellorder?.uuid]
+                                ? (
+                                    +priceklay *
+                                    +j_auctionuuid_bidprice[sellorder?.uuid]
+                                  ).toFixed(4)
+                                : ""}
+                              )
+                            </span>
+                          </h4>
+                        </div>
+                      </li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <p className="rec_t">
+                          Minimum bid
+                          <span className="red" style={{ color: "black" }}>
+                            {" "}
+                            &nbsp;
+                          </span>
+                        </p>
+                        <div className="right_price m_left">
+                          <h4 className="blue">
+                            <img src={require("../img/sub/rock.png").default} />
+                            {sellorder?.asset_amount_ask}
+                            <span className="pri">
+                              ($
+                              {priceklay && sellorder?.asset_amount_ask
+                                ? (
+                                    +priceklay * +sellorder?.asset_amount_ask
+                                  ).toFixed(4)
+                                : ""}
+                              )
+                            </span>
+                          </h4>
+                        </div>
+                      </li>
+                    </ul>
+
+                    <ul>
+                      <li>
+                        <p className="rec_t">
+                          Your bid
+                          <span className="red" style={{ color: "black" }}>
+                            (Current balance:{" "}
+                            {myethbalance ? (+myethbalance).toFixed(4) : "0"})
+                          </span>
+                        </p>
+                        <div className="right_price m_left">
+                          <h4 className="blue">
+                            <input
+                              value={mybidamount}
+                              onChange={(e) => {
+                                let { value: value_raw } = e.target;
+                                let value = +value_raw;
+                                if (ISFINITE(value)) {
+                                } else if (value == 0) {
+                                } else {
+                                  SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY);
+                                  //                                return;
+                                }
+                                setmybidamount("" + value_raw);
+                                if (value >= +myethbalance) {
+                                  SetErrorBar(messages.MSG_EXCEEDS_BALANCE);
+                                  return;
+                                }
+                                if (value >= sellorder?.asset_amount_ask) {
+                                } else {
+                                  SetErrorBar(messages.MSG_FAILS_AUCTION_REQ);
+                                  return;
+                                }
+                                if (j_auctionuuid_bidprice[sellorder?.uuid]) {
+                                  if (
+                                    value >=
+                                    +j_auctionuuid_bidprice[sellorder?.uuid]
+                                  ) {
+                                  } else {
+                                    SetErrorBar(messages.MSG_FAILS_AUCTION_REQ);
+                                    return;
+                                  }
+                                }
+                              }}
+                            />
+                          </h4>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <form className="ckb_wrap">
+                    <div
+                      className="ckb"
+                      style={{
+                        display: itemdata?.item?.isreviewed ? "none" : "block",
+                      }}
+                    >
+                      <input type="checkbox" id="chk" name="chk1" />
+                      <label htmlFor="chk">
+                        Aware that Itemverse contains one item that has not been
+                        reviewed and approved
+                      </label>
+                    </div>
+                    <div className="ckb">
+                      <input
+                        type="checkbox"
+                        id="chk2"
+                        name="chk1"
+                        onChange={(e) => {
+                          setistoschecked(!istoschecked); // LOGGER()
+                        }}
+                      />
+                      <label htmlFor="chk2">
+                        I agree to Itemverse's <b>Terms of Service</b>
+                      </label>
+                    </div>
+                  </form>
+                </div>
+                <a
+                  className="reportit on "
+                  disabled={istoschecked ? false : true}
+                  onClick={(_) => {
+                    if (istoschecked) {
+                    } else {
+                      //                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
+                      //                  return;
+                    }
+                    LOGGER("pHeiL5AWXM");
+                    onclickbuy();
+                  }}
+                >
+                  Place bid
+                </a>
               </div>
             </div>
           </div>
-          <div className="item">
-            <div className="wrap">
-              <h4 className="t">
-                Other works from {iscollectionbyauthorseller}
-              </h4>
-
-              <div className="swiper">
-                <div className="swiper-container swiper-container-trendingitem">
-                  <ol className="item item4 buy swiper-wrapper">
-                    <div className="slideBox" ref={itemWrapRef}>
-                      {listotheritems
-                        .filter((elem) =>
-                          elem.item?.itemid == itemid ? false : true
-                        )
-                        .sort((a, b) => a.id - b.id)
-                        .map((cont, index) => (
-                          <span key={index}>
-                            <li
-                              className="swiper-slide"
-                              onClick={() => {
-                                LOGGER("abc"); // window.location.reload()
-                                Setitemid(cont.item?.itemid);
-                                navigate(
-                                  `/singleitem?itemid=${cont.item?.itemid}`
-                                );
-                              }}
-                            >
-                              <a
-                                style={{
-                                  backgroundImage: `url(${cont.item?.url})`,
-                                }}
-                              >
-                                <div className="on">
-                                  <ul>
-                                    <li
-                                      className={
-                                        cont.ilikethisitem
-                                          ? "heart on"
-                                          : "heart off"
-                                      }
-                                    >
-                                      {cont?.countfavors}
-                                    </li>
-                                    <li className="star off"></li>
-                                  </ul>
-                                  <div>{cont?.item?.titlename}</div>
-                                  <span>{cont?.item?.author?.nickname}</span>
-                                  <ol>
-                                    <li>
-                                      {cont?.minpriceorder
-                                        ? moment
-                                            .unix(cont?.minpriceorder?.expiry)
-                                            .fromNow()
-                                        : moment(cont?.item?.createdat).toNow()}
-                                    </li>
-                                    <li>
-                                      {cont?.minpriceorder
-                                        ? `${cont?.minpriceorder?.price} KLAY`
-                                        : ""}{" "}
-                                    </li>
-                                  </ol>
-                                  <p>Buy Now</p>
-                                </div>
-                              </a>
-                            </li>
+        )}
+        {buySpotPopup && (
+          <div
+            className="popup info"
+            id="info_popup"
+            style={{ display: "block" }}
+          >
+            <div className="box_wrap buynft">
+              <a
+                onClick={() => setbuySpotPopup(false)}
+                className="close close2"
+                id="info_close"
+              >
+                <img
+                  src={require("../img/sub/icon_close.png").default}
+                  alt="close"
+                />
+              </a>
+              <div className="poptitle nob">
+                <h2>Purchase receipt</h2>
+              </div>
+              <div className="list_bottom buy_nft">
+                <p
+                  className="warn"
+                  style={{
+                    display: itemdata?.item?.isreviewed ? "none" : "block",
+                  }}
+                >
+                  Warning! Contains items
+                  <br /> that have not been reviewed and approved
+                </p>
+                <div className="receipt_section">
+                  <div className="receipt_title">
+                    <p className="rec_t">Item</p>
+                    <p className="rec_t right">Subtotal</p>
+                  </div>
+                  <div className="receipt_item">
+                    <ul>
+                      <li>
+                        <span
+                          className="pic"
+                          style={{
+                            backgroundImage: `url(${itemdata?.item?.url})`,
+                          }}
+                        ></span>
+                        <div className="right_price">
+                          <h3>
+                            {convertLongString(8, 4, sellorder?.username)}
+                            <br />
+                            <span>{itemdata?.item?.titlename} </span>
+                            {/**Blackman with neon */}
+                          </h3>
+                          <h4 className="m_sub">
+                            <img
+                              style={{ width: "60px" }}
+                              src={require("../img/header/logo.png").default}
+                            />
+                            <span className="pri">
+                              {sellorder?.asset_amount_bid
+                                ? `Qty. ${sellorder?.asset_amount_bid}`
+                                : ""}{" "}
+                              {sellorder?.tokenid
+                                ? `of token #${sellorder?.tokenid}`
+                                : ""}{" "}
+                            </span>
+                          </h4>
+                        </div>
+                      </li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <p className="rec_t">
+                          Total
+                          <span className="red">
+                            {+myethbalance &&
+                            +myethbalance > sellorder?.asset_amount_ask
+                              ? "\u00A0"
+                              : "Insufficient KLAY balance"}
                           </span>
-                        ))}
+                        </p>
+                        <div className="right_price m_left">
+                          <h4 className="blue">
+                            <img src={require("../img/sub/rock.png").default} />
+                            {sellorder?.asset_amount_ask}
+                            <span className="pri">
+                              ($
+                              {priceklay && sellorder?.asset_amount_ask
+                                ? (
+                                    +priceklay * sellorder?.asset_amount_ask
+                                  ).toFixed(4)
+                                : ""}
+                              )
+                            </span>
+                          </h4>
+                        </div>
+                      </li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <p className="rec_t">
+                          Your balance
+                          <span className="red" style={{ color: "black" }}>
+                            {" "}
+                            {strDot(myaddress, 8, 2)}
+                          </span>
+                        </p>
+                        <div className="right_price m_left">
+                          <h4 className="blue">
+                            <img src={require("../img/sub/rock.png").default} />
+                            {myethbalance ? (+myethbalance).toFixed(4) : "0"}
+                            <span className="pri">
+                              ($
+                              {priceklay && myethbalance
+                                ? (+priceklay * +myethbalance).toFixed(4)
+                                : ""}
+                              )
+                            </span>
+                          </h4>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <form className="ckb_wrap">
+                    <div
+                      className="ckb"
+                      style={{
+                        display: itemdata?.item?.isreviewed ? "none" : "block",
+                      }}
+                    >
+                      <input type="checkbox" id="chk" name="chk1" />
+                      <label htmlFor="chk">
+                        Aware that Itemverse contains one item that has not been
+                        reviewed and approved
+                      </label>
                     </div>
-                  </ol>
+                    <div className="ckb">
+                      <input
+                        type="checkbox"
+                        id="chk2"
+                        name="chk1"
+                        onChange={(e) => {
+                          setistoschecked(!istoschecked); // LOGGER()
+                        }}
+                      />
+                      <label htmlFor="chk2">
+                        I agree to Itemverse's <b>Terms of Service</b>
+                      </label>
+                    </div>
+                  </form>
+                </div>
+                <a
+                  className="reportit on "
+                  disabled={istoschecked ? false : true}
+                  onClick={(_) => {
+                    if (istoschecked) {
+                    } else {
+                      //                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
+                      //                  return;
+                    }
+                    LOGGER("pHeiL5AWXM");
+                    onclickbuy();
+                  }}
+                >
+                  Make a payment
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <DefaultHeader />
+
+        <PsignPopupBox>
+          <section className="innerBox">
+            <article className="itemArea">
+              <div
+                className="itemBox"
+                style={{
+                  backgroundImage: `url(${itemdata?.item?.url})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
+              >
+                <div className="topBar">
+                  <button className="sellerBtn" onClick={() => {}}>
+                    <img
+                      className="profImg"
+                      src={author?.profileimage}
+                      alt=""
+                    />
+                    <p>@{itemdata.author?.nickname}</p>
+                  </button>
+
+                  <button
+                    className="likeBtn"
+                    onClick={() => setLikePopup(true)}
+                  >
+                    <img src={I_heart} alt="" />
+                    <p>{itemdata.item?.countfavors} Likes</p>
+                  </button>
                 </div>
 
-                <div
-                  className="swiper-button-prev swiper-button-trendingitem-prev"
-                  onClick={onClickUserPreBtn}
-                ></div>
-                <div
-                  className="swiper-button-next swiper-button-trendingitem-next"
-                  onClick={onClickUserNextBtn}
-                ></div>
+                <div className="bottomBar">
+                  <button
+                    className="ownerBtn"
+                    onClick={() => setOwnerPopup(true)}
+                  >
+                    <p className="value">{itemdata.countholders}</p>
+                    <p className="key">Owner</p>
+                  </button>
+                  <button className="fragmentBtn">
+                    <p className="value">{itemdata.item?.countcopies}</p>
+                    <p className="key">Fragment</p>
+                  </button>
+                  <button className="viewBtn">
+                    <p className="value">
+                      {numFormatter(itemdata.item?.countviews)}
+                    </p>
+                    <p className="key">Views</p>
+                  </button>
+                </div>
               </div>
-            </div>
-          </div>
-        </article>
-      </section>
-    </SignPopupBox>
-  );
+
+              <div className="rightBox">
+                <div className="topBar">
+                  <strong className="title">Blackman with neon</strong>
+
+                  <div className="btnBox">
+                    <button className="reloadBtn" onClick={() => {}}>
+                      <img src={refresh} alt="" />
+                    </button>
+                    <button className="alertBtn" onClick={() => {}}>
+                      <img src={alert} alt="" />
+                    </button>
+                    <button className="shareBtn" onClick={() => {}}>
+                      <img src={share} alt="" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="priceContainer">
+                  <div className="titleBox">Owner public content include</div>
+
+                  <div className="priceList">
+                    <div className="priceBox">
+                      <p className="title">Current Bid</p>
+                      <div className="price">
+                        <p className="value">2.867</p>
+                        <p className="key">AUSP</p>
+                      </div>
+                      <p className="exchange">$1,234.25</p>
+                    </div>
+
+                    <div className="timeBox">
+                      <p className="title">Auction ending in</p>
+                      <strong className="time">05:32:21</strong>
+                    </div>
+                  </div>
+
+                  <button
+                    className="bidBtn"
+                    onClick={() => setbidauctionmodal(true)}
+                  >
+                    Place a Bid
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article className="descriptionArea">
+              <strong className="title">Description</strong>
+
+              <p className="description">{itemdata.item?.description}</p>
+            </article>
+
+            <article className="historyArea">
+              <div className="priceBox">
+                <strong className="title">Price History</strong>
+
+                <div className="contBox">
+                  <div className="termBox posBox">
+                    <button className="termBtn" onClick={() => {}}>
+                      <p>Last 60 Days</p>
+                      <img src={I_dnArw} alt="" />
+                    </button>
+                  </div>
+
+                  <div className="chartContainer">
+                    <ul className="priceList">
+                      <li>
+                        <p className="key">Average price</p>
+                        <strong className="value">$31.11</strong>
+                      </li>
+                      <li>
+                        <p className="key">Highest price</p>
+                        <strong className="value">$32.11</strong>
+                      </li>
+                      <li>
+                        <p className="key">Lowest price</p>
+                        <strong className="value">$30.11</strong>
+                      </li>
+                    </ul>
+
+                    <div className="chartBox">
+                      <Chart
+                        {...chartData}
+                        options={{
+                          chart: {
+                            toolbar: {
+                              show: false,
+                            },
+                          },
+                          xaxis: {
+                            categories: [...chartXdata],
+                          },
+                          colors: ["#000"],
+                        }}
+                        series={[
+                          {
+                            name: "price",
+                            data: [...chartYdata],
+                          },
+                        ]}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="offerBox">
+                <strong className="title">Offer History</strong>
+
+                <div className="scrollBox">
+                  <ul className="offerList">
+                    {orders_sell
+                      .sort((a, b) => {
+                        return +a.asset_amount_ask == +b.asset_amount_ask
+                          ? a.createdat > b.createdat
+                            ? -1
+                            : +1
+                          : +a.asset_amount_ask - +b.asset_amount_ask;
+                      })
+                      .map((v, idx) => {
+                        return (
+                          <li key={idx}>
+                            <span className="profBox">
+                              <img src={jprofileimages[idx]} alt="" />
+                              <span className="textBox">
+                                <strong className="price">
+                                  {(+v.asset_amount_ask)?.toFixed(4)} KLAY
+                                </strong>
+                                <p className="nickname">T.WD</p>
+                              </span>
+                            </span>
+
+                            <span className="rightBox">
+                              <p className="address">
+                                {convertLongString(8, 8, v.username)}
+                              </p>
+
+                              <p className="time">
+                                {moment(v.createdat).fromNow()}
+                              </p>
+                            </span>
+                          </li>
+                        );
+                      })}
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <article className="statusArea">
+              <div className="saleBox">
+                <strong className="title">SALES STATUS</strong>
+
+                <div className="scrollBox">
+                  <ul className="listHeader">
+                    <li>Price</li>
+                    <li>Expired</li>
+                    <li>Seller</li>
+                  </ul>
+
+                  <ul className="list">
+                    {[1, 2, 3, 4, 5, 6].map((cont, index) => (
+                      <li key={index}>
+                        <span>
+                          <div className="priceBox">
+                            <img src={I_klaytn} alt="" />
+                            <p>0.015 KLAY ($30.11)</p>
+                          </div>
+
+                          <button className="purchaseBtn" onClick={() => {}}>
+                            Purchase
+                          </button>
+                        </span>
+
+                        <span>3 days later</span>
+                        <span>Philip van Kouwenbergh</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="offerBox">
+                <strong className="title">PURCHASE STATUS</strong>
+
+                <div className="scrollBox">
+                  <ul className="listHeader">
+                    <li>Price</li>
+                    <li>Expired</li>
+                    <li>Buyer</li>
+                  </ul>
+
+                  <ul className="list">
+                    {[1, 2, 3, 4, 5, 6].map((cont, index) => (
+                      <li key={index}>
+                        <span>
+                          <div className="priceBox">
+                            <img src={I_klaytn} alt="" />
+                            <p>0.015 KLAY ($30.11)</p>
+                          </div>
+
+                          <button className="purchaseBtn" onClick={() => {}}>
+                            Purchase
+                          </button>
+                        </span>
+
+                        <span>3 days later</span>
+                        <span>Philip van Kouwenbergh</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <article className="categoryListArea">
+              <ul className="categoryList">
+                {D_categoryList.map((cont, index) => (
+                  <li
+                    key={index}
+                    className={listCategory === index && "on"}
+                    onClick={() => setListCategory(index)}
+                  >
+                    {cont}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="scrollBox">
+                <ul className="listHeader">
+                  <li>Event</li>
+                  <li>Price</li>
+                  <li>From</li>
+                  <li>To</li>
+                  <li>Date</li>
+                  <li>Tx confirm</li>
+                </ul>
+
+                <ul className="list">
+                  {[1, 2, 3, 4, 5, 6].map((cont, index) => (
+                    <li key={index}>
+                      <span>purchase</span>
+                      <span>0.0020 KLAY</span>
+                      <span>0xb9e83064c381bd64cb2b2f8406203e584b81a7e1</span>
+                      <span>0x495f947276749ce646f68ac8c248420045cb7b5e</span>
+                      <span>1 month ago</span>
+                      <span>
+                        <button onClick={() => {}}>
+                          <img src={icon_link_on} alt="" />
+                        </button>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+
+            <article className="otherWorkArea">
+              <strong className="title">Other works in this collection</strong>
+
+              <div className="swiperContainer">
+                <div class="swiperBox">
+                  <ul class="swiperList" ref={otherWorkRef}>
+                    {listotheritems
+                      .filter((elem) =>
+                        elem.item?.itemid == itemid ? false : true
+                      )
+                      .sort((a, b) => a.id - b.id)
+                      .map((cont, index) => (
+                        <li
+                          key={index}
+                          class="swiperContBox"
+                          onClick={() =>
+                            navigate(`/singleitem?itemid=${cont.item?.itemid}`)
+                          }
+                        >
+                          <div
+                            className="itemBox"
+                            style={{
+                              backgroundImage: `url(${cont.item?.url})`,
+                              backgroundRepeat: "no-repeat",
+                              backgroundPosition: "center",
+                              backgroundSize: "cover",
+                            }}
+                          >
+                            <div className="infoBox">
+                              <div className="topBar">
+                                <button
+                                  className="likeBtn"
+                                  onClick={(e) => {
+                                    // onClickFavorBtn(e, cont.itemid)
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      cont.ilikethisitem ? heart_on : heart_off
+                                    }
+                                    alt=""
+                                  />
+
+                                  <p>{cont.countfavors}</p>
+                                </button>
+
+                                <button
+                                  className="bookmarkBtn"
+                                  onClick={(e) => {
+                                    // onClickBookMarkBtn(e, cont.itemid)
+                                  }}
+                                >
+                                  <img
+                                    src={cont.ididbookmark ? star_on : star_off}
+                                    alt=""
+                                  />
+                                </button>
+                              </div>
+
+                              <p className="title">{cont?.item?.titlename}</p>
+                              <p className="nickname">
+                                {strDot(cont.item?.author?.nickname, 10, 0)}
+                              </p>
+
+                              <div className="etcBox">
+                                <p className="time">
+                                  {cont?.minpriceorder
+                                    ? moment
+                                        .unix(cont?.minpriceorder?.expiry)
+                                        .fromNow()
+                                    : moment(cont?.item?.createdat).toNow()}
+                                </p>
+
+                                <strong className="priceBox">
+                                  {cont?.minpriceorder?.price} KLAY
+                                </strong>
+                              </div>
+                            </div>
+                          </div>
+
+                          <button className="buyBtn" onClick={() => {}}>
+                            Buy Now
+                          </button>
+                        </li>
+                      ))}
+                  </ul>
+
+                  <button
+                    className="preBtn pageBtn"
+                    onClick={() =>
+                      onClickSwiperPreBtn(
+                        otherWorkRef,
+                        listotheritems,
+                        otherWorkIndex,
+                        setOtherWorkIndex
+                      )
+                    }
+                  >
+                    <img src={I_ltArw3BlackBtn} alt="" />
+                  </button>
+
+                  <button
+                    className="nextBtn pageBtn"
+                    onClick={() =>
+                      onClickSwiperNextBtn(
+                        otherWorkRef,
+                        listotheritems,
+                        otherWorkIndex,
+                        setOtherWorkIndex
+                      )
+                    }
+                  >
+                    <img src={I_rtArw3BlackBtn} alt="" />
+                  </button>
+                </div>
+              </div>
+            </article>
+          </section>
+        </PsignPopupBox>
+      </>
+    );
 }
 
-const SignPopupBox = styled.div`
-  @media screen and (min-width: 1440px) {
-    #sub .item .swiper .swiper-button-trendingitem-prev {
-      left: -26px;
+const MsignPopupBox = styled.div`
+  padding: 72px 0;
+
+  .innerBox {
+    padding: 5.55vw 5.55vw 0 5.55vw;
+
+    *::-webkit-scrollbar {
+      width: 6px;
     }
 
-    #sub .item .swiper .swiper-button-trendingitem-next {
-      right: -26px;
+    *::-webkit-scrollbar-thumb {
+      background-color: #222;
+      border-radius: 4px;
+      width: 6px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background-color: #d8d8d8;
+      border-radius: 4px;
+      border: 1px solid #fff;
+    }
+
+    .itemArea {
+      display: flex;
+      flex-direction: column;
+      height: 171.11vw;
+      border-radius: 5.55vw;
+      overflow: hidden;
+
+      .itemBox {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: 116.11vw;
+        padding: 2.77vw 2.77vw 11.11vw 2.77vw;
+
+        .topBar {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+
+          button {
+            height: 11.66vw;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 7.77vw;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+
+            p {
+              flex: 1;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+
+            &.sellerBtn {
+              display: flex;
+              align-items: center;
+              gap: 2.22vw;
+              max-width: 52.77vw;
+              padding: 0 2.22vw;
+              font-size: 3.33vw;
+              line-height: 3.33vw;
+              font-weight: 500;
+
+              img {
+                width: 8.33vw;
+                height: 8.33vw;
+                border-radius: 50%;
+                object-fit: cover;
+                background: #fff;
+                box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+              }
+            }
+
+            &.likeBtn {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 11.66vw;
+              height: 11.66vw;
+
+              img {
+                width: 5.55vw;
+              }
+            }
+          }
+        }
+
+        .bottomBar {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 83.33vw;
+          height: 17.77vw;
+          padding: 0 4.16vw;
+          background: rgba(255, 255, 255, 0.5);
+          border-radius: 14.44vw;
+          backdrop-filter: blur(15px);
+          box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+
+          button {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .value {
+              font-size: 6.66vw;
+              font-weight: 700;
+            }
+
+            .key {
+              font-size: 3.33vw;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+
+      .priceContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 55.55vw;
+        padding: 10vw 4.44vw 5.55vw 4.44vw;
+        background: #222;
+        position: relative;
+
+        .titleBox {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 51.11vw;
+          height: 8.33vw;
+          border-radius: 5vw;
+          font-size: 3.33vw;
+          font-weight: 500;
+          color: #fff;
+          background: #1c7eff;
+          top: -4.16vw;
+          position: absolute;
+        }
+
+        .priceList {
+          flex: 1;
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          padding: 0 2.22vw;
+          text-align: center;
+          color: #fff;
+
+          .title {
+            font-size: 3.33vw;
+            font-weight: 500;
+          }
+
+          .priceBox {
+            .price {
+              display: flex;
+              align-items: flex-end;
+              margin: 2.77vw 0 0 0;
+              font-weight: 900;
+
+              .value {
+                font-size: 7.77vw;
+                line-height: 9.16vw;
+              }
+
+              .key {
+                font-size: 3.33vw;
+                line-height: 5.55vw;
+              }
+            }
+
+            .exchange {
+              font-size: 3.88vw;
+              color: #b2b2b2;
+            }
+          }
+
+          .timeBox {
+            display: flex;
+            flex-direction: column;
+            gap: 2.77vw;
+
+            .time {
+              font-size: 7.77vw;
+            }
+          }
+        }
+
+        .bidBtn {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 56px;
+          font-size: 22px;
+          font-weight: 700;
+          background: #fff;
+          border-radius: 28px;
+        }
+      }
     }
   }
 
-  .swiper-wrapper,
-  .slideBox {
-    overflow-x: scroll;
-    transition: 0.8s;
+  .rightBox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 5.55vw 0 0 0;
+    padding: 0 0 8.33vw 0;
 
-    &::-webkit-scrollbar {
-      display: none;
+    & > .title {
+      font-size: 8.33vw;
+    }
+
+    .descriptionBox {
+      display: flex;
+      flex-direction: column;
+      gap: 3.33vw;
+      margin: 2.77vw 0 0 0;
+
+      .title {
+        font-size: 5vw;
+      }
+
+      .description {
+        font-size: 3.88vw;
+        font-weight: 500;
+        line-height: 5.55vw;
+      }
+    }
+
+    .btnBox {
+      display: flex;
+      align-items: center;
+      gap: 6.11vw;
+      margin: 5.55vw 0 0 0;
+
+      button {
+        img {
+          height: 6.66vw;
+          object-fit: contain;
+        }
+      }
     }
   }
 
-  *::-webkit-scrollbar {
-    width: 4px;
+  .historyArea {
+    display: flex;
+    flex-direction: column;
+    padding: 8.33vw 0;
+    border-top: 1px solid #e1e1e1;
+
+    .title{
+      font-size: 5vw;
+    }
+
+    .contBox {
+      display: flex;
+      flex-direction: column;
+      gap: 4.44vw;
+      margin: 5.55vw 0 0 0;
+
+      .termBox {
+        .termBtn {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 45vw;
+          height: 8.88vw;
+          padding: 0 3.88vw 0 5.55vw;
+          font-size: 3.88vw;
+          font-weight: 500;
+          border: solid 1px #899a9b;
+          border-radius: 6.66vw;
+          img {
+            width: 5.55vw;
+          }
+        }
+      }
+
+      .chartContainer {
+        display: flex;
+        flex-direction: column;
+
+        .priceList {
+          display: flex;
+          gap: 8.33vw;
+
+          li {
+            display: flex;
+            flex-direction: column;
+            gap: 1.11vw;
+            width: 20vw;
+
+            .key {
+              font-size: 3.33vw;
+              font-weight: 500;
+            }
+
+            .value {
+              font-size: 5.55vw;
+            }
+          }
+        }
+
+        .chartBox {
+          width: 100%;
+        }
+      }
+    }
   }
-  *::-webkit-scrollbar-thumb {
-    background-color: #222;
-    border-radius: 4px;
-    width: 6px;
-  }
-  *::-webkit-scrollbar-track {
-    background-color: #d8d8d8;
-    border-radius: 4px;
-    border: 1px solid #f6f6f6;
+`;
+
+const PsignPopupBox = styled.div`
+  padding: 120px 0;
+
+  .innerBox {
+    max-width: 1280px;
+    padding: 82px 0 0 0;
+    margin: 0 auto;
+
+    *::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background-color: #222;
+      border-radius: 4px;
+      width: 6px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background-color: #d8d8d8;
+      border-radius: 4px;
+      border: 1px solid #fff;
+    }
+
+    .itemArea {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      .itemBox {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 740px;
+        height: 740px;
+        padding: 10px 10px 20px 10px;
+        border-radius: 20px;
+
+        .topBar {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+
+          button {
+            height: 56px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 28px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+
+            p {
+              flex: 1;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+
+            &.sellerBtn {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              max-width: 260px;
+              padding: 0 10px;
+              font-size: 16px;
+              line-height: 16px;
+              font-weight: 500;
+              color: #000;
+
+              img {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                object-fit: cover;
+                background: #fff;
+                box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+              }
+            }
+
+            &.likeBtn {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: 10px;
+              max-width: 150px;
+              padding: 0 20px;
+              font-size: 16px;
+              line-height: 16px;
+              font-weight: 500;
+              color: #000;
+
+              img {
+                width: 20px;
+              }
+            }
+          }
+        }
+
+        .bottomBar {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 434px;
+          height: 92px;
+          padding: 0 28px;
+          background: rgba(255, 255, 255, 0.5);
+          border-radius: 52px;
+          backdrop-filter: blur(15px);
+          box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+
+          button {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .value {
+              font-size: 40px;
+              font-weight: 700;
+            }
+
+            .key {
+              font-size: 14px;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+
+      .rightBox {
+        display: flex;
+        flex-direction: column;
+        gap: 120px;
+        width: 100%;
+        max-width: 500px;
+
+        .topBar {
+          display: flex;
+          flex-direction: column;
+          gap: 26px;
+
+          .title {
+            font-size: 40px;
+          }
+
+          .btnBox {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            button {
+              img {
+                width: 24px;
+                height: 20px;
+                object-fit: contain;
+              }
+            }
+          }
+        }
+
+        .priceContainer {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          height: 492px;
+          padding: 30px;
+          background: #222;
+          border-radius: 20px;
+          position: relative;
+
+          .titleBox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 226px;
+            height: 36px;
+            border-radius: 18px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            background: #1c7eff;
+            top: -18px;
+            position: absolute;
+          }
+
+          .priceList {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 44px 0;
+            text-align: center;
+            color: #fff;
+
+            .title {
+              font-size: 20px;
+              font-weight: 500;
+            }
+
+            .priceBox {
+              font-weight: 900;
+
+              .price {
+                display: flex;
+                align-items: flex-end;
+                margin: 16px 0 0 0;
+
+                .value {
+                  font-size: 50px;
+                  line-height: 60px;
+                }
+
+                .key {
+                  font-size: 24px;
+                  line-height: 44px;
+                }
+              }
+
+              .exchange {
+                font-size: 20px;
+                color: #b2b2b2;
+              }
+            }
+
+            .timeBox {
+              display: flex;
+              flex-direction: column;
+              gap: 16px;
+
+              .time {
+                font-size: 50px;
+              }
+            }
+          }
+
+          .bidBtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 56px;
+            font-size: 22px;
+            font-weight: 700;
+            background: #fff;
+            border-radius: 28px;
+          }
+        }
+      }
+    }
+
+    .descriptionArea {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin: 40px 0 0 0;
+
+      .title {
+        font-size: 22px;
+      }
+
+      .description {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 20px;
+      }
+    }
+
+    .historyArea {
+      display: flex;
+      gap: 16px;
+      margin: 66px 0 0 0;
+
+      & > div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        .title {
+          font-size: 22px;
+        }
+
+        .contBox {
+          flex: 1;
+        }
+
+        &.priceBox {
+          .contBox {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+
+            .termBox {
+              .termBtn {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 176px;
+                height: 38px;
+                padding: 0 16px;
+                font-size: 16px;
+                font-weight: 500;
+                border: solid 1px #899a9b;
+                border-radius: 24px;
+
+                img {
+                  width: 20px;
+                }
+              }
+            }
+
+            .chartContainer {
+              display: flex;
+
+              .priceList {
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+                width: 120px;
+
+                li {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 8px;
+
+                  .key {
+                    font-size: 14px;
+                    font-weight: 500;
+                  }
+
+                  .value {
+                    font-size: 26px;
+                  }
+                }
+              }
+
+              .chartBox {
+                width: 380px;
+              }
+            }
+          }
+        }
+
+        &.offerBox {
+          .scrollBox {
+            height: 306px;
+            border: solid 2px #222;
+            border-radius: 20px;
+            padding: 27px 18px 27px 27px;
+
+            .offerList {
+              display: flex;
+              flex-direction: column;
+              gap: 20px;
+              height: 100%;
+              overflow-y: scroll;
+
+              li {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 76px;
+                padding: 0 20px 0 0;
+
+                .profBox {
+                  display: flex;
+                  align-items: center;
+                  gap: 36px;
+
+                  img {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                  }
+
+                  .textBox {
+                    .price {
+                      font-size: 18px;
+                    }
+                    .nickname {
+                      font-size: 14px;
+                      font-weight: 500;
+                      color: #899a9b;
+                    }
+                  }
+                }
+
+                .rightBox {
+                  flex: 1;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  font-weight: 500;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .statusArea {
+      display: flex;
+      gap: 16px;
+      margin: 90px 0 0 0;
+
+      .title {
+        font-size: 22px;
+      }
+
+      & > div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .scrollBox {
+          display: flex;
+          flex-direction: column;
+          height: 354px;
+          padding: 0 8px 10px 16px;
+          border-radius: 20px;
+          border: solid 2px #222;
+
+          .listHeader {
+            display: flex;
+            align-items: center;
+            height: 62px;
+            font-size: 18px;
+            font-weight: 700;
+          }
+
+          .list {
+            flex: 1;
+            overflow-y: scroll;
+
+            li {
+              display: flex;
+              align-items: center;
+              height: 54px;
+              border-top: 1px solid #f1f1f1;
+              font-weight: 500;
+
+              span {
+                &:nth-of-type(1) {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding: 0 16px 0 0;
+
+                  .priceBox {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+
+                    img {
+                      width: 24px;
+                      height: 24px;
+                      object-fit: contain;
+                    }
+                  }
+
+                  .purchaseBtn {
+                    width: 88px;
+                    height: 34px;
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: #fff;
+                    background: #222;
+                    border-radius: 16px;
+                  }
+                }
+
+                &:nth-of-type(3) {
+                  color: #1c7eff;
+                }
+              }
+            }
+          }
+
+          .listHeader li,
+          .list li span {
+            &:nth-of-type(1) {
+              width: 304px;
+            }
+
+            &:nth-of-type(2) {
+              width: 108px;
+            }
+
+            &:nth-of-type(3) {
+              flex: 1;
+            }
+          }
+        }
+      }
+    }
+
+    .categoryListArea {
+      margin: 30px 0 0 0;
+      border: solid 2px #222;
+      border-radius: 20px;
+      overflow: hidden;
+
+      .categoryList {
+        display: flex;
+        height: 60px;
+
+        li {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 20px;
+          font-weight: 500;
+          color: #899a9b;
+          background: #f3f3f3;
+
+          &.on {
+            color: #fff;
+            background: #000;
+          }
+        }
+      }
+
+      .scrollBox {
+        padding: 0 8px 0 12px;
+
+        .listHeader {
+          display: flex;
+          align-items: center;
+          height: 54px;
+          padding: 0 22px 0 6px;
+
+          li {
+            font-size: 18px;
+            font-weight: 500;
+          }
+        }
+
+        .list {
+          height: 280px;
+          padding: 0 22px 0 6px;
+          font-size: 16px;
+          font-weight: 500;
+          overflow-y: scroll;
+
+          li {
+            display: flex;
+            align-items: center;
+            height: 56px;
+            border-top: 1px solid #f2f2f2;
+
+            span {
+              &:nth-of-type(n + 3):nth-of-type(-n + 4) {
+                color: #1c7eff;
+              }
+
+              &:nth-of-type(5) {
+                color: #899a9b;
+              }
+
+              &:nth-of-type(6) {
+                button {
+                  img {
+                    width: 28px;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .listHeader li,
+        .list li span {
+          &:nth-of-type(1) {
+            width: 110px;
+          }
+
+          &:nth-of-type(2) {
+            width: 112px;
+          }
+
+          &:nth-of-type(3) {
+            width: 392px;
+          }
+
+          &:nth-of-type(4) {
+            width: 392px;
+          }
+
+          &:nth-of-type(5) {
+            width: 126px;
+          }
+
+          &:nth-of-type(6) {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+          }
+        }
+      }
+    }
+
+    .otherWorkArea {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      margin: 90px 0 0 0;
+
+      .title {
+        font-size: 22px;
+      }
+
+      .swiperContainer {
+        .swiperBox {
+          display: flex;
+          align-items: center;
+          position: relative;
+
+          .swiperList {
+            display: flex;
+            gap: 16px;
+            overflow-x: scroll;
+
+            &::-webkit-scrollbar {
+              display: none;
+            }
+
+            .swiperContBox {
+              display: flex;
+              flex-direction: column;
+              width: 308px;
+              min-width: 308px;
+              height: 500px;
+              color: #fff;
+              border-radius: 20px;
+              overflow: hidden;
+              cursor: pointer;
+
+              .itemBox {
+                flex: 1;
+                display: flex;
+                align-items: flex-end;
+
+                .infoBox {
+                  width: 100%;
+                  padding: 16px;
+                  background: linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.3),
+                    rgba(84, 84, 84, 0.3)
+                  );
+
+                  .topBar {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    img {
+                      width: 20px;
+                    }
+
+                    .likeBtn {
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      font-size: 14px;
+                      font-weight: 500;
+                      line-height: 14px;
+                      color: #fff;
+                    }
+
+                    .bookmarkBtn {
+                    }
+                  }
+
+                  .title {
+                    margin: 10px 0 0 0;
+                    font-size: 22px;
+                    font-weight: 500;
+                    line-height: 30px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                  }
+
+                  .nickname {
+                    margin: 4px 0 0 0;
+                    font-size: 14px;
+                    font-weight: 500;
+                  }
+
+                  .etcBox {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    height: 22px;
+                    margin: 12px 0 0 0;
+
+                    .time {
+                      font-size: 14px;
+                      font-weight: 500;
+                      color: #e5e5e5;
+                    }
+
+                    .priceBox {
+                      font-size: 18px;
+                    }
+                  }
+                }
+              }
+
+              .buyBtn {
+                height: 64px;
+                font-size: 22px;
+                font-weight: 500;
+                color: #fff;
+                background: #222;
+              }
+            }
+          }
+        }
+      }
+
+      .pageBtn {
+        position: absolute;
+
+        &.preBtn {
+          top: 270px;
+          left: -24px;
+        }
+        &.nextBtn {
+          top: 270px;
+          right: -24px;
+        }
+      }
+    }
   }
 `;
 
@@ -1696,40 +3445,6 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(SingleItem);
 
 const chartCategoryList = ["Transaction History", "Chain Information"];
-
-let orders = {
-  asset_amount_ask: "12",
-  asset_amount_bid: "1",
-  asset_contract_ask: null,
-  asset_contract_bid: "0xb7aa9cd318e97f42a477dc1d9185fdec5503e9b5",
-  asset_id_ask: null,
-  asset_id_bid: null,
-  createdat: "2022-01-24T09:11:17.000Z",
-  datahash: null,
-  id: 7,
-  isprivate: 0,
-  itemid: "QmWFGooUcsbdMMHWxTBwNi3xoX1Wp62EStV3YbGCaTkmrk",
-  makerortaker: 0,
-  matcher_contract: null,
-  privateaddress: null,
-  rawdata_to_sign:
-    '{"seller_address":"0x90033484a520b20169b60f131b4e2f7f46923faf","amount":1,"price":12,"priceunit":"0x000000000000000000000000000000000000","expiry":0,"itemid":"QmWFGooUcsbdMMHWxTBwNi3xoX1Wp62EStV3YbGCaTkmrk","tokenid":null}',
-  rawdatahash:
-    "9d26fa13c5595761156898a27d3dfe94d090c9634255b61eaa6bec4ca1d2d7f1",
-  sig_r: "0x3f4510a8753b867bb8e8419fdc0102fa30830d81612c979751bacb1d45c7ffac",
-  sig_s: "0x47db87c9ba82941178a377c517fc0ccc73bf0e41915599cae6c468be47ad7b6c",
-  sig_v: "0x1b",
-  signature: null,
-  signaturestr:
-    "0x3f4510a8753b867bb8e8419fdc0102fa30830d81612c979751bacb1d45c7ffac47db87c9ba82941178a377c517fc0ccc73bf0e41915599cae6c468be47ad7b6c1b",
-  supertype: 1,
-  supertypestr: "SELL",
-  type: null,
-  typestr: null,
-  updatedat: null,
-  username: "0xaec2f4dd8b08eef0c71b02f97978106d875464ed",
-  uuid: "39326de3-438c-4ebd-b2ec-092b271db16a",
-};
 
 const chartData = {
   width: "100%",

@@ -1,39 +1,40 @@
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 
-import collect_img from "../img/sub/collect_img.png";
-import collect_img2 from "../img/sub/collect_img2.png";
-import collect_img3 from "../img/sub/collect_img3.png";
-import collect_img4 from "../img/sub/collect_img4.png";
+import collect_img from "../../img/sub/collect_img.png";
+import collect_img2 from "../../img/sub/collect_img2.png";
+import collect_img3 from "../../img/sub/collect_img3.png";
+import collect_img4 from "../../img/sub/collect_img4.png";
 
-import side_close from "../img/sub/side_close.png";
-import rock from "../img/sub/rock.png";
-import filter_icon from "../img/sub/filter_icon.png";
-import I_dnArrow from "../img/icons/I_dnArrow.svg";
-import loupe from "../img/sub/loupe.png";
-import heart_off from "../img/sub/heart_off.png";
-import heart_on from "../img/sub/heart_on.png";
-import star_off from "../img/sub/star_off.png";
-import star_on from "../img/sub/star_on.png";
-import I_x from "../img/icons/I_x.svg";
+import side_close from "../../img/sub/side_close.png";
+import rock from "../../img/sub/rock.png";
+import filter_icon from "../../img/sub/filter_icon.png";
+import I_dnArrow from "../../img/icons/I_dnArrow.svg";
+import loupe from "../../img/sub/loupe.png";
+import heart_off from "../../img/sub/heart_off.png";
+import heart_on from "../../img/sub/heart_on.png";
+import star_off from "../../img/sub/star_off.png";
+import star_on from "../../img/sub/star_on.png";
+import I_x from "../../img/icons/I_x.svg";
+import filter_icon2 from "../../img/sub/filter_icon2.png";
 
 import { useState, useEffect, useLayoutEffect } from "react";
 import moment from "moment";
-import { API } from "../config/api";
-import { putCommaAtPrice } from "../util/Util";
-import { applytoken } from "../util/rest";
-import { get_deltatime_str, LOGGER } from "../util/common";
-import { PAYMEANS_DEF } from "../config/configs";
+import { API } from "../../config/api";
+import { putCommaAtPrice } from "../../util/Util";
+import { applytoken } from "../../util/rest";
+import { get_deltatime_str, LOGGER } from "../../util/common";
+import { PAYMEANS_DEF } from "../../config/configs";
 import { useSelector } from "react-redux";
-import DefaultHeader from "../components/header/DefaultHeader";
-import Filter from "../components/Filter";
+import DefaultHeader from "../../components/header/DefaultHeader";
+import Filter from "../../components/Filter";
 import {
   D_categoryList,
   D_itemFilter,
   D_sortFilter,
-} from "../data/D_marketPlace";
-import SelectPopup from "../components/SelectPopup";
-import PopupBg from "../components/PopupBg";
+} from "../../data/D_marketPlace";
+import SelectPopup from "../../components/SelectPopup";
+import PopupBg from "../../components/PopupBg";
 export default function MarketPlace() {
   const navigate = useNavigate();
   const params = useParams();
@@ -171,10 +172,14 @@ export default function MarketPlace() {
       <>
         <DefaultHeader />
         {toggleFilter ? (
-          <Filter off={setToggleFilter} />
+          <Filter toggle={toggleFilter} off={setToggleFilter} />
         ) : (
-          <button className="filterBtn" onClick={() => setToggleFilter(true)}>
-            <img src={side_close} alt="" />
+          <button
+            className="filterBtn mo"
+            onClick={() => setToggleFilter(true)}
+          >
+            <p>Filter</p>
+            <img src={filter_icon2} alt="" />
           </button>
         )}
 
@@ -278,7 +283,7 @@ export default function MarketPlace() {
                           alt=""
                         />
 
-                        <p>{v.countfavors}</p>
+                        <p>{v?.item?.countfavors}</p>
                       </button>
 
                       <button
@@ -317,7 +322,10 @@ export default function MarketPlace() {
         {toggleFilter ? (
           <Filter off={setToggleFilter} />
         ) : (
-          <button className="filterBtn" onClick={() => setToggleFilter(true)}>
+          <button
+            className="filterBtn pc"
+            onClick={() => setToggleFilter(true)}
+          >
             <img src={side_close} alt="" />
           </button>
         )}
@@ -430,7 +438,7 @@ export default function MarketPlace() {
                           alt=""
                         />
 
-                        <p>{v.countfavors}</p>
+                        <p>{v?.item?.countfavors}</p>
                       </button>
 
                       <button
@@ -466,11 +474,13 @@ export default function MarketPlace() {
 
 const MmarketPlaceBox = styled.div`
   padding: 72px 0 0 0;
+  height: 100vh;
+  overflow-y: scroll;
 
   .innerBox {
     padding: 6.66vw 5.55vw 0 5.55vw;
 
-    .topBar {
+    & > .topBar {
       display: flex;
       flex-direction: column;
       gap: 2.77vw;
@@ -562,7 +572,7 @@ const MmarketPlaceBox = styled.div`
 
         .infoBox {
           width: 100%;
-          padding: 16px;
+          padding: 5.5vw 4.4vw;
           background: linear-gradient(
             to bottom,
             rgba(0, 0, 0, 0.3),
@@ -575,16 +585,16 @@ const MmarketPlaceBox = styled.div`
             align-items: center;
 
             img {
-              width: 20px;
+              width: 5.5vw;
             }
 
             .likeBtn {
               display: flex;
               align-items: center;
               gap: 8px;
-              font-size: 14px;
+              font-size: 3.88vw;
               font-weight: 500;
-              line-height: 14px;
+              line-height: 3.88vw;
               color: #fff;
             }
 
@@ -594,17 +604,17 @@ const MmarketPlaceBox = styled.div`
 
           .title {
             margin: 10px 0 0 0;
-            font-size: 22px;
+            font-size: 7.22vw;
             font-weight: 500;
-            line-height: 30px;
+            line-height: 10vw;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
           }
 
           .nickname {
-            margin: 4px 0 0 0;
-            font-size: 14px;
+            margin: 0.83vw 0 0 0;
+            font-size: 5vw;
             font-weight: 500;
           }
 
@@ -612,17 +622,17 @@ const MmarketPlaceBox = styled.div`
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 22px;
-            margin: 12px 0 0 0;
+            height: 6.66vw;
+            margin: 1.66vw 0 0 0;
 
             .time {
-              font-size: 14px;
+              font-size: 3.88vw;
               font-weight: 500;
               color: #e5e5e5;
             }
 
             .priceBox {
-              font-size: 18px;
+              font-size: 5vw;
             }
           }
         }
