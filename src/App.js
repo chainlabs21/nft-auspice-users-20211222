@@ -12,15 +12,15 @@ import SignupComplete from "./router/join/SignupComplete";
 import SentEmail from "./router/join/SentEmail";
 
 import MarketPlace from "./router/market/MarketPlace";
-import SingleItem from "./router/SingleItem";
+import SingleItem from "./router/market/SingleItem";
 import BundleItem from "./router/BundleItem";
-import MyItems from "./router/MyItems";
+import MyItems from "./router/mypage/MyItems";
 import CreateCollection from "./router/CreateCollection";
 import EditCollection from "./router/EditCollection";
 import ImportContract from "./router/ImportContract";
 import MyCollectionSelect from "./router/MyCollectionSelect";
 import Royaltycheck from "./router/Royaltycheck";
-import CreateItem from "./router/CreateItem";
+import CreateItem from "./router/mint/CreateItem";
 import SaleFixed from "./router/SaleFixed";
 import AuctionBid from "./router/AuctionBid";
 import SaleBundle from "./router/SaleBundle";
@@ -54,13 +54,13 @@ import { setmyinfo, setaddress } from "./util/store";
 import { LOGGER, PARSER } from "./util/common";
 import { is_two_addresses_same } from "./util/eth";
 import EditItem from "./router/EditItem";
+import EventListener from "./components/common/EventListener";
 
 import "./css/font.css";
 import "./css/footer.css";
 import "./css/layout.css";
 import "./css/style.css";
 import "./css/swiper.min.css";
-import EventListener from "./components/EventListener";
 
 function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const { mHeaderPopup } = useSelector((state) => state.store);
@@ -175,7 +175,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         crossOrigin="true"
       />
       <link
-        href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap"
         rel="stylesheet"
       />
       <link
@@ -208,7 +208,6 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/signupcomplete" element={<SignupComplete />} />
 
           <Route path="/marketplace" element={<MarketPlace />} />
-          {/* ing */}
           <Route path="/marketplace/:searchKey" element={<MarketPlace />} />
           <Route path="/singleitem" element={<SingleItem />} />
           <Route path="/bundleitem" element={<BundleItem />} />
@@ -283,7 +282,7 @@ const AppBox = styled.div`
       bottom: 5.55vw;
       position: fixed;
 
-      img{
+      img {
         width: 5vw;
       }
     }

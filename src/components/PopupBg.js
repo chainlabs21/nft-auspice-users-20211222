@@ -6,6 +6,7 @@ import { setAllPopupOff } from "../util/store";
 function PopupBg({ store, setAllPopupOff, bg, off }) {
   function onClickBg() {
     setAllPopupOff();
+    console.log(off);
     if (off) off();
   }
 

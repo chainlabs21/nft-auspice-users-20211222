@@ -52,7 +52,7 @@ export default function DefaultHeader() {
   if (isMobile)
     return (
       <>
-        {mMenuPopup && <MmenuPopup />}
+        {mMenuPopup && <MmenuPopup off={setMenuPopup} />}
         <MdefaultHeaderBox>
           <section className="innerBox">
             <article className="leftBox">
@@ -164,7 +164,7 @@ export default function DefaultHeader() {
 
                   <ul className="popupBox mypage">
                     <li onClick={() => navigate("/myprof")}>My Profile</li>
-                    <li onClick={() => navigate("/mycollectionselect")}>
+                    <li onClick={() => navigate("/myitems")}>
                       My Items
                     </li>
                     <li onClick={() => navigate("/liked")}>Bookmark</li>

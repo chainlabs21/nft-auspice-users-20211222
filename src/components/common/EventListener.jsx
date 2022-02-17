@@ -1,6 +1,6 @@
 import { Fragment, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setMobile } from "../reducers/commonSlice";
+import { setMobile } from "../../reducers/commonSlice";
 
 export default function EventListener() {
   const dispatch = useDispatch();

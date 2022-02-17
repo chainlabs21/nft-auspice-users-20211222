@@ -52,13 +52,19 @@ body{
     min-width: 0;
 
     &::placeholder{
-      color: #bbb;
+      color: #b2b2b2;
     }
     
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
+    }
+  }
+
+  textarea{
+    &::placeholder{
+      color: #b2b2b2;
     }
   }
 
@@ -86,6 +92,7 @@ body{
   .nospace{
     width: 0;
     height: 0;
+    position: absolute;
   }
 
   .defaultPopup {

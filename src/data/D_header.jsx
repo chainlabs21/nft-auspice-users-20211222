@@ -2,14 +2,14 @@ export const D_NavList = [
   {
     title: "Market Place",
     detailNav: [
-      { text: "All", url: "/" },
-      { text: "Digital art", url: "/" },
-      { text: "Trading cards", url: "/" },
-      { text: "Music", url: "/" },
-      { text: "Virtual worlds", url: "/" },
-      { text: "Utility", url: "/" },
-      { text: "Sports", url: "/" },
-      { text: "ETC", url: "/" },
+      { text: "All", url: "/marketplace" },
+      { text: "Digital art", url: "/marketplace" },
+      { text: "Trading cards", url: "/marketplace" },
+      { text: "Music", url: "/marketplace" },
+      { text: "Virtual worlds", url: "/marketplace" },
+      { text: "Utility", url: "/marketplace" },
+      { text: "Sports", url: "/marketplace" },
+      { text: "ETC", url: "/marketplace" },
     ],
   },
   {
@@ -23,7 +23,7 @@ export const D_NavList = [
     title: "MY ACCOUNT",
     detailNav: [
       { text: "My Profile", url: "/" },
-      { text: "My Collection", url: "/" },
+      { text: "My Items", url: "/myitems" },
       { text: "Bookmark", url: "/" },
       { text: "Account Setting", url: "/" },
     ],

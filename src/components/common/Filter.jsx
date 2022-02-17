@@ -4,12 +4,12 @@ import {
   D_coinList,
   D_filterList,
   D_statusList,
-} from "../data/D_filter";
+} from "../../data/D_filter";
 
-import filter_icon from "../img/sub/filter_icon.png";
-import filter_close from "../img/sub/filter_close.png";
-import I_dnArrow from "../img/icons/I_dnArrow.svg";
-import loupe from "../img/sub/loupe.png";
+import filter_icon from "../../img/sub/filter_icon.png";
+import filter_close from "../../img/sub/filter_close.png";
+import I_dnArrow from "../../img/icons/I_dnArrow.svg";
+import loupe from "../../img/sub/loupe.png";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 

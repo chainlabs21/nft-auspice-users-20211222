@@ -91,6 +91,7 @@ const PlaceBidPopupBox = styled.div`
   }
 
   width: 600px;
+  height: 500px;
   padding: 0 0 42px 0;
   background: #fff;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);

@@ -4,8 +4,13 @@ import { D_NavList } from "../../data/D_header";
 import I_dnArrow from "../../img/icons/I_dnArrow.svg";
 import I_upArwWhite from "../../img/icons/I_upArwWhite.svg";
 
-export default function MmenuPopup() {
+export default function MmenuPopup({off}) {
   const navigate = useNavigate();
+
+  function onClickNav(url) {
+    navigate(url);
+    off();
+  }
 
   return (
     <MmenuPopupBox>
@@ -21,7 +26,7 @@ export default function MmenuPopup() {
 
             <ul className="navList">
               {nav.detailNav.map((detNav, index) => (
-                <li key={index} onClick={() => navigate("/")}>
+                <li key={index} onClick={() => onClickNav(detNav.url)}>
                   {detNav.text}
                 </li>
               ))}
