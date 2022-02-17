@@ -17,28 +17,38 @@ import axios from "axios";
 import { ERR_MSG } from "../config/messages";
 import { API } from "../config/api";
 import { getuseraddress } from "../util/common";
+
 import { useSelector } from "react-redux";
 
 function SentEmailDetail({ store, setConnect }) {
   const navigate = useNavigate();
   const { userData } = useSelector((state) => state.user);
+  const address = useSelector((state) => state.wallet.address);
 
   function onClickResend() {
     window.location.reload();
   }
 
   const handleSendEmail = () => {
-    const useraddress = getuseraddress();
+    console.log(address)
+    const useraddress = address;
     const asyncSendEmail = async () => {
       if (useraddress === null) {
         alert(ERR_MSG.ERR_NO_ADDRESS);
         return;
       }
       try {
+        if (userData ==null){
         const resp = await axios.get(
           API.API_VERIFY_EMAIL_SEND + `/${userData.maria.email}/${useraddress}`
         );
-        console.log(resp);
+        }else{
+          const resp = await axios.get(`${API.API_USER_INFO}/${address}`)
+          await axios.get(API.API_VERIFY_EMAIL_SEND+`/${resp.data.payload.maria.email}`)
+
+        }
+
+        console.log(userData);
       } catch (error) {
         alert(ERR_MSG.ERR_AXIOS_REQUEST);
       }

@@ -21,12 +21,15 @@ import menu_sports from "../../img/header/menu_sports.png";
 import menu_sports_off from "../../img/header/menu_sports_off.png";
 import I_dnArw from "../../img/header/I_dnArw.svg";
 import { strDot } from "../../util/Util";
-import { SET_ADDRESS } from "../../reducers/walletSlice";
+import { SET_ADDRESS, SET_LOGIN } from "../../reducers/walletSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { onClickCopy } from "../../util/common";
 import SetErrorBar from "../../util/SetErrorBar";
 import { messages } from "../../config/messages";
+import { GET_USER_DATA } from "../../reducers/userSlice";
+import axios from "axios";
+import { API } from "../../config/api";
 
 export default function DefaultHeader() {
   const navigate = useNavigate();
@@ -34,16 +37,53 @@ export default function DefaultHeader() {
 
   const isMobile = useSelector((state) => state.common.isMobile);
   const address = useSelector((state) => state.wallet.address);
+  const isLoggedin = useSelector((state)=> state.wallet.loggedin)
 
   const [search, setSearch] = useState("");
+  const [loggedin, setLoggedin] = useState(false);
 
-  function onClickConnectWallet() {
+  useEffect(()=>{
+    //if isLoggedin
+    //setloggedin(true)
+  }, [isLoggedin])
+
+  async function onClickConnectWallet() {
+    console.log("henlo")
+
     let { ethereum } = window;
-    if (!ethereum) return;
 
+    if (!ethereum) return;
     let { selectedAddress } = ethereum;
-    if (selectedAddress) dispatch(SET_ADDRESS(selectedAddress));
+
+    
+    if (selectedAddress) {
+      console.log(selectedAddress)
+      dispatch(SET_ADDRESS(selectedAddress));
+      if(isLoggedin){
+        dispatch(SET_ADDRESS(selectedAddress));
+        return;
+      }
+      const resp = await axios.get(`${API.API_USER_INFO}/${selectedAddress}`)
+      console.log(resp.data.payload.maria)
+      dispatch({
+        type: GET_USER_DATA.type,
+        payload: resp.data.payload,
+      });
+      if(resp.data.payload.maria==null) {
+        console.log(resp.data.payload.maria)
+        navigate("/joinmembership")
+        return;
+      }
+      if(resp.data.payload.maria.emailverified == 0){
+        navigate("/sentEmailDetail")
+        return
+      }
+      dispatch(SET_LOGIN());
+      
+      
+    }
     else navigate("/connectwallet");
+    
   }
 
   if (isMobile)
@@ -135,7 +175,7 @@ export default function DefaultHeader() {
                 </span>
               </li>
 
-              <li style={{ display: address ? "flex" : "none" }}>
+              <li style={{ display: isLoggedin ? "flex" : "none" }}>
                 <span className="posBox">
                   <button
                     className="mypage"
@@ -171,13 +211,14 @@ export default function DefaultHeader() {
             <button
               className="connectBtn"
               onClick={() => {
-                address &&
-                  onClickCopy(address) &&
-                  SetErrorBar(messages.MSG_COPIED);
+                isLoggedin &&
+                  address &&
+                    onClickCopy(address) &&
+                    SetErrorBar(messages.MSG_COPIED);
                 onClickConnectWallet();
               }}
             >
-              {address ? strDot(address, 8, 0) : "Connect Wallet"}
+              {isLoggedin ? strDot(address, 8, 0) : "Connect Wallet"}
             </button>
           </article>
         </section>

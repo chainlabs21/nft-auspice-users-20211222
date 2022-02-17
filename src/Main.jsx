@@ -379,14 +379,14 @@ export default function Main({ store }) {
               </div>
             </article>
 
-            <article class="collectionArticle swiperArticle contArticle">
+            <article className="collectionArticle swiperArticle contArticle">
               <strong className="title">Trending Collection</strong>
 
               <div className="swiperContainer">
-                <div class="swiperBox">
-                  <ul class="swiperList" ref={collectionSwiperRef}>
+                <div className="swiperBox">
+                  <ul className="swiperList" ref={collectionSwiperRef}>
                     {creatorlist.map((cont, index) => (
-                      <li class="swiperContBox">
+                      <li className="swiperContBox">
                         <div
                           className="bg"
                           style={{
@@ -458,19 +458,19 @@ export default function Main({ store }) {
               </ul>
             </article>
 
-            <article class="trendingArticle swiperArticle contArticle">
+            <article className="trendingArticle swiperArticle contArticle">
               <strong className="title">Trending NFT Item</strong>
 
               <div className="swiperContainer">
-                <div class="swiperBox">
-                  <ul class="swiperList" ref={trendingSwiperRef}>
+                <div className="swiperBox">
+                  <ul className="swiperList" ref={trendingSwiperRef}>
                     {list_trenditems
                       .filter((elem) => elem.url)
                       .sort((a, b) => b.countfavors - a.countfavors)
                       .map((cont, index) => (
                         <li
                           key={index}
-                          class="swiperContBox"
+                          className="swiperContBox"
                           onClick={() =>
                             navigate(`/singleitem?itemid=${cont.itemid}`)
                           }
@@ -561,19 +561,19 @@ export default function Main({ store }) {
               </div>
             </article>
 
-            <article class="newArticle swiperArticle contArticle">
+            <article className="newArticle swiperArticle contArticle">
               <strong className="title">NEW NFT Item</strong>
 
               <div className="swiperContainer">
-                <div class="swiperBox">
-                  <ul class="swiperList" ref={itemSwiperRef}>
+                <div className="swiperBox">
+                  <ul className="swiperList" ref={itemSwiperRef}>
                     {list_newitems
                       .filter((elem) => elem.url)
                       .sort((a, b) => b.countfavors - a.countfavors)
                       .map((cont, index) => (
                         <li
                           key={index}
-                          class="swiperContBox"
+                          className="swiperContBox"
                           onClick={() =>
                             navigate(`/singleitem?itemid=${cont.itemid}`)
                           }
@@ -652,14 +652,14 @@ export default function Main({ store }) {
               </div>
             </article>
 
-            <article class="tipArticle swiperArticle contArticle">
+            <article className="tipArticle swiperArticle contArticle">
               <strong className="title">Tips for Itemverse users</strong>
 
               <div className="swiperContainer">
-                <div class="swiperBox">
-                  <ul class="swiperList" ref={tipWrapRef}>
+                <div className="swiperBox">
+                  <ul className="swiperList" ref={tipWrapRef}>
                     {D_Tips.map((cont, index) => (
-                      <li key={index} class="swiperContBox">
+                      <li key={index} className="swiperContBox">
                         <img src={cont.img} alt="" />
                         <div className="infoBox">
                           <p className="title">{cont.title}</p>
@@ -892,14 +892,14 @@ export default function Main({ store }) {
               </div>
             </article>
 
-            <article class="collectionArticle swiperArticle contArticle">
+            <article className="collectionArticle swiperArticle contArticle">
               <strong className="title">Trending Collection</strong>
 
               <div className="swiperContainer">
-                <div class="swiperBox">
-                  <ul class="swiperList" ref={collectionSwiperRef}>
+                <div className="swiperBox">
+                  <ul className="swiperList" ref={collectionSwiperRef}>
                     {creatorlist.map((cont, index) => (
-                      <li class="swiperContBox">
+                      <li className="swiperContBox" key={index}>
                         <div
                           className="bg"
                           style={{
@@ -988,19 +988,19 @@ export default function Main({ store }) {
               </ul>
             </article>
 
-            <article class="trendingArticle swiperArticle contArticle">
+            <article className="trendingArticle swiperArticle contArticle">
               <strong className="title">Trending NFT Item</strong>
 
               <div className="swiperContainer">
-                <div class="swiperBox">
-                  <ul class="swiperList" ref={trendingSwiperRef}>
+                <div className="swiperBox">
+                  <ul className="swiperList" ref={trendingSwiperRef}>
                     {list_trenditems
                       .filter((elem) => elem.url)
                       .sort((a, b) => b.countfavors - a.countfavors)
                       .map((cont, index) => (
                         <li
                           key={index}
-                          class="swiperContBox"
+                          className="swiperContBox"
                           onClick={() =>
                             navigate(`/singleitem?itemid=${cont.itemid}`)
                           }
@@ -1103,19 +1103,19 @@ export default function Main({ store }) {
               </button>
             </article>
 
-            <article class="newArticle swiperArticle contArticle">
+            <article className="newArticle swiperArticle contArticle">
               <strong className="title">NEW NFT Item</strong>
 
               <div className="swiperContainer">
-                <div class="swiperBox">
-                  <ul class="swiperList" ref={itemSwiperRef}>
+                <div className="swiperBox">
+                  <ul className="swiperList" ref={itemSwiperRef}>
                     {list_newitems
                       .filter((elem) => elem.url)
                       .sort((a, b) => b.countfavors - a.countfavors)
                       .map((cont, index) => (
                         <li
                           key={index}
-                          class="swiperContBox"
+                          className="swiperContBox"
                           onClick={() =>
                             navigate(`/singleitem?itemid=${cont.itemid}`)
                           }
@@ -1206,14 +1206,14 @@ export default function Main({ store }) {
               </button>
             </article>
 
-            <article class="tipArticle swiperArticle contArticle">
+            <article className="tipArticle swiperArticle contArticle">
               <strong className="title">Tips for Itemverse users</strong>
 
               <div className="swiperContainer">
-                <div class="swiperBox">
-                  <ul class="swiperList" ref={tipWrapRef}>
+                <div className="swiperBox">
+                  <ul className="swiperList" ref={tipWrapRef}>
                     {D_Tips.map((cont, index) => (
-                      <li key={index} class="swiperContBox">
+                      <li key={index} className="swiperContBox">
                         <img src={cont.img} alt="" />
                         <div className="infoBox">
                           <p className="title">{cont.title}</p>

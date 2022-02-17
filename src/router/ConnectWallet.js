@@ -9,7 +9,7 @@ import { API } from "../config/api";
 import { ERR_MSG, messages } from "../config/messages";
 import axios from "axios";
 import { GET_USER_DATA } from "../reducers/userSlice";
-import { SET_ADDRESS } from "../reducers/walletSlice";
+import { SET_ADDRESS, SET_LOGIN } from "../reducers/walletSlice";
 import { useEffect } from "react";
 import SetErrorBar from "../util/SetErrorBar";
 import { STRINGER, LOGGER } from "../util/common";
@@ -55,6 +55,9 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
     setConnect(address);
     }else{
       console.log("Yes account")
+      dispatch(SET_LOGIN());
+      navigate("/")
+
     }
     //console.log(localStorage.getItem("token") + "   "+ localStorage.getItem("address"))
 
