@@ -123,7 +123,7 @@ function Main({ store, setAllPopupOff }) {
 
       <article className="btnBox">
         <button className="connectWalletBtn" onClick={onclickWallet}>
-          {address ? address : 'Connect Wallet'}
+          {address ? address : 'C0nnect Wallet'}
         </button>
       </article>
     </HeaderBox>

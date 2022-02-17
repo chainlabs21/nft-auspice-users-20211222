@@ -59,22 +59,23 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
 
   useEffect(
     (_) => {
-      let { klaytn } = window;
-      if (!klaytn) return;
-      if (klaytn.selectedAddress) {
-        setaddress(klaytn.selectedAddress); // address )
+      let { ethereum } = window;
+      if (!ethereum) return;
+      if (ethereum.selectedAddress) {
+        setaddress(ethereum.selectedAddress); // address )
         Setaddress(address);
         localStorage.setItem("address", address);
       }
     },
-    [window.klaytn]
+    [window.ethereum]
   );
 
   function onClickConnectWallet() {
-    let { klaytn } = window;
-    if (!klaytn) return;
-    console.log(klaytn);
-    let { selectedAddress } = klaytn;
+    let { ethereum } = window;
+    console.log('ethereum')
+    if (!ethereum) return;
+    console.log(ethereum);
+    let { selectedAddress } = ethereum;
     if (selectedAddress) {
       setaddress(strDot(selectedAddress, 5, 4));
     } //		else if ( ) {navigate("/joinmembership"); }
@@ -124,7 +125,7 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
       <nav>
         <ul>
           <li>
-            <a onClick={() => navigate("/marketplace")}>Marketplace</a>
+            <a onClick={() => navigate("/marketplace")}>Marketpl4ce</a>
             <ol>
               <li>
                 <a onClick={() => navigate("/marketplace", { state: "All" })}>
@@ -277,13 +278,14 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
           <li className="wallet">
             <a
               onClick={(e) => {
-                address &&
-                  onClickCopy(address) &&
-                  SetErrorBar(messages.MSG_COPIED);
+                //address &&
+                //  onClickCopy(address) &&
+                //  SetErrorBar(messages.MSG_COPIED);
                 onClickConnectWallet();
-              }}
+              }
+            }
             >
-              {address ? strDot(address, 8, 0) : "Connect Wallet"}
+              {address ? strDot(address, 8, 0) : "C0nnect Wallet"}
             </a>
           </li>
         </ul>

@@ -2,6 +2,8 @@ import { connect, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../util/store";
 import styled from "styled-components";
+//import axios from 'axios';
+//import { API } from "../config/api";
 
 import I_camera from "../img/main/I_camera.svg";
 
@@ -32,7 +34,7 @@ function Signup({ store, setConnect }) {
   const [username, setUsername] = useState("");
   const [usernameChk, setUsernameChk] = useState(false);
   const [usernameAlarm, setUsernameAlarm] = useState("");
-  const [ address , setAddress ] = useState("")
+  const [address , setAddress ] = useState("")
   const [email, setEmail] = useState("");
   const [emailChk, setEmailChk] = useState(false);
   const [emailAlarm, setEmailAlarm] = useState("");
@@ -54,11 +56,13 @@ function Signup({ store, setConnect }) {
   const handleSignup = () => {
     const asyncSignup = async () => {
       const regData = {
-        username: username,
+        username: address,
         address: address,
         email: email,
+        nickname: username,
         imagebase64: "",
         imagefilename: "",
+        verified: false,
       };
       if (imgFile) {
         const imagebase64 = await encodeBase64ImageFile(imgFile);
@@ -110,14 +114,28 @@ function Signup({ store, setConnect }) {
     asyncSignup();
   };
   useEffect(() => {
-    if (username.length < 5 || username.length > 20) {
+    if (username.length < 5 || username.length > 50) {
       setUsernameChk(false);
       setUsernameAlarm("Invalid nickname. It must be less than 20 characters.");
+      
       return;
+      
     }
-
+    async function checksame(){
+      const resp = await axios.get(API.API_USER_EXISTS(username, 'username'))
+      if (resp.data.payload.exists==1){
+        setUsernameAlarm("User name already exissts");
+        setUsernameChk(false);
+        
+  
+      }
+    }
+    checksame()
+    setUsernameChk(true);
     /*
     const regUsername = /^[가~힣a~zA~z\-\_\,]+$/;
+
+    Invalid nickname. It must be less than 20 characters.
 
     if (!regUsername.test(username)) {
       setUsernameChk(false);
@@ -127,8 +145,6 @@ function Signup({ store, setConnect }) {
       return;
     }
 	*/
-
-    setUsernameChk(true);
   }, [username]);
 
   useEffect(() => {
@@ -140,6 +156,14 @@ function Signup({ store, setConnect }) {
       setEmailAlarm("This is an invalid email address.");
       return;
     }
+    async function checksame(){
+      const resp = await axios.get(API.API_USER_EXISTS(email, 'email'))
+      if (resp.data.payload.exists==1){
+        setEmailAlarm("E-mail already exissts");
+        setEmailChk(false);
+      }
+    }
+    checksame()
     setEmailChk(true);
   }, [ email ] )
 
@@ -221,7 +245,7 @@ function Signup({ store, setConnect }) {
                     className="red"
                     style={usernameChk ? { display: "none" } : {}}
                   >
-                    Invalid nickname. It must be less than 20 characters.
+                    {usernameAlarm}
                   </span>
                 </div>
                 <div className="w_adress join">
@@ -249,7 +273,7 @@ function Signup({ store, setConnect }) {
                     A valid email address.
                   </span>
                   <span className="red" style={emailChk ? { display: "none" } : {}}>
-                    This is an invalid email address.
+                    {emailAlarm}
                   </span>
                 </div>
                 <div className="check">

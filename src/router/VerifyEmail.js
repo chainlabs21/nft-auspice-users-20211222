@@ -30,7 +30,7 @@ function VerifyEmail({ store, setConnect }) {
       try {
         const resp = await axios.post(
           API.API_COMPLETE_EMAIL_VERIFY +
-            `/${query.address}/${query.email}/${query.verifycode}`
+            `/${query.email}/${query.verifycode}`
         );
         if (resp.data.status === "OK") {
           navigate("/signupcomplete");

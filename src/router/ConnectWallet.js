@@ -39,10 +39,29 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
   };
 
   async function connectKaikas() {
-    const accounts = await window.klaytn.enable();
+    let {ethereum} = window;
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+    //const accounts = await window.ethereum.enable();
     LOGGER("wkhuemnasP", accounts);
     let address = accounts[0];
-    dispatch({ type: SET_ADDRESS.type, payload: address }); // acco unts[0]
+    console.log(address)
+    const resp = await axios.get(API.API_USER_EXISTS(address))
+    LOGGER("UkTGc6semq@login", resp.data);
+    if (resp.data.payload.exists == 0){
+      console.log("No account")
+      navigate("/joinmembership");
+      console.log(SET_ADDRESS.type)
+      dispatch({ type: SET_ADDRESS.type, payload: address }); // acco unts[0]
+    setConnect(address);
+    }else{
+      console.log("Yes account")
+    }
+    //console.log(localStorage.getItem("token") + "   "+ localStorage.getItem("address"))
+
+
+
+
+   /* dispatch({ type: SET_ADDRESS.type, payload: address }); // acco unts[0]
     setConnect(address);
     localStorage.setItem("address", address); // acco unts[0]
     const loginData = {
@@ -61,6 +80,7 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
     }
     //			if (address_local == ){}
     const resp = await axios.post(API.API_USERS_LOGIN, loginData);
+    
     LOGGER("UkTGc6semq@login", resp.data); //   API_USERS _LOGIN: `${apiServer}/users/login/crypto`,
     let { status, respdata, payload } = resp.data;
     if (status === "OK") {
@@ -93,7 +113,7 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
           SetErrorBar(ERR_MSG.ERR_AXIOS_REQUEST);
           console.log(resp.data.message);
       }
-    }
+    }*/
   }
 
   return (
@@ -124,7 +144,7 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
                 <li>
                   <a onClick={connectKaikas}>
                     <img src={I_klaytn} alt="" />
-                    <p>klaytn</p>
+                    <p>MetaMask</p>
                   </a>
                 </li>
               </ul>

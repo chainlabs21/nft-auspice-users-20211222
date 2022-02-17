@@ -38,10 +38,10 @@ export default function DefaultHeader() {
   const [search, setSearch] = useState("");
 
   function onClickConnectWallet() {
-    let { klaytn } = window;
-    if (!klaytn) return;
+    let { ethereum } = window;
+    if (!ethereum) return;
 
-    let { selectedAddress } = klaytn;
+    let { selectedAddress } = ethereum;
     if (selectedAddress) dispatch(SET_ADDRESS(selectedAddress));
     else navigate("/connectwallet");
   }

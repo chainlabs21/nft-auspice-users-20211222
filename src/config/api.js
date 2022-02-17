@@ -1,13 +1,14 @@
-const apiServer = "http://itemverse1.net:32287"; // // const apiServer = "http://3.34.76.233:32287";
+const apiServer = "http://localhost:32287"; // // const apiServer = "http://3.34.76.233:32287";
 export const API = {
   API_TICKERS: `${apiServer}/stats/tickers`,
   API_TOGGLE_FAVOR: `${apiServer}/favorites/toggle`,
   API_TOGGLE_BOOKMARK: `${apiServer}/bookmarks/toggle`,
   API_USER_JOIN: `${apiServer}/users/join`,
-  API_COMPLETE_EMAIL_VERIFY: `${apiServer}/users/bind_address_email`,
+  API_COMPLETE_EMAIL_VERIFY: `${apiServer}/users/email/verifycode`,
   API_USERS_LOGIN: `${apiServer}/users/login/crypto`,
   API_GET_MY_INFO: `${apiServer}/my/info`,
   API_USER_INFO: `${apiServer}/users/user/info`,
+  API_USER_EXISTS: (address, option='address') => `${apiServer}/users/query-value-exists/${option}/${address}`,
   API_MYINFO: `${apiServer}/users/user/myinfo`,
   API_VERIFY_EMAIL_SEND: `${apiServer}/users/email/verifycode`,
   API_LOGOUT: `${apiServer}/users/logout`,
