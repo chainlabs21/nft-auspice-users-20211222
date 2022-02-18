@@ -325,3 +325,4 @@ const PlaceBidPopupBox = styled.div`
     }
   }
 `;
+

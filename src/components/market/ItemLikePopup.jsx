@@ -114,6 +114,7 @@ const MitemLikePopup = styled.section`
   padding: 0 1.11vw;
   border-radius: 5.55vw;
   background: #fff;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
   top: 50%;
   left: 50%;
   position: fixed;
@@ -225,6 +226,7 @@ const PitemLikePopup = styled.section`
   height: 500px;
   border-radius: 20px;
   background: #fff;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
   top: 50%;
   left: 50%;
   position: fixed;

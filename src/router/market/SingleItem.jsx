@@ -71,6 +71,7 @@ import DefaultHeader from "../../components/header/DefaultHeader";
 import { D_categoryList } from "../../data/D_item";
 import PopupBg from "../../components/PopupBg";
 import ReportPopup from "../../components/market/ReportPopup";
+import PurchaseSinglePopup from "../../components/market/PurchaseSinglePopup";
 
 const convertLongString = (startLength, endLength, str) => {
   if (!str) return;
@@ -106,6 +107,7 @@ function SingleItem({
   const [ownerPopup, setOwnerPopup] = useState(false); // true
   const [likePopup, setLikePopup] = useState(false);
   const [reportPopup, setreportPopup] = useState(false);
+  const [purchasePopup, setPurchasePopup] = useState(false);
 
   /**   const {    likerList,    ownerList,    salesStatus,    pur chaseStatus,    transactionHistory,    chainInformation,  } = singleItem;*/
   const [buySpotPopup, setbuySpotPopup] = useState(false);
@@ -659,239 +661,15 @@ function SingleItem({
           </>
         )}
 
+        {purchasePopup && (
+          <>
+            <PurchaseSinglePopup off={setPurchasePopup}/>
+            <PopupBg bg off={setPurchasePopup} />
+          </>
+        )}
+
         {false && <PlaceBidPopup />}
 
-        {bidauctionmodal && (
-          <div
-            className="popup info"
-            id="info_popup"
-            style={{ display: "block" }}
-          >
-            <div className="box_wrap buynft">
-              <a
-                onClick={() => setbidauctionmodal(false)}
-                className="close close2"
-                id="info_close"
-              >
-                <img
-                  src={require("../../img/sub/icon_close.png").default}
-                  alt="close"
-                />
-              </a>
-              <div className="poptitle nob">
-                <h2>Place a bid</h2>
-              </div>
-              <div className="list_bottom buy_nft">
-                <p
-                  className="warn"
-                  style={{
-                    display: itemdata?.item?.isreviewed ? "none" : "block",
-                  }}
-                >
-                  Warning! Contains items
-                  <br /> that have not been reviewed and approved
-                </p>
-                <div className="receipt_section">
-                  <div className="receipt_title">
-                    <p className="rec_t">Item</p>
-                    <p className="rec_t right">Subtotal</p>
-                  </div>
-                  <div className="receipt_item">
-                    <ul>
-                      <li>
-                        <span
-                          className="pic"
-                          style={{
-                            backgroundImage: `url(${itemdata?.item?.url})`,
-                          }}
-                        ></span>
-                        <div className="right_price">
-                          <h3>
-                            {convertLongString(8, 4, sellorder?.username)}
-                            <br />
-                            <span>{itemdata?.item?.titlename} </span>
-                            {/**Blackman with neon */}
-                          </h3>
-                          <h4 className="m_sub">
-                            <img
-                              style={{ width: "60px" }}
-                              src={require("../../img/header/logo.png").default}
-                            />
-                            <span className="pri">
-                              {sellorder?.asset_amount_bid
-                                ? `Qty. ${sellorder?.asset_amount_bid}`
-                                : ""}{" "}
-                              {sellorder?.tokenid
-                                ? `of token #${sellorder?.tokenid}`
-                                : ""}{" "}
-                            </span>
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <p className="rec_t">
-                          Current highest bid
-                          <span className="red" style={{ color: "gray" }}>
-                            {j_auctionuuid_bidder[sellorder?.uuid]
-                              ? strDot(
-                                  j_auctionuuid_bidder[sellorder?.uuid],
-                                  8,
-                                  0
-                                )
-                              : "\u00A0"}
-                          </span>
-                        </p>
-                        <div className="right_price m_left">
-                          <h4 className="blue">
-                            <img
-                              src={require("../../img/sub/rock.png").default}
-                            />
-                            {j_auctionuuid_bidprice[sellorder?.uuid]
-                              ? j_auctionuuid_bidprice[sellorder?.uuid]
-                              : " "}{" "}
-                            &nbsp;
-                            <span className="pri">
-                              ($
-                              {priceklay &&
-                              j_auctionuuid_bidprice[sellorder?.uuid]
-                                ? (
-                                    +priceklay *
-                                    +j_auctionuuid_bidprice[sellorder?.uuid]
-                                  ).toFixed(4)
-                                : ""}
-                              )
-                            </span>
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <p className="rec_t">
-                          Minimum bid
-                          <span className="red" style={{ color: "black" }}>
-                            {" "}
-                            &nbsp;
-                          </span>
-                        </p>
-                        <div className="right_price m_left">
-                          <h4 className="blue">
-                            <img
-                              src={require("../../img/sub/rock.png").default}
-                            />
-                            {sellorder?.asset_amount_ask}
-                            <span className="pri">
-                              ($
-                              {priceklay && sellorder?.asset_amount_ask
-                                ? (
-                                    +priceklay * +sellorder?.asset_amount_ask
-                                  ).toFixed(4)
-                                : ""}
-                              )
-                            </span>
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-
-                    <ul>
-                      <li>
-                        <p className="rec_t">
-                          Your bid
-                          <span className="red" style={{ color: "black" }}>
-                            (Current balance:{" "}
-                            {myethbalance ? (+myethbalance).toFixed(4) : "0"})
-                          </span>
-                        </p>
-                        <div className="right_price m_left">
-                          <h4 className="blue">
-                            <input
-                              value={mybidamount}
-                              onChange={(e) => {
-                                let { value: value_raw } = e.target;
-                                let value = +value_raw;
-                                if (ISFINITE(value)) {
-                                } else if (value == 0) {
-                                } else {
-                                  SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY);
-                                  //                                return;
-                                }
-                                setmybidamount("" + value_raw);
-                                if (value >= +myethbalance) {
-                                  SetErrorBar(messages.MSG_EXCEEDS_BALANCE);
-                                  return;
-                                }
-                                if (value >= sellorder?.asset_amount_ask) {
-                                } else {
-                                  SetErrorBar(messages.MSG_FAILS_AUCTION_REQ);
-                                  return;
-                                }
-                                if (j_auctionuuid_bidprice[sellorder?.uuid]) {
-                                  if (
-                                    value >=
-                                    +j_auctionuuid_bidprice[sellorder?.uuid]
-                                  ) {
-                                  } else {
-                                    SetErrorBar(messages.MSG_FAILS_AUCTION_REQ);
-                                    return;
-                                  }
-                                }
-                              }}
-                            />
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <form className="ckb_wrap">
-                    <div
-                      className="ckb"
-                      style={{
-                        display: itemdata?.item?.isreviewed ? "none" : "block",
-                      }}
-                    >
-                      <input type="checkbox" id="chk" name="chk1" />
-                      <label htmlFor="chk">
-                        Aware that Itemverse contains one item that has not been
-                        reviewed and approved
-                      </label>
-                    </div>
-                    <div className="ckb">
-                      <input
-                        type="checkbox"
-                        id="chk2"
-                        name="chk1"
-                        onChange={(e) => {
-                          setistoschecked(!istoschecked); // LOGGER()
-                        }}
-                      />
-                      <label htmlFor="chk2">
-                        I agree to Itemverse's <b>Terms of Service</b>
-                      </label>
-                    </div>
-                  </form>
-                </div>
-                <a
-                  className="reportit on "
-                  disabled={istoschecked ? false : true}
-                  onClick={(_) => {
-                    if (istoschecked) {
-                    } else {
-                      //                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
-                      //                  return;
-                    }
-                    LOGGER("pHeiL5AWXM");
-                    onclickbuy();
-                  }}
-                >
-                  Place bid
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
         {buySpotPopup && (
           <div
             className="popup info"
@@ -1181,7 +959,7 @@ function SingleItem({
 
                 <button
                   className="bidBtn"
-                  onClick={() => setbidauctionmodal(true)}
+                  onClick={() => setPurchasePopup(true)}
                 >
                   Place a Bid
                 </button>
@@ -1554,237 +1332,13 @@ function SingleItem({
 
         {false && <PlaceBidPopup />}
 
-        {bidauctionmodal && (
-          <div
-            className="popup info"
-            id="info_popup"
-            style={{ display: "block" }}
-          >
-            <div className="box_wrap buynft">
-              <a
-                onClick={() => setbidauctionmodal(false)}
-                className="close close2"
-                id="info_close"
-              >
-                <img
-                  src={require("../../img/sub/icon_close.png").default}
-                  alt="close"
-                />
-              </a>
-              <div className="poptitle nob">
-                <h2>Place a bid</h2>
-              </div>
-              <div className="list_bottom buy_nft">
-                <p
-                  className="warn"
-                  style={{
-                    display: itemdata?.item?.isreviewed ? "none" : "block",
-                  }}
-                >
-                  Warning! Contains items
-                  <br /> that have not been reviewed and approved
-                </p>
-                <div className="receipt_section">
-                  <div className="receipt_title">
-                    <p className="rec_t">Item</p>
-                    <p className="rec_t right">Subtotal</p>
-                  </div>
-                  <div className="receipt_item">
-                    <ul>
-                      <li>
-                        <span
-                          className="pic"
-                          style={{
-                            backgroundImage: `url(${itemdata?.item?.url})`,
-                          }}
-                        ></span>
-                        <div className="right_price">
-                          <h3>
-                            {convertLongString(8, 4, sellorder?.username)}
-                            <br />
-                            <span>{itemdata?.item?.titlename} </span>
-                            {/**Blackman with neon */}
-                          </h3>
-                          <h4 className="m_sub">
-                            <img
-                              style={{ width: "60px" }}
-                              src={require("../../img/header/logo.png").default}
-                            />
-                            <span className="pri">
-                              {sellorder?.asset_amount_bid
-                                ? `Qty. ${sellorder?.asset_amount_bid}`
-                                : ""}{" "}
-                              {sellorder?.tokenid
-                                ? `of token #${sellorder?.tokenid}`
-                                : ""}{" "}
-                            </span>
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <p className="rec_t">
-                          Current highest bid
-                          <span className="red" style={{ color: "gray" }}>
-                            {j_auctionuuid_bidder[sellorder?.uuid]
-                              ? strDot(
-                                  j_auctionuuid_bidder[sellorder?.uuid],
-                                  8,
-                                  0
-                                )
-                              : "\u00A0"}
-                          </span>
-                        </p>
-                        <div className="right_price m_left">
-                          <h4 className="blue">
-                            <img
-                              src={require("../../img/sub/rock.png").default}
-                            />
-                            {j_auctionuuid_bidprice[sellorder?.uuid]
-                              ? j_auctionuuid_bidprice[sellorder?.uuid]
-                              : " "}{" "}
-                            &nbsp;
-                            <span className="pri">
-                              ($
-                              {priceklay &&
-                              j_auctionuuid_bidprice[sellorder?.uuid]
-                                ? (
-                                    +priceklay *
-                                    +j_auctionuuid_bidprice[sellorder?.uuid]
-                                  ).toFixed(4)
-                                : ""}
-                              )
-                            </span>
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <p className="rec_t">
-                          Minimum bid
-                          <span className="red" style={{ color: "black" }}>
-                            {" "}
-                            &nbsp;
-                          </span>
-                        </p>
-                        <div className="right_price m_left">
-                          <h4 className="blue">
-                            <img
-                              src={require("../../img/sub/rock.png").default}
-                            />
-                            {sellorder?.asset_amount_ask}
-                            <span className="pri">
-                              ($
-                              {priceklay && sellorder?.asset_amount_ask
-                                ? (
-                                    +priceklay * +sellorder?.asset_amount_ask
-                                  ).toFixed(4)
-                                : ""}
-                              )
-                            </span>
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-
-                    <ul>
-                      <li>
-                        <p className="rec_t">
-                          Your bid
-                          <span className="red" style={{ color: "black" }}>
-                            (Current balance:{" "}
-                            {myethbalance ? (+myethbalance).toFixed(4) : "0"})
-                          </span>
-                        </p>
-                        <div className="right_price m_left">
-                          <h4 className="blue">
-                            <input
-                              value={mybidamount}
-                              onChange={(e) => {
-                                let { value: value_raw } = e.target;
-                                let value = +value_raw;
-                                if (ISFINITE(value)) {
-                                } else if (value == 0) {
-                                } else {
-                                  SetErrorBar(messages.MSG_INPUT_NUMBERS_ONLY);
-                                  //                                return;
-                                }
-                                setmybidamount("" + value_raw);
-                                if (value >= +myethbalance) {
-                                  SetErrorBar(messages.MSG_EXCEEDS_BALANCE);
-                                  return;
-                                }
-                                if (value >= sellorder?.asset_amount_ask) {
-                                } else {
-                                  SetErrorBar(messages.MSG_FAILS_AUCTION_REQ);
-                                  return;
-                                }
-                                if (j_auctionuuid_bidprice[sellorder?.uuid]) {
-                                  if (
-                                    value >=
-                                    +j_auctionuuid_bidprice[sellorder?.uuid]
-                                  ) {
-                                  } else {
-                                    SetErrorBar(messages.MSG_FAILS_AUCTION_REQ);
-                                    return;
-                                  }
-                                }
-                              }}
-                            />
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <form className="ckb_wrap">
-                    <div
-                      className="ckb"
-                      style={{
-                        display: itemdata?.item?.isreviewed ? "none" : "block",
-                      }}
-                    >
-                      <input type="checkbox" id="chk" name="chk1" />
-                      <label htmlFor="chk">
-                        Aware that Itemverse contains one item that has not been
-                        reviewed and approved
-                      </label>
-                    </div>
-                    <div className="ckb">
-                      <input
-                        type="checkbox"
-                        id="chk2"
-                        name="chk1"
-                        onChange={(e) => {
-                          setistoschecked(!istoschecked); // LOGGER()
-                        }}
-                      />
-                      <label htmlFor="chk2">
-                        I agree to Itemverse's <b>Terms of Service</b>
-                      </label>
-                    </div>
-                  </form>
-                </div>
-                <a
-                  className="reportit on "
-                  disabled={istoschecked ? false : true}
-                  onClick={(_) => {
-                    if (istoschecked) {
-                    } else {
-                      //                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
-                      //                  return;
-                    }
-                    LOGGER("pHeiL5AWXM");
-                    onclickbuy();
-                  }}
-                >
-                  Place bid
-                </a>
-              </div>
-            </div>
-          </div>
+        {purchasePopup && (
+          <>
+            <PurchaseSinglePopup off={setPurchasePopup} />
+            <PopupBg bg off={setPurchasePopup} />
+          </>
         )}
+
         {buySpotPopup && (
           <div
             className="popup info"
@@ -2102,7 +1656,7 @@ function SingleItem({
 
                   <button
                     className="bidBtn"
-                    onClick={() => setbidauctionmodal(true)}
+                    onClick={() => setPurchasePopup(true)}
                   >
                     Place a Bid
                   </button>

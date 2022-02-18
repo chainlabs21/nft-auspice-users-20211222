@@ -42,7 +42,7 @@ function MyFavorite({ store }) {
   const setsalepath = (cont) => {
     LOGGER("");
     if (cont.itembalance?.avail) {
-      navigate(`/salefixed?itemid=${cont.item?.itemid}`);
+      navigate(`/saleitem?itemid=${cont.item?.itemid}`);
       return;
     } else {
       SetErrorBar(messages.MSG_OUT_OF_STOCK);
@@ -412,7 +412,8 @@ function MyFavorite({ store }) {
                                                     Sale
                                                   </li>
                                                 )}
-                                                {false && cont.item?.tokenid &&
+                                                {false &&
+                                                  cont.item?.tokenid &&
                                                   cont.itembalance?.avail && (
                                                     <li
                                                       onClick={(e) => {
@@ -540,9 +541,13 @@ function MyFavorite({ store }) {
                                               <ul>
                                                 {/**  <li>Sale</li>*/}
                                                 {/**  <li>Hand Over</li>*/}
-                                                {/** <li onClick={_=>{ navigate(`/salefixed?itemid=`) }}>Edit</li>*/}
+                                                {/** <li onClick={_=>{ navigate(`/saleitem?itemid=`) }}>Edit</li>*/}
                                                 {/**  <li>Collection Change</li>*/}
-                                                <li >{ cont.ishidden? 'Unhide':'Hide'} </li>
+                                                <li>
+                                                  {cont.ishidden
+                                                    ? "Unhide"
+                                                    : "Hide"}{" "}
+                                                </li>
                                               </ul>
                                             </div>
                                           </li>
@@ -567,7 +572,10 @@ function MyFavorite({ store }) {
                     </div>
                   </div>
 
-                  <div className="item marbo" style={{display : list_auction.length ? 'block' : 'none'}}>
+                  <div
+                    className="item marbo"
+                    style={{ display: list_auction.length ? "block" : "none" }}
+                  >
                     <h4 className="t">On Auction</h4>
                     <div className="swiper">
                       <div className="swiper-container swiper-container-newitem newitem3">
@@ -594,7 +602,9 @@ function MyFavorite({ store }) {
                                     >
                                       <div className="on">
                                         <ul>
-                                          <li className="heart off">{ cont.item?.countfavors }</li>
+                                          <li className="heart off">
+                                            {cont.item?.countfavors}
+                                          </li>
                                           <li
                                             className={
                                               cont.ilikethisitem
@@ -603,28 +613,45 @@ function MyFavorite({ store }) {
                                             }
                                           ></li>
                                         </ul>
-                                        <div>{ cont.item?.titlename }</div>
-                                        <span>{ cont.author?.nickname }</span>
+                                        <div>{cont.item?.titlename}</div>
+                                        <span>{cont.author?.nickname}</span>
                                         <ol>
-                                          <li>{cont.expiry? 'expires '+moment.unix(cont.expiry).fromNow() : ''}</li>
-                                          <li>{ cont.asset_amount_ask } { cont.priceunitname} </li>
+                                          <li>
+                                            {cont.expiry
+                                              ? "expires " +
+                                                moment
+                                                  .unix(cont.expiry)
+                                                  .fromNow()
+                                              : ""}
+                                          </li>
+                                          <li>
+                                            {cont.asset_amount_ask}{" "}
+                                            {cont.priceunitname}{" "}
+                                          </li>
                                         </ol>
                                       </div>
                                       <div className="top blk">
                                         <ul>
                                           <li></li>
                                           <li className="dot">
-                                            <div className={ 
-																							onauctionmorepopup == index ? 
-																								'choose choose2 on'
-																							: 'choose choose2'
-																							} >
+                                            <div
+                                              className={
+                                                onauctionmorepopup == index
+                                                  ? "choose choose2 on"
+                                                  : "choose choose2"
+                                              }
+                                            >
                                               <ul>
                                                 {/** <li>Sale</li>
                                                 <li>Hand Over</li>*/}
                                                 <li>Edit</li>
                                                 {/** <li>Collection Change</li>*/}
-                                                <li> { cont.ishidden? 'Unhide': 'Hide' }</li>
+                                                <li>
+                                                  {" "}
+                                                  {cont.ishidden
+                                                    ? "Unhide"
+                                                    : "Hide"}
+                                                </li>
                                               </ul>
                                             </div>
                                           </li>

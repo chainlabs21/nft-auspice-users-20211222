@@ -37,9 +37,9 @@ import {
   TIME_PAGE_TRANSITION_DEF,
 } from "../../config/configs";
 import {} from "../../util/store";
-import CertificationContractPopup from "../../components/CertificationContractPopup";
+import CertificationContractPopup from "../../components/mint/saleItem/CertificationContractPopup";
 import PopupBg from "../../components/PopupBg";
-import NowSalePopup from "../../components/NowSalePopup";
+import NowSalePopup from "../../components/mint/saleItem/NowSalePopup";
 import DefaultHeader from "../../components/header/DefaultHeader";
 
 import I_ltArw3 from "../../img/icons/I_ltArw3.png";
@@ -81,6 +81,10 @@ export default function CreateItem({ store, setConnect }) {
   const [item, setItem] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [unlockToggle, setUnlockToggle] = useState();
+  const [unlockText, setUnlockText] = useState("");
+  const [copy, setCopy] = useState(1);
+  const [freezeToggle, setFreezeToggle] = useState(false);
 
   const [nameChk, setNameChk] = useState(false);
   const [fileChk, setFileChk] = useState(false);
@@ -177,7 +181,7 @@ export default function CreateItem({ store, setConnect }) {
               if (status == "OK") {
                 SetErrorBar(messages.MSG_DONE_REGISTERING);
                 setTimeout((_) => {
-                  navigate(`/salefixed?itemid=${itemid}`);
+                  navigate(`/saleitem?itemid=${itemid}`);
                 }, TIME_PAGE_TRANSITION_DEF);
               }
             });
@@ -258,7 +262,7 @@ export default function CreateItem({ store, setConnect }) {
     if (resp.data.status === "OK") {
       SetErrorBar(messages.MSG_DONE_REGISTERING);
       setTimeout((_) => {
-        navigate(`/salefixed?itemid=${itemid}`);
+        navigate(`/saleitem?itemid=${itemid}`);
       }, TIME_PAGE_TRANSITION_DEF);
     } else {
       SetErrorBar(messages.MSG_REGISTER_FAILED);
@@ -373,6 +377,7 @@ export default function CreateItem({ store, setConnect }) {
       SetErrorBar(ERR_MSG.ERR_PLEASE_COMPLETE_REQUIRE);
     }
   };
+
   useEffect((_) => {
     query_noarg({
       contractaddress: ADDRESSES.admin,
@@ -419,15 +424,7 @@ export default function CreateItem({ store, setConnect }) {
   if (isMobile)
     return (
       <>
-        <DefaultHeader />
-        <McreateItemBox></McreateItemBox>
-      </>
-    );
-  else
-    return (
-      <>
-        <DefaultHeader />
-        <PcreateItemBox>
+        <McreateItemBox>
           <section className="innerBox">
             <article className="topBar">
               <button className="exitBtn" onClick={() => navigate(-1)}>
@@ -446,6 +443,7 @@ export default function CreateItem({ store, setConnect }) {
                     <strong className="title">
                       Add images, video, audio and modeling
                     </strong>
+                    <img src={star} alt="" />
                   </div>
 
                   <div className="imgBox">
@@ -491,10 +489,9 @@ export default function CreateItem({ store, setConnect }) {
                 <li className="descriptionBox">
                   <div className="titleBox">
                     <strong className="title">Item Description</strong>
-                    <img src={star} alt="" />
                   </div>
 
-                  <p className="description">
+                  <p className="explain">
                     Please enter a description that best describes the
                     characteristics of the item.
                   </p>
@@ -503,18 +500,473 @@ export default function CreateItem({ store, setConnect }) {
                     <textarea
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      placeholder=""
+                      placeholder="Example: I took a picture of the night sky centered on the constellations and a night view of the city."
                     />
                   </div>
                 </li>
+
+                <li className="unlockBox">
+                  <div className="titleBox toggleBox">
+                    <strong className="title">Unlocked content</strong>
+                    <button
+                      className={unlockToggle ? "toggleBtn on" : "toggleBtn"}
+                      onClick={() => setUnlockToggle(!unlockToggle)}
+                    >
+                      <span />
+                    </button>
+                  </div>
+
+                  <p className="explain">
+                    Set the content that can only be shown to the item owner.
+                    For example, if you want to give the owner a physical
+                    certificate, register my contact information (email,
+                    address, phone number, etc.) so that they can be contacted.
+                  </p>
+
+                  <div className="textareaBox">
+                    <textarea
+                      value={unlockText}
+                      onChange={(e) => setUnlockText(e.target.value)}
+                      placeholder="Reveal codes, links, access keys, contact information, etc. to be redeemed only to the item owner"
+                    />
+                  </div>
+                </li>
+
+                <li className="copyBox">
+                  <div className="titleBox toggleBox">
+                    <strong className="title">
+                      Number of copies to be issued
+                    </strong>
+                  </div>
+
+                  <p className="explain">
+                    The number of copies that can be issued. If you set
+                    multiple, one item will be sold to multiple customers.
+                  </p>
+
+                  <div className="inputBox">
+                    <input
+                      value={copy}
+                      onChange={(e) => setCopy(e.target.value)}
+                    />
+                  </div>
+                </li>
+
+                <li className="freezeBox">
+                  <div className="titleBox toggleBox">
+                    <strong className="title">Freezing metadata</strong>
+                    <button
+                      className={freezeToggle ? "toggleBtn on" : "toggleBtn"}
+                      onClick={() => setFreezeToggle(!freezeToggle)}
+                    >
+                      <span />
+                    </button>
+                  </div>
+
+                  <p className="explain">
+                    Fixes metadata and stores it permanently in file storage
+                    (IPFS).
+                    <br /> Once selected, it cannot be edited or removed.
+                  </p>
+                </li>
               </ul>
+            </article>
+
+            <article className="btnArea">
+              <button className="createBtn" onClick={() => {}}>
+                Create Item
+              </button>
+            </article>
+          </section>
+        </McreateItemBox>
+      </>
+    );
+  else
+    return (
+      <>
+        <DefaultHeader />
+        <PcreateItemBox>
+          <section className="innerBox">
+            <article className="topBar">
+              <button className="exitBtn" onClick={() => navigate(-1)}>
+                <img src={I_ltArw3} alt="" />
+              </button>
+
+              <strong className="title">Items home</strong>
+            </article>
+
+            <article className="contArea">
+              <strong className="mainTitle">Create a new item</strong>
+
+              <ul className="contList">
+                <li className="imgContainer">
+                  <div className="titleBox">
+                    <strong className="title">
+                      Add images, video, audio and modeling
+                    </strong>
+                    <img src={star} alt="" />
+                  </div>
+
+                  <div className="imgBox">
+                    <div className="imgContainer_innerBox">
+                      <p className="explain">
+                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG etc. (Up to
+                        40mb)
+                      </p>
+
+                      <button
+                        className="imgContainer_chooseBtn"
+                        onClick={() => itemInputRef.current.click()}
+                      >
+                        Choose File
+                      </button>
+
+                      <input
+                        className="nospace"
+                        type="file"
+                        ref={itemInputRef}
+                        value={item}
+                        onChange={(e) => onChangeItem(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </li>
+
+                <li className="nameBox">
+                  <div className="titleBox">
+                    <strong className="title">Name</strong>
+                    <img src={star} alt="" />
+                  </div>
+
+                  <div className="inputBox">
+                    <input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Example: A collection of atmospheric night view photos"
+                    />
+                  </div>
+                </li>
+
+                <li className="descriptionBox">
+                  <div className="titleBox">
+                    <strong className="title">Item Description</strong>
+                  </div>
+
+                  <p className="explain">
+                    Please enter a description that best describes the
+                    characteristics of the item.
+                  </p>
+
+                  <div className="textareaBox">
+                    <textarea
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Example: I took a picture of the night sky centered on the constellations and a night view of the city."
+                    />
+                  </div>
+                </li>
+
+                <li className="unlockBox">
+                  <div className="titleBox toggleBox">
+                    <strong className="title">Unlocked content</strong>
+                    <button
+                      className={unlockToggle ? "toggleBtn on" : "toggleBtn"}
+                      onClick={() => setUnlockToggle(!unlockToggle)}
+                    >
+                      <span />
+                    </button>
+                  </div>
+
+                  <p className="explain">
+                    Set the content that can only be shown to the item owner.
+                    For example, if you want to give the owner a physical
+                    certificate, register my contact information (email,
+                    address, phone number, etc.) so that they can be contacted.
+                  </p>
+
+                  <div className="textareaBox">
+                    <textarea
+                      value={unlockText}
+                      onChange={(e) => setUnlockText(e.target.value)}
+                      placeholder="Reveal codes, links, access keys, contact information, etc. to be redeemed only to the item owner"
+                    />
+                  </div>
+                </li>
+
+                <li className="copyBox">
+                  <div className="titleBox toggleBox">
+                    <strong className="title">
+                      Number of copies to be issued
+                    </strong>
+                  </div>
+
+                  <p className="explain">
+                    The number of copies that can be issued. If you set
+                    multiple, one item will be sold to multiple customers.
+                  </p>
+
+                  <div className="inputBox">
+                    <input
+                      value={copy}
+                      onChange={(e) => setCopy(e.target.value)}
+                    />
+                  </div>
+                </li>
+
+                <li className="freezeBox">
+                  <div className="titleBox toggleBox">
+                    <strong className="title">Freezing metadata</strong>
+                    <button
+                      className={freezeToggle ? "toggleBtn on" : "toggleBtn"}
+                      onClick={() => setFreezeToggle(!freezeToggle)}
+                    >
+                      <span />
+                    </button>
+                  </div>
+
+                  <p className="explain">
+                    Fixes metadata and stores it permanently in file storage
+                    (IPFS).
+                    <br /> Once selected, it cannot be edited or removed.
+                  </p>
+                </li>
+              </ul>
+            </article>
+
+            <article className="btnArea">
+              <button className="createBtn" onClick={() => {}}>
+                Create Item
+              </button>
             </article>
           </section>
         </PcreateItemBox>
       </>
     );
 }
-const McreateItemBox = styled.div``;
+const McreateItemBox = styled.div`
+  display: flex;
+  justify-content: center;
+
+  .innerBox {
+    padding: 6.66vw 0 11.11vw 0;
+
+    .topBar {
+      display: flex;
+      align-items: center;
+      gap: 2.22vw;
+      height: 6.11vw;
+      padding: 0 5.55vw;
+
+      .exitBtn {
+        img {
+          width: 5vw;
+        }
+      }
+
+      .title {
+        font-size: 5vw;
+        line-height: 5vw;
+      }
+    }
+
+    .contArea {
+      padding: 15.27vw 5.55vw 13.88vw 5.55vw;
+
+      .mainTitle {
+        font-size: 6.66vw;
+      }
+
+      .contList {
+        display: flex;
+        flex-direction: column;
+        gap: 13.88vw;
+        margin: 4.44vw 0 0 0;
+
+        input,
+        textarea {
+          font-size: 3.88vw;
+        }
+
+        input {
+          flex: 1;
+          height: 13.33vw;
+          border-radius: 8px;
+
+          &.nospace {
+            padding: 0;
+          }
+        }
+
+        .textareaBox {
+          padding: 4.44vw 2.22vw 4.44vw 5.55vw;
+          height: 63.88vw;
+          background-color: #f6f6f6;
+          border-radius: 2.22vw;
+
+          textarea {
+            width: 100%;
+            height: 100%;
+            padding: 0 1.11vw 0 0;
+            background-color: #f6f6f6;
+
+            &::-webkit-scrollbar {
+              width: 4px;
+              border: 5px solid #f6f6f6;
+            }
+
+            &::-webkit-scrollbar-thumb {
+              width: 4px;
+              background: #b7b7b7;
+              border-radius: 4px;
+            }
+
+            &::-webkit-scrollbar-track {
+              background: #f4f2f2;
+              border-radius: 4px;
+            }
+          }
+        }
+
+        .inputBox {
+          display: flex;
+          align-items: center;
+          padding: 0 2.77vw;
+          border-radius: 2.22vw;
+          background-color: #f6f6f6;
+        }
+
+        .explain {
+          font-size: 3.88vw;
+          line-height: 5.55vw;
+        }
+
+        li {
+          display: flex;
+          flex-direction: column;
+          gap: 5.55vw;
+
+          .titleBox {
+            height: 6.66vw;
+
+            .title {
+              font-size: 5vw;
+              line-height: 6.66vw;
+              letter-spacing: -0.6px;
+            }
+
+            img {
+              width: 4.44vw;
+            }
+
+            &.toggleBox {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              .toggleBtn {
+                display: flex;
+                align-items: center;
+                padding: 0.55vw;
+                width: 11.11vw;
+                height: 6.11vw;
+                border-radius: 4.44vw;
+                background: #d9d9d9;
+                transition: all 0.2s;
+
+                span {
+                  display: inline-block;
+                  width: 5vw;
+                  height: 5vw;
+                  background: #fff;
+                  border-radius: 50%;
+                  transition: all 0.2s;
+                }
+
+                &.on {
+                  background: #4d4d4d;
+
+                  span {
+                    margin: 0 0 0 5vw;
+                  }
+                }
+              }
+            }
+          }
+
+          &.imgContainer {
+            .imgBox {
+              height: 51.66vw;
+              padding: 1.38vw;
+              border: dashed 2px #d9d9d9;
+              border-radius: 2.22vw;
+
+              .imgContainer_innerBox {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 5vw;
+                width: 100%;
+                height: 100%;
+                border-radius: 2.22vw;
+                background: #f6f6f6;
+                position: relative;
+
+                .explain {
+                  width: 58vw;
+                  font-size: 3.33vw;
+                  font-weight: 500;
+                  text-align: center;
+                  color: #7a7a7a;
+                }
+
+                .imgContainer_chooseBtn {
+                  width: 48.88vw;
+                  height: 13.33vw;
+                  border-radius: 12.22vw;
+                  font-size: 4.44vw;
+                  font-weight: 500;
+                  color: #fff;
+                  background: #c5c5c5;
+                }
+              }
+            }
+          }
+
+          &.nameBox {
+          }
+
+          &.descriptionBox {
+          }
+
+          &.unlockBox {
+          }
+
+          &.copyBox {
+          }
+
+          &.freezeBox {
+          }
+        }
+      }
+    }
+
+    .btnArea {
+      padding: 0 5.55vw;
+
+      .createBtn {
+        width: 100%;
+        height: 15.55vw;
+        font-size: 4.44vw;
+        font-weight: 500;
+        color: #fff;
+        background: #000;
+        border-radius: 44px;
+      }
+    }
+  }
+`;
+
 const PcreateItemBox = styled.div`
   display: flex;
   justify-content: center;
@@ -607,8 +1059,14 @@ const PcreateItemBox = styled.div`
         .inputBox {
           display: flex;
           align-items: center;
+          padding: 0 20px;
           border-radius: 8px;
           background-color: #f6f6f6;
+        }
+
+        .explain {
+          font-size: 16px;
+          line-height: 22px;
         }
 
         li {
@@ -626,6 +1084,39 @@ const PcreateItemBox = styled.div`
 
             img {
               width: 16px;
+            }
+
+            &.toggleBox {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              .toggleBtn {
+                display: flex;
+                padding: 3px;
+                width: 50px;
+                height: 26px;
+                border-radius: 24px;
+                background: #d9d9d9;
+                transition: all 0.2s;
+
+                span {
+                  display: inline-block;
+                  width: 20px;
+                  height: 20px;
+                  background: #fff;
+                  border-radius: 50%;
+                  transition: all 0.2s;
+                }
+
+                &.on {
+                  background: #4d4d4d;
+
+                  span {
+                    margin: 0 0 0 24px;
+                  }
+                }
+              }
             }
           }
 
@@ -673,382 +1164,43 @@ const PcreateItemBox = styled.div`
           }
 
           &.descriptionBox {
-            .description {
-              font-size: 16px;
-            }
+          }
 
-            textarea {
+          &.unlockBox {
+            .explain {
+              width: 554px;
             }
+          }
+
+          &.copyBox {
+            .inputBox {
+              width: 146px;
+            }
+          }
+
+          &.freezeBox {
           }
         }
       }
     }
+
+    .btnArea {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: 134px;
+      padding: 0 36px;
+      border-top: 1px solid #d9d9d9;
+
+      .createBtn {
+        width: 176px;
+        height: 56px;
+        font-size: 22px;
+        font-weight: 500;
+        color: #fff;
+        background: #000;
+        border-radius: 44px;
+      }
+    }
   }
 `;
-
-//  <SignPopupBox>
-//         {listingProcess === 1 && (
-//           <>
-//             <CertificationContractPopup
-//               off={setListingProcess}
-//               // itemdata={itemdata}
-//             />
-//             <PopupBg bg off={setListingProcess} />
-//           </>
-//         )}
-//         {listingProcess === 2 && (
-//           <>
-//             <NowSalePopup off={setListingProcess} itemid={itemid} />
-//             <PopupBg bg off={setListingProcess} />
-//           </>
-//         )}
-
-//         <section id="sub">
-//           <article className="ntfsell_box">
-//             <div className="sellbg">
-//               <div className="ntfsell_con">
-//                 <div className="top1">
-//                   <a onClick={() => navigate(-1)}>
-//                     <img
-//                       src={require("../../img/sub/nft_arrow.png").default}
-//                       alt=""
-//                     />
-//                   </a>
-//                   <strong>Items home</strong>
-//                 </div>
-//                 <div className="sell_wrap">
-//                   <div className="create">
-//                     <h2>Create a new item</h2>
-//                     <form action="">
-//                       <div className="form">
-//                         <ul>
-//                           <li>
-//                             <h3>
-//                               Add images, video, audio and modeling{" "}
-//                               <img
-//                                 src={require("../../img/sub/star.png").default}
-//                                 alt=""
-//                               />
-//                             </h3>
-//                             <div className="img">
-//                               <div className="line">
-//                                 <input
-//                                   type="file"
-//                                   name
-//                                   id="file"
-//                                   onChange={(e) => {
-//                                     onChangeItem(e.target.files[0]);
-//                                     fileUpload(e.target.files[0]);
-//                                   }}
-//                                 />
-
-//                                 <label
-//                                   htmlFor="file"
-//                                   style={{
-//                                     padding: item && 0,
-//                                   }}
-//                                 >
-//                                   {item ? (
-//                                     <>
-//                                       {fileViewType === "image" ? (
-//                                         <img src={item} alt="" />
-//                                       ) : (
-//                                         <video
-//                                           src={item}
-//                                           autoPlay
-//                                           muted
-//                                           controls
-//                                           loop
-//                                           heigth="auto"
-//                                           width="100%"
-//                                         ></video>
-//                                       )}
-//                                     </>
-//                                   ) : (
-//                                     <>
-//                                       <p>
-//                                         JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV,
-//                                         <br />
-//                                         OGG etc. (Up to 40mb)
-//                                       </p>
-//                                       <button>Choose File</button>
-//                                     </>
-//                                   )}
-//                                 </label>
-//                               </div>
-//                             </div>
-//                           </li>
-//                           <li>
-//                             <h3>Category</h3>
-//                             <p>
-//                               You can easily search by selecting a category.
-//                             </p>
-//                             <div className="cat">
-//                               <ul>
-//                                 {categories.map((cate, idx) => (
-//                                   <li
-//                                     key={idx}
-//                                     onClick={() => {
-//                                       setCurCategory(cate.category);
-//                                     }}
-//                                     style={
-//                                       curCategory === cate.category
-//                                         ? {
-//                                             backgroundColor: "black",
-//                                             color: "white",
-//                                           }
-//                                         : {}
-//                                     }
-//                                   >
-//                                     <span>{cate.category}</span>
-//                                   </li>
-//                                 ))}
-//                               </ul>
-//                             </div>
-//                           </li>
-//                           <li>
-//                             <h3>
-//                               Name{" "}
-//                               <img
-//                                 src={require("../../img/sub/star.png").default}
-//                                 alt=""
-//                               />
-//                             </h3>
-//                             <div className="inputbox">
-//                               <input
-//                                 value={name}
-//                                 type="text"
-//                                 placeholder="Example: A item of atmospheric night view photos"
-//                                 onChange={(e) => {
-//                                   setName(e.target.value);
-//                                 }}
-//                               />
-//                             </div>
-//                           </li>
-//                           <li>
-//                             <h3>Item Description</h3>
-//                             <p>
-//                               Please enter a description that best describes the
-//                               characteristics of the item.
-//                             </p>
-//                             <div className="inputbox">
-//                               <div className="txt">
-//                                 <textarea
-//                                   type="text"
-//                                   value={desc}
-//                                   onChange={(e) => {
-//                                     setDesc(e.target.value);
-//                                   }}
-//                                   placeholder="Example: I took a picture of the night sky centered on the constellations and a night view of the city."
-//                                 ></textarea>
-//                               </div>
-//                             </div>
-//                           </li>
-//                           {/* <li>
-//                           <div className="top2">
-//                             <h3>Unlocked content</h3>
-//                             <div className="toggle">
-//                               <input
-//                                 type="checkbox"
-//                                 checked={unlocked}
-//                                 onChange={(e) => {
-//                                   setUnlocked(e.target.checked);
-//                                 }}
-
-//                                 id="toggle"
-//                               />
-//                               <label htmlFor="toggle"></label>
-//                             </div>
-//                           </div>
-//                           <p>
-//                             Set the content that can only be shown to the item
-//                             owner. For example,
-//                             <br />
-//                             if you want to give the owner a physical
-//                             certificate, register my contact information
-//                             <br />
-//                             (email, address, phone number, etc.) so that they
-//                             can be contacted.
-//                           </p>
-//                           <div className="inputbox">
-//                             <div className="txt">
-//                               <textarea
-//                                 type="text"
-//                                 value={unlockedContent}
-//                                 onChange={(e) => {
-//                                   setUnlockedContent(e.target.value);
-//                                 }}
-//                                 placeholder="Reveal codes, links, access keys, contact information, etc. to be redeemed only to the item owner"
-//                               ></textarea>
-//                             </div>
-//                           </div>
-//                         </li> */}
-//                           <li>
-//                             <div className="top2">
-//                               <h3>Number of copies to be issued</h3>
-//                             </div>
-//                             <p>
-//                               The number of copies that can be issued. If you
-//                               set multiple, one item will be sold to multiple
-//                               customers.
-//                             </p>
-//                             <div className="inputbox number">
-//                               <input
-//                                 type="text"
-//                                 placeholder=""
-//                                 onKeyDown="onlyNumber(this)"
-//                                 value={countcopies}
-//                                 onChange={(e) => {
-//                                   let { value } = e.target;
-//                                   if (ISFINITE(+value)) {
-//                                   } else {
-//                                     SetErrorBar(
-//                                       messages.MSG_INPUT_NUMBERS_ONLY
-//                                     );
-//                                     return;
-//                                   }
-//                                   setcountcopies(value); // e.target.
-//                                 }}
-//                               />
-//                             </div>
-//                           </li>
-//                           {/* <li>
-//                           <div className="top2">
-//                             <h3>Freezing metadata</h3>
-//                             <div className="toggle">
-//                               <input
-//                                 type="checkbox"
-
-//                                 id="toggle2"
-//                                 checked={freezing}
-//                                 onChange={(e) => {
-//                                   setFreezing(e.target.checked);
-//                                 }}
-//                               />
-//                               <label htmlFor="toggle2"></label>
-//                             </div>
-//                           </div>
-//                           <p>
-//                             Fixes metadata and stores it permanently in file
-//                             storage (IPFS).
-//                             <br />
-//                             Once selected, it cannot be edited or removed.
-//                           </p>
-//                         </li> */}
-//                           <li>
-//                             <div className="top2">
-//                               <h3>Active Publish</h3>
-//                               <div className="toggle">
-//                                 <input
-//                                   type="checkbox"
-//                                   id="toggle3"
-//                                   checked={activePubl}
-//                                   onChange={(e) => {
-//                                     setActivePubl(e.target.checked);
-//                                   }}
-//                                 />
-//                                 <label htmlFor="toggle3"></label>
-//                               </div>
-//                             </div>
-//                             <p>
-//                               Determine whether active publishing is possible.
-//                               <br />
-//                               The default is Lazy publishing, and additional
-//                               charges may be incurred if you do actvie
-//                               publishing.
-//                             </p>
-//                           </li>
-//                           <li>
-//                             <div className="top2">
-//                               <h3>Royalty setting</h3>
-//                               <p>
-//                                 Each time an item is resold, you can receive a
-//                                 certain
-//                                 <br className="m" /> amount of commission. (up
-//                                 to {royaltymax}%)
-//                                 <br className="pc" />
-//                                 If not set, it is set to 0%.
-//                               </p>
-//                               <div className="inputbox number percent">
-//                                 <input
-//                                   type="text"
-//                                   placeholder=""
-//                                   onKeyDown="onlyNumber(this)"
-//                                   value={royal}
-//                                   onChange={(e) => {
-//                                     let value = e.target.value;
-//                                     if (value > 20) {
-//                                       value = 20;
-//                                     } else if (value < 0) {
-//                                       value = 0;
-//                                     }
-//                                     setRoyal(value);
-//                                   }}
-//                                 />
-//                                 <span>%</span>
-//                               </div>
-//                             </div>
-//                           </li>
-
-//                           {/**                         <li>
-//                           <div className="top2">
-//                             <h3>Expiry</h3>
-//                             <p>
-// 															Number of days till expiry
-//                             </p>
-//                             <div className="inputbox number percent">
-//                               <input
-//                                 type="text"
-//                                 placeholder=""
-//                                 onKeyDown="onlyNumber(this)"
-//                                 value={royal}
-// 																onChange={(e) => { LOGGER()
-// 																	let {value}=e.target
-// 																	if (ISFINITE( +value)){}
-// 																	else {SetErrorBar (messages.MSG_INPUT_NUMBERS_ONLY); return }
-// 																	setdaystoclose ( value )
-//                                 }}
-//                               />
-//                               <span></span>
-//                             </div>
-//                           </div>
-//                         </li>*/}
-//                         </ul>
-//                       </div>
-//                     </form>
-//                   </div>
-//                 </div>
-//                 <div className="create_btn" style={{ display: "none" }}>
-//                   <a onClick={handleCreateItem}>Create Item</a>
-//                 </div>
-
-//                 <div className="create_btn">
-//                   <a
-//                     onClick={async (_) => {
-//                       LOGGER("rsNxLMScQI");
-//                       on_post_metadata();
-//                     }}
-//                   >
-//                     {"Register metadata"}
-//                   </a>
-//                 </div>
-
-//                 <div className="create_btn">
-//                   <a
-//                     onClick={(_) => {
-//                       LOGGER("MOdR4DlcH9");
-//                       if (activePubl) {
-//                         on_request_tx_mint_onchain();
-//                       } else {
-//                         on_request_lazy_mint();
-//                       }
-//                     }}
-//                   >
-//                     {activePubl ? "Mint item->chain" : "Register Item->server"}
-//                   </a>
-//                 </div>
-//               </div>
-//             </div>
-//           </article>
-//         </section>
-//       </SignPopupBox>

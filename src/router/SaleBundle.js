@@ -23,7 +23,7 @@ import sample from "../img/sub/sample.png";
 
 
 import { useState } from "react";
-import VerifyAccountPopup from "./VerifyAccountPopup";
+import VerifyAccountPopup from "../components/mint/saleItem/VerifyAccountPopup";
 
 
 function SaleBundle({ store, setConnect }) {

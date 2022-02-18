@@ -10,11 +10,7 @@ export default function SelectPopup({ off, contList, selectCont, setCont }) {
   return (
     <SelectPopupBox className="selectPopup">
       {contList.map((cont, index) => (
-        <li
-          key={index}
-          style={{ color: selectCont === cont && "#2662F0" }}
-          onClick={() => onClickSetSort(cont)}
-        >
+        <li key={index} onClick={() => onClickSetSort(cont)}>
           {cont}
         </li>
       ))}
@@ -41,5 +37,10 @@ const SelectPopupBox = styled.ul`
     font-size: 18px;
     font-weight: 500;
     cursor: pointer;
+
+    &:hover{
+      color: #fff;
+      background: #333;
+    }
   }
 `;

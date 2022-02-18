@@ -21,10 +21,10 @@ import ImportContract from "./router/ImportContract";
 import MyCollectionSelect from "./router/MyCollectionSelect";
 import Royaltycheck from "./router/Royaltycheck";
 import CreateItem from "./router/mint/CreateItem";
-import SaleFixed from "./router/SaleFixed";
+import SaleItem from "./router/mint/SaleItem";
 import AuctionBid from "./router/AuctionBid";
 import SaleBundle from "./router/SaleBundle";
-import MyProf from "./router/MyProf";
+import MyProf from "./router/mypage/MyProf";
 import HandOver from "./router/HandOver";
 import MoveCollection from "./router/MoveCollection";
 import TransactionHistory from "./router/TransactionHistory";
@@ -221,7 +221,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/royaltycheck" element={<Royaltycheck />} />
 
           <Route path="/createitem" element={<CreateItem />} />
-          <Route path="/salefixed" element={<SaleFixed />} />
+          <Route path="/saleitem" element={<SaleItem />} />
           <Route path="/auctionbid" element={<AuctionBid />} />
           <Route path="/salebundle" element={<SaleBundle />} />
 
@@ -353,7 +353,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 // import Buynft02 from "./router/Buynft02";
 // import Buynft03 from "./router/Buynft03";
 // import Buynft04 from "./router/Buynft04";
-// import Profile02 from "./router/SaleFixed";
+// import Profile02 from "./router/saleitem";
 // import Profile03 from "./router/Profile03";
 // import Profile05 from "./router/Profile05";
 // import Profile07Off from "./router/Profile07Off";

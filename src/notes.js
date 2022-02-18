@@ -1,7 +1,7 @@
 
 [] tokens
 
-[] http://localhost:3000/#/salefixed?itemid=QmS7RFqoUZei5tQZN6XYyyjcvrtk3eHfibQoxJG4bnh3v3
+[] http://localhost:3000/#/saleitem?itemid=QmS7RFqoUZei5tQZN6XYyyjcvrtk3eHfibQoxJG4bnh3v3
 
 [] id : 1
 itemid : xtmPbAuYWE

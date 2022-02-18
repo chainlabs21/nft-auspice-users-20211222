@@ -45,10 +45,8 @@ function Main({ store }) {
 
       <p />
       <p onClick={() => navigate("/createitem")}>create Item</p>
-      <p onClick={() => navigate("/salefixed")}>sale fixed</p>
-      <p onClick={() => navigate("/auctionbid")}>auction bid</p>
-      <p onClick={() => navigate("/salebundle")}>sale bundle</p>
-
+      <p onClick={() => navigate("/saleitem")}>sale item</p>
+F
       <p />
       <p onClick={() => navigate("/myprof")}>myprof</p>
       <p onClick={() => navigate("/edititem")}>edit item</p>

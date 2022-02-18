@@ -507,7 +507,7 @@ function HiddenItem({ store, setConnect }) {
 						{morePopupIndex === idx && (
 							<div className="choose">
 								<ul>
-									<li onClick={_=>{ navigate(`/salefixed?itemid=${elem.item?.itemid}`)}}>Sale</li>
+									<li onClick={_=>{ navigate(`/saleitem?itemid=${elem.item?.itemid}`)}}>Sale</li>
 									<li onClick={_=>{ navigate(`/handover?itemid=${elem.item?.itemid}`)}}>Hand Over</li>
 									<li>Edit</li>
 									<li>Item Change</li>

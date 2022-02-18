@@ -2,11 +2,11 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
-body{
-  &::-webkit-scrollbar {
-    display: none;
+  body{
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
-}
 
   *{
     padding:0;
@@ -69,7 +69,8 @@ body{
   }
 
 
-  label{
+  label,
+  summary{
     cursor: pointer;
   }
 

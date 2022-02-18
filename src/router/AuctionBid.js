@@ -9,7 +9,7 @@ import s4 from "../img/sub/s4.png";
 import s9 from "../img/sub/s9.png";
 import s8 from "../img/sub/s8.png";
 import sample from "../img/sub/sample.png";
-import VerifyAccountPopup from "./VerifyAccountPopup";
+import VerifyAccountPopup from "../components/mint/saleItem/VerifyAccountPopup";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { messages } from "../config/messages";
@@ -34,9 +34,9 @@ import {
   PAYMEANS_ADDRESS_DEF,
 } from "../config/configs";
 import { getweirep } from "../util/eth";
-import NowSalePopup from "../components/NowSalePopup";
+import NowSalePopup from "../components/mint/saleItem/NowSalePopup";
 import PopupBg from "../components/PopupBg";
-import CertificationContractPopup from "../components/CertificationContractPopup";
+import CertificationContractPopup from "../components/mint/saleItem/CertificationContractPopup";
 import { signOrderData } from "../util/verifySig";
 // const AuctionBid = async({ store, setConnect })=> {
 function AuctionBid({ store, setConnect }) {
@@ -367,7 +367,7 @@ _calldata // ",					" internalType": "bytes",
                               <li
                                 onClick={() =>
                                   navigate(
-                                    "/salefixed?itemid=" +
+                                    "/saleitem?itemid=" +
                                       `${itemdata?.item?.itemid}`
                                   )
                                 }
