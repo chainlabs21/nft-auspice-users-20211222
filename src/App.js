@@ -24,11 +24,11 @@ import CreateItem from "./router/mint/CreateItem";
 import SaleItem from "./router/mint/SaleItem";
 import AuctionBid from "./router/AuctionBid";
 import SaleBundle from "./router/SaleBundle";
-import MyProf from "./router/mypage/MyProf";
+import SearchWallet from "./router/mypage/SearchWallet";
 import HandOver from "./router/HandOver";
 import MoveCollection from "./router/MoveCollection";
-import TransactionHistory from "./router/TransactionHistory";
-import Offers from "./router/Offers";
+import TransactionHistory from "./router/mypage/TransactionHistory";
+import Offers from "./router/mypage/Offers";
 import Liked from "./router/Liked";
 import HiddenItem from "./router/HiddenItem";
 import Referals from "./router/Referals";
@@ -227,7 +227,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
 
           <Route path="/handover" element={<HandOver />} />
           <Route path="/movecollection" element={<MoveCollection />} />
-          <Route path="/myprof" element={<MyProf />} />
+          <Route path="/searchwallet" element={<SearchWallet />} />
           <Route path="/transactionhistory" element={<TransactionHistory />} />
           <Route path="/offers" element={<Offers />} />
           <Route path="/liked" element={<Liked />} />
@@ -294,6 +294,10 @@ const AppBox = styled.div`
 
       img {
         height: 64px;
+      }
+
+      &.withBg {
+        top: 790px;
       }
     }
   }

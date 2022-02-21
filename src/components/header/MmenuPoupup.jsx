@@ -4,7 +4,7 @@ import { D_NavList } from "../../data/D_header";
 import I_dnArrow from "../../img/icons/I_dnArrow.svg";
 import I_upArwWhite from "../../img/icons/I_upArwWhite.svg";
 
-export default function MmenuPopup({off}) {
+export default function MmenuPopup({ off }) {
   const navigate = useNavigate();
 
   function onClickNav(url) {
@@ -88,6 +88,7 @@ const MmenuPopupBox = styled.section`
         font-weight: 500;
 
         .arwImg {
+          width: 4.44vw;
           &.on {
             display: none;
           }

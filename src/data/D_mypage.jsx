@@ -1,18 +1,26 @@
-export const D_category = [
+export const D_categoryList = [
   {
-    text: "My Collection",
-    url: "/myitems",
+    text: "Search Wallet",
+    url: "/searchwallet",
   },
   {
-    text: "Profile Management",
-    url: "/myprof",
+    text: "Transaction history",
+    url: "/transactionhistory",
   },
   {
-    text: "My Favorite",
+    text: "Offers",
+    url: "/offers",
+  },
+  {
+    text: "Liked",
     url: "/liked",
   },
   {
-    text: "Account Management",
-    url: "/mywallet",
+    text: "Hidden Item",
+    url: "/hiddenitem",
+  },
+  {
+    text: "Referals",
+    url: "/referals",
   },
 ];

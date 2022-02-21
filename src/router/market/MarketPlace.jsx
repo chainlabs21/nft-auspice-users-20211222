@@ -183,9 +183,7 @@ export default function MarketPlace() {
           </button>
         )}
 
-        <MmarketPlaceBox
-          style={{ padding: toggleFilter && "120px  30px 0 380px" }}
-        >
+        <MmarketPlaceBox>
           <section className="innerBox">
             <article className="topBar">
               <p className="total">

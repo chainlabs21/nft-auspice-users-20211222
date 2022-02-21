@@ -5,23 +5,19 @@ import styled from "styled-components";
 import sample from "../../img/sub/sample.png";
 import I_3dot from "../../img/icons/I_3dot.png";
 
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
 import { useEffect, useRef, useState } from "react";
 import DefaultHeader from "../../components/header/DefaultHeader";
-import { D_category } from "../../data/D_myPage";
 import PopupBg from "../../components/PopupBg";
+import { D_categoryList } from "../../data/D_item";
 
 export default function MyItems() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  console.log(pathname);
 
   const isMobile = useSelector((state) => state.common.isMobile);
 
   const [popupIndex, setPopupIndex] = useState(-1);
-  
 
   function onClickMoreBtn(e, index) {
     e.stopPropagation();
@@ -36,7 +32,7 @@ export default function MyItems() {
         <MmyItemsBox>
           <section className="innerBox">
             <nav className="navBar">
-              {D_category.map((nav, index) => (
+              {D_categoryList.map((nav, index) => (
                 <button
                   key={index}
                   className={nav.url === pathname && "on"}
@@ -138,7 +134,7 @@ export default function MyItems() {
         <PmyItemsBox>
           <section className="innerBox">
             <nav className="navBar">
-              {D_category.map((nav, index) => (
+              {D_categoryList.map((nav, index) => (
                 <button
                   key={index}
                   className={nav.url === pathname && "on"}
@@ -460,8 +456,6 @@ const PmyItemsBox = styled.div`
     max-width: 1280px;
     padding: 90px 0;
     margin: 0 auto;
-
-    
 
     .navBar {
       display: flex;

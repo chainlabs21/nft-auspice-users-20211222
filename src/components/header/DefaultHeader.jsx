@@ -218,7 +218,7 @@ const MdefaultHeaderBox = styled.header`
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 0 17px;
+    padding: 0 5.55vw;
 
     .leftBox {
       .logoBtn {
