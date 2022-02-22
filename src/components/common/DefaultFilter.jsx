@@ -13,7 +13,7 @@ import loupe from "../../img/sub/loupe.png";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-export default function Filter({ off, filterObj, editFilterList }) {
+export default function DefaultFilter({ off, filterObj, editFilterList }) {
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
   const [itemFilter, setItemFilter] = useState("");
@@ -23,7 +23,7 @@ export default function Filter({ off, filterObj, editFilterList }) {
 
   if (isMobile)
     return (
-      <MfilterBox>
+      <MdefaultfilterBox>
         <article className="topBar">
           <strong className="title">Filter</strong>
 
@@ -187,11 +187,11 @@ export default function Filter({ off, filterObj, editFilterList }) {
             </ul>
           </details>
         </article>
-      </MfilterBox>
+      </MdefaultfilterBox>
     );
   else
     return (
-      <PfilterBox>
+      <PdefaultfilterBox>
         <article className="topBar">
           <div className="titleBox">
             <img src={filter_icon} alt="" />
@@ -358,11 +358,11 @@ export default function Filter({ off, filterObj, editFilterList }) {
             </ul>
           </details>
         </article>
-      </PfilterBox>
+      </PdefaultfilterBox>
     );
 }
 
-const MfilterBox = styled.section`
+const MdefaultfilterBox = styled.section`
   width: 100vw;
   box-sizing: content-box;
   background: #fff;
@@ -695,7 +695,7 @@ const MfilterBox = styled.section`
   }
 `;
 
-const PfilterBox = styled.section`
+const PdefaultfilterBox = styled.section`
   width: 350px;
   box-sizing: content-box;
   background: #fff;

@@ -29,13 +29,13 @@ import HandOver from "./router/HandOver";
 import MoveCollection from "./router/MoveCollection";
 import TransactionHistory from "./router/mypage/TransactionHistory";
 import Offers from "./router/mypage/Offers";
-import Liked from "./router/Liked";
-import HiddenItem from "./router/HiddenItem";
-import Referals from "./router/Referals";
-import Mywallet from "./router/Mywallet";
+import Liked from "./router/mypage/Liked";
+import HiddenItem from "./router/mypage/HiddenItem";
+import Referals from "./router/mypage/Referals";
+import Mywallet from "./router/accountSetting/Mywallet";
 import VerifyEmail from "./router/join/VerifyEmail";
-import GeneralSettings from "./router/GeneralSettings";
-import NotificationSettings from "./router/NotificationSettings";
+import GeneralSettings from "./router/accountSetting/GeneralSettings";
+import NotificationSettings from "./router/accountSetting/NotificationSettings";
 import ExploreDeal from "./router/ExploreDeal";
 import Ranking from "./router/Ranking";
 import MheaderPopup from "./components/MheaderPopup";
@@ -241,10 +241,9 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
             path="/notificationsettings"
             element={<NotificationSettings />}
           />
-          <Route path="/maccountpopup" element={<MaccountPopup />} />
+
           <Route path="/exploredeal" element={<ExploreDeal />} />
           <Route path="/ranking" element={<Ranking />} />
-
           <Route path="/edititem" element={<EditItem />} />
           {/*
           <Route path="/mprofilemenu" element={<MProfileMenu />} />

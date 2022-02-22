@@ -11,6 +11,13 @@ export const D_statusList = [
   { key: "Has Offers", value: 8 },
 ];
 
+export const D_transactionStatusList = [
+  { key: "Listing", value: 1 },
+  { key: "Sale", value: 2 },
+  { key: "Bid", value: 4 },
+  { key: "Send", value: 8 },
+];
+
 export const D_filterList = [
   {
     img: collect_img,

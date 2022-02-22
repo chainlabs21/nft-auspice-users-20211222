@@ -255,10 +255,10 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
             </ol>
           </li>
           <li style={{ display: address ? "inline-block" : "none" }}>
-            <a onClick={() => navigate("/myprof")}>Mypage</a>
+            <a onClick={() => navigate("/searchwallet")}>Mypage</a>
             <ol>
               <li>
-                <a onClick={() => navigate("/myprof")}>My Profile</a>
+                <a onClick={() => navigate("/searchwallet")}>My Profile</a>
               </li>
               <li>
                 <a onClick={() => navigate("/mycollectionselect")}>My Items</a>

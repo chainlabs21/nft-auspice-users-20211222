@@ -106,7 +106,7 @@ function Main({ store, setAllPopupOff }) {
 
           {category === 3 && (
             <ul className="categoryLink" onClick={setAllPopupOff}>
-              <li onClick={() => navigate("/myprof")}>My Profile</li>
+              <li onClick={() => navigate("/searchwallet")}>My Profile</li>
               <li onClick={() => navigate("/myitem")}>My Item</li>
               <li>Bookmark</li>
               <li onClick={() => navigate("/mywallet")}>Account Setting</li>

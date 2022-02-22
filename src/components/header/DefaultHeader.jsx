@@ -157,13 +157,13 @@ export default function DefaultHeader() {
                 <span className="posBox">
                   <button
                     className="mypage"
-                    onClick={() => navigate("/myprof")}
+                    onClick={() => navigate("/searchwallet")}
                   >
                     Mypage
                   </button>
 
                   <ul className="popupBox mypage">
-                    <li onClick={() => navigate("/myprof")}>My Profile</li>
+                    <li onClick={() => navigate("/searchwallet")}>My Profile</li>
                     <li onClick={() => navigate("/myitems")}>
                       My Items
                     </li>

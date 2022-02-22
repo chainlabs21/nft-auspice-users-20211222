@@ -13,7 +13,7 @@ import loupe_black from "../../img/sub/loupe_black.png";
 import home_bg from "../../img/sub/home_bg.png";
 import side_close from "../../img/sub/side_close.png";
 import filter_icon2 from "../../img/sub/filter_icon2.png";
-import icon_link_on from "../../img/sub/icon_link_on.png";
+import I_klaytn from "../../img/sub/I_klaytn.svg";
 
 import { useEffect, useRef, useState } from "react";
 import DefaultHeader from "../../components/header/DefaultHeader";
@@ -21,8 +21,8 @@ import PopupBg from "../../components/PopupBg";
 import { D_categoryList } from "../../data/D_mypage";
 import SelectPopup from "../../components/SelectPopup";
 import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
-import Filter from "../../components/common/Filter";
 import { Icons } from "react-toastify";
+import MypageFilter from "../../components/mypage/mypageFilter";
 
 export default function Offers() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function Offers() {
         <DefaultHeader />
 
         {toggleFilter ? (
-          <Filter off={setToggleFilter} />
+          <MypageFilter off={setToggleFilter} />
         ) : (
           <button
             className="filterBtn mo withBg"
@@ -97,6 +97,23 @@ export default function Offers() {
               ))}
             </nav>
 
+            <article className="detailCategoryArea">
+              <ul className="detailCategoryList">
+                <li
+                  className={detailCategory === 0 && "on"}
+                  onClick={() => setDetailCategory(0)}
+                >
+                  Participation in auction
+                </li>
+                <li
+                  className={detailCategory === 1 && "on"}
+                  onClick={() => setDetailCategory(1)}
+                >
+                  Bid proposal
+                </li>
+              </ul>
+            </article>
+
             <article className="selectedBox">
               <ul className="selectedList">
                 <li className="resetBtn" onClick={() => {}}>
@@ -125,35 +142,30 @@ export default function Offers() {
 
             <article className="listBox">
               <ul className="listHeader">
-                <li>Event</li>
                 <li>Item</li>
                 <li>Price</li>
-                <li>From</li>
-                <li>To</li>
-                <li>Date</li>
                 <li>Quantify</li>
-                <li></li>
+                <li>Seller</li>
+                <li>Expiration</li>
+                <li>State</li>
               </ul>
 
               <ul className="list">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((cont, index) => {
                   return (
                     <li>
-                      <span>Listing</span>
-
                       <span>
                         <img className="profImg" />
-                        <p>Summer</p>
+                        <p>Summer Pool</p>
                       </span>
 
                       <span>
-                        <img className="tokenImg" />
-                        <p className="price">0.00050</p>
+                        <img className="tokenImg" src={I_klaytn} />
+                        <p className="price">0.010</p>
                       </span>
 
                       <span>
-                        <img className="profImg" />
-                        <p>VOE83754899999999</p>
+                        <p>3</p>
                       </span>
 
                       <span>
@@ -162,17 +174,11 @@ export default function Offers() {
                       </span>
 
                       <span>
-                        <p>1 minutes left</p>
+                        <p>3 days later</p>
                       </span>
 
                       <span>
-                        <p>1</p>
-                      </span>
-
-                      <span>
-                        <button className="" onClick={() => {}}>
-                          <img src={icon_link_on} alt="" />
-                        </button>
+                        <p>-</p>
                       </span>
                     </li>
                   );
@@ -189,7 +195,7 @@ export default function Offers() {
         <DefaultHeader />
 
         {toggleFilter ? (
-          <Filter off={setToggleFilter} />
+          <MypageFilter off={setToggleFilter} />
         ) : (
           <button
             className="filterBtn pc withBg"
@@ -289,35 +295,30 @@ export default function Offers() {
 
             <article className="listBox">
               <ul className="listHeader">
-                <li>Event</li>
                 <li>Item</li>
                 <li>Price</li>
-                <li>From</li>
-                <li>To</li>
-                <li>Date</li>
                 <li>Quantify</li>
-                <li></li>
+                <li>Seller</li>
+                <li>Expiration</li>
+                <li>State</li>
               </ul>
 
               <ul className="list">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((cont, index) => {
                   return (
                     <li>
-                      <span>Listing</span>
-
                       <span>
                         <img className="profImg" />
-                        <p>Summer</p>
+                        <p>Summer Pool</p>
                       </span>
 
                       <span>
-                        <img className="tokenImg" />
-                        <p className="price">0.00050</p>
+                        <img className="tokenImg" src={I_klaytn} />
+                        <p className="price">0.010 KLAY ($30.11)</p>
                       </span>
 
                       <span>
-                        <img className="profImg" />
-                        <p>VOE83754899999999</p>
+                        <p>3</p>
                       </span>
 
                       <span>
@@ -326,17 +327,11 @@ export default function Offers() {
                       </span>
 
                       <span>
-                        <p>1 minutes left</p>
+                        <p>3 days later</p>
                       </span>
 
                       <span>
-                        <p>1</p>
-                      </span>
-
-                      <span>
-                        <button className="" onClick={() => {}}>
-                          <img src={icon_link_on} alt="" />
-                        </button>
+                        <p>-</p>
                       </span>
                     </li>
                   );
@@ -423,7 +418,7 @@ const Moffers = styled.div`
     .navBar {
       display: flex;
       flex-wrap: wrap;
-      margin: 5.55vw 0;
+      margin: 5.55vw;
       border: 2px solid #000;
 
       button {
@@ -443,6 +438,35 @@ const Moffers = styled.div`
         }
         &:nth-of-type(2n) {
           border-left: 2px solid #000;
+        }
+      }
+    }
+
+    .detailCategoryArea {
+      padding: 8.33vw 5.55vw 0 5.55vw;
+      border-top: 1px solid #e1e1e1;
+
+      .detailCategoryList {
+        display: flex;
+        height: 13.33vw;
+        font-size: 3.88vw;
+        font-weight: 700;
+        background: #f6f6f6;
+        border-radius: 7.77vw;
+
+        li {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          border-radius: 7.77vw;
+          cursor: pointer;
+
+          &.on {
+            color: #fff;
+            background: #000;
+          }
         }
       }
     }
@@ -485,14 +509,9 @@ const Moffers = styled.div`
       }
     }
 
-    .detailCategoryList {
-      margin: 50px 0 30px 0;
-    }
-
     .listBox {
       display: flex;
       flex-direction: column;
-      padding: 0 1.11vw;
       margin: 5.55vw;
       font-weight: 500;
       border: 1px solid #000;
@@ -502,13 +521,19 @@ const Moffers = styled.div`
       .listHeader {
         display: flex;
         align-items: center;
-        height: 11.66vw;
+        height: 10vw;
+        padding: 0 1.11vw;
+        font-size: 3.88vw;
+        font-weight: 500;
 
         li {
         }
       }
 
       .list {
+        padding: 0 1.11vw;
+        font-size: 3.88vw;
+
         li {
           display: flex;
           align-items: center;
@@ -521,6 +546,12 @@ const Moffers = styled.div`
             object-fit: cover;
             background: #000;
             border-radius: 50%;
+          }
+
+          .tokenImg {
+            width: 6.66vw;
+            height: 6.66vw;
+            object-fit: contain;
           }
 
           p {
@@ -539,20 +570,21 @@ const Moffers = styled.div`
         gap: 1.11vw;
 
         &:nth-of-type(1) {
-          width: 28.33vw;
-          min-width: 28.33vw;
+          width: 30.55vw;
+          min-width: 30.55vw;
+          padding: 0 1.11vw;
         }
 
         &:nth-of-type(2) {
           width: 30.55vw;
           min-width: 30.55vw;
-          padding: 0 1.11vw;
         }
 
         &:nth-of-type(3) {
+          justify-content: center;
           width: 30.55vw;
           min-width: 30.55vw;
-          padding: 0 1.11vw;
+          text-align: center;
         }
 
         &:nth-of-type(4) {
@@ -568,19 +600,10 @@ const Moffers = styled.div`
         }
 
         &:nth-of-type(6) {
-          width: 30.55vw;
-          min-width: 30.55vw;
-        }
-
-        &:nth-of-type(7) {
-          width: 22.22vw;
-          min-width: 22.22vw;
-        }
-
-        &:nth-of-type(8) {
           justify-content: center;
           width: 22.22vw;
           min-width: 22.22vw;
+          text-align: center;
         }
       }
     }
@@ -753,16 +776,22 @@ const Poffers = styled.div`
         display: flex;
         align-items: center;
         height: 56px;
+        padding: 0 10px;
+        font-size: 18px;
+        font-weight: 500;
 
         li {
         }
       }
 
       .list {
+        padding: 0 10px;
+        font-size: 20px;
+
         li {
           display: flex;
           align-items: center;
-          height: 82px;
+          height: 72px;
           border-top: 1px solid #d9d9d9;
 
           .profImg {
@@ -771,6 +800,12 @@ const Poffers = styled.div`
             object-fit: cover;
             background: #000;
             border-radius: 50%;
+          }
+
+          .tokenImg {
+            width: 26px;
+            height: 26px;
+            object-fit: contain;
           }
 
           p {
@@ -790,39 +825,34 @@ const Poffers = styled.div`
         gap: 6px;
 
         &:nth-of-type(1) {
-          width: 120px;
+          width: 224px;
+          padding: 0 16px;
         }
 
         &:nth-of-type(2) {
-          width: 190px;
-          padding: 0 16px;
+          width: 224px;
+          padding: 0 10px 0 18px;
         }
 
         &:nth-of-type(3) {
-          width: 190px;
-          padding: 0 16px;
+          width: 224px;
+          text-align: center;
         }
 
         &:nth-of-type(4) {
-          width: 190px;
+          width: 224px;
           padding: 0 16px;
         }
 
         &:nth-of-type(5) {
-          width: 190px;
-          padding: 0 16px;
+          justify-content: flex-start;
+          width: 224px;
+          padding: 0 42px;
         }
 
         &:nth-of-type(6) {
-          width: 190px;
-        }
-
-        &:nth-of-type(7) {
-          width: 120px;
-        }
-
-        &:nth-of-type(8) {
           flex: 1;
+          text-align: center;
         }
       }
     }

@@ -14,6 +14,7 @@ import home_bg from "../../img/sub/home_bg.png";
 import side_close from "../../img/sub/side_close.png";
 import filter_icon2 from "../../img/sub/filter_icon2.png";
 import icon_link_on from "../../img/sub/icon_link_on.png";
+import I_klaytn from "../../img/sub/I_klaytn.svg";
 
 import { useEffect, useRef, useState } from "react";
 import DefaultHeader from "../../components/header/DefaultHeader";
@@ -21,7 +22,7 @@ import PopupBg from "../../components/PopupBg";
 import { D_categoryList } from "../../data/D_mypage";
 import SelectPopup from "../../components/SelectPopup";
 import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
-import Filter from "../../components/common/Filter";
+import TransactionHistoryFilter from "../../components/mypage/mypageFilter";
 import { Icons } from "react-toastify";
 
 export default function TransactionHistory() {
@@ -47,7 +48,7 @@ export default function TransactionHistory() {
         <DefaultHeader />
 
         {toggleFilter ? (
-          <Filter off={setToggleFilter} />
+          <TransactionHistoryFilter off={setToggleFilter} />
         ) : (
           <button
             className="filterBtn mo withBg"
@@ -155,7 +156,7 @@ export default function TransactionHistory() {
                       </span>
 
                       <span>
-                        <img className="tokenImg" />
+                        <img className="tokenImg" src={I_klaytn} />
                         <p className="price">0.00050</p>
                       </span>
 
@@ -197,7 +198,7 @@ export default function TransactionHistory() {
         <DefaultHeader />
 
         {toggleFilter ? (
-          <Filter off={setToggleFilter} />
+          <TransactionHistoryFilter off={setToggleFilter} />
         ) : (
           <button
             className="filterBtn pc withBg"
@@ -306,7 +307,7 @@ export default function TransactionHistory() {
                       </span>
 
                       <span>
-                        <img className="tokenImg" />
+                        <img className="tokenImg" src={I_klaytn} />
                         <p className="price">0.00050</p>
                       </span>
 
@@ -418,7 +419,7 @@ const MtransactionHistory = styled.div`
     .navBar {
       display: flex;
       flex-wrap: wrap;
-      margin: 5.55vw 0;
+      margin: 5.55vw;
       border: 2px solid #000;
 
       button {
@@ -484,7 +485,6 @@ const MtransactionHistory = styled.div`
     .listBox {
       display: flex;
       flex-direction: column;
-      padding: 0 1.11vw;
       margin: 5.55vw;
       font-weight: 500;
       border: 1px solid #000;
@@ -495,17 +495,22 @@ const MtransactionHistory = styled.div`
         display: flex;
         align-items: center;
         height: 11.66vw;
+        padding: 0 1.11vw;
+        font-size: 3.88vw;
 
         li {
         }
       }
 
       .list {
+        padding: 0 1.11vw;
+
         li {
           display: flex;
           align-items: center;
           height: 13.33vw;
           border-top: 1px solid #d9d9d9;
+          font-size: 3.88vw;
 
           .profImg {
             width: 6.66vw;
@@ -513,6 +518,12 @@ const MtransactionHistory = styled.div`
             object-fit: cover;
             background: #000;
             border-radius: 50%;
+          }
+
+          .tokenImg {
+            width: 6.66vw;
+            height: 6.66vw;
+            object-fit: contain;
           }
 
           p {
@@ -567,6 +578,7 @@ const MtransactionHistory = styled.div`
         &:nth-of-type(7) {
           width: 22.22vw;
           min-width: 22.22vw;
+          text-align: center;
         }
 
         &:nth-of-type(8) {
@@ -770,16 +782,20 @@ const PtransactionHistory = styled.div`
       display: flex;
       align-items: center;
       height: 56px;
+      font-size: 18px;
+      font-weight: 500;
 
       li {
       }
     }
 
     .list {
+      font-size: 20px;
+
       li {
         display: flex;
         align-items: center;
-        height: 82px;
+        height: 72px;
         border-top: 1px solid #d9d9d9;
 
         .profImg {
@@ -788,6 +804,12 @@ const PtransactionHistory = styled.div`
           object-fit: cover;
           background: #000;
           border-radius: 50%;
+        }
+
+        .tokenImg {
+          width: 26px;
+          height: 26px;
+          object-fit: contain;
         }
 
         p {
@@ -836,6 +858,7 @@ const PtransactionHistory = styled.div`
 
       &:nth-of-type(7) {
         width: 120px;
+        text-align: center;
       }
 
       &:nth-of-type(8) {

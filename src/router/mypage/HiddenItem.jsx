@@ -22,7 +22,7 @@ import SelectPopup from "../../components/SelectPopup";
 import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
 import Filter from "../../components/common/DefaultFilter";
 
-export default function SearchWallet() {
+export default function HiddenItem() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -44,7 +44,7 @@ export default function SearchWallet() {
       <>
         <DefaultHeader />
 
-        <MsearchWallet>
+        <MhiddenItem>
           {toggleFilter ? (
             <Filter off={setToggleFilter} />
           ) : (
@@ -233,7 +233,7 @@ export default function SearchWallet() {
               </ul>
             </article>
           </section>
-        </MsearchWallet>
+        </MhiddenItem>
       </>
     );
   else
@@ -241,7 +241,7 @@ export default function SearchWallet() {
       <>
         <DefaultHeader />
 
-        <PsearchWallet style={{ padding: toggleFilter && "120px 0 0 350px" }}>
+        <PhiddenItem style={{ padding: toggleFilter && "120px 0 0 350px" }}>
           {toggleFilter ? (
             <Filter off={setToggleFilter} />
           ) : (
@@ -429,12 +429,12 @@ export default function SearchWallet() {
               </ul>
             </article>
           </section>
-        </PsearchWallet>
+        </PhiddenItem>
       </>
     );
 }
 
-const MsearchWallet = styled.div`
+const MhiddenItem = styled.div`
   padding: 72px 0 0 0;
   position: relative;
 
@@ -730,7 +730,7 @@ const MsearchWallet = styled.div`
   }
 `;
 
-const PsearchWallet = styled.div`
+const PhiddenItem = styled.div`
   padding: 120px 0 0 0;
   position: relative;
 

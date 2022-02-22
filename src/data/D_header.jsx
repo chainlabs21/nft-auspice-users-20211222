@@ -24,8 +24,8 @@ export const D_NavList = [
     detailNav: [
       { text: "My Profile", url: "/" },
       { text: "My Items", url: "/myitems" },
-      { text: "Bookmark", url: "/" },
-      { text: "Account Setting", url: "/" },
+      { text: "Bookmark", url: "/liked" },
+      { text: "Account Setting", url: "/mywallet" },
     ],
   },
   {

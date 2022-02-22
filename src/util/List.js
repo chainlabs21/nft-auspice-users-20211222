@@ -56,10 +56,11 @@ function Main({ store }) {
         05_NFT 발행하기/판매하기_3_아이템판매_고정가_기본 / 경매입찰_기본
       </p>
       <p />
-      {/* <p onClick={() => navigate("/myprof")}>myprof</p>
+      <p onClick={() => navigate("/searchwallet")}>myprof</p>
+      <p onClick={() => navigate("/offers")}>offers</p>
+      {/*
       <p onClick={() => navigate("/edititem")}>edit item</p>
       <p onClick={() => navigate("/transactionhistory")}>transaction history</p>
-      <p onClick={() => navigate("/offers")}>offers</p>
       <p onClick={() => navigate("/hidden item")}>hidden item</p>
       <p onClick={() => navigate("/liked")}>liked</p>
       <p onClick={() => navigate("/referals")}>referals</p>
