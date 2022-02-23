@@ -71,10 +71,12 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const dispatch = useDispatch();
   //const navigate =useNavigate();
   const login = (address) => {
-    console.log("로그인 시도")
+    console.log("로그인 시도"+address)
+    //--------LET LOGIN
     axios
       .post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
       .then((resp) => {
+        console.log(resp)
         let { status, respdata } = resp.data;
         if (status === "OK") {
           localStorage.setItem("token", respdata);
@@ -87,8 +89,10 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         } else if (status === "ERR") {
           localStorage.removeItem("token");
           axios.defaults.headers.common["token"] = "";
+          console.log("NO DATA FOUND")
         }
       });
+      //--------------------------------------
   };
 
   const on_wallet_disconnect = (_) => {
@@ -140,7 +144,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         if (address) {
           // disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
           //				Setaddress( address )
-          login(address);
+          //login(address);
         } else {
           SetErrorBar(messages.MSG_WALLET_DISCONNECTED);
           on_wallet_disconnect();
@@ -166,7 +170,8 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         if (localStorage.getItem("token")) {
           //					get_user_data()
         } else {
-          login(address);
+          console.log("let's go"+address)
+          //login(address);
         }
       }
       if (window.klaytn?.selectedAddress) {
@@ -180,7 +185,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
 
     useEffect(()=>{
       if (localStorage.getItem('address') == walletAddress){return;}
-    login(walletAddress)
+    //login(walletAddress)
    }, [walletAddress])
 
 
@@ -192,12 +197,14 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
     axios.get(`${API.API_USER_CHECK}`, {address: localStorage.getItem("address")})
     .then((resp) => {
       console.log(resp)
-      if (resp.status==200){
+      if (resp.data.status=="OK"){
         dispatch({ type: SET_LOGIN, payload: { value: true }});
         dispatch({type: SET_ADDRESS, payload:{value: localStorage.getItem("address")}})
         dispatch({type: SET_USER_DATA, payload:{ value: resp.data.payload}})
         //console.log(resp)
         //dispatch({ type: SET_USER_DATA, payload: { value: true }});
+      }else if(resp.data.status=="ERR"){
+        console.log(resp.data.message)
       }
     })
 

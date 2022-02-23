@@ -26,6 +26,7 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
       axios
         .post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
         .then((resp) => {
+          console.log(resp)
           let { status, respdata } = resp.data;
           if (status === "OK") {
             localStorage.setItem("token", respdata);

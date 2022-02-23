@@ -151,13 +151,13 @@ export default function DefaultHeader(props) {
                 <span className="posBox">
                   <button
                     className="explore"
-                    onClick={() => navigate("/exploredeal")}
+                    onClick={() => navigate("/exploredealhistory")}
                   >
                     Explore
                   </button>
 
                   <ul className="popupBox explore">
-                    <li onClick={() => navigate("/exploredeal")}>
+                    <li onClick={() => navigate("/exploredealhistory")}>
                       Transaction details
                     </li>
                     <li onClick={() => navigate("/ranking")}>Ranking</li>
@@ -175,11 +175,11 @@ export default function DefaultHeader(props) {
                   </button>
 
                   <ul className="popupBox mypage">
-                    <li onClick={() => navigate("/searchwallet")}>My Profile</li>
+                    <li onClick={() => navigate("/mypage/searchwallet/")}>My Profile</li>
                     <li onClick={() => navigate("/createitem")}>
                       Publish NFT
                     </li>
-                    <li onClick={() => navigate("/liked")}>Bookmark</li>
+                    <li onClick={() => navigate("/mypage/liked/")}>Bookmark</li>
                     <li onClick={() => navigate("/mywallet")}>
                       Account Setting
                     </li>

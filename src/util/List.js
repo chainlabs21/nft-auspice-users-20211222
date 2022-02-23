@@ -74,7 +74,7 @@ function Main({ store }) {
         notification settings
       </p>
       <p onClick={() => navigate("/mprofilemenu")}>모바일 프로필 메뉴</p>
-      <p onClick={() => navigate("/exploredeal")}>exploredeal</p>
+      <p onClick={() => navigate("/exploredealhistory")}>exploredeal</p>
       <p onClick={() => navigate("/explore")}>explore</p> */}
     </HeaderBox>
   );

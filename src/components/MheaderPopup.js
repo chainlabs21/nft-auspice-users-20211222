@@ -79,7 +79,7 @@ function Main({ store, setAllPopupOff }) {
 
           {category === 2 && (
             <ul className="categoryLink" onClick={setAllPopupOff}>
-              <li onClick={() => navigate("/exploredeal")}>
+              <li onClick={() => navigate("/exploredealhistory")}>
                 Transaction details
               </li>
               <li onClick={() => navigate("/ranking")}>Ranking</li>
