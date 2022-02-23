@@ -9,8 +9,7 @@ import I_x from "../../img/icons/I_x.svg";
 import { API } from "../../config/api";
 import { ERR_MSG, messages } from "../../config/messages";
 import axios from "axios";
-import { GET_USER_DATA } from "../../reducers/userSlice";
-import { SET_ADDRESS } from "../../reducers/walletSlice";
+import { SET_USER_DATA, SET_ADDRESS, SET_LOGIN } from "../../reducers/userReducer";
 import { useEffect } from "react";
 import SetErrorBar from "../../util/SetErrorBar";
 import { STRINGER, LOGGER } from "../../util/common";
@@ -25,7 +24,7 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
     try {
       const resp = await axios.get(API.API_GET_MY_INFO);
       dispatch({
-        type: GET_USER_DATA.type,
+        type: SET_USER_DATA.type,
         payload: resp.data.payload,
       });
       if (resp.data.payload.maria.emailverified === 0) {
@@ -41,33 +40,37 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
 
   async function connectKaikas() {
     const accounts = await window.klaytn.enable();
-    LOGGER("wkhuemnasP", accounts);
+    LOGGER("wkhuemnasP000", accounts);
     let address = accounts[0];
-    dispatch({ type: SET_ADDRESS.type, payload: address }); // acco unts[0]
-    setConnect(address);
+    dispatch({ type: SET_ADDRESS, payload: { value: address }}); // acco unts[0]
+    //setConnect(address);
     localStorage.setItem("address", address); // acco unts[0]
     const loginData = {
       address, // : acco unts[0]
       cryptotype: "eth",
     };
     //    try {
+      /*
     let address_local = localStorage.getItem("address");
     let token = localStorage.getItem("token");
     if (address_local && token) {
       SetErrorBar(`이미 ${address}에 연결되어 있습니다`);
-      Setaddress(address_local);
-      navigate("/main");
+      navigate("/");
       return;
     } else {
-    }
+    }*/
     //			if (address_local == ){}
+    //console.log("LET'S CHECK : ")
     const resp = await axios.post(API.API_USERS_LOGIN, loginData);
     LOGGER("UkTGc6semq@login", resp.data); //   API_USERS _LOGIN: `${apiServer}/users/login/crypto`,
     let { status, respdata, payload } = resp.data;
+    console.log("LET'S CHECK : "+resp.data)
     if (status === "OK") {
       localStorage.setItem("token", respdata);
       localStorage.setItem("address", address);
       axios.defaults.headers.common["token"] = resp.data.respdata;
+      //console.log("LET IT BE TRUE")
+      dispatch({ type: SET_LOGIN, payload: { value: true }});
       SetErrorBar(messages.MSG_LOGGEDIN);
       let { myinfo_maria, myinfo_mongo } = payload;
       if (myinfo_maria && myinfo_mongo) {
@@ -79,8 +82,10 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
       } else {
         localStorage.removeItem("myinfo");
       }
-      Setaddress(address);
-      navigate("/main");
+      //Setaddress(address);
+      
+     
+      navigate("/");
     } else {
       SetErrorBar(messages.MSG_PLEASEJOIN);
       navigate("/joinmembership");

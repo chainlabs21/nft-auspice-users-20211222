@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+/*import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 //reducers
 import userSlice from "./userSlice";
@@ -22,3 +22,7 @@ const createStore = () => {
   return store;
 };
 export default createStore;
+*/
+import reducer from "./reducer";
+import { createStore } from "redux";
+export const store = createStore(reducer);

@@ -35,18 +35,26 @@ export default function DefaultHeader() {
   const dispatch = useDispatch();
 
   const isMobile = useSelector((state) => state.common.isMobile);
-  const address = useSelector((state) => state.wallet.address);
+  const {walletAddress, isloggedin} = useSelector((state) => state.user);
 
   const [search, setSearch] = useState("");
   const [mMenuPopup, setMenuPopup] = useState(false);
+  useEffect(()=>{
+    //console.log(isloggedin+" : "+walletAddress)
+  }, [])
 
   function onClickConnectWallet() {
+/*
+    
     let { klaytn } = window;
     if (!klaytn) return;
 
+    
+
     let { selectedAddress } = klaytn;
-    if (selectedAddress) dispatch(SET_ADDRESS(selectedAddress));
-    else navigate("/connectwallet");
+    if (selectedAddress) dispatch({type: SET_ADDRESS, payload:{value: selectedAddress}});
+    
+    else */navigate("/connectwallet");
   }
 
   if (isMobile)
@@ -153,7 +161,7 @@ export default function DefaultHeader() {
                 </span>
               </li>
 
-              <li style={{ display: address ? "flex" : "none" }}>
+              <li style={{ display: isloggedin && walletAddress ? "flex" : "none" }}>
                 <span className="posBox">
                   <button
                     className="mypage"
@@ -189,13 +197,14 @@ export default function DefaultHeader() {
             <button
               className="connectBtn"
               onClick={() => {
-                address &&
-                  onClickCopy(address) &&
+                isloggedin&&
+                walletAddress &&
+                  onClickCopy(walletAddress) &&
                   SetErrorBar(messages.MSG_COPIED);
                 onClickConnectWallet();
               }}
             >
-              {address ? strDot(address, 8, 0) : "Connect Wallet"}
+              {(isloggedin && walletAddress) ? strDot(walletAddress, 8, 0) : "Connect Wallet"}
             </button>
           </article>
         </section>

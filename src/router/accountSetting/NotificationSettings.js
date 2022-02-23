@@ -1,21 +1,21 @@
 import { connect } from "react-redux";
 import { useNavigate } from "react-router";
-import { setConnect } from "../util/store";
+import { setConnect } from "../../util/store";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import collect_img from "../img/sub/collect_img.png";
-import collect_img2 from "../img/sub/collect_img2.png";
-import collect_img3 from "../img/sub/collect_img3.png";
-import collect_img4 from "../img/sub/collect_img4.png";
-import s2 from "../img/sub/s2.png";
-import s3 from "../img/sub/s3.png";
-import s4 from "../img/sub/s4.png";
-import s5 from "../img/sub/s5.png";
-import s9 from "../img/sub/s9.png";
-import s8 from "../img/sub/s8.png";
-import sample from "../img/sub/sample.png";
-import rstone from "../img/sub/rstone.png";
-import dollar from "../img/sub/rstone.png";
+import collect_img from "../../img/sub/collect_img.png";
+import collect_img2 from "../../img/sub/collect_img2.png";
+import collect_img3 from "../../img/sub/collect_img3.png";
+import collect_img4 from "../../img/sub/collect_img4.png";
+import s2 from "../../img/sub/s2.png";
+import s3 from "../../img/sub/s3.png";
+import s4 from "../../img/sub/s4.png";
+import s5 from "../../img/sub/s5.png";
+import s9 from "../../img/sub/s9.png";
+import s8 from "../../img/sub/s8.png";
+import sample from "../../img/sub/sample.png";
+import rstone from "../../img/sub/rstone.png";
+import dollar from "../../img/sub/rstone.png";
 
 
 
@@ -23,9 +23,9 @@ import dollar from "../img/sub/rstone.png";
 
 
 
-import Settingssidepanel from "../components/Settingssidepanel";
-import { strDot } from "../util/Util";
-import { getmyaddress, LOGGER } from "../util/common";
+import Settingssidepanel from "../../components/Settingssidepanel";
+import { strDot } from "../../util/Util";
+import { getmyaddress, LOGGER } from "../../util/common";
 
 function NotificationSettings({ store, setConnect }) {
   const navigate = useNavigate();

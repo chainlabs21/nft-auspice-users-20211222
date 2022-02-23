@@ -1579,7 +1579,7 @@ function SingleItem({
                       src={author?.profileimage}
                       alt=""
                     />
-                    <p>@{itemdata.author?.nickname}</p>
+                    <p>@{itemdata?.author?.nickname}</p>
                   </button>
 
                   <button
@@ -1587,7 +1587,7 @@ function SingleItem({
                     onClick={() => setLikePopup(true)}
                   >
                     <img src={I_heart} alt="" />
-                    <p>{itemdata.item?.countfavors} Likes</p>
+                    <p>{itemdata?.item?.countfavors} Likes</p>
                   </button>
                 </div>
 
@@ -1596,16 +1596,16 @@ function SingleItem({
                     className="ownerBtn"
                     onClick={() => setOwnerPopup(true)}
                   >
-                    <p className="value">{itemdata.countholders}</p>
+                    <p className="value">{itemdata?.countholders}</p>
                     <p className="key">Owner</p>
                   </button>
                   <button className="fragmentBtn">
-                    <p className="value">{itemdata.item?.countcopies}</p>
+                    <p className="value">{itemdata?.item?.countcopies}</p>
                     <p className="key">Fragment</p>
                   </button>
                   <button className="viewBtn">
                     <p className="value">
-                      {numFormatter(itemdata.item?.countviews)}
+                      {numFormatter(itemdata?.item?.countviews)}
                     </p>
                     <p className="key">Views</p>
                   </button>
@@ -1697,7 +1697,6 @@ function SingleItem({
                         <strong className="value">$30.11</strong>
                       </li>
                     </ul>
-
                     <div className="chartBox">
                       <Chart
                         {...chartData}
@@ -1720,6 +1719,7 @@ function SingleItem({
                         ]}
                       />
                     </div>
+                    
                   </div>
                 </div>
               </div>
@@ -1833,7 +1833,12 @@ function SingleItem({
               </div>
             </article>
 
-            <article className="categoryListArea">
+
+
+
+
+
+            <article className="categoryListArea WITH_ERROR">
               <ul className="categoryList">
                 {D_categoryList.map((cont, index) => (
                   <li
