@@ -13,7 +13,6 @@ import { D_categoryList } from "../../data/D_item";
 export default function MyItems() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  console.log(pathname);
 
   const isMobile = useSelector((state) => state.common.isMobile);
 

@@ -21,7 +21,7 @@ import CreateCollection from "./router/CreateCollection";
 import EditCollection from "./router/EditCollection";
 import ImportContract from "./router/ImportContract";
 import MyCollectionSelect from "./router/MyCollectionSelect";
-import Royaltycheck from "./router/Royaltycheck";
+import Royaltycheck from "./router/market/Royaltycheck";
 import CreateItem from "./router/mint/CreateItem";
 import SaleItem from "./router/mint/SaleItem";
 import AuctionBid from "./router/AuctionBid";
@@ -38,7 +38,7 @@ import Mywallet from "./router/accountSetting/Mywallet";
 import VerifyEmail from "./router/join/VerifyEmail";
 import GeneralSettings from "./router/accountSetting/GeneralSettings";
 import NotificationSettings from "./router/accountSetting/NotificationSettings";
-import ExploreDeal from "./router/explore/ExploreDealHistory";
+import ExploreDealHistory from "./router/explore/ExploreDealHistory";
 import Ranking from "./router/explore/Ranking";
 import MheaderPopup from "./components/MheaderPopup";
 import List from "./util/List";
@@ -275,10 +275,6 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/emailchange" element={<EmailChange />} />
 
           <Route path="/myitems" element={<MyItems />} />
-          <Route path="/createcollection" element={<CreateCollection />} />
-          <Route path="/editcollection" element={<EditCollection />} />
-          <Route path="/importcontract" element={<ImportContract />} />
-          <Route path="/mycollectionselect" element={<MyCollectionSelect />} />
           <Route path="/royaltycheck" element={<Royaltycheck />} />
 
           <Route path="/createitem" element={<CreateItem />} />
@@ -286,9 +282,8 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/auctionbid" element={<AuctionBid />} />
           <Route path="/salebundle" element={<SaleBundle />} />
 
-          <Route path="/handover" element={<HandOver />} />
-          <Route path="/movecollection" element={<MoveCollection />} />
           <Route path="/searchwallet" element={<SearchWallet />} />
+
           <Route path="/transactionhistory" element={<TransactionHistory />} />
           <Route path="/offers" element={<Offers />} />
           <Route path="/liked" element={<Liked />} />
@@ -303,12 +298,16 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
             element={<NotificationSettings />}
           />
 
-          <Route path="/exploredeal" element={<ExploreDeal />} />
+          <Route path="/exploredealhistory" element={<ExploreDealHistory />} />
           <Route path="/ranking" element={<Ranking />} />
-          <Route path="/edititem" element={<EditItem />} />
           {/*
-          <Route path="/mprofilemenu" element={<MProfileMenu />} />
-          */}
+            <Route path="/handover" element={<HandOver />} /> 
+            <Route path="/movecollection" element={<MoveCollection />} />
+            <Route path="/editcollection" element={<EditCollection />} />
+            <Route path="/importcontract" element={<ImportContract />} />
+            <Route path="/mycollectionselect" element={<MyCollectionSelect />} />
+            <Route path="/createcollection" element={<CreateCollection />} />
+           */}
         </Routes>
 
         {mHeaderPopup && <MheaderPopup />}
