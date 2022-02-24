@@ -22,7 +22,7 @@ function Signup({ store, setConnect }) {
   const photoRef = useRef();
 
   const isMobile = useSelector((state) => state.common.isMobile);
-  const userAddress = useSelector((state) => state.wallet.address);
+  const {walletAddress} = useSelector((state) => state.user);
 
   const [photo, setPhoto] = useState("");
   const [photoName, setPhotoName] = useState("");
@@ -39,10 +39,31 @@ function Signup({ store, setConnect }) {
   const [infoCheck, setInfoCheck] = useState(false);
 
   function onchangePhoto(file) {
+    if (!file) return;
+/*
     let reader = new FileReader();
-    setImgFile(file);
-    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      setPhoto(reader.result)
+      console.log(photo)
+    }
+      reader.readAsDataURL(file);
+    
+    console.log(file)
+    if (file){
+      reader.readAsDataURL(file);
+      setImgFile(file);
+    }
     setPhotoName(file.name);
+    reader.onload = function () {
+      setPhoto(reader.result);
+    };
+    오로라 rds
+    */
+    setPhotoName(file.name);
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+
     reader.onload = function () {
       setPhoto(reader.result);
     };
@@ -57,16 +78,24 @@ function Signup({ store, setConnect }) {
         imagebase64: "",
         imagefilename: "",
       };
-      if (imgFile) {
-        const imagebase64 = await encodeBase64ImageFile(imgFile);
-        regData.imagebase64 = imagebase64;
-        regData.imagefilename = imgFile.name;
-      }
+
       try {
         console.log(regData);
         const resp = await axios.post(API.API_USER_JOIN, regData);
         console.log(resp);
         if (resp.data.status === "OK") {
+          //SEND IMAGE IF EXISTS-------------------------------------
+          if (imgFile) {
+            if (imgFile.size<10*1024*1024){
+              let formData = new FormData();
+              formData.append("file", imgFile);
+              formData.append("filename", imgFile.name);
+              formData.append("username", address);
+              const resp = await axios.post(API.API_USER_PROF_UPLOAD, formData);
+              console.log("eERWguRnGR", resp.data);
+            }
+          }
+          //---------------------------------------------------------
           navigate("/sentemaildetail");
         } else {
           // 서버 전송실패 예외처리
@@ -167,6 +196,7 @@ function Signup({ store, setConnect }) {
               <strong className="inputTitle">Photo registration</strong>
 
               <div className="inputBar">
+                {photo?(
                 <button
                   className="photoBtn"
                   onClick={() => photoRef.current.click()}
@@ -177,10 +207,12 @@ function Signup({ store, setConnect }) {
                     type="file"
                     ref={photoRef}
                     value={photo}
-                    onChange={(e) => setPhoto(e.target.value)}
+                    onChange={(e) => onchangePhoto(e.target.files[0])}
                   />
-                </button>
-
+                </button>):(
+                  <a></a>
+                )
+}
                 <div className="nameBox">
                   <div className="inputBox">
                     <input
@@ -303,8 +335,9 @@ function Signup({ store, setConnect }) {
           <article className="inputArea">
             <div className="inputContainer photo">
               <strong className="inputTitle">Photo registration</strong>
-
+              {photo? (<><img src={photo} /></>):<></>}
               <div className="inputBar">
+                
                 <button
                   className="photoBtn"
                   onClick={() => photoRef.current.click()}
@@ -314,8 +347,7 @@ function Signup({ store, setConnect }) {
                     className="nospace"
                     type="file"
                     ref={photoRef}
-                    value={photo}
-                    onChange={(e) => setPhoto(e.target.value)}
+                    onChange={(e) => onchangePhoto(e.target.files[0])}
                   />
                 </button>
 
@@ -360,8 +392,7 @@ function Signup({ store, setConnect }) {
 
               <div className="inputBox">
                 <input
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  value={walletAddress}
                   placeholder="Please enter your wallet address"
                 />
               </div>

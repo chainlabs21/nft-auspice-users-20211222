@@ -9,7 +9,7 @@ export const API = {
   API_GET_MY_INFO: `${apiServer}/my/info`,
   API_USER_INFO: `${apiServer}/users/user/info`,
   API_USER_EXISTS: (address, option='address') => `${apiServer}/users/query-value-exists/${option}/${address}`,
-  API_USER_CHECK: `${apiServer}/users/user/check`,
+  API_USER_CHECK: `${apiServer}/users/check`,
   API_USER_CHANGE_MAIL: `${apiServer}/users/update/mail`,
   API_USER_PROF_UPLOAD:`${apiServer}/users/upload/file`,
   API_MYINFO: `${apiServer}/users/user/myinfo`,
@@ -57,3 +57,8 @@ export const API = {
 	API_REPORT_TX_REGISTER_PROXY : `${apiServer}/transactions/report/registerproxy` , // /:txhash
   API_RANKING: `${apiServer}/queries/rows/users02/active/1/0/20/sumsalesfloat/DESC`,
 };
+
+
+////////////////
+
+

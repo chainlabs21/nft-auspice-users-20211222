@@ -21,6 +21,7 @@ import { D_categoryList } from "../../data/D_mypage";
 import SelectPopup from "../../components/SelectPopup";
 import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
 import Filter from "../../components/common/DefaultFilter";
+import { strDot } from "../../util/Util";
 
 export default function SearchWallet() {
   const navigate = useNavigate();
@@ -34,10 +35,15 @@ export default function SearchWallet() {
   const [itemFilterPopup, setItemFilterPopup] = useState(false);
   const [toggleFilter, setToggleFilter] = useState(false);
 
+  const {userData, isloggedin, walletAddress} = useSelector((state) => state.user);
+
   function onClickMoreBtn(e, index) {
     e.stopPropagation();
     setPopupIndex(index);
   }
+  useEffect(()=>{
+    console.log(localStorage.getItem("myinfo"))
+  })
 
   if (isMobile)
     return (
@@ -81,7 +87,7 @@ export default function SearchWallet() {
 
               <div className="infoBox">
                 <strong className="title">Henry juniors' Items</strong>
-                <p className="address">0x97bc...8cad2</p>
+                <p className="address">{{walletAddress}}</p>
                 <p className="introduce">
                   Henry is a mixed-media artist living in the Bay Area and users
                   a stream of consciousness approach to his work
@@ -277,10 +283,9 @@ export default function SearchWallet() {
 
               <div className="infoBox">
                 <strong className="title">Henry juniors' Items</strong>
-                <p className="address">0x97bc...8cad2</p>
+                <p className="address">{strDot(walletAddress, 5, 5)}</p>
                 <p className="introduce">
-                  Henry is a mixed-media artist living in the Bay Area and users
-                  a stream of consciousness approach to his work
+                  {localStorage.getItem('myinfo').address}
                 </p>
               </div>
             </div>

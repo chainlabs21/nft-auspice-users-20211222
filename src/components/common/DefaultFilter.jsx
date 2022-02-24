@@ -6,19 +6,45 @@ import {
   D_statusList,
 } from "../../data/D_filter";
 
+import {SET_PRICE_FILTER, SET_STATUS_FILTER} from "../../reducers/filterReducer"
+
 import filter_icon from "../../img/sub/filter_icon.png";
 import filter_close from "../../img/sub/filter_close.png";
 import I_dnArrow from "../../img/icons/I_dnArrow.svg";
 import loupe from "../../img/sub/loupe.png";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, connect, useDispatch } from "react-redux";
+import { useEffect } from "react";
 
-export default function DefaultFilter({ off, filterObj, editFilterList }) {
-  const [min, setMin] = useState("");
-  const [max, setMax] = useState("");
+export default function DefaultFilter({ store, setStatusFilter, setPriceFilter, off, setFilterME, editFilterList }) {
+  const dispatch = useDispatch();
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(0);
+  const [priceVal, setPriceVal] = useState(false);
   const [itemFilter, setItemFilter] = useState("");
   const [coinFilter, setCoinFilter] = useState("");
+  const {marketFilter} = useSelector((state) => state.filter);
+  //setFilterME('asdadsad')
 
+  useEffect(()=>{
+    console.log('check')
+  },[marketFilter])
+  
+  function handleStatus(key, val){
+    dispatch({type: SET_STATUS_FILTER, payload: {key: key}});
+  }
+  function handlePriceChange(){
+    dispatch({type: SET_PRICE_FILTER, payload: {min: min, max:max}});
+  }
+  useEffect(()=>{
+    //var reg = /^-?\d+\.?\d*$/
+    if (min>max || min==''||max==''){
+      setPriceVal(false)
+      return;
+    }
+    setPriceVal(true)
+
+  },[min, max])
   const isMobile = useSelector((state) => state.common.isMobile);
 
   if (isMobile)
@@ -43,12 +69,12 @@ export default function DefaultFilter({ off, filterObj, editFilterList }) {
             <ul className="contBox statusList">
               {D_statusList.map((cont, index) => (
                 <li
-                // key={index}
+                 key={index}
                 // style={{ cursor: "pointer" }}
                 // className={
                 //   filterObj[`status${cont.value}`] === cont.key && "on"
                 // }
-                // onClick={() => editFilterList(`status${cont.value}`, cont.key)}
+                 onClick={() => handleStatus(cont.key)}
                 >
                   {cont.key}
                 </li>
@@ -85,6 +111,7 @@ export default function DefaultFilter({ off, filterObj, editFilterList }) {
 
                 <div className="maxBox inputBox">
                   <input
+                  type="number"
                     value={max}
                     onChange={(e) => setMax(e.target.value)}
                     placeholder="0.00"
@@ -214,12 +241,13 @@ export default function DefaultFilter({ off, filterObj, editFilterList }) {
             <ul className="contBox statusList">
               {D_statusList.map((cont, index) => (
                 <li
-                // key={index}
+                className={marketFilter.status[cont.key]?"on":""}
+                key={index}
                 // style={{ cursor: "pointer" }}
                 // className={
                 //   filterObj[`status${cont.value}`] === cont.key && "on"
                 // }
-                // onClick={() => editFilterList(`status${cont.value}`, cont.key)}
+                onClick={() => handleStatus(cont.key)}
                 >
                   {cont.key}
                 </li>
@@ -238,40 +266,43 @@ export default function DefaultFilter({ off, filterObj, editFilterList }) {
 
             <div className="contBox priceBox">
               <div className="selectBox">
-                <p>United States Dollars (USD)</p>
+                <p>KLAYTN (KLAY)</p>
                 <img className="arwImg" src={I_dnArrow} alt="" />
               </div>
 
               <div className="minMaxBox">
                 <div className="minBox inputBox">
                   <input
+                    type="number"
                     value={min}
                     onChange={(e) => setMin(e.target.value)}
                     placeholder="0.00"
                   />
-                  <p className="unit">USD</p>
+                  <p className="unit">KLAY</p>
                 </div>
 
                 <p className="tilde">~</p>
 
                 <div className="maxBox inputBox">
                   <input
+                    type="number"
                     value={max}
                     onChange={(e) => setMax(e.target.value)}
                     placeholder="0.00"
                   />
-                  <p className="unit">USD</p>
+                  <p className="unit">KLAY</p>
                 </div>
               </div>
-
-              <button className="applyBtn" onClick={() => {}}>
-                Apply
-              </button>
+              <p className="disable" style={{display: priceVal?'none':''}}>Invalid price range</p>
+              {priceVal?(<button className='applyBtn' onClick={() => {handlePriceChange()}}>Apply
+              </button>):(<button className='disabledBtn' onClick={() => {}}>Apply</button>)}
+              
+                
             </div>
           </details>
         </article>
 
-        <article className="itemsArticle">
+        <article className="itemsArticle" style={{display: 'none'}}>
           <details className="itemsDetail">
             <summary className="filterSummary">
               <strong className="title">Items</strong>
@@ -289,7 +320,7 @@ export default function DefaultFilter({ off, filterObj, editFilterList }) {
                 />
               </div>
 
-              <ul className="itemList">
+              <ul className="itemList" >
                 {D_filterList.map((cont, index) => (
                   <li key={index}>
                     <img src={cont.img} alt="" />
@@ -522,6 +553,16 @@ const MdefaultfilterBox = styled.section`
           background: #000;
           border-radius: 12.22vw;
         }
+        .disabledBtn {
+          width: 100%;
+          height: 13.33vw;
+          margin: 3.88vw 0 0 0;
+          font-size: 4.44vw;
+          font-weight: 500;
+          color: #fff;
+          background: #D3D3D3;
+          border-radius: 12.22vw;
+        }
       }
     }
 
@@ -711,6 +752,10 @@ const PdefaultfilterBox = styled.section`
     display: none;
   }
 
+  .disable {
+    color: #ff1c1c;
+  }
+
   article {
     padding: 0 30px;
 
@@ -855,6 +900,17 @@ const PdefaultfilterBox = styled.section`
           color: #fff;
           background: #000;
           border-radius: 44px;
+        }
+        .disabledBtn {
+          width: 100%;
+          height: 48px;
+          margin: 10px 0 0 0;
+          font-size: 18px;
+          font-weight: 500;
+          color: #fff;
+          border-radius: 44px;
+          background: #D3D3D3;
+          cursor: not-allowed;
         }
       }
     }

@@ -77,7 +77,7 @@ export default function CreateItem({ store, setConnect }) {
   const itemInputRef = useRef();
 
   const isMobile = useSelector((state) => state.common.isMobile);
-  const userAddress = useSelector((state) => state.wallet.address);
+  const {walletAddress} = useSelector((state) => state.user);
   const [item, setItem] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -203,8 +203,8 @@ export default function CreateItem({ store, setConnect }) {
       const metaData = {
         title: name,
         description: description,
-        address: userAddress,
-        originator: userAddress,
+        address: walletAddress,
+        originator: walletAddress,
         category: curCategory,
         authorroyalty: parseInt((royal * 100).toFixed(0)),
         url: fileResp.payload.url,
@@ -251,7 +251,7 @@ export default function CreateItem({ store, setConnect }) {
       nettype: NETTYPE,
       paymeans: PAYMEANS_DEF,
       categorystr: curCategory,
-      author: myaddress, // userAddress ,
+      author: myaddress, // walletAddress ,
       authorfee: conv_percent_bp(royal), //parseInt( ( royal * 100 ).toFixed(0) )
       countcopies,
       //	amount: 1,
@@ -272,7 +272,7 @@ export default function CreateItem({ store, setConnect }) {
     if (!file) {
       return;
     }
-    const fileLength = file.name.length;
+    const fileLength = file.length;
     const fileDot = file.name.lastIndexOf(".");
     const fileType = file.name.substring(fileDot + 1, fileLength).toLowerCase();
     let typeToggle = false;

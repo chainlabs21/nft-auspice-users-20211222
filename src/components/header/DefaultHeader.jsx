@@ -29,6 +29,8 @@ import { onClickCopy } from "../../util/common";
 import SetErrorBar from "../../util/SetErrorBar";
 import { messages } from "../../config/messages";
 import MmenuPopup from "./MmenuPoupup";
+import axios from "axios";
+import {API} from "../../config/api"
 
 export default function DefaultHeader() {
   const navigate = useNavigate();
@@ -41,6 +43,16 @@ export default function DefaultHeader() {
   const [mMenuPopup, setMenuPopup] = useState(false);
   useEffect(()=>{
     //console.log(isloggedin+" : "+walletAddress)
+    if (!localStorage.getItem("token")) return;
+    console.log(localStorage.getItem("token"))
+    axios.defaults.headers.common["token"] = localStorage.getItem("token");
+    axios.get(`${API.API_USER_CHECK}`, {address: localStorage.getItem("address")})
+    .then((resp) => {
+
+    })
+
+    
+    
   }, [])
 
   function onClickConnectWallet() {
@@ -131,7 +143,7 @@ export default function DefaultHeader() {
                       <li
                         key={index}
                         onClick={() =>
-                          navigate("/marketplace", { state: cont.state })
+                          navigate("/marketplace?category="+cont.state)
                         }
                       >
                         <img className="offImg" src={cont.offImg} alt="" />
@@ -172,8 +184,8 @@ export default function DefaultHeader() {
 
                   <ul className="popupBox mypage">
                     <li onClick={() => navigate("/searchwallet")}>My Profile</li>
-                    <li onClick={() => navigate("/myitems")}>
-                      My Items
+                    <li onClick={() => navigate("/createitem")}>
+                      Publish NFT
                     </li>
                     <li onClick={() => navigate("/liked")}>Bookmark</li>
                     <li onClick={() => navigate("/mywallet")}>
@@ -186,7 +198,7 @@ export default function DefaultHeader() {
               <li>
                 <span className="posBox langBox">
                   <span className="blank" />
-                  <button className="lang" onClick={() => {}}>
+                  <button className="lang" onClick={() => {SetErrorBar('개발중입니다.')}}>
                     ENG
                   </button>
                   <img src={I_dnArw} alt="" />
@@ -422,42 +434,42 @@ const marketPlacePopupList = [
     onImg: menu_all,
     offImg: menu_all_off,
     text: "All",
-    state: "All",
+    state: "ALL",
   },
   {
     onImg: menu_collectibles,
     offImg: menu_collectibles_off,
     text: "Collectibles",
-    state: "Collectibles",
+    state: "COLLECTIBLES",
   },
   {
     onImg: menu_digitalart,
     offImg: menu_digitalart_off,
     text: "Digital Art",
-    state: "Art",
+    state: "ART",
   },
   {
     onImg: menu_tradingcard,
     offImg: menu_tradingcard_off,
     text: "Trading Card",
-    state: "Trading Cards",
+    state: "TRADINGCARDS",
   },
   {
     onImg: menu_music,
     offImg: menu_music_off,
     text: "Music",
-    state: "Music",
+    state: "MUSIC",
   },
   {
     onImg: menu_virtualworlds,
     offImg: menu_virtualworlds_off,
     text: "Virtual Worlds",
-    state: "Virtual World",
+    state: "VIRTUALWORLD",
   },
   {
     onImg: menu_sports,
     offImg: menu_sports_off,
     text: "Sports",
-    state: "Sports",
+    state: "SPORTS",
   },
 ];

@@ -5,10 +5,10 @@ import collect_img4 from "../img/sub/collect_img4.png";
 import rock from "../img/sub/rock.png";
 
 export const D_statusList = [
-  { key: "Buy Now", value: 1 },
-  { key: "On Auction", value: 2 },
-  { key: "New", value: 4 },
-  { key: "Has Offers", value: 8 },
+  { key: "Buy Now", id: "buyNow", value: 1 },
+  { key: "On Auction", id: "onAuction",value: 2 },
+  { key: "New", id: "new",value: 4 },
+  { key: "Has Offers", id: "HasOffers",value: 8 },
 ];
 
 export const D_transactionStatusList = [

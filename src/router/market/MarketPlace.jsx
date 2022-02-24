@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 import collect_img from "../../img/sub/collect_img.png";
@@ -25,9 +26,10 @@ import { putCommaAtPrice } from "../../util/Util";
 import { applytoken } from "../../util/rest";
 import { get_deltatime_str, LOGGER } from "../../util/common";
 import { PAYMEANS_DEF } from "../../config/configs";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import DefaultHeader from "../../components/header/DefaultHeader";
 import Filter from "../../components/common/DefaultFilter";
+import { RESET_FILTER, SET_CATEGORY } from "../../reducers/filterReducer"
 import {
   D_categoryList,
   D_itemFilter,
@@ -35,21 +37,40 @@ import {
 } from "../../data/D_marketPlace";
 import SelectPopup from "../../components/SelectPopup";
 import PopupBg from "../../components/PopupBg";
+import axios from 'axios'
 export default function MarketPlace() {
   const navigate = useNavigate();
   const params = useParams();
+  const dispatch = useDispatch();
+ // const history = useHistory();
+ // const location = useLocation();
 
   const isMobile = useSelector((state) => state.common.isMobile);
 
   let loadingBusy = false;
   let itemIndex = 0;
   let itemList = [];
+  const Categories={
+    ALL: 'all'
+    , ART: 'art'
+    , MUSIC: 'Music'
+    , VIRTUALWORLD: 'virtual world'
+    , TRADINGCARDS: 'trading cards'
+    , COLLECTIBLES: 'collectibles'
+    , SPORTS: 'sports'
+    , UTILITY: 'utility'
+    , ETC: 'etc'
+  }
 
   const [toggleFilter, setToggleFilter] = useState(false);
   const [itemFilterPopup, setItemFilterPopup] = useState(false);
   const [sortPopup, setSortPopup] = useState(false);
-
-  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [category, setCategory] = useState('all')//searchParams.get("category"));
+  //const[setFilter, setFilterME]=useState('');
+  
+  
+  //const [categoryFilter, setCategoryFilter] = useState(Categories.ALL);
+  const [statusFilter, setStatusFilter] = useState([])
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
@@ -57,9 +78,81 @@ export default function MarketPlace() {
   const [toPrice, setToPrice] = useState("");
   const [callEffect, setCallEffect] = useState(false);
   const [totalItem, setTotalItem] = useState(0);
-  const [unit, setUnit] = useState("USD");
+  const [unit, setUnit] = useState("KLAY");
   const [pricePopup, setPricePopup] = useState(false);
   const [searchKey, setSearchKey] = useState(params.searchKey);
+  const {marketFilter} = useSelector((state) => state.filter);
+  
+  useEffect(()=>{
+    getItem(marketFilter.category)
+    console.log(marketFilter.category)
+  },[marketFilter])
+
+  const handleCategory=(a)=>{
+    dispatch({type: SET_CATEGORY, payload: {value: a}});
+    //setSearchParams({"category": a})
+  }
+
+
+  const onclickFilterReset = () => {
+    dispatch({type: RESET_FILTER});
+
+  };
+
+  function windowScrollHander() {
+    
+    if (
+      window.scrollY + window.innerHeight > document.body.clientHeight - 200 &&
+      !loadingBusy
+    ) {
+      console.log(marketFilter.category)
+      loadingBusy = true;
+      itemIndex += 10;
+      getItem(marketFilter.category, itemIndex);
+    }
+  }
+
+async function getItem(icategory, itemIndex = 0) {
+    const filterKeys = Object.keys(filterObj);
+    
+    //*
+    //let selectedStatus = 0;
+
+    //filterKeys.map((e) => {//
+    //  if (e.indexOf("status") !== -1) selectedStatus += e.slice(6) * 1;
+    //});
+    
+
+    await axios
+      .get(`${API.API_MERCHANDISES_LIST}/${itemIndex}/${10}`, {
+        params: {
+          categorystr: icategory,
+          salestatus: marketFilter.status,
+          pricemin: marketFilter.min,
+          pricemax: marketFilter.max,
+          //searchKey,
+        },
+      })
+      .then((resp) => {
+        //LOGGER("wgNCeNKxXL", resp.data);
+        let { status, list, payload } = resp.data;
+        if (status == "OK") {
+          itemList = [...itemList, ...list];
+          setFilteredList([...itemList]);
+          setTotalItem(payload.count);
+          loadingBusy = false;
+        }
+      });
+  }
+
+  useEffect(() => {
+    
+    window.addEventListener("scroll", windowScrollHander);
+    return()=>{
+      window.removeEventListener('scroll', windowScrollHander)
+    }
+  }, []);
+/*
 
   let axios = applytoken();
   const handleCateFilter = (category) => {
@@ -77,14 +170,13 @@ export default function MarketPlace() {
         break;
     }
   }
-
   function onClickOption() {
     setFromPrice("");
     setToPrice("");
     setCallEffect(!callEffect);
     setPricePopup(false);
   }
-
+//Filter List
   const editFilterList = (category, cont) => {
     let dataObj = filterObj;
     dataObj[category] = cont;
@@ -92,12 +184,7 @@ export default function MarketPlace() {
     setFilterList([...Object.values(dataObj)]);
   };
 
-  const onclickFilterReset = () => {
-    setFilterObj({});
-    setFilterList([]);
-    setFromPrice("");
-    setToPrice("");
-  };
+
 
   const onclickFilterCancel = (cont) => {
     let dataObj = filterObj;
@@ -111,52 +198,7 @@ export default function MarketPlace() {
     setFilterList([...Object.values(dataObj)]);
   };
 
-  function windowScrollHander() {
-    if (
-      window.scrollY + window.innerHeight > document.body.clientHeight - 200 &&
-      !loadingBusy
-    ) {
-      loadingBusy = true;
-      itemIndex += 10;
-      getItem(itemIndex);
-    }
-  }
-
-  function getItem(itemIndex = 0) {
-    const filterKeys = Object.keys(filterObj);
-
-    // statusFilter
-    let selectedStatus = 0;
-
-    filterKeys.map((e) => {
-      if (e.indexOf("status") !== -1) selectedStatus += e.slice(6) * 1;
-    });
-
-    axios
-      .get(`${API.API_MERCHANDISES_LIST}/${itemIndex}/${10}`, {
-        params: {
-          categorystr: filterObj.category,
-          salestatus: selectedStatus,
-          pricemin: fromPrice,
-          pricemax: toPrice,
-          searchKey,
-        },
-      })
-      .then((resp) => {
-        LOGGER("wgNCeNKxXL", resp.data);
-        let { status, list, payload } = resp.data;
-        if (status == "OK") {
-          itemList = [...itemList, ...list];
-          setFilteredList([...itemList]);
-          setTotalItem(payload.count);
-          loadingBusy = false;
-        }
-      });
-  }
-
-  useLayoutEffect(() => {
-    window.addEventListener("scroll", windowScrollHander);
-  }, []);
+  
 
   useLayoutEffect(() => {
     setSearchKey(params.searchKey);
@@ -164,15 +206,16 @@ export default function MarketPlace() {
   }, [params]);
 
   useEffect(() => {
+    console.log(filterList)
     getItem();
-  }, [categoryFilter, filterList, callEffect]);
-
+  }, [filterList, callEffect]);
+*/
   if (isMobile)
     return (
       <>
         <DefaultHeader />
         {toggleFilter ? (
-          <Filter toggle={toggleFilter} off={setToggleFilter} />
+          <Filter toggle={toggleFilter}  off={setToggleFilter}/>
         ) : (
           <button
             className="filterBtn mo"
@@ -318,7 +361,10 @@ export default function MarketPlace() {
       <>
         <DefaultHeader />
         {toggleFilter ? (
-          <Filter off={setToggleFilter} />
+          <Filter 
+          off={setToggleFilter} 
+          
+          />
         ) : (
           <button
             className="filterBtn pc"
@@ -378,7 +424,7 @@ export default function MarketPlace() {
 
             <ul className="cateogryList">
               {D_categoryList.map((cont, index) => (
-                <li key={index}>{cont}</li>
+                <li key={index} className={(marketFilter.category==cont.code)?'on':''} onClick={()=>{handleCategory(cont.code)  }}>{cont.name}</li>
               ))}
             </ul>
 
@@ -388,6 +434,18 @@ export default function MarketPlace() {
                 <li className="resetBtn" onClick={onclickFilterReset}>
                   Filter reset
                 </li>
+
+
+                { Object.keys(marketFilter.status).map((v, i)=>{
+                  if (marketFilter.status[v]){
+                    return(<li key={i} onClick={() => {}}>
+                        <span className="blank" />
+                        {v}
+                        <img src={I_x} alt="" />
+                      </li>);
+                    }
+                  })
+                }
 
                 <li>
                   <span className="blank" />
@@ -400,6 +458,12 @@ export default function MarketPlace() {
                   KLAY
                   <img src={I_x} alt="" />
                 </li>
+                
+                
+                
+                
+
+                      
                 {/* {filterList.map((cont, index) => (
                   <li key={index} onClick={() => onclickFilterCancel(cont)}>
                     <span className="blank" />
