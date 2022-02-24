@@ -17,7 +17,7 @@ export default function SentEmailDetail() {
 
   const { userData } = useSelector((state) => state.user);
   const isMobile = useSelector((state) => state.common.isMobile);
-
+  
   function onClickResend() {
     window.location.reload();
   }
