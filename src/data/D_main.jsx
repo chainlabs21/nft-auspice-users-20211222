@@ -16,41 +16,49 @@ export const D_categoryList = [
     img: category_art,
     text: "Digital Art",
     state: "Art",
+    code: "art"
   },
   {
     img: category_music,
     text: "Music",
     state: "Music",
+    code:"Music"
   },
   {
     img: category_virtualworld,
     text: "Virtual World",
     state: "Virtual World",
+    code: "virtual world"
   },
   {
     img: category_tradingcards,
     text: "Trading Cards",
     state: "Trading Cards",
+    code: "trading cards"
   },
   {
     img: category_collectibles,
     text: "Collectibles",
     state: "Collectibles",
+    code: "collectibles"
   },
   {
     img: category_sports,
     text: "Sports",
     state: "Sports",
+    code: "sports"
   },
   {
     img: category_utility,
     text: "Utility",
     state: "Utility",
+    code: "utility"
   },
   {
     img: category_etc,
     text: "ETC",
     state: "ETC",
+    code: "etc"
   },
 ];
 

@@ -1,5 +1,5 @@
-import { connect } from "react-redux";
-import { useNavigate } from "react-router";
+import { connect, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router";
 import { setConnect } from "../../util/store";
 import styled from "styled-components";
 import collect_img from "../../img/sub/collect_img.png";
@@ -15,102 +15,232 @@ import s8 from "../../img/sub/s8.png";
 import sample from "../../img/sub/sample.png";
 import click1 from "../../img/sub/click1.png";
 
-
-
-
-// import "./css/style01.css";
-// import "./css/style02.css";
-
-
-
 import { useState, useEffect } from "react";
 import { getmyaddress, onClickCopy, LOGGER } from "../../util/common";
 import { strDot } from "../../util/Util";
-function Mywallet({ store, setConnect }) {
+import DefaultHeader from "../../components/header/DefaultHeader";
+import AccountLeftBar from "../../components/accountSetting/AccountLeftBar";
+import DetailHeader from "../../components/header/DetailHeader";
+export default function Mywallet() {
   const navigate = useNavigate();
-  let [myaddress, setmyaddress] = useState(getmyaddress());
-  return (
-    <SignPopupBox>
-      <section id="sub">
-        <article className="wallet_wrap">
-          <div className="move on">
-            <div className="left_move wallet_left">
-              <form>
-                <div className="w1 on">
-                  <h3>
-                    My wallet
-                    <span> {strDot(myaddress, 6, 2)} </span>
-                  </h3>
-                </div>
-                <div
-                  className="w2"
-                  onClick={() => {
-                    navigate("/generalsettings");
-                  }}
-                >
-                  <h3>General settings</h3>
-                </div>
-                <div
-                  className="w3"
-                  onClick={() => navigate("/notificationsettings")}
-                >
-                  <h3>Notification settings</h3>
-                </div>
-              </form>
-            </div>
+  const { state } = useLocation();
+  const {isloggedin, userData, walletAddress} = useSelector((state)=>state.user)
 
-            <div className="right_move wallet_right">
-              <h2>My wallet</h2>
-              <div className="mwr">
-                <div className="wr">
-                  <ul>
-                    <li>
-                      <h4>Wallet address</h4>
-                      <div>
-                        <div className="de">
-                          <input type="text" disabled />
-                          <span className="defalut_text">
-                            {myaddress ? myaddress : ""}
-                          </span>
-                        </div>
-                        <a
-                          className="btn_copy"
-                          onClick={(_) => onClickCopy(myaddress)}
-                        >
-                          copy
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
-                  <a onClick={() => navigate("/logout")} className="wbtn">
-                    Logout
-                  </a>
+  const isMobile = useSelector((state) => state.common.isMobile);
+  const [toggleLeftBar, setToggleLeftBar] = useState(!state?.toggle);
+
+  let [myaddress, setmyaddress] = useState(getmyaddress());
+
+  if (isMobile)
+    return (
+      <>
+        {toggleLeftBar ? (
+          <AccountLeftBar off={setToggleLeftBar} />
+        ) : (
+          <DetailHeader title="My Wallet" off={() => setToggleLeftBar(true)} />
+        )}
+
+        <MmyWallet>
+          <section className="innerBox">
+            <article className="contArea">
+              <div className="addressContainer">
+                <strong className="title">Wallet address</strong>
+
+                <div className="addressBox">
+                  <div className="address">
+                    <strong>{myaddress}</strong>
+                  </div>
+
+                  <button className="copyBtn" onClick={() => {}}>
+                    Copy
+                  </button>
                 </div>
               </div>
-            </div>
-          </div>
-        </article>
-      </section>
-    </SignPopupBox>
-  );
+
+              <button className="logoutBtn" onClick={() => navigate("/logout")}>
+                Logout
+              </button>
+            </article>
+          </section>
+        </MmyWallet>
+      </>
+    );
+  else
+    return (
+      <>
+        <DefaultHeader />
+        <AccountLeftBar />
+
+        <PmyWallet>
+          <section className="innerBox">
+            <strong className="pageTitle">My wallet</strong>
+
+            <article className="contArea">
+              <div className="addressContainer">
+                <strong className="title">Wallet address</strong>
+
+                <div className="addressBox">
+                  <strong className="address">{walletAddress}</strong>
+
+                  <button className="copyBtn" onClick={() => {}}>
+                    Copy
+                  </button>
+                </div>
+              </div>
+
+              <button className="logoutBtn" onClick={() => navigate("/logout")}>
+                Logout
+              </button>
+            </article>
+          </section>
+        </PmyWallet>
+      </>
+    );
 }
 
-const SignPopupBox = styled.div`
-  .w1,
-  .w2,
-  .w3 {
-    cursor: pointer;
+const MmyWallet = styled.div`
+  padding: 72px 0 0 0;
+
+  .innerBox {
+    padding: 5.55vw;
+
+    .contArea {
+      display: flex;
+      flex-direction: column;
+      gap: 8.33vw;
+      padding: 11.11vw 3.88vw 8.33vw 3.88vw;
+      border-radius: 5.55vw;
+      box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+
+      .addressContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 3.33vw;
+
+        .title {
+          font-size: 4.44vw;
+        }
+
+        .addressBox {
+          display: flex;
+          align-items: center;
+          gap: 1.11vw;
+          height: 9.44vw;
+
+          .address {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 0 2.22vw;
+            font-size: 3.33vw;
+            background: #f6f6f6;
+            overflow: hidden;
+
+            strong {
+              width: 100%;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+          }
+
+          .copyBtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 19.44vw;
+            height: 100%;
+            font-size: 3.33vw;
+            font-weight: 500;
+            border: 1px solid #b2b2b2;
+            border-radius: 1.11vw;
+          }
+        }
+      }
+
+      .logoutBtn {
+        height: 13.33vw;
+        font-size: 3.88vw;
+        font-weight: 500;
+        color: #fff;
+        background: #222;
+        border-radius: 7.77vw;
+      }
+    }
   }
 `;
 
-function mapStateToProps(state) {
-  return { store: state };
-}
+const PmyWallet = styled.div`
+  padding: 120px 0 0 350px;
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setConnect: () => dispatch(setConnect()),
-  };
-}
+  .innerBox {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 50px;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Mywallet);
+    .pageTitle {
+      font-size: 30px;
+    }
+
+    .contArea {
+      display: flex;
+      flex-direction: column;
+      gap: 38px;
+      max-width: 1200px;
+      padding: 52px 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+
+      .addressContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+
+        .title {
+          font-size: 20px;
+        }
+
+        .addressBox {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          height: 56px;
+
+          .address {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 0 30px;
+            font-size: 16px;
+            background: #f6f6f6;
+          }
+
+          .copyBtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 128px;
+            height: 100%;
+            font-size: 22px;
+            font-weight: 500;
+            border: 1px solid #b2b2b2;
+            border-radius: 8px;
+          }
+        }
+      }
+
+      .logoutBtn {
+        width: 176px;
+        height: 56px;
+        border-radius: 43px;
+        font-size: 22px;
+        font-weight: 500;
+        color: #fff;
+        background: #222;
+      }
+    }
+  }
+`;

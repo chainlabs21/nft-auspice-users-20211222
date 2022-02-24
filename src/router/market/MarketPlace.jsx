@@ -124,7 +124,7 @@ async function getItem(icategory, itemIndex = 0) {
     
 
     await axios
-      .get(`${API.API_MERCHANDISES_LIST}/${itemIndex}/${10}`, {
+      .get(`${API.API_MERCHANDISES_LIST}/${itemIndex}/${100}`, {
         params: {
           categorystr: icategory,
           salestatus: marketFilter.status,
@@ -144,7 +144,7 @@ async function getItem(icategory, itemIndex = 0) {
         }
       });
   }
-
+/*
   useEffect(() => {
     
     window.addEventListener("scroll", windowScrollHander);
@@ -152,7 +152,7 @@ async function getItem(icategory, itemIndex = 0) {
       window.removeEventListener('scroll', windowScrollHander)
     }
   }, []);
-/*
+
 
   let axios = applytoken();
   const handleCateFilter = (category) => {

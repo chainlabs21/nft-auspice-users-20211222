@@ -42,8 +42,8 @@ export default function SearchWallet() {
     setPopupIndex(index);
   }
   useEffect(()=>{
-    console.log(localStorage.getItem("myinfo"))
-  })
+    console.log(userData)
+  },[])
 
   if (isMobile)
     return (
@@ -282,10 +282,10 @@ export default function SearchWallet() {
               </div>
 
               <div className="infoBox">
-                <strong className="title">Henry juniors' Items</strong>
+                <strong className="title">{userData.myinfo_maria.nickname}'s Items</strong>
                 <p className="address">{strDot(walletAddress, 5, 5)}</p>
                 <p className="introduce">
-                  {localStorage.getItem('myinfo').address}
+                  {userData.myinfo_maria.description}
                 </p>
               </div>
             </div>

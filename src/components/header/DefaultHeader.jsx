@@ -22,7 +22,6 @@ import menu_sports from "../../img/header/menu_sports.png";
 import menu_sports_off from "../../img/header/menu_sports_off.png";
 import I_dnArw from "../../img/header/I_dnArw.svg";
 import { strDot } from "../../util/Util";
-import { SET_ADDRESS } from "../../reducers/walletSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { onClickCopy } from "../../util/common";
@@ -31,6 +30,7 @@ import { messages } from "../../config/messages";
 import MmenuPopup from "./MmenuPoupup";
 import axios from "axios";
 import {API} from "../../config/api"
+import { SET_USER_DATA, SET_ADDRESS, SET_LOGIN } from "../../reducers/userReducer";
 
 export default function DefaultHeader() {
   const navigate = useNavigate();
@@ -42,13 +42,22 @@ export default function DefaultHeader() {
   const [search, setSearch] = useState("");
   const [mMenuPopup, setMenuPopup] = useState(false);
   useEffect(()=>{
+    console.log('로그인확인이야')
     //console.log(isloggedin+" : "+walletAddress)
     if (!localStorage.getItem("token")) return;
     console.log(localStorage.getItem("token"))
     axios.defaults.headers.common["token"] = localStorage.getItem("token");
     axios.get(`${API.API_USER_CHECK}`, {address: localStorage.getItem("address")})
     .then((resp) => {
-
+      console.log(resp)
+      if (resp.status==200){
+        console.log('로그인되어있는거야')
+        dispatch({ type: SET_LOGIN, payload: { value: true }});
+        dispatch({type: SET_ADDRESS, payload:{value: localStorage.getItem("address")}})
+        dispatch({type: SET_USER_DATA, payload:{ value: resp.data.payload}})
+        //console.log(resp)
+        //dispatch({ type: SET_USER_DATA, payload: { value: true }});
+      }
     })
 
     

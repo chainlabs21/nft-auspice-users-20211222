@@ -1,5 +1,5 @@
-import { connect } from "react-redux";
-import { useNavigate } from "react-router";
+import { connect, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router";
 import { setConnect } from "../../util/store";
 import styled from "styled-components";
 import collect_img from "../../img/sub/collect_img.png";
@@ -25,18 +25,28 @@ import { messages } from "../../config/messages";
 import { generateSlug } from "random-word-slugs";
 import { strDot } from "../../util/Util";
 import Settingssidepanel from "../../components/Settingssidepanel";
+import DetailHeader from "../../components/header/DetailHeader";
+import AccountLeftBar from "../../components/accountSetting/AccountLeftBar";
+import DefaultHeader from "../../components/header/DefaultHeader";
+import axios from 'axios';
 
-function GeneralSettings({ store, setConnect }) {
+export default function GeneralSettings({ store, setConnect }) {
   const navigate = useNavigate();
+  const {isloggedin, userData, walletAddress} = useSelector((state)=>state.user)
+  const { state } = useLocation();
+  const isMobile = useSelector((state) => state.common.isMobile);
 
-  let [description, setdescription] = useState("");
-  let [nickname, setnickname] = useState("");
-  let [email, setemail] = useState("");
-  let axios = applytoken();
-  let [myaddress, setmyaddress] = useState(getmyaddress());
+  const [toggleLeftBar, setToggleLeftBar] = useState(!state?.toggle);
+  const [nickname, setNickname] = useState("");
+  const [description, setDescription] = useState("");
+  const [email, setEmail] = useState("");
+  useEffect(()=>{
+    setNickname(userData.myinfo_maria.nickname)
+    setDescription(userData.myinfo_maria.description)
+    setEmail(userData.myinfo_maria.email)
 
-  const onclicksave = (_) => {
-    LOGGER("", nickname, description);
+  },[])
+  const onClickSave=()=>{
     let reqbody = {
       description,
       nickname,
@@ -49,119 +59,302 @@ function GeneralSettings({ store, setConnect }) {
         return;
       }
     });
-  };
-
-  useEffect((_) => {
-    LOGGER("", myaddress);
-    axios.get(`${API.API_USER_INFO}/${myaddress}`).then((resp) => {
-      LOGGER("", resp.data);
-      let { status, payload } = resp.data;
-      if (status == "OK") {
-        let { maria: myinfo_maria, mongo: myinfo_mongo } = payload;
-        setemail(myinfo_maria?.email);
-      }
-    });
-    setnickname(generateSlug(3, { format: "camel" }));
-    setdescription(STRINGER(getrandomwords(12)));
-  }, []);
-
-  return (
-    <GeneralSettingsBox>
-      <section id="sub">
-        <article className="wallet_wrap">
-          <div className="move on">
-            <div className="left_move wallet_left">
-              <form>
-                <div className="w1">
-                  <h3>
-                    My wallet
-                    <span> {strDot(myaddress, 6, 2)} </span>
-                  </h3>
-                </div>
-                <div
-                  className="w2 on"
-                  onClick={() => {
-                    navigate("/generalsettings");
-                  }}
-                >
-                  <h3>General settings</h3>
-                </div>
-                <div
-                  className="w3"
-                  onClick={() => navigate("/notificationsettings")}
-                >
-                  <h3>Notification settings</h3>
-                </div>
-              </form>
-            </div>
-
-            <div className="right_move wallet_right">
-              <h2>General settings</h2>
-              <div className="mwr">
-                <div className="wr togpad">
-                  <ul>
-                    <li>
-                      <h4>Nickname</h4>
-                      <input
-                        type="text"
-                        placeholder="Please enter your nickname"
-                        value={nickname}
-                      />
-                    </li>
-                    <li>
-                      <h4>About me</h4>
-                      <textarea
-                        type="text"
-                        placeholder="write my introduction"
-                        value={description}
-                      ></textarea>
-                    </li>
-                    <li>
-                      <h4>Email Address</h4>
-                      <input
-                        type="text"
-                        placeholder="Input email address"
-                        value={email}
-                      />
-                    </li>
-                  </ul>
-                  <a
-                    onClick={() => {
-                      onclicksave();
-                      // navigate(-1)
-                    }}
-                    className="wbtn"
-                  >
-                    Save
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-      </section>
-    </GeneralSettingsBox>
-  );
-}
-
-const GeneralSettingsBox = styled.div`
-  .wr {
-    padding: 52px 0 0 0;
   }
 
-  .w1,
-  .w2,
-  .w3 {
-    cursor: pointer;
+  if (isMobile)
+    return (
+      <>
+        {toggleLeftBar ? (
+          <AccountLeftBar off={setToggleLeftBar} />
+        ) : (
+          <DetailHeader
+            title="General settings"
+            off={() => setToggleLeftBar(true)}
+          />
+        )}
+
+        <MgeneralSettingsBox>
+          <section className="innerBox">
+            <article className="contArea">
+              <div className="inputList">
+                <li className="nickname">
+                  <strong className="title">User name</strong>
+
+                  <div className="inputBox">
+                    <input
+                      value={nickname}
+                      onChange={(e) => setNickname(e.target.value)}
+                      placeholder="Please enter your username"
+                    />
+                  </div>
+                </li>
+
+                <li className="description">
+                  <strong className="title">User name</strong>
+
+                  <div className="inputBox">
+                    <textarea
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Please enter your introduction"
+                    />
+                  </div>
+                </li>
+
+                <li className="email">
+                  <strong className="title">Email Address</strong>
+
+                  <div className="inputBox">
+                    <input
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Please enter your email address"
+                    />
+                  </div>
+                </li>
+              </div>
+
+              <button className="logoutBtn" onClick={() => {}}>
+                Save
+              </button>
+            </article>
+          </section>
+        </MgeneralSettingsBox>
+      </>
+    );
+  else
+    return (
+      <>
+        <DefaultHeader />
+        <AccountLeftBar />
+
+        <PgeneralSettingsBox>
+          <section className="innerBox">
+            <strong className="pageTitle">General Settings</strong>
+
+            <article className="contArea">
+              <div className="inputList">
+                <li className="nickname">
+                  <strong className="title">User name</strong>
+
+                  <div className="inputBox">
+                    <input
+                      value={nickname}
+                      onChange={(e) => setNickname(e.target.value)}
+                      placeholder="Please enter your username"
+                    />
+                  </div>
+                </li>
+
+                <li className="description">
+                  <strong className="title">Description</strong>
+
+                  <div className="inputBox">
+                    <textarea
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Please enter your introduction"
+                    />
+                  </div>
+                </li>
+
+                <li className="email">
+                  <strong className="title">Email Address</strong>
+
+                  <div className="inputBox">
+                    <input
+                      value={email}
+                      
+                      placeholder="Please enter your email address"
+                    />
+                  </div>
+                </li>
+              </div>
+
+              <button className="logoutBtn" onClick={() => {onClickSave()}}>
+                Save
+              </button>
+            </article>
+          </section>
+        </PgeneralSettingsBox>
+      </>
+    );
+}
+
+const MgeneralSettingsBox = styled.div`
+  padding: 72px 0 0 0;
+
+  .innerBox {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 5.55vw;
+
+    .pageTitle {
+      font-size: 30px;
+    }
+
+    .contArea {
+      display: flex;
+      flex-direction: column;
+      gap: 13.88vw;
+      padding: 8.33vw 0;
+
+      .inputList {
+        display: flex;
+        flex-direction: column;
+        gap: 3.88vw;
+
+        li {
+          display: flex;
+          flex-direction: column;
+          gap: 3.33vw;
+
+          .title {
+            font-size: 4.44vw;
+          }
+
+          .inputBox {
+            display: flex;
+            align-items: center;
+            padding: 4.44vw 2.77vw;
+            border-radius: 1.11vw;
+            background: #f6f6f6;
+
+            input,
+            textarea {
+              flex: 1;
+              height: 100%;
+              background: unset;
+              font-size: 3.88vw;
+            }
+          }
+
+          &.description {
+            .inputBox {
+              height: 38.88vw;
+
+              textarea {
+                &::-webkit-scrollbar {
+                  width: 4px;
+                  border: 5px solid #f6f6f6;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                  width: 4px;
+                  background: #b7b7b7;
+                  border-radius: 4px;
+                }
+
+                &::-webkit-scrollbar-track {
+                  background: #f4f2f2;
+                  border-radius: 4px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .logoutBtn {
+        height: 15.55vw;
+        border-radius: 7.77vw;
+        font-size: 4.44vw;
+        font-weight: 500;
+        color: #fff;
+        background: #222;
+      }
+    }
   }
 `;
 
-function mapStateToProps(state) {
-  return { store: state };
-}
-function mapDispatchToProps(dispatch) {
-  return {
-    setConnect: () => dispatch(setConnect()),
-  };
-}
-export default connect(mapStateToProps, mapDispatchToProps)(GeneralSettings);
+const PgeneralSettingsBox = styled.div`
+  padding: 120px 0 0 350px;
+
+  .innerBox {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 50px;
+
+    .pageTitle {
+      font-size: 30px;
+    }
+
+    .contArea {
+      display: flex;
+      flex-direction: column;
+      gap: 38px;
+      max-width: 1200px;
+      padding: 52px 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+
+      .inputList {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+
+        li {
+          display: flex;
+          flex-direction: column;
+          gap: 22px;
+
+          .title {
+            font-size: 20px;
+          }
+
+          .inputBox {
+            display: flex;
+            align-items: center;
+            padding: 16px 30px;
+            border-radius: 8px;
+            background: #f6f6f6;
+
+            input,
+            textarea {
+              flex: 1;
+              height: 100%;
+              background: unset;
+              font-size: 16px;
+            }
+          }
+
+          &.description {
+            .inputBox {
+              height: 170px;
+
+              textarea {
+                &::-webkit-scrollbar {
+                  width: 4px;
+                  border: 5px solid #f6f6f6;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                  width: 4px;
+                  background: #b7b7b7;
+                  border-radius: 4px;
+                }
+
+                &::-webkit-scrollbar-track {
+                  background: #f4f2f2;
+                  border-radius: 4px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .logoutBtn {
+        width: 176px;
+        height: 56px;
+        border-radius: 43px;
+        font-size: 22px;
+        font-weight: 500;
+        color: #fff;
+        background: #222;
+      }
+    }
+  }
+`;

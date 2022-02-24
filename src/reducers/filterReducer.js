@@ -8,7 +8,7 @@ export const initialState = {
       min: 0
       , max: 0
     }
-    , category: ''
+    , category: 'all'
   }
 };
 

@@ -24,11 +24,14 @@ import moment from "moment";
 import SetErrorBar from "./util/SetErrorBar";
 import DefaultHeader from "./components/header/DefaultHeader";
 import { D_categoryList, D_navList, D_Tips } from "./data/D_main";
+import { useDispatch } from "react-redux";
+import { SET_CATEGORY } from "./reducers/filterReducer";
 
 export default function Main({ store }) {
   const navigate = useNavigate();
 
   const isMobile = useSelector((state) => state.common.isMobile);
+  const {marketFilter} = useSelector((state) => state.filter);
 
   const visualSwiperRef = useRef();
   const collectionSwiperRef = useRef();
@@ -47,7 +50,7 @@ export default function Main({ store }) {
   let [list_trenditems, setlist_trenditems] = useState([]);
   let [list_featured, setlist_featured] = useState([]);
   let axios = applytoken();
-
+  const dispatch = useDispatch();
   useEffect((_) => {
     axios.get(`${API.API_MAIN_FEATURED_ITEMS}`).then((resp) => {
       let { status, list } = resp.data;
@@ -448,8 +451,9 @@ export default function Main({ store }) {
                 {D_categoryList.map((category, index) => (
                   <li
                     key={index}
-                    onClick={() =>
-                      navigate("/marketplace", { state: category.state })
+                    onClick={() =>{
+                      dispatchEvent()
+                      navigate("/marketplace", { state: category.state })}
                     }
                   >
                     <strong>{category.text}</strong>
@@ -973,8 +977,11 @@ export default function Main({ store }) {
                 {D_categoryList.map((category, index) => (
                   <li
                     key={index}
-                    onClick={() =>
+                    onClick={() =>{
+                      console.log(category)
+                      dispatch({type: SET_CATEGORY, payload:{value:category.code}});
                       navigate("/marketplace", { state: category.state })
+                    }
                     }
                   >
                     <img src={category.img} alt="" />
