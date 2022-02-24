@@ -15,7 +15,7 @@ export const D_categoryList = [
     text: "Liked",
     url: "/liked",
   },
-  {
+  /*{
     text: "Hidden Item",
     url: "/hiddenitem",
   },
@@ -23,4 +23,5 @@ export const D_categoryList = [
     text: "Referals",
     url: "/referals",
   },
+  */
 ];

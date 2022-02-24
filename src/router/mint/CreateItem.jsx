@@ -207,7 +207,7 @@ export default function CreateItem({ store, setConnect }) {
         originator: walletAddress,
         category: curCategory,
         authorroyalty: parseInt((royal * 100).toFixed(0)),
-        url: fileResp.payload.url,
+        url: fileResp,
         datahash: itemid, // fil eResp.res pdata,
         timestamp: moment().format(),
         unixtime: moment().unix(),
@@ -227,6 +227,7 @@ export default function CreateItem({ store, setConnect }) {
       if (status == "OK") {
         const metaResult = metaResp.data;
         seturlmetadata(metaResult.payload.url);
+        console.log(metaResult.payload.url)
         SetErrorBar(messages.MSG_DONE_REGISTERING);
       } else {
         if (message == "DATA-DUPLICATE") {
@@ -241,7 +242,7 @@ export default function CreateItem({ store, setConnect }) {
   };
   const on_request_lazy_mint = async (_) => {
     const body = {
-      url: urlfile,
+      url: fileResp,
       titlename: name,
       description: description,
       priceunit: PAYMEANS_DEF,
@@ -314,27 +315,7 @@ export default function CreateItem({ store, setConnect }) {
     if (file && filesize > 0) {
       setFileChk(true);
       try {
-        if (file.size <= 4 * megaBytes) {
-          // file size < 4mb
-          const base64 = await encodeBase64File(file);
-          const base64Data = {
-            datainbase64: base64,
-            filename: file.name,
-            username: myaddress,
-          };
-          LOGGER("ojuEGTDeEU", base64Data);
-          //					return
-          const resp = await axios.post(API.API_ITEM_UPLOAD_BASE64, base64Data);
-          LOGGER("xG6MsNdQhX", resp.data);
-          let { status, payload, respdata } = resp.data;
-          if (status == "OK") {
-            setitemid(respdata);
-            setFileResp(resp.data);
-            setItem(payload.url);
-            seturlfile(payload.url);
-          }
-          return;
-        } else if (filesize <= 40 * megaBytes) {
+        if (filesize <= 40 * megaBytes) {
           let formData = new FormData();
           formData.append("file", file);
           formData.append("filename", file.name);
@@ -344,7 +325,8 @@ export default function CreateItem({ store, setConnect }) {
           let { status, payload, respdata } = resp.data;
           if (status == "OK") {
             setitemid(respdata);
-            setFileResp(resp.data);
+            setFileResp(resp.data.payload.url);
+            console.log(resp.data)
             setItem(payload.url);
           }
         } else {
@@ -609,6 +591,16 @@ export default function CreateItem({ store, setConnect }) {
 
                   <div className="imgBox">
                     <div className="imgContainer_innerBox">
+                      {item?(<>
+                      <img style={{width: '100%'}} onClick={() => itemInputRef.current.click()} src={item}></img>
+                      <input
+                        className="nospace"
+                        type="file"
+                        ref={itemInputRef}
+                        onChange={(e) => onChangeItem(e.target.files[0])}
+                      />
+                      </>):(
+                        <>
                       <p className="explain">
                         JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG etc. (Up to
                         40mb)
@@ -625,9 +617,10 @@ export default function CreateItem({ store, setConnect }) {
                         className="nospace"
                         type="file"
                         ref={itemInputRef}
-                        value={item}
-                        onChange={(e) => onChangeItem(e.target.value)}
+                        onChange={(e) => onChangeItem(e.target.files[0])}
                       />
+                      </>)
+                    }
                     </div>
                   </div>
                 </li>
@@ -734,9 +727,40 @@ export default function CreateItem({ store, setConnect }) {
             </article>
 
             <article className="btnArea">
-              <button className="createBtn" onClick={() => {}}>
+              <button className="createBtn" style={{display: 'none'}}onClick={() => {}}>
                 Create Item
               </button>
+
+
+
+              <div className="createBtn">
+                <a
+                  onClick={async (_) => {
+                    LOGGER("rsNxLMScQI");
+                    on_post_metadata();
+                  }}
+                >
+                  {"Register metadata"}
+                </a>
+              </div>
+              
+              <div className="createBtn">
+                <a
+                  onClick={(_) => {
+                    LOGGER("MOdR4DlcH9");
+                    if (activePubl) {
+                      on_request_tx_mint_onchain();
+                    } else {
+                      on_request_lazy_mint();
+                    }
+                  }}
+                >
+                  {activePubl ? "Mint item->chain" : "Register Item->server"}
+                </a>
+              </div>
+
+
+
             </article>
           </section>
         </PcreateItemBox>
@@ -1122,7 +1146,7 @@ const PcreateItemBox = styled.div`
 
           &.imgContainer {
             .imgBox {
-              height: 202px;
+              min-height: 202px;
               padding: 5px;
               border: dashed 2px #d9d9d9;
               border-radius: 8px;
@@ -1134,7 +1158,7 @@ const PcreateItemBox = styled.div`
                 align-items: center;
                 gap: 18px;
                 width: 100%;
-                height: 100%;
+                min-height: 202px;
                 border-radius: 8px;
                 background: #f6f6f6;
                 position: relative;

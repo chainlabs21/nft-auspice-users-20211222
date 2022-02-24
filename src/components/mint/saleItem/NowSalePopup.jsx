@@ -10,11 +10,15 @@ import SetErrorBar from "../../../util/SetErrorBar";
 import { messages } from "../../../config/messages";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export default function NowSalePopup({ off, itemid, itemdata }) {
   let navigate = useNavigate();
 
   const isMobile = useSelector((state) => state.common.isMobile);
+  useEffect(()=>{
+    console.log(itemdata)
+  },[])
 
   if (isMobile)
     return (
@@ -100,7 +104,7 @@ export default function NowSalePopup({ off, itemid, itemdata }) {
                 </li>
                 <li
                   onClick={(_) => {
-                    onClickCopy(singleitem_url(itemid));
+                    onClickCopy(singleitem_url(itemdata?.item?.itemid));
                     SetErrorBar(messages.MSG_COPIED);
                   }}
                 >
@@ -112,7 +116,7 @@ export default function NowSalePopup({ off, itemid, itemdata }) {
             <button
               className="viewBtn"
               onClick={() => {
-                navigate(`/singleitem?itemid=${itemid}`);
+                navigate(`/singleitem?itemid=${itemdata?.item?.itemid}`);
               }}
             >
               View Item

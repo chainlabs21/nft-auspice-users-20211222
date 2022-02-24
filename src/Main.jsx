@@ -383,7 +383,7 @@ export default function Main({ store }) {
             </article>
 
             <article className="collectionArticle swiperArticle contArticle">
-              <strong className="title">Trending Collection</strong>
+              <strong className="title">Trending Authors</strong>
 
               <div className="swiperContainer">
                 <div className="swiperBox">
@@ -897,7 +897,7 @@ export default function Main({ store }) {
             </article>
 
             <article className="collectionArticle swiperArticle contArticle">
-              <strong className="title">Trending Collection</strong>
+              <strong className="title">Trending Authors</strong>
 
               <div className="swiperContainer">
                 <div className="swiperBox">
@@ -1261,7 +1261,9 @@ export default function Main({ store }) {
                         <li key={index}>
                           <button
                             className="navBtn"
-                            onClick={() => navigate(`${detail.url}`)}
+                            onClick={() => {
+                              dispatch({type: SET_CATEGORY, payload:{value:detail.code}})
+                              navigate(`${detail.url}`)}}
                           >
                             {detail.text}
                           </button>

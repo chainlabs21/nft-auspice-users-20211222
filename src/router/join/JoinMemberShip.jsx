@@ -51,8 +51,8 @@ export default function JoinMemberShip() {
             <button className="cancelBtn" onClick={() => navigate(-1)}>
               Cancel
             </button>
-            <button className="sendBtn" onClick={navigate("/signup")}>
-              Send Email
+            <button className="sendBtn" onClick={()=>{navigate("/signup")}}>
+              Sign Up
             </button>
           </article>
         </section>

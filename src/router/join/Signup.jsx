@@ -2,13 +2,11 @@ import { connect, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../../util/store";
 import styled from "styled-components";
+import SetErrorBar from "../../util/SetErrorBar";
 
 import I_camera from "../../img/icons/I_camera.png";
 import I_x from "../../img/icons/I_x.svg";
 import I_chkBtn from "../../img/design/I_chkBtn.png";
-
-// import "./css/style01.css";
-// import "./css/style02.css";
 
 import { useEffect, useRef, useState } from "react";
 import { encodeBase64ImageFile, getuseraddress } from "../../util/common";
@@ -16,7 +14,10 @@ import { ERR_MSG } from "../../config/messages";
 import axios from "axios";
 import { API } from "../../config/api";
 
-function Signup({ store, setConnect }) {
+const kiloBytes = 1024;
+const megaBytes = 1024 * kiloBytes;
+
+export default function Signup({ store, setConnect }) {
   const navigate = useNavigate();
   const boxRef = useRef();
   const photoRef = useRef();
@@ -37,29 +38,14 @@ function Signup({ store, setConnect }) {
   const [ageCheck, setAgeCheck] = useState(false);
   const [subCheck, setSubCheck] = useState(false);
   const [infoCheck, setInfoCheck] = useState(false);
+  const [fileChk, setFileChk] = useState(true);
+  const [profId, setProfId] = useState()
+  const [profResp, setProfResp] = useState()
+  const [profUrl, setProfUrl] = useState()
+
 
   function onchangePhoto(file) {
     if (!file) return;
-/*
-    let reader = new FileReader();
-
-    reader.onload = () => {
-      setPhoto(reader.result)
-      console.log(photo)
-    }
-      reader.readAsDataURL(file);
-    
-    console.log(file)
-    if (file){
-      reader.readAsDataURL(file);
-      setImgFile(file);
-    }
-    setPhotoName(file.name);
-    reader.onload = function () {
-      setPhoto(reader.result);
-    };
-    오로라 rds
-    */
     setPhotoName(file.name);
     let reader = new FileReader();
     reader.readAsDataURL(file);
@@ -69,117 +55,148 @@ function Signup({ store, setConnect }) {
     };
   }
 
-  const handleSignup = () => {
-    const asyncSignup = async () => {
-      const regData = {
-        username: username,
-        address: address,
-        email: email,
-        imagebase64: "",
-        imagefilename: "",
-      };
+  const fileUpload = async (file) => {
+    if (!file) {
+      return;
+    }
+    const fileLength = file.name.length;
+    const fileDot = file.name.lastIndexOf(".");
 
+    let filesize = file.size;
+    if (file && filesize > 0) {
+      setFileChk(true);
       try {
-        console.log(regData);
-        const resp = await axios.post(API.API_USER_JOIN, regData);
-        console.log(resp);
-        if (resp.data.status === "OK") {
-          //SEND IMAGE IF EXISTS-------------------------------------
-          if (imgFile) {
-            if (imgFile.size<10*1024*1024){
-              let formData = new FormData();
-              formData.append("file", imgFile);
-              formData.append("filename", imgFile.name);
-              formData.append("username", address);
-              const resp = await axios.post(API.API_USER_PROF_UPLOAD, formData);
-              console.log("eERWguRnGR", resp.data);
-            }
+        if (filesize <= 40 * megaBytes) {
+          let formData = new FormData();
+          formData.append("file", file);
+          formData.append("filename", file.name);
+          formData.append("username", walletAddress);
+          const resp = await axios.post(API.API_USER_PROF_UPLOAD, formData);
+          console.log("eERWguRnGR", resp.data);
+          let { status, payload, respdata } = resp.data;
+          if (status == "OK") {
+            setProfId(respdata);
+            setProfResp(resp.data);
+            setProfUrl(payload.url);
           }
-          //---------------------------------------------------------
-          navigate("/sentemaildetail");
         } else {
-          // 서버 전송실패 예외처리
-          if (resp.data.message === "DATA-DUPLICATE") {
-            switch (resp.data.reason) {
-              case "address":
-                alert(ERR_MSG.ERR_DUPLICATE_ADDRESS);
-                break;
-              case "email":
-                alert(ERR_MSG.ERR_DUPLICATE_EMAIL);
-                break;
-              default:
-                alert(ERR_MSG.ERR_SERVER_STATUS);
-            }
-          } else {
-            alert(ERR_MSG.ERR_SERVER_STATUS);
-          }
+          SetErrorBar(ERR_MSG.ERR_FILE_SIZE_EXCEEDED);
           return;
         }
       } catch (error) {
+        SetErrorBar(ERR_MSG.ERR_FILE_UPLOAD_FAILED);
         console.log(error);
-        alert(ERR_MSG.ERR_AXIOS_REQUEST);
       }
-    };
-
-    if (!usernameChk) {
-      alert(ERR_MSG.ERR_REG_USERNAME);
-      return;
     }
-    if (!emailChk) {
-      alert(ERR_MSG.ERR_REG_EMAIL);
-      return;
-    }
-    if (!infoCheck || !ageCheck || !subCheck) {
-      alert(ERR_MSG.ERR_REG_AGREE);
-      return;
-    }
-    asyncSignup();
   };
-  // useEffect(() => {
-  //   if (username.length < 5 || username.length > 20) {
-  //     setUsernameChk(false);
-  //     setUsernameAlarm("Invalid nickname. It must be less than 20 characters.");
-  //     return;
-  //   }
 
-  //   /*
-  //   const regUsername = /^[가~힣a~zA~z\-\_\,]+$/;
 
-  //   if (!regUsername.test(username)) {
-  //     setUsernameChk(false);
-  //     setUsernameAlarm(
-  //       "Invalid nickname. Only Korean, English uppercase and lowercase letters, and special characters (- , _) are allowed."
-  //     );
-  //     return;
-  //   }
-  // */
 
-  //   setUsernameChk(true);
-  // }, [username]);
 
-  // useEffect(() => {
-  //   let regEmail =
-  //     /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+  const handleSignup = () => {
+    console.log('finally')
+    const asyncSignup = async () => {
+      const regData = {
+        username: address,
+        address: address,
+        email: email,
+        nickname: username,
+        imagebase64: "",
+        imagefilename: "",
+        verified: false
+      };
+      try {
+              //console.log({...regData, imagefilename: respdata});
+              if(!profUrl)setProfUrl("https://i.imgur.com/UPgG53R.jpeg")
+              const resp = await axios.post(API.API_USER_JOIN, {...regData, profileimageurl: profUrl});
+              console.log(resp);
+              if (resp.data.status === "OK") {
+                navigate("/sentemaildetail");
+              } else {
+          // 서버 전송실패 예외처리
+                if (resp.data.message === "DATA-DUPLICATE") {
+                  switch (resp.data.reason) {
+                    case "address":
+                      alert(ERR_MSG.ERR_DUPLICATE_ADDRESS);
+                      break;
+                    case "email":
+                      alert(ERR_MSG.ERR_DUPLICATE_EMAIL);
+                      break;
+                    default:
+                      alert(ERR_MSG.ERR_SERVER_STATUS);
+                  }
+                } else {
+                  alert(ERR_MSG.ERR_SERVER_STATUS);
+                }
+                return;
+              }
+            } catch (error) {
+              console.log(error);
+              alert(ERR_MSG.ERR_AXIOS_REQUEST);
+            }
+          };
+        
+      
+    
 
-  //   if (!regEmail.test(email)) {
-  //     setEmailChk(false);
-  //     setEmailAlarm("This is an invalid email address.");
-  //     return;
-  //   }
-  //   setEmailChk(true);
-  // }, [email]);
+      if (!usernameChk) {
+        alert(ERR_MSG.ERR_REG_USERNAME);
+        return;
+      }
+      if (!emailChk) {
+        alert(ERR_MSG.ERR_REG_EMAIL);
+        return;
+      }
+      if (!infoCheck || !ageCheck || !subCheck) {
+        alert(ERR_MSG.ERR_REG_AGREE);
+        return;
+      }
+      asyncSignup();
+  };
 
-  // useEffect(() => {
-  //   // address 없을경우
-  //   if (userAddress === null) {
-  //     alert(ERR_MSG.ERR_NO_ADDRESS);
-  //     navigate ( "/connectwallet" )
-  //     //			navigate ( "/connectwallet" )
-  //     return;
-  //   } else {
-  //     setAddress(userAddress);
-  //   }
-  // }, [userAddress]);
+  useEffect(() => {
+    if (username.length < 5 || username.length > 50) {
+      setUsernameChk(false);
+      setUsernameAlarm("Invalid nickname. It must be less than 20 characters.");
+      return;
+    }
+    setUsernameChk(true);
+    /*
+    const regUsername = /^[가~힣a~zA~z\-\_\,]+$/;
+
+    Invalid nickname. It must be less than 20 characters.
+
+    if (!regUsername.test(username)) {
+      setUsernameChk(false);
+      setUsernameAlarm(
+        "Invalid nickname. Only Korean, English uppercase and lowercase letters, and special characters (- , _) are allowed."
+      );
+      return;
+    }
+	*/
+  }, [username]);
+  useEffect(() => {
+    let regEmail =
+      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+
+    if (!regEmail.test(email)) {
+      setEmailChk(false);
+      setEmailAlarm("This is an invalid email address.");
+      return;
+    }
+    setEmailChk(true);
+  }, [ email ] )
+
+  useEffect(() => {		// address 없을경우
+    if ( walletAddress === null ) {
+      alert ( ERR_MSG.ERR_NO_ADDRESS )
+			navigate ( "/connectwallet" )
+//			navigate ( "/connectwallet" )
+      return
+    } else {
+      setAddress ( walletAddress )
+    }
+  }, [ walletAddress ] )
 
   if (isMobile)
     return (
@@ -240,8 +257,8 @@ function Signup({ store, setConnect }) {
                     placeholder="Less than 5-20 characters, only Korean, English uppercase and lowercase letters, and special characters (- , _) are allowed."
                   />
                 </div>
-                {username && <p className="able">Usernames that can be used</p>}
-                {username && (
+                {!usernameChk && <p className="able">Usernames that can be used</p>}
+                {usernameChk && (
                   <p className="disable">
                     Invalid nickname. It must be less than 20 characters.
                   </p>
@@ -282,6 +299,7 @@ function Signup({ store, setConnect }) {
 
           <ul className="chkList">
             <li>
+              <input type="checkbox" />
               <button className="chkBtn" onClick={() => {}}>
                 <img src={I_chkBtn} alt="" />
               </button>
@@ -347,7 +365,8 @@ function Signup({ store, setConnect }) {
                     className="nospace"
                     type="file"
                     ref={photoRef}
-                    onChange={(e) => onchangePhoto(e.target.files[0])}
+                    onChange={(e) => {fileUpload(e.target.files[0]);
+                      onchangePhoto(e.target.files[0])}}
                   />
                 </button>
 
@@ -378,8 +397,8 @@ function Signup({ store, setConnect }) {
                     placeholder="Less than 5-20 characters, only Korean, English uppercase and lowercase letters, and special characters (- , _) are allowed."
                   />
                 </div>
-                {username && <p className="able">Usernames that can be used</p>}
-                {username && (
+                {usernameChk && <p className="able">Usernames that can be used</p>}
+                {!usernameChk && (
                   <p className="disable">
                     Invalid nickname. It must be less than 20 characters.
                   </p>
@@ -409,8 +428,8 @@ function Signup({ store, setConnect }) {
                     placeholder="Please enter your email address"
                   />
                 </div>
-                {email && <p className="able">A valid email address.</p>}
-                {email && (
+                {emailChk && <p className="able">A valid email address.</p>}
+                {!emailChk && (
                   <p className="disable">This is an invalid email address.</p>
                 )}
               </div>
@@ -419,16 +438,16 @@ function Signup({ store, setConnect }) {
 
           <ul className="chkList">
             <li>
-              <button className="chkBtn" onClick={() => {}}>
-                <img src={I_chkBtn} alt="" />
+              <button className="chkBtn" onClick={(e)=>{setAgeCheck(!ageCheck)}}>
+                {ageCheck && <img src={I_chkBtn} alt="" />}
               </button>
 
               <p>19 years of age or older (required)</p>
             </li>
 
             <li>
-              <button className="chkBtn" onClick={() => {}}>
-                <img src={I_chkBtn} alt="" />
+              <button className="chkBtn" onClick={(e)=>{setSubCheck(!subCheck)}}>
+                {subCheck && <img src={I_chkBtn} alt="" />}
               </button>
 
               <p>
@@ -437,9 +456,10 @@ function Signup({ store, setConnect }) {
             </li>
 
             <li>
-              <button className="chkBtn" onClick={() => {}}>
-                <img src={I_chkBtn} alt="" />
+              <button className="chkBtn" onClick={(e)=>{setInfoCheck(!infoCheck)}}>
+                {infoCheck && <img src={I_chkBtn} alt="" />}
               </button>
+              
 
               <p>
                 <u>Personal Information Collection and Usage</u> Agreement
@@ -452,7 +472,7 @@ function Signup({ store, setConnect }) {
             <button className="cancelBtn" onClick={() => navigate("/")}>
               Cancel
             </button>
-            <button className="signBtn" onClick={handleSignup}>
+            <button className="signBtn" onClick={()=>{handleSignup()}}>
               Sign Up
             </button>
           </article>
@@ -826,7 +846,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+//export default connect(mapStateToProps, mapDispatchToProps)(Signup);
 
 //  return (
 //    <MsignPopupBox style={{ height: boxRef.current?.offsetHeight * 1.2 }}>
@@ -1001,4 +1021,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(Signup);
 //        <article className="popup_box"></article>
 //      </section>
 //    </MsignPopupBox>
-//  );
+//  )

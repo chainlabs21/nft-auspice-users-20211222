@@ -16,9 +16,30 @@ import { STRINGER, LOGGER } from "../../util/common";
 // function ConnectWallet( Setmyinfo ) {
 function ConnectWallet({ Setmyinfo, Setaddress }) {
   const navigate = useNavigate();
-  const { userData } = useSelector((state) => state.user);
+  const { walletAddress, userData } = useSelector((state) => state.user);
   const isMobile = useSelector((state) => state.common.isMobile);
   const dispatch = useDispatch();
+
+    //-------LOGIN FUNCTION
+    function login(address){
+      console.log(address)
+      axios
+        .post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
+        .then((resp) => {
+          let { status, respdata } = resp.data;
+          if (status === "OK") {
+            localStorage.setItem("token", respdata);
+            console.log("tokeeen"+respdata)
+            axios.defaults.headers.common["token"] = resp.data.respdata;
+            localStorage.setItem("address", address);
+            SetErrorBar(messages.MSG_ADDRESS_CHANGED + `: ${address}`);
+          } else if (status === "ERR") {
+            localStorage.removeItem("token");
+            axios.defaults.headers.common["token"] = "";
+          }
+        });
+    };
+    /////////////////////////////////////////////////////////////////////
 
   const getUserInfo = async () => {
     try {
@@ -38,6 +59,57 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
     }
   };
 
+  async function connectWallet(TYPE){
+    let {ethereum, klaytn} = window;
+    //let accounts =""
+    async function select(TYPE){
+    switch(TYPE){
+      case 1:
+        //dispatch(SET_WALLET('METAMASK'));
+        return await ethereum.enable();
+      case 2: 
+      //dispatch(SET_WALLET('KAIKAS'));
+      return await klaytn.enable()
+    }
+  }
+  const accounts = await select(TYPE)
+  //const accounts = await ethereum.request({method: 'eth_requestAccounts'})
+    LOGGER(TYPE, accounts)
+    let address = accounts[0]
+    //dispatch(SET_ADDRESS(address));
+    dispatch({ type: SET_ADDRESS, payload: {value: address }}); 
+
+    console.log(address)
+    //---------------
+      const resp = await axios.get(`${API.API_USER_INFO}/${address}`)
+      console.log(resp.data.payload.maria)
+      dispatch({
+        type: SET_USER_DATA,
+        payload: {value: resp.data.payload},
+      });
+      if(resp.data.payload.maria==null) {
+        navigate("/joinmembership")
+        return;
+      }
+      if(resp.data.payload.maria.email == null){
+        navigate("/emailchange")
+        return;
+      }
+      if(resp.data.payload.maria.emailverified == 0){
+        navigate("/sentEmailDetail")
+        return
+      }
+
+      //console.log(userWallet)
+      dispatch({
+        type: SET_LOGIN.type
+      });
+      login(address)
+      //dispatch(SET_LOGIN());
+      navigate("/")
+
+  }
+/*
   async function connectKaikas() {
     const accounts = await window.klaytn.enable();
     LOGGER("wkhuemnasP000", accounts);
@@ -50,7 +122,7 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
       cryptotype: "eth",
     };
     //    try {
-      /*
+      
     let address_local = localStorage.getItem("address");
     let token = localStorage.getItem("token");
     if (address_local && token) {
@@ -58,7 +130,7 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
       navigate("/");
       return;
     } else {
-    }*/
+    }
     //			if (address_local == ){}
     //console.log("LET'S CHECK : ")
     const resp = await axios.post(API.API_USERS_LOGIN, loginData);
@@ -100,7 +172,13 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
           console.log(resp.data.message);
       }
     }
-  }
+  }*/
+
+
+
+
+
+
   if (isMobile)
     return (
       <MsignPopupBox>
@@ -125,7 +203,7 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
             </div>
 
             <ul className="walletList">
-              <li onClick={connectKaikas}>
+              <li onClick={()=>{connectWallet(2)}}>
                 <span className="infoBox">
                   <img src={I_klaytn} alt="" />
                   <p>klaytn</p>
@@ -174,9 +252,15 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
 
             <ul className="walletList">
               <li>
-                <button onClick={connectKaikas}>
+                <button onClick={()=>{connectWallet(2)}}>
                   <img src={I_klaytn} alt="" />
                   <p>klaytn</p>
+                </button>
+              </li>
+              <li>
+                <button onClick={()=>{connectWallet(1)}}>
+                  <img src={I_klaytn} alt="" />
+                  <p>MetaMask</p>
                 </button>
               </li>
             </ul>

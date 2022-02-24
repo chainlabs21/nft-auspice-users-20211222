@@ -271,7 +271,7 @@ export default function SearchWallet() {
             />
 
             <div className="contBox">
-              <span className="profImg" />
+              <img className="profImg" src={userData?.myinfo_maria?.profileimageurl}></img>
               <div className="btnBox">
                 <button className="" onClick={() => {}}>
                   <img src={re} alt="" />
@@ -282,10 +282,10 @@ export default function SearchWallet() {
               </div>
 
               <div className="infoBox">
-                <strong className="title">{userData.myinfo_maria.nickname}'s Items</strong>
+                <strong className="title">{userData?.myinfo_maria?.nickname}'s Items</strong>
                 <p className="address">{strDot(walletAddress, 5, 5)}</p>
                 <p className="introduce">
-                  {userData.myinfo_maria.description}
+                  {userData?.myinfo_maria?.description}
                 </p>
               </div>
             </div>
@@ -399,10 +399,7 @@ export default function SearchWallet() {
                         <>
                           <ul className="morePopup">
                             <li>Sale</li>
-                            <li>Hand Over</li>
                             <li>Edit</li>
-                            <li>Collection Change</li>
-                            <li>Unhide</li>
                           </ul>
                           <PopupBg off={setPopupIndex} />
                         </>

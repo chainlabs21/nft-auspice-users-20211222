@@ -9,6 +9,7 @@ import icon_noti_off from "../../img/sub/icon_noti_off.png";
 import icon_noti_on from "../../img/sub/icon_noti_on.png";
 
 import { useLocation, useNavigate } from "react-router";
+import { strDot } from "../../util/Util";
 import DetailHeader from "../header/DetailHeader";
 
 export default function AccountLeftBar({ off }) {
@@ -16,6 +17,7 @@ export default function AccountLeftBar({ off }) {
   const navigate = useNavigate();
 
   const isMobile = useSelector((state) => state.common.isMobile);
+  const {walletAddress} = useSelector((state) => state.user);
 
   function onClickNav(url) {
     navigate(url, { state: { toggle: true } });
@@ -35,7 +37,7 @@ export default function AccountLeftBar({ off }) {
           </span>
 
           <span className="addressBox">
-            <p className="address">0x9Bb...Carf</p>
+            <p className="address">{strDot(walletAddress, 5, 5)}</p>
             <button className="copyBtn" onClick={() => {}}>
               <img src={wallet_sub} alt="" />
             </button>
@@ -71,7 +73,7 @@ export default function AccountLeftBar({ off }) {
           </span>
 
           <span className="addressBox">
-            <p className="address">0x9Bb...Carf</p>
+            <p className="address">{strDot(walletAddress, 5, 4)}</p>
             <button className="copyBtn" onClick={() => {}}>
               <img src={wallet_sub} alt="" />
             </button>

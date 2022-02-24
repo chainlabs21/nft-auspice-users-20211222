@@ -53,6 +53,7 @@ import AuctionBid from "./saleItem/AuctionBid";
 export default function SaleFixed() {
   const navigate = useNavigate();
   const { search } = useLocation();
+  let a=[1];
 
   const isMobile = useSelector((state) => state.common.isMobile);
 
@@ -76,6 +77,7 @@ export default function SaleFixed() {
   let [tokenid, settokenid] = useState();
   let [jsettings, setjsettings] = useState({});
   let [searchParams, setSearchParams] = useSearchParams();
+  const [itemiid, setitemiid] = useState(searchParams.get("itemid"));
   let [amounttosell, setamounttosell] = useState(0);
   const [listingProcess, setListingProcess] = useState(2);
   let [sellorder, setsellorder] = useState();
@@ -85,6 +87,7 @@ export default function SaleFixed() {
   let typestr = "COMMON";
 
   useEffect((_) => {
+    fetchitem(itemiid)
     let itemprice = getrandomint(12, 17);
     setItemPrice(itemprice);
     setEndPrice(getrandomint(itemprice - 10, itemprice - 2));
@@ -224,7 +227,7 @@ export default function SaleFixed() {
           if (status == "OK") {
             SetErrorBar(messages.MSG_DONE_REGISTERING);
             setListingProcess(2);
-            fetchitem(itemid);
+            fetchitem(itemiid);
             false &&
               setTimeout((_) => {
                 MODE_DEV_PROD == 1 && navigate("/marketplace");
@@ -234,12 +237,14 @@ export default function SaleFixed() {
     });
   };
   const fetchitem = async (itemid) => {
+    console.log('try')
     try {
       const resp = await axios.get(API.API_GET_ITEM_DATA + `/${itemid}`);
       LOGGER("url", API.API_GET_ITEM_DATA);
       LOGGER("", resp.data);
       let { status, respdata } = resp.data;
       if (status === "OK") {
+        console.log(respdata)
         setitemdata(respdata); // .item
         setRoyalty(respdata.item.authorfee / 100);
         settokenid(respdata.item.tokenid);
@@ -345,7 +350,7 @@ export default function SaleFixed() {
           <>
             <NowSalePopup
               off={setListingProcess}
-              itemid={itemid}
+              itemid={itemiid}
               itemdata={itemdata}
             />
             <PopupBg bg off={setListingProcess} />
@@ -600,7 +605,7 @@ export default function SaleFixed() {
                 </li>
               </ul>
 
-              <button className="saleBtn" onClick={() => {}}>
+              <button className="saleBtn" onClick={() => {handleSalesStart()}}>
                 Sales Start
               </button>
             </article>

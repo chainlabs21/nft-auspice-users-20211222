@@ -139,6 +139,7 @@ async function getItem(icategory, itemIndex = 0) {
         if (status == "OK") {
           itemList = [...itemList, ...list];
           setFilteredList([...itemList]);
+          console.log(resp)
           setTotalItem(payload.count);
           loadingBusy = false;
         }
