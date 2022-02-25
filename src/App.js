@@ -1,4 +1,4 @@
-import { connect, useSelector } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import Main from "./Main";
@@ -61,10 +61,13 @@ import "./css/footer.css";
 import "./css/layout.css";
 import "./css/style.css";
 import "./css/swiper.min.css";
+import { SET_ADDRESS } from "./reducers/userReducer";
 
 function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const { mHeaderPopup } = useSelector((state) => state.store);
+  const dispatch =useDispatch();
   const login = (address) => {
+    console.log("로그인 시도")
     axios
       .post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
       .then((resp) => {
@@ -74,6 +77,8 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           axios.defaults.headers.common["token"] = resp.data.respdata;
           localStorage.setItem("address", address);
           Setaddress(address);
+          dispatch({type:SET_ADDRESS, payload:{value: address}})
+          console.log(address)
           SetErrorBar(messages.MSG_ADDRESS_CHANGED + `: ${address}`);
         } else if (status === "ERR") {
           localStorage.removeItem("token");
@@ -122,6 +127,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           address_local &&
           is_two_addresses_same(address, address_local)
         ) {
+          console.log('같애?')
           return;
         } else {
         }
@@ -130,6 +136,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           // disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
           //				Setaddress( address )
           login(address);
+          console.log("로그인 시도 안해?")
         } else {
           SetErrorBar(messages.MSG_WALLET_DISCONNECTED);
           on_wallet_disconnect();

@@ -54,6 +54,7 @@ import { getethrep, getweirep, is_two_addresses_same } from "../../util/eth";
 import rstone from "../../img/sub/rstone.png";
 import I_dnArw from "../../img/header/I_dnArw.svg";
 import icon_link_on from "../../img/sub/icon_link_on.png";
+import icon_link_off from "../../img/sub/icon_link_off.png";
 import heart_off from "../../img/sub/heart_off.png";
 import heart_on from "../../img/sub/heart_on.png";
 import star_off from "../../img/sub/star_off.png";
@@ -101,10 +102,11 @@ function SingleItem({
   const otherWorkRef = useRef();
 
   const isMobile = useSelector((state) => state.common.isMobile);
+  const {walletAddress} = useSelector((state) => state.user);
 
   const [listCategory, setListCategory] = useState(0);
   const [otherWorkIndex, setOtherWorkIndex] = useState(0);
-  const [myItem, setMyItem] = useState(true);
+  const [myItem, setMyItem] = useState(false);
   const [ownerPopup, setOwnerPopup] = useState(false); // true
   const [likePopup, setLikePopup] = useState(false);
   const [reportPopup, setreportPopup] = useState(false);
@@ -473,11 +475,11 @@ function SingleItem({
                   LOGGER("V9kbW2K1sr", resp.data);
                   let { status, payload } = resp.data;
                   if (status == "OK") {
-                    let { profileimage } = payload?.mongo;
-                    if (profileimage) {
+                    let { profileimageurl } = payload?.maria;
+                    if (profileimageurl) {
                       //									let jdata={}
                       //								jdata[v.username ] = profileimage
-                      jprofileimages[idx] = profileimage;
+                      jprofileimages[idx] = profileimageurl;
                       setjprofileimages(jprofileimages);
                     }
                   }
@@ -622,14 +624,10 @@ function SingleItem({
 
   useEffect(
     (_) => {
-      let { itemid } = store;
-      if (itemid) {
-      } else {
-        return;
-      }
       fetchitem(itemid);
+      console.log('또잉')
     },
-    [store.itemid]
+    [itemid, searchParams]
   );
 
   useEffect(
@@ -776,7 +774,7 @@ function SingleItem({
                           Your balance
                           <span className="red" style={{ color: "black" }}>
                             {" "}
-                            {strDot(myaddress, 8, 2)}
+                            {strDot(walletAddress, 8, 2)}
                           </span>
                         </p>
                         <div className="right_price m_left">
@@ -1049,7 +1047,7 @@ function SingleItem({
               </div>
             </article>
 
-            <article className="offerBox">
+            <article className="offerBox" style={{display:'none'}}>
               <strong className="title">Offer History</strong>
 
               <div className="scrollBox">
@@ -1336,7 +1334,7 @@ function SingleItem({
 
         {purchasePopup && (
           <>
-            <PurchaseSinglePopup off={setPurchasePopup} />
+            <PurchaseSinglePopup off={setPurchasePopup} imageurl={itemdata?.item?.url} title={itemdata?.item?.titlename} price={sellorder?.asset_amount_ask} sellername={sellorder?.username}/>
             <PopupBg bg off={setPurchasePopup} />
           </>
         )}
@@ -1445,7 +1443,7 @@ function SingleItem({
                           Your balance
                           <span className="red" style={{ color: "black" }}>
                             {" "}
-                            {strDot(myaddress, 8, 2)}
+                            {strDot(walletAddress, 8, 2)}
                           </span>
                         </p>
                         <div className="right_price m_left">
@@ -1644,15 +1642,15 @@ function SingleItem({
                     <div className="priceBox">
                       <p className="title">Current Bid</p>
                       <div className="price">
-                        <p className="value">2.867</p>
-                        <p className="key">AUSP</p>
+                        <p className="value">{sellorder?.asset_amount_ask}</p>
+                        <p className="key">KLAY</p>
                       </div>
                       <p className="exchange">$1,234.25</p>
                     </div>
 
                     <div className="timeBox">
-                      <p className="title">Auction ending in</p>
-                      <strong className="time">05:32:21</strong>
+                      <p className="title">Auction ending</p>
+                      <strong className="time">{moment.unix(sellorder?.expiry).fromNow()}</strong>
                     </div>
                   </div>
 
@@ -1667,12 +1665,12 @@ function SingleItem({
             </article>
 
             <article className="descriptionArea">
+              <div>
               <strong className="title">Description</strong>
 
               <p className="description">{itemdata.item?.description}</p>
-            </article>
+              </div>
 
-            <article className="historyArea">
               <div className="priceBox">
                 <strong className="title">Price History</strong>
 
@@ -1688,15 +1686,15 @@ function SingleItem({
                     <ul className="priceList">
                       <li>
                         <p className="key">Average price</p>
-                        <strong className="value">$31.11</strong>
+                        <strong className="value">{pricestats[2] || "NA"}</strong>
                       </li>
                       <li>
                         <p className="key">Highest price</p>
-                        <strong className="value">$32.11</strong>
+                        <strong className="value">{pricestats[1] || "NA"}</strong>
                       </li>
                       <li>
                         <p className="key">Lowest price</p>
-                        <strong className="value">$30.11</strong>
+                        <strong className="value">{pricestats[0] || "NA"}</strong>
                       </li>
                     </ul>
 
@@ -1726,7 +1724,7 @@ function SingleItem({
                 </div>
               </div>
 
-              <div className="offerBox">
+              <div className="offerBox" style={{display:'none'}}>
                 <strong className="title">Offer History</strong>
 
                 <div className="scrollBox">
@@ -1781,23 +1779,44 @@ function SingleItem({
                   </ul>
 
                   <ul className="list">
-                    {[1, 2, 3, 4, 5, 6].map((cont, index) => (
-                      <li key={index}>
-                        <span>
-                          <div className="priceBox">
-                            <img src={I_klaytn} alt="" />
-                            <p>0.015 KLAY ($30.11)</p>
-                          </div>
-
-                          <button className="purchaseBtn" onClick={() => {}}>
-                            Purchase
-                          </button>
-                        </span>
-
-                        <span>3 days later</span>
-                        <span>Philip van Kouwenbergh</span>
-                      </li>
-                    ))}
+                  {orders_sell
+                      .sort((a, b) => {
+                        return +a.asset_amount_ask == +b.asset_amount_ask
+                          ? a.createdat > b.createdat
+                            ? -1
+                            : +1
+                          : +a.asset_amount_ask - +b.asset_amount_ask;
+                      })
+                      .map((v, idx) => {
+                        return (
+                          <li key={idx}>
+                            <span>
+                              <div className="priceBox">
+                                <img src={I_klaytn} alt="" />
+                                <p>{(+v.asset_amount_ask)?.toFixed(4)} KLAY</p>
+                              </div>
+                              <button className="purchaseBtn" onClick={(_) => {
+                                if (is_two_addresses_same(walletAddress, v.username)) {
+                                  setMyItem(true)
+                                  SetErrorBar(messages.MSG_YOUR_OWN_ORDER);
+                                  return;
+                                } else {
+                                  console.log('same')
+                                  setMyItem(false)
+                                }
+                                setsellorder(v);
+                                //console.log(v)
+                                return;
+                              }}>
+                                Purchase
+                              </button>
+                            </span>
+                            <span>{moment(v.createdat).fromNow()}</span>
+                            {/**<img src={jprofileimages[idx]} alt="" /> */}
+                            <span>{convertLongString(8, 8, v.username)}</span>
+                          </li>
+                        );
+                      })}
                   </ul>
                 </div>
               </div>
@@ -1808,28 +1827,29 @@ function SingleItem({
                 <div className="scrollBox">
                   <ul className="listHeader">
                     <li>Price</li>
-                    <li>Expired</li>
+                    <li>Date</li>
                     <li>Buyer</li>
                   </ul>
 
                   <ul className="list">
-                    {[1, 2, 3, 4, 5, 6].map((cont, index) => (
-                      <li key={index}>
-                        <span>
-                          <div className="priceBox">
-                            <img src={I_klaytn} alt="" />
-                            <p>0.015 KLAY ($30.11)</p>
-                          </div>
-
-                          <button className="purchaseBtn" onClick={() => {}}>
-                            Purchase
-                          </button>
-                        </span>
-
-                        <span>3 days later</span>
-                        <span>Philip van Kouwenbergh</span>
-                      </li>
-                    ))}
+                  {logorders.sort((a , b)=>a.createdat>b.createdat? -1:+1 ).map((v, idx) => (
+                          <li key={idx}>
+                            <span>
+                              <div className="priceBox">
+                                <img
+                                  src={I_klaytn}
+                                  alt=""
+                                />
+                                <p>
+                                  {v.price} KLAY{" "}
+                                  <p>(Qty. {v.asset_amount_bid})</p>
+                                </p>
+                              </div>
+                            </span>
+                            <span>{moment(v.createdat).fromNow()}</span>
+                            <span>{convertLongString(8, 8, v.buyer)}</span>
+                          </li>
+                        ))}
                   </ul>
                 </div>
               </div>
@@ -1859,16 +1879,27 @@ function SingleItem({
                 </ul>
 
                 <ul className="list">
-                  {[1, 2, 3, 4, 5, 6].map((cont, index) => (
+                  {listholder.map((v, index) => (
                     <li key={index}>
-                      <span>purchase</span>
-                      <span>0.0020 KLAY</span>
-                      <span>0xb9e83064c381bd64cb2b2f8406203e584b81a7e1</span>
-                      <span>0x495f947276749ce646f68ac8c248420045cb7b5e</span>
-                      <span>1 month ago</span>
+                      <span>{MAP_ITEMHISTORY_EVETNS[v.typestr]}</span>
+                      <span>{putCommaAtPrice(v.price *1)} KLAY</span>
+                      <span>{v.from_}</span>
+                      <span>{v.to_}</span>
+                      <span>{moment(v.createdat).fromNow()}</span>
                       <span>
-                        <button onClick={() => {}}>
-                          <img src={icon_link_on} alt="" />
+                        <button onClick={() => {
+                          if(v.isonchain){
+                            window.open(
+                              URL_TX_SCAN[v.nettype] + `/${v.txhash}`,
+                              "_blank"
+                            )
+                            .focus();
+                          }else{
+                            SetErrorBar(messages.MSG_IT_IS_OFFCHAIN);
+                            return;
+                          }
+                        }}>
+                          <img src={v.isonchain?icon_link_on:icon_link_off} alt="" />
                         </button>
                       </span>
                     </li>
@@ -3131,8 +3162,8 @@ const PsingleItemBox = styled.div`
 
     .descriptionArea {
       display: flex;
-      flex-direction: column;
-      gap: 20px;
+      //flex-direction: column;
+      gap: 50px;
       margin: 40px 0 0 0;
 
       .title {
@@ -3144,6 +3175,79 @@ const PsingleItemBox = styled.div`
         font-weight: 500;
         line-height: 20px;
       }
+      & > div {
+        
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .title {
+          font-size: 22px;
+        }
+
+        .contBox {
+          flex: 1;
+        }
+
+        &.priceBox {
+          .contBox {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+
+            .termBox {
+              .termBtn {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 176px;
+                height: 38px;
+                padding: 0 16px;
+                font-size: 16px;
+                font-weight: 500;
+                border: solid 1px #899a9b;
+                border-radius: 24px;
+
+                img {
+                  width: 20px;
+                }
+              }
+            }
+
+            .chartContainer {
+              display: flex;
+
+              .priceList {
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+                width: 120px;
+
+                li {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 8px;
+
+                  .key {
+                    font-size: 14px;
+                    font-weight: 500;
+                  }
+
+                  .value {
+                    font-size: 26px;
+                  }
+                }
+              }
+
+              .chartBox {
+                width: 380px;
+              }
+            }
+          }
+        }
+      }
+
     }
 
     .historyArea {

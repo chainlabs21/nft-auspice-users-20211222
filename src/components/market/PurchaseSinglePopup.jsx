@@ -4,7 +4,7 @@ import I_x from "../../img/icons/I_x.svg";
 import I_klaytn from "../../img/sub/I_klaytn.svg";
 import I_chkBtn from "../../img/design/I_chkBtn.png";
 
-export default function BidSinglePopup({ off }) {
+export default function BidSinglePopup({ off, imageurl,title, sellername, price }) {
   const isMobile = useSelector((state) => state.common.isMobile);
 
   if (isMobile)
@@ -30,11 +30,11 @@ export default function BidSinglePopup({ off }) {
 
             <ul className="itemList">
               <li>
-                <span className="itemImg" />
+                <img className="itemImg" src="itemurl"/>
 
                 <div className="infoBox">
                   <div className="titleBox">
-                    <p className="seller">Philip van Kouwenbergh</p>
+                    <p className="seller">{sellername}</p>
                     <strong className="itemTitle">Blackman with neon</strong>
                   </div>
 
@@ -123,18 +123,18 @@ export default function BidSinglePopup({ off }) {
 
             <ul className="itemList">
               <li>
-                <span className="itemImg" />
+                <img className="itemImg" src={imageurl}/>
 
                 <div className="infoBox">
                   <div className="titleBox">
-                    <p className="seller">Philip van Kouwenbergh</p>
-                    <strong className="itemTitle">Blackman with neon</strong>
+                    <p className="seller">{sellername}</p>
+                    <strong className="itemTitle">{title}</strong>
                   </div>
 
                   <div className="priceBox">
                     <div className="token">
                       <img src={I_klaytn} alt="" />
-                      <strong className="price">25</strong>
+                      <strong className="price">{price}</strong>
                     </div>
 
                     <p className="exchange">($58,282.50)</p>
@@ -152,7 +152,7 @@ export default function BidSinglePopup({ off }) {
               <div className="valueBox">
                 <div className="token">
                   <img src={I_klaytn} alt="" />
-                  <strong className="price">25</strong>
+                  <strong className="price">{price}</strong>
                 </div>
                 <p className="exchange">($58,282.50)</p>
               </div>
