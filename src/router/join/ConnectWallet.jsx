@@ -102,7 +102,10 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
 
       //console.log(userWallet)
       dispatch({
-        type: SET_LOGIN.type
+        type: SET_LOGIN,
+        payload:{
+          value: true
+        }
       });
       login(address)
       //dispatch(SET_LOGIN());

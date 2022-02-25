@@ -51,7 +51,7 @@ import { API } from "./config/api";
 import { messages } from "./config/messages";
 import GlobalStyle from "./components/globalStyle";
 import { setmyinfo, setaddress } from "./util/store";
-import { LOGGER, PARSER } from "./util/common";
+import { LOGGER} from "./util/common";
 import { is_two_addresses_same } from "./util/eth";
 import EditItem from "./router/EditItem";
 import EventListener from "./components/common/EventListener";
@@ -95,7 +95,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
       axios.post(API.API_LOGOUT).then((resp) => {
         LOGGER("3LyOB7GcWr@logout", resp.data);
         let { status } = resp.data;
-        if (status == "OK") {
+        if (status === "OK") {
           //          SetLogut();
           localStorage.removeItem("token");
           resolve(true);
@@ -164,7 +164,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         //	}
       }
     }, 3 * 1000);
-  }, []);
+  });
 
   return (
     <AppBox className="appBox">

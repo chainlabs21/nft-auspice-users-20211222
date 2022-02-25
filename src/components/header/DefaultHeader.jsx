@@ -41,7 +41,7 @@ export default function DefaultHeader() {
 
   const [search, setSearch] = useState("");
   const [mMenuPopup, setMenuPopup] = useState(false);
-  useEffect(()=>{
+  function checklogin(){
     console.log(window.klaytn.enable()[0])
     //console.log(isloggedin+" : "+walletAddress)
     if (!localStorage.getItem("token")) return;
@@ -60,22 +60,14 @@ export default function DefaultHeader() {
       }
     })
 
-    
+  }
+  useEffect(()=>{
+    checklogin()
     
   }, [])
 
   function onClickConnectWallet() {
-/*
-    
-    let { klaytn } = window;
-    if (!klaytn) return;
-
-    
-
-    let { selectedAddress } = klaytn;
-    if (selectedAddress) dispatch({type: SET_ADDRESS, payload:{value: selectedAddress}});
-    
-    else */navigate("/connectwallet");
+    !isloggedin && navigate("/connectwallet");
   }
 
   if (isMobile)
@@ -443,42 +435,42 @@ const marketPlacePopupList = [
     onImg: menu_all,
     offImg: menu_all_off,
     text: "All",
-    state: "ALL",
+    state: "all",
   },
   {
     onImg: menu_collectibles,
     offImg: menu_collectibles_off,
     text: "Collectibles",
-    state: "COLLECTIBLES",
+    state: "collectibles",
   },
   {
     onImg: menu_digitalart,
     offImg: menu_digitalart_off,
     text: "Digital Art",
-    state: "ART",
+    state: "art",
   },
   {
     onImg: menu_tradingcard,
     offImg: menu_tradingcard_off,
     text: "Trading Card",
-    state: "TRADINGCARDS",
+    state: "trading cards",
   },
   {
     onImg: menu_music,
     offImg: menu_music_off,
     text: "Music",
-    state: "MUSIC",
+    state: "Music",
   },
   {
     onImg: menu_virtualworlds,
     offImg: menu_virtualworlds_off,
     text: "Virtual Worlds",
-    state: "VIRTUALWORLD",
+    state: "virtual world",
   },
   {
     onImg: menu_sports,
     offImg: menu_sports_off,
     text: "Sports",
-    state: "SPORTS",
+    state: "sports",
   },
 ];

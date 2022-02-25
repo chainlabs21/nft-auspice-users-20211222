@@ -120,7 +120,7 @@ export default function CreateItem({ store, setConnect }) {
       contractaddress: ADDRESSES.erc1155,
       abikind: "ERC1155",
       methodname: "mint",
-      aargs: [myaddress, random_ipfscid, countcopies, royal, 0, "0x00"],
+      aargs: [myaddress, random_ipfscid, copy, royal, 0, "0x00"],
     });
     LOGGER("JwE5ZF6jav", abistr, random_ipfscid);
     if (myaddress) {
@@ -167,7 +167,7 @@ export default function CreateItem({ store, setConnect }) {
           categorystr: curCategory, //    , originatorfeeinbp
           author: myaddress,
           authorfee: conv_percent_bp(royal),
-          countcopies,
+          countcopies: copy,
         };
         if (resp) {
           axios
@@ -213,7 +213,7 @@ export default function CreateItem({ store, setConnect }) {
         unixtime: moment().unix(),
         unlockcontent: unlocked === true ? 1 : 0,
         unlockedcontent: unlockedContent,
-        countcopies: countcopies,
+        countcopies: copy,
         freezemetadata: freezing === true ? 1 : 0,
         originator: myaddress,
         author: myaddress,
@@ -254,7 +254,7 @@ export default function CreateItem({ store, setConnect }) {
       categorystr: curCategory,
       author: myaddress, // walletAddress ,
       authorfee: conv_percent_bp(royal), //parseInt( ( royal * 100 ).toFixed(0) )
-      countcopies,
+      countcopies: copy,
       //	amount: 1,
       //		decimals: 18,
       //			expiry: 0,
@@ -487,7 +487,7 @@ export default function CreateItem({ store, setConnect }) {
                   </div>
                 </li>
 
-                <li className="unlockBox">
+                <li className="unlockBox" style={{display: 'none'}}>
                   <div className="titleBox toggleBox">
                     <strong className="title">Unlocked content</strong>
                     <button
@@ -534,7 +534,7 @@ export default function CreateItem({ store, setConnect }) {
                   </div>
                 </li>
 
-                <li className="freezeBox">
+                <li className="freezeBox" style={{display: 'none'}}>
                   <div className="titleBox toggleBox">
                     <strong className="title">Freezing metadata</strong>
                     <button
@@ -625,6 +625,40 @@ export default function CreateItem({ store, setConnect }) {
                   </div>
                 </li>
 
+
+                <li className="categoryBox" style={{display: 'none'}}>
+                  <div className="titleBox">
+                      <strong className="title">Category</strong>
+                    </div>
+                          <p>You can easily search by selecting a category.</p>
+                          <div className="categoryList">
+                            <ul>
+                              {categories.map((cate, idx) => (
+                                <li
+                                  key={idx}
+                                  onClick={() => {
+                                    setCurCategory(cate.category);
+                                  }}
+                                  style={
+                                    curCategory === cate.category
+                                      ? {
+                                          backgroundColor: "black",
+                                          color: "white",
+                                        }
+                                      : {}
+                                  }
+                                >
+                                  <span>{cate.category}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </li>
+
+
+
+
+
                 <li className="nameBox">
                   <div className="titleBox">
                     <strong className="title">Name</strong>
@@ -659,7 +693,7 @@ export default function CreateItem({ store, setConnect }) {
                   </div>
                 </li>
 
-                <li className="unlockBox">
+                <li className="unlockBox" style={{display: 'none'}}>
                   <div className="titleBox toggleBox">
                     <strong className="title">Unlocked content</strong>
                     <button
@@ -706,7 +740,7 @@ export default function CreateItem({ store, setConnect }) {
                   </div>
                 </li>
 
-                <li className="freezeBox">
+                <li className="freezeBox" style={{display: 'none'}}>
                   <div className="titleBox toggleBox">
                     <strong className="title">Freezing metadata</strong>
                     <button

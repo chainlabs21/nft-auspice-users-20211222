@@ -14,3 +14,7 @@ export const D_instructionList = [
 export const D_dateList = ["3 Days Later", "2 Days Later", "1 Days Later"];
 
 export const D_timeList = ["PM 03 : 00", "AM 01 : 00", "AM 02 :00"];
+
+export const D_datecode = ["3", "2", "1"];
+
+export const D_timecode = ["15", "1", "2"];

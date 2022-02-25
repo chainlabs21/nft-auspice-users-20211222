@@ -27,7 +27,6 @@ export default function DefaultFilter({ store, setStatusFilter, setPriceFilter, 
   //setFilterME('asdadsad')
 
   useEffect(()=>{
-    console.log('check')
   },[marketFilter])
   
   function handleStatus(key, val){

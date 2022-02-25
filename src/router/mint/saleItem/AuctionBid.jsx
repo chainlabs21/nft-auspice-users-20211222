@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useSelector} from "react-redux";
 import styled from "styled-components";
 import I_klaytn from "../../../img/sub/I_klaytn.svg";
 import I_dnArrow from "../../../img/icons/I_dnArrow.svg";
@@ -12,15 +12,32 @@ import {
 import PopupBg from "../../../components/PopupBg";
 import SelectPopup from "../../../components/SelectPopup";
 
-export default function AuctionBid() {
+export default function AuctionBid(props) {
   const isMobile = useSelector((state) => state.common.isMobile);
 
-  const [minimum, setMinimum] = useState("");
-  const [target, setTarget] = useState("");
+  const [minimum, setMinimum] = useState(0);
+  const [amount, setAmount] = useState(1);
   const [datePopup, setDatePopup] = useState(false);
   const [timePopup, setTimePopup] = useState(false);
   const [minimumPopup, setMinimumPopup] = useState(false);
   const [targetPopup, setTargetPopup] = useState(false);
+  const [itemData, setItemData] = useState(props.itemdata)
+  const [dayPicker, setDayPicker] = useState(0);
+  const [timePicker, setTimePicker] = useState(0);
+  useEffect(()=>{
+    setItemData(props.itemdata)
+    console.log(itemData)
+  },[props])
+  useEffect(()=>{
+    props.saleInfo([minimum, amount, dayPicker, timePicker])
+    console.log(dayPicker)
+  },[minimum, amount, dayPicker, timePicker])
+
+  useEffect(()=>{
+    if((itemData.itembalance?.avail)<=amount){
+      setAmount(itemData.itembalance.avail)
+    }
+  },[amount])
 
   if (isMobile)
     return (
@@ -113,8 +130,8 @@ export default function AuctionBid() {
             </div>
 
             <input
-              value={target}
-              onChange={(e) => setTarget(e.target.value)}
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
               placeholder=""
             />
           </div>
@@ -191,10 +208,52 @@ export default function AuctionBid() {
   else
     return (
       <PauctionBid>
+
+        <li className="tragetContainer">
+          <div className="leftBox">
+            <div className="infoBox">
+              <strong className="title">Amount to auction</strong>
+              <div className="hoverBox posBox">
+                <button className="hoverBtn" onClick={() => {}}>
+                  <img src={auction_icon} alt="" />
+                </button>
+
+                <div className="hoverPopup">
+                  You can decide the amount of items to list an auction.
+                </div>
+              </div>
+            </div>
+            <p className="explain">
+              The amount of items you desire to list.
+            </p>
+          </div>
+
+          <div className="priceBox">
+            <input
+            type="number"
+              value={amount}
+              onChange={(e) => {setAmount(e.target.value)}}
+              placeholder=""
+            />
+                        <div className="tokenBox posBox">
+              <button className="tokenBtn" onClick={() => {}}>
+                <div className="value">
+                  <strong>out of {itemData?.itembalance?.avail}</strong>
+                </div>
+                
+              </button>
+            </div>
+          </div>
+        </li>
+
+
+
+
+
         <li className="minimumContainer">
           <div className="leftBox">
             <div className="infoBox">
-              <strong className="title">Minimum bid</strong>
+              <strong className="title">Starting bid</strong>
               <div className="hoverBox posBox">
                 <button className="hoverBtn" onClick={() => {}}>
                   <img src={auction_icon} alt="" />
@@ -222,53 +281,15 @@ export default function AuctionBid() {
             </div>
 
             <input
-              value={minimum}
+              type="number"
+              value={parseFloat(minimum)}
               onChange={(e) => setMinimum(e.target.value)}
               placeholder=""
             />
           </div>
         </li>
 
-        <li className="tragetContainer">
-          <div className="leftBox">
-            <div className="infoBox">
-              <strong className="title">Target bid</strong>
-              <div className="hoverBox posBox">
-                <button className="hoverBtn" onClick={() => {}}>
-                  <img src={auction_icon} alt="" />
-                </button>
-
-                <div className="hoverPopup">
-                  You can always accept a sale even if you are offered a price
-                  that is higher than your minimum bid and lower than your
-                  target bid.
-                </div>
-              </div>
-            </div>
-            <p className="explain">
-              Enter your target price. If you do not receive a bid above this
-              price, it will close without sale.
-            </p>
-          </div>
-
-          <div className="priceBox">
-            <div className="tokenBox posBox">
-              <button className="tokenBtn" onClick={() => {}}>
-                <div className="value">
-                  <img className="tokenImg" src={I_klaytn} alt="" />
-                  <strong>KLAY</strong>
-                </div>
-                <img className="arwImg" src={I_dnArrow} alt="" />
-              </button>
-            </div>
-
-            <input
-              value={target}
-              onChange={(e) => setTarget(e.target.value)}
-              placeholder=""
-            />
-          </div>
-        </li>
+        
 
         <li className="expiryContainer">
           <div className="leftBox">
@@ -286,13 +307,13 @@ export default function AuctionBid() {
                 className="dateBtn selectBtn"
                 onClick={() => setDatePopup(true)}
               >
-                <p>5 days later</p>
+                <p>{D_dateList[dayPicker]}</p>
                 <img className="arwImg" src={I_dnArrow} alt="" />
               </button>
 
               {datePopup && (
                 <>
-                  <SelectPopup off={setDatePopup} contList={D_dateList} />
+                  <SelectPopup off={setDatePopup} contList={D_dateList} selectCont={setDayPicker}/>
                   <PopupBg off={setDatePopup} />
                 </>
               )}
@@ -302,13 +323,13 @@ export default function AuctionBid() {
                 className="timeBtn selectBtn"
                 onClick={() => setTimePopup(true)}
               >
-                <p>Pm 02 : 00</p>
+                <p>{D_timeList[timePicker]}</p>
                 <img className="arwImg" src={I_dnArrow} alt="" />
               </button>
 
               {timePopup && (
                 <>
-                  <SelectPopup off={setTimePopup} contList={D_timeList} />
+                  <SelectPopup off={setTimePopup} contList={D_timeList} selectCont={setTimePicker}/>
                   <PopupBg off={setTimePopup} />
                 </>
               )}

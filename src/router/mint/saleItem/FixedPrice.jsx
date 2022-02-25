@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import I_klaytn from "../../../img/sub/I_klaytn.svg";
 import I_dnArrow from "../../../img/icons/I_dnArrow.svg";
@@ -10,16 +10,52 @@ import {
 } from "../../../data/D_saleItem";
 import PopupBg from "../../../components/PopupBg";
 import SelectPopup from "../../../components/SelectPopup";
+import { useEffect } from "react";
+import { SET_SALE_INFO } from "../../../reducers/saleReducer";
 
-export default function FixedPrice() {
+export default function FixedPrice(props) {
+  const dispatch = useDispatch();
+
   const isMobile = useSelector((state) => state.common.isMobile);
-
-  const [price, setPrice] = useState("");
+  const {saleInfo} = useSelector((state)=>state.sale)
+  const [itemdata, setItemData]=useState(props.itemdata)
+  const [price, setPrice] = useState(0);
   const [toggleEndPrice, setToggleEndPrice] = useState(false);
   const [togglePrivate, setTogglePrivate] = useState(false);
   const [privateOpt, setPrivateOpt] = useState("");
   const [datePopup, setDatePopup] = useState(false);
   const [timePopup, setTimePopup] = useState(false);
+  const [expiry, setExpiry] = useState(1)
+  const [amountof, setAmountof]=useState(itemdata?.itembalance?.avail)
+  const [amount, setAmount]=useState(1)
+  
+
+  useEffect(()=>{
+    setItemData(props.itemdata)
+  },[props])
+
+  useEffect(()=>{
+    if(amount>amountof)setAmount(amountof)
+    
+    //dispatch({type: SET_SALE_INFO, payload:{key: 'price', value: price}})
+  },[amount])
+
+  useEffect(()=>{
+    if(price==null){
+      setPrice(0)
+    }
+    if(amount == null){
+      setAmount(0)
+    }
+    //var a = Math.round(price * amount)
+    props.saleInfo([price, amount])
+    console.log(amountof)
+  }, [price, amount])
+
+  useEffect(()=>{
+    setAmountof(itemdata?.itembalance?.avail)
+    console.log(itemdata)
+  }, [itemdata])
 
   if (isMobile)
     return (
@@ -144,7 +180,7 @@ export default function FixedPrice() {
           )}
         </li>
 
-        <li className="privateBox">
+        <li className="privateBox" style={{display: 'none'}}>
           <div className="topBox">
             <div className="titleBox">
               <strong className="title">Private option</strong>
@@ -201,6 +237,30 @@ export default function FixedPrice() {
       <PfixedPriceBox>
         <li className="priceContainer">
           <div className="leftBox">
+            <strong className="title">Amount to sell</strong>
+            <p className="explain">This allows sellers to choose amount of items to sell</p>
+          </div>
+
+          <div className="priceBox">
+            <div className="tokenBox posBox">
+              <button className="tokenBtn" onClick={() => {}}>
+                <div className="value">
+                  <strong>Out of {amountof}</strong>
+                </div>
+              </button>
+            </div>
+
+            <input
+            type="number"
+              value={amount}
+              onChange={(e) => (amount<=amountof)?setAmount(e.target.value):setAmount(amountof)}
+              placeholder=""
+            />
+          </div>
+        </li>
+
+        <li className="priceContainer">
+          <div className="leftBox">
             <strong className="title">Price</strong>
             <p className="explain">Items sold until canceled</p>
           </div>
@@ -217,14 +277,40 @@ export default function FixedPrice() {
             </div>
 
             <input
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
+            type="number"
+              value={(price)}
+              onChange={(e) => setPrice(parseFloat(e.target.value))}
               placeholder=""
             />
           </div>
         </li>
 
-        <li className="endPriceBox">
+        <li className="priceContainer">
+          <div className="leftBox">
+            <strong className="title">Expiry</strong>
+            <p className="explain">This allows sellers to choose an expiry date</p>
+          </div>
+
+          <div className="priceBox">
+          <input
+            type="number"
+              value={expiry}
+              onChange={(e) => setExpiry(e.target.value)}
+              placeholder=""
+            />
+            <div className="tokenBox posBox">
+              <button className="tokenBtn" onClick={() => {}}>
+                <div className="value">
+                  <strong>Days later</strong>
+                </div>
+              </button>
+            </div>
+
+            
+          </div>
+        </li>
+
+        <li className="endPriceBox" style={{display:'none'}}>
           <div className="titleBox">
             <strong className="title">End price option</strong>
 
@@ -265,8 +351,9 @@ export default function FixedPrice() {
                   </div>
 
                   <input
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
+                  type="number"
+                    value={parseInt(price)}
+                    onChange={(e) => setPrice(parseInt(e.target.value))}
                     placeholder=""
                   />
                 </div>
@@ -317,7 +404,7 @@ export default function FixedPrice() {
           )}
         </li>
 
-        <li className="privateBox">
+        <li className="privateBox" style={{display: 'none'}}>
           <div className="titleBox">
             <strong className="title">Private option</strong>
 

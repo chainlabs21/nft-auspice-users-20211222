@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router";
 import styled from "styled-components";
 
-// import "./css/style01.css"; // import "./css/style02.css";
+import { D_datecode, D_timecode } from"../../data/D_saleItem"
 
 import { useState, useEffect } from "react";
 import VerifyAccountPopup from "../../components/mint/saleItem/VerifyAccountPopup";
@@ -30,6 +30,7 @@ import {
   MODE_DEV_PROD,
   RULES,
   PAYMEANS_DEF,
+  PAYMEANS_ADDRESS_DEF
 } from "../../config/configs";
 import { useSearchParams } from "react-router-dom";
 import {
@@ -50,13 +51,14 @@ import I_rtArw from "../../img/icons/I_rtArw.svg";
 import FixedPrice from "./saleItem/FixedPrice";
 import AuctionBid from "./saleItem/AuctionBid";
 
+
 export default function SaleFixed() {
   const navigate = useNavigate();
   const { search } = useLocation();
   let a=[1];
 
   const isMobile = useSelector((state) => state.common.isMobile);
-
+  const [price, setPrice] = useState(0);
   const [category, setCategory] = useState(0);
   const [verifyPopup, setVerifyPopup] = useState(false);
   const [platformFee, setPlatfromFee] = useState(2.5);
@@ -79,7 +81,7 @@ export default function SaleFixed() {
   let [searchParams, setSearchParams] = useSearchParams();
   const [itemiid, setitemiid] = useState(searchParams.get("itemid"));
   let [amounttosell, setamounttosell] = useState(0);
-  const [listingProcess, setListingProcess] = useState(2);
+  const [listingProcess, setListingProcess] = useState(0);
   let [sellorder, setsellorder] = useState();
   let [mindeposit, setmindeposit] = useState();
   let myaddress = getmyaddress();
@@ -100,7 +102,7 @@ export default function SaleFixed() {
       }
     });
   }, []);
-
+/* DUTCH AUCTION DUTCH AUCTION DUTCH AUCTION DUTCH AUCTION DUTCH AUCTION DUTCH AUCTION DUTCH AUCTION
   const do_dutch_auction = (_) => {
     let tokenid = itemdata?.item?.tokenid;
     if (tokenid) {
@@ -160,6 +162,7 @@ export default function SaleFixed() {
         LOGGER("", err);
       });
   };
+  DUTCH AUCTION DUTCH AUCTION DUTCH AUCTION DUTCH AUCTION DUTCH AUCTION DUTCH AUCTION DUTCH AUCTION*/
   /**			 "_target_contract",
 				 "_user_proxy_registry",
 				 "_holder",
@@ -173,6 +176,81 @@ export default function SaleFixed() {
 				 "_expiry",
 				 "_referer_feerate",
  */
+
+         //START THE AUCTION
+  const do_start_auction = async(_)=>{
+    window.getmyaddress = getmyaddress;
+    let myaddress = getmyaddress();
+    if (myaddress) {
+    } else {
+      SetErrorBar(messages.MSG_PLEASE_CONNECT_TO_WALLET);
+      return;
+    }
+    //let days = daystoclose.split(/ /)[0];
+    let expiry = moment().add(D_datecode[price[2]],'days').startOf('day').add(D_timecode[price[3]],'hours').unix();
+    console.log("AAAAAA"+ expiry+ " "+price)
+
+    LOGGER("", itemid, price[0], price[1], expiry);
+    //		if ( itemdata?.item?.tokenid ) {}
+    //	else {	SetErrorBar ( messages.MSG_PLEASE_MINT_AHEAD ) ; return }
+		const timenow = moment();
+		let orderdata = { 
+			seller_address : myaddress 
+			, amount : price[1]
+			, price : price[0]
+			, priceunit : PAYMEANS_ADDRESS_DEF
+			, expiry
+			, itemid
+			,typestr  
+		}
+		setsellorder ( orderdata )
+    setListingProcess(1);
+		let respsign = await signOrderData ( orderdata )
+		LOGGER( respsign )
+		if ( respsign ){		}
+		else {
+			SetErrorBar (messages.MSG_USER_DENIED_TX)
+			setListingProcess( 0 )
+			return 
+		}
+		SetErrorBar( messages.MSG_DATA_SIGNED )
+		setsigneddata ( respsign )
+    let timenowunix = timenow.unix();
+    let reqbody = {
+      itemid: itemdata?.item?.itemid,
+      amount: price[1],
+      buyorsell: "SELL",
+      tokenid: itemdata?.item?.tokenid, // null
+			price: price[0],
+			asset_contract_ask : ADDRESSES.zero ,
+      priceunitname: PAYMEANS_DEF,
+      startingtime: timenowunix,
+      startingprice: price[0],
+      expiry,
+      username: myaddress,
+      matcher_contract: ADDRESSES.auction_repo_english_simple,
+      token_repo_contract: ADDRESSES.erc1155,
+			typestr
+			,... respsign
+    };
+    LOGGER("mHpUwZa3lS", reqbody);
+    //		return
+    axios.post(API.API_SALE_COMMON, reqbody).then((resp) => {
+      LOGGER("", resp.data);
+      let { status } = resp.data;
+      if (status == "OK") {
+				SetErrorBar(messages.MSG_DONE_REGISTERING);
+				setListingProcess ( 2 )
+        fetchitem(itemid);
+      } else {
+        SetErrorBar(messages.MSG_REQ_FAIL);
+      }
+    });
+    
+  }
+
+  //LET THE FIXED PRICE ITEM SALE
+
   const do_fixed_price_spot = (_) => {
     if (amounttosell) {
     } else {
@@ -196,12 +274,14 @@ export default function SaleFixed() {
       tokenid,
       typestr, //			, exp iry
     };
+    setListingProcess(1);
     setsellorder(orderData);
     console.log("", endPriceOption, itemdata);
     console.log("", orderData); //	 return
     signOrderData(orderData).then((respsign) => {
       LOGGER("8pdnEvf9uF", respsign); // , signCallback
       if (respsign) {
+        
       } else {
         SetErrorBar(messages.MSG_USER_DENIED_TX);
         setListingProcess(0);
@@ -236,6 +316,8 @@ export default function SaleFixed() {
         });
     });
   };
+
+  //FETCH ITEM DATA
   const fetchitem = async (itemid) => {
     console.log('try')
     try {
@@ -263,23 +345,37 @@ export default function SaleFixed() {
   };
   const handleSalesStart = async () => {
     const myaddress = getmyaddress(); //    const asyncSalesStart = async () => {
+    /** 
     if (endPriceOption) {
-      do_dutch_auction();
+      //do_dutch_auction();
     } else {
       do_fixed_price_spot();
-    } //    };  //  asyncSalesStart();
+    } //    };  //  asyncSalesStart();**/
+
+    switch (category){
+      case 0:
+        console.log('fixed')
+        do_fixed_price_spot();
+        break;
+      case 1:
+        console.log('auction s')
+        do_start_auction();
+        break;
+      defualt:
+      break;
+    }
   };
 
-  // useEffect(() => {
+   useEffect(() => {
   //   //		const { itemid } = queryString.parse(search);
-  //   let itemid = searchParams.get("itemid");
-  //   LOGGER("U9Z2CL8cRt", itemid);
-  //   if (itemid === undefined) {
-  //     SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA); //      navigate("/");
-  //   }
-  //   setitemid(itemid);
-  //   fetchitem(itemid);
-  // }, []); // [ navigate , search ]
+     let itemid = searchParams.get("itemid");
+     LOGGER("U9Z2CL8cRt", itemid);
+     if (itemid === undefined) {
+       SetErrorBar(ERR_MSG.ERR_NO_ITEM_DATA); //      navigate("/");
+     }
+     setitemid(itemid);
+     fetchitem(itemid);
+   }, []); // [ navigate , search ]
 
   useEffect(() => {
     console.log(signError, sign.length);
@@ -326,6 +422,12 @@ export default function SaleFixed() {
     [myaddress]
   );
 
+  useEffect(()=>{
+    //console.log(price[0]+" : "+price[1])
+    setItemPrice(price[0])
+    setamounttosell(price[1])
+    //fetchitem()
+  },[price])
   if (isMobile)
     return (
       <>
@@ -367,7 +469,7 @@ export default function SaleFixed() {
                 <span className="profBox">
                   <span className="profImg" />
 
-                  <strong className="title">Henry junior's Item</strong>
+                  <strong className="title">{itemdata?.author?.nickname}'s Item</strong>
                 </span>
               </div>
 
@@ -377,7 +479,7 @@ export default function SaleFixed() {
 
                   <ul className="categoryList">
                     <li
-                      className={category === 0 && "on"}
+                      className={(category === 0)?"on":undefined}
                       onClick={() => setCategory(0)}
                     >
                       <div className="leftBox">
@@ -390,7 +492,7 @@ export default function SaleFixed() {
                     </li>
 
                     <li
-                      className={category === 1 && "on"}
+                      className={(category === 1)? "on":undefined}
                       onClick={() => setCategory(1)}
                     >
                       <div className="leftBox">
@@ -400,8 +502,8 @@ export default function SaleFixed() {
                     </li>
 
                     <li
-                      className={category === 2 && "on"}
-                      // onClick={() => setCategory(2)}
+                      className={(category === 2)?"on":undefined}
+                       onClick={() => {SetErrorBar('Preparing')}}
                     >
                       <div className="leftBox">
                         <strong className="category">Bundle Sale</strong>
@@ -416,7 +518,7 @@ export default function SaleFixed() {
                 </div>
 
                 <div className="contBox">
-                  {category === 0 && <FixedPrice />}
+                  {category === 0 && <FixedPrice itemdata={itemdata}/>}
                   {category === 1 && <AuctionBid />}
                 </div>
               </div>
@@ -427,11 +529,11 @@ export default function SaleFixed() {
                 <li className="transactionBox">
                   <strong className="infoTitle">Transaction information</strong>
                   <p className="info">
-                    The item is posted for sale at 3,339 ETH
+                    The item is posted for sale at {price[0]} KLAY
                   </p>
                 </li>
 
-                <li className="referralBox">
+                <li className="referralBox" style={{display:'none'}}>
                   <strong className="infoTitle">Referral Fee</strong>
                   <p className="info">
                     If you purchase through a referral link, 1% of the sales
@@ -469,12 +571,12 @@ export default function SaleFixed() {
   else
     return (
       <>
-        {verifyPopup && (
+        {/*verifyPopup && (
           <>
             <VerifyAccountPopup off={setVerifyPopup} mindeposit={mindeposit} />
             <PopupBg bg off={setVerifyPopup} />
           </>
-        )}
+        )*/}
 
         {listingProcess === 1 && (
           <>
@@ -507,9 +609,9 @@ export default function SaleFixed() {
                 </button>
 
                 <span className="profBox">
-                  <span className="profImg" />
+                  <img className="profImg" src={itemdata?.author?.profileimageurl}/>
 
-                  <strong className="title">Henry junior's Item</strong>
+                  <strong className="title">{itemdata?.author?.nickname}'s Item</strong>
                 </span>
               </div>
 
@@ -519,7 +621,7 @@ export default function SaleFixed() {
 
                   <ul className="categoryList">
                     <li
-                      className={category === 0 && "on"}
+                      className={(category === 0)?"on":undefined}
                       onClick={() => setCategory(0)}
                     >
                       <div className="category_titleBox">
@@ -533,7 +635,7 @@ export default function SaleFixed() {
                     </li>
 
                     <li
-                      className={category === 1 && "on"}
+                      className={(category === 1)? "on":undefined}
                       onClick={() => setCategory(1)}
                     >
                       <div className="category_titleBox">
@@ -544,8 +646,8 @@ export default function SaleFixed() {
                     </li>
 
                     <li
-                      className={category === 2 && "on"}
-                      // onClick={() => setCategory(2)}
+                      className={(category === 2)? "on":undefined}
+                       onClick={() => {SetErrorBar("현재 지원중이지 않습니다.")}}
                     >
                       <div className="category_titleBox">
                         <span className="blank" />
@@ -563,8 +665,8 @@ export default function SaleFixed() {
                 </div>
 
                 <div className="contBox">
-                  {category === 0 && <FixedPrice />}
-                  {category === 1 && <AuctionBid />}
+                  {category === 0 && <FixedPrice itemdata={itemdata?itemdata:fetchitem()} saleInfo={setPrice}/>}
+                  {category === 1 && <AuctionBid itemdata={itemdata?itemdata:fetchitem()} saleInfo={setPrice}/>}
                 </div>
               </div>
             </article>
@@ -574,11 +676,11 @@ export default function SaleFixed() {
                 <li className="transactionBox">
                   <strong className="infoTitle">Transaction information</strong>
                   <p className="info">
-                    The item is posted for sale at 3,339 ETH
+                    The item is posted for sale at {price[0]} KLAY
                   </p>
                 </li>
 
-                <li className="referralBox">
+                <li className="referralBox" style={{display:'none'}}>
                   <strong className="infoTitle">Referral Fee</strong>
                   <p className="info">
                     If you purchase through a referral link, 1% of the sales

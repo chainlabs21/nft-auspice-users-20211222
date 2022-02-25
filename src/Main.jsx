@@ -1,11 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import users_list01 from "./img/main/users_list01.png";
-import users_list02 from "./img/main/users_list02.png";
-import users_list03 from "./img/main/users_list03.png";
-import users_list04 from "./img/main/users_list04.png";
 import I_ltArw3BlackBtn from "./img/design/I_ltArw3BlackBtn.png";
 import I_rtArw3BlackBtn from "./img/design/I_rtArw3BlackBtn.png";
 import title from "./img/main/title.png";

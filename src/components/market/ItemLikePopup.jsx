@@ -76,7 +76,7 @@ export default function ItemLikePopup({ off, itemid }) {
       <PitemLikePopup>
         <article className="topBar">
           <span className="blank" />
-          <strong className="title">Owner List</strong>
+          <strong className="title">Liked Users List</strong>
           <button className="exitBtn" onClick={() => off()}>
             <img src={I_x} alt="" />
           </button>

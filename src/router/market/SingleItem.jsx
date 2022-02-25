@@ -452,6 +452,7 @@ function SingleItem({
         let { status, respdata } = res.data;
         if (status == "OK") {
           setitemdata(respdata);
+          console.log(respdata)
           let { orders_sellside } = respdata;
           setorders_sell(orders_sellside);
           setilikethis(respdata.ilikethisitem);
@@ -1201,7 +1202,7 @@ function SingleItem({
             </article>
 
             <article className="otherWorkArea">
-              <strong className="title">Other works in this collection</strong>
+              <strong className="title">Other works from this Author</strong>
 
               <div className="swiperContainer">
                 <div class="swiperBox">
@@ -1540,8 +1541,8 @@ function SingleItem({
               </article>
             )}
 
-            {myItem && (
-              <article className="myItemBar">
+            {!myItem && (
+              <article className="myItemBar" style={{display: 'none'}}>
                 <div className="titleBox">
                   <button className="exitBtn" onClick={() => navigate(-1)}>
                     <img src={I_ltArw3} alt="" />
@@ -1577,7 +1578,7 @@ function SingleItem({
                   <button className="sellerBtn" onClick={() => {}}>
                     <img
                       className="profImg"
-                      src={author?.profileimage}
+                      src={itemdata.author?.profileimageurl}
                       alt=""
                     />
                     <p>@{itemdata.author?.nickname}</p>

@@ -29,7 +29,7 @@ import { PAYMEANS_DEF } from "../../config/configs";
 import { useSelector, useDispatch } from "react-redux";
 import DefaultHeader from "../../components/header/DefaultHeader";
 import Filter from "../../components/common/DefaultFilter";
-import { RESET_FILTER, SET_CATEGORY } from "../../reducers/filterReducer"
+import { RESET_FILTER, SET_CATEGORY, SET_STATUS_FILTER } from "../../reducers/filterReducer"
 import {
   D_categoryList,
   D_itemFilter,
@@ -37,6 +37,7 @@ import {
 } from "../../data/D_marketPlace";
 import SelectPopup from "../../components/SelectPopup";
 import PopupBg from "../../components/PopupBg";
+
 import axios from 'axios'
 export default function MarketPlace() {
   const navigate = useNavigate();
@@ -65,152 +66,56 @@ export default function MarketPlace() {
   const [toggleFilter, setToggleFilter] = useState(false);
   const [itemFilterPopup, setItemFilterPopup] = useState(false);
   const [sortPopup, setSortPopup] = useState(false);
-  const [category, setCategory] = useState('all')//searchParams.get("category"));
-  //const[setFilter, setFilterME]=useState('');
-  
-  
-  //const [categoryFilter, setCategoryFilter] = useState(Categories.ALL);
-  const [statusFilter, setStatusFilter] = useState([])
-  const [filterObj, setFilterObj] = useState({});
-  const [filterList, setFilterList] = useState([]);
+  let [searchParams, setSearchParams] = useSearchParams({})
+  const [category, setCategory] = useState(searchParams.get("category"));
   const [filteredList, setFilteredList] = useState([]);
-  const [fromPrice, setFromPrice] = useState("");
-  const [toPrice, setToPrice] = useState("");
-  const [callEffect, setCallEffect] = useState(false);
   const [totalItem, setTotalItem] = useState(0);
-  const [unit, setUnit] = useState("KLAY");
-  const [pricePopup, setPricePopup] = useState(false);
   const [searchKey, setSearchKey] = useState(params.searchKey);
   const {marketFilter} = useSelector((state) => state.filter);
   
+
+  //Fetch new items by detecting changes on marketFilter and category.
   useEffect(()=>{
-    getItem(marketFilter.category)
-    console.log(marketFilter.category)
-  },[marketFilter])
+    console.log(category)
+    getItem()
+    
+  },[marketFilter, category])
 
-  const handleCategory=(a)=>{
-    dispatch({type: SET_CATEGORY, payload: {value: a}});
-    //setSearchParams({"category": a})
-  }
+  //Set Category on param changes in url
+  useEffect(()=>{
+    if (!searchParams.get("category")){setCategory('all'); return}
+    setCategory(searchParams.get("category"))
+  },[searchParams])
 
-
+  //Resetting filter lists from redux store
   const onclickFilterReset = () => {
     dispatch({type: RESET_FILTER});
 
   };
-
-  function windowScrollHander() {
-    
-    if (
-      window.scrollY + window.innerHeight > document.body.clientHeight - 200 &&
-      !loadingBusy
-    ) {
-      console.log(marketFilter.category)
-      loadingBusy = true;
-      itemIndex += 10;
-      getItem(marketFilter.category, itemIndex);
-    }
+  //Fetch items
+  async function getItem(itemIndex = 0) {
+      await axios
+        .get(`${API.API_MERCHANDISES_LIST}/${itemIndex}/${100}`, {
+          params: {
+            categorystr: category,
+            salestatus: marketFilter.status,
+            pricemin: marketFilter.min,
+            pricemax: marketFilter.max,
+            //searchKey,
+          },
+        })
+        .then((resp) => {
+          //LOGGER("wgNCeNKxXL", resp.data);
+          let { status, list, payload } = resp.data;
+          if (status == "OK") {
+            itemList = [...itemList, ...list];
+            setFilteredList([...itemList]);
+            console.log(resp)
+            setTotalItem(payload.count);
+            loadingBusy = false;
+          }
+        });
   }
-
-async function getItem(icategory, itemIndex = 0) {
-    const filterKeys = Object.keys(filterObj);
-    
-    //*
-    //let selectedStatus = 0;
-
-    //filterKeys.map((e) => {//
-    //  if (e.indexOf("status") !== -1) selectedStatus += e.slice(6) * 1;
-    //});
-    
-
-    await axios
-      .get(`${API.API_MERCHANDISES_LIST}/${itemIndex}/${100}`, {
-        params: {
-          categorystr: icategory,
-          salestatus: marketFilter.status,
-          pricemin: marketFilter.min,
-          pricemax: marketFilter.max,
-          //searchKey,
-        },
-      })
-      .then((resp) => {
-        //LOGGER("wgNCeNKxXL", resp.data);
-        let { status, list, payload } = resp.data;
-        if (status == "OK") {
-          itemList = [...itemList, ...list];
-          setFilteredList([...itemList]);
-          console.log(resp)
-          setTotalItem(payload.count);
-          loadingBusy = false;
-        }
-      });
-  }
-/*
-  useEffect(() => {
-    
-    window.addEventListener("scroll", windowScrollHander);
-    return()=>{
-      window.removeEventListener('scroll', windowScrollHander)
-    }
-  }, []);
-
-
-  let axios = applytoken();
-  const handleCateFilter = (category) => {
-    editFilterList("category", category);
-    setCategoryFilter(category);
-  };
-
-  function getSelectText() {
-    switch (unit) {
-      case "USD":
-        return "United States Dollars (USD)";
-      case "KLAY":
-        return "Klaytn";
-      default:
-        break;
-    }
-  }
-  function onClickOption() {
-    setFromPrice("");
-    setToPrice("");
-    setCallEffect(!callEffect);
-    setPricePopup(false);
-  }
-//Filter List
-  const editFilterList = (category, cont) => {
-    let dataObj = filterObj;
-    dataObj[category] = cont;
-    setFilterObj(dataObj);
-    setFilterList([...Object.values(dataObj)]);
-  };
-
-
-
-  const onclickFilterCancel = (cont) => {
-    let dataObj = filterObj;
-
-    for (let key in dataObj) {
-      if (dataObj.hasOwnProperty(key) && dataObj[key] === cont) {
-        delete dataObj[key];
-      }
-    }
-    setFilterObj(dataObj);
-    setFilterList([...Object.values(dataObj)]);
-  };
-
-  
-
-  useLayoutEffect(() => {
-    setSearchKey(params.searchKey);
-    if (searchKey) editFilterList("searchKey", params.searchKey);
-  }, [params]);
-
-  useEffect(() => {
-    console.log(filterList)
-    getItem();
-  }, [filterList, callEffect]);
-*/
   if (isMobile)
     return (
       <>
@@ -289,13 +194,16 @@ async function getItem(icategory, itemIndex = 0) {
                   KLAY
                   <img src={I_x} alt="" />
                 </li>
-                {/* {filterList.map((cont, index) => (
-                  <li key={index} onClick={() => onclickFilterCancel(cont)}>
-                    <span className="blank" />
-                    {cont}
-                    <img src={I_x} alt="" />
-                  </li>
-                ))} */}
+                { Object.keys(marketFilter.status).map((v, i)=>{
+                  if (marketFilter.status[v]){
+                    return(<li key={i} onClick={() => {dispatch({type: SET_STATUS_FILTER, payload: {key: v}});}}>
+                        <span className="blank" />
+                        {v}
+                        <img src={I_x} alt="" />
+                      </li>);
+                    }
+                  })
+                }
               </ul>
             </article>
 
@@ -425,7 +333,7 @@ async function getItem(icategory, itemIndex = 0) {
 
             <ul className="cateogryList">
               {D_categoryList.map((cont, index) => (
-                <li key={index} className={(marketFilter.category==cont.code)?'on':''} onClick={()=>{handleCategory(cont.code)  }}>{cont.name}</li>
+                <li key={index} className={(category==cont.code)?'on':''} onClick={()=>{setSearchParams({"category": cont.code})  }}>{cont.name}</li>
               ))}
             </ul>
 
@@ -439,7 +347,7 @@ async function getItem(icategory, itemIndex = 0) {
 
                 { Object.keys(marketFilter.status).map((v, i)=>{
                   if (marketFilter.status[v]){
-                    return(<li key={i} onClick={() => {}}>
+                    return(<li key={i} onClick={() => {dispatch({type: SET_STATUS_FILTER, payload: {key: v}});}}>
                         <span className="blank" />
                         {v}
                         <img src={I_x} alt="" />

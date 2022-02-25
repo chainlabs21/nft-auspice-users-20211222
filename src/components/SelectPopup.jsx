@@ -5,12 +5,13 @@ export default function SelectPopup({ off, contList, selectCont, setCont }) {
   function onClickSetSort(data) {
     // setCont(data);
     off(false);
+    selectCont(data)
   }
 
   return (
     <SelectPopupBox className="selectPopup">
       {contList.map((cont, index) => (
-        <li key={index} onClick={() => onClickSetSort(cont)}>
+        <li key={index} onClick={() => onClickSetSort(index)}>
           {cont}
         </li>
       ))}
