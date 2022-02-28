@@ -41,30 +41,6 @@ export default function DefaultHeader() {
 
   const [search, setSearch] = useState("");
   const [mMenuPopup, setMenuPopup] = useState(false);
-  function checklogin(){
-    console.log(window.klaytn.enable()[0])
-    //console.log(isloggedin+" : "+walletAddress)
-    if (!localStorage.getItem("token")) return;
-    //if (localStorage.getItem("address") != window.klaytn.enable()[0])
-    console.log(localStorage.getItem("token"))
-    axios.defaults.headers.common["token"] = localStorage.getItem("token");
-    axios.get(`${API.API_USER_CHECK}`, {address: localStorage.getItem("address")})
-    .then((resp) => {
-      console.log(resp)
-      if (resp.status==200){
-        dispatch({ type: SET_LOGIN, payload: { value: true }});
-        dispatch({type: SET_ADDRESS, payload:{value: localStorage.getItem("address")}})
-        dispatch({type: SET_USER_DATA, payload:{ value: resp.data.payload}})
-        //console.log(resp)
-        //dispatch({ type: SET_USER_DATA, payload: { value: true }});
-      }
-    })
-
-  }
-  useEffect(()=>{
-    checklogin()
-    
-  }, [])
 
   function onClickConnectWallet() {
     !isloggedin && navigate("/connectwallet");

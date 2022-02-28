@@ -140,7 +140,8 @@ function SingleItem({
   let [jprofileimages, setjprofileimages] = useState([]);
   let lockjprofileimages = {};
   let [searchParams, setSearchParams] = useSearchParams();
-  let [itemid, setitemid] = useState(searchParams.get("itemid"));
+  const [itemid, setitemid] = useState(searchParams.get("itemid"));
+  const [productType, setProductType] = useState();
   let [referer, setreferer] = useState(searchParams.get("referer"));
   let [j_auctionuuid_bidprice, setj_auctionuuid_bidprice] = useState({});
   let [j_auctionuuid_bidder, setj_auctionuuid_bidder] = useState({});
@@ -421,7 +422,7 @@ function SingleItem({
       axios
         .get(API.API_OWNED_ITEMS + `/${username}/0/10/id/DESC`)
         .then((resp) => {
-          LOGGER("", resp.data);
+          //LOGGER("", resp.data);
           let { status, list } = resp.data;
           if (status == "OK") {
             setlistotheritems(list);
@@ -434,7 +435,7 @@ function SingleItem({
       axios
         .get(API.API_AUTHORS_ITEMS + `/${username}/0/10/id/DESC`)
         .then((resp) => {
-          LOGGER("", resp.data);
+          //LOGGER("", resp.data);
           let { status, list } = resp.data;
           if (status == "OK") {
             setlistotheritems(list);
@@ -444,18 +445,26 @@ function SingleItem({
     }
   };
   const fetchitem = (itemid) => {
+    console.log('hola')
     Setisloader(true);
     axios
       .get(`${API.API_GET_ITEM_DATA}/${itemid}`, {
         params: { incviewcount: 1 },
       })
       .then((res) => {
-        LOGGER("agwwiWSDdf", res.data);
+        //LOGGER("agwwiWSDdf", res.data);
         let { status, respdata } = res.data;
         if (status == "OK") {
           setitemdata(respdata);
-          console.log(respdata)
+
+          if (respdata.author?.address == walletAddress){
+            setMyItem(true)
+          }else{
+            setMyItem(false)
+          }
+          console.log(itemdata?.item?.titlename)
           let { orders_sellside } = respdata;
+          console.log(orders_sellside)
           setorders_sell(orders_sellside);
           setilikethis(respdata.ilikethisitem);
           setibookmarkthis(respdata.ibookmarkthis);
@@ -492,7 +501,7 @@ function SingleItem({
             methodname: "_itemhash_tokenid",
             aargs: [respdata?.item?.itemid], // itemdata
           }).then((resp) => {
-            LOGGER("mohrKFfjxQ", resp);
+            //LOGGER("mohrKFfjxQ", resp);
             if (resp) {
               tokenid = resp;
             }
@@ -502,7 +511,7 @@ function SingleItem({
         Setisloader(false);
       });
     axios.get(`${API.API_ITEM_DATA_AUX}/${itemid}`).then((resp) => {
-      LOGGER("6ENydA38bX", resp.data);
+      //LOGGER("6ENydA38bX", resp.data);
       let { status, respdata } = resp.data;
       if (status == "OK") {
         setitemdataaux(respdata);
@@ -530,7 +539,7 @@ function SingleItem({
     axios
       .get(`${API.API_TRANSACTIONS}/itemid/${itemid}/0/100/id/DESC`)
       .then((resp) => {
-        LOGGER("KF5RW8IBDT", resp.data);
+        //LOGGER("KF5RW8IBDT", resp.data);
         let { status, list } = resp.data;
         if (status == "OK") {
           settransactionHistory(list);
@@ -539,7 +548,7 @@ function SingleItem({
     axios
       .get(`${API.API_ITEM_HISTORY}/itemid/${itemid}/0/100/id/DESC`)
       .then((resp) => {
-        LOGGER("Tz06IcamyG", resp.data);
+        //LOGGER("Tz06IcamyG", resp.data);
         let { status, list } = resp.data;
         if (status == "OK") {
           setlistitemhistory(list);
@@ -596,6 +605,8 @@ function SingleItem({
 
   useEffect(() => {
     LOGGER("8xlWxqxeC2", itemid, referer);
+    setitemid(searchParams.get("itemid"))
+    console.log(itemid)
     fetchitem(itemid);
     axios.get(`${API.API_TICKERS}/USDT`).then((resp) => {
       LOGGER("", resp.data);
@@ -624,6 +635,8 @@ function SingleItem({
 
   useEffect(
     (_) => {
+      setitemid(searchParams.get("itemid"))
+      window.scrollTo(0, 0);
       fetchitem(itemid);
       console.log('또잉')
     },
@@ -669,179 +682,6 @@ function SingleItem({
         )}
 
         {false && <PlaceBidPopup />}
-
-        {buySpotPopup && (
-          <div
-            className="popup info"
-            id="info_popup"
-            style={{ display: "block" }}
-          >
-            <div className="box_wrap buynft">
-              <a
-                onClick={() => setbuySpotPopup(false)}
-                className="close close2"
-                id="info_close"
-              >
-                <img
-                  src={require("../../img/sub/icon_close.png").default}
-                  alt="close"
-                />
-              </a>
-              <div className="poptitle nob">
-                <h2>Purchase receipt</h2>
-              </div>
-              <div className="list_bottom buy_nft">
-                <p
-                  className="warn"
-                  style={{
-                    display: itemdata?.item?.isreviewed ? "none" : "block",
-                  }}
-                >
-                  Warning! Contains items
-                  <br /> that have not been reviewed and approved
-                </p>
-                <div className="receipt_section">
-                  <div className="receipt_title">
-                    <p className="rec_t">Item</p>
-                    <p className="rec_t right">Subtotal</p>
-                  </div>
-                  <div className="receipt_item">
-                    <ul>
-                      <li>
-                        <span
-                          className="pic"
-                          style={{
-                            backgroundImage: `url(${itemdata?.item?.url})`,
-                          }}
-                        ></span>
-                        <div className="right_price">
-                          <h3>
-                            {convertLongString(8, 4, sellorder?.username)}
-                            <br />
-                            <span>{itemdata?.item?.titlename} </span>
-                            {/**Blackman with neon */}
-                          </h3>
-                          <h4 className="m_sub">
-                            <img
-                              style={{ width: "60px" }}
-                              src={require("../../img/header/logo.png").default}
-                            />
-                            <span className="pri">
-                              {sellorder?.asset_amount_bid
-                                ? `Qty. ${sellorder?.asset_amount_bid}`
-                                : ""}{" "}
-                              {sellorder?.tokenid
-                                ? `of token #${sellorder?.tokenid}`
-                                : ""}{" "}
-                            </span>
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <p className="rec_t">
-                          Total
-                          <span className="red">
-                            {+myethbalance &&
-                            +myethbalance > sellorder?.asset_amount_ask
-                              ? "\u00A0"
-                              : "Insufficient KLAY balance"}
-                          </span>
-                        </p>
-                        <div className="right_price m_left">
-                          <h4 className="blue">
-                            <img
-                              src={require("../../img/sub/rock.png").default}
-                            />
-                            {sellorder?.asset_amount_ask}
-                            <span className="pri">
-                              ($
-                              {priceklay && sellorder?.asset_amount_ask
-                                ? (
-                                    +priceklay * sellorder?.asset_amount_ask
-                                  ).toFixed(4)
-                                : ""}
-                              )
-                            </span>
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <p className="rec_t">
-                          Your balance
-                          <span className="red" style={{ color: "black" }}>
-                            {" "}
-                            {strDot(walletAddress, 8, 2)}
-                          </span>
-                        </p>
-                        <div className="right_price m_left">
-                          <h4 className="blue">
-                            <img
-                              src={require("../../img/sub/rock.png").default}
-                            />
-                            {myethbalance ? (+myethbalance).toFixed(4) : "0"}
-                            <span className="pri">
-                              ($
-                              {priceklay && myethbalance
-                                ? (+priceklay * +myethbalance).toFixed(4)
-                                : ""}
-                              )
-                            </span>
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <form className="ckb_wrap">
-                    <div
-                      className="ckb"
-                      style={{
-                        display: itemdata?.item?.isreviewed ? "none" : "block",
-                      }}
-                    >
-                      <input type="checkbox" id="chk" name="chk1" />
-                      <label htmlFor="chk">
-                        Aware that Itemverse contains one item that has not been
-                        reviewed and approved
-                      </label>
-                    </div>
-                    <div className="ckb">
-                      <input
-                        type="checkbox"
-                        id="chk2"
-                        name="chk1"
-                        onChange={(e) => {
-                          setistoschecked(!istoschecked); // LOGGER()
-                        }}
-                      />
-                      <label htmlFor="chk2">
-                        I agree to Itemverse's <b>Terms of Service</b>
-                      </label>
-                    </div>
-                  </form>
-                </div>
-                <a
-                  className="reportit on "
-                  disabled={istoschecked ? false : true}
-                  onClick={(_) => {
-                    if (istoschecked) {
-                    } else {
-                      //                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
-                      //                  return;
-                    }
-                    LOGGER("pHeiL5AWXM");
-                    onclickbuy();
-                  }}
-                >
-                  Make a payment
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
         <MsignPopupBox>
           <section className="innerBox" style={{ paddingTop: myItem && 0 }}>
             {myItem && (
@@ -961,7 +801,7 @@ function SingleItem({
                   className="bidBtn"
                   onClick={() => setPurchasePopup(true)}
                 >
-                  Place a Bid
+                  Place a Bid2
                 </button>
               </div>
             </article>
@@ -1203,8 +1043,8 @@ function SingleItem({
               <strong className="title">Other works from this Author</strong>
 
               <div className="swiperContainer">
-                <div class="swiperBox">
-                  <ul class="swiperList" ref={otherWorkRef}>
+                <div className="swiperBox">
+                  <ul className="swiperList" ref={otherWorkRef}>
                     {listotheritems
                       .filter((elem) =>
                         elem.item?.itemid == itemid ? false : true
@@ -1334,182 +1174,9 @@ function SingleItem({
 
         {purchasePopup && (
           <>
-            <PurchaseSinglePopup off={setPurchasePopup} imageurl={itemdata?.item?.url} title={itemdata?.item?.titlename} price={sellorder?.asset_amount_ask} sellername={sellorder?.username}/>
+            <PurchaseSinglePopup off={()=>{setPurchasePopup(); fetchitem(itemid)}}  imageurl={itemdata?.item?.url} title={itemdata?.item?.titlename} price={sellorder?.asset_amount_ask} sellername={sellorder?.username} myethbalance={myethbalance} sellorder={sellorder} itemdata={itemdata}/>
             <PopupBg bg off={setPurchasePopup} />
           </>
-        )}
-
-        {buySpotPopup && (
-          <div
-            className="popup info"
-            id="info_popup"
-            style={{ display: "block" }}
-          >
-            <div className="box_wrap buynft">
-              <a
-                onClick={() => setbuySpotPopup(false)}
-                className="close close2"
-                id="info_close"
-              >
-                <img
-                  src={require("../../img/sub/icon_close.png").default}
-                  alt="close"
-                />
-              </a>
-              <div className="poptitle nob">
-                <h2>Purchase receipt</h2>
-              </div>
-              <div className="list_bottom buy_nft">
-                <p
-                  className="warn"
-                  style={{
-                    display: itemdata?.item?.isreviewed ? "none" : "block",
-                  }}
-                >
-                  Warning! Contains items
-                  <br /> that have not been reviewed and approved
-                </p>
-                <div className="receipt_section">
-                  <div className="receipt_title">
-                    <p className="rec_t">Item</p>
-                    <p className="rec_t right">Subtotal</p>
-                  </div>
-                  <div className="receipt_item">
-                    <ul>
-                      <li>
-                        <span
-                          className="pic"
-                          style={{
-                            backgroundImage: `url(${itemdata?.item?.url})`,
-                          }}
-                        ></span>
-                        <div className="right_price">
-                          <h3>
-                            {convertLongString(8, 4, sellorder?.username)}
-                            <br />
-                            <span>{itemdata?.item?.titlename} </span>
-                            {/**Blackman with neon */}
-                          </h3>
-                          <h4 className="m_sub">
-                            <img
-                              style={{ width: "60px" }}
-                              src={require("../../img/header/logo.png").default}
-                            />
-                            <span className="pri">
-                              {sellorder?.asset_amount_bid
-                                ? `Qty. ${sellorder?.asset_amount_bid}`
-                                : ""}{" "}
-                              {sellorder?.tokenid
-                                ? `of token #${sellorder?.tokenid}`
-                                : ""}{" "}
-                            </span>
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <p className="rec_t">
-                          Total
-                          <span className="red">
-                            {+myethbalance &&
-                            +myethbalance > sellorder?.asset_amount_ask
-                              ? "\u00A0"
-                              : "Insufficient KLAY balance"}
-                          </span>
-                        </p>
-                        <div className="right_price m_left">
-                          <h4 className="blue">
-                            <img
-                              src={require("../../img/sub/rock.png").default}
-                            />
-                            {sellorder?.asset_amount_ask}
-                            <span className="pri">
-                              ($
-                              {priceklay && sellorder?.asset_amount_ask
-                                ? (
-                                    +priceklay * sellorder?.asset_amount_ask
-                                  ).toFixed(4)
-                                : ""}
-                              )
-                            </span>
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <p className="rec_t">
-                          Your balance
-                          <span className="red" style={{ color: "black" }}>
-                            {" "}
-                            {strDot(walletAddress, 8, 2)}
-                          </span>
-                        </p>
-                        <div className="right_price m_left">
-                          <h4 className="blue">
-                            <img
-                              src={require("../../img/sub/rock.png").default}
-                            />
-                            {myethbalance ? (+myethbalance).toFixed(4) : "0"}
-                            <span className="pri">
-                              ($
-                              {priceklay && myethbalance
-                                ? (+priceklay * +myethbalance).toFixed(4)
-                                : ""}
-                              )
-                            </span>
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <form className="ckb_wrap">
-                    <div
-                      className="ckb"
-                      style={{
-                        display: itemdata?.item?.isreviewed ? "none" : "block",
-                      }}
-                    >
-                      <input type="checkbox" id="chk" name="chk1" />
-                      <label htmlFor="chk">
-                        Aware that Itemverse contains one item that has not been
-                        reviewed and approved
-                      </label>
-                    </div>
-                    <div className="ckb">
-                      <input
-                        type="checkbox"
-                        id="chk2"
-                        name="chk1"
-                        onChange={(e) => {
-                          setistoschecked(!istoschecked); // LOGGER()
-                        }}
-                      />
-                      <label htmlFor="chk2">
-                        I agree to Itemverse's <b>Terms of Service</b>
-                      </label>
-                    </div>
-                  </form>
-                </div>
-                <a
-                  className="reportit on "
-                  disabled={istoschecked ? false : true}
-                  onClick={(_) => {
-                    if (istoschecked) {
-                    } else {
-                      //                    SetErrorBar(messages.MSG_PLEASE_CHECK_TOS);
-                      //                  return;
-                    }
-                    LOGGER("pHeiL5AWXM");
-                    onclickbuy();
-                  }}
-                >
-                  Make a payment
-                </a>
-              </div>
-            </div>
-          </div>
         )}
 
         <DefaultHeader />
@@ -1524,12 +1191,12 @@ function SingleItem({
                   </button>
 
                   <strong className="title">
-                    Philip van Kouwenbergh's item
+                    {itemdata.author.nickname}'s item
                   </strong>
                 </div>
 
                 <div className="btnBox">
-                  <button className="sellBtn" onClick={() => {}}>
+                  <button className="sellBtn" onClick={() => {navigate("/saleitem?itemid="+itemid)}}>
                     SELL
                   </button>
                   <button className="editBtn" onClick={() => {}}>
@@ -1654,12 +1321,20 @@ function SingleItem({
                     </div>
                   </div>
 
-                  <button
+                  {(productType==="COMMON")?(<button
                     className="bidBtn"
                     onClick={() => setPurchasePopup(true)}
                   >
-                    Place a Bid
+                    {productType}
+                  </button>):(
+                    <button
+                    className="bidBtn"
+                    onClick={() => setPurchasePopup(true)}
+                  >
+                    {productType}
                   </button>
+                  )}
+                  
                 </div>
               </div>
             </article>
@@ -1805,6 +1480,10 @@ function SingleItem({
                                   setMyItem(false)
                                 }
                                 setsellorder(v);
+                                console.log(itemdata)
+                                setProductType(v.typestr);
+   
+                                
                                 //console.log(v)
                                 return;
                               }}>
@@ -1912,8 +1591,8 @@ function SingleItem({
               <strong className="title">Other works in this collection</strong>
 
               <div className="swiperContainer">
-                <div class="swiperBox">
-                  <ul class="swiperList" ref={otherWorkRef}>
+                <div className="swiperBox">
+                  <ul className="swiperList" ref={otherWorkRef}>
                     {listotheritems
                       .filter((elem) =>
                         elem.item?.itemid == itemid ? false : true
@@ -1922,7 +1601,7 @@ function SingleItem({
                       .map((cont, index) => (
                         <li
                           key={index}
-                          class="swiperContBox"
+                          className="swiperContBox"
                           onClick={() =>
                             navigate(`/singleitem?itemid=${cont.item?.itemid}`)
                           }
@@ -1989,7 +1668,7 @@ function SingleItem({
                           </div>
 
                           <button className="buyBtn" onClick={() => {}}>
-                            Buy Now
+                            {(productType==="COMMON")?('Buy Now'):('Place A BID')}
                           </button>
                         </li>
                       ))}

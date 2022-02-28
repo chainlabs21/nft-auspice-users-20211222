@@ -23,10 +23,12 @@ import SelectPopup from "../../components/SelectPopup";
 import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
 import { Icons } from "react-toastify";
 import MypageFilter from "../../components/mypage/mypageFilter";
+import {strDot} from "../../util/Util"
 
 export default function Offers() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const {userData, walletAddress} = useSelector((state)=> state.user)
 
   const isMobile = useSelector((state) => state.common.isMobile);
 
@@ -63,7 +65,7 @@ export default function Offers() {
             />
 
             <div className="contBox">
-              <span className="profImg" />
+            <img className="profImg" src={userData?.myinfo_maria?.profileimageurl}/>
               <div className="btnBox">
                 <button className="" onClick={() => {}}>
                   <img src={re} alt="" />
@@ -74,11 +76,10 @@ export default function Offers() {
               </div>
 
               <div className="infoBox">
-                <strong className="title">Henry juniors' Items</strong>
-                <p className="address">0x97bc...8cad2</p>
+                <strong className="title">{userData?.myinfo_maria?.nickname}'s Items</strong>
+                <p className="address">{strDot(walletAddress, 5, 5)}</p>
                 <p className="introduce">
-                  Henry is a mixed-media artist living in the Bay Area and users
-                  a stream of consciousness approach to his work
+                {userData?.myinfo_maria?.description}
                 </p>
               </div>
             </div>
@@ -218,7 +219,7 @@ export default function Offers() {
             />
 
             <div className="contBox">
-              <span className="profImg" />
+            <img className="profImg" src={userData?.myinfo_maria?.profileimageurl}/>
               <div className="btnBox">
                 <button className="" onClick={() => {}}>
                   <img src={re} alt="" />
@@ -229,11 +230,10 @@ export default function Offers() {
               </div>
 
               <div className="infoBox">
-                <strong className="title">Henry juniors' Items</strong>
-                <p className="address">0x97bc...8cad2</p>
+                <strong className="title">{userData?.myinfo_maria?.nickname}'s Items</strong>
+                <p className="address">{strDot(walletAddress, 5, 5)}</p>
                 <p className="introduce">
-                  Henry is a mixed-media artist living in the Bay Area and users
-                  a stream of consciousness approach to his work
+                {userData?.myinfo_maria?.description}
                 </p>
               </div>
             </div>

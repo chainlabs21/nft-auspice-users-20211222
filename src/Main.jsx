@@ -50,14 +50,14 @@ export default function Main({ store }) {
   useEffect((_) => {
     axios.get(`${API.API_MAIN_FEATURED_ITEMS}`).then((resp) => {
       let { status, list } = resp.data;
-      if (status == "OK") {
+      if (status === "OK") {
         setlist_featured(list);
       }
     });
 
     axios.get(`${API.API_GET_CREATORS}`).then((resp) => {
       let { status, list } = resp.data;
-      if (status == "OK") {
+      if (status === "OK") {
         setCreatorList(list);
       }
     });
@@ -65,7 +65,7 @@ export default function Main({ store }) {
     axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
       LOGGER("JN8wsASyiL", resp.data);
       let { status, list } = resp.data;
-      if (status == "OK") {
+      if (status === "OK") {
         setlist_trenditems(list);
       }
     });
@@ -73,7 +73,7 @@ export default function Main({ store }) {
     axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
       LOGGER("JBwpoHdvFv", resp.data);
       let { status, list } = resp.data;
-      if (status == "OK") {
+      if (status === "OK") {
         setlist_newitems(list);
       }
     });
@@ -86,11 +86,11 @@ export default function Main({ store }) {
       LOGGER("", resp.data);
       let { status, respdata, message } = resp.data;
 
-      if (status == "OK") {
+      if (status === "OK") {
         axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
           LOGGER("JN8wsASyiL", resp.data);
           let { status, list } = resp.data;
-          if (status == "OK") {
+          if (status === "OK") {
             setlist_trenditems(list);
           }
         });
@@ -98,7 +98,7 @@ export default function Main({ store }) {
         axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
           LOGGER("JBwpoHdvFv", resp.data);
           let { status, list } = resp.data;
-          if (status == "OK") {
+          if (status === "OK") {
             setlist_newitems(list);
           }
         });
@@ -113,13 +113,13 @@ export default function Main({ store }) {
 
     axios.post(`${API.API_TOGGLE_BOOKMARK}/${itemid}`).then((resp) => {
       LOGGER("", resp.data);
-      let { status, respdata, message } = resp.data;
-      if (status == "OK") {
-        if (status == "OK") {
+      let { status, message } = resp.data;
+      if (status === "OK") {
+        if (status === "OK") {
           axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
             LOGGER("JN8wsASyiL", resp.data);
             let { status, list } = resp.data;
-            if (status == "OK") {
+            if (status === "OK") {
               setlist_trenditems(list);
             }
           });
@@ -127,7 +127,7 @@ export default function Main({ store }) {
           axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
             LOGGER("JBwpoHdvFv", resp.data);
             let { status, list } = resp.data;
-            if (status == "OK") {
+            if (status === "OK") {
               setlist_newitems(list);
             }
           });
@@ -385,7 +385,7 @@ export default function Main({ store }) {
                 <div className="swiperBox">
                   <ul className="swiperList" ref={collectionSwiperRef}>
                     {creatorlist.map((cont, index) => (
-                      <li className="swiperContBox">
+                      <li  key={index} className="swiperContBox">
                         <div
                           className="bg"
                           style={{
@@ -899,7 +899,7 @@ export default function Main({ store }) {
                 <div className="swiperBox">
                   <ul className="swiperList" ref={collectionSwiperRef}>
                     {creatorlist.map((cont, index) => (
-                      <li className="swiperContBox">
+                      <li key={index} className="swiperContBox">
                         <div
                           className="bg"
                           style={{
@@ -976,7 +976,7 @@ export default function Main({ store }) {
                     onClick={() =>{
                       console.log(category)
                       dispatch({type: SET_CATEGORY, payload:{value:category.code}});
-                      navigate("/marketplace", { state: category.state })
+                      navigate("/marketplace?category="+category.code)
                     }
                     }
                   >

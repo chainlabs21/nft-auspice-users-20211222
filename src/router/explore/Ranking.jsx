@@ -25,6 +25,9 @@ import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
 import { Icons } from "react-toastify";
 import MypageFilter from "../../components/mypage/mypageFilter";
 import { D_rankCategoryList } from "../../data/D_explore";
+import { applytoken } from "../../util/rest";
+import { API } from "../../config/api";
+import { LOGGER } from "../../util/common";
 
 export default function Ranking() {
   const navigate = useNavigate();
@@ -36,6 +39,18 @@ export default function Ranking() {
   const [volumeToggle, setVolumeToggle] = useState(false);
   const [listMore, setListMore] = useState(-1);
   const [beforAfterToggle, setBeforeAfterToggle] = useState(false);
+  const [category, setCategory] = useState();
+	let [ list , setlist ]=useState( [] )
+	let axios=applytoken()
+	useEffect( ()=>{ 
+		axios.get( 'http://itemverse1.net:32287/queries/rows/logorders/isprivate/0/0/100/price/DESC' , {params : { userdetail : 1 }}).then(resp=>{ 
+      LOGGER( 'q25Sf2Htg1' , resp.data )
+			let { status , list }= resp.data
+			if ( status == 'OK'){
+				setlist ( list )
+			}
+		})
+	},[])
 
   if (isMobile)
     return (
@@ -86,7 +101,7 @@ export default function Ranking() {
                           </span>
 
                           <div className="textBox">
-                            <p className="title">Summer Pool</p>
+                            <p className="title">{cont.itemid}</p>
                             <button
                               className="moreLessBtn"
                               onClick={() => setListMore(index)}
@@ -217,7 +232,7 @@ export default function Ranking() {
               </ul>
 
               <ul className="list">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((cont, index) => {
+                {list.map((cont, index) => {
                   return (
                     <li>
                       <span>
@@ -227,12 +242,12 @@ export default function Ranking() {
                         </div>
                       </span>
                       <span>
-                        <img className="profImg" />
-                        <p>Summer Pool</p>
+                        <img className="profImg"/>
+                        <p>{cont.itemid}</p>
                       </span>
 
                       <span>
-                        <p>45,323 KLAY</p>
+                        <p>{cont.price} KLAY</p>
                       </span>
 
                       <span>

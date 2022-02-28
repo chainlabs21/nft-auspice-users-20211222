@@ -5,11 +5,19 @@ import collect_img4 from "../img/sub/collect_img4.png";
 import rock from "../img/sub/rock.png";
 
 export const D_statusList = [
-  { key: "Buy Now", id: "buyNow", value: 1 },
-  { key: "On Auction", id: "onAuction",value: 2 },
-  { key: "New", id: "new",value: 4 },
-  { key: "Has Offers", id: "HasOffers",value: 8 },
-];
+  { key: "Buy Now", id: "buynow", value: 4 },
+  { key: "On Auction", id: "onauction",value: 8 },
+  { key: "New", id: "new",value: 1 },
+  { key: "Has Offers", id: "hasoffers",value: 2 },
+]
+  
+  
+  export const D_SStatusList = {
+    "Buy Now":{ id: "buynow", value: 4 },
+    "On Auction":{id: "onauction",value: 8 },
+    "New":{id: "new",value: 1 },
+    "Has Offers":{id: "hasoffers",value: 2 },
+  };
 
 export const D_transactionStatusList = [
   { key: "Listing", value: 1 },

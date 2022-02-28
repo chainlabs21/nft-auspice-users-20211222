@@ -15,7 +15,8 @@ import side_close from "../../img/sub/side_close.png";
 import filter_icon2 from "../../img/sub/filter_icon2.png";
 import icon_link_on from "../../img/sub/icon_link_on.png";
 import I_klaytn from "../../img/sub/I_klaytn.svg";
-
+import { applytoken } from "../../util/rest";
+import {LOGGER} from '../../util/common';
 import { useEffect, useRef, useState } from "react";
 import DefaultHeader from "../../components/header/DefaultHeader";
 import PopupBg from "../../components/PopupBg";
@@ -24,23 +25,97 @@ import SelectPopup from "../../components/SelectPopup";
 import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
 import TransactionHistoryFilter from "../../components/mypage/mypageFilter";
 import { Icons } from "react-toastify";
+import axios from 'axios';
+import {API} from '../../config/api'
+import { strDot } from "../../util/Util";
+import moment from "moment";
 
 export default function TransactionHistory() {
+  const {userData, isloggedin, walletAddress} = useSelector((state) => state.user);
+  const isMobile = useSelector((state)=>state.common.isMobile)
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-
-  const isMobile = useSelector((state) => state.common.isMobile);
-
-  const [popupIndex, setPopupIndex] = useState(-1);
-  const [search, setSearch] = useState("");
-  const [sortPopup, setSortPopup] = useState(false);
-  const [itemFilterPopup, setItemFilterPopup] = useState(false);
+  const {pathname} = useLocation();
+  const [filterObj, setFilterObj] = useState({});
+  const [filterList, setFilterList] = useState([]);
   const [toggleFilter, setToggleFilter] = useState(false);
-
-  function onClickMoreBtn(e, index) {
-    e.stopPropagation();
-    setPopupIndex(index);
+  const [moMoreObj, setMoMoreObj] = useState({});
+  const [dataList, setDataList] = useState([]);
+  const [unit, setUnit] = useState("USD");
+  const [fromPrice, setFromPrice] = useState("");
+  const [toPrice, setToPrice] = useState("");
+  const [priceFilterToggle, setPriceFilterToggle] = useState(false);
+  const [callEffect, setCallEffect] = useState(false);
+  const [pricePopup, setPricePopup] = useState(false);
+  let axios = applytoken();
+  function getSelectText() {
+    switch (unit) {
+      case "USD":
+        return "United States Dollars (USD)";
+      case "KLAY":
+        return "Klaytn";
+      default:
+        break;
+    }
   }
+  function onClickOption(data) {
+    setUnit(data);
+    setPriceFilterToggle(false);
+    setFromPrice(0.0);
+    setToPrice(0.0);
+    setCallEffect(!callEffect);
+    setPricePopup(false);
+  }
+
+  function editFilterList(category, cont) {
+    let dataObj = filterObj;
+    dataObj[category] = cont;
+
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
+
+  function onclickFilterReset() {
+    setFilterObj({});
+    setFilterList([]);
+  }
+  function onclickFilterCancel(cont) {
+    let dataObj = filterObj;
+    for (var key in dataObj) {
+      if (dataObj.hasOwnProperty(key) && dataObj[key] == cont) {
+        delete dataObj[key];
+      }
+    }
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
+
+  useEffect(
+    (_) => {
+      // if (myaddress) {
+      // } else {
+      //   return;
+      // }
+      axios
+        // .get(API.API_TRANSACTIONS + `/username/${myaddress}/0/100/id/DESC`, {
+        //   params: { itemdetail: 0 },
+        // })
+        .get(
+          API.API_TRANSACTIONS +
+            `/username/${walletAddress}/0/100/id/DESC`,
+          {
+            params: { itemdetail: 0 },
+          }
+        )
+        .then((resp) => {
+          LOGGER("", resp.data);
+          let { status, list } = resp.data;
+          if (status == "OK") {
+            setDataList(list);
+          }
+        }); //		,  : `${apiServer}/queries/rows/transactions` // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
+    },
+    [walletAddress]
+  );
 
   if (isMobile)
     return (
@@ -72,7 +147,7 @@ export default function TransactionHistory() {
             />
 
             <div className="contBox">
-              <span className="profImg" />
+              <img className="profImg" src={userData?.myinfo_maria?.profileimageurl}/>
               <div className="btnBox">
                 <button className="" onClick={() => {}}>
                   <img src={re} alt="" />
@@ -83,8 +158,8 @@ export default function TransactionHistory() {
               </div>
 
               <div className="infoBox">
-                <strong className="title">Henry juniors' Items</strong>
-                <p className="address">0x97bc...8cad2</p>
+                <strong className="title">{userData?.myinfo_maria?.nickname}'s Items</strong>
+                <p className="address">{strDot(walletAddress, 5, 5)}</p>
                 <p className="introduce">
                   Henry is a mixed-media artist living in the Bay Area and users
                   a stream of consciousness approach to his work
@@ -223,7 +298,7 @@ export default function TransactionHistory() {
             />
 
             <div className="contBox">
-              <span className="profImg" />
+            <img className="profImg" src={userData?.myinfo_maria?.profileimageurl}/>
               <div className="btnBox">
                 <button className="" onClick={() => {}}>
                   <img src={re} alt="" />
@@ -234,11 +309,10 @@ export default function TransactionHistory() {
               </div>
 
               <div className="infoBox">
-                <strong className="title">Henry juniors' Items</strong>
-                <p className="address">0x97bc...8cad2</p>
+                <strong className="title">{userData?.myinfo_maria?.nickname}'s Items</strong>
+                <p className="address">{strDot(walletAddress, 5, 5)}</p>
                 <p className="introduce">
-                  Henry is a mixed-media artist living in the Bay Area and users
-                  a stream of consciousness approach to his work
+                {userData?.myinfo_maria?.description}
                 </p>
               </div>
             </div>
@@ -296,47 +370,44 @@ export default function TransactionHistory() {
               </ul>
 
               <ul className="list">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((cont, index) => {
-                  return (
-                    <li>
-                      <span>Listing</span>
 
-                      <span>
-                        <img className="profImg" />
-                        <p>Summer</p>
+                {
+                  dataList.map((cont, index)=>(
+                    <li key={index}>
+                      <span>{/**EVENTTYPE */cont.typestr}</span>
+                      <span onClick={()=>{navigate(
+                                      `/singleitem?itemid=${cont.item?.itemid}`
+                                    );}}>{/* itemImage */}
+                        <img className="profImg" src={cont.item?.url}/>
+                        <p>{cont.itemid||cont.item?.itemid}</p>
                       </span>
-
-                      <span>
-                        <img className="tokenImg" src={I_klaytn} />
-                        <p className="price">0.00050</p>
+                      <span>{/**price*/}
+                      <img className="tokenImg" src={I_klaytn} />
+                        <p className="price">{cont.price}</p></span>
+                      <span>{/**from */}
+                      <img className="profImg" />
+                        <p>{cont.seller}</p>
                       </span>
-
-                      <span>
-                        <img className="profImg" />
-                        <p>VOE83754899999999</p>
+                      <span>{/**to*/}
+                      <img className="profImg" />
+                        <p>{cont.buyer}</p></span>
+                      <span>{/* date*/}
+                        <p>{moment(cont.createdat).fromNow()}</p>
                       </span>
-
-                      <span>
-                        <img className="profImg" />
-                        <p>TIDREDQ349999999</p>
-                      </span>
-
-                      <span>
-                        <p>1 minutes left</p>
-                      </span>
-
-                      <span>
-                        <p>1</p>
-                      </span>
-
-                      <span>
+                      <span>{/**quantity*/}
+                      {cont.amount}</span>
+                      <span>{/**tx Link*/}
                         <button className="" onClick={() => {}}>
                           <img src={icon_link_on} alt="" />
                         </button>
                       </span>
                     </li>
-                  );
-                })}
+
+                  ))
+
+
+
+                }
               </ul>
             </article>
           </section>

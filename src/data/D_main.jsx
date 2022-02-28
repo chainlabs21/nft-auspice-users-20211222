@@ -28,13 +28,13 @@ export const D_categoryList = [
     img: category_virtualworld,
     text: "Virtual World",
     state: "Virtual World",
-    code: "virtual world"
+    code: "virtualworld"
   },
   {
     img: category_tradingcards,
     text: "Trading Cards",
     state: "Trading Cards",
-    code: "trading cards"
+    code: "tradingcards"
   },
   {
     img: category_collectibles,

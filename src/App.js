@@ -10,6 +10,7 @@ import Signup from "./router/join/Signup";
 import EmailFailed from "./router/join/EmailFailed";
 import SignupComplete from "./router/join/SignupComplete";
 import SentEmail from "./router/join/SentEmail";
+import EmailChange from "./router/join/EmailChange";
 
 import MarketPlace from "./router/market/MarketPlace";
 import SingleItem from "./router/market/SingleItem";
@@ -61,11 +62,11 @@ import "./css/footer.css";
 import "./css/layout.css";
 import "./css/style.css";
 import "./css/swiper.min.css";
-import { SET_ADDRESS } from "./reducers/userReducer";
+import { SET_ADDRESS, SET_LOGIN, SET_USER_DATA } from "./reducers/userReducer";
 
 function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const { mHeaderPopup } = useSelector((state) => state.store);
-  const dispatch =useDispatch();
+  const dispatch = useDispatch();
   const login = (address) => {
     console.log("로그인 시도")
     axios
@@ -136,7 +137,6 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           // disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
           //				Setaddress( address )
           login(address);
-          console.log("로그인 시도 안해?")
         } else {
           SetErrorBar(messages.MSG_WALLET_DISCONNECTED);
           on_wallet_disconnect();
@@ -148,6 +148,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
 
   useEffect(() => {
     LOGGER("poMFHstZg8", window.klaytn?.selectedAddress);
+    dispatch({type:SET_ADDRESS, payload:{value: window.klaytn?.selectedAddress}})
     setTimeout((_) => {
       let { klaytn } = window;
       if (klaytn) {
@@ -172,6 +173,33 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
       }
     }, 3 * 1000);
   });
+
+
+  function checklogin(){
+    //console.log(isloggedin+" : "+walletAddress)
+    if (!localStorage.getItem("token")||!localStorage.getItem("address")) return;
+    //if (localStorage.getItem("address") != window.klaytn.enable()[0])
+    axios.defaults.headers.common["token"] = localStorage.getItem("token");
+    axios.get(`${API.API_USER_CHECK}`, {address: localStorage.getItem("address")})
+    .then((resp) => {
+      console.log(resp)
+      if (resp.status==200){
+        dispatch({ type: SET_LOGIN, payload: { value: true }});
+        dispatch({type: SET_ADDRESS, payload:{value: localStorage.getItem("address")}})
+        dispatch({type: SET_USER_DATA, payload:{ value: resp.data.payload}})
+        //console.log(resp)
+        //dispatch({ type: SET_USER_DATA, payload: { value: true }});
+      }
+    })
+
+  }
+  useEffect(()=>{
+    let accounts = window.klaytn.enable()
+
+    checklogin()
+    
+  }, [])
+
 
   return (
     <AppBox className="appBox">
@@ -219,6 +247,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/singleitem" element={<SingleItem />} />
           <Route path="/bundleitem" element={<BundleItem />} />
           <Route path="/selectitem" element={<SelectItem />} />
+          <Route path="/emailchange" element={<EmailChange />} />
 
           <Route path="/myitems" element={<MyItems />} />
           <Route path="/createcollection" element={<CreateCollection />} />

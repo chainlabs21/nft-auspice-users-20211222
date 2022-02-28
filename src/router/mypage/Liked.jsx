@@ -29,12 +29,36 @@ import DefaultHeader from "../../components/header/DefaultHeader";
 import re from "../../img/sub/re.png";
 import share from "../../img/sub/share.png";
 import { D_categoryList } from "../../data/D_mypage";
+import { strDot } from "../../util/Util"
+import axios from 'axios';
 
 export default function Liked() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const {userData, walletAddress} = useSelector((state)=>state.user)
+  const [listitems, setlistitems] = useState([]);
+
 
   const isMobile = useSelector((state) => state.common.isMobile);
+
+  let axios = applytoken();
+  let myaddress = getmyaddress();
+  let [list, setlist] = useState([]);
+  useEffect((_) => {
+    axios
+      .get(
+        API.API_USER_FAVORITES +
+        `/username/${walletAddress}/0/100/id/DESC`,
+        { params: { itemdetail: 1 } }
+      )
+      .then((resp) => {
+        LOGGER("zz", resp.data);
+        let { status ,list} = resp.data;
+        if (status == "OK") {
+          setlist(list);
+        }
+      });
+  }, []);
 
   if (isMobile)
     return (
@@ -96,7 +120,7 @@ export default function Liked() {
                     class="itemBox"
                     onClick={() => {}}
                     style={{
-                      backgroundImage: `url(${sample})`,
+                      backgroundImage: `url(${cont.item.url})`,
                       backgroundRepeat: "no-repeat",
                       backgroundPosition: "center",
                       backgroundSize: "cover",
@@ -110,7 +134,7 @@ export default function Liked() {
                         >
                           <img src={heart_on} alt="" />
 
-                          <p>1,389</p>
+                          <p>11</p>
                         </button>
                       </div>
 
@@ -143,7 +167,7 @@ export default function Liked() {
             />
 
             <div className="contBox">
-              <span className="profImg" />
+            <img className="profImg" src={userData?.myinfo_maria?.profileimageurl}/>
               <div className="btnBox">
                 <button className="" onClick={() => {}}>
                   <img src={re} alt="" />
@@ -154,11 +178,10 @@ export default function Liked() {
               </div>
 
               <div className="infoBox">
-                <strong className="title">Henry juniors' Items</strong>
-                <p className="address">0x97bc...8cad2</p>
+                <strong className="title">{userData?.myinfo_maria?.nickname}'s Items</strong>
+                <p className="address">{strDot(walletAddress, 5, 5)}</p>
                 <p className="introduce">
-                  Henry is a mixed-media artist living in the Bay Area and users
-                  a stream of consciousness approach to his work
+                {userData?.myinfo_maria?.description}
                 </p>
               </div>
             </div>
@@ -179,13 +202,13 @@ export default function Liked() {
 
             <article className="itemListBox">
               <ul className="itemsList">
-                {[1, 2, 3, 4, 5].map((cont, index) => (
+                {list.map((cont, index) => (
                   <li
                     key={index}
                     class="itemBox"
                     onClick={() => {}}
                     style={{
-                      backgroundImage: `url(${sample})`,
+                      backgroundImage: `url(${cont.item.url})`,
                       backgroundRepeat: "no-repeat",
                       backgroundPosition: "center",
                       backgroundSize: "cover",
@@ -199,12 +222,12 @@ export default function Liked() {
                         >
                           <img src={heart_on} alt="" />
 
-                          <p>1,389</p>
+                          <p>{cont.item.countfavors}</p>
                         </button>
                       </div>
 
-                      <p className="nickname">Renoir</p>
-                      <p className="title">Verger de pommiers</p>
+                      <p className="nickname">{cont.author.nickname}</p>
+                      <p className="title">{cont.item.titlename}</p>
                     </div>
                   </li>
                 ))}

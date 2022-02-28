@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from "react-router";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useHistory, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 import collect_img from "../../img/sub/collect_img.png";
 import collect_img2 from "../../img/sub/collect_img2.png";
 import collect_img3 from "../../img/sub/collect_img3.png";
 import collect_img4 from "../../img/sub/collect_img4.png";
-
+import SetErrorBar from "../../util/SetErrorBar";
 import side_close from "../../img/sub/side_close.png";
 import rock from "../../img/sub/rock.png";
 import filter_icon from "../../img/sub/filter_icon.png";
@@ -34,7 +34,9 @@ import {
   D_categoryList,
   D_itemFilter,
   D_sortFilter,
+
 } from "../../data/D_marketPlace";
+import {   D_SStatusList} from "../../data/D_filter"
 import SelectPopup from "../../components/SelectPopup";
 import PopupBg from "../../components/PopupBg";
 
@@ -43,8 +45,10 @@ export default function MarketPlace() {
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
+
  // const history = useHistory();
- // const location = useLocation();
+  const location = useLocation();
+  
 
   const isMobile = useSelector((state) => state.common.isMobile);
 
@@ -62,30 +66,83 @@ export default function MarketPlace() {
     , UTILITY: 'utility'
     , ETC: 'etc'
   }
-
+const codelist=['all'
+, 'art'
+, 'Music'
+, 'virtualworld'
+, 'tradingcards'
+, 'collectibles'
+, 'sports'
+, 'utility'
+, 'etc']
   const [toggleFilter, setToggleFilter] = useState(false);
   const [itemFilterPopup, setItemFilterPopup] = useState(false);
   const [sortPopup, setSortPopup] = useState(false);
   let [searchParams, setSearchParams] = useSearchParams({})
-  const [category, setCategory] = useState(searchParams.get("category"));
+  const [category, setCategory] = useState();
   const [filteredList, setFilteredList] = useState([]);
   const [totalItem, setTotalItem] = useState(0);
   const [searchKey, setSearchKey] = useState(params.searchKey);
   const {marketFilter} = useSelector((state) => state.filter);
+
+  const [target, setTarget] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [itemLists, setItemLists] = useState([1])
+  const [iindex, setiindex] = useState([])
   
+  function onClickFavorBtn(e, itemid) {
+    e.stopPropagation();
+    LOGGER("CodOU75E5r");
+    axios.post(`${API.API_TOGGLE_FAVOR}/${itemid}`).then((resp) => {
+      LOGGER("", resp.data);
+      let { status, respdata, message } = resp.data;
+
+      if (status === "OK") {
+        getItem()
+      } else if (message === "PLEASE-LOGIN") {
+        SetErrorBar("로그인을 해주세요");
+      }
+    });
+  }
+
+  function onClickBookMarkBtn(e, itemid) {
+    e.preventDefault();
+
+    axios.post(`${API.API_TOGGLE_BOOKMARK}/${itemid}`).then((resp) => {
+      LOGGER("", resp.data);
+      let { status, message } = resp.data;
+      if (status === "OK") {
+        getItem()
+        } else if (message === "PLEASE-LOGIN") {
+          SetErrorBar("로그인을 해주세요");
+        
+      }
+    });
+  }
 
   //Fetch new items by detecting changes on marketFilter and category.
-  useEffect(()=>{
-    console.log(category)
-    getItem()
+  useEffect(async ()=>{
+    let listFill=[]
+    await Object.keys(marketFilter.status).forEach((v, i)=>{
+      if (marketFilter.status[v]){
+      listFill.push(D_SStatusList[v].id)
+      }
+    }
+    )
+    console.log(listFill)
+    getItem(location.pathname.split('/')[2], listFill)
     
-  },[marketFilter, category])
+  },[marketFilter, location])
 
   //Set Category on param changes in url
-  useEffect(()=>{
-    if (!searchParams.get("category")){setCategory('all'); return}
-    setCategory(searchParams.get("category"))
-  },[searchParams])
+  useEffect(async ()=>{
+    //location.search.split('=')[1]
+    console.log(location.pathname.split('/')[2])
+    
+    await setCategory(location.pathname.split('/')[2])
+    //await dispatch({type: SET_CATEGORY, payload: {value: location.search.split('=')[1]}})
+    //console.log(location.search)
+  },[location])
 
   //Resetting filter lists from redux store
   const onclickFilterReset = () => {
@@ -93,14 +150,15 @@ export default function MarketPlace() {
 
   };
   //Fetch items
-  async function getItem(itemIndex = 0) {
+  async function getItem(cat, list, itemIndex = 0) {
       await axios
-        .get(`${API.API_MERCHANDISES_LIST}/${itemIndex}/${100}`, {
+        .get(`${API.API_MERCHANDISES_LIST}/${itemIndex}/${20}`, {
           params: {
-            categorystr: category,
-            salestatus: marketFilter.status,
+            
+            salestatusstr: list,
             pricemin: marketFilter.min,
             pricemax: marketFilter.max,
+            categorystr: cat
             //searchKey,
           },
         })
@@ -112,10 +170,35 @@ export default function MarketPlace() {
             setFilteredList([...itemList]);
             console.log(resp)
             setTotalItem(payload.count);
-            loadingBusy = false;
+            setIsLoaded(false)
           }
         });
   }
+  const onIntersect=([entry], observer)=>{
+    if(entry.isIntersecting && !isLoaded){
+      observer.unobserve(entry.target);
+
+      //setiindex(iindex+10)
+      console.log(location.pathname.split('/')[2])
+      itemIndex+=20
+      getItem(location.pathname.split('/')[2], itemIndex);
+      observer.observe(entry.target);
+      
+
+    }
+  }
+/*
+  useEffect(() => {
+    let observer;
+    if (target) {
+      observer = new IntersectionObserver(onIntersect, {
+        threshold: 0.4,
+      });
+      observer.observe(target);
+    }
+    return () => observer && observer.disconnect();
+  }, [target]);
+*/
   if (isMobile)
     return (
       <>
@@ -333,7 +416,7 @@ export default function MarketPlace() {
 
             <ul className="cateogryList">
               {D_categoryList.map((cont, index) => (
-                <li key={index} className={(category==cont.code)?'on':''} onClick={()=>{setSearchParams({"category": cont.code})  }}>{cont.name}</li>
+                <li key={index} className={(category==cont.code)?'on':''} onClick={()=>{dispatch({type: SET_CATEGORY, payload: {value: cont.code}});navigate(`/marketplace/${cont.code}`)}}>{cont.name}</li>
               ))}
             </ul>
 
@@ -402,7 +485,7 @@ export default function MarketPlace() {
                     <div className="topBar">
                       <button
                         className="likeBtn"
-                        // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
+                         onClick={(e) => onClickFavorBtn(e, v.item.itemid)}
                       >
                         <img
                           src={v.ilikethisitem ? heart_on : heart_off}
@@ -414,7 +497,7 @@ export default function MarketPlace() {
 
                       <button
                         className="bookmarkBtn"
-                        // onClick={(e) => onClickBookMarkBtn(e, cont.itemid)}
+                         onClick={(e) => onClickBookMarkBtn(e, v.item.itemid)}
                       >
                         <img src={v.ididbookmark ? star_on : star_off} alt="" />
                       </button>
@@ -437,6 +520,9 @@ export default function MarketPlace() {
                 </li>
               ))}
             </ul>
+            <div ref={setTarget}>
+              {isLoaded && 'Loading'}
+            </div>
           </section>
         </PmarketPlaceBox>
       </>

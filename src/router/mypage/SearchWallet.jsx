@@ -7,6 +7,7 @@ import I_3dot from "../../img/icons/I_3dot.png";
 import I_dnArrow from "../../img/icons/I_dnArrow.svg";
 import I_x from "../../img/icons/I_x.svg";
 import heart_off from "../../img/sub/heart_off.png";
+import heart_on from "../../img/sub/heart_on.png";
 import re from "../../img/sub/re.png";
 import share from "../../img/sub/share.png";
 import loupe_black from "../../img/sub/loupe_black.png";
@@ -22,6 +23,10 @@ import SelectPopup from "../../components/SelectPopup";
 import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
 import Filter from "../../components/common/DefaultFilter";
 import { strDot } from "../../util/Util";
+import axios from 'axios';
+import { LOGGER } from "../../util/common";
+import { API } from "../../config/api";
+
 
 export default function SearchWallet() {
   const navigate = useNavigate();
@@ -34,8 +39,40 @@ export default function SearchWallet() {
   const [sortPopup, setSortPopup] = useState(false);
   const [itemFilterPopup, setItemFilterPopup] = useState(false);
   const [toggleFilter, setToggleFilter] = useState(false);
+  let [ listitems , setlistitems ]=useState( [] )
 
   const {userData, isloggedin, walletAddress} = useSelector((state) => state.user);
+
+  function onClickFavorBtn(e, itemid) {
+    e.stopPropagation();
+    LOGGER("CodOU75E5r");
+    axios.post(`${API.API_TOGGLE_FAVOR}/${itemid}`).then((resp) => {
+      LOGGER("", resp.data);
+      let { status, respdata, message } = resp.data;
+
+      if (status === "OK") {
+        fetchitems()
+      } else if (message === "PLEASE-LOGIN") {
+        //SetErrorBar("로그인을 해주세요");
+      }
+    });
+  }
+
+  const fetchitems=_=>{
+		axios.get( `${API.API_MYITEMS}/${walletAddress}/0/10/id/DESC`).then(resp=>{ LOGGER( 'wyBPdUnid7' , resp.data )
+			let { status , list }=resp.data 
+			if ( status =='OK' ){
+        console.log(list)
+				setlistitems( list )
+			}
+		})
+	}
+
+  useEffect( _=>{
+		fetchitems()
+	} , [] )
+
+
 
   function onClickMoreBtn(e, index) {
     e.stopPropagation();
@@ -382,20 +419,22 @@ export default function SearchWallet() {
 
             <article className="itemListBox">
               <ul className="itemsList">
-                {[1, 2, 3, 4, 5].map((cont, index) => (
-                  <li
-                    key={index}
-                    class="itemBox"
-                    onClick={() => {}}
-                    style={{
-                      backgroundImage: `url(${sample})`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                  >
+                {
+                  listitems.map((v, i)=>{
+                    console.log(v);
+                    <li
+                      key={i}
+                      class="itemBox"
+                      onClick={() => {}}
+                      style={{
+                        backgroundImage: `url(${sample})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                      }}
+                    >
                     <div className="infoBox">
-                      {popupIndex === index && (
+                      {popupIndex === i && (
                         <>
                           <ul className="morePopup">
                             <li>Sale</li>
@@ -417,14 +456,65 @@ export default function SearchWallet() {
 
                         <button
                           className="moreBtn"
+                          onClick={(e) => onClickMoreBtn(e, i)}
+                        >
+                          <img src={I_3dot} alt="" />
+                        </button>
+                      </div>
+
+                      <p className="nickname">{v.author.nickname}</p>
+                      <p className="title">{v.item.titlename}</p>
+                    </div>
+                    </li>
+                  })
+                }
+
+
+
+
+                {listitems.map((cont, index) => (
+                  <li
+                    key={index}
+                    class="itemBox"
+                    onClick={() => {}}
+                    style={{
+                      backgroundImage: `url(${cont.item.url})`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                    }}
+                  >
+                    <div className="infoBox">
+                      {popupIndex === index && (
+                        <>
+                          <ul className="morePopup">
+                            <li>Sale</li>
+                            <li>Edit</li>
+                          </ul>
+                          <PopupBg off={setPopupIndex} />
+                        </>
+                      )}
+
+                      <div className="topBar">
+                        <button
+                          className="likeBtn"
+                          onClick={(e) => onClickFavorBtn(e, cont.itemid)}
+                        >
+                          <img src={cont.ilikethisitem ? heart_on : heart_off} alt="" />
+
+                          <p>{cont.item.countfavors}</p>
+                        </button>
+
+                        <button
+                          className="moreBtn"
                           onClick={(e) => onClickMoreBtn(e, index)}
                         >
                           <img src={I_3dot} alt="" />
                         </button>
                       </div>
 
-                      <p className="nickname">Renoir</p>
-                      <p className="title">Verger de pommiers</p>
+                      <p className="nickname">{cont.author.nickname}</p>
+                      <p className="title">{cont.item.titlename}</p>
                     </div>
                   </li>
                 ))}

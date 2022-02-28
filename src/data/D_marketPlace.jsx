@@ -13,11 +13,11 @@ export const D_categoryList = [
   }
   , {
     name:"Virtual World"
-    , code: 'virtual world'
+    , code: 'virtualworld'
   }
   , {
     name:"Trading Cards"
-    , code: 'trading cards'
+    , code: 'tradingcards'
   }
   , {
     name:"Collectibles"

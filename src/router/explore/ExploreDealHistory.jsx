@@ -24,20 +24,75 @@ import SelectPopup from "../../components/SelectPopup";
 import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
 import TransactionHistoryFilter from "../../components/mypage/mypageFilter";
 import { Icons } from "react-toastify";
+import axios from 'axios';
+
+import {API} from '../../config/api'
+import moment from "moment";
 
 export default function ExploreDeal() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const isMobile = useSelector((state) => state.common.isMobile);
-
+  const isMobile = useSelector((state)=>state.common.isMobile)
+  const [filterObj, setFilterObj] = useState({});
+  const [filterList, setFilterList] = useState([]);
   const [toggleFilter, setToggleFilter] = useState(false);
+  const [moMoreObj, setMoMoreObj] = useState({});
+  const [dataList, setDataList] = useState([]);
   const [listMore, setListMore] = useState(-1);
 
   function onClickMoreLessBtn(index) {
     if (listMore === index) setListMore(-1);
     else setListMore(index);
   }
+
+  function editFilterList(category, cont) {
+    let dataObj = filterObj;
+    dataObj[category] = cont;
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
+  function onclickFilterReset() {
+    setFilterObj({});
+    setFilterList([]);
+  }
+  function onclickFilterCancel(cont) {
+    let dataObj = filterObj;
+    for (var key in dataObj) {
+      if (dataObj.hasOwnProperty(key) && dataObj[key] == cont) {
+        delete dataObj[key];
+      }
+    }
+    setFilterObj(dataObj);
+    setFilterList([...Object.values(dataObj)]);
+  }
+  function onClickToggleMoreBtn(index) {
+    let moreObj = moMoreObj;
+    moreObj[index] = !moreObj[index];
+    console.log(moreObj);
+    setMoMoreObj({ ...moreObj });
+  }
+  useEffect(() => {
+    let token_sec = localStorage.getItem("token");
+    axios.defaults.headers.get.token = token_sec;
+    axios.defaults.headers.post.token = token_sec;
+
+    axios
+      .get(API.API_GET_EXPLORE, {
+        params: {
+          fieldname: "typestr",
+          fieldvalues: "MINT,SALE",
+          itemdetail: 1,
+        },
+      })
+      .then((resp) => {
+        console.log("MAvjoRxUYM", resp.data);
+        let { status, list } = resp.data;
+        if (status == "OK") {
+          setDataList(list);
+        }
+      });
+  }, []);
 
   if (isMobile)
     return (
@@ -209,47 +264,49 @@ export default function ExploreDeal() {
               </ul>
 
               <ul className="list">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((cont, index) => {
-                  return (
-                    <li>
-                      <span>Listing</span>
+              {
+                dataList.map((cont, index)=>(
+                  <li key={index}>
+                    <span>{/**EVENTTYPE */}
+                      {cont.typestr}
+                    </span>
 
-                      <span>
-                        <img className="profImg" />
-                        <p>Summer</p>
-                      </span>
+                    <span>{/* itemImage */}
+                      <img className="profImg" src={cont.item.url} />
+                      <p>{cont.item?.titlename}</p>
+                    </span>
 
-                      <span>
-                        <img className="tokenImg" src={I_klaytn} />
-                        <p className="price">0.00050</p>
-                      </span>
+                    <span>{/**price*/}
+                      <img className="tokenImg" src={I_klaytn} />
+                      <p className="price">{cont.price}</p>
+                    
+                    </span>
+                    <span>{/**from */}
+                    <img className="profImg"/>
+                        <p>{cont.from_}</p>
+                    </span>
 
-                      <span>
-                        <img className="profImg" />
-                        <p>VOE83754899999999</p>
-                      </span>
+                    <span>{/**to*/}
+                      <img className="profImg" />
+                      <p>{cont.to_}</p>
+                    </span>
 
-                      <span>
-                        <img className="profImg" />
-                        <p>TIDREDQ349999999</p>
-                      </span>
+                    <span>{/* date*/}
+                      <p>{moment(cont.createdat).fromNow()}</p>
+                    </span>
 
-                      <span>
-                        <p>1 minutes left</p>
-                      </span>
+                    <span>{/**quantity*/}
+                      <p>{cont.amount}</p>
+                    </span>
 
-                      <span>
-                        <p>1</p>
-                      </span>
-
-                      <span>
-                        <button className="" onClick={() => {}}>
-                          <img src={icon_link_on} alt="" />
-                        </button>
-                      </span>
-                    </li>
-                  );
-                })}
+                    <span>{/**tx Link*/}
+                      <button className="" onClick={() => {}}>
+                        <img src={icon_link_on} alt="" />
+                      </button>
+                    </span>
+                  </li>
+                  ))
+                }
               </ul>
             </article>
           </section>

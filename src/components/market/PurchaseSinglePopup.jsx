@@ -1,12 +1,166 @@
 import { useSelector } from "react-redux";
+import {useState} from "react";
 import styled from "styled-components";
 import I_x from "../../img/icons/I_x.svg";
 import I_klaytn from "../../img/sub/I_klaytn.svg";
 import I_chkBtn from "../../img/design/I_chkBtn.png";
+import {strDot} from "../../util/Util"
+import SetErrorBar from "../../util/SetErrorBar";
+import { messages } from "../../config/messages";
+import { LOGGER } from "../../util/common";
+import {ADDRESSES } from "../../config/addresses"
+import { getethrep, getweirep, is_two_addresses_same } from "../../util/eth";
+import {
+  query_nfttoken_balance,
+  requesttransaction,
+  getabistr_forfunction,
+  query_with_arg,
+} from "../../util/contract-calls";
+import {
+  PAYMEANS_DEF,
+  URL_TX_SCAN,
+  FEES_DEF,
+  NETTYPE,
+} from "../../config/configs";
+import axios from 'axios';
+import {API} from "../../config/api"
+import { useEffect } from "react";
 
-export default function BidSinglePopup({ off, imageurl,title, sellername, price }) {
+
+export default function BidSinglePopup({ nd, off, imageurl,title, sellername, price, myethbalance, sellorder, itemdata }) {
   const isMobile = useSelector((state) => state.common.isMobile);
+  const {walletAddress, userData} = useSelector((state)=>state.user)
+  const [TOSChk, setTOSChk]=useState(false);
+  const [ChkChk, setChkChk]=useState(false);
+  let [ referer, setreferer] = useState()//searchParams.get("referer"));
+  const getfeeamountstr = (amount, rate) => {
+    let n = (+amount * +rate) / 10000;
+    return n.toFixed(4); // String()
+  };
+  useEffect(()=>{
+    console.log(itemdata)
+    console.log(sellorder)
+  })
 
+    const onClickBuy = ()=>{
+      console.log(sellorder?.typestr)
+      switch(sellorder?.typestr){
+        case "COMMON":
+          onBuySpotCommon();
+          break;
+        case "AUCTION_ENGLISH":
+          //onBuySpotCommon();
+          //onBidAuction();
+          break;
+        default:
+          SetErrorBar(messages.MSG_SALE_TYPE_NOT_DEFINED);
+          break;
+      }
+    }
+
+    const onBuySpotCommon=()=>{
+      LOGGER("BUYSPOT", itemdata.item?.itemid)
+      let {item} = itemdata;
+      let itemid = item.itemid
+      let aargs=[
+        ADDRESSES.erc1155, // 0
+        item.itemid, // 1 item?.itemid			//			, itemdata.item?.tokenid // 0
+        item.countcopies, // 2
+        item.authorfee, // 3
+        sellorder.asset_amount_bid, //4 			//			, item?.decimals       //			, sellorder?.asset_contract_ask ? sellorder?.asset_contract_ask : ADDR ESSES.zero
+        getweirep(sellorder?.asset_amount_ask), // 5
+        item.author, // 6
+        sellorder.username, // 7
+        walletAddress, // 8
+        referer ? referer : ADDRESSES.zero,
+      ]
+      LOGGER(aargs);
+      //		return
+      let abistr = getabistr_forfunction({
+        contractaddress: ADDRESSES.matcher_simple,
+        abikind: "MATCHER_SIMPLE",
+        methodname: "mint_and_match_single_simple",
+        aargs,
+      });
+      LOGGER(abistr);
+      requesttransaction({
+        from: walletAddress,
+        to: ADDRESSES.matcher_simple,
+        data: abistr,
+        value: getweirep(sellorder.asset_amount_ask), // '0x00'
+        gas: "" + 800_000, // 320,948
+      })
+        .then((resp) => {
+          LOGGER("", resp);
+          let { transactionHash, status } = resp;
+          
+            console.log(sellername)
+          if (status) {
+            let reqbody = {
+              itemid,
+              tokenid: itemdata.item?.tokenid,
+              amount: sellorder?.asset_amount_bid, // itemdata.item?.countcopies,
+              price: sellorder?.asset_amount_ask,
+              username: walletAddress,
+              seller: sellername,
+              buyer: walletAddress,
+              matcher_contract: ADDRESSES.matcher_simple, // _2022 0131,
+              token_repo_contract: ADDRESSES.erc1155,
+              adminfee: {
+                address: ADDRESSES.vault,
+                amount: getfeeamountstr(
+                  sellorder?.asset_amount_ask,
+                  FEES_DEF.ADMIN
+                ),
+                rate: FEES_DEF.ADMIN,
+              }, //
+              refererfee: referer
+                ? {
+                    address: referer,
+                    amount: getfeeamountstr(
+                      sellorder?.asset_amount_ask,
+                      FEES_DEF.REFERER
+                    ),
+                    rate: FEES_DEF.REFERER,
+                  }
+                : null,
+              authorfee: {
+                address: itemdata?.item?.author,
+                amount: getfeeamountstr(
+                  sellorder?.asset_amount_ask,
+                  itemdata.item?.authorfee
+                ),
+                rate: itemdata?.item?.authorfee,
+              },
+              sellorderuuid: sellorder?.uuid,
+              nettype: NETTYPE,
+            };
+            console.log(reqbody)
+            axios
+              .post(API.API_REPORT_TX_CLOSE_SPOT + `/${transactionHash}`, reqbody)
+              .then((resp) => {
+                LOGGER("G6OvdxLxyA", resp.data);
+                let { status } = resp.data;
+                if (status == "OK") {
+                  SetErrorBar( messages.MSG_DONE_REGISTERING );
+                  off()
+                  //fetchitem(itemdata?.item?.itemid);
+                }
+              });
+          }
+        })
+        .catch((err) => {
+          LOGGER("", err);
+          SetErrorBar(messages.MSG_USER_DENIED_TX);
+        }); // LOGGER( ''  , abistr )
+      return;
+      if (itemdata?.item?.tokenid) {
+      } // on chain
+      else {
+      }
+    };
+
+    
   if (isMobile)
     return (
       <MbidSinglePopup>
@@ -34,7 +188,7 @@ export default function BidSinglePopup({ off, imageurl,title, sellername, price 
 
                 <div className="infoBox">
                   <div className="titleBox">
-                    <p className="seller">{sellername}</p>
+                    <p className="seller">{strDot(sellername, 5, 5)}</p>
                     <strong className="itemTitle">Blackman with neon</strong>
                   </div>
 
@@ -127,7 +281,7 @@ export default function BidSinglePopup({ off, imageurl,title, sellername, price 
 
                 <div className="infoBox">
                   <div className="titleBox">
-                    <p className="seller">{sellername}</p>
+                    <p className="seller">{strDot(sellername, 5, 5)}</p>
                     <strong className="itemTitle">{title}</strong>
                   </div>
 
@@ -146,7 +300,8 @@ export default function BidSinglePopup({ off, imageurl,title, sellername, price 
             <div className="totalBox">
               <div className="keyBox">
                 <strong className="key">Total</strong>
-                <strong className="alarm">Insufficient ETH balance</strong>
+                {!(+myethbalance &&
+                            +myethbalance > sellorder?.asset_amount_ask)&&<strong className="alarm">Insufficient KLAY balance</strong>}
               </div>
 
               <div className="valueBox">
@@ -161,8 +316,8 @@ export default function BidSinglePopup({ off, imageurl,title, sellername, price 
 
           <ul className="termList">
             <li>
-              <button className="chkBtn" onClick={() => {}}>
-                <img src={I_chkBtn} alt="" />
+              <button className="chkBtn" onClick={() => {setChkChk(!ChkChk)}}>
+                {ChkChk&&<img src={I_chkBtn} alt="" />}
               </button>
 
               <p className="term">
@@ -172,8 +327,8 @@ export default function BidSinglePopup({ off, imageurl,title, sellername, price 
             </li>
 
             <li>
-              <button className="chkBtn" onClick={() => {}}>
-                <img src={I_chkBtn} alt="" />
+              <button className="chkBtn" onClick={() => {setTOSChk(!TOSChk)}}>
+              {TOSChk&&<img src={I_chkBtn} alt="" />}
               </button>
 
               <p className="term">
@@ -182,9 +337,15 @@ export default function BidSinglePopup({ off, imageurl,title, sellername, price 
             </li>
           </ul>
 
-          <button className="paymentBtn" onClick={() => {}}>
+          {(+myethbalance &&+myethbalance > sellorder?.asset_amount_ask&&ChkChk&&TOSChk)?(<button className="paymentBtn" onClick={() => {
+            onClickBuy()
+            /*TOSChk&&ChkChk&&*/
+          }}>
             make a payment
-          </button>
+          </button>):(<button className="depaymentBtn" onClick={() => {}}>
+            make a payment
+          </button>)
+          }
         </article>
       </PbidSinglePopup>
     );
@@ -406,6 +567,7 @@ const MbidSinglePopup = styled.section`
           height: 5.55vw;
           border-radius: 1.11vw;
           overflow: hidden;
+          border: 1px solid #000;
 
           img {
             width: 100%;
@@ -636,6 +798,8 @@ const PbidSinglePopup = styled.section`
           height: 20px;
           border-radius: 4px;
           overflow: hidden;
+          border-radius: 4px;
+          border: 1px solid #000;
 
           img {
             width: 100%;
@@ -662,6 +826,16 @@ const PbidSinglePopup = styled.section`
     font-weight: 700;
     color: #fff;
     background: #222;
+    border-radius: 28px;
+  }
+  .depaymentBtn {
+    width: 350px;
+    height: 56px;
+    margin: 30px auto 0 auto;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    background: #999999;
     border-radius: 28px;
   }
 `;
