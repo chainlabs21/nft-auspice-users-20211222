@@ -24,30 +24,21 @@ import SelectPopup from "../../components/SelectPopup";
 import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
 import TransactionHistoryFilter from "../../components/mypage/mypageFilter";
 import { Icons } from "react-toastify";
-<<<<<<< HEAD
 import axios from 'axios';
 
 import {API} from '../../config/api'
 import moment from "moment";
-=======
->>>>>>> f659390 (done publishing)
 
 export default function ExploreDeal() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-<<<<<<< HEAD
   const isMobile = useSelector((state)=>state.common.isMobile)
   const [filterObj, setFilterObj] = useState({});
   const [filterList, setFilterList] = useState([]);
   const [toggleFilter, setToggleFilter] = useState(false);
   const [moMoreObj, setMoMoreObj] = useState({});
   const [dataList, setDataList] = useState([]);
-=======
-  const isMobile = useSelector((state) => state.common.isMobile);
-
-  const [toggleFilter, setToggleFilter] = useState(false);
->>>>>>> f659390 (done publishing)
   const [listMore, setListMore] = useState(-1);
 
   function onClickMoreLessBtn(index) {
@@ -55,7 +46,6 @@ export default function ExploreDeal() {
     else setListMore(index);
   }
 
-<<<<<<< HEAD
   function editFilterList(category, cont) {
     let dataObj = filterObj;
     dataObj[category] = cont;
@@ -104,8 +94,6 @@ export default function ExploreDeal() {
       });
   }, []);
 
-=======
->>>>>>> f659390 (done publishing)
   if (isMobile)
     return (
       <>
@@ -276,7 +264,6 @@ export default function ExploreDeal() {
               </ul>
 
               <ul className="list">
-<<<<<<< HEAD
               {
                 dataList.map((cont, index)=>(
                   <li key={index}>
@@ -320,49 +307,6 @@ export default function ExploreDeal() {
                   </li>
                   ))
                 }
-=======
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((cont, index) => {
-                  return (
-                    <li>
-                      <span>Listing</span>
-
-                      <span>
-                        <img className="profImg" />
-                        <p>Summer</p>
-                      </span>
-
-                      <span>
-                        <img className="tokenImg" src={I_klaytn} />
-                        <p className="price">0.00050</p>
-                      </span>
-
-                      <span>
-                        <img className="profImg" />
-                        <p>VOE83754899999999</p>
-                      </span>
-
-                      <span>
-                        <img className="profImg" />
-                        <p>TIDREDQ349999999</p>
-                      </span>
-
-                      <span>
-                        <p>1 minutes left</p>
-                      </span>
-
-                      <span>
-                        <p>1</p>
-                      </span>
-
-                      <span>
-                        <button className="" onClick={() => {}}>
-                          <img src={icon_link_on} alt="" />
-                        </button>
-                      </span>
-                    </li>
-                  );
-                })}
->>>>>>> f659390 (done publishing)
               </ul>
             </article>
           </section>
@@ -743,8 +687,4 @@ const PtransactionHistory = styled.div`
       }
     }
   }
-<<<<<<< HEAD
 `;
-=======
-`;
->>>>>>> f659390 (done publishing)

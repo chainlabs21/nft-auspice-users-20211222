@@ -189,17 +189,17 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
    }, [walletAddress])
 
 
-  function checklogin(){
+  function checklogin(account){
     //console.log(isloggedin+" : "+walletAddress)
-    if (!localStorage.getItem("token")||!localStorage.getItem("address")) return;
+    if (!localStorage.getItem("token")||!account) return;
     //if (localStorage.getItem("address") != window.klaytn.enable()[0])
     axios.defaults.headers.common["token"] = localStorage.getItem("token");
-    axios.get(`${API.API_USER_CHECK}`, {address: localStorage.getItem("address")})
+    axios.get(`${API.API_USER_CHECK}/${account}`)
     .then((resp) => {
       console.log(resp)
       if (resp.data.status=="OK"){
         dispatch({ type: SET_LOGIN, payload: { value: true }});
-        dispatch({type: SET_ADDRESS, payload:{value: localStorage.getItem("address")}})
+        dispatch({type: SET_ADDRESS, payload:{value: account}})
         dispatch({type: SET_USER_DATA, payload:{ value: resp.data.payload}})
         //console.log(resp)
         //dispatch({ type: SET_USER_DATA, payload: { value: true }});
@@ -211,9 +211,9 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   }
   useEffect(()=>{
     if ( window.klaytn){
-    let accounts = window.klaytn.selectedAddress;
-    if (accounts){
-      checklogin()
+    let accounts = window.klaytn.enable()
+    if (accounts[0]){
+      checklogin(accounts[0])
     }
   }
 

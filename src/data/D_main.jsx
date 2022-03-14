@@ -103,15 +103,9 @@ export const D_navList = [
     title: "MY ACCOUNT",
     detailNav: [
       { text: "Profile Setting", url: "/searchwallet" },
-<<<<<<< HEAD
       //{ text: "My Collection", url: "/" },
       { text: "My Favourite", url: "/liked" },
       { text: "Account Setting", url: "/generalsettings" },
-=======
-      { text: "My Collection", url: "/myitems" },
-      { text: "My Favourite", url: "/liked" },
-      { text: "Account Setting", url: "/mywallet" },
->>>>>>> f659390 (done publishing)
     ],
   },
   {

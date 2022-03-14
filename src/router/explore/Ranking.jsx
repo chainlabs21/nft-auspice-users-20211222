@@ -25,12 +25,9 @@ import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
 import { Icons } from "react-toastify";
 import MypageFilter from "../../components/mypage/mypageFilter";
 import { D_rankCategoryList } from "../../data/D_explore";
-<<<<<<< HEAD
 import { applytoken } from "../../util/rest";
 import { API } from "../../config/api";
 import { LOGGER } from "../../util/common";
-=======
->>>>>>> f659390 (done publishing)
 
 export default function Ranking() {
   const navigate = useNavigate();
@@ -42,7 +39,6 @@ export default function Ranking() {
   const [volumeToggle, setVolumeToggle] = useState(false);
   const [listMore, setListMore] = useState(-1);
   const [beforAfterToggle, setBeforeAfterToggle] = useState(false);
-<<<<<<< HEAD
   const [category, setCategory] = useState();
 	let [ list , setlist ]=useState( [] )
 	let axios=applytoken()
@@ -55,8 +51,6 @@ export default function Ranking() {
 			}
 		})
 	},[])
-=======
->>>>>>> f659390 (done publishing)
 
   if (isMobile)
     return (
@@ -107,11 +101,7 @@ export default function Ranking() {
                           </span>
 
                           <div className="textBox">
-<<<<<<< HEAD
                             <p className="title">{cont.itemid}</p>
-=======
-                            <p className="title">Summer Pool</p>
->>>>>>> f659390 (done publishing)
                             <button
                               className="moreLessBtn"
                               onClick={() => setListMore(index)}
@@ -242,11 +232,7 @@ export default function Ranking() {
               </ul>
 
               <ul className="list">
-<<<<<<< HEAD
                 {list.map((cont, index) => {
-=======
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((cont, index) => {
->>>>>>> f659390 (done publishing)
                   return (
                     <li>
                       <span>
@@ -256,21 +242,12 @@ export default function Ranking() {
                         </div>
                       </span>
                       <span>
-<<<<<<< HEAD
                         <img className="profImg"/>
                         <p>{cont.itemid}</p>
                       </span>
 
                       <span>
                         <p>{cont.price} KLAY</p>
-=======
-                        <img className="profImg" />
-                        <p>Summer Pool</p>
-                      </span>
-
-                      <span>
-                        <p>45,323 KLAY</p>
->>>>>>> f659390 (done publishing)
                       </span>
 
                       <span>
@@ -718,8 +695,4 @@ const PrankingBox = styled.div`
       }
     }
   }
-<<<<<<< HEAD
 `;
-=======
-`;
->>>>>>> f659390 (done publishing)
