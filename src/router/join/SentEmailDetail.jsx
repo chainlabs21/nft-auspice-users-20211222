@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../../util/store";
+import {useState}from'react';
 import styled from "styled-components";
 
 import I_x from "../../img/icons/I_x.svg";
@@ -11,16 +12,45 @@ import { ERR_MSG } from "../../config/messages";
 import { API } from "../../config/api";
 import { getuseraddress } from "../../util/common";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
-export default function SentEmailDetail() {
+export default function SentEmailDetail({email}) {
   const navigate = useNavigate();
 
-  const { userData } = useSelector((state) => state.user);
+  const { userData, walletAddress} = useSelector((state) => state.user);
   const isMobile = useSelector((state) => state.common.isMobile);
+  const [emailAddress, setEmailAddress] = useState();
+
+
+  function getEmailAddr(walletaddr){
+    axios.get('http://itemverse1.net:32287/users/mailaddr/'+walletaddr).then((resp)=>{
+      let{email} = resp.data.resp;
+      console.log(email)
+      setEmailAddress(email)
+    })
+  }
+
+  useEffect(async ()=>{
+    if(email=''||!email){
+      let tmpAddress = await getEmailAddr(walletAddress)
+      setEmailAddress(tmpAddress)
+    }else{
+      setEmailAddress(email)
+    }
+  },[email])
   
   function onClickResend() {
     window.location.reload();
   }
+  useEffect(()=>{
+    console.log(userData)
+
+  },[userData])
+
+  useEffect(async()=>{
+    handleSendEmail()
+
+  },[emailAddress])
 
   const handleSendEmail = () => {
     const useraddress = getuseraddress();
@@ -31,7 +61,7 @@ export default function SentEmailDetail() {
       }
       try {
         const resp = await axios.get(
-          API.API_VERIFY_EMAIL_SEND + `/${userData.maria.email}/${useraddress}`
+          API.API_VERIFY_EMAIL_SEND + `/${emailAddress}`
         );
         console.log(resp);
       } catch (error) {
@@ -59,7 +89,7 @@ export default function SentEmailDetail() {
               </strong>
               <p className="explain">
                 Please check the verification email in your mailbox
-                (user@mail.com).
+                ({email}).
                 <br />
                 If you select the verification button in the email, membership
                 registration is complete.
@@ -115,7 +145,7 @@ export default function SentEmailDetail() {
               </strong>
               <p className="explain">
                 Please check the verification email in your mailbox
-                (user@mail.com).
+                ({emailAddress}).
                 <br />
                 If you select the verification button in the email, membership
                 registration is complete.
@@ -147,7 +177,7 @@ export default function SentEmailDetail() {
           </article>
 
           <div className="btnBox">
-            <button className="cancelBtn" onClick={handleSendEmail}>
+            <button className="cancelBtn" onClick={()=>{navigate('/')}}>
               OK
             </button>
           </div>

@@ -242,10 +242,10 @@ function Header({ store, setAllPopupOff, setMHeaderPopup, Setaddress }) {
             </ol>
           </li>
           <li>
-            <a onClick={() => navigate("/exploredeal")}>Explore</a>
+            <a onClick={() => navigate("/exploredealhistory")}>Explore</a>
             <ol>
               <li>
-                <a onClick={() => navigate("/exploredeal")}>
+                <a onClick={() => navigate("/exploredealhistory")}>
                   Transaction details
                 </a>
               </li>

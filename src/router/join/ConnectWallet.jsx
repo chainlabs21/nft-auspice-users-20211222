@@ -26,12 +26,27 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
       axios
         .post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
         .then((resp) => {
+          console.log(resp)
           let { status, respdata } = resp.data;
           if (status === "OK") {
             localStorage.setItem("token", respdata);
             console.log("tokeeen"+respdata)
             axios.defaults.headers.common["token"] = resp.data.respdata;
             localStorage.setItem("address", address);
+            dispatch({
+              type: SET_ADDRESS,
+              payload:{
+                value: address
+              }
+            });
+            dispatch({
+              type: SET_LOGIN,
+              payload:{
+                value: true
+              }
+            });
+            getUserInfo()
+            navigate("/")
             SetErrorBar(messages.MSG_ADDRESS_CHANGED + `: ${address}`);
           } else if (status === "ERR") {
             localStorage.removeItem("token");
@@ -101,15 +116,11 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
       }
 
       //console.log(userWallet)
-      dispatch({
-        type: SET_LOGIN,
-        payload:{
-          value: true
-        }
-      });
+
+      
       login(address)
       //dispatch(SET_LOGIN());
-      navigate("/")
+      
 
   }
 /*

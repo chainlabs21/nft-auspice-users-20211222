@@ -37,7 +37,7 @@ export const API = {
   API_MAIN_TREND_ITEMS: `${apiServer}/queries/rows/items/active/1/0/10/countviews/DESC`,
   API_MERCHANDISES_LIST: `${apiServer}/merchandises/single/latest`, // /:index /:limit
   //	, API_MERCHANDISES_LIST : `${apiServer}/merchandises/single/latest/0/10`
-  API_MYITEMS: `${apiServer}/queries/rows/itembalances/username`, // /${username}/0/10/id/DESC
+  API_MYITEMS: `${apiServer}/queries/filter/rows/itembalances/username`, // /${username}/0/10/id/DESC
   API_OWNED_ITEMS: `${apiServer}/queries/rows/itembalances/username`, // /${username}/0/10/id/DESC
   API_AUTHORS_ITEMS: `${apiServer}/queries/rows/items/author`,
   API_SELLER_ITEMS_00: `${apiServer}/queries/rows/orders/username`, //	/:fieldval/:offset/:limit/:orderkey/:orderval'
@@ -56,6 +56,8 @@ export const API = {
   API_ITEM_HISTORY: `${apiServer}/queries/rows/itemhistory`, // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 	API_REPORT_TX_REGISTER_PROXY : `${apiServer}/transactions/report/registerproxy` , // /:txhash
   API_RANKING: `${apiServer}/queries/rows/users02/active/1/0/20/sumsalesfloat/DESC`,
+  API_GET_BIDS: `${apiServer}/my/bids`,
+  API_GET_PROPOSAL: `${apiServer}/my/proposals`
 };
 
 

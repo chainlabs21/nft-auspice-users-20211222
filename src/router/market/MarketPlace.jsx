@@ -29,7 +29,7 @@ import { PAYMEANS_DEF } from "../../config/configs";
 import { useSelector, useDispatch } from "react-redux";
 import DefaultHeader from "../../components/header/DefaultHeader";
 import Filter from "../../components/common/DefaultFilter";
-import { RESET_FILTER, SET_CATEGORY, SET_STATUS_FILTER } from "../../reducers/filterReducer"
+import { RESET_FILTER, SET_CATEGORY, SET_STATUS_FILTER, SET_SEARCH } from "../../reducers/filterReducer"
 import {
   D_categoryList,
   D_itemFilter,
@@ -41,14 +41,14 @@ import SelectPopup from "../../components/SelectPopup";
 import PopupBg from "../../components/PopupBg";
 
 import axios from 'axios'
-export default function MarketPlace() {
+export default function MarketPlace(props) {
+  
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
 
  // const history = useHistory();
   const location = useLocation();
-  
 
   const isMobile = useSelector((state) => state.common.isMobile);
 
@@ -84,11 +84,26 @@ const codelist=['all'
   const [totalItem, setTotalItem] = useState(0);
   const [searchKey, setSearchKey] = useState(params.searchKey);
   const {marketFilter} = useSelector((state) => state.filter);
-
+  const searchKeyy = useSelector((state)=>state.filter.search) 
+  const [fromHeader, setFromHeader] = useState('');
   const [target, setTarget] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [itemLists, setItemLists] = useState([1])
-  const [iindex, setiindex] = useState([])
+  const [iindex, setiindex] = useState(0)
+  const [filters, setFilters] = useState()
+  const [filterprops, setFilterprops] =useState()
+  const [itemSort, setItemSort] =useState(0);
+
+  useEffect(()=>{
+
+      var video = document.getElementById('video');
+      if (video) video.load()
+      
+  },[filteredList])
+
+  function handleSort(e){
+    setItemSort(e)
+  }
   
   function onClickFavorBtn(e, itemid) {
     e.stopPropagation();
@@ -103,6 +118,44 @@ const codelist=['all'
         SetErrorBar("로그인을 해주세요");
       }
     });
+  }
+  const handleMore=()=>{
+    setiindex(iindex+16)
+   // getItem(category, filters)
+  }
+
+  const handleBundle=(e)=>{
+    if(e==2){
+      setFilteredList([])
+    }else{
+      getItem()
+    }
+  }
+
+  function sortingmachine(a, b){
+    if (itemSort===0){
+      return (b.item.id - a.item.id)
+    }else if (itemSort === 1){
+    return (b.item.countfavors - a.item.countfavors)
+    }else if(itemSort ===2){
+
+    }else if(itemSort ===3){
+      return (b.item.pricemax - a.item.pricemax)
+    }else if(itemSort ===4){
+      return (b.item.pricemin - a.item.pricemin)
+    }else if(itemSort ===5){
+      
+    }
+    else if(itemSort ===6){
+      
+    }
+    else if(itemSort ===7){
+      return (b.item.countviews - a.item.countviews)
+    }else if(itemSort ===8){
+      return (a.item.id - b.item.id)
+    }else{
+      return a, b
+    }
   }
 
   function onClickBookMarkBtn(e, itemid) {
@@ -120,89 +173,69 @@ const codelist=['all'
     });
   }
 
-  //Fetch new items by detecting changes on marketFilter and category.
+  //Fetch new items by detecting changes on marketFilter and category and location.
+  useEffect(async ()=>{
+    getItem()
+  },[filters, location, iindex, fromHeader])
+
+  //Set filter on change
   useEffect(async ()=>{
     let listFill=[]
     await Object.keys(marketFilter.status).forEach((v, i)=>{
       if (marketFilter.status[v]){
       listFill.push(D_SStatusList[v].id)
       }
-    }
-    )
-    console.log(listFill)
-    getItem(location.pathname.split('/')[2], listFill)
-    
-  },[marketFilter, location])
+    })
+    setFilters(listFill)
+  }, [marketFilter])
 
   //Set Category on param changes in url
   useEffect(async ()=>{
-    //location.search.split('=')[1]
-    console.log(location.pathname.split('/')[2])
-    
-    await setCategory(location.pathname.split('/')[2])
-    //await dispatch({type: SET_CATEGORY, payload: {value: location.search.split('=')[1]}})
-    //console.log(location.search)
+    onclickFilterReset()
+    //dispatch({type: SET_SEARCH, payload:{value:''}});
+    let cat = await location.pathname.split('/')[2]
+    await setCategory(cat)
+    //setiindex(0)
   },[location])
 
   //Resetting filter lists from redux store
   const onclickFilterReset = () => {
     dispatch({type: RESET_FILTER});
-
+    setiindex(0)
   };
   //Fetch items
-  async function getItem(cat, list, itemIndex = 0) {
+  async function getItem(refresh=false) {
       await axios
-        .get(`${API.API_MERCHANDISES_LIST}/${itemIndex}/${20}`, {
+        .get(`${API.API_MERCHANDISES_LIST}/${iindex}/16`, {
           params: {
-            
-            salestatusstr: list,
+            salestatusstr: filters,
             pricemin: marketFilter.min,
             pricemax: marketFilter.max,
-            categorystr: cat
-            //searchKey,
+            categorystr: location.pathname.split('/')[2],
+            searchkey: searchKeyy,
           },
         })
         .then((resp) => {
-          //LOGGER("wgNCeNKxXL", resp.data);
+          LOGGER("wgNCeNKxXL", resp.data);
           let { status, list, payload } = resp.data;
           if (status == "OK") {
             itemList = [...itemList, ...list];
-            setFilteredList([...itemList]);
-            console.log(resp)
+            if(iindex==0){
+              setFilteredList(list)
+            }else{
+              setFilteredList([...filteredList, ...list]);
+            }
             setTotalItem(payload.count);
             setIsLoaded(false)
           }
         });
   }
-  const onIntersect=([entry], observer)=>{
-    if(entry.isIntersecting && !isLoaded){
-      observer.unobserve(entry.target);
 
-      //setiindex(iindex+10)
-      console.log(location.pathname.split('/')[2])
-      itemIndex+=20
-      getItem(location.pathname.split('/')[2], itemIndex);
-      observer.observe(entry.target);
-      
 
-    }
-  }
-/*
-  useEffect(() => {
-    let observer;
-    if (target) {
-      observer = new IntersectionObserver(onIntersect, {
-        threshold: 0.4,
-      });
-      observer.observe(target);
-    }
-    return () => observer && observer.disconnect();
-  }, [target]);
-*/
   if (isMobile)
     return (
       <>
-        <DefaultHeader />
+        <DefaultHeader /> {/* search={(e)=>{console.log(e)}}/> */}
         {toggleFilter ? (
           <Filter toggle={toggleFilter}  off={setToggleFilter}/>
         ) : (
@@ -294,7 +327,7 @@ const codelist=['all'
               {filteredList.map((v, i) => (
                 <li
                   key={i}
-                  class="itemBox"
+                  className="itemBox"
                   onClick={() =>
                     navigate(`/singleitem?itemid=${v.item.itemid}`)
                   }
@@ -351,10 +384,11 @@ const codelist=['all'
   else
     return (
       <>
-        <DefaultHeader />
+        <DefaultHeader search={setFromHeader}/>
         {toggleFilter ? (
           <Filter 
-          off={setToggleFilter} 
+          off={setToggleFilter}
+          resp={setFilterprops}
           
           />
         ) : (
@@ -390,6 +424,7 @@ const codelist=['all'
                       <SelectPopup
                         off={setItemFilterPopup}
                         contList={D_itemFilter}
+                        selectCont={e=>handleBundle(e)}
                       />
                       <PopupBg off={setItemFilterPopup} />
                     </>
@@ -401,12 +436,12 @@ const codelist=['all'
                     className="selectBtn"
                     onClick={() => setSortPopup(true)}
                   >
-                    <p>Latest</p>
+                    <p>{D_sortFilter[itemSort]}</p>
                     <img src={I_dnArrow} alt="" />
                   </button>
                   {sortPopup && (
                     <>
-                      <SelectPopup off={setSortPopup} contList={D_sortFilter} />
+                      <SelectPopup off={setSortPopup} contList={D_sortFilter} selectCont={e=>handleSort(e)}/>
                       <PopupBg off={setSortPopup} />
                     </>
                   )}
@@ -416,7 +451,12 @@ const codelist=['all'
 
             <ul className="cateogryList">
               {D_categoryList.map((cont, index) => (
-                <li key={index} className={(category==cont.code)?'on':''} onClick={()=>{dispatch({type: SET_CATEGORY, payload: {value: cont.code}});navigate(`/marketplace/${cont.code}`)}}>{cont.name}</li>
+                <li key={index} 
+                className={(category==cont.code)?'on':''} 
+                onClick={()=>{dispatch({type: SET_CATEGORY, payload: {value: cont.code}});
+                navigate(`/marketplace/${cont.code}`)}}>
+                  {cont.name}
+                  </li>
               ))}
             </ul>
 
@@ -428,7 +468,9 @@ const codelist=['all'
                 </li>
 
 
-                { Object.keys(marketFilter.status).map((v, i)=>{
+                { Object.keys(marketFilter.status)
+                
+                .map((v, i)=>{
                   if (marketFilter.status[v]){
                     return(<li key={i} onClick={() => {dispatch({type: SET_STATUS_FILTER, payload: {key: v}});}}>
                         <span className="blank" />
@@ -450,37 +492,25 @@ const codelist=['all'
                   KLAY
                   <img src={I_x} alt="" />
                 </li>
-                
-                
-                
-                
-
-                      
-                {/* {filterList.map((cont, index) => (
-                  <li key={index} onClick={() => onclickFilterCancel(cont)}>
-                    <span className="blank" />
-                    {cont}
-                    <img src={I_x} alt="" />
-                  </li>
-                ))} */}
               </ul>
             </article>
-
+            
             <ul className="itemList">
-              {filteredList.map((v, i) => (
+            {(filteredList.length==0) && 
+                ('검색 결과가 없습니다.')
+                }
+              {filteredList
+              .sort(sortingmachine)
+              .map((v, i) => (
                 <li
                   key={i}
-                  class="itemBox"
+                  className="itemBox"
                   onClick={() =>
                     navigate(`/singleitem?itemid=${v.item.itemid}`)
                   }
-                  style={{
-                    backgroundImage: `url(${v.item?.url})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                  }}
                 >
+                  {v.item.typestr=="image"&&(<img className="imageBox" src={v.item?.url}/>)}
+                  {v.item.typestr=="video"&&(<video className="imageBox"><source src={v.item?.url}/></video> )}
                   <div className="infoBox">
                     <div className="topBar">
                       <button
@@ -502,7 +532,6 @@ const codelist=['all'
                         <img src={v.ididbookmark ? star_on : star_off} alt="" />
                       </button>
                     </div>
-
                     <p className="title">{v.item?.titlename}</p>
                     <p className="nickname">{v.author?.nickname}</p>
 
@@ -519,6 +548,7 @@ const codelist=['all'
                   </div>
                 </li>
               ))}
+              {(iindex<totalItem)?(<button className="more" onClick={()=>{handleMore()}}>MORE</button>):(<>{iindex} 중에 {totalItem}</>)}
             </ul>
             <div ref={setTarget}>
               {isLoaded && 'Loading'}
@@ -619,6 +649,7 @@ const MmarketPlaceBox = styled.div`
 
       .itemBox {
         display: flex;
+        position: relative;
         flex-direction: row;
         align-items: flex-end;
         height: 125.83vw;
@@ -627,7 +658,22 @@ const MmarketPlaceBox = styled.div`
         overflow: hidden;
         cursor: pointer;
 
+        .imageBox{
+          background-repeat: "no-repeat";
+          background-position: "center";
+          background-size: "cover";
+          //object-fit: cover;
+          position: absolute;
+          top: 0;
+          left: 0;
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+
+        }
+
         .infoBox {
+          z-index: 10;
           width: 100%;
           padding: 5.5vw 4.4vw;
           background: linear-gradient(
@@ -818,6 +864,7 @@ const PmarketPlaceBox = styled.div`
       margin: 50px 0 0 0;
 
       .itemBox {
+        position: relative;
         display: flex;
         flex-direction: row;
         align-items: flex-end;
@@ -828,8 +875,24 @@ const PmarketPlaceBox = styled.div`
         border-radius: 20px;
         overflow: hidden;
         cursor: pointer;
+        
+        .imageBox{
+
+          //background-repeat: "no-repeat";
+          //background-position: "center";
+          //background-size: "cover";
+          //object-fit: cover;
+          position: absolute;
+          top: 0;
+          left: 0;
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+
+        }
 
         .infoBox {
+          z-index: 9;
           width: 100%;
           padding: 16px;
           background: linear-gradient(
@@ -895,6 +958,19 @@ const PmarketPlaceBox = styled.div`
             }
           }
         }
+      }
+      .more{
+        font-size: 48px;
+              font-weight: 500;
+              justify-content: center;
+        align-items: center;
+        color: white;
+        display: flex;
+      flex-wrap: wrap;
+      margin: 32px auto;
+      width: 100%;
+      border-radius: 28px;
+      background: #000;
       }
     }
   }

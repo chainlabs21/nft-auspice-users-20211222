@@ -1,5 +1,5 @@
 import { connect, useSelector, useDispatch } from "react-redux";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Main from "./Main";
 
@@ -11,6 +11,7 @@ import EmailFailed from "./router/join/EmailFailed";
 import SignupComplete from "./router/join/SignupComplete";
 import SentEmail from "./router/join/SentEmail";
 import EmailChange from "./router/join/EmailChange";
+import MyPage from "./router/mypage/MyPage"
 
 import MarketPlace from "./router/market/MarketPlace";
 import SingleItem from "./router/market/SingleItem";
@@ -20,7 +21,7 @@ import CreateCollection from "./router/CreateCollection";
 import EditCollection from "./router/EditCollection";
 import ImportContract from "./router/ImportContract";
 import MyCollectionSelect from "./router/MyCollectionSelect";
-import Royaltycheck from "./router/Royaltycheck";
+import Royaltycheck from "./router/market/Royaltycheck";
 import CreateItem from "./router/mint/CreateItem";
 import SaleItem from "./router/mint/SaleItem";
 import AuctionBid from "./router/AuctionBid";
@@ -37,7 +38,7 @@ import Mywallet from "./router/accountSetting/Mywallet";
 import VerifyEmail from "./router/join/VerifyEmail";
 import GeneralSettings from "./router/accountSetting/GeneralSettings";
 import NotificationSettings from "./router/accountSetting/NotificationSettings";
-import ExploreDeal from "./router/explore/ExploreDealHistory";
+import ExploreDealHistory from "./router/explore/ExploreDealHistory";
 import Ranking from "./router/explore/Ranking";
 import MheaderPopup from "./components/MheaderPopup";
 import List from "./util/List";
@@ -66,12 +67,16 @@ import { SET_ADDRESS, SET_LOGIN, SET_USER_DATA } from "./reducers/userReducer";
 
 function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const { mHeaderPopup } = useSelector((state) => state.store);
+  const {walletAddress} = useSelector((state)=> state.user);
   const dispatch = useDispatch();
+  //const navigate =useNavigate();
   const login = (address) => {
-    console.log("로그인 시도")
+    console.log("로그인 시도"+address)
+    //--------LET LOGIN
     axios
       .post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
       .then((resp) => {
+        console.log(resp)
         let { status, respdata } = resp.data;
         if (status === "OK") {
           localStorage.setItem("token", respdata);
@@ -84,8 +89,10 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         } else if (status === "ERR") {
           localStorage.removeItem("token");
           axios.defaults.headers.common["token"] = "";
+          console.log("NO DATA FOUND")
         }
       });
+      //--------------------------------------
   };
 
   const on_wallet_disconnect = (_) => {
@@ -120,6 +127,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         return;
       }
       klaytn.on("accountsChanged", async (accounts) => {
+        dispatch({type:SET_LOGIN, payload:{value:false}})
         console.log(accounts);
         let address = accounts[0];
         let address_local = localStorage.getItem("address");
@@ -136,7 +144,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         if (address) {
           // disp atch({ type: SET_ADDRESS.type, payload: accounts[0] });				//				let address = accounts[0]
           //				Setaddress( address )
-          login(address);
+          //login(address);
         } else {
           SetErrorBar(messages.MSG_WALLET_DISCONNECTED);
           on_wallet_disconnect();
@@ -162,7 +170,8 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         if (localStorage.getItem("token")) {
           //					get_user_data()
         } else {
-          login(address);
+          console.log("let's go"+address)
+          //login(address);
         }
       }
       if (window.klaytn?.selectedAddress) {
@@ -174,6 +183,11 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
     }, 3 * 1000);
   });
 
+    useEffect(()=>{
+      if (localStorage.getItem('address') == walletAddress){return;}
+    //login(walletAddress)
+   }, [walletAddress])
+
 
   function checklogin(){
     //console.log(isloggedin+" : "+walletAddress)
@@ -183,20 +197,27 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
     axios.get(`${API.API_USER_CHECK}`, {address: localStorage.getItem("address")})
     .then((resp) => {
       console.log(resp)
-      if (resp.status==200){
+      if (resp.data.status=="OK"){
         dispatch({ type: SET_LOGIN, payload: { value: true }});
         dispatch({type: SET_ADDRESS, payload:{value: localStorage.getItem("address")}})
         dispatch({type: SET_USER_DATA, payload:{ value: resp.data.payload}})
         //console.log(resp)
         //dispatch({ type: SET_USER_DATA, payload: { value: true }});
+      }else if(resp.data.status=="ERR"){
+        console.log(resp.data.message)
       }
     })
 
   }
   useEffect(()=>{
-    let accounts = window.klaytn.enable()
+    if ( window.klaytn){
+    let accounts = window.klaytn.selectedAddress;
+    if (accounts){
+      checklogin()
+    }
+  }
 
-    checklogin()
+    
     
   }, [])
 
@@ -231,6 +252,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         <Routes>
           <Route path="/index" element={<List />} />
           <Route path="/" element={<Main />} />
+          
 
           <Route path="/connectwallet" element={<ConnectWallet />} />
           <Route path="/emailrequired" element={<EmailRequired />} />
@@ -243,6 +265,9 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/signupcomplete" element={<SignupComplete />} />
 
           <Route path="/marketplace" element={<MarketPlace />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/mypage/:pagekey" element={<MyPage />} />
+          <Route path="/mypage/:pagekey/:walletaddress" element={<MyPage />} />
           <Route path="/marketplace/:searchKey" element={<MarketPlace />} />
           <Route path="/singleitem" element={<SingleItem />} />
           <Route path="/bundleitem" element={<BundleItem />} />
@@ -250,10 +275,6 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/emailchange" element={<EmailChange />} />
 
           <Route path="/myitems" element={<MyItems />} />
-          <Route path="/createcollection" element={<CreateCollection />} />
-          <Route path="/editcollection" element={<EditCollection />} />
-          <Route path="/importcontract" element={<ImportContract />} />
-          <Route path="/mycollectionselect" element={<MyCollectionSelect />} />
           <Route path="/royaltycheck" element={<Royaltycheck />} />
 
           <Route path="/createitem" element={<CreateItem />} />
@@ -261,9 +282,8 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/auctionbid" element={<AuctionBid />} />
           <Route path="/salebundle" element={<SaleBundle />} />
 
-          <Route path="/handover" element={<HandOver />} />
-          <Route path="/movecollection" element={<MoveCollection />} />
           <Route path="/searchwallet" element={<SearchWallet />} />
+
           <Route path="/transactionhistory" element={<TransactionHistory />} />
           <Route path="/offers" element={<Offers />} />
           <Route path="/liked" element={<Liked />} />
@@ -278,12 +298,16 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
             element={<NotificationSettings />}
           />
 
-          <Route path="/exploredeal" element={<ExploreDeal />} />
+          <Route path="/exploredealhistory" element={<ExploreDealHistory />} />
           <Route path="/ranking" element={<Ranking />} />
-          <Route path="/edititem" element={<EditItem />} />
           {/*
-          <Route path="/mprofilemenu" element={<MProfileMenu />} />
-          */}
+            <Route path="/handover" element={<HandOver />} /> 
+            <Route path="/movecollection" element={<MoveCollection />} />
+            <Route path="/editcollection" element={<EditCollection />} />
+            <Route path="/importcontract" element={<ImportContract />} />
+            <Route path="/mycollectionselect" element={<MyCollectionSelect />} />
+            <Route path="/createcollection" element={<CreateCollection />} />
+           */}
         </Routes>
 
         {mHeaderPopup && <MheaderPopup />}

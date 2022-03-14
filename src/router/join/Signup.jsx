@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../../util/store";
 import styled from "styled-components";
 import SetErrorBar from "../../util/SetErrorBar";
+import SentEmailDetail from "./SentEmailDetail";
 
 import I_camera from "../../img/icons/I_camera.png";
 import I_x from "../../img/icons/I_x.svg";
@@ -42,6 +43,7 @@ export default function Signup({ store, setConnect }) {
   const [profId, setProfId] = useState()
   const [profResp, setProfResp] = useState()
   const [profUrl, setProfUrl] = useState()
+  const [signupsuccess, setSignupsuccess] = useState(false);
 
 
   function onchangePhoto(file) {
@@ -111,7 +113,7 @@ export default function Signup({ store, setConnect }) {
               const resp = await axios.post(API.API_USER_JOIN, {...regData, profileimageurl: profUrl});
               console.log(resp);
               if (resp.data.status === "OK") {
-                navigate("/sentemaildetail");
+                setSignupsuccess(true)
               } else {
           // 서버 전송실패 예외처리
                 if (resp.data.message === "DATA-DUPLICATE") {
@@ -346,7 +348,10 @@ export default function Signup({ store, setConnect }) {
     );
   else
     return (
+      <>
+      {signupsuccess && <SentEmailDetail email={email}/>}
       <PsignPopupBox>
+        
         <section className="popupBox">
           <strong className="title">Sign up</strong>
 
@@ -478,6 +483,7 @@ export default function Signup({ store, setConnect }) {
           </article>
         </section>
       </PsignPopupBox>
+      </>
     );
 }
 

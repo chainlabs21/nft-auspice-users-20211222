@@ -15,14 +15,14 @@ export const D_NavList = [
   {
     title: "EXPLORE",
     detailNav: [
-      { text: "Transaction details", url: "/" },
-      { text: "Ranking", url: "/" },
+      { text: "Transaction details", url: "/exploredealhistory" },
+      { text: "Ranking", url: "/ranking" },
     ],
   },
   {
     title: "MY ACCOUNT",
     detailNav: [
-      { text: "My Profile", url: "/" },
+      { text: "My Profile", url: "/searchwallet" },
       { text: "My Items", url: "/myitems" },
       { text: "Bookmark", url: "/liked" },
       { text: "Account Setting", url: "/mywallet" },

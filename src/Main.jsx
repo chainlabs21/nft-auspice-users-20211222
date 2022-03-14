@@ -11,6 +11,8 @@ import star_off from "./img/sub/star_off.png";
 import star_on from "./img/sub/star_on.png";
 import verse_logo from "./img/sub/verse_logo.png";
 import I_dnPolygon from "./img/icons/I_dnPolygon.svg";
+import home_bg from "./img/sub/home_bg.png";
+import I_klaytn from "./img/sub/I_klaytn.svg"
 
 import { LOGGER, gettimestr, get_deltatime_str } from "./util/common";
 import { applytoken } from "./util/rest";
@@ -51,6 +53,7 @@ export default function Main({ store }) {
     axios.get(`${API.API_MAIN_FEATURED_ITEMS}`).then((resp) => {
       let { status, list } = resp.data;
       if (status === "OK") {
+        console.log(list)
         setlist_featured(list);
       }
     });
@@ -59,6 +62,7 @@ export default function Main({ store }) {
       let { status, list } = resp.data;
       if (status === "OK") {
         setCreatorList(list);
+        console.log(list)
       }
     });
 
@@ -385,11 +389,12 @@ export default function Main({ store }) {
                 <div className="swiperBox">
                   <ul className="swiperList" ref={collectionSwiperRef}>
                     {creatorlist.map((cont, index) => (
+                      
                       <li  key={index} className="swiperContBox">
                         <div
                           className="bg"
                           style={{
-                            backgroundImage: `url(${cont.backgroundimgsrc})`,
+                            backgroundImage: `url(${home_bg})`,
                             backgroundRepeat: "no-repeat",
                             backgroundPosition: "center",
                             backgroundSize: "cover",
@@ -401,7 +406,7 @@ export default function Main({ store }) {
                           <span
                             className="profImg"
                             style={{
-                              backgroundImage: `url(${cont.mongo?.profileimage})`,
+                              backgroundImage: `url(${cont.profileimageurl})`,
                               backgroundRepeat: "no-repeat",
                               backgroundPosition: "center",
                               backgroundSize: "cover",
@@ -812,7 +817,7 @@ export default function Main({ store }) {
                               <strong className="title">
                                 {cont.titlename}
                               </strong>
-                              <strong>{cont.username}</strong>
+                              <strong>{cont.author.nickname}</strong>
                             </div>
 
                             <div className="infoBox">
@@ -841,7 +846,7 @@ export default function Main({ store }) {
                                           <span className="profBox">
                                             <img
                                               src={
-                                                cont.author_mongo?.profileimage
+                                                I_klaytn
                                               }
                                             />
                                             <strong>
@@ -903,7 +908,7 @@ export default function Main({ store }) {
                         <div
                           className="bg"
                           style={{
-                            backgroundImage: `url(${cont.backgroundimgsrc})`,
+                            backgroundImage: `url(${home_bg})`,
                             backgroundRepeat: "no-repeat",
                             backgroundPosition: "center",
                             backgroundSize: "cover",
@@ -912,10 +917,12 @@ export default function Main({ store }) {
                         />
 
                         <div className="infoContainer">
-                          <span
+                          <img
                             className="profImg"
+                            src={cont.profileimageurl}
                             style={{
-                              backgroundImage: `url(${cont.mongo?.profileimage})`,
+                              backgroundImage: `url(${cont.profileimageurl})`,
+
                               backgroundRepeat: "no-repeat",
                               backgroundPosition: "center",
                               backgroundSize: "cover",
@@ -924,9 +931,9 @@ export default function Main({ store }) {
                           />
 
                           <div className="infoBox">
-                            <strong className="store">{cont.storename}</strong>
+                            <strong className="store">{cont.nickname}</strong>
                             <strong className="nickname">
-                              {cont?.nickname}
+                              {strDot(5, 5, cont?.username)}
                             </strong>
                             <p className="description">
                               {cont.mongo?.description}
@@ -976,7 +983,7 @@ export default function Main({ store }) {
                     onClick={() =>{
                       console.log(category)
                       dispatch({type: SET_CATEGORY, payload:{value:category.code}});
-                      navigate("/marketplace?category="+category.code)
+                      navigate("/marketplace/"+category.code)
                     }
                     }
                   >
@@ -1122,13 +1129,10 @@ export default function Main({ store }) {
                           onClick={() =>
                             navigate(`/singleitem?itemid=${cont.itemid}`)
                           }
-                          style={{
-                            backgroundImage: `url(${cont.url})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                          }}
+                          
                         >
+                          {cont.item.typestr=="image"&&(<img className="imageBox" src={cont.item?.url}/>)}
+                          {cont.item.typestr=="video"&&(<video className="imageBox"><source src={cont.item?.url}/></video> )}
                           <div className="infoBox">
                             <div className="topBar">
                               <button
@@ -2504,8 +2508,19 @@ const PmainBox = styled.div`
                 align-items: flex-end;
                 height: 404px;
                 color: #fff;
+                position: relative;
 
-                .infoBox {
+                .imageBox{
+          position: absolute;
+          top: 0;
+          left: 0;
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+        }
+
+        .infoBox {
+          z-index: 9;
                   width: 100%;
                   padding: 16px;
                   background: linear-gradient(

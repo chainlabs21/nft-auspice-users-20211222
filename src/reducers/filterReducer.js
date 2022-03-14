@@ -9,13 +9,15 @@ export const initialState = {
       , max: 0
     }
     , category: 'all'
-  }
+  },
+  search:''
 };
 
 export const SET_STATUS_FILTER = "SET_STATUS_FILTER"
 export const SET_PRICE_FILTER = "SET_PRICE_FILTER"
 export const SET_CATEGORY = "SET_CATEGORY"
 export const RESET_FILTER = "RESET_FILTER"
+export const SET_SEARCH = "SET_SEARCH"
 
 const filterReducer = (state = initialState, action)=>{
   switch (action.type){
@@ -46,6 +48,10 @@ const filterReducer = (state = initialState, action)=>{
     case SET_CATEGORY:
       return produce(state,(draft)=>{
         draft.marketFilter.category = action.payload.value;
+      })
+    case SET_SEARCH:
+      return produce(state,(draft)=>{
+          draft.search = action.payload.value;
       })
     default:
       return state;

@@ -107,6 +107,13 @@ export default function CreateItem({ store, setConnect }) {
   let axios = applytoken();
   let [myaddress, setmyaddress] = useState(getmyaddress());
   const [listingProcess, setListingProcess] = useState(0);
+  const [submitReady, setSubmitReady]=useState(true);
+
+  useEffect(()=>{
+    if (nameChk && fileChk && description){
+      setSubmitReady(false)
+    }
+  },[nameChk, fileChk, description])
 
   const on_request_tx_mint_onchain = async (_) => {
     //let my address = getm yaddress()
@@ -217,6 +224,7 @@ export default function CreateItem({ store, setConnect }) {
         freezemetadata: freezing === true ? 1 : 0,
         originator: myaddress,
         author: myaddress,
+        typestr: fileViewType 
       };
       const metaResp = await axios.post(
         API.API_ITEM_SAVE_META + `/${itemid}`, // fileR esp.resp data
@@ -255,6 +263,7 @@ export default function CreateItem({ store, setConnect }) {
       author: myaddress, // walletAddress ,
       authorfee: conv_percent_bp(royal), //parseInt( ( royal * 100 ).toFixed(0) )
       countcopies: copy,
+      typestr: fileViewType,
       //	amount: 1,
       //		decimals: 18,
       //			expiry: 0,
@@ -403,6 +412,12 @@ export default function CreateItem({ store, setConnect }) {
     asyncGetCategories();
   }, []);
 
+  useEffect(()=>{
+    if (royal>10){
+      setRoyal(10)
+    }
+  },[royal])
+
   if (isMobile)
     return (
       <>
@@ -441,13 +456,13 @@ export default function CreateItem({ store, setConnect }) {
                       >
                         Choose File
                       </button>
-
                       <input
                         className="nospace"
                         type="file"
                         ref={itemInputRef}
                         value={item}
                         onChange={(e) => onChangeItem(e.target.value)}
+                        accept="video/*"
                       />
                     </div>
                   </div>
@@ -592,7 +607,10 @@ export default function CreateItem({ store, setConnect }) {
                   <div className="imgBox">
                     <div className="imgContainer_innerBox">
                       {item?(<>
-                      <img style={{width: '100%'}} onClick={() => itemInputRef.current.click()} src={item}></img>
+                      {fileViewType =="video" &&(<video style={{width: '100%'}} onClick={() => itemInputRef.current.click()} src={item}/>)}
+                      {fileViewType =="image" &&(<img style={{width: '100%'}} onClick={() => itemInputRef.current.click()} src={item}/>)}
+                      {fileViewType =="audio" &&(<audio controls><source style={{width: '100%'}} onClick={() => itemInputRef.current.click()} src={item}/></audio>)}
+                      
                       <input
                         className="nospace"
                         type="file"
@@ -626,7 +644,7 @@ export default function CreateItem({ store, setConnect }) {
                 </li>
 
 
-                <li className="categoryBox" style={{display: 'none'}}>
+                 <li className="categoryBox"> {/*{style={{display: 'none'}}>} */}
                   <div className="titleBox">
                       <strong className="title">Category</strong>
                     </div>
@@ -634,6 +652,7 @@ export default function CreateItem({ store, setConnect }) {
                           <div className="categoryList">
                             <ul>
                               {categories.map((cate, idx) => (
+                                
                                 <li
                                   key={idx}
                                   onClick={() => {
@@ -740,6 +759,30 @@ export default function CreateItem({ store, setConnect }) {
                   </div>
                 </li>
 
+                {/**ACTUALLY RHIS IS ROYALTY SETTING */}
+                <li className="copyBox">
+                  <div className="titleBox toggleBox">
+                    <strong className="title">
+                    Royalty setting
+                    </strong>
+                  </div>
+
+                  <p className="explain">
+                  Each time an item is resold, you can receive a certain amount of commission. (up to 10%)
+                  <br/>If not set, it is set to 0%.
+                  </p>
+
+                  <div className="inputBox">
+                    <input
+                    type="number"
+                      value={royal}
+                      onChange={(e) => setRoyal(e.target.value)}
+                    />
+                    <span>%</span>
+                  </div>
+                </li>
+
+
                 <li className="freezeBox" style={{display: 'none'}}>
                   <div className="titleBox toggleBox">
                     <strong className="title">Freezing metadata</strong>
@@ -761,40 +804,9 @@ export default function CreateItem({ store, setConnect }) {
             </article>
 
             <article className="btnArea">
-              <button className="createBtn" style={{display: 'none'}}onClick={() => {}}>
+              <button className="createBtn" disabled={submitReady} onClick={() => {handleCreateItem()}} style={submitReady &&{backgroundColor:'gray'}}>
                 Create Item
               </button>
-
-
-
-              <div className="createBtn">
-                <a
-                  onClick={async (_) => {
-                    LOGGER("rsNxLMScQI");
-                    on_post_metadata();
-                  }}
-                >
-                  {"Register metadata"}
-                </a>
-              </div>
-              
-              <div className="createBtn">
-                <a
-                  onClick={(_) => {
-                    LOGGER("MOdR4DlcH9");
-                    if (activePubl) {
-                      on_request_tx_mint_onchain();
-                    } else {
-                      on_request_lazy_mint();
-                    }
-                  }}
-                >
-                  {activePubl ? "Mint item->chain" : "Register Item->server"}
-                </a>
-              </div>
-
-
-
             </article>
           </section>
         </PcreateItemBox>
@@ -1220,6 +1232,29 @@ const PcreateItemBox = styled.div`
 
           &.nameBox {
           }
+          &.categoryBox{
+            ul{
+              display: flex;
+      flex-wrap: wrap;
+      margin: 30px 0 0 0;
+      border-radius: 28px;
+      background: #f6f6f6;
+              li{
+                flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 180px;
+        height: 56px;
+        padding: 0 35px;
+        font-size: 18px;
+        font-weight: 700;
+        white-space: nowrap;
+        border-radius: 28px;
+        cursor: pointer;
+              }
+            }
+          }
 
           &.descriptionBox {
           }
@@ -1258,6 +1293,12 @@ const PcreateItemBox = styled.div`
         color: #fff;
         background: #000;
         border-radius: 44px;
+        text-align: center;
+        padding-top: auto;
+        
+        a{
+          
+        }
       }
     }
   }
