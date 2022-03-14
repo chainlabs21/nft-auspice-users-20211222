@@ -48,9 +48,9 @@ export default function FixedPrice(props) {
       setAmount(0)
     }
     //var a = Math.round(price * amount)
-    props.saleInfo([price, amount])
+    props.saleInfo([price, amount, expiry])
     console.log(amountof)
-  }, [price, amount])
+  }, [price, amount, expiry])
 
   useEffect(()=>{
     setAmountof(itemdata?.itembalance?.avail)
@@ -252,8 +252,9 @@ export default function FixedPrice(props) {
 
             <input
             type="number"
+            disabled
               value={amount}
-              onChange={(e) => (amount<=amountof)?setAmount(e.target.value):setAmount(amountof)}
+              onChange={(e) => {}}
               placeholder=""
             />
           </div>

@@ -30,6 +30,7 @@ export default function Main({ store }) {
 
   const isMobile = useSelector((state) => state.common.isMobile);
   const {marketFilter} = useSelector((state) => state.filter);
+  const {isloggedin} =useSelector((state)=>state.user)
 
   const visualSwiperRef = useRef();
   const collectionSwiperRef = useRef();
@@ -787,7 +788,13 @@ export default function Main({ store }) {
                     </button>
                     <button
                       className="pubBtn"
-                      onClick={() => navigate("/createitem")}
+                      onClick={() => {
+                        if(isloggedin){
+                          navigate("/createitem")
+                        }
+                      else{
+                        SetErrorBar("PLEASE LOG IN")
+                      }}}
                     >
                       NFT Publication
                     </button>

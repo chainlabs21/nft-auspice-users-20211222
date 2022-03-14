@@ -201,11 +201,12 @@ export default function DefaultHeader(props) {
             <button
               className="connectBtn"
               onClick={() => {
-                isloggedin&&
-                walletAddress &&
-                  onClickCopy(walletAddress) &&
+                if(isloggedin && walletAddress){
+                  onClickCopy(walletAddress);
                   SetErrorBar(messages.MSG_COPIED);
-                onClickConnectWallet();
+                }else{
+                  onClickConnectWallet();
+                }
               }}
             >
               {(isloggedin && walletAddress) ? strDot(walletAddress, 8, 0) : "Connect Wallet"}

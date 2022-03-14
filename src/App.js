@@ -156,7 +156,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
 
   useEffect(() => {
     LOGGER("poMFHstZg8", window.klaytn?.selectedAddress);
-    dispatch({type:SET_ADDRESS, payload:{value: window.klaytn?.selectedAddress}})
+    //dispatch({type:SET_ADDRESS, payload:{value: window.klaytn?.selectedAddress}})
     setTimeout((_) => {
       let { klaytn } = window;
       if (klaytn) {
@@ -170,7 +170,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         if (localStorage.getItem("token")) {
           //					get_user_data()
         } else {
-          console.log("let's go"+address)
+          //console.log("let's go"+address)
           //login(address);
         }
       }

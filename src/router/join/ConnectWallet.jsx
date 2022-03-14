@@ -271,7 +271,7 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
                   <p>klaytn</p>
                 </button>
               </li>
-              <li>
+              <li style={{display:'none'}}>
                 <button onClick={()=>{connectWallet(1)}}>
                   <img src={I_klaytn} alt="" />
                   <p>MetaMask</p>

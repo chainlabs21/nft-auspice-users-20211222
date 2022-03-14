@@ -266,9 +266,9 @@ export default function SaleFixed() {
       //			priceunitaddress :
       asset_contract_ask: ADDRESSES.zero, // "0x000000000000000000000000000000000000",
       priceunitname: PAYMEANS_DEF,
-      expiry: expirydays
+      expiry: price[2]
         ? moment()
-            .add(+expirydays, "days")
+            .add(+price[2], "days")
             .endOf("day")
             .unix()
         : 0,
@@ -347,6 +347,8 @@ export default function SaleFixed() {
   };
   const handleSalesStart = async () => {
     const myaddress = getmyaddress(); //    const asyncSalesStart = async () => {
+
+    if (itemdata?.itembalance?.avail<1){SetErrorBar("NOT ENOUGH BALANCE");return;}
     /** 
     if (endPriceOption) {
       //do_dutch_auction();
