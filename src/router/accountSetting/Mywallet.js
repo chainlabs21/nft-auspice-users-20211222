@@ -1,5 +1,7 @@
 import { connect, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { SET_LOGIN, SET_ADDRESS, SET_USER_DATA } from "../../reducers/userReducer";
 import { setConnect } from "../../util/store";
 import styled from "styled-components";
 import collect_img from "../../img/sub/collect_img.png";
@@ -23,6 +25,7 @@ import AccountLeftBar from "../../components/accountSetting/AccountLeftBar";
 import DetailHeader from "../../components/header/DetailHeader";
 export default function Mywallet() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { state } = useLocation();
   const {isloggedin, userData, walletAddress} = useSelector((state)=>state.user)
 
@@ -30,6 +33,14 @@ export default function Mywallet() {
   const [toggleLeftBar, setToggleLeftBar] = useState(!state?.toggle);
 
   let [myaddress, setmyaddress] = useState(getmyaddress());
+
+  async function handleLogout(){
+    await dispatch({type:SET_LOGIN, payload:{value:false}})
+    await dispatch({type:SET_ADDRESS, payload:{value:''}})
+    await dispatch({type:SET_USER_DATA, payload:{value:{}}})
+    await localStorage.clear();
+    navigate('/')
+  }
 
   if (isMobile)
     return (
@@ -57,7 +68,7 @@ export default function Mywallet() {
                 </div>
               </div>
 
-              <button className="logoutBtn" onClick={() => navigate("/logout")}>
+              <button className="logoutBtn" onClick={() => {handleLogout()}}>
                 Logout
               </button>
             </article>
@@ -88,7 +99,7 @@ export default function Mywallet() {
                 </div>
               </div>
 
-              <button className="logoutBtn" onClick={() => navigate("/logout")}>
+              <button className="logoutBtn" onClick={() => handleLogout()}>
                 Logout
               </button>
             </article>

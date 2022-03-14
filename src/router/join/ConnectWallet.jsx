@@ -32,6 +32,20 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
             console.log("tokeeen"+respdata)
             axios.defaults.headers.common["token"] = resp.data.respdata;
             localStorage.setItem("address", address);
+            dispatch({
+              type: SET_ADDRESS,
+              payload:{
+                value: address
+              }
+            });
+            dispatch({
+              type: SET_LOGIN,
+              payload:{
+                value: true
+              }
+            });
+            getUserInfo()
+            navigate("/")
             SetErrorBar(messages.MSG_ADDRESS_CHANGED + `: ${address}`);
           } else if (status === "ERR") {
             localStorage.removeItem("token");
@@ -101,15 +115,11 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
       }
 
       //console.log(userWallet)
-      dispatch({
-        type: SET_LOGIN,
-        payload:{
-          value: true
-        }
-      });
+
+      
       login(address)
       //dispatch(SET_LOGIN());
-      navigate("/")
+      
 
   }
 /*

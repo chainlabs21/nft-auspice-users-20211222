@@ -65,13 +65,7 @@ export default function TransactionHistory() {
   const [imageUrl, setImageUrl] = useState('')
   const [statusFilter, setStatusFilter]=useState({});
   const [reset, setReset]=useState({});
-  useEffect(()=>{
-    if (userData instanceof Object && userData['myinfo_maria'] !== undefined){
-      setNickname(userData.myinfo_maria.nickname)
-      setDesc(userData.myinfo_maria.description)
-      setImageUrl(userData.myinfo_maria.profileimageurl)
-    }
-  }, [userData])
+
   let axios = applytoken();
   function getSelectText() {
     switch (unit) {
@@ -126,10 +120,6 @@ export default function TransactionHistory() {
 
   useEffect(
     (_) => {
-      // if (myaddress) {
-      // } else {
-      //   return;
-      // }
       axios
         .get(
            'http://itemverse1.net:32287/transactions/history'
@@ -149,231 +139,28 @@ export default function TransactionHistory() {
     },
     [walletAddress]
   );
-
-  if (isMobile)
     return (
       <>
-        <DefaultHeader />
-
-        {toggleFilter ? (
-          <TransactionHistoryFilter off={setToggleFilter} />
-        ) : (
-          <button
-            className="filterBtn mo withBg"
-            onClick={() => setToggleFilter(true)}
-          >
-            <p>Filter</p>
-            <img src={filter_icon2} alt="" />
-          </button>
-        )}
-
-        <MtransactionHistory>
-          <header className="myProfHeader">
-            <div
-              className="bg"
-              style={{
-                backgroundImage: `url(${home_bg})`,
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-              }}
-            />
-
-            <div className="contBox">
-              <img className="profImg" src={userData?.myinfo_maria?.profileimageurl}/>
-              <div className="btnBox">
-                <button className="" onClick={() => {}}>
-                  <img src={re} alt="" />
-                </button>
-                <button className="" onClick={() => {}}>
-                  <img src={share} alt="" />
-                </button>
-              </div>
-
-              <div className="infoBox">
-                <strong className="title">{userData?.myinfo_maria?.nickname}'s Items</strong>
-                <p className="address">{strDot(walletAddress, 5, 5)}</p>
-                <p className="introduce">
-                  Henry is a mixed-media artist living in the Bay Area and users
-                  a stream of consciousness approach to his work
-                </p>
-              </div>
-            </div>
-          </header>
-
-          <section className="innerBox">
-            <nav className="navBar">
-              {D_categoryList.map((nav, index) => (
-                <button
-                  key={index}
-                  className={nav.url === pathname && "on"}
-                  onClick={() => navigate(nav.url)}
-                >
-                  {nav.text}
-                </button>
-              ))}
-            </nav>
-
-            <article className="selectedBox">
-              <ul className="selectedList">
-                <li className="resetBtn" onClick={() => {}}>
-                  Filter reset
-                </li>
-
-                <li>
-                  Klaytn
-                  <img src={I_x} alt="" />
-                </li>
-
-                <li>
-                  <span className="blank" />
-                  KLAY
-                  <img src={I_x} alt="" />
-                </li>
-                {
-                  statusFilter.map((cont, index)=>{
-                    
-                    (
-                    <li key={index}>
-                  <span className="blank" />
-                  {cont.key}
-                  <img src={I_x} alt="" />
-                </li>
-                  )})
-                }
-                {/* {filterList.map((cont, index) => (
-                  <li key={index} onClick={() => onclickFilterCancel(cont)}>
-                    <span className="blank" />
-                    {cont}
-                    <img src={I_x} alt="" />
-                  </li>
-                ))} */}
-              </ul>
-            </article>
-
-            <article className="listBox">
-              <ul className="listHeader">
-                <li>Event</li>
-                <li>Item</li>
-                <li>Price</li>
-                <li>From</li>
-                <li>To</li>
-                <li>Date</li>
-                <li>Quantify</li>
-                <li></li>
-              </ul>
-
-              <ul className="list">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((cont, index) => {
-                  return (
-                    <li>
-                      <span>Listing</span>
-
-                      <span>
-                        <img className="profImg" />
-                        <p>Summer</p>
-                      </span>
-
-                      <span>
-                        <img className="tokenImg" src={I_klaytn} />
-                        <p className="price">0.00050</p>
-                      </span>
-
-                      <span>
-                        <img className="profImg" />
-                        <p>VOE83754899999999</p>
-                      </span>
-
-                      <span>
-                        <img className="profImg" />
-                        <p>TIDREDQ349999999</p>
-                      </span>
-
-                      <span>
-                        <p>1 minutes left</p>
-                      </span>
-
-                      <span>
-                        <p>1</p>
-                      </span>
-
-                      <span>
-                        <button className="" onClick={() => {}}>
-                          <img src={icon_link_on} alt="" />
-                        </button>
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </article>
-          </section>
-        </MtransactionHistory>
-      </>
-    );
-  else
-    return (
-      <>
-        <DefaultHeader />
-
-        {toggleFilter ? (
+      {
+        toggleFilter ? (
           <TransactionHistoryFilter off={setToggleFilter} setFilter={setFilter} resetFilter={reset}/>
         ) : (
           <button
             className="filterBtn pc withBg"
             onClick={() => setToggleFilter(true)}
+            style={{
+              top: "30%",
+              marginLeft:"-6px",
+              position: "sticky"
+          }}
           >
             <img src={side_close} alt="" />
           </button>
         )}
-
-        <PtransactionHistory
-          style={{ padding: toggleFilter && "120px 0 0 350px" }}
-        >
-          <header className="myProfHeader">
-            <div
-              className="bg"
-              style={{
-                backgroundImage: `url(${home_bg})`,
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-              }}
-            />
-
-            <div className="contBox">
-            <img className="profImg" src={imageUrl}/>
-              <div className="btnBox">
-                <button className="" onClick={() => {}}>
-                  <img src={re} alt="" />
-                </button>
-                <button className="" onClick={() => {}}>
-                  <img src={share} alt="" />
-                </button>
-              </div>
-
-              <div className="infoBox">
-                <strong className="title">{nickname}'s Items</strong>
-                <p className="address">{strDot(walletAddress, 5, 5)}</p>
-                <p className="introduce">
-                {desc}
-                </p>
-              </div>
-            </div>
-          </header>
+        <PtransactionHistory>
+          
 
           <section className="innerBox">
-            <nav className="navBar">
-              {D_categoryList.map((nav, index) => (
-                <button
-                  key={index}
-                  className={nav.url === pathname && "on"}
-                  onClick={() => navigate(nav.url)}
-                >
-                  {nav.text}
-                </button>
-              ))}
-            </nav>
 
             <article className="selectedBox">
               <ul className="selectedList">
@@ -461,11 +248,7 @@ export default function TransactionHistory() {
                         </button>
                       </span>
                     </li>
-
                   ))
-
-
-
                 }
               </ul>
             </article>
@@ -476,102 +259,10 @@ export default function TransactionHistory() {
 }
 
 const MtransactionHistory = styled.div`
-  padding: 72px 0 0 0;
   position: relative;
-
-  .myProfHeader {
-    .bg {
-      height: 38.88vw;
-    }
-
-    .contBox {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      padding: 0 5.55vw;
-
-      .profImg {
-        width: 27.77vw;
-        height: 27.77vw;
-        border-radius: 50%;
-        background: #000;
-        top: -13.88vw;
-        position: absolute;
-      }
-
-      .btnBox {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        width: 100%;
-        height: 16.11vw;
-        gap: 1.11vw;
-
-        button {
-          img {
-            width: 5.5vw;
-          }
-        }
-      }
-
-      .infoBox {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2.77vw;
-        padding: 3.33vw 0 0 0;
-
-        .title {
-          font-size: 6.11vw;
-        }
-
-        .address {
-          font-size: 3.88vw;
-          color: #1c7eff;
-          font-weight: 500;
-        }
-
-        .introduce {
-          font-size: 3.88vw;
-          line-height: 5.55vw;
-          letter-spacing: -0.32px;
-          text-align: center;
-        }
-      }
-    }
-  }
 
   .innerBox {
     margin: 0 auto;
-
-    .navBar {
-      display: flex;
-      flex-wrap: wrap;
-      margin: 5.55vw;
-      border: 2px solid #000;
-
-      button {
-        flex: 1;
-        min-width: 50%;
-        height: 13.33vw;
-        font-size: 4.44vw;
-        font-weight: 700;
-
-        &.on {
-          color: #fff;
-          background: #000;
-        }
-
-        &:nth-of-type(n + 3) {
-          border-top: 2px solid #000;
-        }
-        &:nth-of-type(2n) {
-          border-left: 2px solid #000;
-        }
-      }
-    }
 
     .selectedBox {
       padding: 5.55vw 5.55vw 0 5.55vw;
@@ -722,100 +413,11 @@ const MtransactionHistory = styled.div`
 `;
 
 const PtransactionHistory = styled.div`
-  padding: 120px 0 0 0;
   position: relative;
-
-  .myProfHeader {
-    .bg {
-      height: 320px;
-    }
-
-    .contBox {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      max-width: 1280px;
-      margin: 0 auto;
-
-      .profImg {
-        width: 140px;
-        height: 140px;
-        border-radius: 50%;
-        background: #000;
-        top: -70px;
-        position: absolute;
-      }
-
-      .btnBox {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        width: 100%;
-        height: 84px;
-        gap: 20px;
-
-        button {
-          img {
-            width: 24px;
-          }
-        }
-      }
-
-      .infoBox {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        padding: 36px 0 0 0;
-
-        .title {
-          font-size: 32px;
-        }
-
-        .address {
-          font-size: 18px;
-          color: #1c7eff;
-          font-weight: 500;
-        }
-
-        .introduce {
-          width: 460px;
-          font-size: 16px;
-          line-height: 24px;
-          letter-spacing: -0.32px;
-          text-align: center;
-        }
-      }
-    }
-  }
 
   .innerBox {
     max-width: 1280px;
-    padding: 100px 0;
     margin: 0 auto;
-
-    .navBar {
-      display: flex;
-      border: 2px solid #000;
-
-      button {
-        flex: 1;
-        height: 56px;
-        font-size: 18px;
-        font-weight: 700;
-
-        &.on {
-          color: #fff;
-          background: #000;
-        }
-
-        &:nth-of-type(n + 2) {
-          border-left: 2px solid #000;
-        }
-      }
-    }
 
     & > .topBar {
       display: flex;

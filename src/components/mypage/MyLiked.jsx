@@ -32,7 +32,7 @@ import { D_categoryList } from "../../data/D_mypage";
 import { strDot } from "../../util/Util"
 import axios from 'axios';
 
-export default function Liked() {
+export default function MyLiked() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const {userData, walletAddress} = useSelector((state)=>state.user)
@@ -71,147 +71,10 @@ export default function Liked() {
         }
       });
   },[]);
-
-  if (isMobile)
     return (
       <>
-        <DefaultHeader />
-
-        <Mliked>
-          <header className="myProfHeader">
-            <div
-              className="bg"
-              style={{
-                backgroundImage: `url(${home_bg})`,
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-              }}
-            />
-
-            <div className="contBox">
-              <span className="profImg" />
-              <div className="btnBox">
-                <button className="" onClick={() => {}}>
-                  <img src={re} alt="" />
-                </button>
-                <button className="" onClick={() => {}}>
-                  <img src={share} alt="" />
-                </button>
-              </div>
-
-              <div className="infoBox">
-                <strong className="title">Henry juniors' Items</strong>
-                <p className="address">0x97bc...8cad2</p>
-                <p className="introduce">
-                  Henry is a mixed-media artist living in the Bay Area and users
-                  a stream of consciousness approach to his work
-                </p>
-              </div>
-            </div>
-          </header>
-
-          <section className="innerBox">
-            <nav className="navBar">
-              {D_categoryList.map((nav, index) => (
-                <button
-                  key={index}
-                  className={nav.url === pathname && "on"}
-                  onClick={() => navigate(nav.url)}
-                >
-                  {nav.text}
-                </button>
-              ))}
-            </nav>
-
-            <article className="itemListBox">
-              <ul className="itemsList">
-                {[1, 2, 3, 4, 5].map((cont, index) => (
-                  <li
-                    key={index}
-                    class="itemBox"
-                    onClick={() => {}}
-                    style={{
-                      backgroundImage: `url(${cont.item.url})`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                  >
-                    <div className="infoBox">
-                      <div className="topBar">
-                        <button
-                          className="likeBtn"
-                          // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
-                        >
-                          <img src={heart_on} alt="" />
-
-                          <p>11</p>
-                        </button>
-                      </div>
-
-                      <p className="nickname">Renoir</p>
-                      <p className="title">Verger de pommiers</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          </section>
-        </Mliked>
-      </>
-    );
-  else
-    return (
-      <>
-        <DefaultHeader />
-
         <Pliked>
-          <header className="myProfHeader">
-            <div
-              className="bg"
-              style={{
-                backgroundImage: `url(${home_bg})`,
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-              }}
-            />
-
-            <div className="contBox">
-            <img className="profImg" src={imageUrl}/>
-              <div className="btnBox">
-                <button className="" onClick={() => {}}>
-                  <img src={re} alt="" />
-                </button>
-                <button className="" onClick={() => {}}>
-                  <img src={share} alt="" />
-                </button>
-              </div>
-
-              <div className="infoBox">
-                <strong className="title">{nickname}'s Items</strong>
-                <p className="address">{strDot(walletAddress, 5, 5)}</p>
-                <p className="introduce">
-                {desc}
-                </p>
-              </div>
-            </div>
-          </header>
-
           <section className="innerBox">
-            <nav className="navBar">
-              {D_categoryList.map((nav, index) => (
-                <button
-                  key={index}
-                  className={nav.url === pathname && "on"}
-                  onClick={() => navigate(nav.url)}
-                >
-                  {nav.text}
-                </button>
-              ))}
-            </nav>
-
             <article className="itemListBox">
               <ul className="itemsList">
                 {list.map((cont, index) => (
@@ -454,84 +317,9 @@ const Mliked = styled.div`
 `;
 
 const Pliked = styled.div`
-  padding: 120px 0 0 0;
   position: relative;
-
-  .myProfHeader {
-    .bg {
-      height: 320px;
-    }
-
-    .contBox {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      max-width: 1280px;
-      margin: 0 auto;
-
-      .profImg {
-        width: 140px;
-        height: 140px;
-        border-radius: 50%;
-        background: #000;
-        top: -70px;
-        position: absolute;
-      }
-
-      .tokenImg {
-        width: 26px;
-        height: 26px;
-        object-fit: contain;
-      }
-
-      .btnBox {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        width: 100%;
-        height: 84px;
-        gap: 20px;
-
-        button {
-          img {
-            width: 24px;
-          }
-        }
-      }
-
-      .infoBox {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        padding: 36px 0 0 0;
-
-        .title {
-          font-size: 32px;
-        }
-
-        .address {
-          font-size: 18px;
-          color: #1c7eff;
-          font-weight: 500;
-        }
-
-        .introduce {
-          width: 460px;
-          font-size: 16px;
-          line-height: 24px;
-          letter-spacing: -0.32px;
-          text-align: center;
-        }
-      }
-    }
-  }
-
   .innerBox {
     max-width: 1280px;
-    padding: 100px 0;
     margin: 0 auto;
 
     .navBar {

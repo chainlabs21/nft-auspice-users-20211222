@@ -10,16 +10,41 @@ import filter_icon from "../../img/sub/filter_icon.png";
 import filter_close from "../../img/sub/filter_close.png";
 import I_dnArrow from "../../img/icons/I_dnArrow.svg";
 import loupe from "../../img/sub/loupe.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-export default function MypageFilter({ off, filterObj, editFilterList }) {
+export default function MypageFilter({ off, setFilter,resetFilter, filterObj, editFilterList }) {
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
   const [itemFilter, setItemFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState({listing: false, sale:false, bid:false});
   const [coinFilter, setCoinFilter] = useState("");
 
   const isMobile = useSelector((state) => state.common.isMobile);
+  const handleFilter=async (e)=>{
+    var key=e.key;
+    var val=e.value;
+    console.log(key +" : " +val)
+    if (val===1)
+      setStatusFilter({...statusFilter, 1: !statusFilter[1]})
+    if (val===2)
+      setStatusFilter({...statusFilter, 2: !statusFilter[2]})
+    if (val===4)
+      setStatusFilter({...statusFilter, 4: !statusFilter[4]})
+    
+  }
+  useEffect(()=>{
+    setFilter(statusFilter)
+  }, [statusFilter])
+  useEffect(()=>{
+    console.log(setFilter)
+    setStatusFilter(resetFilter)
+    
+  }, [resetFilter])
+
+  // useEffect(()=>{
+  //   setFilter(itemFilter)
+  // }, [itemFilter])
 
   if (isMobile)
     return (
@@ -138,12 +163,15 @@ export default function MypageFilter({ off, filterObj, editFilterList }) {
             <ul className="contBox statusList">
               {D_transactionStatusList.map((cont, index) => (
                 <li
-                // key={index}
-                // style={{ cursor: "pointer" }}
-                // className={
-                //   filterObj[`status${cont.value}`] === cont.key && "on"
-                // }
-                // onClick={() => editFilterList(`status${cont.value}`, cont.key)}
+                key={index}
+                style={{ cursor: "pointer" }}
+                className={
+                  statusFilter[cont.value]
+                   && "on"
+                }
+                onClick={() => {
+                  handleFilter(cont)
+                }}
                 >
                   {cont.key}
                 </li>
@@ -152,7 +180,7 @@ export default function MypageFilter({ off, filterObj, editFilterList }) {
           </details>
         </article>
 
-        <article className="itemsArticle">
+        <article className="itemsArticle" style={{display:'none'}}>
           <details className="itemsDetail">
             <summary className="filterSummary">
               <strong className="title">Items</strong>

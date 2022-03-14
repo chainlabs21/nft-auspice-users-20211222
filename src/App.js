@@ -1,5 +1,5 @@
 import { connect, useSelector, useDispatch } from "react-redux";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Main from "./Main";
 
@@ -11,6 +11,7 @@ import EmailFailed from "./router/join/EmailFailed";
 import SignupComplete from "./router/join/SignupComplete";
 import SentEmail from "./router/join/SentEmail";
 import EmailChange from "./router/join/EmailChange";
+import MyPage from "./router/mypage/MyPage"
 
 import MarketPlace from "./router/market/MarketPlace";
 import SingleItem from "./router/market/SingleItem";
@@ -66,7 +67,9 @@ import { SET_ADDRESS, SET_LOGIN, SET_USER_DATA } from "./reducers/userReducer";
 
 function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const { mHeaderPopup } = useSelector((state) => state.store);
+  const {walletAddress} = useSelector((state)=> state.user);
   const dispatch = useDispatch();
+  //const navigate =useNavigate();
   const login = (address) => {
     console.log("로그인 시도")
     axios
@@ -120,6 +123,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         return;
       }
       klaytn.on("accountsChanged", async (accounts) => {
+        dispatch({type:SET_LOGIN, payload:{value:false}})
         console.log(accounts);
         let address = accounts[0];
         let address_local = localStorage.getItem("address");
@@ -174,6 +178,11 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
     }, 3 * 1000);
   });
 
+    useEffect(()=>{
+      if (localStorage.getItem('address') == walletAddress){return;}
+    login(walletAddress)
+   }, [walletAddress])
+
 
   function checklogin(){
     //console.log(isloggedin+" : "+walletAddress)
@@ -194,9 +203,14 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
 
   }
   useEffect(()=>{
-    let accounts = window.klaytn.enable()
+    if ( window.klaytn){
+    let accounts = window.klaytn.selectedAddress;
+    if (accounts){
+      checklogin()
+    }
+  }
 
-    checklogin()
+    
     
   }, [])
 
@@ -231,6 +245,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         <Routes>
           <Route path="/index" element={<List />} />
           <Route path="/" element={<Main />} />
+          
 
           <Route path="/connectwallet" element={<ConnectWallet />} />
           <Route path="/emailrequired" element={<EmailRequired />} />
@@ -243,6 +258,9 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/signupcomplete" element={<SignupComplete />} />
 
           <Route path="/marketplace" element={<MarketPlace />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/mypage/:pagekey" element={<MyPage />} />
+          <Route path="/mypage/:pagekey/:walletaddress" element={<MyPage />} />
           <Route path="/marketplace/:searchKey" element={<MarketPlace />} />
           <Route path="/singleitem" element={<SingleItem />} />
           <Route path="/bundleitem" element={<BundleItem />} />

@@ -11,8 +11,9 @@ import { ERR_MSG } from "../../config/messages";
 import { API } from "../../config/api";
 import { getuseraddress } from "../../util/common";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
-export default function SentEmailDetail() {
+export default function SentEmailDetail(email) {
   const navigate = useNavigate();
 
   const { userData } = useSelector((state) => state.user);
@@ -21,6 +22,10 @@ export default function SentEmailDetail() {
   function onClickResend() {
     window.location.reload();
   }
+  useEffect(()=>{
+    console.log(userData)
+
+  },[userData])
 
   const handleSendEmail = () => {
     const useraddress = getuseraddress();
@@ -31,7 +36,7 @@ export default function SentEmailDetail() {
       }
       try {
         const resp = await axios.get(
-          API.API_VERIFY_EMAIL_SEND + `/${userData.maria.email}/${useraddress}`
+          API.API_VERIFY_EMAIL_SEND + `/${email}`
         );
         console.log(resp);
       } catch (error) {

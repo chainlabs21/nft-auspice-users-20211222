@@ -16,12 +16,12 @@ import side_close from "../../img/sub/side_close.png";
 import filter_icon2 from "../../img/sub/filter_icon2.png";
 import { useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
-import DefaultHeader from "../../components/header/DefaultHeader";
-import PopupBg from "../../components/PopupBg";
+import DefaultHeader from "../header/DefaultHeader";
+import PopupBg from "../PopupBg";
 import { D_categoryList } from "../../data/D_mypage";
-import SelectPopup from "../../components/SelectPopup";
+import SelectPopup from "../SelectPopup";
 import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
-import Filter from "../../components/common/DefaultFilter";
+import Filter from "../common/DefaultFilter";
 import { strDot } from "../../util/Util";
 import axios from 'axios';
 import { LOGGER } from "../../util/common";
@@ -30,7 +30,7 @@ import { RESET_FILTER, SET_STATUS_FILTER } from "../../reducers/filterReducer";
 import {   D_SStatusList} from "../../data/D_filter"
 
 
-export default function MySearchWallet() {
+export default function SearchWallet({address}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -49,17 +49,32 @@ export default function MySearchWallet() {
   const [desc, setDesc]=useState('Description')
   const [imageUrl, setImageUrl] = useState('')
   const [orderkey, setOrderkey] = useState(0)
+  const [isOwner, setIsOwner] = useState(false);
+  const [targetAddress, setTargetAddress]=useState()
+  const [targettData, setTargettData] = useState()
 
   const {userData, isloggedin, walletAddress} = useSelector((state) => state.user);
 
+
   useEffect(()=>{
-    if (userData instanceof Object && userData['myinfo_maria'] !== undefined){
-      setNickname(userData.myinfo_maria.nickname)
-      setDesc(userData.myinfo_maria.description)
-      setImageUrl(userData.myinfo_maria.profileimageurl)
+    if (address){
+      setTargetAddress(address)
+      if (walletAddress == address){
+        setIsOwner(true)
+      }else{
+        setIsOwner(false)       
+      }
+    }else{
+      console.log('noaddress found')
+      setTargetAddress(walletAddress)
+      setIsOwner(true)
     }
-  }, [userData])
-  
+
+  },[address])
+
+  useEffect(()=>{
+    fetchitems()
+  }, [targetAddress])
 
   function onClickFavorBtn(e, itemid) {
     e.stopPropagation();
@@ -113,7 +128,7 @@ export default function MySearchWallet() {
 
 
   const fetchitems=(list)=>{
-		axios.get( `${API.API_MYITEMS}/${walletAddress}/0/10/id/DESC`,{params: {
+		axios.get( `${API.API_MYITEMS}/${targetAddress}/0/10/id/DESC`,{params: {
       search
       ,salestatusstr: list,
       pricemin: marketFilter.min,
@@ -140,6 +155,8 @@ export default function MySearchWallet() {
   useEffect( _=>{
 		fetchitems([])
 	},[])
+
+  //SORTING ITEMS
   function sortingmachine(a, b){
     if (orderkey===0){
       return (b.item.id - a.item.id)
@@ -176,273 +193,29 @@ export default function MySearchWallet() {
 
   };
 
-  // useEffect(()=>{
-  //   console.log()
-  //   //setImageUrl(userData.myinfo_maria.profileimageurl)
-    
-  //   //setNickname()
-  //  // setDesc()
-  // },[userData.myinfo_maria])
 
-  if (isMobile)
     return (
+      
       <>
-        <DefaultHeader />
+      {toggleFilter ? (
+        <Filter off={setToggleFilter} />
+      ) : (
+        <button
+          className="filterBtn pc withBg"
+          onClick={() => setToggleFilter(true)}
+          style={{
 
-        <MsearchWallet>
-          {toggleFilter ? (
-            <Filter off={setToggleFilter} />
-          ) : (
-            <button
-              className="filterBtn mo withBg"
-              onClick={() => setToggleFilter(true)}
-            >
-              <p>Filter</p>
-              <img src={filter_icon2} alt="" />
-            </button>
-          )}
-
-          <header className="myProfHeader">
-            <div
-              className="bg"
-              style={{
-                backgroundImage: `url(${home_bg})`,
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-              }}
-            />
-
-            <div className="contBox">
-              <span className="profImg" />
-              <div className="btnBox">
-                <button className="" onClick={() => {}}>
-                  <img src={re} alt="" />
-                </button>
-                <button className="" onClick={() => {}}>
-                  <img src={share} alt="" />
-                </button>
-              </div>
-
-              <div className="infoBox">
-                <strong className="title">Henry juniors' Items</strong>
-                <p className="address">{{walletAddress}}</p>
-                <p className="introduce">
-                  Henry is a mixed-media artist living in the Bay Area and users
-                  a stream of consciousness approach to his work
-                </p>
-              </div>
-            </div>
-          </header>
-
+              zIndex: "100",
+              top: "30%",
+              marginLeft:"-6px",
+              position: "sticky"
+          }}
+        >
+          <img src={side_close} alt="" />
+        </button>
+      )}
+        <PsearchWallet>
           <section className="innerBox">
-            <nav className="navBar">
-              {D_categoryList.map((nav, index) => (
-                <button
-                  key={index}
-                  className={nav.url === pathname && "on"}
-                  onClick={() => navigate(nav.url)}
-                >
-                  {nav.text}
-                </button>
-              ))}
-            </nav>
-
-            <article className="topBar">
-              <div className="sortBox">
-                <div className="posBox">
-                  <button
-                    className="selectBtn"
-                    onClick={() => setItemFilterPopup(true)}
-                  >
-                    <p>Single Item</p>
-                    <img src={I_dnArrow} alt="" />
-                  </button>
-
-                  {itemFilterPopup && (
-                    <>
-                      <SelectPopup
-                        off={setItemFilterPopup}
-                        contList={D_itemFilter}
-                      />
-                      <PopupBg off={setItemFilterPopup} />
-                    </>
-                  )}
-                </div>
-
-                <div className="posBox">
-                  <button
-                    className="selectBtn"
-                    onClick={() => setSortPopup(true)}
-                  >
-                    <p>Latest</p>
-                    <img src={I_dnArrow} alt="" />
-                  </button>
-                  {sortPopup && (
-                    <>
-                      <SelectPopup off={setSortPopup} contList={D_sortFilter} />
-                      <PopupBg off={setSortPopup} />
-                    </>
-                  )}
-                </div>
-              </div>
-
-              <div className="searchBox">
-                <input
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search items, collections, creators"
-                />
-
-                <img src={loupe_black} alt="" />
-              </div>
-            </article>
-
-            <article className="selectedBox">
-              <ul className="selectedList">
-                <li className="resetBtn" onClick={() => {}}>
-                  Filter reset
-                </li>
-
-                <li>
-                  Klaytn
-                  <img src={I_x} alt="" />
-                </li>
-
-                <li>
-                  <span className="blank" />
-                  KLAY
-                  <img src={I_x} alt="" />
-                </li>
-                {/* {filterList.map((cont, index) => (
-                  <li key={index} onClick={() => onclickFilterCancel(cont)}>
-                    <span className="blank" />
-                    {cont}
-                    <img src={I_x} alt="" />
-                  </li>
-                ))} */}
-              </ul>
-            </article>
-
-            <article className="itemListBox">
-              <ul className="itemsList">
-                {[1, 2, 3, 4, 5].map((cont, index) => (
-                  <li
-                    key={index}
-                    className="itemBox"
-                    onClick={() => {}}
-                    style={{
-                      backgroundImage: `url(${sample})`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                  >
-                    <div className="infoBox">
-                      {popupIndex === index && (
-                        <>
-                          <ul className="morePopup">
-                            <li>Sale</li>
-                            <li>Hand Over</li>
-                            <li>Edit</li>
-                            <li>Collection Change</li>
-                            <li>Unhide</li>
-                          </ul>
-                          <PopupBg off={setPopupIndex} />
-                        </>
-                      )}
-
-                      <div className="topBar">
-                        <button
-                          className="likeBtn"
-                          // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
-                        >
-                          <img src={heart_off} alt="" />
-
-                          <p>1,389</p>
-                        </button>
-
-                        <button
-                          className="moreBtn"
-                          onClick={(e) => onClickMoreBtn(e, index)}
-                        >
-                          <img src={I_3dot} alt="" />
-                        </button>
-                      </div>
-
-                      <p className="nickname">Renoir</p>
-                      <p className="title">Verger de pommiers</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          </section>
-        </MsearchWallet>
-      </>
-    );
-  else
-    return (
-      <>
-        <DefaultHeader />
-
-        <PsearchWallet style={{ padding: toggleFilter && "120px 0 0 350px" }}>
-          {toggleFilter ? (
-            <Filter off={setToggleFilter} />
-          ) : (
-            <button
-              className="filterBtn pc withBg"
-              onClick={() => setToggleFilter(true)}
-            >
-              <img src={side_close} alt="" />
-            </button>
-          )}
-
-          <header className="myProfHeader">
-            <div
-              className="bg"
-              style={{
-                backgroundImage: `url(${home_bg})`,
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-              }}
-            />
-
-            <div className="contBox">
-              <img className="profImg" src={imageUrl}></img>
-              <div className="btnBox">
-                <button className="" onClick={() => {}}>
-                  <img src={re} alt="" />
-                </button>
-                <button className="" onClick={() => {}}>
-                  <img src={share} alt="" />
-                </button>
-              </div>
-
-              <div className="infoBox">
-                <strong className="title">{nickname}'s Items</strong>
-                <p className="address">{strDot(walletAddress, 5, 5)}</p>
-                <p className="introduce">
-                  {desc}
-                </p>
-              </div>
-            </div>
-          </header>
-
-          <section className="innerBox">
-            <nav className="navBar">
-              {D_categoryList.map((nav, index) => (
-                <button
-                  key={index}
-                  className={nav.url === pathname && "on"}
-                  onClick={() => navigate(nav.url)}
-                >
-                  {nav.text}
-                </button>
-              ))}
-            </nav>
-
             <article className="topBar">
               <div className="searchBox">
                 <img src={loupe_black} alt="" />
@@ -525,66 +298,12 @@ export default function MySearchWallet() {
                   KLAY
                   <img src={I_x} alt="" />
                 </li>
-                {/* {filterList.map((cont, index) => (
-                  <li key={index} onClick={() => onclickFilterCancel(cont)}>
-                    <span className="blank" />
-                    {cont}
-                    <img src={I_x} alt="" />
-                  </li>
-                ))} */}
+                
               </ul>
             </article>
 
             <article className="itemListBox">
               <ul className="itemsList">
-                {/* {
-                  listitems.map((v, i)=>{
-                    <li
-                      key={i}
-                      className="itemBox"
-                      onClick={() => {}}
-                      style={{
-                        backgroundImage: `url(${sample})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
-                        backgroundSize: "cover",
-                      }}
-                    >
-                    <div className="infoBox">
-                      {popupIndex === i && (
-                        <>
-                          <ul className="morePopup">
-                            <li>Sale</li>
-                            <li>Edit</li>
-                          </ul>
-                          <PopupBg off={setPopupIndex} />
-                        </>
-                      )}
-
-                      <div className="topBar">
-                        <button
-                          className="likeBtn"
-                          // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
-                        >
-                          <img src={heart_off} alt="" />
-
-                          <p>1,389</p>
-                        </button>
-
-                        <button
-                          className="moreBtn"
-                          onClick={(e) => onClickMoreBtn(e, i)}
-                        >
-                          <img src={I_3dot} alt="" />
-                        </button>
-                      </div>
-
-                      <p className="nickname">ㅂ</p>
-                      <p className="title">{v.titlename}</p>
-                    </div>
-                    </li>
-                  })
-                } */}
                 {(listitems.length==0) && 
                 ('등록된 아이템을 확인할 수 없습니다.')
                 }
@@ -619,12 +338,12 @@ export default function MySearchWallet() {
                           <p>{cont.item.countfavors}</p>
                         </button>
 
-                        <button
+                        {isOwner && (<button
                           className="moreBtn"
                           onClick={(e) => onClickMoreBtn(e, index)}
                         >
                           <img src={I_3dot} alt="" />
-                        </button>
+                        </button>)}
                       </div>
 
                       <p className="nickname">{cont.author?.nickname}</p>
@@ -643,70 +362,6 @@ export default function MySearchWallet() {
 const MsearchWallet = styled.div`
   padding: 72px 0 0 0;
   position: relative;
-
-  .myProfHeader {
-    .bg {
-      height: 38.88vw;
-    }
-
-    .contBox {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      padding: 0 5.55vw;
-
-      .profImg {
-        width: 27.77vw;
-        height: 27.77vw;
-        border-radius: 50%;
-        background: #000;
-        top: -13.88vw;
-        position: absolute;
-      }
-
-      .btnBox {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        width: 100%;
-        height: 16.11vw;
-        gap: 1.11vw;
-
-        button {
-          img {
-            width: 5.5vw;
-          }
-        }
-      }
-
-      .infoBox {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2.77vw;
-        padding: 3.33vw 0 0 0;
-
-        .title {
-          font-size: 6.11vw;
-        }
-
-        .address {
-          font-size: 3.88vw;
-          color: #1c7eff;
-          font-weight: 500;
-        }
-
-        .introduce {
-          font-size: 3.88vw;
-          line-height: 5.55vw;
-          letter-spacing: -0.32px;
-          text-align: center;
-        }
-      }
-    }
-  }
 
   .innerBox {
     margin: 0 auto;
@@ -937,78 +592,10 @@ const MsearchWallet = styled.div`
 `;
 
 const PsearchWallet = styled.div`
-  padding: 120px 0 0 0;
+
   position: relative;
-
-  .myProfHeader {
-    .bg {
-      height: 320px;
-    }
-
-    .contBox {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      max-width: 1280px;
-      margin: 0 auto;
-
-      .profImg {
-        width: 140px;
-        height: 140px;
-        border-radius: 50%;
-        background: #000;
-        top: -70px;
-        position: absolute;
-      }
-
-      .btnBox {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        width: 100%;
-        height: 84px;
-        gap: 20px;
-
-        button {
-          img {
-            width: 24px;
-          }
-        }
-      }
-
-      .infoBox {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        padding: 36px 0 0 0;
-
-        .title {
-          font-size: 32px;
-        }
-
-        .address {
-          font-size: 18px;
-          color: #1c7eff;
-          font-weight: 500;
-        }
-
-        .introduce {
-          width: 460px;
-          font-size: 16px;
-          line-height: 24px;
-          letter-spacing: -0.32px;
-          text-align: center;
-        }
-      }
-    }
-  }
-
   .innerBox {
     max-width: 1280px;
-    padding: 100px 0;
     margin: 0 auto;
 
     .navBar {

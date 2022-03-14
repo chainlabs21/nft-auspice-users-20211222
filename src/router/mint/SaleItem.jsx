@@ -179,6 +179,7 @@ export default function SaleFixed() {
 
          //START THE AUCTION
   const do_start_auction = async(_)=>{
+    typestr="AUCTION_ENGLISH"
     window.getmyaddress = getmyaddress;
     let myaddress = getmyaddress();
     if (myaddress) {
@@ -252,6 +253,7 @@ export default function SaleFixed() {
   //LET THE FIXED PRICE ITEM SALE
 
   const do_fixed_price_spot = (_) => {
+    typestr = "COMMON";
     if (amounttosell) {
     } else {
       SetErrorBar(messages.MSG_PLEASE_INPUT);
@@ -519,7 +521,7 @@ export default function SaleFixed() {
 
                 <div className="contBox">
                   {category === 0 && <FixedPrice itemdata={itemdata}/>}
-                  {category === 1 && <AuctionBid />}
+                  {category === 1 && <AuctionBid itemdata={itemdata}/>}
                 </div>
               </div>
             </article>
@@ -697,11 +699,11 @@ export default function SaleFixed() {
                     </li>
                     <li>
                       <p className="key">royalty</p>
-                      <p className="value">5%</p>
+                      <p className="value">{royalty}%</p>
                     </li>
                     <li>
                       <strong className="key">Total</strong>
-                      <strong className="value">7.5%</strong>
+                      <strong className="value">{royalty+2.5}%</strong>
                     </li>
                   </ul>
                 </li>

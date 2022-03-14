@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../img/header/logo.png";
@@ -31,21 +31,35 @@ import MmenuPopup from "./MmenuPoupup";
 import axios from "axios";
 import {API} from "../../config/api"
 import { SET_USER_DATA, SET_ADDRESS, SET_LOGIN } from "../../reducers/userReducer";
+import {SET_SEARCH} from "../../reducers/filterReducer"
 
-export default function DefaultHeader() {
+export default function DefaultHeader(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const isMobile = useSelector((state) => state.common.isMobile);
   const {walletAddress, isloggedin} = useSelector((state) => state.user);
 
-  const [search, setSearch] = useState("");
+  const ssearch = useSelector((state)=>state.filter.search)
+  const [search, setSearch] = useState('')
   const [mMenuPopup, setMenuPopup] = useState(false);
+  useEffect(()=>
+  {
+    setSearch(ssearch)
+  },[])
 
   function onClickConnectWallet() {
     !isloggedin && navigate("/connectwallet");
   }
 
+  function handleSearch(e={key:'Enter'}){
+    if(e.key=="Enter"){
+      console.log(search)
+      dispatch({type: SET_SEARCH, payload:{value: search}});
+      navigate("/marketplace/all")
+      //props.search(search)
+    }
+  }
   if (isMobile)
     return (
       <>
@@ -92,13 +106,14 @@ export default function DefaultHeader() {
             </button>
 
             <div className="searchBox">
-              <button className="searchBtn" onClick={() => {}}>
+              <button className="searchBtn" onClick={() => {handleSearch()}}>
                 <img src={search_form} alt="" />
               </button>
 
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onKeyPress={e=>{handleSearch(e)}}
                 placeholder="Search items, collections, creators"
               />
             </div>
@@ -110,7 +125,7 @@ export default function DefaultHeader() {
                 <span className="posBox">
                   <button
                     className="marketPlace"
-                    onClick={() => navigate("/marketplace")}
+                    onClick={() => navigate("/marketplace/all")}
                   >
                     Marketplace
                   </button>
@@ -120,7 +135,7 @@ export default function DefaultHeader() {
                       <li
                         key={index}
                         onClick={() =>
-                          navigate("/marketplace?category="+cont.state)
+                          navigate("/marketplace/"+cont.state)
                         }
                       >
                         <img className="offImg" src={cont.offImg} alt="" />
@@ -253,7 +268,7 @@ const PdefaultHeaderBox = styled.header`
   height: 120px;
   background: #fff;
   top: 0;
-  z-index: 4;
+  z-index: 20;
   position: fixed;
   box-shadow: 0 3px 20px 0 rgb(0 0 0 / 10%);
 

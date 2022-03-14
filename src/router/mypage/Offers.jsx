@@ -24,6 +24,9 @@ import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
 import { Icons } from "react-toastify";
 import MypageFilter from "../../components/mypage/mypageFilter";
 import {strDot} from "../../util/Util"
+import axios from "axios";
+import { API } from "../../config/api";
+import moment from "moment";
 
 export default function Offers() {
   const navigate = useNavigate();
@@ -34,6 +37,67 @@ export default function Offers() {
 
   const [toggleFilter, setToggleFilter] = useState(false);
   const [detailCategory, setDetailCategory] = useState(0);
+  const [nickname, setNickname]=useState('Username')
+  const [desc, setDesc]=useState('Description')
+  const [imageUrl, setImageUrl] = useState('')
+  const [biddingList, setBiddingList] =useState([]);
+  const [proposalList, setProposalList] =useState([]);
+  
+  useEffect(()=>{
+    if (userData instanceof Object && userData['myinfo_maria'] !== undefined){
+      setNickname(userData.myinfo_maria.nickname)
+      setDesc(userData.myinfo_maria.description)
+      setImageUrl(userData.myinfo_maria.profileimageurl)
+    }
+  }, [userData])
+
+  useEffect(_=>{
+    if(walletAddress){}else{return;}
+    axios.get(`${API.API_GET_BIDS}`)
+    .then((resp)=>{
+      setBiddingList(resp.data.payload)
+      console.log(resp)
+    })
+    if(walletAddress){}else{return;}
+    axios.get(`${API.API_GET_PROPOSAL}`)
+    .then((resp)=>{
+      setProposalList(resp.data.payload)
+      console.log(resp)
+    })
+
+  }, [])
+
+  useEffect(_=>{
+    if(walletAddress){}else{return;}
+    if (detailCategory == 1){
+      
+      axios.get(`${API.API_GET_PROPOSAL}`)
+      .then((resp)=>{
+        setProposalList(resp.data.payload)
+        console.log(resp)
+      })
+    }else{
+    axios.get(`${API.API_GET_BIDS}`)
+    .then((resp)=>{
+      setBiddingList(resp.data.payload)
+      console.log(resp)
+    })
+  }
+
+  }, [detailCategory])
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   if (isMobile)
     return (
@@ -219,7 +283,7 @@ export default function Offers() {
             />
 
             <div className="contBox">
-            <img className="profImg" src={userData?.myinfo_maria?.profileimageurl}/>
+            <img className="profImg" src={imageUrl}/>
               <div className="btnBox">
                 <button className="" onClick={() => {}}>
                   <img src={re} alt="" />
@@ -230,10 +294,10 @@ export default function Offers() {
               </div>
 
               <div className="infoBox">
-                <strong className="title">{userData?.myinfo_maria?.nickname}'s Items</strong>
+                <strong className="title">{nickname}'s Items</strong>
                 <p className="address">{strDot(walletAddress, 5, 5)}</p>
                 <p className="introduce">
-                {userData?.myinfo_maria?.description}
+                {desc}
                 </p>
               </div>
             </div>
@@ -298,23 +362,25 @@ export default function Offers() {
                 <li>Item</li>
                 <li>Price</li>
                 <li>Quantify</li>
-                <li>Seller</li>
+                {detailCategory===0 &&(<li>Seller</li>)}
+                {detailCategory===1 &&(<li>Bidder</li>)}
+                
                 <li>Expiration</li>
                 <li>State</li>
               </ul>
-
+            {detailCategory ===0 &&(
               <ul className="list">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((cont, index) => {
+                {biddingList.map((cont, index) => {
                   return (
-                    <li>
+                    <li key={index}>
                       <span>
-                        <img className="profImg" />
-                        <p>Summer Pool</p>
+                        <img className="profImg" src={cont.item.url}/>
+                        <p>{cont.item?.titlename}</p>
                       </span>
 
                       <span>
                         <img className="tokenImg" src={I_klaytn} />
-                        <p className="price">0.010 KLAY ($30.11)</p>
+                        <p className="price">{cont.ress.price} KLAY</p>
                       </span>
 
                       <span>
@@ -322,12 +388,12 @@ export default function Offers() {
                       </span>
 
                       <span>
-                        <img className="profImg" />
-                        <p>TIDREDQ349999999</p>
+                        <img className="profImg" src={cont.sellerInfo.profileimageurl}/>
+                        <p>{cont.ress.seller}</p>
                       </span>
 
                       <span>
-                        <p>3 days later</p>
+                        <p>{moment.unix(cont.ress.expiry).fromNow()}</p>
                       </span>
 
                       <span>
@@ -336,7 +402,43 @@ export default function Offers() {
                     </li>
                   );
                 })}
-              </ul>
+              </ul>)}
+
+              {detailCategory ===1 &&(
+              <ul className="list">
+                {proposalList.map((cont, index) => {
+                  return (
+                    <li key={index}>
+                      <span>
+                        <img className="profImg" src={cont.item.url}/>
+                        <p>{cont.item?.titlename}</p>
+                      </span>
+
+                      <span>
+                        <img className="tokenImg" src={I_klaytn} />
+                        <p className="price">{cont.ress.price} KLAY</p>
+                      </span>
+
+                      <span>
+                        <p>3</p>
+                      </span>
+
+                      <span>
+                        <img className="profImg" src={cont.sellerInfo.profileimageurl}/>
+                        <p>{cont.ress.seller}</p>
+                      </span>
+
+                      <span>
+                        <p>{moment.unix(cont.ress.expiry).fromNow()}</p>
+                      </span>
+
+                      <span>
+                        <p>-</p>
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>)}
             </article>
           </section>
         </Poffers>

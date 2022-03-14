@@ -137,7 +137,7 @@ function AuctionBid({ store, setConnect }) {
     };
     LOGGER("mHpUwZa3lS", reqbody);
     //		return
-    axios.post(API.API_SALE_COMMON, reqbody).then((resp) => {
+    axios.post(API.API_REPORT_TX_AUCTION_ENGLISH, reqbody).then((resp) => {
       LOGGER("", resp.data);
       let { status } = resp.data;
       if (status == "OK") {
