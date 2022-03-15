@@ -2,16 +2,12 @@ import { connect, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import styled from "styled-components";
 
-import sample from "../../img/sub/sample.png";
 import I_3dot from "../../img/icons/I_3dot.png";
 import I_dnArrow from "../../img/icons/I_dnArrow.svg";
 import I_x from "../../img/icons/I_x.svg";
 import heart_off from "../../img/sub/heart_off.png";
 import heart_on from "../../img/sub/heart_on.png";
-import re from "../../img/sub/re.png";
-import share from "../../img/sub/share.png";
 import loupe_black from "../../img/sub/loupe_black.png";
-import home_bg from "../../img/sub/home_bg.png";
 import side_close from "../../img/sub/side_close.png";
 import filter_icon2 from "../../img/sub/filter_icon2.png";
 import { useDispatch } from "react-redux";
