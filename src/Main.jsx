@@ -13,6 +13,10 @@ import verse_logo from "./img/sub/verse_logo.png";
 import I_dnPolygon from "./img/icons/I_dnPolygon.svg";
 import home_bg from "./img/sub/home_bg.png";
 import I_klaytn from "./img/sub/I_klaytn.svg"
+import UsersBox from "./components/main/UsersBox";
+import SitemBox from "./components/main/SitemBox";
+import BitemBox from "./components/main/BitemBox";
+import LinkBox from "./components/main/LinkBox";
 
 import { LOGGER, gettimestr, get_deltatime_str } from "./util/common";
 import { applytoken } from "./util/rest";
@@ -48,9 +52,16 @@ export default function Main({ store }) {
   let [list_newitems, setlist_newitems] = useState([]);
   let [list_trenditems, setlist_trenditems] = useState([]);
   let [list_featured, setlist_featured] = useState([]);
+  const [featuredCat, setFeaturedCat] =useState([]);
   let axios = applytoken();
   const dispatch = useDispatch();
   useEffect((_) => {
+    axios.get(`${API.API_GET_MAINCATEGORY}`).then((resp=>{
+      let {list} = resp.data;
+      LOGGER("CONCONCON", list)
+      setFeaturedCat(list)
+
+    }))
     axios.get(`${API.API_MAIN_FEATURED_ITEMS}`).then((resp) => {
       let { status, list } = resp.data;
       if (status === "OK") {
@@ -767,7 +778,25 @@ export default function Main({ store }) {
       <>
         <DefaultHeader />
         <PmainBox>
+
+          
           <section className="innerBox">
+          {
+          featuredCat.map((v, i)=>{
+            if(v.type == 3){return (<>
+              <LinkBox category={v} key={i}/>
+            </>)}
+            if(v.type == 2){return (<>
+            <UsersBox category={v} key={i}/>
+            </>)}
+            if(v.type == 1){return (<>
+              <SitemBox category={v} key={i}/>
+            </>)}
+            if(v.type == 0){return (<>
+              <BitemBox category={v} key={i}/>
+            </>)}
+})
+          }
             <article className="visual">
               <div className="titleContainer">
                 <div className="titleInnerBox">
@@ -2054,6 +2083,11 @@ const PmainBox = styled.div`
         padding: 42px 0 42px 10px;
 
         .swiperBox {
+          width: 800px;
+          overflow: hidden;
+          height: 600px;
+          padding-left: 20px;
+          padding-top: 20px;
           display: flex;
           position: relative;
 
