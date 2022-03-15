@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate  } from "react-router";
 import { API } from "../../config/api";
 import { LOGGER } from "../../util/common";
 import I_x from "../../img/icons/I_x.svg";
@@ -14,9 +15,11 @@ export default function ItemLikePopup({ off, itemid }) {
   const isMobile = useSelector((state) => state.common.isMobile);
 
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   const convertLongString = (startLength, endLength, str) => {
     if (!str) return;
+    
     const head = str.substring(0, startLength);
     const spread = "......";
     const tail = str.substring(str.length - endLength, str.length);
@@ -57,7 +60,7 @@ export default function ItemLikePopup({ off, itemid }) {
                   <span className="profImg" />
 
                   <div className="nameBox">
-                    <strong className="nickname">{v.nickname}</strong>
+                    <strong className="nickname">{v.maria.nickname}</strong>
                     <p className="address">
                       {convertLongString(5, 4, v.username)}
                     </p>
@@ -87,17 +90,17 @@ export default function ItemLikePopup({ off, itemid }) {
             {data.map((v, i) => (
               <li key={i}>
                 <span className="profBox">
-                  <span className="profImg" />
+                  <img className="profImg" src={v.maria.profileimageurl}/>
 
                   <div className="nameBox">
-                    <strong className="nickname">{v.nickname}</strong>
+                    <strong className="nickname">{v.maria.nickname}</strong>
                     <p className="address">
                       {convertLongString(5, 4, v.username)}
                     </p>
                   </div>
                 </span>
 
-                <span className="itemBox">{v.amount} Items</span>
+                <span className="itemBox" onClick={()=>{navigate('/mypage/searchwallet/'+v.maria.username)}}>{v.amount} Items</span>
               </li>
             ))}
           </ul>

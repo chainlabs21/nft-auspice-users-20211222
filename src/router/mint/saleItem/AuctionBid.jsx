@@ -232,7 +232,8 @@ export default function AuctionBid(props) {
             <input
             type="number"
               value={amount}
-              onChange={(e) => {setAmount(e.target.value)}}
+              disabled
+              onChange={(e) => {}}
               placeholder=""
             />
                         <div className="tokenBox posBox">

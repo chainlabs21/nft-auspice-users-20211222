@@ -103,7 +103,7 @@ function SingleItem({
   const video = useRef();
 
   const isMobile = useSelector((state) => state.common.isMobile);
-  const {walletAddress} = useSelector((state) => state.user);
+  const {walletAddress, isloggedin} = useSelector((state) => state.user);
 
   const [listCategory, setListCategory] = useState(0);
   const [otherWorkIndex, setOtherWorkIndex] = useState(0);
@@ -1516,6 +1516,7 @@ function SingleItem({
                                 <p>(Qty. {v.asset_amount_bid})</p>
                               </div>
                               <button className="purchaseBtn" onClick={(_) => {
+                                if (!isloggedin){SetErrorBar('PLEASE LOG IN');return;}
                                 if (is_two_addresses_same(walletAddress, v.username)) {
                                   setMyItem(true)
                                   SetErrorBar(messages.MSG_YOUR_OWN_ORDER);

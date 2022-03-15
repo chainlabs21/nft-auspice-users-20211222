@@ -242,6 +242,15 @@ export default function FixedPrice(props) {
           </div>
 
           <div className="priceBox">
+
+          <input
+            type="number"
+            disabled
+              value={amount}
+              onChange={(e) => {}}
+              placeholder=""
+            />
+            
             <div className="tokenBox posBox">
               <button className="tokenBtn" onClick={() => {}}>
                 <div className="value">
@@ -250,13 +259,7 @@ export default function FixedPrice(props) {
               </button>
             </div>
 
-            <input
-            type="number"
-            disabled
-              value={amount}
-              onChange={(e) => {}}
-              placeholder=""
-            />
+            
           </div>
         </li>
 

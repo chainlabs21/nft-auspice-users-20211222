@@ -128,6 +128,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
       }
       klaytn.on("accountsChanged", async (accounts) => {
         dispatch({type:SET_LOGIN, payload:{value:false}})
+        dispatch({type:SET_ADDRESS, payload:{value: null}})
         console.log(accounts);
         let address = accounts[0];
         let address_local = localStorage.getItem("address");

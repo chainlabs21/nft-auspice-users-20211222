@@ -13,25 +13,27 @@ import { API } from "../../config/api";
 import { getuseraddress } from "../../util/common";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import SetErrorBar from "../../util/SetErrorBar";
 
 export default function SentEmailDetail({email}) {
   const navigate = useNavigate();
 
-  const { userData, walletAddress} = useSelector((state) => state.user);
+  const { userData, walletAddress, isloggedin} = useSelector((state) => state.user);
   const isMobile = useSelector((state) => state.common.isMobile);
   const [emailAddress, setEmailAddress] = useState();
 
 
   function getEmailAddr(walletaddr){
     axios.get('http://itemverse1.net:32287/users/mailaddr/'+walletaddr).then((resp)=>{
-      let{email} = resp.data.resp;
-      console.log(email)
-      setEmailAddress(email)
+      //let{email} = 
+      //console.log(email)
+      setEmailAddress(resp.data.resp?.email)
     })
   }
 
   useEffect(async ()=>{
-    if(email=''||!email){
+    console.log(email)
+    if(email==''||!email){
       let tmpAddress = await getEmailAddr(walletAddress)
       setEmailAddress(tmpAddress)
     }else{
@@ -42,13 +44,13 @@ export default function SentEmailDetail({email}) {
   function onClickResend() {
     window.location.reload();
   }
-  useEffect(()=>{
-    console.log(userData)
-
-  },[userData])
 
   useEffect(async()=>{
+    if(emailAddress){
     handleSendEmail()
+    }else{
+      SetErrorBar('WRONG ACCESS')
+    }
 
   },[emailAddress])
 
@@ -59,6 +61,7 @@ export default function SentEmailDetail({email}) {
         alert(ERR_MSG.ERR_NO_ADDRESS);
         return;
       }
+      
       try {
         const resp = await axios.get(
           API.API_VERIFY_EMAIL_SEND + `/${emailAddress}`
@@ -69,7 +72,8 @@ export default function SentEmailDetail({email}) {
       }
     };
     // navigate("/resent")
-    asyncSendEmail();
+    if(isloggedin){SetErrorBar('ALREADY LOGGED IN');return;}else{asyncSendEmail();}
+    
   };
 
   if (isMobile)

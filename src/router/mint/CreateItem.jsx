@@ -271,7 +271,9 @@ export default function CreateItem({ store, setConnect }) {
     const resp = await axios.post(API.API_LAZY_MINT, body);
     if (resp.data.status === "OK") {
       SetErrorBar(messages.MSG_DONE_REGISTERING);
+      //UPLOADING
       setTimeout((_) => {
+        //UPLOADING DONE
         navigate(`/saleitem?itemid=${itemid}`);
       }, TIME_PAGE_TRANSITION_DEF);
     } else {
@@ -804,7 +806,7 @@ export default function CreateItem({ store, setConnect }) {
             </article>
 
             <article className="btnArea">
-              <button className="createBtn" disabled={submitReady} onClick={() => {handleCreateItem()}} style={submitReady &&{backgroundColor:'gray'}}>
+              <button className={submitReady?"dcreateBtn":"createBtn"} disabled={submitReady} onClick={() => {handleCreateItem()}}>
                 Create Item
               </button>
             </article>
@@ -1296,9 +1298,18 @@ const PcreateItemBox = styled.div`
         text-align: center;
         padding-top: auto;
         
-        a{
-          
-        }
+      }
+      .dcreateBtn {
+        width: 176px;
+        height: 56px;
+        font-size: 22px;
+        font-weight: 500;
+        color: #fff;
+        background: #ccc;
+        border-radius: 44px;
+        text-align: center;
+        padding-top: auto;
+        
       }
     }
   }
