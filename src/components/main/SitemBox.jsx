@@ -42,7 +42,7 @@ export default function SitemBox({ category }) {
   return (
     <PSitemBox>
       <article className="newArticle swiperArticle contArticle">
-        <strong className="title">NEW NFT Item</strong>
+        <strong className="title">{category.name}</strong>
 
         <div className="swiperContainer">
           <div className="swiperBox">

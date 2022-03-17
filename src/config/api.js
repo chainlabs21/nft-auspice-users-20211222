@@ -1,4 +1,4 @@
-const apiServer = "http://itemverse1.net:32287"; // // const apiServer = "http://3.34.76.233:32287";
+const apiServer = process.env.REACT_APP_API_SERVER;//"http://itemverse1.net:32287"; // // const apiServer = "http://3.34.76.233:32287";
 export const API = {
   API_TICKERS: `${apiServer}/stats/tickers`,
   API_TOGGLE_FAVOR: `${apiServer}/favorites/toggle`,
