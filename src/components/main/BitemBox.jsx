@@ -49,7 +49,7 @@ export default function BitemBox({ category }) {
 
   return (
     <PBitemBox>
-      <article className="visual">
+      <article className="vvisual">
         <div className="titleContainer">
           <div className="titleInnerBox">
             <div className="titleBox">
@@ -84,7 +84,11 @@ export default function BitemBox({ category }) {
         </div>
 
         <div className="swiperContainer">
+        <div className="gradientBox">
+          <div className="activeGradient"></div>
+        </div>
           <div className="swiperBox">
+          
             <ul className="swiperList" ref={visualSwiperRef}>
               {items
                 .sort((a, b) => (a.createdat < b.createdat ? +1 : -1))
@@ -104,22 +108,27 @@ export default function BitemBox({ category }) {
   );
 }
 const PBitemBox = styled.div`
-.visual {
+.vvisual {
       display: flex;
       align-items: flex-start;
       height: 606px;
+      
 
       .titleContainer {
-        flex: 1;
+        
+        
+        flex:1;
         display: flex;
         justify-content: flex-end;
         max-width: 50%;
         height: inherit;
         padding: 100px 138px 0 0;
         background: #fff;
-        z-index: 2;
+        
+        //z-index: 2;
 
         .titleInnerBox {
+          
           display: flex;
           flex-direction: column;
           gap: 70px;
@@ -167,18 +176,234 @@ const PBitemBox = styled.div`
           }
         }
       }
-
       .swiperContainer {
-        flex: 1;
+        background-color: #fff;
+        //background: linear-gradient(to right, transparent, white);
+        //background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(0, 0, 0, 0));
+        z-index:2;
+        flex:1;
+        left: 0;
         display: flex;
         align-items: center;
         position: relative;
         max-width: 50%;
+        width: 50px;
         padding: 42px 0 42px 10px;
+
+        .gradientBox{
+          pointer-events: none;
+            
+          height: 600px;
+          width: 800px;
+          position: absolute;
+          z-index: 3;
+
+          .activeGradient{
+            height: 600px;
+          width: 100px;
+          position: absolute;
+          right: 0;
+          background: linear-gradient(to left, rgba(255, 255,255, 1), rgba(0, 0, 0, 0));
+
+          }
+        }
+
+        
+
+        .swiperBox {
+          width: 800px;
+          overflow: hidden;
+          height: 600px;
+          padding-left: 20px;
+          padding-top: 20px;
+          display: flex;
+          position: relative;
+
+
+
+          .swiperList {
+            display: flex;
+            gap: 20px;
+            transition: all 0.8s;
+
+            .swiperContBox {
+              display: flex;
+              width: 630px;
+              min-width: 630px;
+              height: 544px;
+              border-radius: 20px;
+              overflow: hidden;
+              box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+              cursor: pointer;
+
+              .itemImg {
+                flex: 1;
+              }
+
+              .infoContainer {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 268px;
+                padding: 30px 16px 20px 16px;
+
+                .titleBox {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 12px;
+
+                  * {
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                  }
+
+                  .title {
+                    font-size: 28px;
+                    line-height: 35px;
+                  }
+
+                  .creator {
+                    font-size: 16px;
+                    line-height: 20px;
+                  }
+                }
+
+                .infoBox {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 26px;
+
+                  .infoList {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+
+                    li {
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: flex-end;
+
+                      .key {
+                        font-size: 14px;
+                        line-height: 18px;
+                        font-weight: 500;
+                      }
+
+                      .value {
+                        display: flex;
+                        align-items: flex-end;
+                        gap: 2px;
+                        font-size: 22px;
+                        line-height: 22px;
+                        font-weight: 900;
+
+                        .unit {
+                          font-size: 12px;
+                          line-height: 16px;
+                        }
+                      }
+                    }
+                  }
+
+                  .bottomBox {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+
+                    .historyBox {
+                      display: flex;
+                      flex-direction: column;
+                      gap: 8px;
+
+                      .title {
+                        font-size: 14px;
+                      }
+
+                      .scrollBox {
+                        background: #f4f2f2;
+                        border-radius: 8px;
+                        padding: 10px 6px 10px 8px;
+
+                        .historyList {
+                          display: flex;
+                          flex-direction: column;
+                          gap: 12px;
+                          height: 168px;
+                          padding: 0 8px 0 0;
+                          overflow-y: scroll;
+
+                          &::-webkit-scrollbar {
+                            width: 4px;
+                            border: 5px solid #f6f6f6;
+                          }
+
+                          &::-webkit-scrollbar-thumb {
+                            width: 4px;
+                            background: #b7b7b7;
+                            border-radius: 4px;
+                          }
+
+                          &::-webkit-scrollbar-track {
+                            background: #f4f2f2;
+                            border-radius: 4px;
+                          }
+
+                          li {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+
+                            .profBox {
+                              display: flex;
+                              align-items: center;
+                              gap: 6px;
+
+                              img {
+                                width: 28px;
+                                height: 28px;
+                                object-fit: cover;
+                                border-radius: 50%;
+                                box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.3);
+                              }
+
+                              strong {
+                                font-size: 16px;
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+
+                    .btnBox {
+                      display: flex;
+                      gap: 10px;
+
+                      button {
+                        flex: 1;
+                        height: 34px;
+                        font-size: 14px;
+                        font-weight: 700;
+                        border: solid 1px #000;
+                        border-radius: 8px;
+
+                        &.bidBtn {
+                          color: #fff;
+                          background: #000;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
 
         .nextBtn {
           position: absolute;
-          left: -24px;
+          left: -14px;
           z-index: 3;
 
           img {

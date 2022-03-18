@@ -93,7 +93,7 @@ export default function SentEmailDetail({email}) {
               </strong>
               <p className="explain">
                 Please check the verification email in your mailbox
-                ({email}).
+                ({emailAddress}).
                 <br />
                 If you select the verification button in the email, membership
                 registration is complete.

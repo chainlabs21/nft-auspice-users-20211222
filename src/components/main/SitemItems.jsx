@@ -122,7 +122,7 @@ export default function SitemItems({ val, index }) {
           </div>
 
           <p className="title">{val.item.titlename}</p>
-          <p className="nickname">{val.item.author_info.nickname}</p>
+          <p className="nickname">{val.item.author_info?val.item.author_info.nickname:"-"}</p>
 
           <div className="etcBox">
             <p className="time">

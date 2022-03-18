@@ -8,7 +8,6 @@ import users_list01 from "../../img/main/users_list01.png";
 // import users_list04 from "../img/main/users_list04.png";
 
 export default function UsersItems({ val, index }) {
-  useEffect(()=>{console.log(val)},[val])
   const navigate = useNavigate();
   return (
     <PLinkItems>

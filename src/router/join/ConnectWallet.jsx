@@ -96,24 +96,34 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
 
     console.log(address)
     //---------------
-      const resp = await axios.get(`${API.API_USER_INFO}/${address}`)
-      console.log(resp.data.payload.maria)
-      dispatch({
-        type: SET_USER_DATA,
-        payload: {value: resp.data.payload},
-      });
-      if(resp.data.payload.maria==null) {
-        navigate("/joinmembership")
-        return;
-      }
-      if(resp.data.payload.maria.email == null){
-        navigate("/emailchange")
-        return;
-      }
-      if(resp.data.payload.maria.emailverified == 0){
-        navigate("/sentEmailDetail")
-        return
-      }
+    console.log(`${API.API_USER_INFO}/${address}`)
+      //const resp = await 
+      axios.get(`${API.API_USER_INFO}/${address}`).then((resp)=>{
+        console.log("DATA:: "+resp)
+        dispatch({
+          type: SET_USER_DATA,
+          payload: {value: resp.data.payload},
+        });
+        if(resp.data.payload.maria==null) {
+          console.log('hello')
+          navigate("/joinmembership")
+          return;
+        }
+        else if(resp.data.payload.maria.email == null){
+          console.log('hello')
+          navigate("/emailchange")
+          return;
+        }
+        else if(resp.data.payload.maria.emailverified == 0){
+          navigate("/sentEmailDetail")
+          return
+        }
+        else{
+          console.log('hello')
+        }
+      })
+      //console.log("DATA:: "+resp)
+
 
       //console.log(userWallet)
 

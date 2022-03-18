@@ -41,9 +41,9 @@ export default function GeneralSettings({ store, setConnect }) {
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
   useEffect(()=>{
-    setNickname(userData.myinfo_maria.nickname)
-    setDescription(userData.myinfo_maria.description)
-    setEmail(userData.myinfo_maria.email)
+    setNickname(userData.myinfo_maria?.nickname)
+    setDescription(userData.myinfo_maria?.description)
+    setEmail(userData.myinfo_maria?.email)
 
   },[])
   const onClickSave=()=>{

@@ -110,6 +110,8 @@ export default function Signup({ store, setConnect }) {
       try {
               //console.log({...regData, imagefilename: respdata});
               if(!profUrl)setProfUrl("https://i.imgur.com/UPgG53R.jpeg")
+              let addressChk = await window.klaytn.enable()
+              if (addressChk[0]!=address){SetErrorBar('DIFFERENT WALLET ADDRESS'); return;}
               const resp = await axios.post(API.API_USER_JOIN, {...regData, profileimageurl: profUrl});
               console.log(resp);
               if (resp.data.status === "OK") {
@@ -124,6 +126,8 @@ export default function Signup({ store, setConnect }) {
                     case "email":
                       alert(ERR_MSG.ERR_DUPLICATE_EMAIL);
                       break;
+                    case "nickname":
+                      alert('닉네임 중복')
                     default:
                       alert(ERR_MSG.ERR_SERVER_STATUS);
                   }
@@ -137,10 +141,6 @@ export default function Signup({ store, setConnect }) {
               alert(ERR_MSG.ERR_AXIOS_REQUEST);
             }
           };
-        
-      
-    
-
       if (!usernameChk) {
         alert(ERR_MSG.ERR_REG_USERNAME);
         return;
@@ -417,6 +417,7 @@ export default function Signup({ store, setConnect }) {
               <div className="inputBox">
                 <input
                   value={walletAddress}
+                  readOnly
                   placeholder="Please enter your wallet address"
                 />
               </div>

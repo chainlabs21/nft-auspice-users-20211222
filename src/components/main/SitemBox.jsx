@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import home_bg from "../../img/sub/home_bg.png";
 import SitemItems from "./SitemItems";
+import { getStyle, strDot } from "../../util/Util";
 
 import I_ltArw3BlackBtn from "../../img/design/I_ltArw3BlackBtn.png";
 import I_rtArw3BlackBtn from "../../img/design/I_rtArw3BlackBtn.png";
@@ -11,12 +12,51 @@ export default function SitemBox({ category }) {
   const itemSwiperRef = useRef();
   const [items, setItems] = useState([]);
   const [itemIndex, setItemIndex] = useState(0);
+  const [needSwiper, setNeedSwiper] = useState(false)
   useEffect(() => {
     setItems(category.itemsss);
+    
   }, [category]);
   useEffect(() => {
-    console.log("hi");
-  }, []);
+    console.log(items.length)
+    if (items.length>4){
+      setNeedSwiper(true)
+      console.log('성공')
+    }else{
+      setNeedSwiper(false)
+      console.log('실패')
+    }
+    console.log(itemIndex)
+  }, [items, itemIndex]);
+  
+
+  function handlerByIndex(swiperRef, index) {
+    if (!swiperRef.current.children[0]) return;
+
+    const wrapWidth = swiperRef.current.offsetWidth;
+    const contWidth = swiperRef.current.children[0].offsetWidth;
+    const itemNumByPage = Math.floor(wrapWidth / contWidth);
+    const pageNum = Math.ceil(
+      swiperRef.current.children.length / itemNumByPage
+    );
+
+    if (swiperRef.current?.scrollTo) {
+      if (index < pageNum) {
+        swiperRef.current.scrollTo({
+          left:
+            (contWidth + getStyle(swiperRef, "gap")) * itemNumByPage * index,
+          behavior: "smooth",
+        });
+      } else {
+        swiperRef.current.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  }
+
+  useEffect(() => handlerByIndex(itemSwiperRef, itemIndex), [itemIndex]);
 
   function onClickSwiperPreBtn(swiperRef, items, index, setIndex) {
     const wrapWidth = swiperRef.current.offsetWidth;
@@ -48,8 +88,6 @@ export default function SitemBox({ category }) {
           <div className="swiperBox">
             <ul className="swiperList" ref={itemSwiperRef}>
               {items
-                //.filter((elem) => elem.url)
-                .sort((a, b) => b.countfavors - a.countfavors)
                 .map((cont, index) => {
                   return (
                   <SitemItems val={cont} key={index} />
@@ -57,7 +95,7 @@ export default function SitemBox({ category }) {
             </ul>
           </div>
         </div>
-        <button
+        {needSwiper&&(<><button
           className="preBtn pageBtn"
           onClick={() =>
             onClickSwiperPreBtn(
@@ -82,7 +120,8 @@ export default function SitemBox({ category }) {
           }
         >
           <img src={I_rtArw3BlackBtn} alt="" />
-        </button>
+        </button></>)}
+
       </article>
     </PSitemBox>
   );

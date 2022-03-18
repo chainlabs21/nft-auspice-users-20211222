@@ -21,9 +21,9 @@ export default function UsersItems({val, index}) {
         <div className="infoContainer">
           <img
             className="profImg"
-            src={val.user.profileimageurl}
+            src={val.user?.profileimageurl}
             style={{
-              backgroundImage: `url(${val.user.profileimageurl})`,
+              backgroundImage: `url(${val.user?.profileimageurl})`,
 
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
@@ -33,9 +33,9 @@ export default function UsersItems({val, index}) {
           />
 
           <div className="infoBox">
-            <strong className="store">{val.user.nickname}</strong>
+            <strong className="store">{val.user?.nickname}</strong>
             <strong className="nickname">{strDot(5, 5, val.username)}</strong>
-            <p className="description">{val.user.description}</p>
+            <p className="description">{val.user?.description}</p>
           </div>
         </div>
       </li>

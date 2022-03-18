@@ -42,7 +42,7 @@ export default function UsersBox({category}){
 
     return(
         <PUsersBox>
-        <article className="collectionArticle swiperArticle contArticle">
+        <article className="vcollectionArticle swiperArticle contArticle">
         <strong className="title">{category.name}</strong>
 
         <div className="swiperContainer">
@@ -87,7 +87,8 @@ export default function UsersBox({category}){
     )
 }
 const PUsersBox=styled.div`
-.collectionArticle {
+.vcollectionArticle {
+  z-index:2;
         .swiperContainer {
           .swiperBox {
             .swiperList {

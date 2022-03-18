@@ -212,10 +212,10 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   }
   useEffect(()=>{
     if ( window.klaytn){
-    let accounts = window.klaytn.enable()
-    if (accounts[0]){
-      checklogin(accounts[0])
-    }
+    //let accounts = window.klaytn.enable()
+    //if (accounts[0]){
+      checklogin(window.klaytn.selectedAddress)
+    //}
   }
 
     

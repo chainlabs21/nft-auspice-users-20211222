@@ -13,7 +13,6 @@ import I_klaytn from "../../img/sub/I_klaytn.svg"
 export default function SitemItems({ val, index }) {
   const navigate = useNavigate();
   const [ilikethisitem, setIlikethisitem] = useState(false);
-  useEffect(()=>{console.log(val)},[])
   
 
   return (
@@ -32,7 +31,7 @@ export default function SitemItems({ val, index }) {
         <div className="infoContainer">
           <div className="titleBox">
             <strong className="title">{val.item.titlename}</strong>
-            <strong>{val.item.author_info.nickname}</strong>
+            <strong>{val.item.author_info?val.item.author_info.nickname:"-"}</strong>
           </div>
 
           <div className="infoBox">
@@ -259,6 +258,7 @@ const PBitemItems = styled.div`
                     }
 
                     .btnBox {
+                      z-index: 4;
                       display: flex;
                       gap: 10px;
 
