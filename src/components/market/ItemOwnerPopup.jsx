@@ -56,7 +56,7 @@ export default function ItemOwnerPopup({ off, itemid }) {
             {data.map((v, i) => (
               <li key={i}>
                 <span className="profBox">
-                  <span className="profImg" />
+                  <img className="profImg" src={v?.profileimageurl}/>
 
                   <div className="nameBox">
                     <strong className="nickname">{v.nickname}</strong>

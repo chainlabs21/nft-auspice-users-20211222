@@ -17,6 +17,18 @@ import { API } from "../../config/api";
 
 const kiloBytes = 1024;
 const megaBytes = 1024 * kiloBytes;
+const MAP_fileextension_contentype = {
+  jpg: "image",
+  jpeg: "image",
+  png: "image",
+  gif: "image",
+  svg: "image",
+  mp4: "video",
+  webm: "video",
+  mp3: "audio",
+  wav: "audio",
+  ogg: "audio",
+};
 
 export default function Signup({ store, setConnect }) {
   const navigate = useNavigate();
@@ -48,6 +60,10 @@ export default function Signup({ store, setConnect }) {
 
   function onchangePhoto(file) {
     if (!file) return;
+    const fileLength = file.length;
+    const fileDot = file.name.lastIndexOf(".");
+    const fileType = file.name.substring(fileDot + 1, fileLength).toLowerCase();
+    if(MAP_fileextension_contentype[fileType]=='image'){
     setPhotoName(file.name);
     let reader = new FileReader();
     reader.readAsDataURL(file);
@@ -56,14 +72,18 @@ export default function Signup({ store, setConnect }) {
       setPhoto(reader.result);
     };
   }
+  }
 
   const fileUpload = async (file) => {
     if (!file) {
       return;
     }
-    const fileLength = file.name.length;
+    
+    const fileLength = file.length;
     const fileDot = file.name.lastIndexOf(".");
+    const fileType = file.name.substring(fileDot + 1, fileLength).toLowerCase();
 
+    if(MAP_fileextension_contentype[fileType]!='image'){SetErrorBar('This is not an image file');return;}
     let filesize = file.size;
     if (file && filesize > 0) {
       setFileChk(true);
@@ -224,6 +244,7 @@ export default function Signup({ store, setConnect }) {
                   <input
                     className="nospace"
                     type="file"
+                    accept="image/*"
                     ref={photoRef}
                     value={photo}
                     onChange={(e) => onchangePhoto(e.target.files[0])}

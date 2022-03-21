@@ -628,6 +628,7 @@ function SingleItem({
   }, [itemdata.itembalances]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     LOGGER("8xlWxqxeC2", itemid, referer);
     setitemid(searchParams.get("itemid"));
     console.log(itemid);
@@ -660,7 +661,8 @@ function SingleItem({
   useEffect(
     (_) => {
       setitemid(searchParams.get("itemid"));
-      window.scrollTo(0, 0);
+      window.focus();
+window.scrollTo({top:0});
       fetchitem(itemid);
       console.log("또잉");
       query_with_arg({
@@ -808,7 +810,7 @@ function SingleItem({
                   <button className="sellerBtn" onClick={() => {}}>
                     <img
                       className="profImg"
-                      src={author?.profileimage}
+                      src={itemdata.author?.profileimageurl}
                       alt=""
                     />
                     <p>@{itemdata.author?.nickname}</p>
@@ -1360,7 +1362,7 @@ function SingleItem({
                   </button>
 
                   <strong className="title">
-                    {itemdata.author.nickname}'s item
+                    {itemdata?.author?.nickname}'s item
                   </strong>
                 </div>
 
@@ -2044,6 +2046,17 @@ const MsignPopupBox = styled.div`
         align-items: center;
         height: 116.11vw;
         padding: 2.77vw 2.77vw 11.11vw 2.77vw;
+        position: relative;
+        
+        .imageBox {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          left: 0;
+          object-fit: cover;
+          margin: 0 auto;
+          width: 100%;
+        }
 
         .topBar {
           //align-items: flex-start;
