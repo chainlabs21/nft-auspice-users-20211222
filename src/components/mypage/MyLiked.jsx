@@ -71,6 +71,49 @@ export default function MyLiked() {
         }
       });
   },[]);
+  if (isMobile)
+  return (
+    <>
+      <DefaultHeader />
+
+      <Mliked>
+        <section className="innerBox">
+          
+
+          <article className="itemListBox">
+            <ul className="itemsList">
+            {list.map((cont, index) => (
+                  <li
+                    key={index}
+                    class="itemBox"
+                    onClick={() => {navigate("/singleitem?itemid="+cont.item.itemid)}}
+                  >
+                  {cont.item.typestr=="image"&&(<img className="imageBox" src={cont?.item?.url}/>)}
+                  {cont.item.typestr=="video"&&(<video className="imageBox"><source src={cont?.item.url}/></video> )}
+                    <div className="infoBox">
+                      <div className="topBar">
+                        <button
+                          className="likeBtn"
+                          // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
+                        >
+                          <img src={heart_on} alt="" />
+
+                          <p>{cont.item.countfavors}</p>
+                        </button>
+                      </div>
+
+                      <p className="nickname">{cont.author.nickname}</p>
+                      <p className="title">{cont.item.titlename}</p>
+                    </div>
+                  </li>
+                ))}
+            </ul>
+          </article>
+        </section>
+      </Mliked>
+    </>
+  );
+else
     return (
       <>
         <Pliked>
@@ -113,101 +156,6 @@ export default function MyLiked() {
 const Mliked = styled.div`
   padding: 72px 0 0 0;
   position: relative;
-
-  .myProfHeader {
-    .bg {
-      height: 38.88vw;
-    }
-
-    .contBox {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      padding: 0 5.55vw;
-
-      .profImg {
-        width: 27.77vw;
-        height: 27.77vw;
-        border-radius: 50%;
-        background: #000;
-        top: -13.88vw;
-        position: absolute;
-      }
-
-      .btnBox {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        width: 100%;
-        height: 16.11vw;
-        gap: 1.11vw;
-
-        button {
-          img {
-            width: 5.5vw;
-          }
-        }
-      }
-
-      .infoBox {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2.77vw;
-        padding: 3.33vw 0 0 0;
-
-        .title {
-          font-size: 6.11vw;
-        }
-
-        .address {
-          font-size: 3.88vw;
-          color: #1c7eff;
-          font-weight: 500;
-        }
-
-        .introduce {
-          font-size: 3.88vw;
-          line-height: 5.55vw;
-          letter-spacing: -0.32px;
-          text-align: center;
-        }
-      }
-    }
-  }
-
-  .innerBox {
-    margin: 0 auto;
-
-    .navBar {
-      display: flex;
-      flex-wrap: wrap;
-      margin: 5.55vw;
-      border: 2px solid #000;
-
-      button {
-        flex: 1;
-        min-width: 50%;
-        height: 13.33vw;
-        font-size: 4.44vw;
-        font-weight: 700;
-
-        &.on {
-          color: #fff;
-          background: #000;
-        }
-
-        &:nth-of-type(n + 3) {
-          border-top: 2px solid #000;
-        }
-        &:nth-of-type(2n) {
-          border-left: 2px solid #000;
-        }
-      }
-    }
-
     .itemListBox {
       display: flex;
       flex-direction: column;
@@ -230,8 +178,17 @@ const Mliked = styled.div`
           overflow: hidden;
           cursor: pointer;
           position: relative;
+          .imageBox{
+          position: absolute;
+          top: 0;
+          left: 0;
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+        }
 
           .infoBox {
+            z-index:5;
             width: 100%;
             padding: 5.55vw;
             background: linear-gradient(
@@ -313,7 +270,7 @@ const Mliked = styled.div`
         }
       }
     }
-  }
+  
 `;
 
 const Pliked = styled.div`

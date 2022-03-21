@@ -28,6 +28,7 @@ import {   D_SStatusList} from "../../data/D_filter"
 
 
 export default function MyPage() {
+  const isMobile = useSelector((state) => state.common.isMobile);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -78,7 +79,7 @@ export default function MyPage() {
       <PMyPage>
         <DefaultHeader />
            <MyPageHeader address={searchAddress} targetData={targetData}/>
-           <nav className="navBar">
+           <nav className={isMobile?"mo":"navBar"}>
               {D_categoryList.map((nav, index) => (
                 <button
                   key={index}
@@ -126,6 +127,32 @@ const PMyPage = styled.div`
         }
 
         &:nth-of-type(n + 2) {
+          border-left: 2px solid #000;
+        }
+      }
+    }
+    .mo{
+      display: flex;
+      flex-wrap: wrap;
+      margin: 5.55vw;
+      border: 2px solid #000;
+
+      button {
+        flex: 1;
+        min-width: 50%;
+        height: 13.33vw;
+        font-size: 4.44vw;
+        font-weight: 700;
+
+        &.on {
+          color: #fff;
+          background: #000;
+        }
+
+        &:nth-of-type(n + 3) {
+          border-top: 2px solid #000;
+        }
+        &:nth-of-type(2n) {
           border-left: 2px solid #000;
         }
       }

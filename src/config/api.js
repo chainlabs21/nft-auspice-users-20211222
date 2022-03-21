@@ -24,7 +24,7 @@ export const API = {
   API_LAZY_MINT: `${apiServer}/mint/mint/lazy`,
 //	API_GET_ITEM_CATEGORIES: `${apiServer}/queries/categories`,
   API_GET_I_LIKE:`${apiServer}/queries/ilike`,// /:itemid CHECK IF I LIKED THIS ITEM
-	API_GET_ITEM_CATEGORIES: `${apiServer}/queries/rows/categories/group_/items/0/100/id/DESC`,
+	API_GET_ITEM_CATEGORIES: `${apiServer}/queries/rows/categories/group_/items/0/100/displayOrder/ASC`,
   API_GET_MAINCATEGORY:`${apiServer}/queries/featured/rows/`,
 	API_REPORT_SPAM_CATEGORIES : `${apiServer}/queries/rows/categories/group_/reportspam/0/100/id/DESC` ,
   API_GET_CREATORS: `${apiServer}/queries/rows/users/iscreator/1/0/8/countcreated/DESC?userdetail=1`,
@@ -60,7 +60,8 @@ export const API = {
   API_RANKING: `${apiServer}/queries/rows/users02/active/1/0/20/sumsalesfloat/DESC`,
   API_GET_BIDS: `${apiServer}/my/bids`,
   API_GET_PROPOSAL: `${apiServer}/my/proposals`,
-  API_GET_REPORT_CATEGORIES:`${apiServer}/queries/reportcategory`
+  API_GET_REPORT_CATEGORIES:`${apiServer}/queries/reportcategory`,
+  //API_GET_ITEM_CATEGORIES: `${apiServer}/queries/rows/itemhistory`, // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 };
 
 

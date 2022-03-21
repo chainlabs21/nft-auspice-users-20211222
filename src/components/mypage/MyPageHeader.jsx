@@ -10,55 +10,57 @@ import { useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 
 import { strDot } from "../../util/Util";
-import axios from 'axios';
+import axios from "axios";
 import { LOGGER } from "../../util/common";
 import { API } from "../../config/api";
 import userEvent from "@testing-library/user-event";
 
-
-
-export default function MyPageHeader({address, targetData}) {
+export default function MyPageHeader({ address, targetData }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
   const isMobile = useSelector((state) => state.common.isMobile);
   const [toggleFilter, setToggleFilter] = useState(false);
-  let [ listitems , setlistitems ]=useState( [] )
-  const [nickname, setNickname]=useState('Username')
-  const [desc, setDesc]=useState('Description')
-  const [imageUrl, setImageUrl] = useState('')
-  const [orderkey, setOrderkey] = useState(0)
-  const [targettData, setTargettData]=useState()
+  let [listitems, setlistitems] = useState([]);
+  const [nickname, setNickname] = useState("Username");
+  const [desc, setDesc] = useState("Description");
+  const [imageUrl, setImageUrl] = useState("");
+  const [orderkey, setOrderkey] = useState(0);
+  const [targettData, setTargettData] = useState();
   const [isOwner, setIsOwner] = useState(false);
-  const [myAddress, setMyAddress] = useState()
+  const [myAddress, setMyAddress] = useState();
 
-  const {userData, isloggedin, walletAddress} = useSelector((state) => state.user);
+  const { userData, isloggedin, walletAddress } = useSelector(
+    (state) => state.user
+  );
 
-  useEffect(()=>{
-    if (targetData){
-      setTargettData(targetData)
-      if (walletAddress == address){
-        setIsOwner(true)
-      }else{
-        setIsOwner(false)
+  useEffect(() => {
+    if (targetData) {
+      setTargettData(targetData);
+      if (walletAddress == address) {
+        setIsOwner(true);
+      } else {
+        setIsOwner(false);
       }
-    }else{
-      console.log('no target')
-      if (userData instanceof Object && userData['myinfo_maria'] !== undefined){
-        setTargettData(userData.myinfo_maria)
+    } else {
+      console.log("no target");
+      if (
+        userData instanceof Object &&
+        userData["myinfo_maria"] !== undefined
+      ) {
+        setTargettData(userData.myinfo_maria);
       }
     }
-  })
-  useEffect(()=>{
-    if (targettData){
-      setNickname(targettData.nickname)
-      setDesc(targettData.description)
-      setImageUrl(targettData.profileimageurl)
-      setMyAddress(targettData.username)
+  });
+  useEffect(() => {
+    if (targettData) {
+      setNickname(targettData.nickname);
+      setDesc(targettData.description);
+      setImageUrl(targettData.profileimageurl);
+      setMyAddress(targettData.username);
     }
-  },[targettData])
-  
+  }, [targettData]);
 
   // useEffect(()=>{
   //   if (userData instanceof Object && userData['myinfo_maria'] !== undefined){
@@ -67,11 +69,47 @@ export default function MyPageHeader({address, targetData}) {
   //     setImageUrl(userData.myinfo_maria.profileimageurl)
   //   }
   // }, [userData])
+
+  if (isMobile)
+    return (
+      <MMyPageHeader>
+        <header className="myProfHeader">
+          <div
+            className="bg"
+            style={{
+              backgroundImage: `url(${home_bg})`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+            }}
+          />
+
+          <div className="contBox">
+            <img className="profImg" src={imageUrl}/>
+            <div className="btnBox">
+              <button className="" onClick={() => {}}>
+                <img src={re} alt="" />
+              </button>
+              <button className="" onClick={() => {}}>
+                <img src={share} alt="" />
+              </button>
+            </div>
+
+            <div className="infoBox">
+              <strong className="title">{nickname}' Items</strong>
+              <p className="address">{strDot(myAddress, 5, 5)}</p>
+              <p className="introduce">
+                {desc}
+              </p>
+            </div>
+          </div>
+        </header>
+      </MMyPageHeader>
+    );
+  else
     return (
       <>
-
         <PMyPageHeader style={{ padding: toggleFilter && "120px 0 0 350px" }}>
-
           <header className="myProfHeader">
             <div
               className="bg"
@@ -97,20 +135,16 @@ export default function MyPageHeader({address, targetData}) {
               <div className="infoBox">
                 <strong className="title">{nickname}'s Items</strong>
                 <p className="address">{strDot(myAddress, 5, 5)}</p>
-                <p className="introduce">
-                  {desc}
-                </p>
+                <p className="introduce">{desc}</p>
               </div>
             </div>
           </header>
-
-          
         </PMyPageHeader>
       </>
     );
 }
 
-const MsearchWallet = styled.div`
+const MMyPageHeader = styled.div`
   padding: 72px 0 0 0;
   position: relative;
 

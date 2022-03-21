@@ -83,7 +83,157 @@ export default function MyOffers() {
 
 
 
+  if (isMobile)
+  return (
+    <>
+      <DefaultHeader />
 
+      {toggleFilter ? (
+        <MypageFilter off={setToggleFilter} />
+      ) : (
+        <button
+          className="filterBtn mo withBg"
+          onClick={() => setToggleFilter(true)}
+        >
+          <p>Filter</p>
+          <img src={filter_icon2} alt="" />
+        </button>
+      )}
+
+      <Moffers>
+        <section className="innerBox">
+
+          <article className="detailCategoryArea">
+            <ul className="detailCategoryList">
+              <li
+                className={detailCategory === 0 && "on"}
+                onClick={() => setDetailCategory(0)}
+              >
+                Participation in auction
+              </li>
+              <li
+                className={detailCategory === 1 && "on"}
+                onClick={() => setDetailCategory(1)}
+              >
+                Bid proposal
+              </li>
+            </ul>
+          </article>
+
+          <article className="selectedBox">
+            <ul className="selectedList">
+              <li className="resetBtn" onClick={() => {}}>
+                Filter reset
+              </li>
+
+              <li>
+                Klaytn
+                <img src={I_x} alt="" />
+              </li>
+
+              <li>
+                <span className="blank" />
+                KLAY
+                <img src={I_x} alt="" />
+              </li>
+              {/* {filterList.map((cont, index) => (
+                <li key={index} onClick={() => onclickFilterCancel(cont)}>
+                  <span className="blank" />
+                  {cont}
+                  <img src={I_x} alt="" />
+                </li>
+              ))} */}
+            </ul>
+          </article>
+
+          <article className="listBox">
+            <ul className="listHeader">
+              <li>Item</li>
+              <li>Price</li>
+              <li>Quantify</li>
+              {detailCategory===0 &&(<li>Seller</li>)}
+              {detailCategory===1 &&(<li>Bidder</li>)}
+              <li>Expiration</li>
+              <li>State</li>
+            </ul>
+
+            {detailCategory ===0 &&(
+              <ul className="list">
+                {biddingList.map((cont, index) => {
+                  return (
+                    <li key={index}>
+                      <span>
+                        <img className="profImg" src={cont.item.url}/>
+                        <p>{cont.item?.titlename}</p>
+                      </span>
+
+                      <span>
+                        <img className="tokenImg" src={I_klaytn} />
+                        <p className="price">{cont.ress.price} KLAY</p>
+                      </span>
+
+                      <span>
+                        <p>3</p>
+                      </span>
+
+                      <span>
+                        <img className="profImg" src={cont.sellerInfo.profileimageurl}/>
+                        <p>{cont.ress.seller}</p>
+                      </span>
+
+                      <span>
+                        <p>{moment.unix(cont.ress.expiry).fromNow()}</p>
+                      </span>
+
+                      <span>
+                        <p>-</p>
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>)}
+
+              {detailCategory ===1 &&(
+              <ul className="list">
+                {proposalList.map((cont, index) => {
+                  return (
+                    <li key={index}>
+                      <span>
+                        <img className="profImg" src={cont.item.url}/>
+                        <p>{cont.item?.titlename}</p>
+                      </span>
+
+                      <span>
+                        <img className="tokenImg" src={I_klaytn} />
+                        <p className="price">{cont.ress.price} KLAY</p>
+                      </span>
+
+                      <span>
+                        <p>3</p>
+                      </span>
+
+                      <span>
+                        <img className="profImg" src={cont.sellerInfo.profileimageurl}/>
+                        <p>{cont.ress.seller}</p>
+                      </span>
+
+                      <span>
+                        <p>{moment.unix(cont.ress.expiry).fromNow()}</p>
+                      </span>
+
+                      <span>
+                        <p>-</p>
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>)}
+          </article>
+        </section>
+      </Moffers>
+    </>
+  );
+else
     return (
       <>
         <DefaultHeader />
@@ -385,6 +535,181 @@ const Poffers = styled.div`
 
         &:nth-of-type(6) {
           flex: 1;
+          text-align: center;
+        }
+      }
+    }
+  }
+`;
+
+const Moffers = styled.div`
+  padding: 72px 0 0 0;
+  position: relative;
+
+  .innerBox {
+    margin: 0 auto;
+
+    .detailCategoryArea {
+      padding: 8.33vw 5.55vw 0 5.55vw;
+      border-top: 1px solid #e1e1e1;
+
+      .detailCategoryList {
+        display: flex;
+        height: 13.33vw;
+        font-size: 3.88vw;
+        font-weight: 700;
+        background: #f6f6f6;
+        border-radius: 7.77vw;
+
+        li {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          border-radius: 7.77vw;
+          cursor: pointer;
+
+          &.on {
+            color: #fff;
+            background: #000;
+          }
+        }
+      }
+    }
+
+    .selectedBox {
+      padding: 0 5.55vw;
+      margin: 2.77vw 0 0 0;
+
+      .selectedList {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3.88vw 2.22vw;
+
+        li {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 2.77vw;
+          height: 11.66vw;
+          padding: 0 5vw;
+          font-size: 4.44vw;
+          font-weight: 500;
+          white-space: nowrap;
+          border: solid 1px #d9d9d9;
+          border-radius: 12.22vw;
+          cursor: pointer;
+
+          &.resetBtn {
+            justify-content: center;
+            color: #fff;
+            background: #000;
+            border: none;
+          }
+
+          .blank,
+          img {
+            width: 3.88vw;
+          }
+        }
+      }
+    }
+
+    .listBox {
+      display: flex;
+      flex-direction: column;
+      margin: 5.55vw;
+      font-weight: 500;
+      border: 1px solid #000;
+      border-radius: 5.55vw;
+      overflow: scroll;
+
+      .listHeader {
+        display: flex;
+        align-items: center;
+        height: 10vw;
+        padding: 0 1.11vw;
+        font-size: 3.88vw;
+        font-weight: 500;
+
+        li {
+        }
+      }
+
+      .list {
+        padding: 0 1.11vw;
+        font-size: 3.88vw;
+
+        li {
+          display: flex;
+          align-items: center;
+          height: 13.33vw;
+          border-top: 1px solid #d9d9d9;
+
+          .profImg {
+            width: 6.66vw;
+            height: 6.66vw;
+            object-fit: cover;
+            background: #000;
+            border-radius: 50%;
+          }
+
+          .tokenImg {
+            width: 6.66vw;
+            height: 6.66vw;
+            object-fit: contain;
+          }
+
+          p {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+
+      .listHeader li,
+      .list li span {
+        display: flex;
+        align-items: center;
+        gap: 1.11vw;
+
+        &:nth-of-type(1) {
+          width: 30.55vw;
+          min-width: 30.55vw;
+          padding: 0 1.11vw;
+        }
+
+        &:nth-of-type(2) {
+          width: 30.55vw;
+          min-width: 30.55vw;
+        }
+
+        &:nth-of-type(3) {
+          justify-content: center;
+          width: 30.55vw;
+          min-width: 30.55vw;
+          text-align: center;
+        }
+
+        &:nth-of-type(4) {
+          width: 30.55vw;
+          min-width: 30.55vw;
+          padding: 0 1.11vw;
+        }
+
+        &:nth-of-type(5) {
+          width: 30.55vw;
+          min-width: 30.55vw;
+          padding: 0 1.11vw;
+        }
+
+        &:nth-of-type(6) {
+          justify-content: center;
+          width: 22.22vw;
+          min-width: 22.22vw;
           text-align: center;
         }
       }

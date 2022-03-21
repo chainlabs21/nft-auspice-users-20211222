@@ -94,9 +94,23 @@ const codelist=['all'
   const [filterprops, setFilterprops] =useState()
   const [itemSort, setItemSort] =useState(0);
   const [selectedFilter, setSelectedFilter] = useState(0)
+  const [categoryPopup, setCategoryPopup] = useState(false)
+  const [categoryGroup, setCategoryGroup] = useState([])
 
+//GET CATEGORIES
   useEffect(()=>{
+    setCategoryGroup([])
+    axios.get(`${API.API_GET_ITEM_CATEGORIES}`).then((resp)=>{
+      let categories = resp.data.list
+      categories.map((v, i)=>{
+        setCategoryGroup(pre=> [...pre, {code:v.category, text: v.textdisp}])
+      })
 
+    })
+  },[])
+
+  //Let Load Videos
+  useEffect(()=>{
       var video = document.getElementById('video');
       if (video) video.load()
       
@@ -122,7 +136,6 @@ const codelist=['all'
   }
   const handleMore=()=>{
     setiindex(iindex+16)
-   // getItem(category, filters)
   }
 
   const handleBundle=(e)=>{
@@ -160,20 +173,20 @@ const codelist=['all'
     }
   }
 
-  function onClickBookMarkBtn(e, itemid) {
-    e.preventDefault();
+  // function onClickBookMarkBtn(e, itemid) {
+  //   e.preventDefault();
 
-    axios.post(`${API.API_TOGGLE_BOOKMARK}/${itemid}`).then((resp) => {
-      LOGGER("", resp.data);
-      let { status, message } = resp.data;
-      if (status === "OK") {
-        getItem()
-        } else if (message === "PLEASE-LOGIN") {
-          SetErrorBar("로그인을 해주세요");
+  //   axios.post(`${API.API_TOGGLE_BOOKMARK}/${itemid}`).then((resp) => {
+  //     LOGGER("", resp.data);
+  //     let { status, message } = resp.data;
+  //     if (status === "OK") {
+  //       getItem()
+  //       } else if (message === "PLEASE-LOGIN") {
+  //         SetErrorBar("로그인을 해주세요");
         
-      }
-    });
-  }
+  //     }
+  //   });
+  // }
 
   //Fetch new items by detecting changes on marketFilter and category and location.
   useEffect(async ()=>{
@@ -296,6 +309,21 @@ const codelist=['all'
                   )}
                 </div>
               </div>
+              <div className="lg-posBox">
+                  <button
+                    className="selectBtn"
+                    onClick={() => setCategoryPopup(true)}
+                  >
+                    <p>{D_sortFilter[itemSort]}</p>
+                    <img src={I_dnArrow} alt="" />
+                  </button>
+                  {categoryPopup && (
+                    <>
+                      <SelectPopup off={setCategoryPopup} contList={categoryGroup} selectCont={e=>handleSort(e)} />
+                      <PopupBg off={setCategoryPopup} />
+                    </>
+                  )}
+                </div>
             </article>
 
             <article className="selectedBox">
@@ -353,12 +381,12 @@ const codelist=['all'
                         <p>{v?.item?.countfavors}</p>
                       </button>
 
-                      <button
+                      {/* <button
                         className="bookmarkBtn"
                         // onClick={(e) => onClickBookMarkBtn(e, cont.itemid)}
                       >
                         <img src={v.ididbookmark ? star_on : star_off} alt="" />
-                      </button>
+                      </button> */}
                     </div>
 
                     <p className="title">{v.item?.titlename}</p>
@@ -452,14 +480,27 @@ const codelist=['all'
             </article>
 
             <ul className="cateogryList">
-              {D_categoryList.map((cont, index) => (
-                <li key={index} 
-                className={(category==cont.code)?'on':''} 
-                onClick={()=>{dispatch({type: SET_CATEGORY, payload: {value: cont.code}});
-                navigate(`/marketplace/${cont.code}`)}}>
-                  {cont.name}
+              {
+
+                categoryGroup.map((v,i)=>(
+                  <li key={i}
+                  className={(category==v.code)?'on':''}
+                  onClick={()=>{
+                    dispatch({type: SET_CATEGORY, payload: {value: v.code}});
+                    navigate(`/marketplace/${v.code}`)}}>
+                  {v.text}
                   </li>
-              ))}
+                ))
+              
+              //   categoryGroup.map((cont, index) => (
+              //   <li key={index} 
+              //   className={(category==cont.code)?'on':''} 
+              //   onClick={()=>{dispatch({type: SET_CATEGORY, payload: {value: cont.code}});
+              //   navigate(`/marketplace/${cont.code}`)}}>
+              //     {cont.name}
+              //     </li>
+              // ))
+              }
             </ul>
 
             <article className="selectedBox">
@@ -527,12 +568,12 @@ const codelist=['all'
                         <p>{v?.item?.countfavors}</p>
                       </button>
 
-                      <button
+                      {/* <button
                         className="bookmarkBtn"
                          onClick={(e) => onClickBookMarkBtn(e, v.item.itemid)}
                       >
                         <img src={v.ididbookmark ? star_on : star_off} alt="" />
-                      </button>
+                      </button> */}
                     </div>
                     <p className="title">{v.item?.titlename}</p>
                     <p className="nickname">{v.author?.nickname}</p>
@@ -603,6 +644,28 @@ const MmarketPlaceBox = styled.div`
             }
           }
         }
+      }
+      .lg-posBox{
+        flex: 1;
+
+          button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 13.33vw;
+            padding: 0 20px;
+            font-size: 3.88vw;
+            font-weight: 500;
+            border: solid 1px #d9d9d9;
+            border-radius: 6.66vw;
+
+            img {
+              width: 20px;
+            }
+          }
+        
+
       }
     }
 

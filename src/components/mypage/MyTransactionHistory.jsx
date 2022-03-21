@@ -143,6 +143,118 @@ export default function MyTransactionHistory({address}) {
     },
     [address]
   );
+
+  if (isMobile)
+    return (
+      <>
+        <DefaultHeader />
+
+        {toggleFilter ? (
+          <TransactionHistoryFilter off={setToggleFilter} />
+        ) : (
+          <button
+            className="filterBtn mo withBg"
+            onClick={() => setToggleFilter(true)}
+          >
+            <p>Filter</p>
+            <img src={filter_icon2} alt="" />
+          </button>
+        )}
+
+        <MtransactionHistory>
+          <section className="innerBox">
+
+            <article className="selectedBox">
+              <ul className="selectedList">
+                <li className="resetBtn" onClick={() => {}}>
+                  Filter reset
+                </li>
+
+                <li>
+                  Klaytn
+                  <img src={I_x} alt="" />
+                </li>
+
+                <li>
+                  <span className="blank" />
+                  KLAY
+                  <img src={I_x} alt="" />
+                </li>
+                { Object.keys(statusFilter)
+                .map((v, i)=>{
+                  if (statusFilter[v]){
+                    return(<li key={i} onClick={() => {setReset({...statusFilter, [v]: !statusFilter[v]})}}>
+                        <span className="blank" />
+                        {FILTER_MAP[v]}
+                        <img src={I_x} alt="" />
+                      </li>);
+                    }
+                  })
+                }
+                {/* {filterList.map((cont, index) => (
+                  <li key={index} onClick={() => onclickFilterCancel(cont)}>
+                    <span className="blank" />
+                    {cont}
+                    <img src={I_x} alt="" />
+                  </li>
+                ))} */}
+              </ul>
+            </article>
+
+            <article className="listBox">
+              <ul className="listHeader">
+                <li>Event</li>
+                <li>Item</li>
+                <li>Price</li>
+                <li>From</li>
+                <li>To</li>
+                <li>Date</li>
+                <li>Quantify</li>
+                <li></li>
+              </ul>
+
+              <ul className="list">
+              {
+                  dataList.map((cont, index)=>(
+                    <li key={index}>
+                      <span>{/**EVENTTYPEEVENT_MAP[cont.transaction.typestr]*/cont.buyer == address?"BOUGHT":"SOLD"}</span>
+                      <span onClick={()=>{navigate(
+                                      `/singleitem?itemid=${cont.itemid}`
+                                    );}}>{/* itemImage */}
+                        {cont.item_info?.typestr=='image'&&(<img className="profImg" src={cont.item_info.url}/>)}
+                        {cont.item_info?.typestr=='video'&&(<video className="profImg" src={cont.item_info.url}/>)}
+                        <p>{cont.itemid}</p>
+                      </span>
+                      <span>{/**price*/}
+                      <img className="tokenImg" src={I_klaytn} />
+                        <p className="price">{cont.price} KLAY</p></span>
+                      <span>{/**from */}
+                      <img className="profImg" src={cont.seller_info?.profileimageurl}/>
+                        <p>{cont.seller}</p>
+                      </span>
+                      <span>{/**to*/}
+                      <img className="profImg" src={cont.buyer_info?.profileimageurl}/>
+                        <p>{cont.buyer}</p></span>
+                      <span>{/* date*/}
+                        <p>{moment(cont.createdat).fromNow()}</p>
+                      </span>
+                      <span>{/**quantity*/}
+                      {cont.amount}</span>
+                      <span>{/**tx Link*/}
+                        <button className="" onClick={() => {}}>
+                          <img src={icon_link_on} alt="" />
+                        </button>
+                      </span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </article>
+          </section>
+        </MtransactionHistory>
+      </>
+    );
+  else
     return (
       <>
       {

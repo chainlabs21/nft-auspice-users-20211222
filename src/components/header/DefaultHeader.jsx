@@ -43,9 +43,18 @@ export default function DefaultHeader(props) {
   const ssearch = useSelector((state)=>state.filter.search)
   const [search, setSearch] = useState('')
   const [mMenuPopup, setMenuPopup] = useState(false);
-  useEffect(()=>
-  {
+  const [categoryGroup, setCategoryGroup]=useState([])
+
+  useEffect(()=>{
     setSearch(ssearch)
+    setCategoryGroup([])
+    axios.get(`${API.API_GET_ITEM_CATEGORIES}`).then((resp)=>{
+      let categories = resp.data.list
+      categories.map((v, i)=>{
+        setCategoryGroup(pre=> [...pre, {code:v.category, text: v.textdisp}])
+      })
+
+    })
   },[])
 
   function onClickConnectWallet() {
@@ -131,7 +140,22 @@ export default function DefaultHeader(props) {
                   </button>
 
                   <ul className="popupBox marketPlace">
-                    {marketPlacePopupList.map((cont, index) => (
+                    {
+                      categoryGroup.map((cont, index)=>{
+                        if(index==0){return;}
+                        else return(<li
+                        key={index}
+                        onClick={() =>
+                          navigate("/marketplace/"+cont.code)
+                        }
+                      >
+                        <img className="offImg" src={cont.offImg} alt="" />
+                        <img className="onImg" src={cont.onImg} alt="" />
+                        <p>{cont.text}</p>
+                      </li>)
+})
+                    }
+                    {/* {marketPlacePopupList.map((cont, index) => (
                       <li
                         key={index}
                         onClick={() =>
@@ -142,7 +166,7 @@ export default function DefaultHeader(props) {
                         <img className="onImg" src={cont.onImg} alt="" />
                         <p>{cont.text}</p>
                       </li>
-                    ))}
+                    ))} */}
                   </ul>
                 </span>
               </li>

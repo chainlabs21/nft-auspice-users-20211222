@@ -12,11 +12,14 @@ import star_on from "./img/sub/star_on.png";
 import verse_logo from "./img/sub/verse_logo.png";
 import I_dnPolygon from "./img/icons/I_dnPolygon.svg";
 import home_bg from "./img/sub/home_bg.png";
-import I_klaytn from "./img/sub/I_klaytn.svg"
+import I_klaytn from "./img/sub/I_klaytn.svg";
 import UsersBox from "./components/main/UsersBox";
 import SitemBox from "./components/main/SitemBox";
 import BitemBox from "./components/main/BitemBox";
 import LinkBox from "./components/main/LinkBox";
+import MBitemBox from "./components/main/Mobile/MBitemBox";
+import MUsersBox from "./components/main/Mobile/MUsersBox";
+import MSitemBox from "./components/main/Mobile/MSitemBox";
 
 import { LOGGER, gettimestr, get_deltatime_str } from "./util/common";
 import { applytoken } from "./util/rest";
@@ -33,8 +36,8 @@ export default function Main({ store }) {
   const navigate = useNavigate();
 
   const isMobile = useSelector((state) => state.common.isMobile);
-  const {marketFilter} = useSelector((state) => state.filter);
-  const {isloggedin} =useSelector((state)=>state.user)
+  const { marketFilter } = useSelector((state) => state.filter);
+  const { isloggedin } = useSelector((state) => state.user);
 
   const visualSwiperRef = useRef();
   const collectionSwiperRef = useRef();
@@ -52,243 +55,30 @@ export default function Main({ store }) {
   let [list_newitems, setlist_newitems] = useState([]);
   let [list_trenditems, setlist_trenditems] = useState([]);
   let [list_featured, setlist_featured] = useState([]);
-  const [featuredCat, setFeaturedCat] =useState([]);
+  const [featuredCat, setFeaturedCat] = useState([]);
   let axios = applytoken();
   const dispatch = useDispatch();
-  useEffect((_) => {
-    axios.get(`${API.API_GET_MAINCATEGORY}`).then((resp=>{
-      let {list} = resp.data;
-      LOGGER("CONCONCON", list)
-      setFeaturedCat(list)
 
-    }))
-    axios.get(`${API.API_MAIN_FEATURED_ITEMS}`).then((resp) => {
-      let { status, list } = resp.data;
-      if (status === "OK") {
-        console.log(list)
-        setlist_featured(list);
-      }
-    });
-
-    axios.get(`${API.API_GET_CREATORS}`).then((resp) => {
-      let { status, list } = resp.data;
-      if (status === "OK") {
-        setCreatorList(list);
-        console.log(list)
-      }
-    });
-
-    axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
-      LOGGER("JN8wsASyiL", resp.data);
-      let { status, list } = resp.data;
-      if (status === "OK") {
-        setlist_trenditems(list);
-      }
-    });
-
-    axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
-      LOGGER("JBwpoHdvFv", resp.data);
-      let { status, list } = resp.data;
-      if (status === "OK") {
-        setlist_newitems(list);
-      }
-    });
-  }, []);
-
-  function onClickFavorBtn(e, itemid) {
-    e.stopPropagation();
-    LOGGER("CodOU75E5r");
-    axios.post(`${API.API_TOGGLE_FAVOR}/${itemid}`).then((resp) => {
-      LOGGER("", resp.data);
-      let { status, respdata, message } = resp.data;
-
-      if (status === "OK") {
-        axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
-          LOGGER("JN8wsASyiL", resp.data);
-          let { status, list } = resp.data;
-          if (status === "OK") {
-            setlist_trenditems(list);
-          }
-        });
-
-        axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
-          LOGGER("JBwpoHdvFv", resp.data);
-          let { status, list } = resp.data;
-          if (status === "OK") {
-            setlist_newitems(list);
-          }
-        });
-      } else if (message === "PLEASE-LOGIN") {
-        SetErrorBar("로그인을 해주세요");
-      }
-    });
-  }
-
-  function onClickBookMarkBtn(e, itemid) {
-    e.preventDefault();
-
-    axios.post(`${API.API_TOGGLE_BOOKMARK}/${itemid}`).then((resp) => {
-      LOGGER("", resp.data);
-      let { status, message } = resp.data;
-      if (status === "OK") {
-        if (status === "OK") {
-          axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
-            LOGGER("JN8wsASyiL", resp.data);
-            let { status, list } = resp.data;
-            if (status === "OK") {
-              setlist_trenditems(list);
-            }
-          });
-
-          axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
-            LOGGER("JBwpoHdvFv", resp.data);
-            let { status, list } = resp.data;
-            if (status === "OK") {
-              setlist_newitems(list);
-            }
-          });
-        } else if (message === "PLEASE-LOGIN") {
-          SetErrorBar("로그인을 해주세요");
-        }
-      }
-    });
-  }
-
-  function onClickVisualSwiperBtn() {
-    if (visualSwiperRef.current?.scrollTo) {
-      if (visualSwiperIndex < visualSwiperRef.current.children.length - 1) {
-        visualSwiperRef.current.style.transform = `translate3d(
-          -${
-            (visualSwiperRef.current.children[0].offsetWidth +
-              getStyle(visualSwiperRef, "gap")) *
-            (visualSwiperIndex + 1)
-          }px,0,0
-        )`;
-
-        setVisualSwiperIndex(visualSwiperIndex + 1);
-      } else {
-        setVisualSwiperIndex(0);
-        visualSwiperRef.current.style.transform = `translate3d(
-          0,0,0
-        )`;
-      }
-    }
-
-    // if (window.innerWidth < 1280) {
-    //   if (visualSwiperRef.current?.scrollTo) {
-    //     if (visualSwiperIndex < visualSwiperRef.current.children.length - 1) {
-    //       visualSwiperRef.current.style.transform = `translate3d(
-    //       -${
-    //         visualSwiperRef.current.children[0].offsetWidth *
-    //         (visualSwiperIndex + 1)
-    //       }px,0,0
-    //     )`;
-
-    //       setVisualSwiperIndex(visualSwiperIndex + 1);
-    //     } else {
-    //       setVisualSwiperIndex(0);
-    //       visualSwiperRef.current.style.transform = `translate3d(
-    //       0,0,0
-    //     )`;
-    //     }
-    //   }
-    // } else {
-    //   if (visualSwiperRef.current) visualSwiperRef.current.style.transform = "";
-    //   if (visualSwiperIndex < creatorlist.length - 1)
-    //     setVisualSwiperIndex(visualSwiperIndex + 1);
-    //   else setVisualSwiperIndex(0);
-    // }
-  }
-
-  function onClickSwiperPreBtn(swiperRef, items, index, setIndex) {
-    const wrapWidth = swiperRef.current.offsetWidth;
-    const contWidth = swiperRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(items.length / itemNumByPage);
-    console.log(index);
-
-    if (index > 0) setIndex(index - 1);
-    else setIndex(pageNum - 1);
-  }
-
-  function onClickSwiperNextBtn(swiperRef, items, index, setIndex) {
-    const wrapWidth = swiperRef.current.offsetWidth;
-    const contWidth = swiperRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(items.length / itemNumByPage);
-
-    if (index < pageNum - 1) setIndex(index + 1);
-    else setIndex(0);
-  }
-
-  function handlerByIndex(swiperRef, index) {
-    if(!swiperRef.current) return;
-    if (!swiperRef.current.children[0]) return;
-
-    const wrapWidth = swiperRef.current.offsetWidth;
-    const contWidth = swiperRef.current.children[0].offsetWidth;
-    const itemNumByPage = Math.floor(wrapWidth / contWidth);
-    const pageNum = Math.ceil(
-      swiperRef.current.children.length / itemNumByPage
-    );
-
-    if (swiperRef.current?.scrollTo) {
-      if (index < pageNum) {
-        swiperRef.current.scrollTo({
-          left:
-            (contWidth + getStyle(swiperRef, "gap")) * itemNumByPage * index,
-          behavior: "smooth",
-        });
-      } else {
-        swiperRef.current.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-      }
-    }
-  }
+  const [categoryGroup, setCategoryGroup] = useState([]);
 
   useEffect(() => {
-    if(!visualSwiperRef.current) return;
-    if (!visualSwiperRef.current.children[0]) return;
+    setCategoryGroup([]);
+    axios.get(`${API.API_GET_ITEM_CATEGORIES}`).then((resp) => {
+      let categories = resp.data.list;
+      categories.map((v, i) => {
+        setCategoryGroup((pre) => [
+          ...pre,
+          { code: v.category, text: v.textdisp },
+        ]);
+      });
+    });
 
-    const contWidth = visualSwiperRef.current.children[0].offsetWidth;
-    const pageNum = Math.ceil(visualSwiperRef.current.children.length);
-
-    if (visualSwiperRef.current?.scrollTo) {
-      if (visualSwiperIndex < pageNum) {
-        visualSwiperRef.current.scrollTo({
-          left: contWidth * visualSwiperIndex,
-          behavior: "smooth",
-        });
-      } else {
-        visualSwiperRef.current.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-      }
-    }
-
-    if (visualSwiperRef.current.children.length) {
-      if (intervalId) clearInterval(intervalId);
-      setIntervalId(setInterval(onClickVisualSwiperBtn, 3000));
-    }
-    return clearInterval(intervalId);
-  }, [visualSwiperIndex]);
-
-  useEffect(
-    () => handlerByIndex(collectionSwiperRef, collectionIndex),
-    [collectionIndex]
-  );
-
-  useEffect(
-    () => handlerByIndex(trendingSwiperRef, trendingItemIndex),
-    [trendingItemIndex]
-  );
-
-  useEffect(() => handlerByIndex(itemSwiperRef, itemIndex), [itemIndex]);
-
-  useEffect(() => handlerByIndex(tipWrapRef, tipIndex), [tipIndex]);
+    axios.get(`${API.API_GET_MAINCATEGORY}`).then((resp) => {
+      let { list } = resp.data;
+      LOGGER("CONCONCON", list);
+      setFeaturedCat(list);
+    });
+  }, []);
 
   if (isMobile)
     return (
@@ -296,414 +86,36 @@ export default function Main({ store }) {
         <DefaultHeader />
         <MmainBox>
           <section className="innerBox">
-            <article className="visual">
-              <div className="titleContainer">
-                <div className="titleBox">
-                  <img className="titleImg" src={title} />
-                  <p className="explain">
-                    Make money with NFTs that are easily issued and managed.
-                    <br /> Only in your own NFT gallery
-                  </p>
-                </div>
-
-                <div className="btnBox">
-                  <button
-                    className="navBtn"
-                    onClick={() => navigate("/marketplace")}
-                  >
-                    NFT Navigation
-                  </button>
-                  <button
-                    className="pubBtn"
-                    onClick={() => navigate("/createitem")}
-                  >
-                    NFT Publication
-                  </button>
-                </div>
-              </div>
-
-              <div className="swiperContainer">
-                <div className="swiperBox">
-                  <ul className="swiperList" ref={visualSwiperRef}>
-                    {list_featured
-                      .sort((a, b) => (a.createdat < b.createdat ? +1 : -1))
-                      .map((cont, index) => (
-                        <li className="swiperContBox" key={index}>
-                          <span
-                            className="itemImg"
-                            style={{
-                              backgroundImage: `url(${cont.url})`,
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                              backgroundSize: "cover",
-                            }}
-                          />
-
-                          <div className="infoContainer">
-                            <div className="titleBox">
-                              <strong className="title">
-                                {cont.titlename}
-                              </strong>
-                              <strong>{cont.username}</strong>
-                            </div>
-
-                            <div className="infoBox">
-                              <ul className="infoList">
-                                <li>
-                                  <strong className="key">Current Bid</strong>
-                                  <p className="value">2.867 KLAY</p>
-                                </li>
-                                <li>
-                                  <strong className="key">
-                                    Auction ending in
-                                  </strong>
-                                  <p className="value">05:32:21</p>
-                                </li>
-                              </ul>
-
-                              <div className="btnBox">
-                                <button
-                                  className="bidBtn"
-                                  onClick={() =>
-                                    navigate(
-                                      `/singleitem?itemid=${cont.itemid}`
-                                    )
-                                  }
-                                >
-                                  Place a Bid
-                                </button>
-                                <button
-                                  className="viewBtn"
-                                  onClick={() =>
-                                    navigate(
-                                      `/singleitem?itemid=${cont.itemid}`
-                                    )
-                                  }
-                                >
-                                  View Artwork
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-
-                <button className="nextBtn" onClick={onClickVisualSwiperBtn}>
-                  <img src={I_rtArw3BlackBtn} alt="" />
-                </button>
-              </div>
-            </article>
-
-            <article className="collectionArticle swiperArticle contArticle">
-              <strong className="title">Trending Authors</strong>
-
-              <div className="swiperContainer">
-                <div className="swiperBox">
-                  <ul className="swiperList" ref={collectionSwiperRef}>
-                    {creatorlist.map((cont, index) => (
-                      
-                      <li  key={index} className="swiperContBox">
-                        <div
-                          className="bg"
-                          style={{
-                            backgroundImage: `url(${home_bg})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                            background: "#000",
-                          }}
-                        />
-
-                        <div className="infoContainer">
-                          <span
-                            className="profImg"
-                            style={{
-                              backgroundImage: `url(${cont.profileimageurl})`,
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                              backgroundSize: "cover",
-                              background: "#f00",
-                            }}
-                          />
-
-                          <div className="infoBox">
-                            <strong className="store">{cont.storename}</strong>
-                            <strong className="nickname">
-                              {cont?.nickname}
-                            </strong>
-                            <p className="description">
-                              {cont.mongo?.description}
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button
-                    className="nextBtn pageBtn"
-                    onClick={() =>
-                      onClickSwiperNextBtn(
-                        collectionSwiperRef,
-                        creatorlist,
-                        collectionIndex,
-                        setCollectionIndex
-                      )
-                    }
-                  >
-                    <img src={I_rtArw3BlackBtn} alt="" />
-                  </button>
-                </div>
-              </div>
-            </article>
-
-            <article className="categoryArticle contArticle">
-              <strong className="title">Market Category</strong>
-
-              <ul className="categroyList">
-                {D_categoryList.map((category, index) => (
-                  <li
-                    key={index}
-                    onClick={() =>{
-                      dispatchEvent()
-                      navigate("/marketplace", { state: category.state })}
-                    }
-                  >
-                    <strong>{category.text}</strong>
-                  </li>
-                ))}
-              </ul>
-            </article>
-
-            <article className="trendingArticle swiperArticle contArticle">
-              <strong className="title">Trending NFT Item</strong>
-
-              <div className="swiperContainer">
-                <div className="swiperBox">
-                  <ul className="swiperList" ref={trendingSwiperRef}>
-                    {list_trenditems
-                      .filter((elem) => elem.url)
-                      .sort((a, b) => b.countfavors - a.countfavors)
-                      .map((cont, index) => (
-                        <li
-                          key={index}
-                          className="swiperContBox"
-                          onClick={() =>
-                            navigate(`/singleitem?itemid=${cont.itemid}`)
-                          }
-                        >
-                          <div
-                            className="itemBox"
-                            style={{
-                              backgroundImage: `url(${cont.url})`,
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                              backgroundSize: "cover",
-                            }}
-                          >
-                            <div className="infoBox">
-                              <div className="topBar">
-                                <button
-                                  className="likeBtn"
-                                  onClick={(e) =>
-                                    onClickFavorBtn(e, cont.itemid)
-                                  }
-                                >
-                                  <img
-                                    src={
-                                      cont.ilikethisitem ? heart_on : heart_off
-                                    }
-                                    alt=""
-                                  />
-
-                                  <p>{cont.countfavors}</p>
-                                </button>
-
-                                <button
-                                  className="bookmarkBtn"
-                                  onClick={(e) =>
-                                    onClickBookMarkBtn(e, cont.itemid)
-                                  }
-                                >
-                                  <img
-                                    src={cont.ididbookmark ? star_on : star_off}
-                                    alt=""
-                                  />
-                                </button>
-                              </div>
-
-                              <p className="title">{cont.titlename}</p>
-                              <p className="nickname">
-                                {strDot(cont.author?.nickname, 10, 0)}
-                              </p>
-
-                              <div className="etcBox">
-                                <p className="time">
-                                  {moment
-                                    .unix(cont.minpriceorder?.expiry)
-                                    .fromNow() ||
-                                    get_deltatime_str(
-                                      cont.minpriceorder?.expiry
-                                    )}
-                                </p>
-
-                                <strong className="priceBox">
-                                  {cont.askpricestats?.min} KLAY
-                                </strong>
-                              </div>
-                            </div>
-                          </div>
-
-                          <button className="buyBtn" onClick={() => {}}>
-                            Buy Now
-                          </button>
-                        </li>
-                      ))}
-                  </ul>
-
-                  <button
-                    className="nextBtn pageBtn"
-                    onClick={() =>
-                      onClickSwiperNextBtn(
-                        trendingSwiperRef,
-                        list_trenditems,
-                        trendingItemIndex,
-                        setTrendingItemIndex
-                      )
-                    }
-                  >
-                    <img src={I_rtArw3BlackBtn} alt="" />
-                  </button>
-                </div>
-              </div>
-            </article>
-
-            <article className="newArticle swiperArticle contArticle">
-              <strong className="title">NEW NFT Item</strong>
-
-              <div className="swiperContainer">
-                <div className="swiperBox">
-                  <ul className="swiperList" ref={itemSwiperRef}>
-                    {list_newitems
-                      .filter((elem) => elem.url)
-                      .sort((a, b) => b.countfavors - a.countfavors)
-                      .map((cont, index) => (
-                        <li
-                          key={index}
-                          className="swiperContBox"
-                          onClick={() =>
-                            navigate(`/singleitem?itemid=${cont.itemid}`)
-                          }
-                          style={{
-                            backgroundImage: `url(${cont.url})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                          }}
-                        >
-                          <div className="infoBox">
-                            <div className="topBar">
-                              <button
-                                className="likeBtn"
-                                onClick={(e) => onClickFavorBtn(e, cont.itemid)}
-                              >
-                                <img
-                                  src={
-                                    cont.ilikethisitem ? heart_on : heart_off
-                                  }
-                                  alt=""
-                                />
-
-                                <p>{cont.countfavors}</p>
-                              </button>
-
-                              <button
-                                className="bookmarkBtn"
-                                onClick={(e) =>
-                                  onClickBookMarkBtn(e, cont.itemid)
-                                }
-                              >
-                                <img
-                                  src={cont.ididbookmark ? star_on : star_off}
-                                  alt=""
-                                />
-                              </button>
-                            </div>
-
-                            <p className="title">{cont.titlename}</p>
-                            <p className="nickname">
-                              {strDot(cont.author?.nickname, 10, 0)}
-                            </p>
-
-                            <div className="etcBox">
-                              <p className="time">
-                                {moment
-                                  .unix(cont.minpriceorder?.expiry)
-                                  .fromNow() ||
-                                  get_deltatime_str(cont.minpriceorder?.expiry)}
-                              </p>
-
-                              <strong className="priceBox">
-                                {cont.askpricestats?.min} KLAY
-                              </strong>
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                  </ul>
-
-                  <button
-                    className="nextBtn pageBtn"
-                    onClick={() =>
-                      onClickSwiperNextBtn(
-                        itemSwiperRef,
-                        list_newitems,
-                        itemIndex,
-                        setItemIndex
-                      )
-                    }
-                  >
-                    <img src={I_rtArw3BlackBtn} alt="" />
-                  </button>
-                </div>
-              </div>
-            </article>
-
-            <article className="tipArticle swiperArticle contArticle">
-              <strong className="title">Tips for Itemverse users</strong>
-
-              <div className="swiperContainer">
-                <div className="swiperBox">
-                  <ul className="swiperList" ref={tipWrapRef}>
-                    {D_Tips.map((cont, index) => (
-                      <li key={index} className="swiperContBox">
-                        <img src={cont.img} alt="" />
-                        <div className="infoBox">
-                          <p className="title">{cont.title}</p>
-                          <p className="explain">{cont.explain}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button
-                    className="nextBtn pageBtn"
-                    onClick={() =>
-                      onClickSwiperNextBtn(
-                        tipWrapRef,
-                        D_Tips,
-                        tipIndex,
-                        setTipIndex
-                      )
-                    }
-                  >
-                    <img src={I_rtArw3BlackBtn} alt="" />
-                  </button>
-                </div>
-              </div>
-            </article>
+            {featuredCat.map((v, i) => {
+              if (v.type == 3) {
+                return (
+                  <>
+                    <LinkBox category={v} key={i} />
+                  </>
+                );
+              }
+              if (v.type == 2) {
+                return (
+                  <>
+                    <MUsersBox category={v} key={i} />
+                  </>
+                );
+              }
+              if (v.type == 1) {
+                return (
+                  <>
+                    <MSitemBox category={v} key={i} />
+                  </>
+                );
+              }
+              if (v.type == 0) {
+                return (
+                  <>
+                    <MBitemBox category={v} key={i} />
+                  </>
+                );
+              }
+            })}
           </section>
 
           <footer className="footer">
@@ -734,7 +146,7 @@ export default function Main({ store }) {
                 </span>
 
                 <ul className="navBar">
-                  {D_navList.map((cont, index) => (
+                  {/* {D_navList.map((cont, index) => (
                     <li key={index}>
                       <strong className="title">{cont.title}</strong>
 
@@ -751,7 +163,53 @@ export default function Main({ store }) {
                         ))}
                       </ul>
                     </li>
-                  ))}
+                  ))} */}
+                  <li>
+                    <strong className="title">MARKET</strong>
+
+                    <ul className="detailList">
+                      {categoryGroup.map((detail, index) => (
+                        <li key={index}>
+                          <button
+                            className="navBtn"
+                            onClick={() => navigate(`/marketplace/${detail.code}`)}
+                          >
+                            {detail.text}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                  {isloggedin && <li>
+                    <strong className="title">MY ACCOUNT</strong>
+
+                    <ul className="detailList">
+                        <li>
+                          <button
+                            className="navBtn"
+                            onClick={() => navigate(`/mypage/searchwallet`)}
+                          >
+                            MY WALLET
+                          </button>
+                        </li>
+                      
+                    </ul>
+                  </li>}
+                  <li>
+                    <strong className="title">EXPLORE</strong>
+
+                    <ul className="detailList">
+                        <li>
+                          <button
+                            className="navBtn"
+                            onClick={() => navigate(`/exploredealhistory`)}
+                          >
+                            Transaction History
+                          </button>
+                        </li>
+                     
+                    </ul>
+                  </li>
                 </ul>
               </article>
 
@@ -780,26 +238,37 @@ export default function Main({ store }) {
       <>
         <DefaultHeader />
         <PmainBox>
-
-          
           <section className="innerBox">
-          {
-          featuredCat.map((v, i)=>{
-            if(v.type == 3){return (<>
-              <LinkBox category={v} key={i}/>
-            </>)}
-            if(v.type == 2){return (<>
-            <UsersBox category={v} key={i}/>
-            </>)}
-            if(v.type == 1){return (<>
-              <SitemBox category={v} key={i}/>
-            </>)}
-            if(v.type == 0){return (<>
-              <BitemBox category={v} key={i}/>
-            </>)}
-})
-          }
-            
+            {featuredCat.map((v, i) => {
+              if (v.type == 3) {
+                return (
+                  <>
+                    <LinkBox category={v} key={i} />
+                  </>
+                );
+              }
+              if (v.type == 2) {
+                return (
+                  <>
+                    <UsersBox category={v} key={i} />
+                  </>
+                );
+              }
+              if (v.type == 1) {
+                return (
+                  <>
+                    <SitemBox category={v} key={i} />
+                  </>
+                );
+              }
+              if (v.type == 0) {
+                return (
+                  <>
+                    <BitemBox category={v} key={i} />
+                  </>
+                );
+              }
+            })}
           </section>
 
           <footer className="footer">
@@ -820,18 +289,15 @@ export default function Main({ store }) {
               </span>
 
               <ul className="navBar">
-                {D_navList.map((cont, index) => (
-                  <li key={index}>
-                    <strong className="title">{cont.title}</strong>
+              <li>
+                    <strong className="title">MARKET</strong>
 
                     <ul className="detailList">
-                      {cont.detailNav.map((detail, index) => (
+                      {categoryGroup.map((detail, index) => (
                         <li key={index}>
                           <button
                             className="navBtn"
-                            onClick={() => {
-                              dispatch({type: SET_CATEGORY, payload:{value:detail.code}})
-                              navigate(`${detail.url}`)}}
+                            onClick={() => navigate(`/marketplace/${detail.code}`)}
                           >
                             {detail.text}
                           </button>
@@ -839,7 +305,36 @@ export default function Main({ store }) {
                       ))}
                     </ul>
                   </li>
-                ))}
+                  {isloggedin && <li>
+                    <strong className="title">MY ACCOUNT</strong>
+
+                    <ul className="detailList">
+                        <li>
+                          <button
+                            className="navBtn"
+                            onClick={() => navigate(`/mypage/searchwallet`)}
+                          >
+                            MY WALLET
+                          </button>
+                        </li>
+                      
+                    </ul>
+                  </li>}
+                  <li>
+                    <strong className="title">EXPLORE</strong>
+
+                    <ul className="detailList">
+                        <li>
+                          <button
+                            className="navBtn"
+                            onClick={() => navigate(`/exploredealhistory`)}
+                          >
+                            Transaction History
+                          </button>
+                        </li>
+                     
+                    </ul>
+                  </li>
 
                 <li>
                   <strong className="title">CONTACT US</strong>
@@ -2083,17 +1578,17 @@ const PmainBox = styled.div`
                 color: #fff;
                 position: relative;
 
-                .imageBox{
-          position: absolute;
-          top: 0;
-          left: 0;
-          object-fit: cover;
-          height: 100%;
-          width: 100%;
-        }
+                .imageBox {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  object-fit: cover;
+                  height: 100%;
+                  width: 100%;
+                }
 
-        .infoBox {
-          z-index: 9;
+                .infoBox {
+                  z-index: 9;
                   width: 100%;
                   padding: 16px;
                   background: linear-gradient(
@@ -2289,8 +1784,8 @@ const PmainBox = styled.div`
   }
 `;
 
-
-{/* 
+{
+  /* 
 <>
 <article className="visual">
               <div className="titleContainer">
@@ -2760,4 +2255,5 @@ const PmainBox = styled.div`
                 </div>
               </div>
             </article>
-            </> */}
+            </> */
+}

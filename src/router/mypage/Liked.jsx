@@ -132,7 +132,7 @@ export default function Liked() {
                     class="itemBox"
                     onClick={() => {}}
                     style={{
-                      backgroundImage: `url(${cont.item.url})`,
+                      backgroundImage: `url(${cont.item?.url})`,
                       backgroundRepeat: "no-repeat",
                       backgroundPosition: "center",
                       backgroundSize: "cover",

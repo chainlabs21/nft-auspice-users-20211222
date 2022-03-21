@@ -46,7 +46,6 @@ export default function BitemBox({ category }) {
       }
     }
   }
-
   return (
     <PBitemBox>
       <article className="vvisual">

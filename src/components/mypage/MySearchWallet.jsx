@@ -19,20 +19,19 @@ import SelectPopup from "../SelectPopup";
 import { D_itemFilter, D_sortFilter } from "../../data/D_marketPlace";
 import Filter from "../common/DefaultFilter";
 import { strDot } from "../../util/Util";
-import axios from 'axios';
+import axios from "axios";
 import { LOGGER } from "../../util/common";
 import { API } from "../../config/api";
 import { RESET_FILTER, SET_STATUS_FILTER } from "../../reducers/filterReducer";
-import {   D_SStatusList} from "../../data/D_filter"
+import { D_SStatusList } from "../../data/D_filter";
 
-
-export default function SearchWallet({address}) {
+export default function SearchWallet({ address }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
   const isMobile = useSelector((state) => state.common.isMobile);
-  const {marketFilter} = useSelector((state)=> state.filter)
+  const { marketFilter } = useSelector((state) => state.filter);
 
   const [popupIndex, setPopupIndex] = useState(-1);
   const [Filters, setFilters] = useState();
@@ -40,37 +39,37 @@ export default function SearchWallet({address}) {
   const [sortPopup, setSortPopup] = useState(false);
   const [itemFilterPopup, setItemFilterPopup] = useState(false);
   const [toggleFilter, setToggleFilter] = useState(false);
-  let [ listitems , setlistitems ]=useState( [] )
-  const [nickname, setNickname]=useState('Username')
-  const [desc, setDesc]=useState('Description')
-  const [imageUrl, setImageUrl] = useState('')
-  const [orderkey, setOrderkey] = useState(0)
+  let [listitems, setlistitems] = useState([]);
+  const [nickname, setNickname] = useState("Username");
+  const [desc, setDesc] = useState("Description");
+  const [imageUrl, setImageUrl] = useState("");
+  const [orderkey, setOrderkey] = useState(0);
   const [isOwner, setIsOwner] = useState(false);
-  const [targetAddress, setTargetAddress]=useState()
-  const [targettData, setTargettData] = useState()
+  const [targetAddress, setTargetAddress] = useState();
+  const [targettData, setTargettData] = useState();
 
-  const {userData, isloggedin, walletAddress} = useSelector((state) => state.user);
+  const { userData, isloggedin, walletAddress } = useSelector(
+    (state) => state.user
+  );
 
-
-  useEffect(()=>{
-    if (address){
-      setTargetAddress(address)
-      if (walletAddress == address){
-        setIsOwner(true)
-      }else{
-        setIsOwner(false)       
+  useEffect(() => {
+    if (address) {
+      setTargetAddress(address);
+      if (walletAddress == address) {
+        setIsOwner(true);
+      } else {
+        setIsOwner(false);
       }
-    }else{
-      console.log('noaddress found')
-      setTargetAddress(walletAddress)
-      setIsOwner(true)
+    } else {
+      console.log("noaddress found");
+      setTargetAddress(walletAddress);
+      setIsOwner(true);
     }
+  }, [address]);
 
-  },[address])
-
-  useEffect(()=>{
-    fetchitems()
-  }, [targetAddress])
+  useEffect(() => {
+    fetchitems();
+  }, [targetAddress]);
 
   function onClickFavorBtn(e, itemid) {
     e.stopPropagation();
@@ -80,103 +79,96 @@ export default function SearchWallet({address}) {
       let { status, respdata, message } = resp.data;
 
       if (status === "OK") {
-        fetchitems()
+        fetchitems();
       } else if (message === "PLEASE-LOGIN") {
         //SetErrorBar("로그인을 해주세요");
       }
     });
   }
-  useEffect(async ()=>{
-    let listFill=[]
-    await Object.keys(marketFilter.status).forEach((v, i)=>{
-      if (marketFilter.status[v]){
-      listFill.push(D_SStatusList[v].id)
+  useEffect(async () => {
+    let listFill = [];
+    await Object.keys(marketFilter.status).forEach((v, i) => {
+      if (marketFilter.status[v]) {
+        listFill.push(D_SStatusList[v].id);
       }
+    });
+    setFilters(listFill);
+    fetchitems(listFill);
+  }, [marketFilter, orderkey]);
+
+  const handleEnter = (e) => {
+    console.log(e);
+    if (e.code == "Enter") {
+      fetchitems(Filters);
     }
-    )
-    setFilters(listFill)
-    fetchitems(listFill)
-    
-  },[marketFilter, orderkey])
-
-  const handleEnter=(e)=>{
-    console.log(e)
-    if (e.code=='Enter'){
-    fetchitems(Filters)
+  };
+  const handleBundle = (e) => {
+    if (e == 2) {
+      setlistitems([]);
+    } else {
+      fetchitems();
     }
-  }
-  const handleBundle=(e)=>{
-    if(e==2){
-      setlistitems([])
-    }else{
-      fetchitems()
-    }
-  }
+  };
 
-  const handleSort=(e)=>{
-    setOrderkey(e)
-  }
+  const handleSort = (e) => {
+    setOrderkey(e);
+  };
 
-  useEffect(()=>{
-    var video = document.getElementById('video');
-    if (video) video.load()
-},[listitems])
+  useEffect(() => {
+    var video = document.getElementById("video");
+    if (video) video.load();
+  }, [listitems]);
 
+  const fetchitems = (list) => {
+    axios
+      .get(`${API.API_MYITEMS}/${targetAddress}/0/10/id/DESC`, {
+        params: {
+          search,
+          salestatusstr: list,
+          pricemin: marketFilter.min,
+          pricemax: marketFilter.max,
+          //searchKey,
+        },
+      })
+      .then((resp) => {
+        LOGGER("wyBPdUnid7", resp.data);
+        //console.log(resp.data)
+        let { status, list } = resp.data;
+        if (status == "OK") {
+          // itemList = [...itemList, ...list];
+          // setFilteredList([...itemList]);
+          // console.log(resp)
+          // setTotalItem(payload.count);
 
-  const fetchitems=(list)=>{
-		axios.get( `${API.API_MYITEMS}/${targetAddress}/0/10/id/DESC`,{params: {
-      search
-      ,salestatusstr: list,
-      pricemin: marketFilter.min,
-      pricemax: marketFilter.max,
-      //searchKey,
-    },
-  }).then(resp=>{ 
-    LOGGER( 'wyBPdUnid7' , resp.data )
-  //console.log(resp.data)
-			let { status , list }=resp.data 
-			if ( status =='OK' ){
+          console.log(list);
+          setlistitems(list);
+        }
+      });
+  };
 
-        // itemList = [...itemList, ...list];
-        // setFilteredList([...itemList]);
-        // console.log(resp)
-        // setTotalItem(payload.count);
-
-         console.log(list)
-				 setlistitems( list )
-			}
-		})
-	}
-
-  useEffect( _=>{
-		fetchitems([])
-	},[])
+  useEffect((_) => {
+    fetchitems([]);
+  }, []);
 
   //SORTING ITEMS
-  function sortingmachine(a, b){
-    if (orderkey===0){
-      return (b.item.id - a.item.id)
-    }else if (orderkey === 1){
-    return (b.item.countfavors - a.item.countfavors)
-    }else if(orderkey ===2){
-
-    }else if(orderkey ===3){
-      return (b.item.pricemax - a.item.pricemax)
-    }else if(orderkey ===4){
-      return (b.item.pricemin - a.item.pricemin)
-    }else if(orderkey ===5){
-      
-    }
-    else if(orderkey ===6){
-      
-    }
-    else if(orderkey ===7){
-      return (b.item.countviews - a.item.countviews)
-    }else if(orderkey ===8){
-      return (a.item.id - b.item.id)
+  function sortingmachine(a, b) {
+    if (orderkey === 0) {
+      return b.item.id - a.item.id;
+    } else if (orderkey === 1) {
+      return b.item.countfavors - a.item.countfavors;
+    } else if (orderkey === 2) {
+    } else if (orderkey === 3) {
+      return b.item.pricemax - a.item.pricemax;
+    } else if (orderkey === 4) {
+      return b.item.pricemin - a.item.pricemin;
+    } else if (orderkey === 5) {
+    } else if (orderkey === 6) {
+    } else if (orderkey === 7) {
+      return b.item.countviews - a.item.countviews;
+    } else if (orderkey === 8) {
+      return a.item.id - b.item.id;
     }
   }
-
 
   function onClickMoreBtn(e, index) {
     e.stopPropagation();
@@ -184,46 +176,31 @@ export default function SearchWallet({address}) {
   }
 
   const onclickFilterReset = () => {
-    dispatch({type: RESET_FILTER});
-    setSearch('')
-
+    dispatch({ type: RESET_FILTER });
+    setSearch("");
   };
-
-
+  if (isMobile)
     return (
-      
       <>
-      {toggleFilter ? (
-        <Filter off={setToggleFilter} />
-      ) : (
-        <button
-          className="filterBtn pc withBg"
-          onClick={() => setToggleFilter(true)}
-          style={{
+        <DefaultHeader />
 
-              zIndex: "100",
-              top: "30%",
-              marginLeft:"-6px",
-              position: "sticky"
-          }}
-        >
-          <img src={side_close} alt="" />
-        </button>
-      )}
-        <PsearchWallet>
+        <MsearchWallet>
+          {toggleFilter ? (
+            <Filter off={setToggleFilter} />
+          ) : (
+            <button
+              className="filterBtn mo withBg"
+              onClick={() => setToggleFilter(true)}
+              style={{zIndex: '10'}}
+            >
+              <p>Filter</p>
+              <img src={filter_icon2} alt="" />
+            </button>
+          )}
+
           <section className="innerBox">
+
             <article className="topBar">
-              <div className="searchBox">
-                <img src={loupe_black} alt="" />
-
-                <input
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  onKeyPress={handleEnter}
-                  placeholder="Search items, collections, creators"
-                />
-              </div>
-
               <div className="sortBox">
                 <div className="posBox">
                   <button
@@ -239,7 +216,6 @@ export default function SearchWallet({address}) {
                       <SelectPopup
                         off={setItemFilterPopup}
                         contList={D_itemFilter}
-                        selectCont={e=>{handleBundle(e)}}
                       />
                       <PopupBg off={setItemFilterPopup} />
                     </>
@@ -250,40 +226,36 @@ export default function SearchWallet({address}) {
                   <button
                     className="selectBtn"
                     onClick={() => setSortPopup(true)}
-                    //selectCont={e=>handleSort(e)}
                   >
-                    <p>{D_sortFilter[orderkey]}</p>
+                    <p>Latest</p>
                     <img src={I_dnArrow} alt="" />
                   </button>
                   {sortPopup && (
                     <>
-                      <SelectPopup 
-                      off={setSortPopup} 
-                      contList={D_sortFilter} 
-                      selectCont={e=>handleSort(e)}
-                      />
+                      <SelectPopup off={setSortPopup} contList={D_sortFilter} />
                       <PopupBg off={setSortPopup} />
                     </>
                   )}
                 </div>
               </div>
+
+              <div className="searchBox">
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search items, collections, creators"
+                />
+
+                <img src={loupe_black} alt="" />
+              </div>
             </article>
 
             <article className="selectedBox">
               <ul className="selectedList">
-                <li className="resetBtn" onClick={onclickFilterReset}>
+                <li className="resetBtn" onClick={() => {}}>
                   Filter reset
                 </li>
-                { Object.keys(marketFilter.status).map((v, i)=>{
-                  if (marketFilter.status[v]){
-                    return(<li key={i} onClick={() => {dispatch({type: SET_STATUS_FILTER, payload: {key: v}});}}>
-                        <span className="blank" />
-                        {v}
-                        <img src={I_x} alt="" />
-                      </li>);
-                    }
-                  })
-                }
+
                 <li>
                   Klaytn
                   <img src={I_x} alt="" />
@@ -294,31 +266,46 @@ export default function SearchWallet({address}) {
                   KLAY
                   <img src={I_x} alt="" />
                 </li>
-                
+                {/* {filterList.map((cont, index) => (
+                  <li key={index} onClick={() => onclickFilterCancel(cont)}>
+                    <span className="blank" />
+                    {cont}
+                    <img src={I_x} alt="" />
+                  </li>
+                ))} */}
               </ul>
             </article>
 
             <article className="itemListBox">
               <ul className="itemsList">
-                {(listitems.length==0) && 
-                ('등록된 아이템을 확인할 수 없습니다.')
-                }
-                {listitems
-                .sort(sortingmachine)
-                .map((cont, index) => (
-                  <li
-                    key={index}
-                    className="itemBox"
-                    onClick={() => {navigate('/singleItem?itemid='+cont.item?.itemid)}}
-                  >
-                  {cont.item.typestr=="image"&&(<img className="imageBox" src={cont?.item?.url}/>)}
-                  {cont.item.typestr=="video"&&(<video className="imageBox"><source src={cont?.item.url}/></video> )}
-                    <div className="infoBox">
+              {listitems.length == 0 && "등록된 아이템을 확인할 수 없습니다."}
+              {listitems.sort(sortingmachine).map((cont, index) => (
+                <li
+                  key={index}
+                  className="itemBox"
+                  onClick={() => {
+                    navigate("/singleItem?itemid=" + cont.item?.itemid);
+                  }}
+                >
+                  {cont.item.typestr == "image" && (
+                    <img className="imageBox" src={cont?.item?.url} />
+                  )}
+                  {cont.item.typestr == "video" && (
+                    <video className="imageBox">
+                      <source src={cont?.item.url} />
+                    </video>
+                  )}
+                  <div className="infoBox">
                       {popupIndex === index && (
                         <>
                           <ul className="morePopup">
-                            <li onClick={()=>{navigate('/saleItem?itemid='+cont?.item?.itemid)}}>Sale</li>
+                            <li onClick={() => {
+                              navigate(
+                                "/saleItem?itemid=" + cont?.item?.itemid
+                              );
+                            }}>Sale</li>
                             <li>Edit</li>
+
                           </ul>
                           <PopupBg off={setPopupIndex} />
                         </>
@@ -327,32 +314,222 @@ export default function SearchWallet({address}) {
                       <div className="topBar">
                         <button
                           className="likeBtn"
-                          onClick={(e) => onClickFavorBtn(e, cont.item?.itemid)}
+                          // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
                         >
-                          <img src={cont.ilikethisitem ? heart_on : heart_off} alt="" />
+                          <img src={heart_off} alt="" />
 
-                          <p>{cont.item.countfavors}</p>
+                          <p>1,389</p>
                         </button>
 
-                        {isOwner && (<button
+                        <button
                           className="moreBtn"
                           onClick={(e) => onClickMoreBtn(e, index)}
                         >
                           <img src={I_3dot} alt="" />
-                        </button>)}
+                        </button>
                       </div>
 
-                      <p className="nickname">{cont.author?.nickname}</p>
-                      <p className="title">{cont.item?.titlename}</p>
+                      <p className="nickname">Renoir</p>
+                      <p className="title">Verger de pommiers</p>
                     </div>
                   </li>
                 ))}
               </ul>
             </article>
           </section>
-        </PsearchWallet>
+        </MsearchWallet>
       </>
     );
+  else
+
+  return (
+    <>
+      {toggleFilter ? (
+        <Filter off={setToggleFilter} />
+      ) : (
+        <button
+          className="filterBtn pc withBg"
+          onClick={() => setToggleFilter(true)}
+          style={{
+            zIndex: "100",
+            top: "30%",
+            marginLeft: "-6px",
+            position: "sticky",
+          }}
+        >
+          <img src={side_close} alt="" />
+        </button>
+      )}
+      <PsearchWallet>
+        <section className="innerBox">
+          <article className="topBar">
+            <div className="searchBox">
+              <img src={loupe_black} alt="" />
+
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyPress={handleEnter}
+                placeholder="Search items, collections, creators"
+              />
+            </div>
+
+            <div className="sortBox">
+              <div className="posBox">
+                <button
+                  className="selectBtn"
+                  onClick={() => setItemFilterPopup(true)}
+                >
+                  <p>Single Item</p>
+                  <img src={I_dnArrow} alt="" />
+                </button>
+
+                {itemFilterPopup && (
+                  <>
+                    <SelectPopup
+                      off={setItemFilterPopup}
+                      contList={D_itemFilter}
+                      selectCont={(e) => {
+                        handleBundle(e);
+                      }}
+                    />
+                    <PopupBg off={setItemFilterPopup} />
+                  </>
+                )}
+              </div>
+
+              <div className="posBox">
+                <button
+                  className="selectBtn"
+                  onClick={() => setSortPopup(true)}
+                  //selectCont={e=>handleSort(e)}
+                >
+                  <p>{D_sortFilter[orderkey]}</p>
+                  <img src={I_dnArrow} alt="" />
+                </button>
+                {sortPopup && (
+                  <>
+                    <SelectPopup
+                      off={setSortPopup}
+                      contList={D_sortFilter}
+                      selectCont={(e) => handleSort(e)}
+                    />
+                    <PopupBg off={setSortPopup} />
+                  </>
+                )}
+              </div>
+            </div>
+          </article>
+
+          <article className="selectedBox">
+            <ul className="selectedList">
+              <li className="resetBtn" onClick={onclickFilterReset}>
+                Filter reset
+              </li>
+              {Object.keys(marketFilter.status).map((v, i) => {
+                if (marketFilter.status[v]) {
+                  return (
+                    <li
+                      key={i}
+                      onClick={() => {
+                        dispatch({
+                          type: SET_STATUS_FILTER,
+                          payload: { key: v },
+                        });
+                      }}
+                    >
+                      <span className="blank" />
+                      {v}
+                      <img src={I_x} alt="" />
+                    </li>
+                  );
+                }
+              })}
+              <li>
+                Klaytn
+                <img src={I_x} alt="" />
+              </li>
+
+              <li>
+                <span className="blank" />
+                KLAY
+                <img src={I_x} alt="" />
+              </li>
+            </ul>
+          </article>
+
+          <article className="itemListBox">
+            <ul className="itemsList">
+              {listitems.length == 0 && "등록된 아이템을 확인할 수 없습니다."}
+              {listitems.sort(sortingmachine).map((cont, index) => (
+                <li
+                  key={index}
+                  className="itemBox"
+                  onClick={() => {
+                    navigate("/singleItem?itemid=" + cont.item?.itemid);
+                  }}
+                >
+                  {cont.item.typestr == "image" && (
+                    <img className="imageBox" src={cont?.item?.url} />
+                  )}
+                  {cont.item.typestr == "video" && (
+                    <video className="imageBox">
+                      <source src={cont?.item.url} />
+                    </video>
+                  )}
+                  <div className="infoBox">
+                    {popupIndex === index && (
+                      <>
+                        <ul className="morePopup">
+                          <li
+                            onClick={() => {
+                              navigate(
+                                "/saleItem?itemid=" + cont?.item?.itemid
+                              );
+                            }}
+                          >
+                            Sale
+                          </li>
+                          <li>Edit</li>
+                        </ul>
+                        <PopupBg off={setPopupIndex} />
+                      </>
+                    )}
+
+                    <div className="topBar">
+                      <button
+                        className="likeBtn"
+                        onClick={(e) => onClickFavorBtn(e, cont.item?.itemid)}
+                      >
+                        <img
+                          src={cont.ilikethisitem ? heart_on : heart_off}
+                          alt=""
+                        />
+
+                        <p>{cont.item.countfavors}</p>
+                      </button>
+
+                      {isOwner && (
+                        <button
+                          className="moreBtn"
+                          onClick={(e) => onClickMoreBtn(e, index)}
+                        >
+                          <img src={I_3dot} alt="" />
+                        </button>
+                      )}
+                    </div>
+
+                    <p className="nickname">{cont.author?.nickname}</p>
+                    <p className="title">{cont.item?.titlename}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </section>
+      </PsearchWallet>
+    </>
+  );
 }
 
 const MsearchWallet = styled.div`
@@ -501,8 +678,17 @@ const MsearchWallet = styled.div`
           overflow: hidden;
           cursor: pointer;
           position: relative;
+          .imageBox {
+          position: absolute;
+          top: 0;
+          left: 0;
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+        }
 
           .infoBox {
+            z-index: 9;
             width: 100%;
             padding: 5.55vw;
             background: linear-gradient(
@@ -588,7 +774,6 @@ const MsearchWallet = styled.div`
 `;
 
 const PsearchWallet = styled.div`
-
   position: relative;
   .innerBox {
     max-width: 1280px;
@@ -722,7 +907,7 @@ const PsearchWallet = styled.div`
         cursor: pointer;
         position: relative;
 
-        .imageBox{
+        .imageBox {
           position: absolute;
           top: 0;
           left: 0;
