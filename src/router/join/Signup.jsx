@@ -235,7 +235,7 @@ export default function Signup({ store, setConnect }) {
               <strong className="inputTitle">Photo registration</strong>
 
               <div className="inputBar">
-                {photo?(
+                {!photo?(
                 <button
                   className="photoBtn"
                   onClick={() => photoRef.current.click()}
@@ -280,8 +280,8 @@ export default function Signup({ store, setConnect }) {
                     placeholder="Less than 5-20 characters, only Korean, English uppercase and lowercase letters, and special characters (- , _) are allowed."
                   />
                 </div>
-                {!usernameChk && <p className="able">Usernames that can be used</p>}
-                {usernameChk && (
+                {usernameChk && <p className="able">Usernames that can be used</p>}
+                {username && !usernameChk && (
                   <p className="disable">
                     Invalid nickname. It must be less than 20 characters.
                   </p>
@@ -312,8 +312,8 @@ export default function Signup({ store, setConnect }) {
                     placeholder="Please enter your email address"
                   />
                 </div>
-                {email && <p className="able">A valid email address.</p>}
-                {email && (
+                {emailChk && <p className="able">A valid email address.</p>}
+                {email && !emailChk && (
                   <p className="disable">This is an invalid email address.</p>
                 )}
               </div>
@@ -322,17 +322,16 @@ export default function Signup({ store, setConnect }) {
 
           <ul className="chkList">
             <li>
-              <input type="checkbox" />
-              <button className="chkBtn" onClick={() => {}}>
-                <img src={I_chkBtn} alt="" />
+              <button className="chkBtn" onClick={(e)=>{setAgeCheck(!ageCheck)}}>
+                {ageCheck && <img src={I_chkBtn} alt="" />}
               </button>
 
               <p>19 years of age or older (required)</p>
             </li>
 
             <li>
-              <button className="chkBtn" onClick={() => {}}>
-                <img src={I_chkBtn} alt="" />
+              <button className="chkBtn" onClick={(e)=>{setSubCheck(!subCheck)}}>
+                {subCheck && <img src={I_chkBtn} alt="" />}
               </button>
 
               <p>
@@ -341,8 +340,8 @@ export default function Signup({ store, setConnect }) {
             </li>
 
             <li>
-              <button className="chkBtn" onClick={() => {}}>
-                <img src={I_chkBtn} alt="" />
+              <button className="chkBtn" onClick={(e)=>{setInfoCheck(!infoCheck)}}>
+                {infoCheck && <img src={I_chkBtn} alt="" />}
               </button>
 
               <p>
@@ -390,6 +389,7 @@ export default function Signup({ store, setConnect }) {
                   <input
                     className="nospace"
                     type="file"
+                    accept="image/*"
                     ref={photoRef}
                     onChange={(e) => {fileUpload(e.target.files[0]);
                       onchangePhoto(e.target.files[0])}}
