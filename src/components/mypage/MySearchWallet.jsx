@@ -24,6 +24,7 @@ import { LOGGER } from "../../util/common";
 import { API } from "../../config/api";
 import { RESET_FILTER, SET_STATUS_FILTER } from "../../reducers/filterReducer";
 import { D_SStatusList } from "../../data/D_filter";
+import SearchWalletItembox from "./MySearchWallet/itembox"
 
 export default function SearchWallet({ address }) {
   const navigate = useNavigate();
@@ -462,67 +463,7 @@ export default function SearchWallet({ address }) {
             <ul className="itemsList">
               {listitems.length == 0 && "등록된 아이템을 확인할 수 없습니다."}
               {listitems.sort(sortingmachine).map((cont, index) => (
-                <li
-                  key={index}
-                  className="itemBox"
-                  onClick={() => {
-                    navigate("/singleItem?itemid=" + cont.item?.itemid);
-                  }}
-                >
-                  {cont.item.typestr == "image" && (
-                    <img className="imageBox" src={cont?.item?.url} />
-                  )}
-                  {cont.item.typestr == "video" && (
-                    <video className="imageBox">
-                      <source src={cont?.item.url} />
-                    </video>
-                  )}
-                  <div className="infoBox">
-                    {popupIndex === index && (
-                      <>
-                        <ul className="morePopup">
-                          <li
-                            onClick={() => {
-                              navigate(
-                                "/saleItem?itemid=" + cont?.item?.itemid
-                              );
-                            }}
-                          >
-                            Sale
-                          </li>
-                          <li>Edit</li>
-                        </ul>
-                        <PopupBg off={setPopupIndex} />
-                      </>
-                    )}
-
-                    <div className="topBar">
-                      <button
-                        className="likeBtn"
-                        onClick={(e) => onClickFavorBtn(e, cont.item?.itemid)}
-                      >
-                        <img
-                          src={cont.ilikethisitem ? heart_on : heart_off}
-                          alt=""
-                        />
-
-                        <p>{cont.item.countfavors}</p>
-                      </button>
-
-                      {isOwner && (
-                        <button
-                          className="moreBtn"
-                          onClick={(e) => onClickMoreBtn(e, index)}
-                        >
-                          <img src={I_3dot} alt="" />
-                        </button>
-                      )}
-                    </div>
-
-                    <p className="nickname">{cont.author?.nickname}</p>
-                    <p className="title">{cont.item?.titlename}</p>
-                  </div>
-                </li>
+                <SearchWalletItembox cont={cont} index={index} address={address}/>
               ))}
             </ul>
           </article>
