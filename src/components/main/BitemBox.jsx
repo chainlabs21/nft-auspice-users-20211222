@@ -111,10 +111,11 @@ const PBitemBox = styled.div`
       display: flex;
       align-items: flex-start;
       height: 606px;
+      justify-content: space-between;
       
 
       .titleContainer {
-        
+        position: relative;
         
         flex:1;
         display: flex;
@@ -176,17 +177,15 @@ const PBitemBox = styled.div`
         }
       }
       .swiperContainer {
+        //left: -670px;
         background-color: #fff;
-        //background: linear-gradient(to right, transparent, white);
-        //background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(0, 0, 0, 0));
         z-index:2;
         flex:1;
-        left: 0;
         display: flex;
         align-items: center;
+        justify-content: flex-start;
         position: relative;
         max-width: 50%;
-        width: 50px;
         padding: 42px 0 42px 10px;
 
         .gradientBox{
@@ -211,6 +210,7 @@ const PBitemBox = styled.div`
 
         .swiperBox {
           width: 800px;
+          //width:1200px;
           overflow: hidden;
           height: 600px;
           padding-left: 20px;

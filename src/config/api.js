@@ -61,6 +61,7 @@ export const API = {
   API_GET_BIDS: `${apiServer}/my/bids`,
   API_GET_PROPOSAL: `${apiServer}/my/proposals`,
   API_GET_REPORT_CATEGORIES:`${apiServer}/queries/reportcategory`,
+  API_SEND_REPORT:`${apiServer}/report/send`,///:category/:username/:itemid
   //API_GET_ITEM_CATEGORIES: `${apiServer}/queries/rows/itemhistory`, // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 };
 

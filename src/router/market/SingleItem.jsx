@@ -183,6 +183,7 @@ function SingleItem({
       setmyaddress(myaddress);
       myaddress &&
         query_eth_balance(myaddress).then((resp) => {
+          if (!resp) return;
           LOGGER("mylcfti0uE", resp);
           setmyethbalance(getethrep(resp));
         });
@@ -696,7 +697,7 @@ window.scrollTo({top:0});
 
         {reportPopup && (
           <>
-            <ReportPopup off={setreportPopup} />
+            <ReportPopup off={setreportPopup}  itemid={itemid} username={walletAddress} />
             <PopupBg bg off={setreportPopup} />
           </>
         )}
@@ -1195,7 +1196,7 @@ window.scrollTo({top:0});
                       .map((cont, index) => (
                         <li
                           key={index}
-                          class="swiperContBox"
+                          className="swiperContBox"
                           onClick={() =>
                             navigate(`/singleitem?itemid=${cont.item?.itemid}`)
                           }

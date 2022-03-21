@@ -48,30 +48,37 @@ export default function MyPage() {
     })
   }
   useEffect(()=>{
-      if (pathname.split('/')[2] === '' || !pathname.split('/')[2]){
-        
-        navigate('/mypage/searchwallet')
-
-      }
-      if(pathname.split('/')[3] != '' || pathname.split('/')[3]){
-        setSearchAddress(pathname.split('/')[3])
-        console.log((pathname.split('/')[3]))
-      }else{
-        setSearchAddress(walletAddress)
-      }
+    console.log(pathname)
+    if(pathname.split('/')[3]){
+      setSearchAddress(pathname.split('/')[3])
+      
+    }else{
+      navigate('/mypage/searchwallet/'+walletAddress)
+    }
+      // if (pathname.split('/')[2] === '' || !pathname.split('/')[2]){
+      //   navigate('/mypage/searchwallet')
+      // }
+      // if(pathname.split('/')[3] != '' || pathname.split('/')[3]){
+      //   setSearchAddress(pathname.split('/')[3])
+      //   console.log((pathname.split('/')[3]))
+      // }else{
+      //   setSearchAddress(walletAddress)
+      // }
   }, [pathname])
 
   useEffect(async ()=>{
+
     if (searchAddress) getUserInfo(searchAddress)
   },[searchAddress])
-  useEffect(()=>{
-    if( searchAddress ) return;
-    if(isloggedin){
-      setSearchAddress(walletAddress)
-    }else{
-      navigate('/')
-    }
-  }, [searchAddress])
+  
+  // useEffect(()=>{
+  //   if( searchAddress ) return;
+  //   if(isloggedin){
+  //     setSearchAddress(walletAddress)
+  //   }else{
+  //     navigate('/')
+  //   }
+  // }, [searchAddress])
   //const isMobile = useSelector((state) => state.common.isMobile);
 
 

@@ -33,9 +33,10 @@ export default function ReportPopup({ off, itemid, username }) {
   },[])
 
   function onSubmitReport(){
-    axios.post('url', null, {params:{category, description, itemid, username}})
+    console.log(username, itemid, category, description)
+    axios.post(`${API.API_SEND_REPORT}/${category}/${username}/${itemid}`, null, {params:{description}})
     .then((resp)=>{
-      //deal with response
+      console.log(resp)
       off()
     })
   }
@@ -77,11 +78,11 @@ export default function ReportPopup({ off, itemid, username }) {
               >
                               {selectCategoryPopup && (
                 <>
-                  <SelectPopup off={selectCategoryPopup} contList={categorylist} selectCont={setCategory}/>
-                  <PopupBg off={selectCategoryPopup} />
+                  <SelectPopup off={setSelectCategoryPopup} contList={categorylist} selectCont={e=>{setCategory(e)}}/>
+                  <PopupBg off={setSelectCategoryPopup} />
                 </>
               )}
-                <p>Please select a reason for reporting</p>
+                <p>{categoryData[category]?.name}</p>
 
                 <img src={I_dnArw} alt="" />
               </button>
@@ -100,7 +101,7 @@ export default function ReportPopup({ off, itemid, username }) {
 
           <button
             className="reportBtn"
-            onClick={() => off()}
+            onClick={() => onSubmitReport()}
             disabled={!(category && description)}
           >
             Report it

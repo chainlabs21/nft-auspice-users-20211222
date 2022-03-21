@@ -18,15 +18,11 @@ export default function SitemBox({ category }) {
     
   }, [category]);
   useEffect(() => {
-    console.log(items.length)
     if (items.length>4){
       setNeedSwiper(true)
-      console.log('성공')
     }else{
       setNeedSwiper(false)
-      console.log('실패')
     }
-    console.log(itemIndex)
   }, [items, itemIndex]);
   
 
