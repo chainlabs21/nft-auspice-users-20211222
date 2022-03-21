@@ -12,7 +12,7 @@ export default function UsersItems({ val, index }) {
   return (
     <PLinkItems>
       <li className="swiperContBox">
-        <img src={users_list01} alt="" />
+        <img src={val.imgurl?val.imgurl:users_list01} alt="" />
         <div className="infoBox">
           <p className="title">{val.title}</p>
           <p className="explain">{val.description}</p>
