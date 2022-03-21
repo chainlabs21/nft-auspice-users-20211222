@@ -36,7 +36,7 @@ import {API} from '../../config/api'
 import { strDot } from "../../util/Util";
 import moment from "moment";
 
-export default function TransactionHistory() {
+export default function MyTransactionHistory({address}) {
   const EVENT_MAP={
     CLOSE_SALE: "BOUGHT"
   }
@@ -45,7 +45,7 @@ export default function TransactionHistory() {
     2: 'Sale',
     4: 'Bid'
   }
-  const {userData, isloggedin, walletAddress} = useSelector((state) => state.user);
+  //const {userData, isloggedin, walletAddress} = useSelector((state) => state.user);
   const isMobile = useSelector((state)=>state.common.isMobile)
   const navigate = useNavigate();
   const {pathname} = useLocation();
@@ -118,26 +118,30 @@ export default function TransactionHistory() {
     setFilterList([...Object.values(dataObj)]);
   }
 
+  useEffect(()=>{
+    console.log(address)
+  },[address])
+
   useEffect(
     (_) => {
       axios
         .get(
            'http://itemverse1.net:32287/transactions/history'
-           //,
-          // {
-          //   params: { itemdetail: 0 },
-          // }
+           ,
+           {
+             params: { username: address },
+           }
         )
         .then((resp) => {
           LOGGER("", resp);
           //let { status, list } = resp.data;
-          //if (status == "OK") {pm2log
+          if (resp.data.status == "OK") {
           console.log(resp)
-            setDataList(resp.data.payload);
-          //}
+            setDataList(resp.data.list);
+          }
         }); //		,  : `${apiServer}/queries/rows/transactions` // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
     },
-    [walletAddress]
+    [address]
   );
     return (
       <>
@@ -219,29 +223,29 @@ export default function TransactionHistory() {
                 {
                   dataList.map((cont, index)=>(
                     <li key={index}>
-                      <span>{/**EVENTTYPEEVENT_MAP[cont.transaction.typestr]*/cont.transaction.buyer == walletAddress?"BOUGHT":"SOLD"}</span>
+                      <span>{/**EVENTTYPEEVENT_MAP[cont.transaction.typestr]*/cont.buyer == address?"BOUGHT":"SOLD"}</span>
                       <span onClick={()=>{navigate(
-                                      `/singleitem?itemid=${cont.item?.itemid}`
+                                      `/singleitem?itemid=${cont.itemid}`
                                     );}}>{/* itemImage */}
-                        {cont.item?.typestr=='image'&&(<img className="profImg" src={cont.item?.url}/>)}
-                        {cont.item?.typestr=='video'&&(<video className="profImg" src={cont.item?.url}/>)}
-                        <p>{cont.itemid||cont.item?.itemid}</p>
+                        {cont.item_info?.typestr=='image'&&(<img className="profImg" src={cont.item_info.url}/>)}
+                        {cont.item_info?.typestr=='video'&&(<video className="profImg" src={cont.item_info.url}/>)}
+                        <p>{cont.itemid}</p>
                       </span>
                       <span>{/**price*/}
                       <img className="tokenImg" src={I_klaytn} />
-                        <p className="price">{cont.transaction.price}</p></span>
+                        <p className="price">{cont.price} KLAY</p></span>
                       <span>{/**from */}
-                      <img className="profImg" src={cont.sellerInfo?.profileimageurl}/>
-                        <p>{cont.transaction.seller}</p>
+                      <img className="profImg" src={cont.seller_info?.profileimageurl}/>
+                        <p>{cont.seller}</p>
                       </span>
                       <span>{/**to*/}
-                      <img className="profImg" src={cont.buyerInfo?.profileimageurl}/>
-                        <p>{cont.transaction.buyer}</p></span>
+                      <img className="profImg" src={cont.buyer_info?.profileimageurl}/>
+                        <p>{cont.buyer}</p></span>
                       <span>{/* date*/}
-                        <p>{moment(cont.transaction.createdat).fromNow()}</p>
+                        <p>{moment(cont.createdat).fromNow()}</p>
                       </span>
                       <span>{/**quantity*/}
-                      {cont.transaction.amount}</span>
+                      {cont.amount}</span>
                       <span>{/**tx Link*/}
                         <button className="" onClick={() => {}}>
                           <img src={icon_link_on} alt="" />

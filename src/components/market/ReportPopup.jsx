@@ -9,13 +9,52 @@ import I_dnArw from "../../img/header/I_dnArw.svg";
 import SelectPopup from "../SelectPopup";
 import PopupBg from "../PopupBg";
 
-export default function ReportPopup({ off, itemid }) {
+export default function ReportPopup({ off, itemid, username }) {
   const isMobile = useSelector((state) => state.common.isMobile);
 
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(0);
+  const [categoryData, setCategoryData] = useState([]);
   const [selectCategoryPopup, setSelectCategoryPopup] = useState(false);
 
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState();
+  const [categorylist, setCategorylist] = useState([])
+  const [submitReady, setSubmitReady] = useState(false)
+
+  useEffect(()=>{
+    setCategorylist([])
+    axios.get(`${API.API_GET_REPORT_CATEGORIES}`).then((resp)=>{
+      setCategoryData(resp.data.list)
+      resp.data.list.map((v, i)=>{
+        setCategorylist(pre=>[...pre, v.name])
+      })
+    })
+    //setCategorylist(['못생김', '잘생김', '진짜 잘생김'])
+    //setCategoryData([{name: '못생김'}, {name: '잘생김'}, {name: '진짜 잘생김'}])
+  },[])
+
+  function onSubmitReport(){
+    axios.post('url', null, {params:{category, description, itemid, username}})
+    .then((resp)=>{
+      //deal with response
+      off()
+    })
+  }
+
+  useEffect(()=>{
+    // if (category!="" && description!=""){
+    //   console.log('asd')
+    //   setSubmitReady(true);
+    // }else{
+    //   setSubmitReady(false)
+    //   console.log(category, description)
+    // }
+
+    if(category&&description){
+      setSubmitReady(true)
+    }else{
+      setSubmitReady(false)
+    }
+  },[category, description])
 
   if (isMobile)
     return (
@@ -34,8 +73,14 @@ export default function ReportPopup({ off, itemid }) {
             <div className="posBox">
               <button
                 className={category ? "selectBtn on" : "selectBtn"}
-                onClick={() => setSelectCategoryPopup(true)}
+                onClick={() => setSelectCategoryPopup(!selectCategoryPopup)}
               >
+                              {selectCategoryPopup && (
+                <>
+                  <SelectPopup off={selectCategoryPopup} contList={categorylist} selectCont={setCategory}/>
+                  <PopupBg off={selectCategoryPopup} />
+                </>
+              )}
                 <p>Please select a reason for reporting</p>
 
                 <img src={I_dnArw} alt="" />
@@ -81,9 +126,15 @@ export default function ReportPopup({ off, itemid }) {
             <div className="posBox">
               <button
                 className={category ? "selectBtn on" : "selectBtn"}
-                onClick={() => setSelectCategoryPopup(true)}
+                onClick={() => setSelectCategoryPopup(!selectCategoryPopup)}
               >
-                <p>Please select a reason for reporting</p>
+                              {selectCategoryPopup && (
+                <>
+                  <SelectPopup off={setSelectCategoryPopup} contList={categorylist} selectCont={e=>{setCategory(e)}}/>
+                  <PopupBg off={setSelectCategoryPopup} />
+                </>
+              )}
+                <p>{categoryData[category]?.name}</p>
 
                 <img src={I_dnArw} alt="" />
               </button>
@@ -102,8 +153,8 @@ export default function ReportPopup({ off, itemid }) {
 
           <button
             className="reportBtn"
-            onClick={() => off()}
-            disabled={!(category && description)}
+            onClick={() => onSubmitReport()}
+            disabled={!submitReady}
           >
             Report it
           </button>

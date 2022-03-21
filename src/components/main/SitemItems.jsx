@@ -11,11 +11,14 @@ import heart_off from "../../img/sub/heart_off.png";
 import heart_on from "../../img/sub/heart_on.png";
 import star_off from "../../img/sub/star_off.png";
 import star_on from "../../img/sub/star_on.png";
+import { useSelector } from "react-redux";
 
 export default function SitemItems({ val, index }) {
   const navigate = useNavigate();
   const [ilikethisitem, setIlikethisitem] = useState(false)
+  const {isloggedin}=useSelector((state)=>state.user)
   useEffect(()=>{
+    if (isloggedin){
     axios.get(`${API.API_GET_I_LIKE}/${val.itemid}`).then((resp)=>{
       let {status} = resp.data
       if (status===1){
@@ -24,6 +27,7 @@ export default function SitemItems({ val, index }) {
         setIlikethisitem(false)
       }
     })
+  }
   }, [])
 
 

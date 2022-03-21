@@ -77,58 +77,64 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
   async function connectWallet(TYPE){
     let {ethereum, klaytn} = window;
     //let accounts =""
-    async function select(TYPE){
-    switch(TYPE){
-      case 1:
-        //dispatch(SET_WALLET('METAMASK'));
-        return await ethereum.enable();
-      case 2: 
-      //dispatch(SET_WALLET('KAIKAS'));
-      return await klaytn.enable()
-    }
-  }
-  const accounts = await select(TYPE)
-  //const accounts = await ethereum.request({method: 'eth_requestAccounts'})
-    LOGGER(TYPE, accounts)
-    let address = accounts[0]
-    //dispatch(SET_ADDRESS(address));
-    dispatch({ type: SET_ADDRESS, payload: {value: address }}); 
+  //   async function select(TYPE){
+  //   switch(TYPE){
+  //     case 1:
+  //       return await ethereum.enable();
+  //     case 2: 
 
-    console.log(address)
+  //     return await klaytn.enable()
+  //   }
+  // }
+  // const accounts = await select(TYPE)
+  //const accounts = await ethereum.request({method: 'eth_requestAccounts'})
+
+  window.klaytn.enable().then((account)=>{
+    dispatch({ type: SET_ADDRESS, payload: {value: account[0] }}); 
+
+    axios.get(`${API.API_USER_INFO}/${account[0]}`).then((resp)=>{
+      console.log("DATA:: "+resp)
+      dispatch({
+        type: SET_USER_DATA,
+        payload: {value: resp.data.payload},
+      });
+      if(resp.data.payload.maria==null) {
+        console.log('hello')
+        navigate("/joinmembership")
+        return;
+      }
+      else if(resp.data.payload.maria.email == null){
+        console.log('hello')
+        navigate("/emailchange")
+        return;
+      }
+      else if(resp.data.payload.maria.emailverified == 0){
+        navigate("/sentEmailDetail")
+        return
+      }
+      else{
+        login(account[0])
+        console.log('hello')
+      }
+    })
+  })
+   // LOGGER(TYPE, accounts)
+    //let address = accounts[0]
+    //dispatch(SET_ADDRESS(address));
+    
+
+   // console.log(address)
     //---------------
-    console.log(`${API.API_USER_INFO}/${address}`)
+   // console.log(`${API.API_USER_INFO}/${address}`)
       //const resp = await 
-      axios.get(`${API.API_USER_INFO}/${address}`).then((resp)=>{
-        console.log("DATA:: "+resp)
-        dispatch({
-          type: SET_USER_DATA,
-          payload: {value: resp.data.payload},
-        });
-        if(resp.data.payload.maria==null) {
-          console.log('hello')
-          navigate("/joinmembership")
-          return;
-        }
-        else if(resp.data.payload.maria.email == null){
-          console.log('hello')
-          navigate("/emailchange")
-          return;
-        }
-        else if(resp.data.payload.maria.emailverified == 0){
-          navigate("/sentEmailDetail")
-          return
-        }
-        else{
-          console.log('hello')
-        }
-      })
+
       //console.log("DATA:: "+resp)
 
 
       //console.log(userWallet)
 
       
-      login(address)
+      
       //dispatch(SET_LOGIN());
       
 
@@ -209,7 +215,7 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
         <section className="popupBox">
           <article className="contBox">
             <div className="topBar">
-              <button className="exitBtn" onClick={() => navigate(-1)}>
+              <button className="exitBtn" onClick={() => navigate('/')}>
                 <img src={I_x} alt="" />
               </button>
 
@@ -259,7 +265,7 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
         <section className="popupBox">
           <article className="contBox">
             <div className="topBar">
-              <button className="exitBtn" onClick={() => navigate(-1)}>
+              <button className="exitBtn" onClick={() => navigate('/')}>
                 <img src={I_x} alt="" />
               </button>
 

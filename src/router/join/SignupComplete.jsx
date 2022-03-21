@@ -26,7 +26,7 @@ export default function SignupComplete({ store, setConnect }) {
             </p>
           </article>
           <article className="btnBox">
-            <button className="cancelBtn" onClick={() => navigate(-1)}>
+            <button className="cancelBtn" onClick={() => navigate('/')}>
               Cancel
             </button>
             <button className="sendBtn" onClick={()=>navigate("/marketplace")}>
@@ -48,7 +48,7 @@ export default function SignupComplete({ store, setConnect }) {
             </p>
           </article>
           <article className="btnBox">
-            <button className="cancelBtn" onClick={() => navigate(-1)}>
+            <button className="cancelBtn" onClick={() => navigate('/')}>
               Cancel
             </button>
             <button className="sendBtn" onClick={()=>navigate("/marketplace")}>

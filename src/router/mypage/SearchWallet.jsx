@@ -113,6 +113,7 @@ export default function MySearchWallet() {
 
 
   const fetchitems=(list)=>{
+    if (walletAddress){
 		axios.get( `${API.API_MYITEMS}/${walletAddress}/0/10/id/DESC`,{params: {
       search
       ,salestatusstr: list,
@@ -135,6 +136,9 @@ export default function MySearchWallet() {
 				 setlistitems( list )
 			}
 		})
+  }else{
+    console.log('nowalletaddress')
+  }
 	}
 
   useEffect( _=>{

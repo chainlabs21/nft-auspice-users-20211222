@@ -1,4 +1,4 @@
-import { connect, useSelector} from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import {
   setConnect,
@@ -69,7 +69,7 @@ import Chart from "react-apexcharts";
 import { MAP_SALETYPES, MAP_ITEMHISTORY_EVETNS } from "../../config/disp";
 import PlaceBidPopup from "../../components/market/PlaceBidPopup";
 import DefaultHeader from "../../components/header/DefaultHeader";
-import { D_categoryList ,D_itemHistoryCategoryList} from "../../data/D_item";
+import { D_categoryList, D_itemHistoryCategoryList } from "../../data/D_item";
 
 import PopupBg from "../../components/PopupBg";
 import ReportPopup from "../../components/market/ReportPopup";
@@ -103,7 +103,7 @@ function SingleItem({
   const video = useRef();
 
   const isMobile = useSelector((state) => state.common.isMobile);
-  const {walletAddress, isloggedin} = useSelector((state) => state.user);
+  const { walletAddress, isloggedin } = useSelector((state) => state.user);
 
   const [listCategory, setListCategory] = useState(0);
   const [otherWorkIndex, setOtherWorkIndex] = useState(0);
@@ -113,7 +113,7 @@ function SingleItem({
   const [reportPopup, setreportPopup] = useState(false);
   const [purchasePopup, setPurchasePopup] = useState(false);
   const [BidPopup, setBidPopup] = useState(false);
-  const [isOwner, setIsOwner] = (useState(false))
+  const [isOwner, setIsOwner] = useState(false);
   const [ismuted, setIsmuted] = useState(true);
 
   /**   const {    likerList,    ownerList,    salesStatus,    pur chaseStatus,    transactionHistory,    chainInformation,  } = singleItem;*/
@@ -140,7 +140,7 @@ function SingleItem({
   let [listotheritems, setlistotheritems] = useState([]);
   let [listitemhistory, setlistitemhistory] = useState([]);
   let [listholder, setlistholder] = useState([]);
-  let [bidorders, setBidorders] = useState([])
+  let [bidorders, setBidorders] = useState([]);
   let [iscollectionbyauthorseller, setiscollectionbyauthorseller] = useState();
   let [jprofileimages, setjprofileimages] = useState([]);
   let lockjprofileimages = {};
@@ -151,26 +151,26 @@ function SingleItem({
   let [j_auctionuuid_bidprice, setj_auctionuuid_bidprice] = useState({});
   let [j_auctionuuid_bidder, setj_auctionuuid_bidder] = useState({});
   let [mybidamount, setmybidamount] = useState("");
-  const [imageurl, setImageurl] = useState('');
+  const [imageurl, setImageurl] = useState("");
   const [chartXdata, setChartXdata] = useState([]);
   const [chartYdata, setChartYdata] = useState([]);
   let [reportcatlist, setreportcatlist] = useState([]);
   let tokenid; //	let itemid =get_last_part_of_path ( window.location.href )
   let axios = applytoken();
   let [myaddress, setmyaddress] = useState(getmyaddress());
-  const [tokenID, setTokenID]=useState();
+  const [tokenID, setTokenID] = useState();
   const getfeeamountstr = (amount, rate) => {
     let n = (+amount * +rate) / 10000;
     return n.toFixed(4); // String()
   };
 
-  useEffect(async ()=>{
-    if(itemdata.item?.typestr=="video"){
-    await setImageurl(itemdata.item?.url)
-    var video = document.getElementById('video');
-    if(imageurl)video.load()
+  useEffect(async () => {
+    if (itemdata.item?.typestr == "video") {
+      await setImageurl(itemdata.item?.url);
+      var video = document.getElementById("video");
+      if (imageurl) video.load();
     }
-  },[itemdata.item])
+  }, [itemdata.item]);
 
   useEffect(
     (_) => {
@@ -446,6 +446,7 @@ function SingleItem({
       setiscollectionbyauthorseller("seller");
     } else {
       // return itemdata?.author?.username
+      //console.log(itemdata)
       let { username } = itemdata?.author;
       axios
         .get(API.API_AUTHORS_ITEMS + `/${username}/0/10/id/DESC`)
@@ -460,7 +461,7 @@ function SingleItem({
     }
   };
   const fetchitem = (itemid) => {
-    console.log('hola')
+    console.log("hola");
     Setisloader(true);
     axios
       .get(`${API.API_GET_ITEM_DATA}/${itemid}`, {
@@ -472,9 +473,9 @@ function SingleItem({
         if (status == "OK") {
           setitemdata(respdata);
           let { orders_sellside } = respdata;
-          console.log(orders_sellside)
+          console.log(orders_sellside);
           setorders_sell(orders_sellside);
-          setsellorder(orders_sellside[0])
+          setsellorder(orders_sellside[0]);
           setilikethis(respdata.ilikethisitem);
           setibookmarkthis(respdata.ibookmarkthis);
           if (respdata.bids) {
@@ -493,7 +494,10 @@ function SingleItem({
                   LOGGER("V9kbW2K1sr", resp.data);
                   let { status, payload } = resp.data;
                   if (status == "OK") {
-                    if (payload.maria){}else{return;}
+                    if (payload.maria) {
+                    } else {
+                      return;
+                    }
                     let { profileimageurl } = payload?.maria;
                     if (profileimageurl) {
                       //									let jdata={}
@@ -519,7 +523,6 @@ function SingleItem({
           resolve_author_seller(respdata);
         }
         Setisloader(false);
-        
       });
     axios.get(`${API.API_ITEM_DATA_AUX}/${itemid}`).then((resp) => {
       //LOGGER("6ENydA38bX", resp.data);
@@ -614,21 +617,20 @@ function SingleItem({
     }
   }
   //Checks if user owns the item.
-  useEffect(()=>{
-    console.log(itemdata.itembalances)
-    itemdata?.itembalances?.map((v, i)=>{
-      if (v.username == walletAddress){
-        setIsOwner(true)
+  useEffect(() => {
+    console.log(itemdata.itembalances);
+    itemdata?.itembalances?.map((v, i) => {
+      if (v.username == walletAddress) {
+        setIsOwner(true);
         //console.log('주인입니다.')
       }
-    })
-    
-  },[itemdata.itembalances])
+    });
+  }, [itemdata.itembalances]);
 
   useEffect(() => {
     LOGGER("8xlWxqxeC2", itemid, referer);
-    setitemid(searchParams.get("itemid"))
-    console.log(itemid)
+    setitemid(searchParams.get("itemid"));
+    console.log(itemid);
     fetchitem(itemid);
     axios.get(`${API.API_TICKERS}/USDT`).then((resp) => {
       LOGGER("", resp.data);
@@ -657,18 +659,18 @@ function SingleItem({
 
   useEffect(
     (_) => {
-      setitemid(searchParams.get("itemid"))
+      setitemid(searchParams.get("itemid"));
       window.scrollTo(0, 0);
       fetchitem(itemid);
-      console.log('또잉')
+      console.log("또잉");
       query_with_arg({
         contractaddress: ADDRESSES.erc1155,
-        abikind:"ERC1155",
-        methodname:"_itemhash_tokenid",
-        aargs:[itemid]
-      }).then((resp)=>{
-        setTokenID(resp)
-      })
+        abikind: "ERC1155",
+        methodname: "_itemhash_tokenid",
+        aargs: [itemid],
+      }).then((resp) => {
+        setTokenID(resp);
+      });
     },
     [itemid, searchParams]
   );
@@ -711,7 +713,24 @@ function SingleItem({
           </>
         )}
 
-        {true && <PlaceBidPopup />}
+        {BidPopup && (
+          <>
+            <PlaceBidPopup
+              off={() => {
+                setBidPopup();
+                fetchitem(itemid);
+              }}
+              j_auctionuuid_bidprice={j_auctionuuid_bidprice}
+              itemdata={itemdata}
+              sellorder={sellorder}
+              mybidamount={mybidamount}
+              myethbalance={myethbalance}
+              priceklay={priceklay}
+              j_auctionuuid_bidder={j_auctionuuid_bidder}
+            />
+            <PopupBg bg off={setBidPopup} />
+          </>
+        )}
         <MsignPopupBox>
           <section className="innerBox" style={{ paddingTop: myItem && 0 }}>
             {myItem && (
@@ -769,6 +788,22 @@ function SingleItem({
                   backgroundSize: "cover",
                 }}
               >
+                {itemdata?.item?.typestr == "image" && (
+                  <img className="imageBox" src={imageurl} />
+                )}
+                {itemdata?.item?.typestr == "video" && (
+                  <video
+                    autoPlay
+                    muted={ismuted}
+                    loop
+                    id="video"
+                    className="imageBox"
+                    ref={video}
+                    onClick={() => setIsmuted(!ismuted)}
+                  >
+                    <source src={imageurl} />
+                  </video>
+                )}
                 <div className="topBar">
                   <button className="sellerBtn" onClick={() => {}}>
                     <img
@@ -878,16 +913,16 @@ function SingleItem({
                 <div className="chartContainer">
                   <ul className="priceList">
                     <li>
-                      <p className="key">Average price</p>
-                      <strong className="value">$31.11</strong>
+                      <p className="key">Avg price</p>
+                      <strong className="value">${pricestats[2]?.toFixed(4) || "NA"}</strong>
                     </li>
                     <li>
                       <p className="key">Highest price</p>
-                      <strong className="value">$32.11</strong>
+                      <strong className="value">${pricestats[1]?.toFixed(4) || "NA"}</strong>
                     </li>
                     <li>
                       <p className="key">Lowest price</p>
-                      <strong className="value">$30.11</strong>
+                      <strong className="value">${pricestats[0]?.toFixed(4) || "NA"}</strong>
                     </li>
                   </ul>
 
@@ -917,7 +952,7 @@ function SingleItem({
               </div>
             </article>
 
-            <article className="offerBox" style={{display:'none'}}>
+            <article className="offerBox" style={{ display: "none" }}>
               <strong className="title">Offer History</strong>
 
               <div className="scrollBox">
@@ -968,32 +1003,66 @@ function SingleItem({
                   </ul>
 
                   <ul className="list">
-                    {[1, 2, 3, 4, 5, 6].map((cont, index) => (
-                      <li key={index}>
-                        <span className="infoBox">
-                          <div className="leftBox">
-                            <img src={I_klaytn} alt="" />
+                  {orders_sell
+                      .sort((a, b) => {
+                        return +a.asset_amount_ask == +b.asset_amount_ask
+                          ? a.createdat > b.createdat
+                            ? -1
+                            : +1
+                          : +a.asset_amount_ask - +b.asset_amount_ask;
+                      })
+                      .map((v, idx) => {
+                        return (
+                          <li key={idx}>
+                            <span className="infoBox">
+                              <div className="leftBox">
+                                <img src={I_klaytn} alt="" />
+                                <div className="priceTimeBox">
+                                <p className="price">{(+v.asset_amount_ask)?.toFixed(3)} KLAY</p>
+                                <p className="time">{moment(v.createdat).fromNow()}</p>
+                                </div>
+                              </div>
+                              <button
+                                className="buyBtn"
+                                onClick={(_) => {
+                                  if (!isloggedin) {
+                                    SetErrorBar("PLEASE LOG IN");
+                                    return;
+                                  }
+                                  if (
+                                    is_two_addresses_same(
+                                      walletAddress,
+                                      v.username
+                                    )
+                                  ) {
+                                    setMyItem(true);
+                                    SetErrorBar(messages.MSG_YOUR_OWN_ORDER);
+                                    return;
+                                  } else {
+                                    console.log("same");
+                                    setMyItem(false);
+                                  }
+                                  setsellorder(v);
+                                  console.log(itemdata);
+                                  setProductType(v.typestr);
 
-                            <div className="priceTimeBox">
-                              <p className="price">0.015 KLAY ($30.11)</p>
-                              <p className="time">3 days later</p>
-                            </div>
-                          </div>
-
-                          <button className="buyBtn" onClick={() => {}}>
-                            Buy
-                          </button>
-                        </span>
-
-                        <span className="seller">Philip van Kouwenbergh</span>
-                      </li>
-                    ))}
+                                  //console.log(v)
+                                  return;
+                                }}
+                              >
+                                Buy
+                              </button>
+                            </span>
+                            <span>{convertLongString(2, 2, v.username)}</span>
+                          </li>
+                        );
+                      })}
                   </ul>
                 </div>
               </div>
 
               <div className="offerBox statusBox">
-                <strong className="title">Purchase status</strong>
+                <strong className="title">Bidding status</strong>
 
                 <div className="scrollBox">
                   <ul className="listHeader">
@@ -1040,33 +1109,74 @@ function SingleItem({
                 ))}
               </ul>
 
-              <div className="scrollBox">
-                <ul className="listHeader">
-                  <li>Event</li>
-                  <li>Price</li>
-                  <li>From</li>
-                  <li>To</li>
-                  <li>Date</li>
-                  <li>Tx confirm</li>
-                </ul>
+              {listCategory === 0 && (
+                <div className="scrollBox">
+                  <ul className="listHeader">
+                    <li>Event</li>
+                    <li>Price</li>
+                    <li>From</li>
+                    <li>To</li>
+                    <li>Date</li>
+                    <li>Tx confirm</li>
+                  </ul>
 
-                <ul className="list">
-                  {[1, 2, 3, 4, 5, 6].map((cont, index) => (
-                    <li key={index}>
-                      <span>purchase</span>
-                      <span>0.0020 KLAY</span>
-                      <span>0xb9e83064c381bd64cb2b2f8406203e584b81a7e1</span>
-                      <span>0x495f947276749ce646f68ac8c248420045cb7b5e</span>
-                      <span>1 month ago</span>
-                      <span>
-                        <button onClick={() => {}}>
-                          <img src={icon_link_on} alt="" />
-                        </button>
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                  <ul className="list">
+                    {listholder.map((v, index) => (
+                      <li key={index}>
+                        <span>{MAP_ITEMHISTORY_EVETNS[v.typestr]}</span>
+                        <span>{putCommaAtPrice(v.price * 1)} KLAY</span>
+                        <span>{v.from_}</span>
+                        <span>{v.to_}</span>
+                        <span>{moment(v.createdat).fromNow()}</span>
+                        <span>
+                          <button
+                            onClick={() => {
+                              if (v.isonchain) {
+                                window
+                                  .open(
+                                    URL_TX_SCAN[v.nettype] + `/${v.txhash}`,
+                                    "_blank"
+                                  )
+                                  .focus();
+                              } else {
+                                SetErrorBar(messages.MSG_IT_IS_OFFCHAIN);
+                                return;
+                              }
+                            }}
+                          >
+                            <img
+                              src={v.isonchain ? icon_link_on : icon_link_off}
+                              alt=""
+                            />
+                          </button>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {listCategory === 1 && (
+                <div className="chainscrollBox">
+                  <ul className="listHeader">
+                    <li>Contract Address</li>
+                    <li>Token ID</li>
+                    <li>Token Standard</li>
+                    <li>Blockchain</li>
+                  </ul>
+
+                  <ul className="list">
+                    {
+                      <li>
+                        <span>{itemdata.item.contract}</span>
+                        <span>{tokenID}</span>
+                        <span>KLAY</span>
+                        <span>{itemdata.item.nettype}</span>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              )}
             </article>
 
             <article className="otherWorkArea">
@@ -1188,7 +1298,7 @@ function SingleItem({
 
         {reportPopup && (
           <>
-            <ReportPopup off={setreportPopup} />
+            <ReportPopup off={setreportPopup} itemid={itemid} username={walletAddress} />
             <PopupBg bg off={setreportPopup} />
           </>
         )}
@@ -1200,24 +1310,40 @@ function SingleItem({
           </>
         )}
 
-        {BidPopup && (<>
-        <PlaceBidPopup 
-        off={()=>{setBidPopup(); fetchitem(itemid)}}
-        j_auctionuuid_bidprice={j_auctionuuid_bidprice} 
-        itemdata={itemdata} 
-        sellorder={sellorder} 
-        mybidamount={mybidamount} 
-        myethbalance={myethbalance}
-        priceklay={priceklay}
-        j_auctionuuid_bidder={j_auctionuuid_bidder}
-        />
-        <PopupBg bg off={setBidPopup} />
-        </>
+        {BidPopup && (
+          <>
+            <PlaceBidPopup
+              off={() => {
+                setBidPopup();
+                fetchitem(itemid);
+              }}
+              j_auctionuuid_bidprice={j_auctionuuid_bidprice}
+              itemdata={itemdata}
+              sellorder={sellorder}
+              mybidamount={mybidamount}
+              myethbalance={myethbalance}
+              priceklay={priceklay}
+              j_auctionuuid_bidder={j_auctionuuid_bidder}
+            />
+            <PopupBg bg off={setBidPopup} />
+          </>
         )}
 
         {purchasePopup && (
           <>
-            <PurchaseSinglePopup off={()=>{setPurchasePopup(); fetchitem(itemid)}}  imageurl={itemdata?.item?.url} title={itemdata?.item?.titlename} price={sellorder?.asset_amount_ask} sellername={sellorder?.username} myethbalance={myethbalance} sellorder={sellorder} itemdata={itemdata}/>
+            <PurchaseSinglePopup
+              off={() => {
+                setPurchasePopup();
+                fetchitem(itemid);
+              }}
+              imageurl={itemdata?.item?.url}
+              title={itemdata?.item?.titlename}
+              price={sellorder?.asset_amount_ask}
+              sellername={sellorder?.username}
+              myethbalance={myethbalance}
+              sellorder={sellorder}
+              itemdata={itemdata}
+            />
             <PopupBg bg off={setPurchasePopup} />
           </>
         )}
@@ -1239,7 +1365,12 @@ function SingleItem({
                 </div>
 
                 <div className="btnBox">
-                  <button className="sellBtn" onClick={() => {navigate("/saleitem?itemid="+itemid)}}>
+                  <button
+                    className="sellBtn"
+                    onClick={() => {
+                      navigate("/saleitem?itemid=" + itemid);
+                    }}
+                  >
                     SELL
                   </button>
                   <button className="editBtn" onClick={() => {}}>
@@ -1250,7 +1381,7 @@ function SingleItem({
             )}
 
             {!myItem && (
-              <article className="myItemBar" style={{display: 'none'}}>
+              <article className="myItemBar" style={{ display: "none" }}>
                 <div className="titleBox">
                   <button className="exitBtn" onClick={() => navigate(-1)}>
                     <img src={I_ltArw3} alt="" />
@@ -1282,8 +1413,22 @@ function SingleItem({
                   backgroundSize: "cover",
                 }}
               >
-                  {itemdata?.item?.typestr=="image"&&(<img className="imageBox" src={imageurl}/>)}
-                  {itemdata?.item?.typestr=="video"&&(<video autoPlay muted={ismuted} loop id="video" className="imageBox" ref={video} onClick={()=>setIsmuted(!ismuted)}><source src={imageurl}/></video> )}
+                {itemdata?.item?.typestr == "image" && (
+                  <img className="imageBox" src={imageurl} />
+                )}
+                {itemdata?.item?.typestr == "video" && (
+                  <video
+                    autoPlay
+                    muted={ismuted}
+                    loop
+                    id="video"
+                    className="imageBox"
+                    ref={video}
+                    onClick={() => setIsmuted(!ismuted)}
+                  >
+                    <source src={imageurl} />
+                  </video>
+                )}
                 <div className="topBar">
                   <button className="sellerBtn" onClick={() => {}}>
                     <img
@@ -1362,35 +1507,37 @@ function SingleItem({
 
                     <div className="timeBox">
                       <p className="title">Auction ending</p>
-                      <strong className="time">{moment.unix(sellorder?.expiry).fromNow()}</strong>
+                      <strong className="time">
+                        {moment.unix(sellorder?.expiry).fromNow()}
+                      </strong>
                     </div>
                   </div>
 
-                  {(productType==="COMMON")&&(<button
-                    className="bidBtn"
-                    onClick={() => setPurchasePopup(true)}
-                  >
-                    {productType}
-                  </button>)}
-                  {(productType==="AUCTION_ENGLISH")&&
-                  (
+                  {productType === "COMMON" && (
                     <button
-                    className="bidBtn"
-                    onClick={() => setBidPopup(true)}
-                  >
-                    {productType}
-                  </button>
+                      className="bidBtn"
+                      onClick={() => setPurchasePopup(true)}
+                    >
+                      {productType}
+                    </button>
                   )}
-                  
+                  {productType === "AUCTION_ENGLISH" && (
+                    <button
+                      className="bidBtn"
+                      onClick={() => setBidPopup(true)}
+                    >
+                      {productType}
+                    </button>
+                  )}
                 </div>
               </div>
             </article>
 
             <article className="descriptionArea">
               <div>
-              <strong className="title">Description</strong>
+                <strong className="title">Description</strong>
 
-              <p className="description">{itemdata.item?.description}</p>
+                <p className="description">{itemdata.item?.description}</p>
               </div>
 
               <div className="priceBox">
@@ -1408,15 +1555,21 @@ function SingleItem({
                     <ul className="priceList">
                       <li>
                         <p className="key">Average price</p>
-                        <strong className="value">{pricestats[2]?.toFixed(4) || "NA"}</strong>
+                        <strong className="value">
+                          {pricestats[2]?.toFixed(4) || "NA"}
+                        </strong>
                       </li>
                       <li>
                         <p className="key">Highest price</p>
-                        <strong className="value">{pricestats[1]?.toFixed(4) || "NA"}</strong>
+                        <strong className="value">
+                          {pricestats[1]?.toFixed(4) || "NA"}
+                        </strong>
                       </li>
                       <li>
                         <p className="key">Lowest price</p>
-                        <strong className="value">{pricestats[0]?.toFixed(4) || "NA"}</strong>
+                        <strong className="value">
+                          {pricestats[0]?.toFixed(4) || "NA"}
+                        </strong>
                       </li>
                     </ul>
 
@@ -1446,7 +1599,7 @@ function SingleItem({
                 </div>
               </div>
 
-              <div className="offerBox" style={{display:'none'}}>
+              <div className="offerBox" style={{ display: "none" }}>
                 <strong className="title">Offer History</strong>
 
                 <div className="scrollBox">
@@ -1473,9 +1626,13 @@ function SingleItem({
                             </span>
 
                             <span className="rightBox">
-                              <p className="address">{convertLongString(8, 8, v.username)}</p>
+                              <p className="address">
+                                {convertLongString(8, 8, v.username)}
+                              </p>
 
-                              <p className="time">{moment(v.createdat).fromNow()}</p>
+                              <p className="time">
+                                {moment(v.createdat).fromNow()}
+                              </p>
                             </span>
                           </li>
                         );
@@ -1497,7 +1654,7 @@ function SingleItem({
                   </ul>
 
                   <ul className="list">
-                  {orders_sell
+                    {orders_sell
                       .sort((a, b) => {
                         return +a.asset_amount_ask == +b.asset_amount_ask
                           ? a.createdat > b.createdat
@@ -1506,7 +1663,6 @@ function SingleItem({
                           : +a.asset_amount_ask - +b.asset_amount_ask;
                       })
                       .map((v, idx) => {
-                        
                         return (
                           <li key={idx}>
                             <span>
@@ -1515,24 +1671,34 @@ function SingleItem({
                                 <p>{(+v.asset_amount_ask)?.toFixed(3)} KLAY</p>
                                 <p>(Qty. {v.asset_amount_bid})</p>
                               </div>
-                              <button className="purchaseBtn" onClick={(_) => {
-                                if (!isloggedin){SetErrorBar('PLEASE LOG IN');return;}
-                                if (is_two_addresses_same(walletAddress, v.username)) {
-                                  setMyItem(true)
-                                  SetErrorBar(messages.MSG_YOUR_OWN_ORDER);
+                              <button
+                                className="purchaseBtn"
+                                onClick={(_) => {
+                                  if (!isloggedin) {
+                                    SetErrorBar("PLEASE LOG IN");
+                                    return;
+                                  }
+                                  if (
+                                    is_two_addresses_same(
+                                      walletAddress,
+                                      v.username
+                                    )
+                                  ) {
+                                    setMyItem(true);
+                                    SetErrorBar(messages.MSG_YOUR_OWN_ORDER);
+                                    return;
+                                  } else {
+                                    console.log("same");
+                                    setMyItem(false);
+                                  }
+                                  setsellorder(v);
+                                  console.log(itemdata);
+                                  setProductType(v.typestr);
+
+                                  //console.log(v)
                                   return;
-                                } else {
-                                  console.log('same')
-                                  setMyItem(false)
-                                }
-                                setsellorder(v);
-                                console.log(itemdata)
-                                setProductType(v.typestr);
-   
-                                
-                                //console.log(v)
-                                return;
-                              }}>
+                                }}
+                              >
                                 Purchase
                               </button>
                             </span>
@@ -1557,24 +1723,22 @@ function SingleItem({
                   </ul>
 
                   <ul className="list">
-                  {logorders.sort((a , b)=>a.createdat>b.createdat? -1:+1 ).map((v, idx) => (
-                          <li key={idx}>
-                            <span>
-                              <div className="priceBox">
-                                <img
-                                  src={I_klaytn}
-                                  alt=""
-                                />
+                    {logorders
+                      .sort((a, b) => (a.createdat > b.createdat ? -1 : +1))
+                      .map((v, idx) => (
+                        <li key={idx}>
+                          <span>
+                            <div className="priceBox">
+                              <img src={I_klaytn} alt="" />
 
-                                  <p>{v.price} KLAY{" "}</p>
-                                  <p>(Qty. {v.asset_amount_bid})</p>
- 
-                              </div>
-                            </span>
-                            <span>{moment(v.createdat).fromNow()}</span>
-                            <span>{convertLongString(8, 8, v.buyer)}</span>
-                          </li>
-                        ))}
+                              <p>{v.price} KLAY </p>
+                              <p>(Qty. {v.asset_amount_bid})</p>
+                            </div>
+                          </span>
+                          <span>{moment(v.createdat).fromNow()}</span>
+                          <span>{convertLongString(8, 8, v.buyer)}</span>
+                        </li>
+                      ))}
                   </ul>
                 </div>
               </div>
@@ -1592,65 +1756,74 @@ function SingleItem({
                   </li>
                 ))}
               </ul>
-              {listCategory === 0 && (<div className="scrollBox">
-                <ul className="listHeader">
-                  <li>Event</li>
-                  <li>Price</li>
-                  <li>From</li>
-                  <li>To</li>
-                  <li>Date</li>
-                  <li>Tx confirm</li>
-                </ul>
+              {listCategory === 0 && (
+                <div className="scrollBox">
+                  <ul className="listHeader">
+                    <li>Event</li>
+                    <li>Price</li>
+                    <li>From</li>
+                    <li>To</li>
+                    <li>Date</li>
+                    <li>Tx confirm</li>
+                  </ul>
 
-                <ul className="list">
-                  {listholder.map((v, index) => (
-                    <li key={index}>
-                      <span>{MAP_ITEMHISTORY_EVETNS[v.typestr]}</span>
-                      <span>{putCommaAtPrice(v.price *1)} KLAY</span>
-                      <span>{v.from_}</span>
-                      <span>{v.to_}</span>
-                      <span>{moment(v.createdat).fromNow()}</span>
-                      <span>
-                        <button onClick={() => {
-                          if(v.isonchain){
-                            window.open(
-                              URL_TX_SCAN[v.nettype] + `/${v.txhash}`,
-                              "_blank"
-                            )
-                            .focus();
-                          }else{
-                            SetErrorBar(messages.MSG_IT_IS_OFFCHAIN);
-                            return;
-                          }
-                        }}>
-                          <img src={v.isonchain?icon_link_on:icon_link_off} alt="" />
-                        </button>
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>)}
+                  <ul className="list">
+                    {listholder.map((v, index) => (
+                      <li key={index}>
+                        <span>{MAP_ITEMHISTORY_EVETNS[v.typestr]}</span>
+                        <span>{putCommaAtPrice(v.price * 1)} KLAY</span>
+                        <span>{v.from_}</span>
+                        <span>{v.to_}</span>
+                        <span>{moment(v.createdat).fromNow()}</span>
+                        <span>
+                          <button
+                            onClick={() => {
+                              if (v.isonchain) {
+                                window
+                                  .open(
+                                    URL_TX_SCAN[v.nettype] + `/${v.txhash}`,
+                                    "_blank"
+                                  )
+                                  .focus();
+                              } else {
+                                SetErrorBar(messages.MSG_IT_IS_OFFCHAIN);
+                                return;
+                              }
+                            }}
+                          >
+                            <img
+                              src={v.isonchain ? icon_link_on : icon_link_off}
+                              alt=""
+                            />
+                          </button>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-              {listCategory === 1 && (<div className="chainscrollBox">
-                <ul className="listHeader">
-                  <li>Contract Address</li>
-                  <li>Token ID</li>
-                  <li>Token Standard</li>
-                  <li>Blockchain</li>
-                </ul>
+              {listCategory === 1 && (
+                <div className="chainscrollBox">
+                  <ul className="listHeader">
+                    <li>Contract Address</li>
+                    <li>Token ID</li>
+                    <li>Token Standard</li>
+                    <li>Blockchain</li>
+                  </ul>
 
-                <ul className="list">
-                  {
-                    <li>
-                      <span>{itemdata.item.contract}</span>
-                      <span>{tokenID}</span>
-                      <span>KLAY</span>
-                      <span>{itemdata.item.nettype}</span>
-                    </li>
-                  }
-                </ul>
-              </div>)}
-              
+                  <ul className="list">
+                    {
+                      <li>
+                        <span>{itemdata.item.contract}</span>
+                        <span>{tokenID}</span>
+                        <span>KLAY</span>
+                        <span>{itemdata.item.nettype}</span>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              )}
             </article>
 
             <article className="otherWorkArea">
@@ -1665,7 +1838,6 @@ function SingleItem({
                       )
                       .sort((a, b) => a.id - b.id)
                       .map((cont, index) => (
-                        
                         <li
                           key={index}
                           className="swiperContBox"
@@ -1673,64 +1845,70 @@ function SingleItem({
                             navigate(`/singleitem?itemid=${cont.item?.itemid}`)
                           }
                         >
-                          {cont.item.typestr=="image"&&(<img className="imageBox" src={cont.item?.url}/>)}
-                            {cont.item.typestr=="video"&&(<video className="imageBox"><source src={cont.item?.url}/></video> )}
-                         
-                            
-                            <div className="infoBox">
-                              <div className="topBar">
-                                <button
-                                  className="likeBtn"
-                                  onClick={(e) => {
-                                    // onClickFavorBtn(e, cont.itemid)
-                                  }}
-                                >
-                                  <img
-                                    src={
-                                      cont.ilikethisitem ? heart_on : heart_off
-                                    }
-                                    alt=""
-                                  />
+                          {cont.item.typestr == "image" && (
+                            <img className="imageBox" src={cont.item?.url} />
+                          )}
+                          {cont.item.typestr == "video" && (
+                            <video className="imageBox">
+                              <source src={cont.item?.url} />
+                            </video>
+                          )}
 
-                                  <p>{cont.countfavors}</p>
-                                </button>
+                          <div className="infoBox">
+                            <div className="topBar">
+                              <button
+                                className="likeBtn"
+                                onClick={(e) => {
+                                  // onClickFavorBtn(e, cont.itemid)
+                                }}
+                              >
+                                <img
+                                  src={
+                                    cont.ilikethisitem ? heart_on : heart_off
+                                  }
+                                  alt=""
+                                />
 
-                                <button
-                                  className="bookmarkBtn"
-                                  onClick={(e) => {
-                                    // onClickBookMarkBtn(e, cont.itemid)
-                                  }}
-                                >
-                                  <img
-                                    src={cont.ididbookmark ? star_on : star_off}
-                                    alt=""
-                                  />
-                                </button>
-                              </div>
+                                <p>{cont.countfavors}</p>
+                              </button>
 
-                              <p className="title">{cont?.item?.titlename}</p>
-                              <p className="nickname">
-                                {strDot(cont.item?.author?.nickname, 10, 0)}
+                              <button
+                                className="bookmarkBtn"
+                                onClick={(e) => {
+                                  // onClickBookMarkBtn(e, cont.itemid)
+                                }}
+                              >
+                                <img
+                                  src={cont.ididbookmark ? star_on : star_off}
+                                  alt=""
+                                />
+                              </button>
+                            </div>
+
+                            <p className="title">{cont?.item?.titlename}</p>
+                            <p className="nickname">
+                              {strDot(cont.item?.author?.nickname, 10, 0)}
+                            </p>
+
+                            <div className="etcBox">
+                              <p className="time">
+                                {cont?.minpriceorder
+                                  ? moment
+                                      .unix(cont?.minpriceorder?.expiry)
+                                      .fromNow()
+                                  : moment(cont?.item?.createdat).toNow()}
                               </p>
 
-                              <div className="etcBox">
-                                <p className="time">
-                                  {cont?.minpriceorder
-                                    ? moment
-                                        .unix(cont?.minpriceorder?.expiry)
-                                        .fromNow()
-                                    : moment(cont?.item?.createdat).toNow()}
-                                </p>
-
-                                <strong className="priceBox">
-                                  {cont?.minpriceorder?.price} KLAY
-                                </strong>
-                              </div>
+                              <strong className="priceBox">
+                                {cont?.minpriceorder?.price} KLAY
+                              </strong>
                             </div>
-                          
+                          </div>
 
                           <button className="buyBtn" onClick={() => {}}>
-                            {(productType==="COMMON")?('Buy Now'):('Place A BID')}
+                            {productType === "COMMON"
+                              ? "Buy Now"
+                              : "Place A BID"}
                           </button>
                         </li>
                       ))}
@@ -1868,9 +2046,12 @@ const MsignPopupBox = styled.div`
         padding: 2.77vw 2.77vw 11.11vw 2.77vw;
 
         .topBar {
+          //align-items: flex-start;
+          margin-top: 0px;
           display: flex;
           justify-content: space-between;
           width: 100%;
+          height: 100%;
 
           button {
             height: 11.66vw;
@@ -2455,6 +2636,82 @@ const MsignPopupBox = styled.div`
           }
         }
       }
+      .chainscrollBox {
+        margin: 0 2.22vw 0 2.77vw;
+
+        overflow-x: scroll;
+
+        &::-webkit-scrollbar {
+          height: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: #222;
+          border-radius: 4px;
+          height: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: #d8d8d8;
+          border-radius: 4px;
+          border: 1px solid #fff;
+        }
+
+        .listHeader {
+          display: flex;
+          align-items: center;
+          height: 13.33vw;
+
+          li {
+            font-size: 4.44vw;
+            font-weight: 700;
+          }
+        }
+
+        .list {
+          width: 340vw;
+          height: 53.33vw;
+          font-size: 4.44vw;
+          font-weight: 500;
+          overflow-y: scroll;
+
+          li {
+            display: flex;
+            align-items: center;
+            height: 13.33vw;
+            border-top: 1px solid #f2f2f2;
+
+            span {
+              &:nth-of-type(n + 3):nth-of-type(-n + 4) {
+                color: #1c7eff;
+              }
+
+              &:nth-of-type(5) {
+                color: #899a9b;
+              }
+            }
+          }
+        }
+
+        .listHeader li,
+        .list li span {
+          &:nth-of-type(1) {
+            min-width: 108.88vw;
+          }
+
+          &:nth-of-type(2) {
+            min-width: 31.11vw;
+          }
+
+          &:nth-of-type(3) {
+            min-width: 31.11vw;
+          }
+
+          &:nth-of-type(4) {
+            min-width: 31.11vw;
+          }
+        }
+      }
     }
 
     .otherWorkArea {
@@ -2690,10 +2947,10 @@ const PsingleItemBox = styled.div`
         padding: 10px 10px 20px 10px;
         border-radius: 20px;
 
-        .imageBox{
+        .imageBox {
           position: absolute;
           top: 50%;
-    transform: translateY(-50%);
+          transform: translateY(-50%);
           left: 0;
           object-fit: cover;
           margin: 0 auto;
@@ -2929,7 +3186,6 @@ const PsingleItemBox = styled.div`
         line-height: 20px;
       }
       & > div {
-        
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -3000,7 +3256,6 @@ const PsingleItemBox = styled.div`
           }
         }
       }
-
     }
 
     .historyArea {
@@ -3389,9 +3644,6 @@ const PsingleItemBox = styled.div`
           }
         }
       }
-
-
-
     }
 
     .otherWorkArea {
@@ -3432,85 +3684,84 @@ const PsingleItemBox = styled.div`
               align-items: flex-end;
               position: relative;
 
-              .imageBox{
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    object-fit: cover;
-                    width: 100%;
-                    height: 100%;
+              .imageBox {
+                position: absolute;
+                top: 0;
+                left: 0;
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+              }
+
+              .infoBox {
+                position: absolute;
+                bottom: 64px;
+                z-index: 3;
+                width: 100%;
+                padding: 16px;
+                background: linear-gradient(
+                  to bottom,
+                  rgba(0, 0, 0, 0.3),
+                  rgba(84, 84, 84, 0.3)
+                );
+
+                .topBar {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+
+                  img {
+                    width: 20px;
                   }
 
-                .infoBox {
-                  position: absolute;
-                  bottom: 64px;
-                  z-index: 3;
-                  width: 100%;
-                  padding: 16px;
-                  background: linear-gradient(
-                    to bottom,
-                    rgba(0, 0, 0, 0.3),
-                    rgba(84, 84, 84, 0.3)
-                  );
-                  
-                  .topBar {
+                  .likeBtn {
                     display: flex;
-                    justify-content: space-between;
                     align-items: center;
-
-                    img {
-                      width: 20px;
-                    }
-
-                    .likeBtn {
-                      display: flex;
-                      align-items: center;
-                      gap: 8px;
-                      font-size: 14px;
-                      font-weight: 500;
-                      line-height: 14px;
-                      color: #fff;
-                    }
-
-                    .bookmarkBtn {
-                    }
-                  }
-
-                  .title {
-                    margin: 10px 0 0 0;
-                    font-size: 22px;
-                    font-weight: 500;
-                    line-height: 30px;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                  }
-
-                  .nickname {
-                    margin: 4px 0 0 0;
+                    gap: 8px;
                     font-size: 14px;
                     font-weight: 500;
+                    line-height: 14px;
+                    color: #fff;
                   }
 
-                  .etcBox {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    height: 22px;
-                    margin: 12px 0 0 0;
-
-                    .time {
-                      font-size: 14px;
-                      font-weight: 500;
-                      color: #e5e5e5;
-                    }
-
-                    .priceBox {
-                      font-size: 18px;
-                    }
+                  .bookmarkBtn {
                   }
                 }
-              
+
+                .title {
+                  margin: 10px 0 0 0;
+                  font-size: 22px;
+                  font-weight: 500;
+                  line-height: 30px;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                }
+
+                .nickname {
+                  margin: 4px 0 0 0;
+                  font-size: 14px;
+                  font-weight: 500;
+                }
+
+                .etcBox {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  height: 22px;
+                  margin: 12px 0 0 0;
+
+                  .time {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #e5e5e5;
+                  }
+
+                  .priceBox {
+                    font-size: 18px;
+                  }
+                }
+              }
 
               .buyBtn {
                 position: absolute;

@@ -210,16 +210,14 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
     })
 
   }
-  useEffect(()=>{
-    if ( window.klaytn){
-    //let accounts = window.klaytn.enable()
-    //if (accounts[0]){
-      checklogin(window.klaytn.selectedAddress)
-    //}
-  }
-
-    
-    
+  useEffect(async ()=>{
+    window.klaytn._kaikas.isUnlocked().then((resp)=>{
+      if (resp){
+        window.klaytn.enable().then((rresp)=>{
+          checklogin(rresp[0])
+        })
+      }
+    })
   }, [])
 
 

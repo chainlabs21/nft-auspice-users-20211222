@@ -31,7 +31,7 @@ export default function MyPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const {walletAddress} = useSelector((state)=>state.user)
+  const {walletAddress, isloggedin} = useSelector((state)=>state.user)
   let [searchParams, setSearchParams] = useSearchParams();
   const [targetData, setTargetData] = useState();
   const [ searchAddress, setSearchAddress]=useState();
@@ -48,7 +48,9 @@ export default function MyPage() {
   }
   useEffect(()=>{
       if (pathname.split('/')[2] === '' || !pathname.split('/')[2]){
+        
         navigate('/mypage/searchwallet')
+
       }
       if(pathname.split('/')[3] != '' || pathname.split('/')[3]){
         setSearchAddress(pathname.split('/')[3])
@@ -58,9 +60,17 @@ export default function MyPage() {
       }
   }, [pathname])
 
-  useEffect(()=>{
+  useEffect(async ()=>{
     if (searchAddress) getUserInfo(searchAddress)
   },[searchAddress])
+  useEffect(()=>{
+    if( searchAddress ) return;
+    if(isloggedin){
+      setSearchAddress(walletAddress)
+    }else{
+      navigate('/')
+    }
+  }, [searchAddress])
   //const isMobile = useSelector((state) => state.common.isMobile);
 
 

@@ -59,7 +59,8 @@ export const API = {
 	API_REPORT_TX_REGISTER_PROXY : `${apiServer}/transactions/report/registerproxy` , // /:txhash
   API_RANKING: `${apiServer}/queries/rows/users02/active/1/0/20/sumsalesfloat/DESC`,
   API_GET_BIDS: `${apiServer}/my/bids`,
-  API_GET_PROPOSAL: `${apiServer}/my/proposals`
+  API_GET_PROPOSAL: `${apiServer}/my/proposals`,
+  API_GET_REPORT_CATEGORIES:`${apiServer}/queries/reportcategory`
 };
 
 

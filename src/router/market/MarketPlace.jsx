@@ -93,6 +93,7 @@ const codelist=['all'
   const [filters, setFilters] = useState()
   const [filterprops, setFilterprops] =useState()
   const [itemSort, setItemSort] =useState(0);
+  const [selectedFilter, setSelectedFilter] = useState(0)
 
   useEffect(()=>{
 
@@ -125,6 +126,7 @@ const codelist=['all'
   }
 
   const handleBundle=(e)=>{
+    setSelectedFilter(e)
     if(e==2){
       setFilteredList([])
     }else{
@@ -241,6 +243,7 @@ const codelist=['all'
         ) : (
           <button
             className="filterBtn mo"
+            style={{zIndex:'10'}}
             onClick={() => setToggleFilter(true)}
           >
             <p>Filter</p>
@@ -261,7 +264,7 @@ const codelist=['all'
                     className="selectBtn"
                     onClick={() => setItemFilterPopup(true)}
                   >
-                    <p>Single Item</p>
+                    <p>{D_itemFilter[selectedFilter]}</p>
                     <img src={I_dnArrow} alt="" />
                   </button>
 
@@ -270,6 +273,7 @@ const codelist=['all'
                       <SelectPopup
                         off={setItemFilterPopup}
                         contList={D_itemFilter}
+                        selectCont={e=>handleBundle(e)}
                       />
                       <PopupBg off={setItemFilterPopup} />
                     </>
@@ -281,12 +285,12 @@ const codelist=['all'
                     className="selectBtn"
                     onClick={() => setSortPopup(true)}
                   >
-                    <p>Latest</p>
+                    <p>{D_sortFilter[itemSort]}</p>
                     <img src={I_dnArrow} alt="" />
                   </button>
                   {sortPopup && (
                     <>
-                      <SelectPopup off={setSortPopup} contList={D_sortFilter} />
+                      <SelectPopup off={setSortPopup} contList={D_sortFilter} selectCont={e=>handleSort(e)} />
                       <PopupBg off={setSortPopup} />
                     </>
                   )}
@@ -324,20 +328,17 @@ const codelist=['all'
             </article>
 
             <ul className="itemList">
-              {filteredList.map((v, i) => (
+              {filteredList
+              .sort(sortingmachine)
+              .map((v, i) => (
                 <li
                   key={i}
                   className="itemBox"
                   onClick={() =>
                     navigate(`/singleitem?itemid=${v.item.itemid}`)
-                  }
-                  style={{
-                    backgroundImage: `url(${v.item?.url})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                  }}
-                >
+                  }>
+                    {v.item.typestr=="image"&&(<img className="imageBox" src={v.item?.url}/>)}
+                  {v.item.typestr=="video"&&(<video className="imageBox"><source src={v.item?.url}/></video> )}
                   <div className="infoBox">
                     <div className="topBar">
                       <button
@@ -376,6 +377,7 @@ const codelist=['all'
                   </div>
                 </li>
               ))}
+              {(iindex<totalItem)?(<button className="more" onClick={()=>{handleMore()}}>MORE</button>):(<>{iindex} 중에 {totalItem}</>)}
             </ul>
           </section>
         </MmarketPlaceBox>
@@ -415,7 +417,7 @@ const codelist=['all'
                     className="selectBtn"
                     onClick={() => setItemFilterPopup(true)}
                   >
-                    <p>Single Item</p>
+                    <p>{D_itemFilter[selectedFilter]}</p>
                     <img src={I_dnArrow} alt="" />
                   </button>
 
@@ -646,6 +648,7 @@ const MmarketPlaceBox = styled.div`
       flex-direction: column;
       gap: 5.55vw;
       margin: 5.55vw 0 0 0;
+      
 
       .itemBox {
         display: flex;
@@ -673,7 +676,7 @@ const MmarketPlaceBox = styled.div`
         }
 
         .infoBox {
-          z-index: 10;
+          z-index: 5;
           width: 100%;
           padding: 5.5vw 4.4vw;
           background: linear-gradient(
@@ -739,6 +742,19 @@ const MmarketPlaceBox = styled.div`
             }
           }
         }
+      }
+      .more{
+        font-size: 48px;
+              font-weight: 500;
+              justify-content: center;
+        align-items: center;
+        color: white;
+        display: flex;
+      flex-wrap: wrap;
+      margin: 32px auto;
+      width: 100%;
+      border-radius: 28px;
+      background: #000;
       }
     }
   }

@@ -17,7 +17,7 @@ export default function SentEmail() {
       <MsentEmail>
         <section className="popupBox">
           <article className="topBar">
-            <button className="exitBtn" onClick={() => navigate(-1)}>
+            <button className="exitBtn" onClick={() => navigate('/')}>
               <img src={I_x} alt="" />
             </button>
           </article>
@@ -46,7 +46,7 @@ export default function SentEmail() {
       <PsentEmail>
         <section className="popupBox">
           <article className="topBar">
-            <button className="exitBtn" onClick={() => navigate(-1)}>
+            <button className="exitBtn" onClick={() => navigate('/')}>
               <img src={I_x} alt="" />
             </button>
           </article>

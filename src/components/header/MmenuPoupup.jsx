@@ -1,11 +1,17 @@
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { D_NavList } from "../../data/D_header";
 import I_dnArrow from "../../img/icons/I_dnArrow.svg";
 import I_upArwWhite from "../../img/icons/I_upArwWhite.svg";
+import { onClickCopy } from "../../util/common";
+import { strDot } from "../../util/Util";
+import SetErrorBar from "../../util/SetErrorBar";
+import { messages } from "../../config/messages";
 
 export default function MmenuPopup({ off }) {
   const navigate = useNavigate();
+  const {isloggedin, walletAddress} = useSelector((state)=>state.user)
 
   function onClickNav(url) {
     navigate(url);
@@ -35,8 +41,17 @@ export default function MmenuPopup({ off }) {
         ))}
       </article>
 
-      <button className="connectBtn" onClick={() => navigate("/connectwallet")}>
-        Connect Wallet
+      <button className="connectBtn"
+              onClick={() => {
+                if(isloggedin && walletAddress){
+                  onClickCopy(walletAddress);
+                  SetErrorBar(messages.MSG_COPIED);
+                }else{
+                  navigate("/connectwallet");
+                }
+              }}
+            >
+              {(isloggedin && walletAddress) ? strDot(walletAddress, 8, 0) : "Connect Wallet"}
       </button>
     </MmenuPopupBox>
   );

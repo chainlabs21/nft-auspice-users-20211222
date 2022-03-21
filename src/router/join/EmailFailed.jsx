@@ -22,7 +22,7 @@ export default function EmailFailed() {
             </p>
           </article>
           <article className="btnBox">
-            <button className="cancelBtn" onClick={() => navigate(-1)}>
+            <button className="cancelBtn" onClick={() => navigate('/')}>
               Cancel
             </button>
             <button
@@ -46,7 +46,7 @@ export default function EmailFailed() {
             </p>
           </article>
           <article className="btnBox">
-            <button className="cancelBtn" onClick={() => navigate(-1)}>
+            <button className="cancelBtn" onClick={() => navigate('/')}>
               Cancel
             </button>
             <button

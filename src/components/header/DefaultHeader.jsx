@@ -224,7 +224,7 @@ const MdefaultHeaderBox = styled.header`
   height: 72px;
   background: #fff;
   top: 0;
-  z-index: 4;
+  z-index: 10;
   position: fixed;
 
   .innerBox {
