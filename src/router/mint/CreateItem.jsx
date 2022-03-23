@@ -77,6 +77,7 @@ export default function CreateItem({ store, setConnect }) {
   const itemInputRef = useRef();
 
   const isMobile = useSelector((state) => state.common.isMobile);
+  const {isloggedin} = useSelector((state) => state.user);
   const {walletAddress} = useSelector((state) => state.user);
   const [item, setItem] = useState("");
   const [name, setName] = useState("");
@@ -109,6 +110,10 @@ export default function CreateItem({ store, setConnect }) {
   const [listingProcess, setListingProcess] = useState(0);
   const [submitReady, setSubmitReady]=useState(true);
 
+
+  useEffect(()=>{
+    if(!isloggedin){SetErrorBar('로그인이 필요로 합니다.');navigate('/');return;}
+  })
   useEffect(()=>{
     if (nameChk && fileChk && description){
       setSubmitReady(false)
@@ -280,6 +285,19 @@ export default function CreateItem({ store, setConnect }) {
       SetErrorBar(messages.MSG_REGISTER_FAILED);
     }
   };
+
+  const checkbeforesubmit=()=>{
+
+
+    window.klaytn.enable().then((account)=>{
+      if(walletAddress == account[0]){
+        handleCreateItem()
+      }
+    })
+  }
+
+
+
   const onChangeItem = async (file) => {
     if (!file) {
       return;
@@ -355,6 +373,7 @@ export default function CreateItem({ store, setConnect }) {
       await on_post_metadata();
       if (activePubl) {
         // TODO          // transaction here ( mint )
+
         on_request_tx_mint_onchain();
       } else {
         on_request_lazy_mint();
@@ -389,10 +408,10 @@ export default function CreateItem({ store, setConnect }) {
   }, []);
 
   useEffect(() => {
-    if (name.length > 0) {
-      setNameChk(true);
-    } else {
+    if (!name) {
       setNameChk(false);
+    } else {
+      setNameChk(true);
     }
   }, [name]);
   useEffect(() => {
@@ -806,7 +825,7 @@ export default function CreateItem({ store, setConnect }) {
             </article>
 
             <article className="btnArea">
-              <button className={submitReady?"dcreateBtn":"createBtn"} disabled={submitReady} onClick={() => {handleCreateItem()}}>
+              <button className={!(nameChk && fileChk)?"dcreateBtn":"createBtn"} disabled={!(nameChk && fileChk)} onClick={() => {checkbeforesubmit()}}>
                 Create Item
               </button>
             </article>

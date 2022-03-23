@@ -177,11 +177,23 @@ export default function Signup({ store, setConnect }) {
   };
 
   useEffect(() => {
-    if (username.length < 5 || username.length > 50) {
+    const regUsername = /^[가-힣a-zA-z\-\_\,]+$/;
+    console.log(regUsername.test(username))
+    if (username.length < 5 || username.length > 20) {
+      
       setUsernameChk(false);
       setUsernameAlarm("Invalid nickname. It must be less than 20 characters.");
       return;
     }
+    if (!regUsername.test(username)) {
+      setUsernameChk(false);
+      setUsernameAlarm(
+        "Invalid nickname. Only Korean, English uppercase and lowercase letters, and special characters (- , _) are allowed."
+      );
+      return;
+    }
+    
+    
     setUsernameChk(true);
     /*
     const regUsername = /^[가~힣a~zA~z\-\_\,]+$/;
@@ -283,7 +295,7 @@ export default function Signup({ store, setConnect }) {
                 {usernameChk && <p className="able">Usernames that can be used</p>}
                 {username && !usernameChk && (
                   <p className="disable">
-                    Invalid nickname. It must be less than 20 characters.
+                    {usernameAlarm}
                   </p>
                 )}
               </div>
@@ -426,7 +438,7 @@ export default function Signup({ store, setConnect }) {
                 {usernameChk && <p className="able">Usernames that can be used</p>}
                 {!usernameChk && (
                   <p className="disable">
-                    Invalid nickname. It must be less than 20 characters.
+                    {usernameAlarm}
                   </p>
                 )}
               </div>

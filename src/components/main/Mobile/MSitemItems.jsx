@@ -15,22 +15,33 @@ import { useSelector } from "react-redux";
 
 export default function SitemItems({ val, index }) {
   const navigate = useNavigate();
-  const [ilikethisitem, setIlikethisitem] = useState(false);
-  const { isloggedin } = useSelector((state) => state.user);
-  useEffect(() => {
-    if (isloggedin) {
-      axios.get(`${API.API_GET_I_LIKE}/${val.itemid}`).then((resp) => {
-        let { status } = resp.data;
-        if (status === 1) {
-          setIlikethisitem(true);
-        } else {
-          setIlikethisitem(false);
-        }
-      });
-    }
-  }, []);
+  const [ilikethisitem, setIlikethisitem] = useState(false)
+  const {isloggedin}=useSelector((state)=>state.user)
+  const [totalFavors, setTotalFavors]=useState(val.item.countfavors)
+  useEffect(()=>{
+    if (isloggedin){
+    axios.get(`${API.API_GET_I_LIKE}/${val.itemid}`).then((resp)=>{
+      let {status} = resp.data
+      if (status===1){
+        setIlikethisitem(true)
+      }else{
+        setIlikethisitem(false)
+      }
+    })
+  }
+  }, [])
+
+  function countfavors(){
+    axios.get(`${API.API_COUNT_FAVOR}/${val.itemid}`)
+    .then((resp)=>{
+      setTotalFavors(resp.data.respdata)
+    })
+  }
+
 
   function onClickFavorBtn(e, itemid) {
+    if(!isloggedin){SetErrorBar("로그인을 해주세요"); return;}
+
     e.stopPropagation();
     LOGGER("CodOU75E5r");
     axios.post(`${API.API_TOGGLE_FAVOR}/${itemid}`).then((resp) => {
@@ -38,56 +49,48 @@ export default function SitemItems({ val, index }) {
       let { status, respdata, message } = resp.data;
 
       if (status === "OK") {
-        axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
-          LOGGER("JN8wsASyiL", resp.data);
-          let { status, list } = resp.data;
-          if (status === "OK") {
-            //setlist_trenditems(list);
-          }
-        });
-
-        axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
-          LOGGER("JBwpoHdvFv", resp.data);
-          let { status, list } = resp.data;
-          if (status === "OK") {
-            //setlist_newitems(list);
-          }
-        });
+        countfavors()
+        if (respdata===1){
+          setIlikethisitem(true)
+        }else{
+          setIlikethisitem(false)
+        }
+        console.log(resp.data)
       } else if (message === "PLEASE-LOGIN") {
         SetErrorBar("로그인을 해주세요");
       }
     });
   }
 
-  function onClickBookMarkBtn(e, itemid) {
-    e.preventDefault();
+  // function onClickBookMarkBtn(e, itemid) {
+  //   e.preventDefault();
 
-    axios.post(`${API.API_TOGGLE_BOOKMARK}/${itemid}`).then((resp) => {
-      LOGGER("", resp.data);
-      let { status, message } = resp.data;
-      if (status === "OK") {
-        if (status === "OK") {
-          axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
-            LOGGER("JN8wsASyiL", resp.data);
-            let { status, list } = resp.data;
-            if (status === "OK") {
-              //setlist_trenditems(list);
-            }
-          });
+  //   axios.post(`${API.API_TOGGLE_BOOKMARK}/${itemid}`).then((resp) => {
+  //     LOGGER("", resp.data);
+  //     let { status, message } = resp.data;
+  //     if (status === "OK") {
+  //       if (status === "OK") {
+  //         axios.get(`${API.API_MAIN_TREND_ITEMS}`).then((resp) => {
+  //           LOGGER("JN8wsASyiL", resp.data);
+  //           let { status, list } = resp.data;
+  //           if (status === "OK") {
+  //             //setlist_trenditems(list);
+  //           }
+  //         });
 
-          axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
-            LOGGER("JBwpoHdvFv", resp.data);
-            let { status, list } = resp.data;
-            if (status === "OK") {
-              //setlist_newitems(list);
-            }
-          });
-        } else if (message === "PLEASE-LOGIN") {
-          SetErrorBar("로그인을 해주세요");
-        }
-      }
-    });
-  }
+  //         axios.get(`${API.API_MAIN_NEW_ITEMS}`).then((resp) => {
+  //           LOGGER("JBwpoHdvFv", resp.data);
+  //           let { status, list } = resp.data;
+  //           if (status === "OK") {
+  //             //setlist_newitems(list);
+  //           }
+  //         });
+  //       } else if (message === "PLEASE-LOGIN") {
+  //         SetErrorBar("로그인을 해주세요");
+  //       }
+  //     }
+  //   });
+  // }
 
   return (
     <MSitemItems>
@@ -112,15 +115,15 @@ export default function SitemItems({ val, index }) {
             >
               <img src={ilikethisitem ? heart_on : heart_off} alt="" />
 
-              <p>{val.item.countfavors}</p>
+              <p>{totalFavors}</p>
             </button>
 
-            <button
+            {/* <button
               className="bookmarkBtn"
               onClick={(e) => onClickBookMarkBtn(e, val.itemid)}
             >
               <img src={val.ididbookmark ? star_on : star_off} alt="" />
-            </button>
+            </button> */}
           </div>
 
           <p className="title">{val.item.titlename}</p>

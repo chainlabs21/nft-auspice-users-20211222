@@ -17,6 +17,7 @@ export default function BitemBox({ category }) {
   const navigate=useNavigate();
   const visualSwiperRef = useRef();
   const [items, setItems] = useState([]);
+  const [enlarged, setEnlarged] = useState(false);
   const [visualSwiperIndex, setVisualSwiperIndex] = useState(0);
   useEffect(() => {
     console.log(category)
@@ -49,7 +50,7 @@ export default function BitemBox({ category }) {
   return (
     <PBitemBox>
       <article className="vvisual">
-        <div className="titleContainer">
+        <div className="titleContainerr" style={enlarged?{maxWidth:'0%'}:{maxWidth:'50%'}}>
           <div className="titleInnerBox">
             <div className="titleBox">
               <img className="titleImg" src={title} />
@@ -82,12 +83,12 @@ export default function BitemBox({ category }) {
           </div>
         </div>
 
-        <div className="swiperContainer">
-        <div className="gradientBox">
+        <div className="sswiperContainer" >{/** style={enlarged?{left:'-660px', justifyContent: 'center'}:{left:'0'}}>*/} 
+        {/* <div className="gradientBox">
           <div className="activeGradient"></div>
-        </div>
-          <div className="swiperBox">
-          
+        </div> */}
+          <div className="swiperBox" style={enlarged?{width:'1310px'}:{width:'800px'}} >{/* style={enlarged?{width:'1310px'}:{width:'800px'}}>  onClickVisualSwiperBtn();*/}
+          <div className="activeGradient"></div>
             <ul className="swiperList" ref={visualSwiperRef}>
               {items
                 .sort((a, b) => (a.createdat < b.createdat ? +1 : -1))
@@ -98,7 +99,7 @@ export default function BitemBox({ category }) {
             </ul>
           </div>
 
-          <button className="nextBtn" onClick={onClickVisualSwiperBtn}>
+          <button className="nextBtn" onClick={()=>{setEnlarged(!enlarged);console.log(enlarged)}}>
             <img src={I_ltArw3BlackBtn} alt="" />
           </button>
         </div>
@@ -114,13 +115,15 @@ const PBitemBox = styled.div`
       justify-content: space-between;
       
 
-      .titleContainer {
+      .titleContainerr {
+        overflow: hidden;
+        transition: max-width 1s ease;
         position: relative;
         
         flex:1;
         display: flex;
         justify-content: flex-end;
-        max-width: 50%;
+        //width: 50%;
         height: inherit;
         padding: 100px 138px 0 0;
         background: #fff;
@@ -176,23 +179,28 @@ const PBitemBox = styled.div`
           }
         }
       }
-      .swiperContainer {
-        //left: -670px;
+
+
+      .sswiperContainer {
+        transition: left .7s ease;
+        
+        left: 0px;
         background-color: #fff;
         z-index:2;
         flex:1;
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: start;
         position: relative;
-        max-width: 50%;
-        padding: 42px 0 42px 10px;
+        max-width: 100%;
+        padding: 42px 0 42px 0;
 
         .gradientBox{
           pointer-events: none;
             
           height: 600px;
           width: 800px;
+          //width: 100%;
           position: absolute;
           z-index: 3;
 
@@ -209,7 +217,10 @@ const PBitemBox = styled.div`
         
 
         .swiperBox {
+          transition: width 1s ease;
+          //justify-content: center;
           width: 800px;
+          //max-width: 1310px;
           //width:1200px;
           overflow: hidden;
           height: 600px;
@@ -217,6 +228,16 @@ const PBitemBox = styled.div`
           padding-top: 20px;
           display: flex;
           position: relative;
+
+          .activeGradient{
+            z-index: 9;
+            height: 600px;
+          width: 100px;
+          position: absolute;
+          right: 0;
+          background: linear-gradient(to left, rgba(255, 255,255, 1), rgba(0, 0, 0, 0));
+
+          }
 
 
 

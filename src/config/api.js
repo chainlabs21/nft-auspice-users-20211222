@@ -2,6 +2,7 @@ const apiServer = process.env.REACT_APP_API_SERVER;//"http://itemverse1.net:3228
 export const API = {
   API_TICKERS: `${apiServer}/stats/tickers`,
   API_TOGGLE_FAVOR: `${apiServer}/favorites/toggle`,
+  API_COUNT_FAVOR: `${apiServer}/favorites/totalcount`,
   API_TOGGLE_BOOKMARK: `${apiServer}/bookmarks/toggle`,
   API_USER_JOIN: `${apiServer}/users/join`,
   API_COMPLETE_EMAIL_VERIFY: `${apiServer}/users/email/verifycode`,
@@ -28,7 +29,7 @@ export const API = {
   API_GET_MAINCATEGORY:`${apiServer}/queries/featured/rows/`,
 	API_REPORT_SPAM_CATEGORIES : `${apiServer}/queries/rows/categories/group_/reportspam/0/100/id/DESC` ,
   API_GET_CREATORS: `${apiServer}/queries/rows/users/iscreator/1/0/8/countcreated/DESC?userdetail=1`,
-  API_GET_EXPLORE: `${apiServer}/queries/rows/fieldvalues/transactions/0/10/id/DESC`,
+  API_GET_EXPLORE: `${apiServer}/queries/rows/fieldvalues/transactions/0/60/id/DESC`,
   API_GET_ITEM_LIST: `${apiServer}/merchandises`,
   API_GET_LIKE_LIST: `${apiServer}/queries/rows/logfavorites/objectid`, // /:itemid /:index /:limit /id /:sort
   API_GET_OWNER_LIST: `${apiServer}/queries/rows/itembalances/itemid`, // /:itemid /:index /:limit /id /:sort

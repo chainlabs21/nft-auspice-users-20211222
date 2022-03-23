@@ -320,7 +320,7 @@ else
                       </span>
 
                       <span>
-                        <p>3</p>
+                        <p>1</p>
                       </span>
 
                       <span>
@@ -356,12 +356,12 @@ else
                       </span>
 
                       <span>
-                        <p>3</p>
+                        <p>1</p>
                       </span>
 
                       <span>
                         <img className="profImg" src={cont.sellerInfo.profileimageurl}/>
-                        <p>{cont.ress.seller}</p>
+                        <p>{cont.ress.bidder}</p>
                       </span>
 
                       <span>

@@ -158,6 +158,7 @@ function SingleItem({
   let tokenid; //	let itemid =get_last_part_of_path ( window.location.href )
   let axios = applytoken();
   let [myaddress, setmyaddress] = useState(getmyaddress());
+  const [countavail, setCountavail]=useState(0)
   const [tokenID, setTokenID] = useState();
   const getfeeamountstr = (amount, rate) => {
     let n = (+amount * +rate) / 10000;
@@ -436,7 +437,7 @@ function SingleItem({
     if (itemdata?.minpriceorder) {
       let { username } = itemdata?.minpriceorder; // ?.username
       axios
-        .get(API.API_OWNED_ITEMS + `/${username}/0/10/id/DESC`)
+        .get(API.API_AUTHORS_ITEMS + `/${username}/0/10/id/DESC`)
         .then((resp) => {
           //LOGGER("", resp.data);
           let { status, list } = resp.data;
@@ -623,7 +624,7 @@ function SingleItem({
     itemdata?.itembalances?.map((v, i) => {
       if (v.username == walletAddress) {
         setIsOwner(true);
-        //console.log('주인입니다.')
+        setCountavail(parseInt(v.avail))
       }
     });
   }, [itemdata.itembalances]);
@@ -1363,7 +1364,7 @@ window.scrollTo({top:0});
                   </button>
 
                   <strong className="title">
-                    {itemdata?.author?.nickname}'s item
+                    {itemdata?.author?.nickname}'s item owned: {countavail}
                   </strong>
                 </div>
 
@@ -1652,7 +1653,7 @@ window.scrollTo({top:0});
                 <div className="scrollBox">
                   <ul className="listHeader">
                     <li>Price</li>
-                    <li>Expired</li>
+                    <li>Expires</li>
                     <li>Seller</li>
                   </ul>
 
@@ -1705,7 +1706,7 @@ window.scrollTo({top:0});
                                 Purchase
                               </button>
                             </span>
-                            <span>{moment(v.createdat).fromNow()}</span>
+                            <span>{moment.unix(v.expiry).fromNow()}</span>
                             {/**<img src={jprofileimages[idx]} alt="" /> */}
                             <span>{convertLongString(5, 5, v.username)}</span>
                           </li>
@@ -1830,7 +1831,7 @@ window.scrollTo({top:0});
             </article>
 
             <article className="otherWorkArea">
-              <strong className="title">Other works in this collection</strong>
+              <strong className="title">Other works from this author</strong>
 
               <div className="swiperContainer">
                 <div className="swiperBox">
@@ -1844,8 +1845,10 @@ window.scrollTo({top:0});
                         <li
                           key={index}
                           className="swiperContBox"
-                          onClick={() =>
+                          onClick={() =>{
+                            window.location.reload();
                             navigate(`/singleitem?itemid=${cont.item?.itemid}`)
+                          }
                           }
                         >
                           {cont.item.typestr == "image" && (

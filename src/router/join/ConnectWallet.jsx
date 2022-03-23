@@ -92,9 +92,9 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
   window.klaytn.enable().then((account)=>{
     dispatch({ type: SET_ADDRESS, payload: {value: account[0] }}); 
 
-    axios.get(`${API.API_USER_INFO}/${account[0]}`).then((resp)=>{
+    axios.get(`${API.API_USER_INFO}/${account[0]}`).then(async(resp)=>{
       console.log("DATA:: "+resp)
-      dispatch({
+      await dispatch({
         type: SET_USER_DATA,
         payload: {value: resp.data.payload},
       });

@@ -46,7 +46,7 @@ export default function ItemLikePopup({ off, itemid }) {
       <MitemLikePopup>
         <article className="topBar">
           <span className="blank" />
-          <strong className="title">Owner List</strong>
+          <strong className="title">Liked Users List</strong>
           <button className="exitBtn" onClick={() => off()}>
             <img src={I_x} alt="" />
           </button>
@@ -55,9 +55,10 @@ export default function ItemLikePopup({ off, itemid }) {
         <div className="contArea">
           <ul className="contList">
             {data.map((v, i) => (
+              
               <li key={i}>
                 <span className="profBox">
-                  <span className="profImg" />
+                <img className="profImg" src={v.maria.profileimageurl}/>
 
                   <div className="nameBox">
                     <strong className="nickname">{v.maria.nickname}</strong>
@@ -67,7 +68,7 @@ export default function ItemLikePopup({ off, itemid }) {
                   </div>
                 </span>
 
-                <span className="itemBox">{v.amount} Items</span>
+                <span className="itemBox" onClick={()=>{navigate('/mypage/searchwallet/'+v.maria.username)}}>{v.amount} Items</span>
               </li>
             ))}
           </ul>

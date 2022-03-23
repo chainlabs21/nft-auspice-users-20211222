@@ -203,7 +203,7 @@ export default function DefaultHeader(props) {
                     <li onClick={() => navigate("/createitem")}>
                       Publish NFT
                     </li>
-                    <li onClick={() => navigate("/mypage/liked")}>Bookmark</li>
+                    <li onClick={() => navigate("/mypage/liked/"+walletAddress)}>Bookmark</li>
                     <li onClick={() => navigate("/mywallet")}>
                       Account Setting
                     </li>

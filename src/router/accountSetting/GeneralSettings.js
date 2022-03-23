@@ -41,11 +41,30 @@ export default function GeneralSettings({ store, setConnect }) {
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
   useEffect(()=>{
-    setNickname(userData.myinfo_maria?.nickname)
-    setDescription(userData.myinfo_maria?.description)
-    setEmail(userData.myinfo_maria?.email)
+    if (!isloggedin){
+      navigate('/')
+      return;
+    }
+    getUserInfo()
+
+    // setNickname(userData.myinfo_maria?.nickname)
+    // setDescription(userData.myinfo_maria?.description)
+    // setEmail(userData.myinfo_maria?.email)
 
   },[])
+
+  function getUserInfo(){
+    console.log(`${API.API_USER_INFO}/${walletAddress}`)
+    axios.get(`${API.API_USER_INFO}/${walletAddress}`).then((resp)=>{
+      let {maria} = resp.data.payload;
+      console.log(maria)
+      setNickname(maria.nickname)
+    setDescription(maria.description)
+    setEmail(maria.email)
+      //setTargetData(maria)
+    })
+  }
+
   const onClickSave=()=>{
     let reqbody = {
       description,
@@ -55,8 +74,12 @@ export default function GeneralSettings({ store, setConnect }) {
       LOGGER("", resp.data); // }/users/user/myinfo`
       let { status } = resp.data;
       if (status == "OK") {
+        
         SetErrorBar(messages.MSG_DONE_REGISTERING);
         return;
+      }else{
+        getUserInfo()
+        console.log(resp.data)
       }
     });
   }
@@ -163,6 +186,7 @@ export default function GeneralSettings({ store, setConnect }) {
 
                   <div className="inputBox">
                     <input
+                      readOnly
                       value={email}
                       
                       placeholder="Please enter your email address"

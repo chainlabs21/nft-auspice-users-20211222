@@ -16,36 +16,24 @@ import { strDot } from "../../../util/Util";
 import axios from "axios";
 import { LOGGER } from "../../../util/common";
 import { API } from "../../../config/api";
+import SetErrorBar from "../../../util/SetErrorBar";
 
 
 export default function SearchWalletItembox({ address, cont, index}) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { pathname } = useLocation();
 
   const isMobile = useSelector((state) => state.common.isMobile);
-  const { marketFilter } = useSelector((state) => state.filter);
 
   const [popupIndex, setPopupIndex] = useState(-1);
-  const [Filters, setFilters] = useState();
-  const [search, setSearch] = useState("");
-  const [sortPopup, setSortPopup] = useState(false);
-  const [itemFilterPopup, setItemFilterPopup] = useState(false);
-  const [toggleFilter, setToggleFilter] = useState(false);
-  let [listitems, setlistitems] = useState([]);
-  const [nickname, setNickname] = useState("Username");
-  const [desc, setDesc] = useState("Description");
-  const [imageUrl, setImageUrl] = useState("");
-  const [orderkey, setOrderkey] = useState(0);
   const [isOwner, setIsOwner] = useState(false);
-  const [targetAddress, setTargetAddress] = useState();
   const [ilikethisitem, setIlikethisitem] = useState(false);
+  const [totalFavors, setTotalFavors] = useState(cont.item.countfavors)
 
   const { userData, isloggedin, walletAddress } = useSelector(
     (state) => state.user
   );
   useEffect(()=>{
-      console.log(cont)
+    countfavors(cont.itemid)
       doilike();
       if(walletAddress==address){
           setIsOwner(true)
@@ -55,11 +43,19 @@ export default function SearchWalletItembox({ address, cont, index}) {
 
   },[])
 
+  function countfavors(itemid){
+    axios.get(`${API.API_COUNT_FAVOR}/${cont.itemid}`)
+    .then((resp)=>{
+      setTotalFavors(resp.data.respdata)
+    })
+  }
+
   function doilike(itemid){
       if(isloggedin){
           axios.get(`${API.API_GET_I_LIKE}/${cont.itemid}`).then((resp)=>{
-            let {status} = resp.data
-            if (status===1){
+            let {status, respdata} = resp.data
+            console.log(resp.data)
+            if (status==1){
               setIlikethisitem(true)
             }else{
               setIlikethisitem(false)
@@ -74,6 +70,8 @@ export default function SearchWalletItembox({ address, cont, index}) {
   }
 
   function onClickFavorBtn(e, itemid) {
+    if(!isloggedin){SetErrorBar("로그인을 해주세요"); return;}
+
     e.stopPropagation();
     LOGGER("CodOU75E5r");
     axios.post(`${API.API_TOGGLE_FAVOR}/${itemid}`).then((resp) => {
@@ -81,6 +79,7 @@ export default function SearchWalletItembox({ address, cont, index}) {
       let { status, respdata, message } = resp.data;
 
       if (status === "OK") {
+        countfavors(cont.itemid)
         doilike();
       } else if (message === "PLEASE-LOGIN") {
         //SetErrorBar("로그인을 해주세요");
@@ -126,11 +125,11 @@ export default function SearchWalletItembox({ address, cont, index}) {
             <div className="topBar">
               <button
                 className="likeBtn"
-                // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
+                onClick={(e) => onClickFavorBtn(e, cont.item?.itemid)}
               >
-                <img src={heart_off} alt="" />
+                <img src={ilikethisitem ? heart_on : heart_off} alt="" />
 
-                <p>1,389</p>
+                <p>{totalFavors}</p>
               </button>
 
               <button
@@ -141,8 +140,8 @@ export default function SearchWalletItembox({ address, cont, index}) {
               </button>
             </div>
 
-            <p className="nickname">Renoir</p>
-            <p className="title">Verger de pommiers</p>
+            <p className="nickname">{cont.author?.nickname}</p>
+            <p className="title">{cont.item?.titlename}</p>
           </div>
         </li>
       </MsearchWalletitem>
@@ -189,7 +188,7 @@ export default function SearchWalletItembox({ address, cont, index}) {
               >
                 <img src={ilikethisitem ? heart_on : heart_off} alt="" />
 
-                <p>{cont.item.countfavors}</p>
+                <p>{totalFavors}</p>
               </button>
 
               {isOwner && (

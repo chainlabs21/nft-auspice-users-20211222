@@ -211,10 +211,14 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
 
   }
   useEffect(async ()=>{
+    dispatch({ type: SET_LOGIN, payload: { value: false }});
     window.klaytn._kaikas.isUnlocked().then((resp)=>{
       if (resp){
-        window.klaytn.enable().then((rresp)=>{
-          checklogin(rresp[0])
+        window.klaytn._kaikas.isApproved().then((rresp)=>{
+          window.klaytn.enable().then((rresp)=>{
+            console.log(rresp)
+            checklogin(rresp[0])
+          })
         })
       }
     })

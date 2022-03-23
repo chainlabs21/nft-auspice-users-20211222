@@ -25,12 +25,7 @@ export default function MypageFilter({ off, setFilter,resetFilter, filterObj, ed
     var key=e.key;
     var val=e.value;
     console.log(key +" : " +val)
-    if (val===1)
-      setStatusFilter({...statusFilter, 1: !statusFilter[1]})
-    if (val===2)
-      setStatusFilter({...statusFilter, 2: !statusFilter[2]})
-    if (val===4)
-      setStatusFilter({...statusFilter, 4: !statusFilter[4]})
+      setStatusFilter({...statusFilter, [e.key]: !statusFilter[e.key]})
     
   }
   useEffect(()=>{
@@ -38,7 +33,7 @@ export default function MypageFilter({ off, setFilter,resetFilter, filterObj, ed
   }, [statusFilter])
   useEffect(()=>{
     console.log(setFilter)
-    setStatusFilter(resetFilter)
+    setStatusFilter({listing: false, sale:false, bid:false})
     
   }, [resetFilter])
 
@@ -161,13 +156,15 @@ export default function MypageFilter({ off, setFilter,resetFilter, filterObj, ed
             </summary>
 
             <ul className="contBox statusList">
-              {D_transactionStatusList.map((cont, index) => (
+              {D_transactionStatusList.map((cont, index) => {
+                return (
+                
                 <li
                 key={index}
                 style={{ cursor: "pointer" }}
                 className={
-                  statusFilter[cont.value]
-                   && "on"
+                  statusFilter[cont.key]
+                   ? "on" : undefined
                 }
                 onClick={() => {
                   handleFilter(cont)
@@ -175,7 +172,8 @@ export default function MypageFilter({ off, setFilter,resetFilter, filterObj, ed
                 >
                   {cont.key}
                 </li>
-              ))}
+              )}
+              )}
             </ul>
           </details>
         </article>

@@ -156,9 +156,11 @@ export default function SearchWallet({ address }) {
     if (orderkey === 0) {
       return b.item.id - a.item.id;
     } else if (orderkey === 1) {
+      console.log('좋아요 순서')
       return b.item.countfavors - a.item.countfavors;
     } else if (orderkey === 2) {
     } else if (orderkey === 3) {
+
       return b.item.pricemax - a.item.pricemax;
     } else if (orderkey === 4) {
       return b.item.pricemin - a.item.pricemin;
@@ -281,59 +283,60 @@ export default function SearchWallet({ address }) {
               <ul className="itemsList">
               {listitems.length == 0 && "등록된 아이템을 확인할 수 없습니다."}
               {listitems.sort(sortingmachine).map((cont, index) => (
-                <li
-                  key={index}
-                  className="itemBox"
-                  onClick={() => {
-                    navigate("/singleItem?itemid=" + cont.item?.itemid);
-                  }}
-                >
-                  {cont.item.typestr == "image" && (
-                    <img className="imageBox" src={cont?.item?.url} />
-                  )}
-                  {cont.item.typestr == "video" && (
-                    <video className="imageBox">
-                      <source src={cont?.item.url} />
-                    </video>
-                  )}
-                  <div className="infoBox">
-                      {popupIndex === index && (
-                        <>
-                          <ul className="morePopup">
-                            <li onClick={() => {
-                              navigate(
-                                "/saleItem?itemid=" + cont?.item?.itemid
-                              );
-                            }}>Sale</li>
-                            <li>Edit</li>
+                <SearchWalletItembox cont={cont} index={index} address={address}/>
+                // <li
+                //   key={index}
+                //   className="itemBox"
+                //   onClick={() => {
+                //     navigate("/singleItem?itemid=" + cont.item?.itemid);
+                //   }}
+                // >
+                //   {cont.item.typestr == "image" && (
+                //     <img className="imageBox" src={cont?.item?.url} />
+                //   )}
+                //   {cont.item.typestr == "video" && (
+                //     <video className="imageBox">
+                //       <source src={cont?.item.url} />
+                //     </video>
+                //   )}
+                //   <div className="infoBox">
+                //       {popupIndex === index && (
+                //         <>
+                //           <ul className="morePopup">
+                //             <li onClick={() => {
+                //               navigate(
+                //                 "/saleItem?itemid=" + cont?.item?.itemid
+                //               );
+                //             }}>Sale</li>
+                //             <li>Edit</li>
 
-                          </ul>
-                          <PopupBg off={setPopupIndex} />
-                        </>
-                      )}
+                //           </ul>
+                //           <PopupBg off={setPopupIndex} />
+                //         </>
+                //       )}
 
-                      <div className="topBar">
-                        <button
-                          className="likeBtn"
-                          // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
-                        >
-                          <img src={heart_off} alt="" />
+                //       <div className="topBar">
+                //         <button
+                //           className="likeBtn"
+                //           // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
+                //         >
+                //           <img src={heart_off} alt="" />
 
-                          <p>1,389</p>
-                        </button>
+                //           <p>1,389</p>
+                //         </button>
 
-                        <button
-                          className="moreBtn"
-                          onClick={(e) => onClickMoreBtn(e, index)}
-                        >
-                          <img src={I_3dot} alt="" />
-                        </button>
-                      </div>
+                //         <button
+                //           className="moreBtn"
+                //           onClick={(e) => onClickMoreBtn(e, index)}
+                //         >
+                //           <img src={I_3dot} alt="" />
+                //         </button>
+                //       </div>
 
-                      <p className="nickname">Renoir</p>
-                      <p className="title">Verger de pommiers</p>
-                    </div>
-                  </li>
+                //       <p className="nickname">Renoir</p>
+                //       <p className="title">Verger de pommiers</p>
+                //     </div>
+                //   </li>
                 ))}
               </ul>
             </article>
@@ -462,9 +465,11 @@ export default function SearchWallet({ address }) {
           <article className="itemListBox">
             <ul className="itemsList">
               {listitems.length == 0 && "등록된 아이템을 확인할 수 없습니다."}
-              {listitems.sort(sortingmachine).map((cont, index) => (
+              {listitems.sort(sortingmachine).map((cont, index) => {
+                console.log(cont.item.countfavors)
+                return(
                 <SearchWalletItembox cont={cont} index={index} address={address}/>
-              ))}
+              )})}
             </ul>
           </article>
         </section>

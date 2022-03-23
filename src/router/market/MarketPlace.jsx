@@ -39,6 +39,7 @@ import {
 import {   D_SStatusList} from "../../data/D_filter"
 import SelectPopup from "../../components/SelectPopup";
 import PopupBg from "../../components/PopupBg";
+import Marketitembox from "../../components/market/Marketitembox"
 
 import axios from 'axios'
 export default function MarketPlace(props) {
@@ -359,51 +360,52 @@ const codelist=['all'
               {filteredList
               .sort(sortingmachine)
               .map((v, i) => (
-                <li
-                  key={i}
-                  className="itemBox"
-                  onClick={() =>
-                    navigate(`/singleitem?itemid=${v.item.itemid}`)
-                  }>
-                    {v.item.typestr=="image"&&(<img className="imageBox" src={v.item?.url}/>)}
-                  {v.item.typestr=="video"&&(<video className="imageBox"><source src={v.item?.url}/></video> )}
-                  <div className="infoBox">
-                    <div className="topBar">
-                      <button
-                        className="likeBtn"
-                        // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
-                      >
-                        <img
-                          src={v.ilikethisitem ? heart_on : heart_off}
-                          alt=""
-                        />
+                <Marketitembox cont={v} index={i} address={v.item.author}/>
+                // <li
+                //   key={i}
+                //   className="itemBox"
+                //   onClick={() =>
+                //     navigate(`/singleitem?itemid=${v.item.itemid}`)
+                //   }>
+                //     {v.item.typestr=="image"&&(<img className="imageBox" src={v.item?.url}/>)}
+                //   {v.item.typestr=="video"&&(<video className="imageBox"><source src={v.item?.url}/></video> )}
+                //   <div className="infoBox">
+                //     <div className="topBar">
+                //       <button
+                //         className="likeBtn"
+                //         // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
+                //       >
+                //         <img
+                //           src={v.ilikethisitem ? heart_on : heart_off}
+                //           alt=""
+                //         />
 
-                        <p>{v?.item?.countfavors}</p>
-                      </button>
+                //         <p>{v?.item?.countfavors}</p>
+                //       </button>
 
-                      {/* <button
-                        className="bookmarkBtn"
-                        // onClick={(e) => onClickBookMarkBtn(e, cont.itemid)}
-                      >
-                        <img src={v.ididbookmark ? star_on : star_off} alt="" />
-                      </button> */}
-                    </div>
+                //       {/* <button
+                //         className="bookmarkBtn"
+                //         // onClick={(e) => onClickBookMarkBtn(e, cont.itemid)}
+                //       >
+                //         <img src={v.ididbookmark ? star_on : star_off} alt="" />
+                //       </button> */}
+                //     </div>
 
-                    <p className="title">{v.item?.titlename}</p>
-                    <p className="nickname">{v.author?.nickname}</p>
+                //     <p className="title">{v.item?.titlename}</p>
+                //     <p className="nickname">{v.author?.nickname}</p>
 
-                    <div className="etcBox">
-                      <p className="time">
-                        {moment.unix(v.minpriceorder?.expiry).fromNow() ||
-                          get_deltatime_str(v.minpriceorder?.expiry)}
-                      </p>
+                //     <div className="etcBox">
+                //       <p className="time">
+                //         {moment.unix(v.minpriceorder?.expiry).fromNow() ||
+                //           get_deltatime_str(v.minpriceorder?.expiry)}
+                //       </p>
 
-                      <strong className="priceBox">
-                        {putCommaAtPrice(v.askpricestats?.min)} KLAY
-                      </strong>
-                    </div>
-                  </div>
-                </li>
+                //       <strong className="priceBox">
+                //         {putCommaAtPrice(v.askpricestats?.min)} KLAY
+                //       </strong>
+                //     </div>
+                //   </div>
+                // </li>
               ))}
               {(iindex<totalItem)?(<button className="more" onClick={()=>{handleMore()}}>MORE</button>):(<>{iindex} 중에 {totalItem}</>)}
             </ul>
@@ -482,6 +484,7 @@ const codelist=['all'
             <ul className="cateogryList">
               {
 
+                //맵데이터 필요
                 categoryGroup.map((v,i)=>(
                   <li key={i}
                   className={(category==v.code)?'on':''}
@@ -545,51 +548,7 @@ const codelist=['all'
               {filteredList
               .sort(sortingmachine)
               .map((v, i) => (
-                <li
-                  key={i}
-                  className="itemBox"
-                  onClick={() =>
-                    navigate(`/singleitem?itemid=${v.item.itemid}`)
-                  }
-                >
-                  {v.item.typestr=="image"&&(<img className="imageBox" src={v.item?.url}/>)}
-                  {v.item.typestr=="video"&&(<video className="imageBox"><source src={v.item?.url}/></video> )}
-                  <div className="infoBox">
-                    <div className="topBar">
-                      <button
-                        className="likeBtn"
-                         onClick={(e) => onClickFavorBtn(e, v.item.itemid)}
-                      >
-                        <img
-                          src={v.ilikethisitem ? heart_on : heart_off}
-                          alt=""
-                        />
-
-                        <p>{v?.item?.countfavors}</p>
-                      </button>
-
-                      {/* <button
-                        className="bookmarkBtn"
-                         onClick={(e) => onClickBookMarkBtn(e, v.item.itemid)}
-                      >
-                        <img src={v.ididbookmark ? star_on : star_off} alt="" />
-                      </button> */}
-                    </div>
-                    <p className="title">{v.item?.titlename}</p>
-                    <p className="nickname">{v.author?.nickname}</p>
-
-                    <div className="etcBox">
-                      <p className="time">
-                        {moment.unix(v.minpriceorder?.expiry).fromNow() ||
-                          get_deltatime_str(v.minpriceorder?.expiry)}
-                      </p>
-
-                      <strong className="priceBox">
-                        {putCommaAtPrice(v.askpricestats?.min)} KLAY
-                      </strong>
-                    </div>
-                  </div>
-                </li>
+                <Marketitembox cont={v} index={i} address={v.item.author}/>
               ))}
               {(iindex<totalItem)?(<button className="more" onClick={()=>{handleMore()}}>MORE</button>):(<>{iindex} 중에 {totalItem}</>)}
             </ul>

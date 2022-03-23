@@ -2,9 +2,12 @@ import { connect, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import styled from "styled-components";
 
-import sample from "../../img/sub/sample.png";
-import I_3dot from "../../img/icons/I_3dot.png";
-import I_dnArrow from "../../img/icons/I_dnArrow.svg";
+import {
+  PAYMEANS_DEF,
+  URL_TX_SCAN,
+  FEES_DEF,
+  NETTYPE,
+} from "../../config/configs";
 import I_x from "../../img/icons/I_x.svg";
 import heart_off from "../../img/sub/heart_off.png";
 import re from "../../img/sub/re.png";
@@ -30,6 +33,12 @@ import {API} from '../../config/api'
 import moment from "moment";
 
 export default function ExploreDeal() {
+
+  const EVENT_TYPE={
+    CLOSE_SALE:'SALE',
+    'CLOSE-SALE':'SALE',
+    MINT: 'MINT'
+  }
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -40,6 +49,7 @@ export default function ExploreDeal() {
   const [moMoreObj, setMoMoreObj] = useState({});
   const [dataList, setDataList] = useState([]);
   const [listMore, setListMore] = useState(-1);
+  const [statusFilter, setStatusFilter]=useState({listing: false, sale:false, bid:false});
 
   function onClickMoreLessBtn(index) {
     if (listMore === index) setListMore(-1);
@@ -81,7 +91,7 @@ export default function ExploreDeal() {
       .get(API.API_GET_EXPLORE, {
         params: {
           fieldname: "typestr",
-          fieldvalues: "MINT,SALE",
+          fieldvalues: "MINT,CLOSE_SALE,CLOSE-SALE",
           itemdetail: 1,
         },
       })
@@ -100,7 +110,7 @@ export default function ExploreDeal() {
         <DefaultHeader />
 
         {toggleFilter ? (
-          <TransactionHistoryFilter off={setToggleFilter} />
+          <TransactionHistoryFilter off={setToggleFilter} setFilter={setStatusFilter}/>
         ) : (
           <button
             className="filterBtn mo withBg"
@@ -206,7 +216,7 @@ export default function ExploreDeal() {
         <DefaultHeader />
 
         {toggleFilter ? (
-          <TransactionHistoryFilter off={setToggleFilter} />
+          <TransactionHistoryFilter off={setToggleFilter} setFilter={setStatusFilter}/>
         ) : (
           <button
             className="filterBtn pc"
@@ -268,11 +278,11 @@ export default function ExploreDeal() {
                 dataList.map((cont, index)=>(
                   <li key={index}>
                     <span>{/**EVENTTYPE */}
-                      {cont.typestr}
+                      {EVENT_TYPE[cont.typestr]}
                     </span>
 
                     <span>{/* itemImage */}
-                      <img className="profImg" src={cont.item.url} />
+                      <img className="profImg" src={cont.item?.url} onClick={()=>{navigate('/singleitem?itemid='+cont.item.itemid)}}/>
                       <p>{cont.item?.titlename}</p>
                     </span>
 
@@ -283,12 +293,12 @@ export default function ExploreDeal() {
                     </span>
                     <span>{/**from */}
                     <img className="profImg"/>
-                        <p>{cont.from_}</p>
+                        <p>{cont.from_||cont.buyer}</p>
                     </span>
 
                     <span>{/**to*/}
                       <img className="profImg" />
-                      <p>{cont.to_}</p>
+                      <p>{cont.to_||cont.seller}</p>
                     </span>
 
                     <span>{/* date*/}
@@ -300,7 +310,14 @@ export default function ExploreDeal() {
                     </span>
 
                     <span>{/**tx Link*/}
-                      <button className="" onClick={() => {}}>
+                      <button className="" onClick={() => {
+                        window
+                        .open(
+                          URL_TX_SCAN[cont.item.nettype] + `/${cont.txhash}`,
+                          "_blank"
+                        )
+                        .focus();
+                      }}>
                         <img src={icon_link_on} alt="" />
                       </button>
                     </span>
