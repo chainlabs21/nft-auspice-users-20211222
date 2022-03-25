@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import PopupNotice from "./router/support/NoticeTest"
 import I_ltArw3BlackBtn from "./img/design/I_ltArw3BlackBtn.png";
 import I_rtArw3BlackBtn from "./img/design/I_rtArw3BlackBtn.png";
 import title from "./img/main/title.png";
@@ -75,7 +76,7 @@ export default function Main({ store }) {
 
     axios.get(`${API.API_GET_MAINCATEGORY}`).then((resp) => {
       let { list } = resp.data;
-      LOGGER("CONCONCON", list);
+      //LOGGER("CONCONCON", list);
       setFeaturedCat(list);
     });
   }, []);
@@ -236,8 +237,10 @@ export default function Main({ store }) {
   else
     return (
       <>
+      
         <DefaultHeader />
         <PmainBox>
+          
           <section className="innerBox">
             {featuredCat.map((v, i) => {
               if (v.type == 3) {

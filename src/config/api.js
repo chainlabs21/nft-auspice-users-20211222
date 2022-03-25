@@ -64,6 +64,9 @@ export const API = {
   API_GET_REPORT_CATEGORIES:`${apiServer}/queries/reportcategory`,
   API_SEND_REPORT:`${apiServer}/report/send`,///:category/:username/:itemid
   //API_GET_ITEM_CATEGORIES: `${apiServer}/queries/rows/itemhistory`, // /:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
+  ///filter/rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval"
+  API_GET_ANNOUNCES:`${apiServer}/queries/findcount/announcements`,
+  API_GET_NOTICE_CONTENT: `${apiServer}/queries/field/announcements`
 };
 
 

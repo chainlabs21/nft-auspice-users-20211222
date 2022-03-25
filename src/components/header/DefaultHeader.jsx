@@ -189,6 +189,25 @@ export default function DefaultHeader(props) {
                 </span>
               </li>
 
+              <li>
+                <span className="posBox">
+                  <button
+                    className="explore"
+                    onClick={() => navigate("/Notice")}
+                  >
+                    Support
+                  </button>
+
+                  <ul className="popupBox explore" style={{display:'none'}}>
+                    <li onClick={() => navigate("/Notice")}>
+                      Notice
+                    </li>
+                    <li onClick={() => navigate("/Notice")}>FAQ</li>
+                    <li onClick={() => navigate("/Notice")}>Ticket</li>
+                  </ul>
+                </span>
+              </li>
+
               <li style={{ display: isloggedin && walletAddress ? "flex" : "none" }}>
                 <span className="posBox">
                   <button

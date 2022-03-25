@@ -30,15 +30,19 @@ export default function Marketitembox({ address, cont, index }) {
     (state) => state.user
   );
   useEffect(() => {
-    console.log(cont.minpriceorder);
-
-    if(isloggedin){doilike();}
     countfavors();
+    if(isloggedin){doilike();}
   }, []);
+
+  useEffect(() => {
+    countfavors();
+    if(isloggedin){doilike();}
+  }, [cont]);
 
   function countfavors(itemid){
     axios.get(`${API.API_COUNT_FAVOR}/${cont.item.itemid}`)
     .then((resp)=>{
+      console.log(resp.data.respdata)
       setTotalFavors(resp.data.respdata)
     })
   }
@@ -47,7 +51,7 @@ export default function Marketitembox({ address, cont, index }) {
     if (isloggedin) {
       axios.get(`${API.API_GET_I_LIKE}/${cont.item.itemid}`).then((resp) => {
         let { status, respdata } = resp.data;
-        console.log(resp.data)
+        //console.log(resp.data)
         if (status === 1) {
           setIlikethisitem(true);
         } else {

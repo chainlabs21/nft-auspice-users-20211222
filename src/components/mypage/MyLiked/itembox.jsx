@@ -19,7 +19,7 @@ import { API } from "../../../config/api";
 import SetErrorBar from "../../../util/SetErrorBar";
 
 
-export default function SearchWalletItembox({ address, cont, index}) {
+export default function Likeditembox({ address, cont, index}) {
   const navigate = useNavigate();
 
   const isMobile = useSelector((state) => state.common.isMobile);
@@ -54,7 +54,7 @@ export default function SearchWalletItembox({ address, cont, index}) {
       if(isloggedin){
           axios.get(`${API.API_GET_I_LIKE}/${cont.itemid}`).then((resp)=>{
             let {status, respdata} = resp.data
-            //console.log(resp.data)
+            console.log(resp.data)
             if (status==1){
               setIlikethisitem(true)
             }else{
@@ -89,7 +89,7 @@ export default function SearchWalletItembox({ address, cont, index}) {
 
   if (isMobile)
     return (
-      <MsearchWalletitem>
+      <MLikeditem>
         <li
           key={index}
           className="itemBox"
@@ -144,11 +144,11 @@ export default function SearchWalletItembox({ address, cont, index}) {
             <p className="title">{cont.item?.titlename}</p>
           </div>
         </li>
-      </MsearchWalletitem>
+      </MLikeditem>
     );
   else
     return (
-      <PsearchWalletitem>
+      <PLikeditem>
         <li
           key={index}
           className="itemBox"
@@ -165,22 +165,6 @@ export default function SearchWalletItembox({ address, cont, index}) {
             </video>
           )}
           <div className="infoBox">
-            {popupIndex === index && (
-              <>
-                <ul className="morePopup">
-                  <li
-                    onClick={() => {
-                      navigate("/saleItem?itemid=" + cont?.item?.itemid);
-                    }}
-                  >
-                    Sale
-                  </li>
-                  <li>Edit</li>
-                </ul>
-                <PopupBg off={setPopupIndex} />
-              </>
-            )}
-
             <div className="topBar">
               <button
                 className="likeBtn"
@@ -190,26 +174,17 @@ export default function SearchWalletItembox({ address, cont, index}) {
 
                 <p>{totalFavors}</p>
               </button>
-
-              {isOwner && (
-                <button
-                  className="moreBtn"
-                  onClick={(e) => onClickMoreBtn(e, index)}
-                >
-                  <img src={I_3dot} alt="" />
-                </button>
-              )}
             </div>
 
             <p className="nickname">{cont.author?.nickname}</p>
             <p className="title">{cont.item?.titlename}</p>
           </div>
         </li>
-      </PsearchWalletitem>
+      </PLikeditem>
     );
 }
 
-const MsearchWalletitem = styled.div`
+const MLikeditem = styled.div`
 
 
         .itemBox {
@@ -315,7 +290,7 @@ const MsearchWalletitem = styled.div`
 
 `;
 
-const PsearchWalletitem = styled.div`
+const PLikeditem = styled.div`
   position: relative;
       .itemBox {
         display: flex;

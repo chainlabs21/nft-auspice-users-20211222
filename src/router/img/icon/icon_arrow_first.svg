@@ -1,0 +1,16 @@
+<svg id="icon_left_end_arrow" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+    <defs>
+        <style>
+            .cls-2{fill:#616161}
+        </style>
+    </defs>
+    <rect id="Rectangle_181" data-name="Rectangle 181" width="32" height="32" rx="16" transform="rotate(90 16 16)" style="fill:#f5f5f5"/>
+    <g id="Group_35674" data-name="Group 35674" transform="translate(-969 -874)">
+        <g id="arrow-down-sign-to-navigate" transform="rotate(90 49.5 935.5)">
+            <path id="Path_84" data-name="Path 84" class="cls-2" d="M4.5 5a.637.637 0 0 1-.446-.18L.185 1.049a.6.6 0 0 1 0-.869.642.642 0 0 1 .891 0L4.5 3.517 7.924.18a.642.642 0 0 1 .891 0 .6.6 0 0 1 0 .869L4.946 4.82A.637.637 0 0 1 4.5 5z"/>
+        </g>
+        <g id="arrow-down-sign-to-navigate-2" data-name="arrow-down-sign-to-navigate" transform="rotate(90 52 938)">
+            <path id="Path_84-2" data-name="Path 84" class="cls-2" d="M4.5 5a.637.637 0 0 1-.446-.18L.185 1.049a.6.6 0 0 1 0-.869.642.642 0 0 1 .891 0L4.5 3.517 7.924.18a.642.642 0 0 1 .891 0 .6.6 0 0 1 0 .869L4.946 4.82A.637.637 0 0 1 4.5 5z"/>
+        </g>
+    </g>
+</svg>

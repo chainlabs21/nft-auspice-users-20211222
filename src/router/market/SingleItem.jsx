@@ -132,6 +132,8 @@ function SingleItem({
   let [ilikethis, setilikethis] = useState(false);
   let [ibookmarkthis, setibookmarkthis] = useState(false);
   let [orders_sell, setorders_sell] = useState([]);
+  let [auction_orders, setAuction_orders] = useState([]);
+  let [fixed_orders, setFixed_orders] = useState([]);
   let [sellorder, setsellorder] = useState({});
   let [author, setauthor] = useState();
   let [myethbalance, setmyethbalance] = useState();
@@ -463,7 +465,8 @@ function SingleItem({
     }
   };
   const fetchitem = (itemid) => {
-    console.log("hola");
+
+    //console.log("hola");
     Setisloader(true);
     axios
       .get(`${API.API_GET_ITEM_DATA}/${itemid}`, {
@@ -476,8 +479,23 @@ function SingleItem({
           setitemdata(respdata);
           let { orders_sellside } = respdata;
           console.log(orders_sellside);
+
           setorders_sell(orders_sellside);
+          setFixed_orders([])
+          setAuction_orders([])
+          orders_sellside.map((v, i)=>{
+            if (v.typestr=='COMMON'){
+              setFixed_orders(pre=>[...pre, v])
+            }else{
+              setAuction_orders(pre=>[...pre, v])
+            }
+          })
+
           setsellorder(orders_sellside[0]);
+          setProductType(orders_sellside[0]?.typestr)
+
+
+
           setilikethis(respdata.ilikethisitem);
           setibookmarkthis(respdata.ibookmarkthis);
           if (respdata.bids) {
@@ -620,7 +638,7 @@ function SingleItem({
   }
   //Checks if user owns the item.
   useEffect(() => {
-    console.log(itemdata.itembalances);
+    //console.log(itemdata.itembalances);
     itemdata?.itembalances?.map((v, i) => {
       if (v.username == walletAddress) {
         setIsOwner(true);
@@ -1434,7 +1452,7 @@ window.scrollTo({top:0});
                   </video>
                 )}
                 <div className="topBar">
-                  <button className="sellerBtn" onClick={() => {}}>
+                  <button className="sellerBtn" onClick={() => {navigate('/mypage/searchwallet/'+itemdata.author?.username)}}>
                     <img
                       className="profImg"
                       src={itemdata.author?.profileimageurl}
@@ -1506,11 +1524,11 @@ window.scrollTo({top:0});
                         <p className="value">{sellorder?.asset_amount_ask}</p>
                         <p className="key">KLAY</p>
                       </div>
-                      <p className="exchange">$1,234.25</p>
+                      <p className="exchange">${(priceklay*sellorder?.asset_amount_ask).toFixed(4) || '0.00'}</p>
                     </div>
 
                     <div className="timeBox">
-                      <p className="title">Auction ending</p>
+                      <p className="title">{productType} ending</p>
                       <strong className="time">
                         {moment.unix(sellorder?.expiry).fromNow()}
                       </strong>
@@ -1522,7 +1540,7 @@ window.scrollTo({top:0});
                       className="bidBtn"
                       onClick={() => setPurchasePopup(true)}
                     >
-                      {productType}
+                      Purchase
                     </button>
                   )}
                   {productType === "AUCTION_ENGLISH" && (
@@ -1530,7 +1548,7 @@ window.scrollTo({top:0});
                       className="bidBtn"
                       onClick={() => setBidPopup(true)}
                     >
-                      {productType}
+                      Place Bid
                     </button>
                   )}
                 </div>
@@ -1658,7 +1676,8 @@ window.scrollTo({top:0});
                   </ul>
 
                   <ul className="list">
-                    {orders_sell
+                    {//orders_sell
+                    fixed_orders
                       .sort((a, b) => {
                         return +a.asset_amount_ask == +b.asset_amount_ask
                           ? a.createdat > b.createdat
@@ -1727,9 +1746,12 @@ window.scrollTo({top:0});
                   </ul>
 
                   <ul className="list">
-                    {logorders
+                    {//logorders
+                    auction_orders
                       .sort((a, b) => (a.createdat > b.createdat ? -1 : +1))
-                      .map((v, idx) => (
+                      .map((v, idx) => {
+                        return(
+
                         <li key={idx}>
                           <span>
                             <div className="priceBox">
@@ -1742,7 +1764,7 @@ window.scrollTo({top:0});
                           <span>{moment(v.createdat).fromNow()}</span>
                           <span>{convertLongString(8, 8, v.buyer)}</span>
                         </li>
-                      ))}
+                      )})}
                   </ul>
                 </div>
               </div>

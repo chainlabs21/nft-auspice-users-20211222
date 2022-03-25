@@ -1,6 +1,7 @@
 import {useState,useRef, useEffect} from 'react';
 import styled from "styled-components";
 import home_bg from "../../img/sub/home_bg.png";
+import { getStyle, strDot } from "../../util/Util";
 
 import I_ltArw3BlackBtn from "../../img/design/I_ltArw3BlackBtn.png";
 import I_rtArw3BlackBtn from "../../img/design/I_rtArw3BlackBtn.png";
@@ -11,13 +12,36 @@ export default function UsersBox({category}){
     const collectionSwiperRef = useRef();
     const [users, setUsers] = useState([])
     const [collectionIndex, setCollectionIndex] = useState(0);
+    const [index, setIndex] = useState(0)
     useEffect(()=>{
         setUsers(category.itemsss)
-
     }, [category])
-    useEffect(()=>{
-        console.log('hi')
-    },[])
+
+    function handlerByIndex(swiperRef, index) {
+      if (!swiperRef.current.children[0]) return;
+  
+      const wrapWidth = swiperRef.current.offsetWidth;
+      const contWidth = swiperRef.current.children[0].offsetWidth;
+      const itemNumByPage = Math.floor(wrapWidth / contWidth);
+      const pageNum = Math.ceil(
+        swiperRef.current.children.length / itemNumByPage
+      );
+  
+      if (swiperRef.current?.scrollTo) {
+        if (index < pageNum) {
+          swiperRef.current.scrollTo({
+            left:
+              (contWidth + getStyle(swiperRef, "gap")) * itemNumByPage * index,
+            behavior: "smooth",
+          });
+        } else {
+          swiperRef.current.scrollTo({
+            left: 0,
+            behavior: "smooth",
+          });
+        }
+      }
+    }
 
     function onClickSwiperPreBtn(swiperRef, items, index, setIndex) {
         const wrapWidth = swiperRef.current.offsetWidth;
@@ -36,9 +60,12 @@ export default function UsersBox({category}){
         const itemNumByPage = Math.floor(wrapWidth / contWidth);
         const pageNum = Math.ceil(items.length / itemNumByPage);
     
-        if (index < pageNum - 1) setIndex(index + 1);
-        else setIndex(0);
+        if (index < pageNum - 1) setCollectionIndex(index + 1);
+        else setCollectionIndex(0);
       }
+
+      useEffect(()=>{
+        handlerByIndex(collectionSwiperRef, collectionIndex)}, [collectionIndex])
 
     return(
         <PUsersBox>

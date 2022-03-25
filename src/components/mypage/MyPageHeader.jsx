@@ -135,7 +135,7 @@ export default function MyPageHeader({ address, targetData }) {
               <div className="infoBox">
                 <strong className="title">{nickname}'s Items</strong>
                 <p className="address">{strDot(myAddress, 5, 5)}</p>
-                <p className="introduce">{desc}</p>
+                <p className="introduce" style={{whiteSpace:'pre'}}>{desc}</p>
               </div>
             </div>
           </header>

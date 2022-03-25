@@ -132,7 +132,7 @@ export default function SearchWallet({ address }) {
         },
       })
       .then((resp) => {
-        LOGGER("wyBPdUnid7", resp.data);
+        //LOGGER("wyBPdUnid7", resp.data);
         //console.log(resp.data)
         let { status, list } = resp.data;
         if (status == "OK") {
@@ -141,7 +141,7 @@ export default function SearchWallet({ address }) {
           // console.log(resp)
           // setTotalItem(payload.count);
 
-          console.log(list);
+          //console.log(list);
           setlistitems(list);
         }
       });
@@ -149,7 +149,7 @@ export default function SearchWallet({ address }) {
 
   useEffect((_) => {
     fetchitems([]);
-  }, []);
+  }, [address]);
 
   //SORTING ITEMS
   function sortingmachine(a, b) {
@@ -466,7 +466,7 @@ export default function SearchWallet({ address }) {
             <ul className="itemsList">
               {listitems.length == 0 && "등록된 아이템을 확인할 수 없습니다."}
               {listitems.sort(sortingmachine).map((cont, index) => {
-                console.log(cont.item.countfavors)
+                //console.log(cont.item.countfavors)
                 return(
                 <SearchWalletItembox cont={cont} index={index} address={address}/>
               )})}

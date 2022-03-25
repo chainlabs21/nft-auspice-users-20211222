@@ -151,23 +151,23 @@ const codelist=['all'
   function sortingmachine(a, b){
     if (itemSort===0){
       return (b.item.id - a.item.id)
-    }else if (itemSort === 1){
+    }else if (itemSort === 1){  // Popularity
     return (b.item.countfavors - a.item.countfavors)
-    }else if(itemSort ===2){
+    }else if(itemSort ===2){  //close to finish
 
-    }else if(itemSort ===3){
+    }else if(itemSort ===3){  //Low Price
       return (b.item.pricemax - a.item.pricemax)
-    }else if(itemSort ===4){
+    }else if(itemSort ===4){  //High Price
       return (b.item.pricemin - a.item.pricemin)
-    }else if(itemSort ===5){
+    }else if(itemSort ===5){  //A small bid
       
     }
-    else if(itemSort ===6){
-      
+    else if(itemSort ===6){  //A lot of bids
+      return (b.bids?.length - a.bids?.length)
     }
-    else if(itemSort ===7){
+    else if(itemSort ===7){  //Most Seen
       return (b.item.countviews - a.item.countviews)
-    }else if(itemSort ===8){
+    }else if(itemSort ===8){ //Oldest
       return (a.item.id - b.item.id)
     }else{
       return a, b

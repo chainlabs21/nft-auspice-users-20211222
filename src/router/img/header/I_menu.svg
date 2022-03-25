@@ -1,0 +1,14 @@
+<svg id="Component_421_1" data-name="Component 421 – 1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .cls-1,.cls-2{fill:none}.cls-2{stroke:#000;stroke-linecap:round;stroke-width:2px}
+        </style>
+    </defs>
+    <path id="Rectangle_132" data-name="Rectangle 132" class="cls-1" d="M0 0h24v24H0z"/>
+    <path id="Rectangle_133" data-name="Rectangle 133" class="cls-1" transform="translate(2 2)" d="M0 0h20v20H0z"/>
+    <g id="Group_33251" data-name="Group 33251" transform="translate(-303.305 -20)">
+        <path id="Line_28" data-name="Line 28" class="cls-2" transform="translate(306.305 26)" d="M0 0h18"/>
+        <path id="Line_29" data-name="Line 29" class="cls-2" transform="translate(306.305 32)" d="M0 0h18"/>
+        <path id="Line_30" data-name="Line 30" class="cls-2" transform="translate(306.305 38)" d="M0 0h18"/>
+    </g>
+</svg>

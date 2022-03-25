@@ -1,7 +1,9 @@
 import { connect, useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Main from "./Main";
+//import "./css/bootstrap.css"
 
 import ConnectWallet from "./router/join/ConnectWallet";
 import EmailRequired from "./router/join/EmailRequired";
@@ -12,6 +14,11 @@ import SignupComplete from "./router/join/SignupComplete";
 import SentEmail from "./router/join/SentEmail";
 import EmailChange from "./router/join/EmailChange";
 import MyPage from "./router/mypage/MyPage"
+import Notice from "./router/support/Notice"
+import FAQ from "./router/support/faq"
+import NoticeTest from "./router/support/NoticeTest"
+import NoticeDetail from "./router/support/NoticeDetail"
+import PopupNotice from "./router/support/NoticeTest"
 
 import MarketPlace from "./router/market/MarketPlace";
 import SingleItem from "./router/market/SingleItem";
@@ -68,6 +75,8 @@ import { SET_ADDRESS, SET_LOGIN, SET_USER_DATA } from "./reducers/userReducer";
 function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const { mHeaderPopup } = useSelector((state) => state.store);
   const {walletAddress} = useSelector((state)=> state.user);
+  const [popups, setPopups] = useState([])
+  const [closePopups, setClosePopups]=useState([])
   const dispatch = useDispatch();
   //const navigate =useNavigate();
   const login = (address) => {
@@ -211,6 +220,16 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
 
   }
   useEffect(async ()=>{
+    axios.get(`${API.API_GET_NOTICE_CONTENT}/all`)
+    .then((resp)=>{
+      console.log(resp)
+      let {list} = resp.data;
+      if(list){
+        setPopups([list])
+      }
+    })
+
+
     dispatch({ type: SET_LOGIN, payload: { value: false }});
     window.klaytn._kaikas.isUnlocked().then((resp)=>{
       if (resp){
@@ -250,6 +269,15 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
       <HashRouter>
         {/* <Header /> */}
         <EventListener />
+        {
+        
+        popups.map((v, i)=>{
+          if(i in closePopups){return;}
+          return(
+          <PopupNotice content={v.contentbody} index={i} id={v.id} off={e=>setClosePopups([...closePopups, e])}/>
+          )
+        })}
+        
         <GlobalStyle />
 
         <Routes>
@@ -258,6 +286,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           
 
           <Route path="/connectwallet" element={<ConnectWallet />} />
+          <Route path="/notice/:id" element={<NoticeDetail />} />
           <Route path="/emailrequired" element={<EmailRequired />} />
           <Route path="/sentemail" element={<SentEmail />} />
           <Route path="/verifyemail" element={<VerifyEmail />} />
@@ -266,6 +295,9 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/emailfailed" element={<EmailFailed />} />
           <Route path="/sentemaildetail" element={<SentEmailDetail />} />
           <Route path="/signupcomplete" element={<SignupComplete />} />
+          <Route path="/notice" element={<Notice />} />
+          <Route path="/noticett" element={<NoticeTest />} />
+          <Route path="/FAQ" element={<FAQ />} />
 
           <Route path="/marketplace" element={<MarketPlace />} />
           <Route path="/mypage" element={<MyPage />} />

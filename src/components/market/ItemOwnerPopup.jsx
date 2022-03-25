@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { API } from "../../config/api";
@@ -8,6 +9,7 @@ import I_x from "../../img/icons/I_x.svg";
 
 export default function ItemOwnerPopup({ off, itemid }) {
   const limit = 10000;
+  const navigate=useNavigate();
 
   //  const { itemId } = useParams();
   const isMobile = useSelector((state) => state.common.isMobile);
@@ -84,20 +86,24 @@ export default function ItemOwnerPopup({ off, itemid }) {
 
         <div className="contArea">
           <ul className="contList">
-            {data.map((v, i) => (
+            {data.map((v, i) => {
+              console.log(v)
+              return(
               <li key={i}>
                 <span className="profBox">
-                  <span className="profImg" />
+                  <img src={(v.author?.profileimageurl)} className="profImg" 
+                  onClick={()=>{navigate('/mypage/searchwallet/'+v.username)}}
+                  />
 
                   <div className="nameBox">
-                    <strong className="nickname">{v.nickname}</strong>
+                    <strong className="nickname">{v.author?.nickname}</strong>
                     <p className="address">
                       {convertLongString(5, 4, v.username)}
                     </p>
                   </div>
                 </span>
               </li>
-            ))}
+            )})}
           </ul>
         </div>
       </PitemOwnerPopup>
@@ -290,7 +296,7 @@ const PitemOwnerPopup = styled.section`
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: #000;
+            //background: #000;
           }
 
           .nameBox {

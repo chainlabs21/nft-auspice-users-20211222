@@ -31,6 +31,7 @@ import share from "../../img/sub/share.png";
 import { D_categoryList } from "../../data/D_mypage";
 import { strDot } from "../../util/Util"
 import axios from 'axios';
+import Likeditembox from './MyLiked/itembox'
 
 export default function MyLiked() {
   const navigate = useNavigate();
@@ -121,29 +122,30 @@ else
             <article className="itemListBox">
               <ul className="itemsList">
                 {list.map((cont, index) => (
-                  <li
-                    key={index}
-                    class="itemBox"
-                    onClick={() => {navigate("/singleitem?itemid="+cont.item.itemid)}}
-                  >
-                  {cont.item.typestr=="image"&&(<img className="imageBox" src={cont?.item?.url}/>)}
-                  {cont.item.typestr=="video"&&(<video className="imageBox"><source src={cont?.item.url}/></video> )}
-                    <div className="infoBox">
-                      <div className="topBar">
-                        <button
-                          className="likeBtn"
-                          // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
-                        >
-                          <img src={heart_on} alt="" />
+                  <Likeditembox cont={cont} index={index} address={walletAddress}/>
+                  // <li
+                  //   key={index}
+                  //   class="itemBox"
+                  //   onClick={() => {navigate("/singleitem?itemid="+cont.item.itemid)}}
+                  // >
+                  // {cont.item.typestr=="image"&&(<img className="imageBox" src={cont?.item?.url}/>)}
+                  // {cont.item.typestr=="video"&&(<video className="imageBox"><source src={cont?.item.url}/></video> )}
+                  //   <div className="infoBox">
+                  //     <div className="topBar">
+                  //       <button
+                  //         className="likeBtn"
+                  //         // onClick={(e) => onClickFavorBtn(e, cont.itemid)}
+                  //       >
+                  //         <img src={heart_on} alt="" />
 
-                          <p>{cont.item.countfavors}</p>
-                        </button>
-                      </div>
+                  //         <p>{cont.item.countfavors}</p>
+                  //       </button>
+                  //     </div>
 
-                      <p className="nickname">{cont.author.nickname}</p>
-                      <p className="title">{cont.item.titlename}</p>
-                    </div>
-                  </li>
+                  //     <p className="nickname">{cont.author.nickname}</p>
+                  //     <p className="title">{cont.item.titlename}</p>
+                  //   </div>
+                  // </li>
                 ))}
               </ul>
             </article>

@@ -129,7 +129,7 @@ export default function Signup({ store, setConnect }) {
       };
       try {
               //console.log({...regData, imagefilename: respdata});
-              if(!profUrl)setProfUrl("https://i.imgur.com/UPgG53R.jpeg")
+              if(!profUrl)setProfUrl("http://itemverse1.net/assets/demoprof.png")
               let addressChk = await window.klaytn.enable()
               if (addressChk[0]!=address){SetErrorBar('DIFFERENT WALLET ADDRESS'); return;}
               const resp = await axios.post(API.API_USER_JOIN, {...regData, profileimageurl: profUrl});
