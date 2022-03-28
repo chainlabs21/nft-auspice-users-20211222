@@ -65,13 +65,19 @@ export default function NoticeDetail(props) {
     axios.get(`${API.API_GET_NOTICE_CONTENT}`, {params:{
       id: pathname.split('/')[2]
     }}).then((resp)=>{
-      console.log(resp)
-      let {contentbody, createdat, title} = resp.data.list
+      console.log(resp.data.list[0])
+      let {contentbody, createdat, title} = resp.data.list[0]
+      console.log(contentbody)
       setContent(contentbody)
       setTitle(title)
       setDate(createdat)
     })
   }, [pathname])
+
+  useEffect(()=>{
+console.log(content)
+
+  },[content])
 
   if (isMobile)
     return (
@@ -94,10 +100,7 @@ export default function NoticeDetail(props) {
                 <span className="date">{date}</span>
               </p>
             </div>
-            <div className="ck-content" dangerouslySetInnerHTML={{__html: content}}>
-
-              {/* {content} */}
-            </div>
+            <div className="ck-content" dangerouslySetInnerHTML={{__html: content}} />
             {/* <p className="subtitle">
               아이템버스에서 전하는 새로운 소식을 확인하세요.
             </p>

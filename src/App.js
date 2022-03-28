@@ -19,6 +19,7 @@ import FAQ from "./router/support/faq"
 import NoticeTest from "./router/support/NoticeTest"
 import NoticeDetail from "./router/support/NoticeDetail"
 import PopupNotice from "./router/support/NoticeTest"
+//import FAQ from "./router/support/faq"
 
 import MarketPlace from "./router/market/MarketPlace";
 import SingleItem from "./router/market/SingleItem";
@@ -231,6 +232,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
 
 
     dispatch({ type: SET_LOGIN, payload: { value: false }});
+    if(!window.klaytn){return}
     window.klaytn._kaikas.isUnlocked().then((resp)=>{
       if (resp){
         window.klaytn._kaikas.isApproved().then((rresp)=>{
@@ -274,7 +276,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         popups.map((v, i)=>{
           if(i in closePopups){return;}
           return(
-          <PopupNotice content={v.contentbody} index={i} id={v.id} off={e=>setClosePopups([...closePopups, e])}/>
+          <PopupNotice key={i} content={v.contentbody} index={i} id={v.id} off={e=>setClosePopups([...closePopups, e])}/>
           )
         })}
         

@@ -44,7 +44,7 @@ export default function PopupNotice({off, content, index, id}) {
   const isMobile = useSelector((state) => state.common.isMobile);
 
   const [totalNotice, setTotalNotice] = useState(
-    '<figure class="image"><img src="http://itemverse1.net/resource/notice/1648194226-geU1Xe.png"></figure>'
+    '<figure class="image"><img src="http://itemverse1.net/resource/notice/1648205560-cMC3gm.png"></figure>'
   );
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function PopupNotice({off, content, index, id}) {
                 <img src={I_x} style={{width: '14px'}}/>
               </div>
             </div>
-            <div className="content" dangerouslySetInnerHTML={{ __html: content }} />
+            <div className="content" dangerouslySetInnerHTML={{ __html: totalNotice }} />
             <div className="footer">
             <p className="idontwantBtn"><img src={I_Chk}/>24시간 동안 보지 않기</p>
             </div>
@@ -83,20 +83,24 @@ const Mannouncements = styled.div``;
 const Pannouncements = styled.div`
   z-index: 999;
   position: fixed;
-  //top:0;
+  top:0;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   font-family: "Noto Sans KR", sans-serif;
   background-color: rgba(0, 0, 0, 0.8);
+  
 
   .container{
+    padding 0;
+    margin: 0 auto;
       display: flex;
       flex-direction: column;
       height: 100vh;
+      justify-content: center;
   .topBar {
     justify-content: flex-end;
     display: flex;
@@ -123,9 +127,19 @@ const Pannouncements = styled.div`
 
   }
   .content{
+    display: flex;
+    overflow: hidden;
+    height: 60vh;
     border-radius: 21px;
+    .image{
+      //max-height: 60vh;
+      img{
+        height: 60vh;
+      }
+    }
   }
   .footer{
+    display: flex;
       p{
           cursor:pointer;
           margin-top: 10px;

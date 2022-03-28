@@ -1,6 +1,11 @@
 import { useNavigate, useParams } from "react-router";
 import { useLocation, useHistory, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import {
+  D_dateList,
+  D_instructionList,
+  D_timeList,
+} from "../../data/D_saleItem";
 
 import { useState, useEffect, useLayoutEffect } from "react";
 import I_klaytn from "../../img/sub/I_klaytn.svg";
@@ -29,11 +34,24 @@ import { D_SStatusList } from "../../data/D_filter";
 import SelectPopup from "../../components/SelectPopup";
 import PopupBg from "../../components/PopupBg";
 import Marketitembox from "../../components/market/Marketitembox";
-
-import "./style2.css";
-
+import Pagination from "../../components/support/Pagination";
 import axios from "axios";
-export default function Notice(props) {
+//"<figure class="image"><img src="http://itemverse1.net/resource/notice/1648194226-geU1Xe.png"></figure>"
+//import "./style2.css";
+
+
+export default function FAQ() {
+  const categories=[
+    {category: '전체', id:1},
+    {category: '일반', id:2},
+    {category: '지갑/계정', id:3},
+    {category: '이용관련', id:4},
+    {category: '구매', id:5},
+    {category: '판매', id:6},
+    {category: '기타문의', id:7},
+
+  ]
+  const D_Category = ["제목", "본문"];
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
@@ -41,281 +59,390 @@ export default function Notice(props) {
   const isMobile = useSelector((state) => state.common.isMobile);
 
   const [totalNotice, setTotalNotice] = useState(100);
-  const [totalPage, setTotalPage] = useState(10);
+  
+  const [totalPage, setTotalPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(5);
   const [searchKey, setSearchKey] = useState("");
+  const [announces, setAnnounces] = useState([]);
+  const [categoryPopup, setCategoryPopup] = useState(false);
+  const [selected, setSelected] = useState(0);
+  const [curCategory, setCurCategory] = useState('전체')
+
+
+
+  useEffect(() => {
+    axios.get(`${API.API_GET_ANNOUNCES}`).then((resp) => {
+      console.log(resp);
+      let { rows, count } = resp.data.list;
+      setTotalPage(Math.ceil(count/10))
+      setTotalNotice(count)
+      if (rows) {
+        setAnnounces(rows);
+      }
+    });
+  }, []);
 
   if (isMobile)
     return (
       <>
         <DefaultHeader />
-        <Mfaq>
-        <div className="notice">
-          <div className="container" style={{height:'100%'}}>
-            <div className="notice_box">
-              <div className="title" style={{marginBottom: '25px'}}>
-                <h1>자주하는 질문</h1>
-                <h2>문의하기가 늦어질 수 있으니 먼저 FAQ를 확인해주세요!</h2>
-              </div>
-              <div className="notice-middle">
-                <div className="dropdown notice-middle-drop">
-                  <button
-                    className="btn btn-secondary dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <span>제목</span>
-                  </button>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        제목1
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        제목2
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        제목3
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="middle-search">
-                  <form>
-                    <input type="text" name="text" placeholder="" />
-                    <button type="button">
-                      <img src="./img/header/search_form.png" />
-                    </button>
-                  </form>
-                </div>
-              </div>
-              <div>
-                <ul className="support-category">
-                  <li className="on">
-                    <a href="#">전체</a>{" "}
-                  </li>
-                  <li>
-                    <a href="#">일반</a>{" "}
-                  </li>
-                  <li>
-                    <a href="#">지갑/계정</a>{" "}
-                  </li>
-                  <li>
-                    <a href="#">이용관련</a>{" "}
-                  </li>
-                  <li>
-                    <a href="#">구매</a>{" "}
-                  </li>
-                  <li>
-                    <a href="#">판매</a>{" "}
-                  </li>
-                  <li className="on">
-                    <a href="#">기타문의</a>{" "}
-                  </li>
-                </ul>
-              </div>
-              <div className="accordion faq-list" id="accordionExample">
-                <div className=" accodion-item-border">
-                  <h2 className="accordion-header" id="headingOne">
-                    <button
-                      className=" accordion-button support-title"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseOne"
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                      style={{backgroundColor: 'none'}}
-                    >
-                      <strong>일반</strong>
-                      <h3>NFT가 무엇인가요?</h3>
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseOne"
-                    className="accordion-collapse collapse"
-                    aria-labelledby="headingOne"
-                    data-bs-parent="#accordionExample"
-                  >
-                    <div className="accordion-body faq-accordion-body">
-                      <p className="faq-question">
-                        NFT는 대체 불가능한 토큰(Non-Fungible Token)을 이용해
-                        작품과 창작 및 소유에 대한 기록을
-                        <br /> 블록체인상에 남기는 새로운 작품 거래 방식이에요.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="accordion-item accodion-item-border">
-                  <h2 className="accordion-header" id="headingTwo">
-                    <button
-                      className="accordion-button support-title"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseTwo"
-                      aria-expanded="true"
-                      aria-controls="collapseTwo"
-                    >
-                      <strong>일반</strong>
-                      <h3>NFT가 무엇인가요?</h3>
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseTwo"
-                    className="accordion-collapse collapse"
-                    aria-labelledby="headingTwo"
-                    data-bs-parent="#accordionExample"
-                  >
-                    <div className="accordion-body faq-accordion-body">
-                      <p className="faq-question">
-                        NFT는 대체 불가능한 토큰(Non-Fungible Token)을 이용해
-                        작품과 창작 및 소유에 대한 기록을
-                        <br /> 블록체인상에 남기는 새로운 작품 거래 방식이에요.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="accordion-item accodion-item-border">
-                  <h2 className="accordion-header" id="headingThree">
-                    <button
-                      className="accordion-button support-title"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseThree"
-                      aria-expanded="true"
-                      aria-controls="collapseThree"
-                    >
-                      <strong>지갑/계정</strong>
-                      <h3>카이카스 지갑이 무엇인가요?</h3>
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseThree"
-                    className="accordion-collapse collapse"
-                    aria-labelledby="headingThree"
-                    data-bs-parent="#accordionExample"
-                  >
-                    <div className="accordion-body faq-accordion-body">
-                      <p className="faq-question">
-                        NFT는 대체 불가능한 토큰(Non-Fungible Token)을 이용해
-                        작품과 창작 및 소유에 대한 기록을
-                        <br /> 블록체인상에 남기는 새로운 작품 거래 방식이에요.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="accordion-item accodion-item-border">
-                  <h2 className="accordion-header" id="headingFour">
-                    <button
-                      className="accordion-button support-title"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseFour"
-                      aria-expanded="true"
-                      aria-controls="collapseFour"
-                    >
-                      <strong>이용관련</strong>
-                      <h3>회원탈퇴에 불이익이 있나요?</h3>
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseFour"
-                    className="accordion-collapse collapse"
-                    aria-labelledby="headingFour"
-                    data-bs-parent="#accordionExample"
-                  >
-                    <div className="accordion-body faq-accordion-body">
-                      <p className="faq-question">
-                        NFT는 대체 불가능한 토큰(Non-Fungible Token)을 이용해
-                        작품과 창작 및 소유에 대한 기록을
-                        <br /> 블록체인상에 남기는 새로운 작품 거래 방식이에요.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="accordion-item accodion-item-border">
-                  <h2 className="accordion-header" id="headingFive">
-                    <button
-                      className="accordion-button support-title"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseFive"
-                      aria-expanded="true"
-                      aria-controls="collapseFive"
-                    >
-                      <strong>구매</strong>
-                      <h3>작품을 구매하고 싶어요.</h3>
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseFive"
-                    className="accordion-collapse collapse"
-                    aria-labelledby="headingFive"
-                    data-bs-parent="#accordionExample"
-                  >
-                    <div className="accordion-body faq-accordion-body">
-                      <p className="faq-question">
-                        NFT는 대체 불가능한 토큰(Non-Fungible Token)을 이용해
-                        작품과 창작 및 소유에 대한 기록을
-                        <br /> 블록체인상에 남기는 새로운 작품 거래 방식이에요.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="accordion-item accodion-item-border"
-                  style={{borderColor: '#d9d9d9'}}
-                >
-                  <h2 className="accordion-header" id="headingSix">
-                    <button
-                      className="accordion-button support-title"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseSix"
-                      aria-expanded="true"
-                      aria-controls="collapseSix"
-                    >
-                      <strong>판매</strong>
-                      <h3>작품을 판매하고 싶어요.</h3>
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseSix"
-                    className="accordion-collapse collapse"
-                    aria-labelledby="headingSix"
-                    data-bs-parent="#accordionExample"
-                  >
-                    <div className="accordion-body faq-accordion-body">
-                      <p className="faq-question">
-                        NFT는 대체 불가능한 토큰(Non-Fungible Token)을 이용해
-                        작품과 창작 및 소유에 대한 기록을
-                        <br /> 블록체인상에 남기는 새로운 작품 거래 방식이에요.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        </Mfaq>
+        <Mannouncements></Mannouncements>
       </>
     );
   else
     return (
       <>
         <DefaultHeader />
+        <Pannouncements>
+          <section className="popupBox">
+            <strong className="title">자주하는 질문</strong>
+            <p className="subtitle">
+              문의하기가 늦어질 수 있으니 먼저 FAQ를 확인해주세요!
+            </p>
+            <div className="midHeader">
+              <p className="description">
 
+              </p>
+
+              <div className="posBox">
+                <button
+                  className="selectBtn"
+                  onClick={() => setCategoryPopup(true)}
+                >
+                  <p>{D_Category[selected]}</p>
+                  <img src={I_dnArrow} alt="" />
+                </button>
+                {categoryPopup && (
+                  <>
+                    <SelectPopup
+                      off={setCategoryPopup}
+                      contList={D_Category}
+                      selectCont={setSelected}
+                    />
+                    <PopupBg off={setCategoryPopup} />
+                  </>
+                )}
+              </div>
+
+              <div className="searchBox">
+                <input
+                  value={searchKey}
+                  onChange={(e) => setSearchKey(e.target.value)}
+                  placeholder=""
+                />
+              </div>
+            </div>
+
+
+
+            <div className="categoryBox"> {/*{style={{display: 'none'}}>} */}
+                          <div className="categoryList">
+                            <ul>
+                              {categories.map((cate, idx) => (
+                                
+                                <li
+                                  key={idx}
+                                  onClick={() => {
+                                    setCurCategory(cate.category);
+                                  }}
+                                  style={
+                                    curCategory === cate.category
+                                      ? {
+                                          backgroundColor: "black",
+                                          color: "white",
+                                        }
+                                      : {}
+                                  }
+                                >
+                                  <span>{cate.category}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+
+
+
+
+
+
+            <div className="contentBody">
+            <div className="instructionBox">
+          <details className="instructionDetail">
+            <summary className="instructionSummary">
+              <div className="category">
+                <strong>일반</strong>
+              </div>
+              <div className="textBox">
+                NFT가 무엇인가요?
+              </div>
+
+              <img className="arwImg" src={I_dnArrow} alt="" />
+            </summary>
+
+            <div className="content">
+            NFT는 대체 불가능한 토큰(Non-Fungible Token)을 이용해 작품과 창작 및 소유에 대한 기록을 
+블록체인상에 남기는 새로운 작품 거래 방식이에요.
+
+            </div>
+          </details>
+        </div>
+            </div>
+            <Pagination totalPage={totalPage} currentPage={setCurrentPage}/>
+            {/* <ul className="Pagination">
+              <li className="img leArrw">
+                <img src={I_leArrow} />
+              </li>
+              <li className="img lArrw">
+                <img src={I_lArrow} />
+              </li>
+              {[1, 2, 3, 4, 5].map((v, i) => {
+                return <li className={currentPage == v ? "on" : ""}>{v}</li>;
+              })}
+              <li className="img rArrw">
+                <img className="flip" src={I_lArrow} />
+              </li>
+              <li className="img reArrw">
+                <img className="flip" src={I_leArrow} />
+              </li>
+            </ul> */}
+          </section>
+        </Pannouncements>
       </>
     );
 }
-const Mfaq = styled.div`
-width: 100%`;
+
+const Mannouncements = styled.div``;
+
+const Pannouncements = styled.div`
+  padding-top: 150px;
+  display: flex;
+  justify-content: center;
+  //align-items: center;
+  width: 100vw;
+  height: 100vh;
+  font-family: "Noto Sans KR", sans-serif;
+  //background-color: rgba(0, 0, 0, 0.2);
+  position: relative;
+
+  .popupBox {
+    //margin-top: 120px;
+    display: flex;
+    flex-direction: column;
+    width: 1024px;
+    //min-height: 80vh;
+    height: 1000px;
+    //max-height: 1000px;
+    padding: 60px 35px 64px 35px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    overflow-y: hidden;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    .title {
+      font-size: 22px;
+      color: #000000;
+      font-weight: bold;
+    }
+    .subtitle {
+      font-size: 18px;
+      color: #000000;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+    .midHeader {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 25px;
+      height: 48px;
+      vertical-align: middle;
+      .description {
+        display: flex;
+        flex: 1;
+        line-height: 48px;
+        vertical-align: middle;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      p {
+        .highlighted {
+          color: #1c7eff;
+        }
+      }
+      .posBox {
+        display: flex;
+        //gap: 16px;
+        flex: 0;
+        justify-content: flex-end;
+
+        button {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 146px;
+          height: 48px;
+          padding: 0 20px;
+          font-size: 18px;
+          font-weight: 500;
+          border: solid 1px #d9d9d9;
+          border-radius: 8px;
+
+          img {
+            width: 20px;
+          }
+        }
+      }
+
+      .searchBox {
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
+        max-width: 283px;
+
+        //border: solid 1px #d9d9d9;
+        
+        //overflow: auto;
+        
+
+        input {
+          //overflow: auto;
+          width: 273px;
+          height: 50px;
+          padding: 0 12px;
+          font-size: 16px;
+          //text-align: end;
+          background: #fff;
+          border: 1px solid #d9d9d9;
+          border-radius: 8px;
+        }
+      }
+    }
+
+    .categoryBox{
+      ul{
+        display: flex;
+flex-wrap: wrap;
+margin: 30px 0 0 0;
+border-radius: 28px;
+background: #f6f6f6;
+        li{
+          flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 180px;
+  height: 56px;
+  padding: 0 35px;
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+  border-radius: 28px;
+  cursor: pointer;
+        }
+      }
+    }
+    .contentBody {
+      padding-top: 46px;
+      .instructionBox {
+        .instructionDetail {
+          border: solid 1px #d9d9d9;
+          border-radius: 8px;
+  
+          &[open] {
+            border-radius: 8px;
+            border: solid 2px #1c7eff;
+            background-color: #fbfbfb;
+            summary {
+              .arwImg {
+                transform: rotate(180deg);
+              }
+            }
+          }
+  
+          .instructionSummary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            padding: 0 20px;
+
+            .category{
+              display: flex;
+              justify-content: flex-start;
+              width: 131px;
+              font-size: 18px;
+              font-weight: bold;
+              color: #727272;
+            }
+  
+            .textBox {
+              display: flex;
+              justify-content: flex-start;
+              width: 100%;
+              font-size: 18px;
+  font-weight: bold;
+            }
+  
+            .arwImg {
+              justify-content: flex-end;
+              width: 24px;
+            }
+          }
+  
+          .content{
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            //padding: 16px 20px;
+            padding-bottom: 20px;
+            padding-left: 131px;
+            padding-right: 50px;
+            font-size: 18px;
+            font-weight: normal;
+            //border-top: 1px solid #d9d9d9;
+          }
+        }
+      }
+    }
+    .Pagination {
+      text-align: center;
+      margin-top: 55px;
+      .on {
+        color: #000;
+      }
+      li:hover {
+        color: #2A2727;
+      }
+      li {
+        cursor: pointer;
+        line-height: 32px;
+        vertical-align: middle;
+        flex-direction: row;
+        align-items: center;
+        color: #cecdcd;
+        display: inline;
+        font-size: 16px;
+        font-weight: normal;
+        .flip{
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        }
+        img{
+          line-height: 32px;
+        vertical-align: middle;
+        }
+      }
+      li + li {
+        margin-left: 22px;
+      }
+      .img + .img {
+        margin-left: 8px;
+      }
+
+    }
+  }
+`;
+
