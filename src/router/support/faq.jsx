@@ -41,16 +41,16 @@ import axios from "axios";
 
 
 export default function FAQ() {
-  const categories=[
-    {category: '전체', id:1},
-    {category: '일반', id:2},
-    {category: '지갑/계정', id:3},
-    {category: '이용관련', id:4},
-    {category: '구매', id:5},
-    {category: '판매', id:6},
-    {category: '기타문의', id:7},
+  // const categories=[
+  //   {category: '전체', id:1},
+  //   {category: '일반', id:2},
+  //   {category: '지갑/계정', id:3},
+  //   {category: '이용관련', id:4},
+  //   {category: '구매', id:5},
+  //   {category: '판매', id:6},
+  //   {category: '기타문의', id:7},
 
-  ]
+  // ]
   const D_Category = ["제목", "본문"];
   const navigate = useNavigate();
   const params = useParams();
@@ -66,21 +66,45 @@ export default function FAQ() {
   const [announces, setAnnounces] = useState([]);
   const [categoryPopup, setCategoryPopup] = useState(false);
   const [selected, setSelected] = useState(0);
-  const [curCategory, setCurCategory] = useState('전체')
+  const [categories, setCategories]=useState([])
+  const [curCategory, setCurCategory] = useState(0)
+  const [list, setList] = useState([])
 
 
 
   useEffect(() => {
-    axios.get(`${API.API_GET_ANNOUNCES}`).then((resp) => {
-      console.log(resp);
-      let { rows, count } = resp.data.list;
-      setTotalPage(Math.ceil(count/10))
-      setTotalNotice(count)
-      if (rows) {
-        setAnnounces(rows);
+    axios.get(`${process.env.REACT_APP_API_SERVER}/queries/faq/categories`,{
+      params:{
+        filter:[0]
       }
+    }).then((resp) => {
+      console.log(resp);
+      setCategories(resp.data.resp)
+
     });
+
+    axios.get(`${process.env.REACT_APP_API_SERVER}/queries/faq/items`, {
+      params:{
+        filter:[0]
+      }
+    }).then((resp)=>{console.log(resp); setList(resp.data.resp)})
   }, []);
+
+  useEffect(()=>{
+    console.log(curCategory)
+    if (curCategory==0)
+    axios.get(`${process.env.REACT_APP_API_SERVER}/queries/faq/items`, {
+      params:{
+        filter:[0]
+      }
+    }).then((resp)=>{console.log(resp);setList(resp.data.resp)})
+    else
+    axios.get(`${process.env.REACT_APP_API_SERVER}/queries/faq/items`, {
+      params:{
+        filter:[0, curCategory]
+      }
+    }).then((resp)=>{console.log(resp);setList(resp.data.resp)})
+  },[curCategory])
 
   if (isMobile)
     return (
@@ -95,7 +119,7 @@ export default function FAQ() {
         <DefaultHeader />
         <Pannouncements>
           <section className="popupBox">
-            <strong className="title">자주하는 질문</strong>
+            <strong className="title" style={{fontSize:'24px', fontWeight: 'bold'}}>자주하는 질문</strong>
             <p className="subtitle">
               문의하기가 늦어질 수 있으니 먼저 FAQ를 확인해주세요!
             </p>
@@ -132,29 +156,40 @@ export default function FAQ() {
                 />
               </div>
             </div>
-
-
-
             <div className="categoryBox"> {/*{style={{display: 'none'}}>} */}
                           <div className="categoryList">
                             <ul>
-                              {categories.map((cate, idx) => (
-                                
-                                <li
-                                  key={idx}
-                                  onClick={() => {
-                                    setCurCategory(cate.category);
+                            <li onClick={() => {
+                                    setCurCategory(0);
                                   }}
                                   style={
-                                    curCategory === cate.category
+                                    curCategory === 0
                                       ? {
-                                          backgroundColor: "black",
+                                          backgroundColor: "#222",
                                           color: "white",
                                         }
                                       : {}
                                   }
                                 >
-                                  <span>{cate.category}</span>
+                                  <span>전체</span>
+                                </li>
+                              {categories.map((cate, idx) => (
+                                
+                                <li
+                                  key={idx}
+                                  onClick={() => {
+                                    setCurCategory(cate.id);
+                                  }}
+                                  style={
+                                    curCategory === cate.id
+                                      ? {
+                                          backgroundColor: "#222",
+                                          color: "white",
+                                        }
+                                      : {}
+                                  }
+                                >
+                                  <span>{cate.textdisp}</span>
                                 </li>
                               ))}
                             </ul>
@@ -167,28 +202,33 @@ export default function FAQ() {
 
 
             <div className="contentBody">
-            <div className="instructionBox">
-          <details className="instructionDetail">
-            <summary className="instructionSummary">
-              <div className="category">
-                <strong>일반</strong>
+              <div className="instructionBox">
+                
+                {list.map((v, i)=>{return(
+                  <details className="instructionDetail">
+                  <summary className="instructionSummary">
+                    <div className="category">
+                      <strong>{v.category_info.textdisp}</strong>
+                    </div>
+                    <div className="textBox">
+                      {v.title}
+                    </div>
+
+                    <img className="arwImg" src={I_dnArrow} alt="" />
+                  </summary>
+
+                  <div className="content">
+                  {v.description}
+
+                  </div>
+                </details>)
+                })}
+                
+                
+
               </div>
-              <div className="textBox">
-                NFT가 무엇인가요?
-              </div>
-
-              <img className="arwImg" src={I_dnArrow} alt="" />
-            </summary>
-
-            <div className="content">
-            NFT는 대체 불가능한 토큰(Non-Fungible Token)을 이용해 작품과 창작 및 소유에 대한 기록을 
-블록체인상에 남기는 새로운 작품 거래 방식이에요.
-
             </div>
-          </details>
-        </div>
-            </div>
-            <Pagination totalPage={totalPage} currentPage={setCurrentPage}/>
+            
             {/* <ul className="Pagination">
               <li className="img leArrw">
                 <img src={I_leArrow} />
@@ -383,7 +423,7 @@ background: #f6f6f6;
               justify-content: flex-start;
               width: 100%;
               font-size: 18px;
-  font-weight: bold;
+              font-weight: bold;
             }
   
             .arwImg {
@@ -397,10 +437,11 @@ background: #f6f6f6;
             flex-direction: column;
             gap: 8px;
             //padding: 16px 20px;
+            
             padding-bottom: 20px;
             padding-left: 131px;
             padding-right: 50px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: normal;
             //border-top: 1px solid #d9d9d9;
           }

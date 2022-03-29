@@ -35,14 +35,15 @@ import Marketitembox from "../../components/market/Marketitembox";
 
 import axios from "axios";
 const D_Category = ["제목", "본문"];
-export default function Notice(props) {
+export default function SupportTicket(props) {
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
   const location = useLocation();
   const isMobile = useSelector((state) => state.common.isMobile);
 
-  const [totalNotice, setTotalNotice] = useState(100);
+  const [tickets, setTickets] = useState([1]);
+  const [countTickets, setCountTickets] = useState(1)
   
   const [totalPage, setTotalPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(5);
@@ -50,17 +51,19 @@ export default function Notice(props) {
   const [announces, setAnnounces] = useState([]);
   const [categoryPopup, setCategoryPopup] = useState(false);
   const [selected, setSelected] = useState(0);
+  const filter={lang:0, }
 
 
 
   useEffect(() => {
-    axios.get(`${API.API_GET_ANNOUNCES}`).then((resp) => {
+    axios.get(`${process.env.REACT_APP_API_SERVER}/queries/findcount/supporttickets`).then((resp) => {
+      if(resp.data.message=='PLEASE-LOGIN'){navigate('/'); return}
       console.log(resp);
       let { rows, count } = resp.data.list;
       setTotalPage(Math.ceil(count/10))
-      setTotalNotice(count)
+      setCountTickets(count)
       if (rows) {
-        setAnnounces(rows);
+        setTickets(rows);
       }
     });
   }, []);
@@ -78,57 +81,47 @@ export default function Notice(props) {
         <DefaultHeader />
         <Pannouncements>
           <section className="popupBox">
-            <strong className="title" style={{fontSize:'24px', fontWeight: 'bold'}}>공지사항</strong>
+            <strong className="title" style={{fontSize:'24px', fontWeight: 'bold'}}>1:1 문의하기</strong>
             <p className="subtitle">
-              아이템버스에서 전하는 새로운 소식을 확인하세요.
+            사용하시면서 불편한 사항이나 개선 의견이 있다면 문의해주세요.
             </p>
-            <div className="midHeader">
-              <p className="description">
-                전체 <span className="highlighted"> {totalNotice}</span>건의
-                게시물이 있습니다. (
-                <span className="highlighted">{currentPage}</span>/{totalPage})
-              </p>
+            <p className="description">*음란, 불법 게시물 또는 권리 침해 신고는 아이템 구매화면 상단에 <img/>신고하기 버튼을 이용해주세요.</p>
 
-              <div className="posBox">
-                <button
-                  className="selectBtn"
-                  onClick={() => setCategoryPopup(true)}
-                >
-                  <p>{D_Category[selected]}</p>
-                  <img src={I_dnArrow} alt="" />
-                </button>
-                {categoryPopup && (
-                  <>
-                    <SelectPopup
-                      off={setCategoryPopup}
-                      contList={D_Category}
-                      selectCont={setSelected}
-                    />
-                    <PopupBg off={setCategoryPopup} />
-                  </>
-                )}
-              </div>
-
-              <div className="searchBox">
-                <input
-                  value={searchKey}
-                  onChange={(e) => setSearchKey(e.target.value)}
-                  placeholder=""
-                />
-              </div>
-            </div>
             <div className="contentBody">
               <ul className="listHeader">
-                <li>No</li>
                 <li>제목</li>
-                <li>등록일</li>
+                <li>처리상태</li>
               </ul>
               <ul className="list">
-                {announces.map((v, i) => {
+                {countTickets==0&&<div className="empty">문의 내역이 없습니다.</div>}
+                {tickets.map((v, i)=>(<><li>
+                  <details className="ticketDetail">
+                    <summary className="ticketSummary">
+                      <div className="textBox">
+                      Q. {v.title}
+                      </div>
+                      
+                      {v.status==1&&<span className='status'>답변 대기중</span>}
+                      {v.status==2&&<span className="status done">답변 완료</span>}
+                      <img className="arwImg" src={I_dnArrow} alt="" />
+                      
+                    </summary>
+
+                    <div className="content">
+                      <span className="quest">
+                      {v.description}
+                      </span>
+                    {v.answer &&<span className="answer">
+                    {"A. "+v.answer}
+
+                    </span>}
+                    </div>
+                  </details>
+                </li></>))}
+                {/* {announces.map((v, i) => {
                   if(currentPage*10>i && i>=(currentPage-1)*10)
                   return (
                     <li key={i}>
-                      <span>{v.category == "COMMON" ? "공지" : i+1}</span>
                       <span
                         onClick={() => {
                           navigate(`/Notice/${v.id}`);
@@ -139,7 +132,7 @@ export default function Notice(props) {
                       <span>{moment(v.createdat).format("YYYY-MM-DD")}</span>
                     </li>
                   );
-                })}
+                })} */}
               </ul>
             </div>
             <Pagination totalPage={totalPage} currentPage={setCurrentPage}/>
@@ -161,6 +154,11 @@ export default function Notice(props) {
               </li>
             </ul> */}
           </section>
+          <article className="btnArea">
+            <button className="ListBtn" onClick={()=>{navigate('/Notice')}}>
+              문의하기
+            </button>
+          </article>
         </Pannouncements>
       </>
     );
@@ -169,12 +167,14 @@ export default function Notice(props) {
 const Mannouncements = styled.div``;
 
 const Pannouncements = styled.div`
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+flex-direction: column;
   padding-top: 150px;
   display: flex;
   justify-content: center;
-  //align-items: center;
+  align-items: center;
   width: 100vw;
-  height: 100vh;
+  //height: 100vh;
   font-family: "Noto Sans KR", sans-serif;
   //background-color: rgba(0, 0, 0, 0.2);
   position: relative;
@@ -185,7 +185,7 @@ const Pannouncements = styled.div`
     flex-direction: column;
     width: 1024px;
     //min-height: 80vh;
-    height: 1000px;
+    height: 100%;
     //max-height: 1000px;
     padding: 60px 35px 64px 35px;
     background: #fff;
@@ -203,83 +203,29 @@ const Pannouncements = styled.div`
     }
     .subtitle {
       font-size: 18px;
+      font-weight: 500;
       color: #000000;
       margin-top: 10px;
+    }
+
+    
+    .description{
+      padding-top: 10px;
+      font-family: "Noto Sans KR", sans-serif;
+      font-size: 16px;
       font-weight: 500;
+      color: #7a7a7a;
     }
-    .midHeader {
-      display: flex;
-      justify-content: flex-start;
-      margin-top: 25px;
-      height: 48px;
-      vertical-align: middle;
-      .description {
-        display: flex;
-        flex: 1;
-        line-height: 48px;
-        vertical-align: middle;
-        font-size: 16px;
-        font-weight: 500;
-      }
-      p {
-        .highlighted {
-          color: #1c7eff;
-        }
-      }
-      .posBox {
-        display: flex;
-        //gap: 16px;
-        flex: 0;
-        justify-content: flex-end;
-
-        button {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          width: 146px;
-          height: 48px;
-          padding: 0 20px;
-          font-size: 18px;
-          font-weight: 500;
-          border: solid 1px #d9d9d9;
-          border-radius: 8px;
-
-          img {
-            width: 20px;
-          }
-        }
-      }
-
-      .searchBox {
-        display: flex;
-        flex: 1;
-        justify-content: flex-end;
-        max-width: 283px;
-
-        //border: solid 1px #d9d9d9;
-        
-        //overflow: auto;
-        
-
-        input {
-          //overflow: auto;
-          width: 273px;
-          height: 50px;
-          padding: 0 12px;
-          font-size: 16px;
-          //text-align: end;
-          background: #fff;
-          border: 1px solid #d9d9d9;
-          border-radius: 8px;
-        }
-      }
-    }
+  
     .contentBody {
       padding-top: 32px;
-      
-      height: 100%;
+      //height: 100%;
+      border-bottom: 1px solid #000;
+      min-height: 657px;
+        //height: 100%;
 
       .listHeader {
+        border-bottom: 1px solid #000;
         display: flex;
         align-items: center;
         height: 54px;
@@ -292,9 +238,7 @@ const Pannouncements = styled.div`
       }
 
       .list {
-        border-bottom: 1px solid #000;
-
-        //height: 100%;
+        
 
         overflow: hidden;
         padding: 0 6px 0 6px;
@@ -302,39 +246,125 @@ const Pannouncements = styled.div`
         font-weight: 500;
         //overflow-y: scroll;
         
+        .empty{
+          width: 100%;
+          height: 657px;
+          text-align: center;
+          vertical-align: middle;
+          font-size: 18px;
+          font-weight: bold;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 657px;
+          letter-spacing: normal;
+          text-align: center;
+          color: #727272;
+        }
 
         li {
           display: flex;
           align-items: center;
-          height: 56px;
-          border-top: 1px solid #000;
-          overflow: hidden;
+          //height: 56px;
+          
+          //overflow: hidden;
+
+          .ticketDetail {
+            width: 100%;
+          //border: solid 1px #d9d9d9;
+          //border-radius: 8px;
+  
+          &[open] {
+            //border-radius: 8px;
+            //border: solid 2px #1c7eff;
+            //background-color: #fbfbfb;
+            summary {
+              .arwImg {
+                transform: rotate(180deg);
+              }
+            }
+          }
+  
+          .ticketSummary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 56px;
+            padding: 0 20px;
+  
+            .textBox {
+              display: flex;
+              justify-content: flex-start;
+              //width: 100%;
+              font-size: 16px;
+              font-weight: bold;
+            }
+            .status{
+              font-family: "Noto Sans KR", sans-serif;
+              justify-content: flex-end;
+              font-size: 16px;
+              font-weight: bold;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: normal;
+              letter-spacing: normal;
+              text-align: center;
+              color: #1c7eff;
+            }
+            .done{
+              color: #7a7a7a;
+            }
+  
+            .arwImg {
+              justify-content: flex-end;
+              width: 24px;
+            }
+          }
+  
+          .content{
+            font-family: "Noto Sans KR", sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            //padding: 16px 20px;
+            padding-top: 12px;
+            padding-bottom: 20px;
+            padding-left: 20px;
+            //padding-right: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            width: 750px;
+            .quest{
+              padding: 0;
+              width: 100%;
+            }
+            .answer{
+              justify-content: flex-start;
+              padding-top: 28px;
+              width: 100%;
+              color: #1c7eff;
+            }
+          }
+        }
         }
         li + li {
           border-top: 1px solid #e5e5e5;
         }
+        
       }
 
       .listHeader li,
       .list li span {
-        &:nth-of-type(1) {
-          display: flex;
-          //flex: 1;
-          justify-content: center;
-          width: 50px;
-          margin: 18px 18px 18px 0px;
-        }
 
-        &:nth-of-type(2) {
+        &:nth-of-type(1) {
           padding: 18px 18px 18px 18px;
           display: flex;
           flex: 1;
           cursor: pointer;
         }
 
-        &:nth-of-type(3) {
+        &:nth-of-type(2) {
           display: flex;
-          width: 140px;
+          width: 200px;
           justify-content: center;
         }
       }
@@ -376,4 +406,45 @@ const Pannouncements = styled.div`
 
     }
   }
+  .btnArea {
+      display: flex;
+      width: 1024px;
+      justify-content: flex-end;
+      align-items: center;
+      height: 134px;
+      //padding: 0 36px;
+      //border-top: 1px solid #d9d9d9;
+
+      .ListBtn {
+        width: 176px;
+        height: 56px;
+        font-size: 22px;
+        font-weight: 500;
+        color: #000;
+        background: #fff;
+        border-radius: 44px;
+        text-align: center;
+        padding-top: auto;
+        border-radius: 28px;
+        border: solid 2px #222;
+        
+      }
+      .ListBtn:hover{
+        background: #000;
+        color: #fff;
+      }
+      .dcreateBtn {
+        width: 176px;
+        height: 56px;
+        font-size: 22px;
+        font-weight: 500;
+        color: #fff;
+        background: #ccc;
+        border-radius: 44px;
+        text-align: center;
+        padding-top: auto;
+        
+      }
+    }
+  
 `;

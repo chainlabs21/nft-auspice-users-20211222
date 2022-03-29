@@ -192,18 +192,18 @@ export default function DefaultHeader(props) {
               <li>
                 <span className="posBox">
                   <button
-                    className="explore"
+                    className="notice"
                     onClick={() => navigate("/Notice")}
                   >
                     Support
                   </button>
 
-                  <ul className="popupBox explore" style={{display:'none'}}>
-                    <li onClick={() => navigate("/Notice")}>
+                  <ul className="popupBox notice">
+                    <li onClick={() => navigate("/notice")}>
                       Notice
                     </li>
-                    <li onClick={() => navigate("/Notice")}>FAQ</li>
-                    <li onClick={() => navigate("/Notice")}>Ticket</li>
+                    <li onClick={() => navigate("/faq")}>FAQ</li>
+                    <li onClick={() => navigate("/support")}>Support Ticket</li>
                   </ul>
                 </span>
               </li>

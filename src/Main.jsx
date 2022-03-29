@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import PopupNotice from "./router/support/NoticeTest"
+//import PopupNotice from "./router/support/NoticeTest"
 import I_ltArw3BlackBtn from "./img/design/I_ltArw3BlackBtn.png";
 import I_rtArw3BlackBtn from "./img/design/I_rtArw3BlackBtn.png";
 import title from "./img/main/title.png";

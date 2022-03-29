@@ -16,9 +16,9 @@ import EmailChange from "./router/join/EmailChange";
 import MyPage from "./router/mypage/MyPage"
 import Notice from "./router/support/Notice"
 import FAQ from "./router/support/faq"
-import NoticeTest from "./router/support/NoticeTest"
+//import NoticeTest from "./router/support/NoticeTest"
 import NoticeDetail from "./router/support/NoticeDetail"
-import PopupNotice from "./router/support/NoticeTest"
+import PopupNotice from "./router/support/PopupNotice"
 //import FAQ from "./router/support/faq"
 
 import MarketPlace from "./router/market/MarketPlace";
@@ -72,6 +72,7 @@ import "./css/layout.css";
 import "./css/style.css";
 import "./css/swiper.min.css";
 import { SET_ADDRESS, SET_LOGIN, SET_USER_DATA } from "./reducers/userReducer";
+import SupportTicket from "./router/support/SupportTicket";
 
 function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const { mHeaderPopup } = useSelector((state) => state.store);
@@ -298,8 +299,9 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/sentemaildetail" element={<SentEmailDetail />} />
           <Route path="/signupcomplete" element={<SignupComplete />} />
           <Route path="/notice" element={<Notice />} />
-          <Route path="/noticett" element={<NoticeTest />} />
-          <Route path="/FAQ" element={<FAQ />} />
+          {/* <Route path="/noticett" element={<NoticeTest />} /> */}
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/support" element={<SupportTicket />} />
 
           <Route path="/marketplace" element={<MarketPlace />} />
           <Route path="/mypage" element={<MyPage />} />
