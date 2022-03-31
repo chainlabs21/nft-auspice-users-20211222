@@ -15,8 +15,10 @@ import axios from "axios";
 import { LOGGER } from "../../util/common";
 import { API } from "../../config/api";
 import userEvent from "@testing-library/user-event";
+import { useTranslation } from "react-i18next";
 
 export default function MyPageHeader({ address, targetData }) {
+  const {t} = useTranslation(['locale']);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -104,7 +106,7 @@ export default function MyPageHeader({ address, targetData }) {
             </div>
 
             <div className="infoBox">
-              <strong className="title">{nickname}' Items</strong>
+              <strong className="title">{nickname} {t('mypage:sItems')}</strong>
               <p className="address">{strDot(myAddress, 5, 5)}</p>
               <p className="introduce">
                 {desc}
@@ -147,7 +149,7 @@ export default function MyPageHeader({ address, targetData }) {
               </div>
 
               <div className="infoBox">
-                <strong className="title">{nickname}'s Items</strong>
+                <strong className="title">{nickname}{t('mypage:sItems')}</strong>
                 <p className="address">{strDot(myAddress, 5, 5)}</p>
                 <p className="introduce" style={{whiteSpace:'pre'}}>{desc}</p>
               </div>

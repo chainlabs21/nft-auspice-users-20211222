@@ -1,0 +1,11 @@
+{
+    "LATEST"            : "Latest"
+    , "POPULARITY"      : "Popularity"
+    , "CLOSE_TO_FINISH" : "Close to finish"
+    , "LOW_PRICE"       : "Low price"
+    , "HIGH_PRICE"      : "High price"
+    , "SMALL_BIDS"       : "A small bid"
+    , "LOT_OF_BIDS"     : "A lot of bids"
+    , "MOST_SEEN"       : "Most seen"
+    , "OLDEST"          : "Oldest"
+}

@@ -59,26 +59,18 @@ export default function MarketPlace(props) {
   let loadingBusy = false;
   let itemIndex = 0;
   let itemList = [];
-  const Categories={
-    ALL: 'all'
-    , ART: 'art'
-    , MUSIC: 'Music'
-    , VIRTUALWORLD: 'virtual world'
-    , TRADINGCARDS: 'trading cards'
-    , COLLECTIBLES: 'collectibles'
-    , SPORTS: 'sports'
-    , UTILITY: 'utility'
-    , ETC: 'etc'
-  }
-const codelist=['all'
-, 'art'
-, 'Music'
-, 'virtualworld'
-, 'tradingcards'
-, 'collectibles'
-, 'sports'
-, 'utility'
-, 'etc']
+  const sortFilter=[
+    t('sort:LATEST'),
+    t('sort:POPULARITY'),
+    t('sort:CLOSE_TO_FINISH'),
+    t('sort:LOW_PRICE'),
+    t('sort:HIGH_PRICE'),
+    t('sort:SMALL_BIDS'),
+    t('sort:LOT_OF_BIDS'),
+    t('sort:MOST_SEEN'),
+    t('sort:OLDEST')
+
+  ]
   const [toggleFilter, setToggleFilter] = useState(false);
   const [itemFilterPopup, setItemFilterPopup] = useState(false);
   const [sortPopup, setSortPopup] = useState(false);
@@ -471,12 +463,12 @@ const codelist=['all'
                     className="selectBtn"
                     onClick={() => setSortPopup(true)}
                   >
-                    <p>{D_sortFilter[itemSort]}</p>
+                    <p>{sortFilter[itemSort]}</p>
                     <img src={I_dnArrow} alt="" />
                   </button>
                   {sortPopup && (
                     <>
-                      <SelectPopup off={setSortPopup} contList={D_sortFilter} selectCont={e=>handleSort(e)}/>
+                      <SelectPopup off={setSortPopup} contList={sortFilter} selectCont={e=>handleSort(e)}/>
                       <PopupBg off={setSortPopup} />
                     </>
                   )}

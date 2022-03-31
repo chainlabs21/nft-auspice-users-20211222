@@ -15,8 +15,10 @@ import saleitem from './mint/saleitem.json'
 import auctionbid from './mint/saleItem/auctionbid.json'
 import fixedprice from './mint/saleItem/fixedprice.json'
 
-import header from './header.json'
 
+import sort from './sort.json'
+import mypage from './mypage.json'
+import header from './header.json'
 
 export default{
     locale,
@@ -35,8 +37,8 @@ export default{
     saleitem,
     auctionbid,
     fixedprice,
-
-
+    mypage,
+    sort,
 
     header
 }

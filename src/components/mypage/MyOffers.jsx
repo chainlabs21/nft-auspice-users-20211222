@@ -27,8 +27,11 @@ import {strDot} from "../../util/Util"
 import axios from "axios";
 import { API } from "../../config/api";
 import moment from "moment";
+import FixedPrice from "../../router/mint/saleItem/FixedPrice";
+import { useTranslation } from "react-i18next";
 
 export default function MyOffers() {
+  const {t} = useTranslation(['locale'])
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const {userData, walletAddress} = useSelector((state)=> state.user)
@@ -243,6 +246,10 @@ else
         ) : (
           <button
             className="filterBtn pc withBg"
+            style={{
+              position: 'fixed',
+              top: '50%'
+            }}
             onClick={() => setToggleFilter(true)}
           >
             <img src={side_close} alt="" />
@@ -257,13 +264,13 @@ else
                 className={detailCategory === 0 && "on"}
                 onClick={() => setDetailCategory(0)}
               >
-                Participation in auction
+                {t('mypage:PARTICIPATED_AUCTION')}
               </li>
               <li
                 className={detailCategory === 1 && "on"}
                 onClick={() => setDetailCategory(1)}
               >
-                Bid proposal
+                {t('mypage:BID_PROPOSAL')}
               </li>
             </ul>
 
@@ -295,14 +302,14 @@ else
 
             <article className="listBox">
               <ul className="listHeader">
-                <li>Item</li>
-                <li>Price</li>
-                <li>Quantify</li>
-                {detailCategory===0 &&(<li>Seller</li>)}
-                {detailCategory===1 &&(<li>Bidder</li>)}
+                <li>{t('mypage:ITEM')}</li>
+                <li>{t('mypage:PRICE')}</li>
+                <li>{t('mypage:QUANTITY')}</li>
+                {detailCategory===0 &&(<li>{t('mypage:SELLER')}</li>)}
+                {detailCategory===1 &&(<li>{t('mypage:BIDDER')}</li>)}
                 
-                <li>Expiration</li>
-                <li>State</li>
+                <li>{t('mypage:EXPIRY')}</li>
+                <li>{t('mypage:STATE')}</li>
               </ul>
             {detailCategory ===0 &&(
               <ul className="list">

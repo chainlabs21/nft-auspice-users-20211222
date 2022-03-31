@@ -25,9 +25,11 @@ import { LOGGER } from "../../util/common";
 import { API } from "../../config/api";
 import { RESET_FILTER, SET_STATUS_FILTER } from "../../reducers/filterReducer";
 import {   D_SStatusList} from "../../data/D_filter"
+import { useTranslation } from "react-i18next";
 
 
 export default function MyPage() {
+  const {t} = useTranslation(['locale']);
   const isMobile = useSelector((state) => state.common.isMobile);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -70,16 +72,24 @@ export default function MyPage() {
 
     if (searchAddress) getUserInfo(searchAddress)
   },[searchAddress])
-  
-  // useEffect(()=>{
-  //   if( searchAddress ) return;
-  //   if(isloggedin){
-  //     setSearchAddress(walletAddress)
-  //   }else{
-  //     navigate('/')
-  //   }
-  // }, [searchAddress])
-  //const isMobile = useSelector((state) => state.common.isMobile);
+  const categoryList = [
+    {
+      text: t('mypage:SEARCH_WALLET'),
+      url: "/searchwallet",
+    },
+    {
+      text: t('mypage:TRANSACTION_HISTORY'),
+      url: "/transactionhistory",
+    },
+    {
+      text: t('mypage:OFFERS'),
+      url: "/offers",
+    },
+    {
+      text: t('mypage:LIKED'),
+      url: "/liked",
+    },
+  ]
 
 
     return (
@@ -87,7 +97,7 @@ export default function MyPage() {
         <DefaultHeader />
            <MyPageHeader address={searchAddress} targetData={targetData}/>
            <nav className={isMobile?"mo":"navBar"}>
-              {D_categoryList.map((nav, index) => (
+              {categoryList.map((nav, index) => (
                 <button
                   key={index}
                   className={nav.url === "/"+pathname.split('/')[2] && "on"}

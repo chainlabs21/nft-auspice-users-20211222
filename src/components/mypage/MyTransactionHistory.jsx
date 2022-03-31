@@ -35,8 +35,10 @@ import axios from 'axios';
 import {API} from '../../config/api'
 import { strDot } from "../../util/Util";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 export default function MyTransactionHistory({address}) {
+  const {t} = useTranslation(['locale'])
   const EVENT_MAP={
     CLOSE_SALE: "BOUGHT"
   }
@@ -203,13 +205,13 @@ export default function MyTransactionHistory({address}) {
 
             <article className="listBox">
               <ul className="listHeader">
-                <li>Event</li>
-                <li>Item</li>
-                <li>Price</li>
-                <li>From</li>
-                <li>To</li>
-                <li>Date</li>
-                <li>Quantify</li>
+                <li>{t('mypage:EVENT')}</li>
+                <li>{t('mypage:ITEM')}</li>
+                <li>{t('mypage:PRICE')}</li>
+                <li>{t('mypage:FROM')}</li>
+                <li>{t('mypage:TO')}</li>
+                <li>{t('mypage:DATE')}</li>
+                <li>{t('mypage:QUANTITY')}</li>
                 <li></li>
               </ul>
 
@@ -265,10 +267,9 @@ export default function MyTransactionHistory({address}) {
             className="filterBtn pc withBg"
             onClick={() => setToggleFilter(true)}
             style={{
-              top: "30%",
-              marginLeft:"-6px",
-              position: "sticky"
-          }}
+              position: 'fixed',
+              top: '50%'
+            }}
           >
             <img src={side_close} alt="" />
           </button>
@@ -321,14 +322,14 @@ export default function MyTransactionHistory({address}) {
 
             <article className="listBox">
               <ul className="listHeader">
-                <li>Event</li>
-                <li>Item</li>
-                <li>Price</li>
-                <li>From</li>
-                <li>To</li>
-                <li>Date</li>
-                <li>Quantify</li>
-                <li></li>
+                <li>{t('mypage:EVENT')}</li>
+                <li>{t('mypage:ITEM')}</li>
+                <li>{t('mypage:PRICE')}</li>
+                <li>{t('mypage:FROM')}</li>
+                <li>{t('mypage:TO')}</li>
+                <li>{t('mypage:DATE')}</li>
+                <li>{t('mypage:QUANTITY')}</li>
+                <li>TX</li>
               </ul>
 
               <ul className="list">
@@ -354,7 +355,7 @@ export default function MyTransactionHistory({address}) {
                       <img className="profImg" src={cont.buyer_info?.profileimageurl}/>
                         <p>{cont.buyer}</p></span>
                       <span>{/* date*/}
-                        <p>{moment(cont.createdat).fromNow()}</p>
+                        <p style={{width: '100%',textAlign:'center'}}>{moment(cont.createdat).fromNow()}</p>
                       </span>
                       <span>{/**quantity*/}
                       {cont.amount}</span>
@@ -691,17 +692,17 @@ const PtransactionHistory = styled.div`
       }
 
       &:nth-of-type(4) {
-        width: 190px;
+        width: 210px;
         padding: 0 16px;
       }
 
       &:nth-of-type(5) {
-        width: 190px;
+        width: 210px;
         padding: 0 16px;
       }
 
       &:nth-of-type(6) {
-        width: 190px;
+        width: 120px;
       }
 
       &:nth-of-type(7) {

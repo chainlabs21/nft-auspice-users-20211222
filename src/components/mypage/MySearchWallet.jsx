@@ -25,8 +25,10 @@ import { API } from "../../config/api";
 import { RESET_FILTER, SET_STATUS_FILTER } from "../../reducers/filterReducer";
 import { D_SStatusList } from "../../data/D_filter";
 import SearchWalletItembox from "./MySearchWallet/itembox"
+import { useTranslation } from "react-i18next";
 
 export default function SearchWallet({ address }) {
+  const {t} = useTranslation(['locale']);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -48,12 +50,25 @@ export default function SearchWallet({ address }) {
   const [isOwner, setIsOwner] = useState(false);
   const [targetAddress, setTargetAddress] = useState();
   const [targettData, setTargettData] = useState();
+  const sortFilter=[
+    t('sort:LATEST'),
+    t('sort:POPULARITY'),
+    t('sort:CLOSE_TO_FINISH'),
+    t('sort:LOW_PRICE'),
+    t('sort:HIGH_PRICE'),
+    t('sort:SMALL_BIDS'),
+    t('sort:LOT_OF_BIDS'),
+    t('sort:MOST_SEEN'),
+    t('sort:OLDEST')
+
+  ]
 
   const { userData, isloggedin, walletAddress } = useSelector(
     (state) => state.user
   );
 
   useEffect(() => {
+    console.log(address)
     if (address) {
       setTargetAddress(address);
       if (walletAddress == address) {
@@ -62,13 +77,19 @@ export default function SearchWallet({ address }) {
         setIsOwner(false);
       }
     } else {
-      console.log("noaddress found");
-      setTargetAddress(walletAddress);
+      console.log("noaddress found" + pathname.split('/')[3]);
+      if(pathname.split('/')[3]){
+        setTargetAddress(pathname.split('/')[3])
+      }else{
+        setTargetAddress(walletAddress);
       setIsOwner(true);
+      }
     }
   }, [address]);
 
   useEffect(() => {
+    setSearch("");
+    console.log('asdfa')
     fetchitems();
   }, [targetAddress]);
 
@@ -355,10 +376,8 @@ export default function SearchWallet({ address }) {
           className="filterBtn pc withBg"
           onClick={() => setToggleFilter(true)}
           style={{
-            zIndex: "100",
-            top: "30%",
-            marginLeft: "-6px",
-            position: "sticky",
+            position: 'fixed',
+            top: '50%'
           }}
         >
           <img src={side_close} alt="" />
@@ -408,14 +427,14 @@ export default function SearchWallet({ address }) {
                   onClick={() => setSortPopup(true)}
                   //selectCont={e=>handleSort(e)}
                 >
-                  <p>{D_sortFilter[orderkey]}</p>
+                  <p>{sortFilter[orderkey]}</p>
                   <img src={I_dnArrow} alt="" />
                 </button>
                 {sortPopup && (
                   <>
                     <SelectPopup
                       off={setSortPopup}
-                      contList={D_sortFilter}
+                      contList={sortFilter}
                       selectCont={(e) => handleSort(e)}
                     />
                     <PopupBg off={setSortPopup} />
