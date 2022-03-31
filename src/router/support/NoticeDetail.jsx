@@ -13,28 +13,13 @@ import { get_deltatime_str, LOGGER } from "../../util/common";
 import { PAYMEANS_DEF } from "../../config/configs";
 import { useSelector, useDispatch } from "react-redux";
 import DefaultHeader from "../../components/header/DefaultHeader";
-import Filter from "../../components/common/DefaultFilter";
-import {
-  RESET_FILTER,
-  SET_CATEGORY,
-  SET_STATUS_FILTER,
-  SET_SEARCH,
-} from "../../reducers/filterReducer";
 
-import "./contentstyle.css"
-import {
-  D_categoryList,
-  D_itemFilter,
-  D_sortFilter,
-} from "../../data/D_marketPlace";
-import { D_SStatusList } from "../../data/D_filter";
-import SelectPopup from "../../components/SelectPopup";
-import PopupBg from "../../components/PopupBg";
-import Marketitembox from "../../components/market/Marketitembox";
+import { useTranslation } from "react-i18next";
 
 import axios from "axios";
 const D_Category = ["제목", "본문"];
 export default function NoticeDetail(props) {
+  const { t }  = useTranslation(['locale'])
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
@@ -92,12 +77,12 @@ console.log(content)
         <DefaultHeader />
         <Pannouncements>
           <section className="spopupBox">
-            <strong className="title">공지사항</strong>
+            <strong className="title">{t('locale:NOTICE')}</strong>
             <div className="header">
               <p className="title">{title}</p>
               <p className="desc">
                 <span className="type">{type}</span>
-                <span className="date">{date}</span>
+                <span className="date">{moment(date).format('YYYY-MM-DD')}</span>
               </p>
             </div>
             <div className="ck-content" dangerouslySetInnerHTML={{__html: content}} />

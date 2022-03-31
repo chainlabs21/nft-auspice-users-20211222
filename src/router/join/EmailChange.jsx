@@ -6,8 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import { ERR_MSG } from "../../config/messages";
 import axios from "axios";
 import { API } from "../../config/api";
+import { useTranslation } from "react-i18next";
 
 export default function EmailChange() {
+  const { t }  = useTranslation(['locale'])
   const navigate = useNavigate();
   const boxRef = useRef();
   const photoRef = useRef();

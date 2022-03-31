@@ -14,9 +14,11 @@ import { getuseraddress } from "../../util/common";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import SetErrorBar from "../../util/SetErrorBar";
+import { useTranslation } from "react-i18next";
 
 export default function SentEmailDetail({email}) {
   const navigate = useNavigate();
+  const { t }  = useTranslation(['locale'])
 
   const { userData, walletAddress, isloggedin} = useSelector((state) => state.user);
   const isMobile = useSelector((state) => state.common.isMobile);
@@ -89,7 +91,7 @@ export default function SentEmailDetail({email}) {
           <article className="contBox">
             <div className="titleBox">
               <strong className="title">
-                A verification email has been sent.
+                {t('sentemaildetail:TITLE')}
               </strong>
               <p className="explain">
                 Please check the verification email in your mailbox

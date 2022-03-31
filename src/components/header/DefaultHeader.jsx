@@ -32,8 +32,10 @@ import axios from "axios";
 import {API} from "../../config/api"
 import { SET_USER_DATA, SET_ADDRESS, SET_LOGIN } from "../../reducers/userReducer";
 import {SET_SEARCH} from "../../reducers/filterReducer"
+import { useTranslation } from "react-i18next";
 
 export default function DefaultHeader(props) {
+  const { t }  = useTranslation(['locale'])
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -123,7 +125,7 @@ export default function DefaultHeader(props) {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyPress={e=>{handleSearch(e)}}
-                placeholder="Search items, collections, creators"
+                placeholder={t('header:SEARCH_HOLDER')}
               />
             </div>
           </article>
@@ -136,7 +138,7 @@ export default function DefaultHeader(props) {
                     className="marketPlace"
                     onClick={() => navigate("/marketplace/all")}
                   >
-                    Marketplace
+                    {t('header:MARKETPLACE')}
                   </button>
 
                   <ul className="popupBox marketPlace">
@@ -177,7 +179,7 @@ export default function DefaultHeader(props) {
                     className="explore"
                     onClick={() => navigate("/exploredealhistory")}
                   >
-                    Explore
+                    {t('header:EXPLORE')}
                   </button>
 
                   <ul className="popupBox explore" style={{display:'none'}}>
@@ -195,13 +197,11 @@ export default function DefaultHeader(props) {
                     className="notice"
                     onClick={() => navigate("/Notice")}
                   >
-                    Support
+                    {t('header:SUPPORT')}
                   </button>
 
                   <ul className="popupBox notice">
-                    <li onClick={() => navigate("/notice")}>
-                      Notice
-                    </li>
+                    <li onClick={() => navigate("/notice")}>Notice</li>
                     <li onClick={() => navigate("/faq")}>FAQ</li>
                     <li onClick={() => navigate("/support")}>Support Ticket</li>
                   </ul>
@@ -214,17 +214,17 @@ export default function DefaultHeader(props) {
                     className="mypage"
                     onClick={() => navigate("/mypage/searchwallet/")}
                   >
-                    Mypage
+                    {t('header:MYPAGE')}
                   </button>
 
                   <ul className="popupBox mypage">
-                    <li onClick={() => navigate("/mypage/searchwallet/")}>My Profile</li>
+                    <li onClick={() => navigate("/mypage/searchwallet/")}>{t('header:MY_PROFILE')}</li>
                     <li onClick={() => navigate("/createitem")}>
-                      Publish NFT
+                      {t('header:PUBLISH')}
                     </li>
-                    <li onClick={() => navigate("/mypage/liked/"+walletAddress)}>Bookmark</li>
+                    <li onClick={() => navigate("/mypage/liked/"+walletAddress)}>{t('header:BOOKMARK')}</li>
                     <li onClick={() => navigate("/mywallet")}>
-                      Account Setting
+                      {t('header:ACC_SETTING')}
                     </li>
                   </ul>
                 </span>

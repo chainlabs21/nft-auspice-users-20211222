@@ -11,8 +11,10 @@ import {
 } from "../../../data/D_saleItem";
 import PopupBg from "../../../components/PopupBg";
 import SelectPopup from "../../../components/SelectPopup";
+import { useTranslation } from "react-i18next";
 
 export default function AuctionBid(props) {
+  const {t} = useTranslation(['locale']);
   const isMobile = useSelector((state) => state.common.isMobile);
 
   const [minimum, setMinimum] = useState(0);
@@ -212,19 +214,19 @@ export default function AuctionBid(props) {
         <li className="tragetContainer">
           <div className="leftBox">
             <div className="infoBox">
-              <strong className="title">Amount to auction</strong>
+              <strong className="title">{t('auctionbid:AMOUNT')}</strong>
               <div className="hoverBox posBox">
                 <button className="hoverBtn" onClick={() => {}}>
                   <img src={auction_icon} alt="" />
                 </button>
 
                 <div className="hoverPopup">
-                  You can decide the amount of items to list an auction.
+                {t('auctionbid:AMOUNT_HOVER')}
                 </div>
               </div>
             </div>
             <p className="explain">
-              The amount of items you desire to list.
+            {t('auctionbid:AMOUNT_EXPLAIN')}
             </p>
           </div>
 
@@ -254,20 +256,18 @@ export default function AuctionBid(props) {
         <li className="minimumContainer">
           <div className="leftBox">
             <div className="infoBox">
-              <strong className="title">Starting bid</strong>
+              <strong className="title">{t('auctionbid:MINIMUM_BID')}</strong>
               <div className="hoverBox posBox">
                 <button className="hoverBtn" onClick={() => {}}>
                   <img src={auction_icon} alt="" />
                 </button>
 
                 <div className="hoverPopup">
-                  You can always accept a sale even if you are offered a price
-                  that is higher than your minimum bid and lower than your
-                  target bid.
+                {t('auctionbid:MINIMUM_BID_HOVER')}
                 </div>
               </div>
             </div>
-            <p className="explain">Enter your starting bid.</p>
+            <p className="explain">{t('auctionbid:MINIMUM_EXPLAIN')}</p>
           </div>
 
           <div className="priceBox">
@@ -294,11 +294,10 @@ export default function AuctionBid(props) {
 
         <li className="expiryContainer">
           <div className="leftBox">
-            <strong className="title">Expiry date</strong>
+            <strong className="title">{t('auctionbid:EXPIRY')}</strong>
 
             <p className="explain">
-              When the expiration time is reached, the sale price is
-              automatically It ends.
+            {t('auctionbid:EXPIRY_EXPLAIN')}
             </p>
           </div>
 
@@ -342,9 +341,9 @@ export default function AuctionBid(props) {
           <details className="instructionDetail">
             <summary className="instructionSummary">
               <div className="textBox">
-                <strong className="title">Instruction</strong>
+                <strong className="title">{t('auctionbid:INSTRUCTION')}</strong>
                 <p className="explain">
-                  We need a process for listing without gas fees
+                {t('auctionbid:INSTRUCTION_EXPLAIN')}
                 </p>
               </div>
 

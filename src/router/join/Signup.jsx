@@ -6,6 +6,7 @@ import SetErrorBar from "../../util/SetErrorBar";
 import SentEmailDetail from "./SentEmailDetail";
 
 import I_camera from "../../img/icons/I_camera.png";
+import I_upload from "../img/icon/upload-button.svg"
 import I_x from "../../img/icons/I_x.svg";
 import I_chkBtn from "../../img/design/I_chkBtn.png";
 
@@ -14,6 +15,9 @@ import { encodeBase64ImageFile, getuseraddress } from "../../util/common";
 import { ERR_MSG } from "../../config/messages";
 import axios from "axios";
 import { API } from "../../config/api";
+
+import { useTranslation } from 'react-i18next'
+import i18n from "i18next";
 
 const kiloBytes = 1024;
 const megaBytes = 1024 * kiloBytes;
@@ -34,11 +38,13 @@ export default function Signup({ store, setConnect }) {
   const navigate = useNavigate();
   const boxRef = useRef();
   const photoRef = useRef();
+  const photobannerRef = useRef();
 
   const isMobile = useSelector((state) => state.common.isMobile);
   const {walletAddress} = useSelector((state) => state.user);
 
   const [photo, setPhoto] = useState("");
+  const [bannerphoto, setbannerPhoto] = useState("");
   const [photoName, setPhotoName] = useState("");
   const [username, setUsername] = useState("");
   const [usernameChk, setUsernameChk] = useState(false);
@@ -55,10 +61,20 @@ export default function Signup({ store, setConnect }) {
   const [profId, setProfId] = useState()
   const [profResp, setProfResp] = useState()
   const [profUrl, setProfUrl] = useState()
+  const [profbannerUrl, setProfbannerUrl] = useState()
   const [signupsuccess, setSignupsuccess] = useState(false);
 
+  const { t }  = useTranslation(['locale'])
+    
+    // const onChangeLang = () => {
+    //     i18n.changeLanguage('ko')
+    // }
+    // useEffect(()=>{
+    //   i18n.changeLanguage('ko')
+    // },[])
 
-  function onchangePhoto(file) {
+
+  function onchangePhoto(file, type) {
     if (!file) return;
     const fileLength = file.length;
     const fileDot = file.name.lastIndexOf(".");
@@ -69,16 +85,20 @@ export default function Signup({ store, setConnect }) {
     reader.readAsDataURL(file);
 
     reader.onload = function () {
-      setPhoto(reader.result);
+      if(type=='bg'){
+      setbannerPhoto(reader.result);
+      }else{
+        setPhoto(reader.result);
+      }
+
     };
   }
   }
 
-  const fileUpload = async (file) => {
+  const fileUpload = async (file, type) => {
     if (!file) {
       return;
     }
-    
     const fileLength = file.length;
     const fileDot = file.name.lastIndexOf(".");
     const fileType = file.name.substring(fileDot + 1, fileLength).toLowerCase();
@@ -93,13 +113,15 @@ export default function Signup({ store, setConnect }) {
           formData.append("file", file);
           formData.append("filename", file.name);
           formData.append("username", walletAddress);
-          const resp = await axios.post(API.API_USER_PROF_UPLOAD, formData);
+          const resp = await axios.post(`${API.API_USER_PROF_UPLOAD}/${type}`, formData);
           console.log("eERWguRnGR", resp.data);
           let { status, payload, respdata } = resp.data;
           if (status == "OK") {
-            setProfId(respdata);
-            setProfResp(resp.data);
+            if(type=='bg'){
+              setProfbannerUrl(payload.url);
+            }else{
             setProfUrl(payload.url);
+            }
           }
         } else {
           SetErrorBar(ERR_MSG.ERR_FILE_SIZE_EXCEEDED);
@@ -130,9 +152,10 @@ export default function Signup({ store, setConnect }) {
       try {
               //console.log({...regData, imagefilename: respdata});
               if(!profUrl)setProfUrl("http://itemverse1.net/assets/demoprof.png")
+              if(!profbannerUrl)setProfUrl("http://itemverse1.net/assets/demoprof.png")
               let addressChk = await window.klaytn.enable()
               if (addressChk[0]!=address){SetErrorBar('DIFFERENT WALLET ADDRESS'); return;}
-              const resp = await axios.post(API.API_USER_JOIN, {...regData, profileimageurl: profUrl});
+              const resp = await axios.post(API.API_USER_JOIN, {...regData, profileimageurl: profUrl, coverimageurl:profbannerUrl});
               console.log(resp);
               if (resp.data.status === "OK") {
                 setSignupsuccess(true)
@@ -224,8 +247,7 @@ export default function Signup({ store, setConnect }) {
   useEffect(() => {		// address 없을경우
     if ( walletAddress === null ) {
       alert ( ERR_MSG.ERR_NO_ADDRESS )
-			navigate ( "/connectwallet" )
-//			navigate ( "/connectwallet" )
+		//	navigate ( "/connectwallet" )
       return
     } else {
       setAddress ( walletAddress )
@@ -385,54 +407,19 @@ export default function Signup({ store, setConnect }) {
       <PsignPopupBox>
         
         <section className="popupBox">
-          <strong className="title">Sign up</strong>
+          <strong className="title">{t('locale:SIGNUP')}</strong>
 
           <article className="inputArea">
-            <div className="inputContainer photo">
-              <strong className="inputTitle">Photo registration</strong>
-              {photo? (<><img src={photo} /></>):<></>}
-              <div className="inputBar">
-                
-                <button
-                  className="photoBtn"
-                  onClick={() => photoRef.current.click()}
-                >
-                  <img className="camera" src={I_camera} alt="" />
-                  <input
-                    className="nospace"
-                    type="file"
-                    accept="image/*"
-                    ref={photoRef}
-                    onChange={(e) => {fileUpload(e.target.files[0]);
-                      onchangePhoto(e.target.files[0])}}
-                  />
-                </button>
 
-                <div className="nameBox">
-                  <div className="inputBox">
-                    <input
-                      value={photoName}
-                      onChange={(e) => setPhotoName(e.target.value)}
-                      placeholder="You can register photos up to 200MB or less."
-                    />
-                  </div>
-
-                  <button className="registrationBtn" onClick={() => {}}>
-                    Registration
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="inputContainer name">
-              <strong className="inputTitle">User name</strong>
+          <div className="inputContainer name">
+              <strong className="inputTitle">{t('locale:NICKNAME')}</strong>
 
               <div className="ableBox">
                 <div className="inputBox">
                   <input
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Less than 5-20 characters, only Korean, English uppercase and lowercase letters, and special characters (- , _) are allowed."
+                    placeholder={t('locale:NICKNAME_PLACEHOLDER')}
                   />
                 </div>
                 {usernameChk && <p className="able">Usernames that can be used</p>}
@@ -444,8 +431,57 @@ export default function Signup({ store, setConnect }) {
               </div>
             </div>
 
+            <div className="inputContainer photo">
+              <strong className="inputTitle">{t('locale:IMAGE_UPLOAD')}</strong>
+              <div className="imageuploadbox">
+              <div className="profileimage" onClick={() => photoRef.current.click()}>
+                <div className="outercircle" >
+                  <div className="innercircle">
+                  {photo? (<img src={photo} />):<><span>350x350<br/></span>
+                    <span>{t('locale:PROFILE_PICTURE')}</span>   </>}      
+                  </div>
+                </div>
+                <img className="upload-btn"  src={I_upload} alt="" />
+                </div>
+
+                <div className="profilebanner" onClick={() => photobannerRef.current.click()}>
+                <div className="outercircle" >
+                  <div className="innercircle">
+                  {photo? (<img src={bannerphoto} />):<><span>1920x330<br/></span>
+                    <span>{t('locale:PROFILE_BANNER')}</span>   </>}      
+                  </div>
+                </div>
+                <img className="upload-btn"  src={I_upload} alt="" />
+                </div>
+                </div>
+                <p>{t('locale:UPLOAD_DESCRIPTION_1')}</p>
+                <p>{t('locale:UPLOAD_DESCRIPTION_2')}</p>
+              
+              <div className="inputBar">
+                
+                  <input
+                    className="nospace"
+                    type="file"
+                    accept="image/*"
+                    ref={photoRef}
+                    onChange={(e) => {fileUpload(e.target.files[0], 'prof');
+                      onchangePhoto(e.target.files[0], 'prof')}}
+                  />
+                  <input
+                    className="nospace"
+                    type="file"
+                    accept="image/*"
+                    ref={photobannerRef}
+                    onChange={(e) => {fileUpload(e.target.files[0], 'bg');
+                      onchangePhoto(e.target.files[0], 'bg')}}
+                  />
+              </div>
+            </div>
+
+            
+
             <div className="inputContainer address">
-              <strong className="inputTitle">Wallet adress</strong>
+              <strong className="inputTitle">{t('locale:WALLET_ADDRESS')}</strong>
 
               <div className="inputBox">
                 <input
@@ -457,7 +493,7 @@ export default function Signup({ store, setConnect }) {
             </div>
 
             <div className="inputContainer email">
-              <strong className="inputTitle">Email</strong>
+              <strong className="inputTitle">{t('locale:EMAIL_ADDRESS')}</strong>
 
               <div className="ableBox">
                 <div className="inputBox">
@@ -467,10 +503,11 @@ export default function Signup({ store, setConnect }) {
                     placeholder="Please enter your email address"
                   />
                 </div>
-                {emailChk && <p className="able">A valid email address.</p>}
+                {emailChk && <p className="able">{t('locale:MAIL_ADDRESS_VALID')}</p>}
                 {!emailChk && (
-                  <p className="disable">This is an invalid email address.</p>
+                  <p className="disable">{t('locale:MAIL_ADDRESS_INVALID')}</p>
                 )}
+                <p>{t('locale:EMAIL_DESCRIPTION')}</p>
               </div>
             </div>
           </article>
@@ -481,7 +518,7 @@ export default function Signup({ store, setConnect }) {
                 {ageCheck && <img src={I_chkBtn} alt="" />}
               </button>
 
-              <p>19 years of age or older (required)</p>
+              <p>{t('locale:AGE_CHECK')}</p>
             </li>
 
             <li>
@@ -490,7 +527,7 @@ export default function Signup({ store, setConnect }) {
               </button>
 
               <p>
-                Subscribe <u>Terms of Service</u> (required)
+              {t('locale:TOS_CHECK')}
               </p>
             </li>
 
@@ -501,8 +538,7 @@ export default function Signup({ store, setConnect }) {
               
 
               <p>
-                <u>Personal Information Collection and Usage</u> Agreement
-                (required)
+              {t('locale:INFORMATION_CHECK')}
               </p>
             </li>
           </ul>
@@ -731,13 +767,16 @@ const PsignPopupBox = styled.div`
     .title {
       font-size: 22px;
       color: #011218;
+      
     }
 
     .inputArea {
+      border-top: solid 1px #000;
       display: flex;
       flex-direction: column;
       gap: 30px;
-      margin: 50px 0 0 0;
+      margin: 20px 0 0 0;
+      padding-top: 30px;
 
       .inputContainer {
         display: flex;
@@ -782,6 +821,115 @@ const PsignPopupBox = styled.div`
         }
 
         &.photo {
+          .imageuploadbox{
+            display: flex;
+      justify-content: flex-start;
+          flex-direction: row;
+          width: 100%;
+          justify-content: space-between;
+          position:relative;
+          .profileimage{
+            cursor: pointer;
+            display: flex;
+            //width: 134px;
+            //height: 120px;
+            //padding:0;
+            .outercircle{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 120px;
+            height: 120px;
+            
+            border-radius: 60px;
+            border: 2px dashed #e8e8e8;
+
+            .innercircle{
+              flex-direction: column;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 100px;
+              height: 100px;
+              background-color: #e8e8e8;
+              border-radius: 50px;
+              position: relative;
+              overflow: hidden;
+              span{
+                font-size: 12px;
+              }
+              img{
+                //pointer-events: none;
+                position: relative;
+                top: 0;
+                left:0;
+                width: 100px;
+                height: 100px;
+                //z-index: -1;
+              }
+            }
+          }
+            img{
+              width: 38px;
+              height: 38px;
+              position: absolute;
+              left: 82px;
+              top: 82px;
+            }
+
+          }
+
+          .profilebanner{
+            cursor: pointer;
+            display: flex;
+            position: relative;
+            .outercircle{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 640px;
+            height: 120px;
+            
+            border-radius: 8px;
+            border: 2px dashed #e8e8e8;
+
+            .innercircle{
+              flex-direction: column;
+              display: flex;
+            justify-content: center;
+            align-items: center;
+              width: 620px;
+              height: 100px;
+              background-color: #e8e8e8;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+            span{
+              font-size: 12px;
+            }
+            img{
+              //pointer-events: none;
+              position: relative;
+              top: 0;
+              left:0;
+              width: 100%;
+              height: 100%;
+              //z-index: -1;
+            }
+            }
+          }
+            img{
+              width: 38px;
+              height: 38px;
+              position: absolute;
+              left: 621px;
+              top: 82px;
+            }
+
+          }
+        }
+
+          .sign-imgbox {position: relative; background-size: contain; width: 120px; height: 120px;} 
           .inputBar {
             display: flex;
             align-items: center;
@@ -817,6 +965,10 @@ const PsignPopupBox = styled.div`
                 border-radius: 8px;
               }
             }
+          }
+          p{
+            font-size: 12px;
+          font-weight: 500;
           }
         }
       }

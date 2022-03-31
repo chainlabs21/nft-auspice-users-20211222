@@ -1,7 +1,7 @@
 import { connect, useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { setaddress, setConnect, setmyinfo } from "../../util/store";
-import styled from "styled-components";
+import styled, { ThemeConsumer } from "styled-components";
 
 import I_klaytn from "../../img/sub/I_klaytn.svg";
 import I_x from "../../img/icons/I_x.svg";
@@ -13,8 +13,12 @@ import { SET_USER_DATA, SET_ADDRESS, SET_LOGIN } from "../../reducers/userReduce
 import { useEffect } from "react";
 import SetErrorBar from "../../util/SetErrorBar";
 import { STRINGER, LOGGER } from "../../util/common";
+
+import { useTranslation} from "react-i18next"
+
 // function ConnectWallet( Setmyinfo ) {
 function ConnectWallet({ Setmyinfo, Setaddress }) {
+  const { t }  = useTranslation(['faq'])
   const navigate = useNavigate();
   const { walletAddress, userData } = useSelector((state) => state.user);
   const isMobile = useSelector((state) => state.common.isMobile);
@@ -271,11 +275,11 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
 
               <div className="titleBox">
                 <strong className="title">
-                  Please connect an available wallet
+                  {t('connectwallet:TITLE')}
                 </strong>
 
                 <p className="explain">
-                  Please connect an available wallet or create a new one
+                  {t('connectwallet:EXPLAIN')}
                 </p>
               </div>
             </div>
@@ -297,16 +301,16 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
           </article>
           <article className="bottomBar">
             <p className="copyright">
-              Copyright © 2021 AUSPICE. All rights reserved.
+              {t('connectwallet:COPYRIGHT')}
             </p>
 
             <span className="termBox">
               <button className="privacyBtn" onClick={() => {}}>
-                Privacy Policy
+                {t('connectwallet:PRIVACY')}
               </button>
               |
               <button className="termBtn" onClick={() => {}}>
-                Terms of Service
+                {t('connectwallet:TOS')}
               </button>
             </span>
           </article>

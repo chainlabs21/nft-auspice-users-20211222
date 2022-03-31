@@ -1,0 +1,16 @@
+{
+    "MARKETPLACE"   : "Marketplace",
+    "EXPLORE"       : "Explore",
+    "SUPPORT"       : "Support",
+    "MYPAGE"        : "Mypage",
+    "EN"            : "ENG",
+    "KO"            : "KO",
+    "SEARCH_HOLDER" : "Search items, collections, creators",
+    "NOTICE"        : "Notice",
+    "FAQ"           : "FAQ",
+    "SUPPORT_TICKET": "Support Ticket",
+    "MY_PROFILE"    : "My Profile",
+    "PUBLISH"       : "Publish NFT",
+    "BOOKMARK"      : "Bookmark",
+    "ACC_SETTING"   : "Account Setting"
+}

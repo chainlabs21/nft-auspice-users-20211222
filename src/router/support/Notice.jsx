@@ -32,10 +32,14 @@ import { D_SStatusList } from "../../data/D_filter";
 import SelectPopup from "../../components/SelectPopup";
 import PopupBg from "../../components/PopupBg";
 import Marketitembox from "../../components/market/Marketitembox";
+import { useTranslation, Trans } from "react-i18next";
 
 import axios from "axios";
+import i18n from "../../i18n";
 const D_Category = ["제목", "본문"];
 export default function Notice(props) {
+
+  const { t }  = useTranslation(['locale'])
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
@@ -54,6 +58,7 @@ export default function Notice(props) {
 
 
   useEffect(() => {
+    i18n.changeLanguage('en')
     axios.get(`${API.API_GET_ANNOUNCES}`).then((resp) => {
       console.log(resp);
       let { rows, count } = resp.data.list;
@@ -78,15 +83,20 @@ export default function Notice(props) {
         <DefaultHeader />
         <Pannouncements>
           <section className="popupBox">
-            <strong className="title" style={{fontSize:'24px', fontWeight: 'bold'}}>공지사항</strong>
+            <strong className="title" style={{fontSize:'24px', fontWeight: 'bold'}}>{t('notice:NOTICE')}</strong>
             <p className="subtitle">
-              아이템버스에서 전하는 새로운 소식을 확인하세요.
+            {t('notice:NOTICE_DESC')}
             </p>
             <div className="midHeader">
               <p className="description">
-                전체 <span className="highlighted"> {totalNotice}</span>건의
-                게시물이 있습니다. (
-                <span className="highlighted">{currentPage}</span>/{totalPage})
+              <Trans i18nKey='notice:DESCRIPTION'>
+                <p className="highlighted">( {{ totalNotice }} )</p>
+              </Trans>
+              {/* {
+              t('notice:DESCRIPTION', [ totalNotice ])} */}
+                {/* 전체 <span className="highlighted"> {totalNotice}</span>건의
+                게시물이 있습니다. ( */}
+                (<span className="highlighted">{currentPage}</span>/{totalPage})
               </p>
 
               <div className="posBox">
@@ -119,9 +129,9 @@ export default function Notice(props) {
             </div>
             <div className="contentBody">
               <ul className="listHeader">
-                <li>No</li>
-                <li>제목</li>
-                <li>등록일</li>
+                <li>{t('notice:NO')}</li>
+                <li>{t('notice:TITLE')}</li>
+                <li>{t('notice:DATE')}</li>
               </ul>
               <ul className="list">
                 {announces.map((v, i) => {

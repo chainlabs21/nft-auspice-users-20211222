@@ -7,8 +7,10 @@ import { API } from "../../config/api";
 import axios from "axios";
 import { getuseraddress, LOGGER } from "../../util/common";
 import { ERR_MSG } from "../../config/messages";
+import { useTranslation } from "react-i18next";
 
 export default function EmailRequired() {
+  const { t }  = useTranslation(['locale'])
   const navigate = useNavigate();
 
   const useraddress = getuseraddress();
@@ -61,17 +63,17 @@ export default function EmailRequired() {
       <PsignPopupBox>
         <section className="popupBox">
           <article className="titleBox">
-            <strong className="title">Email verification required</strong>
+            <strong className="title">{t('emailrequired:TITLE')}</strong>
             <p className="explain">
-              Please complete email verification to continue
+              {t('emailrequired:EXPLAIN')}
             </p>
           </article>
           <article className="btnBox">
             <button className="cancelBtn" onClick={() => navigate(-1)}>
-              Cancel
+              {t('emailrequired:CANCEL')}
             </button>
             <button className="sendBtn" onClick={handleSendEmail}>
-              Send Email
+              {t('emailrequired:SEND')}
             </button>
           </article>
         </section>

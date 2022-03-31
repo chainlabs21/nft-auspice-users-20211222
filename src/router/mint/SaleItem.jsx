@@ -50,9 +50,11 @@ import I_ltArw3 from "../../img/icons/I_ltArw3.png";
 import I_rtArw from "../../img/icons/I_rtArw.svg";
 import FixedPrice from "./saleItem/FixedPrice";
 import AuctionBid from "./saleItem/AuctionBid";
+import { useTranslation } from "react-i18next";
 
 
 export default function SaleFixed() {
+  const {t} = useTranslation(['locale'])
   const navigate = useNavigate();
   const { search } = useLocation();
   let a=[1];
@@ -615,13 +617,13 @@ export default function SaleFixed() {
                 <span className="profBox">
                   <img className="profImg" src={itemdata?.author?.profileimageurl}/>
 
-                  <strong className="title">{itemdata?.author?.nickname}'s Item</strong>
+                  <strong className="title">{itemdata?.author?.nickname} {t('saleitem:sItem')}</strong>
                 </span>
               </div>
 
               <div className="contContainer">
                 <div className="categoryBox">
-                  <strong className="title">Choose a sales method</strong>
+                  <strong className="title">{t('saleitem:CHOOSE_METHOD')}</strong>
 
                   <ul className="categoryList">
                     <li
@@ -629,12 +631,11 @@ export default function SaleFixed() {
                       onClick={() => setCategory(0)}
                     >
                       <div className="category_titleBox">
-                        <strong className="category">Fixed Price</strong>
+                        <strong className="category">{t('saleitem:FIXED_PRICE')}</strong>
                       </div>
 
                       <p className="explain">
-                        Sell ​​at a fixed or declining price after a period of
-                        time
+                      {t('saleitem:FIXED_EXPLAIN')}
                       </p>
                     </li>
 
@@ -643,26 +644,24 @@ export default function SaleFixed() {
                       onClick={() => setCategory(1)}
                     >
                       <div className="category_titleBox">
-                        <strong className="category">Auction Bid</strong>
+                        <strong className="category">{t('saleitem:AUCTION_BID')}</strong>
                       </div>
 
-                      <p className="explain">Sell ​​to the highest bidder</p>
+                      <p className="explain">{t('saleitem:AUCTION_EXPLAIN')}</p>
                     </li>
 
                     <li
                       className={(category === 2)? "on":undefined}
-                       onClick={() => {SetErrorBar("현재 지원중이지 않습니다.")}}
+                       onClick={() => {SetErrorBar(t('saleitem:NOT_SUPPORTED'))}}
                     >
                       <div className="category_titleBox">
                         <span className="blank" />
-                        <strong className="category">Bundle Sale</strong>
+                        <strong className="category">{t('saleitem:BUNDLE_SALE')}</strong>
                         <img src={I_rtArw} alt="" />
                       </div>
 
                       <p className="explain">
-                        Selling multiple
-                        <br />
-                        items together
+                      {t('saleitem:BUNDLE_EXPLAIN')}
                       </p>
                     </li>
                   </ul>
@@ -678,33 +677,32 @@ export default function SaleFixed() {
             <article className="infoArea">
               <ul className="infoList">
                 <li className="transactionBox">
-                  <strong className="infoTitle">Transaction information</strong>
+                  <strong className="infoTitle">{t('saleitem:TRANSACTION_INFO')}</strong>
                   <p className="info">
-                    The item is posted for sale at {price[0]} KLAY
+                  {t('saleitem:TRANSACTION_INFO_EXPLAIN', {price: price[0]})}
                   </p>
                 </li>
 
                 <li className="referralBox" style={{display:'none'}}>
-                  <strong className="infoTitle">Referral Fee</strong>
+                  <strong className="infoTitle">{t('saleitem:REFERRAL_FEE')}</strong>
                   <p className="info">
-                    If you purchase through a referral link, 1% of the sales
-                    amount will be rewarded.
+                  {t('saleitem:REFERRAL_FEE_INFO')}
                   </p>
                 </li>
 
                 <li className="feeBox">
-                  <strong className="infoTitle">Fees</strong>
+                  <strong className="infoTitle">{t('saleitem:FEE')}</strong>
                   <ul className="feeList">
                     <li>
-                      <p className="key">Platform Fee</p>
+                      <p className="key">{t('saleitem:PLATFORM_FEE')}</p>
                       <p className="value">2.5%</p>
                     </li>
                     <li>
-                      <p className="key">royalty</p>
+                      <p className="key">{t('saleitem:ROYALTY')}</p>
                       <p className="value">{royalty}%</p>
                     </li>
                     <li>
-                      <strong className="key">Total</strong>
+                      <strong className="key">{t('saleitem:TOTAL')}</strong>
                       <strong className="value">{royalty+2.5}%</strong>
                     </li>
                   </ul>
@@ -712,7 +710,7 @@ export default function SaleFixed() {
               </ul>
 
               <button className="saleBtn" onClick={() => {handleSalesStart()}}>
-                Sales Start
+              {t('saleitem:SALE_START')}
               </button>
             </article>
           </section>

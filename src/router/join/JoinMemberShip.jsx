@@ -5,11 +5,13 @@ import styled from "styled-components";
 
 // import "./css/style01.css";
 // import "./css/style02.css";
+import { useTranslation } from "react-i18next";
 
 import WalletConnectSDK from "walletconnect";
 import axios from "axios";
 
 export default function JoinMemberShip() {
+  const { t }  = useTranslation(['locale'])
   const navigate = useNavigate();
 
   const isMobile = useSelector((state) => state.common.isMobile);
@@ -42,17 +44,17 @@ export default function JoinMemberShip() {
       <PjoinMemberShip>
         <section className="popupBox">
           <article className="titleBox">
-            <strong className="title">Join the membership</strong>
+            <strong className="title">{t('joinmembership:TITLE')}</strong>
             <p className="explain">
-              Membership registration is required to continue using it.
+              {t('joinmembership:EXPLAIN')}
             </p>
           </article>
           <article className="btnBox">
             <button className="cancelBtn" onClick={() => navigate(-1)}>
-              Cancel
+              {t('joinmembership:CANCEL')}
             </button>
             <button className="sendBtn" onClick={()=>{navigate("/signup")}}>
-              Sign Up
+              {t('joinmembership:SINGUP')}
             </button>
           </article>
         </section>

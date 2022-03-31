@@ -2,11 +2,12 @@ import { connect, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../../util/store";
 import styled from "styled-components";
-
+import { useTranslation } from "react-i18next";
 import WalletConnectSDK from "walletconnect";
 import axios from "axios";
 
 export default function EmailFailed() {
+  const { t }  = useTranslation(['locale'])
   const navigate = useNavigate();
 
   const isMobile = useSelector((state) => state.common.isMobile);
@@ -40,20 +41,20 @@ export default function EmailFailed() {
       <PemailFailed>
         <section className="popupBox">
           <article className="titleBox">
-            <strong className="title">Email verification failed.</strong>
+            <strong className="title">{t('emailfailed:TITLE')}</strong>
             <p className="explain">
-              Please complete email verification to continue.
+              {t('emailfailed:EXPLAIN')}
             </p>
           </article>
           <article className="btnBox">
             <button className="cancelBtn" onClick={() => navigate('/')}>
-              Cancel
+              {t('emailfailed:CANCEL')}
             </button>
             <button
               className="sendBtn"
               onClick={() => navigate("/sentemaildetail")}
             >
-              Send Email
+              {t('emailfailed:SEND')}
             </button>
           </article>
         </section>

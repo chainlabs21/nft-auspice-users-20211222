@@ -6,8 +6,10 @@ import styled from "styled-components";
 import I_x from "../../img/icons/I_x.svg";
 
 import WalletConnectSDK from "walletconnect";
+import { useTranslation } from "react-i18next";
 
 export default function SentEmail() {
+  const { t }  = useTranslation(['locale'])
   const navigate = useNavigate();
 
   const isMobile = useSelector((state) => state.common.isMobile);
@@ -53,15 +55,15 @@ export default function SentEmail() {
           <article className="contBox">
             <div className="titleBox">
               <strong className="title">
-                A verification email has been sent
+                {t('sentemail:TITLE')}
               </strong>
               <p className="explain">
-                If you do not receive an email, please check your spam mailbox.
+                {t('sentemail:EXPLAIN')}
               </p>
             </div>
             <article className="btnBox">
               <button className="cancelBtn" onClick={() => navigate("/")}>
-                OK
+                {t('sentemail:OK')}
               </button>
             </article>
           </article>

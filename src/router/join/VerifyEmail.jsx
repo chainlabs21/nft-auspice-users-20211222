@@ -11,8 +11,10 @@ import queryString from "query-string";
 import { useEffect } from "react";
 import { API } from "../../config/api";
 import { ERR_MSG } from "../../config/messages";
+import { useTranslation } from "react-i18next";
 
 export default function VerifyEmail() {
+  const { t }  = useTranslation(['locale'])
   const navigate = useNavigate();
   const { search } = useLocation();
 
@@ -73,12 +75,12 @@ export default function VerifyEmail() {
           </article>
           <article className="contBox">
             <div className="titleBox">
-              <strong className="title">Verify Email</strong>
-              <p className="explain">We examine your email...</p>
+              <strong className="title">{t('verifyemail:TITLE')}</strong>
+              <p className="explain">{t('verifyemail:EXPLAIN')}</p>
             </div>
             <article className="btnBox">
               <button className="cancelBtn" onClick={() => navigate("/")}>
-                OK
+                {t('verifyemail:OK')}
               </button>
             </article>
           </article>

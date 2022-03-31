@@ -2,6 +2,7 @@ import { connect, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../../util/store";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 // import "./css/style01.css";
 // import "./css/style02.css";
@@ -11,6 +12,7 @@ import axios from "axios";
 
 export default function SignupComplete({ store, setConnect }) {
   const navigate = useNavigate();
+  const { t }  = useTranslation(['locale'])
 
   const isMobile = useSelector((state) => state.common.isMobile);
 
@@ -41,18 +43,17 @@ export default function SignupComplete({ store, setConnect }) {
       <PsignupComplete>
         <section className="popupBox">
           <article className="titleBox">
-            <strong className="title">Sign up is complete.</strong>
+            <strong className="title">{t('signupcomplete:TITLE')}</strong>
             <p className="explain">
-              Email verification is complete and you can use all functions.
-              Create your own NFT collection.
+              {t('signupcomplete:EXPLAIN')}
             </p>
           </article>
           <article className="btnBox">
             <button className="cancelBtn" onClick={() => navigate('/')}>
-              Cancel
+              {t('signupcomplete:CANCEL')}
             </button>
             <button className="sendBtn" onClick={()=>navigate("/marketplace")}>
-              Issuing NFTs
+              {t('signupcomplete:ISSUE_NFT')}
             </button>
           </article>
         </section>

@@ -1,0 +1,18 @@
+{
+    "ITEMS_HOME"        : "Items home",
+    "CREATE_NEW_ITEM"   : "Create a new item",
+    "UPLOAD_TITLE"      : "Add images, video, audio and modeling",
+    "UPLOAD_EXPLAIN"    : "JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG etc. (Up to 40mb)",
+    "CHOOSE_FILE"       : "Choose File",
+    "CATEGORY"          : "Category",
+    "CATEGORY_EXPLAIN"  : "You can easily search by selecting a category.",
+    "NAME"              : "Name",
+    "NAME_HOLDER"       : "Example: A collection of atmospheric night view photos",
+    "ITEM_DESC"         : "Item Description",
+    "ITEM_DESC_HOLDER"  : "Example: I took a picture of the night sky centered on the constellations and a night view of the city.",
+    "ITEM_DESC_EXPLAIN" : "Please enter a description that best describes the characteristics of the item.",
+    "COPIES"            : "Number of copies to be issued",
+    "COPIES_EXPLAIN"    : "The number of copies that can be issued. If you set multiple, one item will be sold to multiple customers.",
+    "CREATE_ITEM"       : "Create Item"
+
+}

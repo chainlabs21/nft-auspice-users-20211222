@@ -36,21 +36,14 @@ import PopupBg from "../../components/PopupBg";
 import Marketitembox from "../../components/market/Marketitembox";
 import Pagination from "../../components/support/Pagination";
 import axios from "axios";
+import { useTranslation } from 'react-i18next'
+import i18n from "i18next";
 //"<figure class="image"><img src="http://itemverse1.net/resource/notice/1648194226-geU1Xe.png"></figure>"
 //import "./style2.css";
 
 
 export default function FAQ() {
-  // const categories=[
-  //   {category: '전체', id:1},
-  //   {category: '일반', id:2},
-  //   {category: '지갑/계정', id:3},
-  //   {category: '이용관련', id:4},
-  //   {category: '구매', id:5},
-  //   {category: '판매', id:6},
-  //   {category: '기타문의', id:7},
-
-  // ]
+  const { t }  = useTranslation(['faq'])
   const D_Category = ["제목", "본문"];
   const navigate = useNavigate();
   const params = useParams();
@@ -69,7 +62,9 @@ export default function FAQ() {
   const [categories, setCategories]=useState([])
   const [curCategory, setCurCategory] = useState(0)
   const [list, setList] = useState([])
-
+  // useEffect(()=>{
+  //   i18n.changeLanguage('ko')
+  // },[])
 
 
   useEffect(() => {
@@ -119,9 +114,9 @@ export default function FAQ() {
         <DefaultHeader />
         <Pannouncements>
           <section className="popupBox">
-            <strong className="title" style={{fontSize:'24px', fontWeight: 'bold'}}>자주하는 질문</strong>
+            <strong className="title" style={{fontSize:'24px', fontWeight: 'bold'}}>{t('faq:FAQ')}</strong>
             <p className="subtitle">
-              문의하기가 늦어질 수 있으니 먼저 FAQ를 확인해주세요!
+            {t('faq:FAQ_DESC')}
             </p>
             <div className="midHeader">
               <p className="description">
@@ -171,7 +166,7 @@ export default function FAQ() {
                                       : {}
                                   }
                                 >
-                                  <span>전체</span>
+                                  <span>{t('faq:ALL')}</span>
                                 </li>
                               {categories.map((cate, idx) => (
                                 

@@ -1,0 +1,10 @@
+{
+    "NOTICE"                   : "Notice",
+    "NOTICE_DESC"              : "Get a fresh news from Itemverse",
+    "DESCRIPTION"              : "Total  '<0> {{ totalNotice }} </0>'  of Notice posts.",
+    "NO"                       : "No",
+    "TITLE"                    : "Title",
+    "DATE"                     : "Date",
+    "NOTICE_ABBR"              : "NOTICE",
+    "LIST"                     : "List"
+}

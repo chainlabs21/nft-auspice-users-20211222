@@ -95,7 +95,7 @@ const Pannouncements = styled.div`
   
 
   .container{
-    padding 0;
+    padding: 0;
     margin: 0 auto;
       display: flex;
       flex-direction: column;

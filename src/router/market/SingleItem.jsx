@@ -1,5 +1,6 @@
 import { connect, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 import {
   setConnect,
   setisloader,
@@ -98,6 +99,7 @@ function SingleItem({
   Setpriceklay,
   Setitemid,
 }) {
+  const { t }  = useTranslation(['locale'])
   const navigate = useNavigate(); //  const { itemid } = useParams()
   const otherWorkRef = useRef();
   const video = useRef();
@@ -1393,10 +1395,10 @@ window.scrollTo({top:0});
                       navigate("/saleitem?itemid=" + itemid);
                     }}
                   >
-                    SELL
+                    {t('singleitem:SELL')}
                   </button>
                   <button className="editBtn" onClick={() => {}}>
-                    EDIT
+                    {t('singleitem:EDIT')}
                   </button>
                 </div>
               </article>
@@ -1476,17 +1478,17 @@ window.scrollTo({top:0});
                     onClick={() => setOwnerPopup(true)}
                   >
                     <p className="value">{itemdata.countholders}</p>
-                    <p className="key">Owner</p>
+                    <p className="key">{t('singleitem:OWNER')}</p>
                   </button>
                   <button className="fragmentBtn">
                     <p className="value">{itemdata.item?.countcopies}</p>
-                    <p className="key">Fragment</p>
+                    <p className="key">{t('singleitem:FRAGMENT')}</p>
                   </button>
                   <button className="viewBtn">
                     <p className="value">
                       {numFormatter(itemdata.item?.countviews)}
                     </p>
-                    <p className="key">Views</p>
+                    <p className="key">{t('singleitem:VIEWS')}</p>
                   </button>
                 </div>
               </div>
@@ -1515,11 +1517,11 @@ window.scrollTo({top:0});
                 </div>
 
                 <div className="priceContainer">
-                  <div className="titleBox">Owner public content include</div>
+                  <div className="titleBox">{t('singleitem:OWNER_PUBLIC_CONTENT')}</div>
 
                   <div className="priceList">
                     <div className="priceBox">
-                      <p className="title">Current Bid</p>
+                      <p className="title">{t('singleitem:CURRENT_BID')}</p>
                       <div className="price">
                         <p className="value">{sellorder?.asset_amount_ask}</p>
                         <p className="key">KLAY</p>
@@ -1528,7 +1530,7 @@ window.scrollTo({top:0});
                     </div>
 
                     <div className="timeBox">
-                      <p className="title">{productType} ending</p>
+                      <p className="title">{productType} {t('singleitem:ENDING')}</p>
                       <strong className="time">
                         {moment.unix(sellorder?.expiry).fromNow()}
                       </strong>
@@ -1540,7 +1542,7 @@ window.scrollTo({top:0});
                       className="bidBtn"
                       onClick={() => setPurchasePopup(true)}
                     >
-                      Purchase
+                      {t('singleitem:PURCHASE')}
                     </button>
                   )}
                   {productType === "AUCTION_ENGLISH" && (
@@ -1548,7 +1550,7 @@ window.scrollTo({top:0});
                       className="bidBtn"
                       onClick={() => setBidPopup(true)}
                     >
-                      Place Bid
+                      {t('singleitem:PLACE_A_BID')}
                     </button>
                   )}
                 </div>
@@ -1557,13 +1559,13 @@ window.scrollTo({top:0});
 
             <article className="descriptionArea">
               <div>
-                <strong className="title">Description</strong>
+                <strong className="title">{t('singleitem:DESCRIPTION')}</strong>
 
                 <p className="description">{itemdata.item?.description}</p>
               </div>
 
               <div className="priceBox">
-                <strong className="title">Price History</strong>
+                <strong className="title">{t('singleitem:PRICE_HISTORY')}</strong>
 
                 <div className="contBox">
                   <div className="termBox posBox">
@@ -1576,19 +1578,19 @@ window.scrollTo({top:0});
                   <div className="chartContainer">
                     <ul className="priceList">
                       <li>
-                        <p className="key">Average price</p>
+                        <p className="key">{t('singleitem:AVG_PRICE')}</p>
                         <strong className="value">
                           {pricestats[2]?.toFixed(4) || "NA"}
                         </strong>
                       </li>
                       <li>
-                        <p className="key">Highest price</p>
+                        <p className="key">{t('singleitem:HIGHEST_PRICE')}</p>
                         <strong className="value">
                           {pricestats[1]?.toFixed(4) || "NA"}
                         </strong>
                       </li>
                       <li>
-                        <p className="key">Lowest price</p>
+                        <p className="key">{t('singleitem:LOWEST_PRICE')}</p>
                         <strong className="value">
                           {pricestats[0]?.toFixed(4) || "NA"}
                         </strong>
@@ -1622,7 +1624,7 @@ window.scrollTo({top:0});
               </div>
 
               <div className="offerBox" style={{ display: "none" }}>
-                <strong className="title">Offer History</strong>
+                <strong className="title">{t('singleitem:OFFER_HISTORY')}</strong>
 
                 <div className="scrollBox">
                   <ul className="offerList">
@@ -1666,13 +1668,13 @@ window.scrollTo({top:0});
 
             <article className="statusArea">
               <div className="saleBox">
-                <strong className="title">SALES STATUS</strong>
+                <strong className="title">{t('singleitem:SALES_STATUS')}</strong>
 
                 <div className="scrollBox">
                   <ul className="listHeader">
-                    <li>Price</li>
-                    <li>Expires</li>
-                    <li>Seller</li>
+                    <li>{t('singleitem:PRICE')}</li>
+                    <li>{t('singleitem:EXPIRES')}</li>
+                    <li>{t('singleitem:SELLER')}</li>
                   </ul>
 
                   <ul className="list">
@@ -1711,7 +1713,7 @@ window.scrollTo({top:0});
                                     SetErrorBar(messages.MSG_YOUR_OWN_ORDER);
                                     return;
                                   } else {
-                                    console.log("same");
+                                    //console.log("same");
                                     setMyItem(false);
                                   }
                                   setsellorder(v);
@@ -1736,13 +1738,13 @@ window.scrollTo({top:0});
               </div>
 
               <div className="offerBox">
-                <strong className="title">BIDDING STATUS</strong>
+                <strong className="title">{t('singleitem:BIDDING_STATUS')}</strong>
 
                 <div className="scrollBox">
                   <ul className="listHeader">
-                    <li>Price</li>
-                    <li>Date</li>
-                    <li>Bidder</li>
+                    <li>{t('singleitem:PRICE')}</li>
+                    <li>{t('singleitem:DATE')}</li>
+                    <li>{t('singleitem:BIDDER')}</li>
                   </ul>
 
                   <ul className="list">
@@ -1785,12 +1787,12 @@ window.scrollTo({top:0});
               {listCategory === 0 && (
                 <div className="scrollBox">
                   <ul className="listHeader">
-                    <li>Event</li>
-                    <li>Price</li>
-                    <li>From</li>
-                    <li>To</li>
-                    <li>Date</li>
-                    <li>Tx confirm</li>
+                    <li>{t('singleitem:EVENT')}</li>
+                    <li>{t('singleitem:PRICE')}</li>
+                    <li>{t('singleitem:FROM')}</li>
+                    <li>{t('singleitem:TO')}</li>
+                    <li>{t('singleitem:DATE')}</li>
+                    <li>{t('singleitem:TX_CONFIRM')}</li>
                   </ul>
 
                   <ul className="list">
@@ -1832,10 +1834,10 @@ window.scrollTo({top:0});
               {listCategory === 1 && (
                 <div className="chainscrollBox">
                   <ul className="listHeader">
-                    <li>Contract Address</li>
-                    <li>Token ID</li>
-                    <li>Token Standard</li>
-                    <li>Blockchain</li>
+                    <li>{t('singleitem:CONTRACT_ADDRESS')}</li>
+                    <li>{t('singleitem:TOKEN_ID')}</li>
+                    <li>{t('singleitem:TOKEN_STANDARD')}</li>
+                    <li>{t('singleitem:BLOCKCHAIN')}</li>
                   </ul>
 
                   <ul className="list">
@@ -1853,7 +1855,7 @@ window.scrollTo({top:0});
             </article>
 
             <article className="otherWorkArea">
-              <strong className="title">Other works from this author</strong>
+              <strong className="title">{t('singleitem:OTHER_WORKS')}</strong>
 
               <div className="swiperContainer">
                 <div className="swiperBox">

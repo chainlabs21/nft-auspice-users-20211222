@@ -19,6 +19,8 @@ import star_on from "../../img/sub/star_on.png";
 import I_x from "../../img/icons/I_x.svg";
 import filter_icon2 from "../../img/sub/filter_icon2.png";
 
+import { useTranslation } from "react-i18next";
+
 import { useState, useEffect, useLayoutEffect } from "react";
 import moment from "moment";
 import { API } from "../../config/api";
@@ -43,6 +45,7 @@ import Marketitembox from "../../components/market/Marketitembox"
 
 import axios from 'axios'
 export default function MarketPlace(props) {
+  const { t }  = useTranslation(['locale'])
   
   const navigate = useNavigate();
   const params = useParams();
@@ -438,7 +441,7 @@ const codelist=['all'
           <section className="innerBox">
             <article className="topBar">
               <p className="total">
-                Total {totalItem.toLocaleString("eu", "US")}
+                {t('marketplace:TOTAL')} {totalItem.toLocaleString("eu", "US")}
               </p>
 
               <div className="sortBox">
@@ -507,7 +510,7 @@ const codelist=['all'
             </ul>
 
             <article className="selectedBox">
-              <strong className="title">Selected Filter</strong>
+              <strong className="title">{t('marketplace:SELECTED_FILTER')}</strong>
               <ul className="selectedList">
                 <li className="resetBtn" onClick={onclickFilterReset}>
                   Filter reset
@@ -543,14 +546,14 @@ const codelist=['all'
             
             <ul className="itemList">
             {(filteredList.length==0) && 
-                ('검색 결과가 없습니다.')
+                (t('marketplace:NO_SEARCH_REULT'))
                 }
               {filteredList
               .sort(sortingmachine)
               .map((v, i) => (
                 <Marketitembox cont={v} index={i} address={v.item.author}/>
               ))}
-              {(iindex<totalItem)?(<button className="more" onClick={()=>{handleMore()}}>MORE</button>):(<>{iindex} 중에 {totalItem}</>)}
+              {(iindex<totalItem)?(<button className="more" onClick={()=>{handleMore()}}>{t('marketplace:MORE')}</button>):(<></>)}
             </ul>
             <div ref={setTarget}>
               {isLoaded && 'Loading'}

@@ -1,0 +1,21 @@
+{
+    "sItem"                     : "'s Item",
+    "CHOOSE_METHOD"             : "Choose a sales method",
+    "FIXED_PRICE"               : "Fixed Price",
+    "FIXED_EXPLAIN"             : "Sell ​​at a fixed or declining price after a period of time",
+    "AUCTION_BID"               : "Auction Bid",
+    "AUCTION_EXPLAIN"           : "Sell ​​to the highest bidder",
+    "BUNDLE_SALE"               : "Bundle Sale",
+    "BUNDLE_EXPLAIN"            : "Selling multiple items together",
+    "NOT_SUPPORTED"             : "Currently not supported",
+    "TRANSACTION_INFO"          : "Transaction information",
+    "TRANSACTION_INFO_EXPLAIN"  : "The item is posted for sale at {{price}} KLAY",
+    "REFERRAL_FEE"              : "Referral Fee",
+    "REFERRAL_FEE_INFO"         : "If you purchase through a referral link, 1% of the sales amount will be rewarded.",
+    "FEE"                       : "Fees",
+    "PLATFORM_FEE"              : "Platform Fee",
+    "ROYALTY"                   : "royalty",
+    "TOTAL"                     : "Total",
+    "SALE_START"                : "Sales Start"
+
+}

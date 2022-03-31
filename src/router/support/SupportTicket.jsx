@@ -17,25 +17,12 @@ import { useSelector, useDispatch } from "react-redux";
 import DefaultHeader from "../../components/header/DefaultHeader";
 import Filter from "../../components/common/DefaultFilter";
 import Pagination from "../../components/support/Pagination";
-import {
-  RESET_FILTER,
-  SET_CATEGORY,
-  SET_STATUS_FILTER,
-  SET_SEARCH,
-} from "../../reducers/filterReducer";
-import {
-  D_categoryList,
-  D_itemFilter,
-  D_sortFilter,
-} from "../../data/D_marketPlace";
-import { D_SStatusList } from "../../data/D_filter";
-import SelectPopup from "../../components/SelectPopup";
-import PopupBg from "../../components/PopupBg";
-import Marketitembox from "../../components/market/Marketitembox";
-
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 import axios from "axios";
 const D_Category = ["제목", "본문"];
 export default function SupportTicket(props) {
+  const { t }  = useTranslation(['locale'])
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
@@ -81,19 +68,19 @@ export default function SupportTicket(props) {
         <DefaultHeader />
         <Pannouncements>
           <section className="popupBox">
-            <strong className="title" style={{fontSize:'24px', fontWeight: 'bold'}}>1:1 문의하기</strong>
+            <strong className="title" style={{fontSize:'24px', fontWeight: 'bold'}}>{t('support:SUPPORT')}</strong>
             <p className="subtitle">
-            사용하시면서 불편한 사항이나 개선 의견이 있다면 문의해주세요.
+            {t('support:SUPPORT_DESC_1')}
             </p>
-            <p className="description">*음란, 불법 게시물 또는 권리 침해 신고는 아이템 구매화면 상단에 <img/>신고하기 버튼을 이용해주세요.</p>
+            <p className="description">{t('support:SUPPORT_DESC_2')}</p>
 
             <div className="contentBody">
               <ul className="listHeader">
-                <li>제목</li>
-                <li>처리상태</li>
+                <li>{t('support:TITLE')}</li>
+                <li>{t('support:STATUS')}</li>
               </ul>
               <ul className="list">
-                {countTickets==0&&<div className="empty">문의 내역이 없습니다.</div>}
+                {countTickets==0&&<div className="empty">{t('support:NO_HISTORY')}</div>}
                 {tickets.map((v, i)=>(<><li>
                   <details className="ticketDetail">
                     <summary className="ticketSummary">
@@ -101,8 +88,8 @@ export default function SupportTicket(props) {
                       Q. {v.title}
                       </div>
                       
-                      {v.status==1&&<span className='status'>답변 대기중</span>}
-                      {v.status==2&&<span className="status done">답변 완료</span>}
+                      {v.status==1&&<span className='status'>{t('support:PENDING')}</span>}
+                      {v.status==2&&<span className="status done">{t('support:SOLVED')}</span>}
                       <img className="arwImg" src={I_dnArrow} alt="" />
                       
                     </summary>
@@ -156,7 +143,7 @@ export default function SupportTicket(props) {
           </section>
           <article className="btnArea">
             <button className="ListBtn" onClick={()=>{navigate('/Notice')}}>
-              문의하기
+            {t('support:REQUEST')}
             </button>
           </article>
         </Pannouncements>

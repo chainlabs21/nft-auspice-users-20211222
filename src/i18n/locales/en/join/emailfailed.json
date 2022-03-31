@@ -1,0 +1,6 @@
+{
+    "TITLE"     : "Email verification failed.",
+    "EXPLAIN"   : "Please complete email verification to continue.",
+    "CANCEL"    : "Cancel",
+    "SEND"      : "Send Email"
+}

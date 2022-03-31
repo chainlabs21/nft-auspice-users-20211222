@@ -1,0 +1,12 @@
+{
+    "AMOUNT"                : "Amount to auction"
+    , "AMOUNT_HOVER"        : "You can decide the amount of items to list an auction."
+    , "AMOUNT_EXPLAIN"      : "The amount of items you desire to list."
+    , "MINIMUM_BID"         : "Starting bid"
+    , "MINIMUM_BID_HOVER"   : "You can always accept a sale even if you are offered a price that is higher than your minimum bid and lower than your target bid."
+    , "MINIMUM_EXPLAIN"     : "Enter your starting bid."
+    , "EXPIRY"              : "Expiry date"
+    , "EXPIRY_EXPLAIN"      : "When the expiration time is reached, the sale price is automatically It ends."
+    , "INSTRUCTION"         : "Instruction"
+    , "INSTRUCTION_EXPLAIN" : "We need a process for listing without gas fees"
+}

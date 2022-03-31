@@ -1,0 +1,11 @@
+{
+    "AMOUNT"                : "Amount to sell"
+    , "AMOUNT_EXPLAIN"      : "This allows sellers to choose amount of items to sell"
+    , "PRICE"               : "Price"
+    , "PRICE_EXPLAIN"       : "Items sold until canceled"
+    , "EXPIRY"              : "Expiry"
+    , "EXPIRY_EXPLAIN"      : "This allows sellers to choose an expiry date"
+    , "DUE_DATE"            : "Days later"
+    , "INSTRUCTION"         : "Instruction"
+    , "INSTRUCTION_EXPLAIN" : "We need a process for listing without gas fees"
+}

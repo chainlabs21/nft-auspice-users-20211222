@@ -44,6 +44,7 @@ import DefaultHeader from "../../components/header/DefaultHeader";
 
 import I_ltArw3 from "../../img/icons/I_ltArw3.png";
 import star from "../../img/sub/star.png";
+import { useTranslation } from "react-i18next";
 
 const kiloBytes = 1024;
 const megaBytes = 1024 * kiloBytes;
@@ -72,6 +73,7 @@ const MAP_fileextension_contentype = {
   ogg: "audio",
 };
 export default function CreateItem({ store, setConnect }) {
+  const {t} = useTranslation(['locale'])
   const navigate = useNavigate();
 
   const itemInputRef = useRef();
@@ -610,17 +612,17 @@ export default function CreateItem({ store, setConnect }) {
                 <img src={I_ltArw3} alt="" />
               </button>
 
-              <strong className="title">Items home</strong>
+              <strong className="title">{t('createitem:ITEMS_HOME')}</strong>
             </article>
 
             <article className="contArea">
-              <strong className="mainTitle">Create a new item</strong>
+              <strong className="mainTitle">{t('createitem:CREATE_NEW_ITEM')}</strong>
 
               <ul className="contList">
                 <li className="imgContainer">
                   <div className="titleBox">
                     <strong className="title">
-                      Add images, video, audio and modeling
+                    {t('createitem:UPLOAD_TITLE')}
                     </strong>
                     <img src={star} alt="" />
                   </div>
@@ -641,15 +643,14 @@ export default function CreateItem({ store, setConnect }) {
                       </>):(
                         <>
                       <p className="explain">
-                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG etc. (Up to
-                        40mb)
+                      {t('createitem:UPLOAD_EXPLAIN')}
                       </p>
 
                       <button
                         className="imgContainer_chooseBtn"
                         onClick={() => itemInputRef.current.click()}
                       >
-                        Choose File
+                        {t('createitem:CHOOSE_FILE')}
                       </button>
 
                       <input
@@ -667,9 +668,9 @@ export default function CreateItem({ store, setConnect }) {
 
                  <li className="categoryBox"> {/*{style={{display: 'none'}}>} */}
                   <div className="titleBox">
-                      <strong className="title">Category</strong>
+                      <strong className="title">{t('createitem:CATEGORY')}</strong>
                     </div>
-                          <p>You can easily search by selecting a category.</p>
+                          <p>{t('createitem:CATEGORY_EXPLAIN')}</p>
                           <div className="categoryList">
                             <ul>
                               {categories.map((cate, idx) => (
@@ -701,7 +702,7 @@ export default function CreateItem({ store, setConnect }) {
 
                 <li className="nameBox">
                   <div className="titleBox">
-                    <strong className="title">Name</strong>
+                    <strong className="title">{t('createitem:NAME')}</strong>
                     <img src={star} alt="" />
                   </div>
 
@@ -709,26 +710,25 @@ export default function CreateItem({ store, setConnect }) {
                     <input
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="Example: A collection of atmospheric night view photos"
+                      placeholder={t('createitem:NAME_HOLDER')}
                     />
                   </div>
                 </li>
 
                 <li className="descriptionBox">
                   <div className="titleBox">
-                    <strong className="title">Item Description</strong>
+                    <strong className="title">{t('createitem:ITEM_DESC')}</strong>
                   </div>
 
                   <p className="explain">
-                    Please enter a description that best describes the
-                    characteristics of the item.
+                  {t('createitem:ITEM_DESC_EXPLAIN')}
                   </p>
 
                   <div className="textareaBox">
                     <textarea
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      placeholder="Example: I took a picture of the night sky centered on the constellations and a night view of the city."
+                      placeholder={t('createitem:ITEM_DESC_HOLDER')}
                     />
                   </div>
                 </li>
@@ -763,13 +763,12 @@ export default function CreateItem({ store, setConnect }) {
                 <li className="copyBox">
                   <div className="titleBox toggleBox">
                     <strong className="title">
-                      Number of copies to be issued
+                    {t('createitem:COPIES')}
                     </strong>
                   </div>
 
                   <p className="explain">
-                    The number of copies that can be issued. If you set
-                    multiple, one item will be sold to multiple customers.
+                  {t('createitem:COPIES_EXPLAIN')}
                   </p>
 
                   <div className="inputBox">
@@ -780,7 +779,7 @@ export default function CreateItem({ store, setConnect }) {
                   </div>
                 </li>
 
-                {/**ACTUALLY RHIS IS ROYALTY SETTING */}
+                {/**ACTUALLY THIS IS ROYALTY SETTING */}
                 <li className="copyBox">
                   <div className="titleBox toggleBox">
                     <strong className="title">
@@ -826,7 +825,7 @@ export default function CreateItem({ store, setConnect }) {
 
             <article className="btnArea">
               <button className={!(nameChk && fileChk)?"dcreateBtn":"createBtn"} disabled={!(nameChk && fileChk)} onClick={() => {checkbeforesubmit()}}>
-                Create Item
+              {t('createitem:CREATE_ITEM')}
               </button>
             </article>
           </section>

@@ -1,0 +1,10 @@
+{
+    "NOTICE"                   : "공지사항",
+    "NOTICE_DESC"              : "아이템버스에서 전하는 새로운 소식을 확인하세요.",
+    "DESCRIPTION"              : "전체 <0>{{totalNotice}}</0>건의 게시물이 있습니다.",
+    "NO"                       : "No",
+    "TITLE"                    : "제목",
+    "DATE"                     : "등록일",
+    "NOTICE_ABBR"              : "공지",
+    "LIST"                     : "목록 보기"
+}

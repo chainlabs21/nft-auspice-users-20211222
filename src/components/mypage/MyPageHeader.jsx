@@ -2,6 +2,7 @@ import { connect, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import styled from "styled-components";
 import re from "../../img/sub/re.png";
+import I_edit from"../../img/icons/I_edit.png"
 import share from "../../img/sub/share.png";
 import loupe_black from "../../img/sub/loupe_black.png";
 import home_bg from "../../img/sub/home_bg.png";
@@ -26,6 +27,7 @@ export default function MyPageHeader({ address, targetData }) {
   const [nickname, setNickname] = useState("Username");
   const [desc, setDesc] = useState("Description");
   const [imageUrl, setImageUrl] = useState("");
+  const [coverimageUrl, setcoverImageUrl] = useState("");
   const [orderkey, setOrderkey] = useState(0);
   const [targettData, setTargettData] = useState();
   const [isOwner, setIsOwner] = useState(false);
@@ -58,6 +60,7 @@ export default function MyPageHeader({ address, targetData }) {
       setNickname(targettData.nickname);
       setDesc(targettData.description);
       setImageUrl(targettData.profileimageurl);
+      setcoverImageUrl(targettData.coverimageurl)
       setMyAddress(targettData.username);
     }
   }, [targettData]);
@@ -77,15 +80,20 @@ export default function MyPageHeader({ address, targetData }) {
           <div
             className="bg"
             style={{
-              backgroundImage: `url(${home_bg})`,
+              backgroundImage: `url(${coverimageUrl})`,
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               backgroundSize: "cover",
             }}
-          />
+          ></div>
 
           <div className="contBox">
-            <img className="profImg" src={imageUrl}/>
+            <div className="profImg" style={{
+              backgroundImage: '',//`url(${imageUrl})`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+            }}/>
             <div className="btnBox">
               <button className="" onClick={() => {}}>
                 <img src={re} alt="" />
@@ -114,15 +122,21 @@ export default function MyPageHeader({ address, targetData }) {
             <div
               className="bg"
               style={{
-                backgroundImage: `url(${home_bg})`,
+                backgroundImage: `url(${coverimageUrl})`,
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
                 backgroundSize: "cover",
               }}
-            />
+            ><img src={I_edit}/></div>
 
             <div className="contBox">
-              <img className="profImg" src={imageUrl}></img>
+            <div className="profImg" style={{
+              backgroundImage: `url(${imageUrl})`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+            }}><img src={I_edit}/></div>
+              {/* <div className="change"><img src={I_edit}/></div> */}
               <div className="btnBox">
                 <button className="" onClick={() => {}}>
                   <img src={re} alt="" />
@@ -219,7 +233,38 @@ const PMyPageHeader = styled.div`
 
   .myProfHeader {
     .bg {
-      height: 320px;
+      cursor: pointer;
+        height: 320px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        //opacity: 0;
+        img{
+          position: absolute;
+          filter: invert(100%) opacity(100%);
+          opacity: 0;
+        }
+
+      
+      &:hover{
+        background-color: rgba(0, 0, 0, 0.3);
+        background-blend-mode : darken;
+        img{
+          position: absolute;
+          filter: invert(100%) opacity(100%);
+          opacity: 1;
+        }
+        /* .change{
+          background-color: #000;
+          opacity:0.3;
+          img{
+            
+            opacity: 1;
+            z-index: 10;
+          }
+        } */
+      }
+      
     }
 
     .contBox {
@@ -232,12 +277,26 @@ const PMyPageHeader = styled.div`
       margin: 0 auto;
 
       .profImg {
+        cursor: pointer;
         width: 140px;
         height: 140px;
         border-radius: 50%;
-        background: #000;
         top: -70px;
         position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img{
+            opacity: 0;
+          }
+        &:hover{
+          background-color: #0005;//rgba(0, 0, 0);
+          background-blend-mode : darken;
+          img{
+            opacity: 1;
+            filter: invert(100%) opacity(100%);
+          }
+        }
       }
 
       .btnBox {

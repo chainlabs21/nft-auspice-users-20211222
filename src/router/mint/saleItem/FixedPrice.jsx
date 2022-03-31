@@ -12,8 +12,10 @@ import PopupBg from "../../../components/PopupBg";
 import SelectPopup from "../../../components/SelectPopup";
 import { useEffect } from "react";
 import { SET_SALE_INFO } from "../../../reducers/saleReducer";
+import { useTranslation } from "react-i18next";
 
 export default function FixedPrice(props) {
+  const {t} = useTranslation(['locale'])
   const dispatch = useDispatch();
 
   const isMobile = useSelector((state) => state.common.isMobile);
@@ -237,8 +239,8 @@ export default function FixedPrice(props) {
       <PfixedPriceBox>
         <li className="priceContainer">
           <div className="leftBox">
-            <strong className="title">Amount to sell</strong>
-            <p className="explain">This allows sellers to choose amount of items to sell</p>
+            <strong className="title">{t('fixedprice:AMOUNT')}</strong>
+            <p className="explain">{t('fixedprice:AMOUNT_EXPLAIN')}</p>
           </div>
 
           <div className="priceBox">
@@ -265,8 +267,8 @@ export default function FixedPrice(props) {
 
         <li className="priceContainer">
           <div className="leftBox">
-            <strong className="title">Price</strong>
-            <p className="explain">Items sold until canceled</p>
+            <strong className="title">{t('fixedprice:PRICE')}</strong>
+            <p className="explain">{t('fixedprice:PRICE_EXPLAIN')}</p>
           </div>
 
           <div className="priceBox">
@@ -291,8 +293,8 @@ export default function FixedPrice(props) {
 
         <li className="priceContainer">
           <div className="leftBox">
-            <strong className="title">Expiry</strong>
-            <p className="explain">This allows sellers to choose an expiry date</p>
+            <strong className="title">{t('fixedprice:EXPIRY')}</strong>
+            <p className="explain">{t('fixedprice:EXPIRY_EXPLAIN')}</p>
           </div>
 
           <div className="priceBox">
@@ -305,7 +307,7 @@ export default function FixedPrice(props) {
             <div className="tokenBox posBox">
               <button className="tokenBtn" onClick={() => {}}>
                 <div className="value">
-                  <strong>Days later</strong>
+                  <strong>{t('fixedprice:DUE_DATE')}</strong>
                 </div>
               </button>
             </div>
@@ -440,9 +442,9 @@ export default function FixedPrice(props) {
           <details className="instructionDetail">
             <summary className="instructionSummary">
               <div className="textBox">
-                <strong className="title">Instruction</strong>
+                <strong className="title">{t('fixedprice:INSTRUCTION')}</strong>
                 <p className="explain">
-                  We need a process for listing without gas fees
+                {t('fixedprice:INSTRUCTION_EXPLAIN')}
                 </p>
               </div>
 
