@@ -44,6 +44,7 @@ export default function MyPage() {
   function getUserInfo(address){
     console.log(`${API.API_USER_INFO}/${address}`)
     axios.get(`${API.API_USER_INFO}/${address}`).then((resp)=>{
+      console.log(resp)
       let {maria} = resp.data.payload;
       console.log(maria)
       setTargetData(maria)
@@ -65,12 +66,14 @@ export default function MyPage() {
       //   console.log((pathname.split('/')[3]))
       // }else{
       //   setSearchAddress(walletAddress)
-      // }
+      // }국민 923837 00 000200
   }, [pathname])
 
   useEffect(async ()=>{
 
-    if (searchAddress) getUserInfo(searchAddress)
+    if (searchAddress) {
+      getUserInfo(searchAddress)}
+
   },[searchAddress])
   const categoryList = [
     {

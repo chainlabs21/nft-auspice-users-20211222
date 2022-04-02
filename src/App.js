@@ -15,6 +15,7 @@ import SentEmail from "./router/join/SentEmail";
 import EmailChange from "./router/join/EmailChange";
 import MyPage from "./router/mypage/MyPage"
 import Notice from "./router/support/Notice"
+import SendTicket from "./router/support/SendTicket"
 import FAQ from "./router/support/faq"
 //import NoticeTest from "./router/support/NoticeTest"
 import NoticeDetail from "./router/support/NoticeDetail"
@@ -299,6 +300,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           <Route path="/sentemaildetail" element={<SentEmailDetail />} />
           <Route path="/signupcomplete" element={<SignupComplete />} />
           <Route path="/notice" element={<Notice />} />
+          <Route path="/sendticket" element={<SendTicket />} />
           {/* <Route path="/noticett" element={<NoticeTest />} /> */}
           <Route path="/faq" element={<FAQ />} />
           <Route path="/support" element={<SupportTicket />} />

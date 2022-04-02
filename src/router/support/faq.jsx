@@ -78,7 +78,7 @@ export default function FAQ() {
 
     });
 
-    axios.get(`${process.env.REACT_APP_API_SERVER}/queries/faq/items`, {
+    axios.get(`${process.env.REACT_APP_API_SERVER}/queries/faq/allitems`, {
       params:{
         filter:[0]
       }
@@ -88,7 +88,7 @@ export default function FAQ() {
   useEffect(()=>{
     console.log(curCategory)
     if (curCategory==0)
-    axios.get(`${process.env.REACT_APP_API_SERVER}/queries/faq/items`, {
+    axios.get(`${process.env.REACT_APP_API_SERVER}/queries/faq/allitems`, {
       params:{
         filter:[0]
       }
@@ -440,6 +440,9 @@ background: #f6f6f6;
             font-weight: normal;
             //border-top: 1px solid #d9d9d9;
           }
+        }
+        .instructionDetail + .instructionDetail{
+          margin-top: 10px;
         }
       }
     }

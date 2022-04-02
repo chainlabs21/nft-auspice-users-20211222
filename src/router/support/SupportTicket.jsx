@@ -122,7 +122,7 @@ export default function SupportTicket(props) {
                 })} */}
               </ul>
             </div>
-            <Pagination totalPage={totalPage} currentPage={setCurrentPage}/>
+            {(countTickets>10)?<Pagination totalPage={totalPage} currentPage={setCurrentPage}/>:undefined}
             {/* <ul className="Pagination">
               <li className="img leArrw">
                 <img src={I_leArrow} />
@@ -142,7 +142,7 @@ export default function SupportTicket(props) {
             </ul> */}
           </section>
           <article className="btnArea">
-            <button className="ListBtn" onClick={()=>{navigate('/Notice')}}>
+            <button className="ListBtn" onClick={()=>{navigate('/sendticket')}}>
             {t('support:REQUEST')}
             </button>
           </article>

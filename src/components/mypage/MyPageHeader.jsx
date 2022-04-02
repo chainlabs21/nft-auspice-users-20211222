@@ -40,6 +40,7 @@ export default function MyPageHeader({ address, targetData }) {
   );
 
   useEffect(() => {
+    console.log(targetData)
     if (targetData) {
       setTargettData(targetData);
       if (walletAddress == address) {
@@ -56,7 +57,7 @@ export default function MyPageHeader({ address, targetData }) {
         setTargettData(userData.myinfo_maria);
       }
     }
-  });
+  },[address, targetData]);
   useEffect(() => {
     if (targettData) {
       setNickname(targettData.nickname);
@@ -80,7 +81,7 @@ export default function MyPageHeader({ address, targetData }) {
       <MMyPageHeader>
         <header className="myProfHeader">
           <div
-            className="bg"
+            className={isOwner?"bg":"viewerbg"}//"bg"
             style={{
               backgroundImage: `url(${coverimageUrl})`,
               backgroundRepeat: "no-repeat",
@@ -122,22 +123,22 @@ export default function MyPageHeader({ address, targetData }) {
         <PMyPageHeader style={{ padding: toggleFilter && "120px 0 0 350px" }}>
           <header className="myProfHeader">
             <div
-              className="bg"
+              className={isOwner?"bg":"viewerbg"}
               style={{
                 backgroundImage: `url(${coverimageUrl})`,
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
                 backgroundSize: "cover",
               }}
-            ><img src={I_edit}/></div>
+            >{isOwner?<img src={I_edit}/>:undefined}</div>
 
             <div className="contBox">
-            <div className="profImg" style={{
+            <div className={isOwner?"profImg":"viwerprofImg"} style={{
               backgroundImage: `url(${imageUrl})`,
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               backgroundSize: "cover",
-            }}><img src={I_edit}/></div>
+            }}>{isOwner?<img src={I_edit}/>:undefined}</div>
               {/* <div className="change"><img src={I_edit}/></div> */}
               <div className="btnBox">
                 <button className="" onClick={() => {}}>
@@ -234,6 +235,13 @@ const PMyPageHeader = styled.div`
   position: relative;
 
   .myProfHeader {
+    .viewerbg {
+        height: 320px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        //opacity: 0;
+    }
     .bg {
       cursor: pointer;
         height: 320px;
@@ -277,6 +285,17 @@ const PMyPageHeader = styled.div`
       position: relative;
       max-width: 1280px;
       margin: 0 auto;
+
+      .viwerprofImg {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        top: -70px;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
       .profImg {
         cursor: pointer;

@@ -2,6 +2,7 @@ import locale from './support/locale.json'
 import faq from './support/faq.json'
 import notice from './support/notice.json'
 import support from './support/support.json'
+import sendticket from './support/sendticket.json'
 import connectwallet from './join/connectwallet.json'
 import emailfailed from './join/emailfailed.json'
 import emailrequired from './join/emailrequired.json'
@@ -39,6 +40,7 @@ export default{
     fixedprice,
     mypage,
     sort,
+    sendticket,
 
     header
 }

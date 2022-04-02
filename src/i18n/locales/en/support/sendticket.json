@@ -1,0 +1,9 @@
+{
+    "TITLE"         : "Sending Ticket",
+    "TYPE"          : "Title",
+    "TYPE_HOLDER"   : "Write a title of the ticket.",
+    "CONTENT"       : "Description",
+    "CONTENT_HOLDER": "Write description under 300 characters.",
+    "SEND"          : "Send",
+    "CANCEL"        : "Cancel"
+}
