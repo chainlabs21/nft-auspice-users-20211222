@@ -30,7 +30,7 @@ import { messages } from "../../config/messages";
 import MmenuPopup from "./MmenuPoupup";
 import axios from "axios";
 import {API} from "../../config/api"
-import { SET_USER_DATA, SET_ADDRESS, SET_LOGIN } from "../../reducers/userReducer";
+import i18n from "../../i18n";
 import {SET_SEARCH} from "../../reducers/filterReducer"
 import { useTranslation } from "react-i18next";
 
@@ -55,7 +55,6 @@ export default function DefaultHeader(props) {
       categories.map((v, i)=>{
         setCategoryGroup(pre=> [...pre, {code:v.category, text: v.textdisp}])
       })
-
     })
   },[])
 
@@ -233,10 +232,14 @@ export default function DefaultHeader(props) {
               <li>
                 <span className="posBox langBox">
                   <span className="blank" />
-                  <button className="lang" onClick={() => {SetErrorBar('준비중입니다.')}}>
+                  <button className="lang">
                     ENG
                   </button>
                   <img src={I_dnArw} alt="" />
+                  <ul className="popupBox notice">
+                    <li onClick={() => i18n.changeLanguage('kr')}>KOR</li>
+                    <li onClick={() => i18n.changeLanguage('en')}>ENG</li>
+                  </ul>
                 </span>
               </li>
             </nav>
