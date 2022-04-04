@@ -461,49 +461,94 @@ export default function CreateItem({ store, setConnect }) {
                 <img src={I_ltArw3} alt="" />
               </button>
 
-              <strong className="title">Items home</strong>
+              <strong className="title">{t('createitem:ITEMS_HOME')}</strong>
             </article>
 
             <article className="contArea">
-              <strong className="mainTitle">Create a new item</strong>
+              <strong className="mainTitle">{t('createitem:CREATE_NEW_ITEM')}</strong>
 
               <ul className="contList">
                 <li className="imgContainer">
                   <div className="titleBox">
                     <strong className="title">
-                      Add images, video, audio and modeling
+                    {t('createitem:UPLOAD_TITLE')}
                     </strong>
                     <img src={star} alt="" />
                   </div>
 
                   <div className="imgBox">
                     <div className="imgContainer_innerBox">
+                    {item?(<>
+                      {fileViewType =="video" &&(<video style={{width: '100%'}} onClick={() => itemInputRef.current.click()} src={item}/>)}
+                      {fileViewType =="image" &&(<img style={{width: '100%'}} onClick={() => itemInputRef.current.click()} src={item}/>)}
+                      {fileViewType =="audio" &&(<audio controls><source style={{width: '100%'}} onClick={() => itemInputRef.current.click()} src={item}/></audio>)}
+                      
+                      <input
+                        className="nospace"
+                        type="file"
+                        ref={itemInputRef}
+                        onChange={(e) => onChangeItem(e.target.files[0])}
+                        accept="image/*, video/mp4, audio/*"
+                      />
+                      </>):(
+                        <>
                       <p className="explain">
-                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG etc. (Up to
-                        40mb)
+                      {t('createitem:UPLOAD_EXPLAIN')}
                       </p>
 
                       <button
                         className="imgContainer_chooseBtn"
                         onClick={() => itemInputRef.current.click()}
                       >
-                        Choose File
+                        {t('createitem:CHOOSE_FILE')}
                       </button>
+
                       <input
                         className="nospace"
                         type="file"
                         ref={itemInputRef}
-                        value={item}
-                        onChange={(e) => onChangeItem(e.target.value)}
-                        accept="video/*"
+                        onChange={(e) => onChangeItem(e.target.files[0])}
+                        accept="image/*, video/mp4, audio/*"
                       />
+                      </>)
+                    }
                     </div>
                   </div>
                 </li>
 
+                <li className="categoryBox"> {/*{style={{display: 'none'}}>} */}
+                  <div className="titleBox">
+                      <strong className="title">{t('createitem:CATEGORY')}</strong>
+                    </div>
+                          <p className="explain">{t('createitem:CATEGORY_EXPLAIN')}</p>
+                          <div className="categoryList">
+                            <ul>
+                              {categories.map((cate, idx) => (
+                                
+                                <li
+                                  key={idx}
+                                  onClick={() => {
+                                    setCurCategory(cate.category);
+                                  }}
+                                  style={
+                                    curCategory === cate.category
+                                      ? {
+                                          backgroundColor: "black",
+                                          color: "white",
+                                        }
+                                      : {}
+                                  }
+                                >
+                                  <span>{cate.category}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </li>
+
                 <li className="nameBox">
                   <div className="titleBox">
-                    <strong className="title">Name</strong>
+                    <strong className="title">{t('createitem:NAME')}</strong>
                     <img src={star} alt="" />
                   </div>
 
@@ -511,26 +556,25 @@ export default function CreateItem({ store, setConnect }) {
                     <input
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="Example: A collection of atmospheric night view photos"
+                      placeholder={t('createitem:NAME_HOLDER')}
                     />
                   </div>
                 </li>
 
                 <li className="descriptionBox">
                   <div className="titleBox">
-                    <strong className="title">Item Description</strong>
+                    <strong className="title">{t('createitem:ITEM_DESC')}</strong>
                   </div>
 
                   <p className="explain">
-                    Please enter a description that best describes the
-                    characteristics of the item.
+                  {t('createitem:ITEM_DESC_EXPLAIN')}
                   </p>
 
                   <div className="textareaBox">
                     <textarea
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      placeholder="Example: I took a picture of the night sky centered on the constellations and a night view of the city."
+                      placeholder={t('createitem:ITEM_DESC_HOLDER')}
                     />
                   </div>
                 </li>
@@ -565,13 +609,12 @@ export default function CreateItem({ store, setConnect }) {
                 <li className="copyBox">
                   <div className="titleBox toggleBox">
                     <strong className="title">
-                      Number of copies to be issued
+                    {t('createitem:COPIES')}
                     </strong>
                   </div>
 
                   <p className="explain">
-                    The number of copies that can be issued. If you set
-                    multiple, one item will be sold to multiple customers.
+                  {t('createitem:COPIES_EXPLAIN')}
                   </p>
 
                   <div className="inputBox">
@@ -603,8 +646,8 @@ export default function CreateItem({ store, setConnect }) {
             </article>
 
             <article className="btnArea">
-              <button className="createBtn" onClick={() => {}}>
-                Create Item
+            <button className={!(nameChk && fileChk)?"dcreateBtn":"createBtn"} disabled={!(nameChk && fileChk)} onClick={() => {checkbeforesubmit()}}>
+              {t('createitem:CREATE_ITEM')}
               </button>
             </article>
           </section>
@@ -659,6 +702,7 @@ export default function CreateItem({ store, setConnect }) {
                         type="file"
                         ref={itemInputRef}
                         onChange={(e) => onChangeItem(e.target.files[0])}
+                        accept="image/*, video/mp4, audio/*"
                       />
                       </>):(
                         <>
@@ -678,6 +722,7 @@ export default function CreateItem({ store, setConnect }) {
                         type="file"
                         ref={itemInputRef}
                         onChange={(e) => onChangeItem(e.target.files[0])}
+                        accept="image/*, video/mp4, audio/*"
                       />
                       </>)
                     }
@@ -1046,6 +1091,30 @@ const McreateItemBox = styled.div`
           &.nameBox {
           }
 
+          &.categoryBox{
+            ul{
+              display: flex;
+      flex-wrap: wrap;
+      margin: 0vw 0 0 0;
+      border-radius: 4vw;
+      background: #f6f6f6;
+              li{
+                flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 25vw;
+        height: 8vw;
+        padding: 0 35px;
+        font-size: 4.33vw;
+        font-weight: 500;
+        white-space: nowrap;
+        border-radius: 4vw;
+        cursor: pointer;
+              }
+            }
+          }
+
           &.descriptionBox {
           }
 
@@ -1073,6 +1142,16 @@ const McreateItemBox = styled.div`
         background: #000;
         border-radius: 44px;
       }
+      .dcreateBtn {
+        width: 100%;
+        height: 15.55vw;
+        font-size: 4.44vw;
+        font-weight: 500;
+        color: #fff;
+        background: #ccc;
+        border-radius: 44px;
+      }
+
     }
   }
 `;
