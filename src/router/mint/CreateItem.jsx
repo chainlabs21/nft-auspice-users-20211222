@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { setConnect } from "../../util/store";
 import styled from "styled-components";
 import { generateSlug } from "random-word-slugs";
+import ConfirmationPopup from "../../components/ConfirmationPopup"
 import {
   query_noarg,
   getabistr_forfunction,
@@ -41,6 +42,7 @@ import CertificationContractPopup from "../../components/mint/saleItem/Certifica
 import PopupBg from "../../components/PopupBg";
 import NowSalePopup from "../../components/mint/saleItem/NowSalePopup";
 import DefaultHeader from "../../components/header/DefaultHeader";
+
 
 import I_ltArw3 from "../../img/icons/I_ltArw3.png";
 import star from "../../img/sub/star.png";
@@ -111,6 +113,8 @@ export default function CreateItem({ store, setConnect }) {
   let [myaddress, setmyaddress] = useState(getmyaddress());
   const [listingProcess, setListingProcess] = useState(0);
   const [submitReady, setSubmitReady]=useState(true);
+  const [errorPopup, setErrorPopup] = useState(false);
+  const [errorMsg, setErrorMsg] = useState()
 
 
   useEffect(()=>{
@@ -314,7 +318,8 @@ export default function CreateItem({ store, setConnect }) {
       }
     });
     if (!typeToggle) {
-      SetErrorBar(ERR_MSG.ERR_NO_SUPPORT_FILE_TYPE);
+      setErrorMsg(t('emsg:NOT_SUPPORTED_FILE_TYPE'));
+          setErrorPopup(true); 
       return;
     }
     let contenttype;
@@ -346,6 +351,7 @@ export default function CreateItem({ store, setConnect }) {
     if (file && filesize > 0) {
       setFileChk(true);
       try {
+        if (file.size>40*megaBytes){}
         if (filesize <= 40 * megaBytes) {
           let formData = new FormData();
           formData.append("file", file);
@@ -359,13 +365,17 @@ export default function CreateItem({ store, setConnect }) {
             setFileResp(resp.data.payload.url);
             console.log(resp.data)
             setItem(payload.url);
+            setErrorMsg(t('emsg:FILE_UPLOADED'));
+            setErrorPopup(true); 
           }
         } else {
-          SetErrorBar(ERR_MSG.ERR_FILE_SIZE_EXCEEDED);
+          setErrorMsg(t('emsg:FILE_SIZE_EXCEED'));
+          setErrorPopup(true); 
           return;
         }
       } catch (error) {
-        SetErrorBar(ERR_MSG.ERR_FILE_UPLOAD_FAILED);
+        setErrorMsg(t('emsg:FILE_UPLOAD_FAILED'));
+          setErrorPopup(true); 
         console.log(error);
       }
     }
@@ -604,6 +614,16 @@ export default function CreateItem({ store, setConnect }) {
   else
     return (
       <>
+      {errorPopup&& (
+                    <>
+                    <ConfirmationPopup 
+                        content = {errorMsg}
+                        off={setErrorPopup}
+                      />
+                      <PopupBg off={setErrorPopup} />
+                    </>
+                  )}
+      
         <DefaultHeader />
         <PcreateItemBox>
           <section className="innerBox">

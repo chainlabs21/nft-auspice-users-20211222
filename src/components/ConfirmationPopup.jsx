@@ -1,37 +1,27 @@
 import styled from "styled-components";
 import icon_close from "../img/sub/icon_close.png";
 
-export default function CancelListingPopup({ off }) {
+export default function ConfirmationPopup({ off, content }) {
   return (
-    <CancelListingPopupBox>
-      <article className="topBar">
-        <span className="blank" />
-        <strong className="title"> Cancel Listings</strong>
-        <button className="exitBtn" onClick={() => off()}>
-          <img src={icon_close} alt="" />
-        </button>
-      </article>
+    <ConfirmationPopupBox>
 
       <article className="contBox">
-        <p>Are you sure you want to cancel your listing?</p>
+        <p className="content">{content}</p>
       </article>
 
       <article className="btnBox">
-        <button className="denyBtn" onClick={() => off()}>
-          Never Mind
-        </button>
-
         <button className="confirmBtn" onClick={() => off()}>
-          Cancle Listings
+          확인
         </button>
       </article>
-    </CancelListingPopupBox>
+    </ConfirmationPopupBox>
   );
 }
 
-const CancelListingPopupBox = styled.div`
-  width: 600px;
-  padding: 0 0 42px 0;
+const ConfirmationPopupBox = styled.div`
+  width: 438px;
+  //height: 322px;
+  padding: 0 0 22px 0;
   background: #fff;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
   border-radius: 20px;
@@ -40,6 +30,8 @@ const CancelListingPopupBox = styled.div`
   transform: translate(-50%, -50%);
   position: fixed;
   z-index: 1002;
+  justify-content: space-between;
+  flex-direction: column;
   @media screen and (max-width: 768px) {
     width: 75vw;
     padding: 0 0 5.25vw 0;
@@ -51,39 +43,6 @@ const CancelListingPopupBox = styled.div`
     transform: translate(-50%, -50%);
     position: fixed;
     z-index: 1002;
-  }
-
-  .topBar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 72px;
-    padding: 0 20px;
-    @media screen and (max-width: 768px) {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 9vw;
-      padding: 0 2.5vw;
-    }
-
-    .title {
-      font-size: 24px;
-      font-weight: 700;
-      font-family: Poppins;
-      @media screen and (max-width: 768px) {
-        font-size: 3vw;
-        font-weight: 700;
-      }
-    }
-
-    .blank,
-    .exitBtn img {
-      width: 30px;
-      @media screen and (max-width: 768px) {
-        width: 3.75vw;
-      }
-    }
   }
 
   .contBox {
@@ -99,18 +58,25 @@ const CancelListingPopupBox = styled.div`
       height: 26.25vw;
       font-size: 2vw;
     }
+    .content{
+        display:flex;
+        font-size: 22px;
+        font-weight: bold;
+        text-align: center;
+    }
   }
 
   .btnBox {
     display: flex;
-    justify-content: center;
+    
     gap: 26px;
+    padding: 0 24px 0 24px;
     @media screen and (max-width: 768px) {
       gap: 3.25vw;
     }
 
     button {
-      width: 224px;
+      width: 100%;
       height: 56px;
       font-size: 22px;
       font-weight: 700;

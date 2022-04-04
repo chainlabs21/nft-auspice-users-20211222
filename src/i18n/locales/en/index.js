@@ -16,7 +16,7 @@ import saleitem from './mint/saleitem.json'
 import auctionbid from './mint/saleItem/auctionbid.json'
 import fixedprice from './mint/saleItem/fixedprice.json'
 
-
+import emsg from './emsg.json'
 import sort from './sort.json'
 import mypage from './mypage.json'
 import header from './header.json'
@@ -42,5 +42,6 @@ export default{
     sort,
     sendticket,
 
+    emsg,
     header
 }
