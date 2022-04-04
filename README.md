@@ -1,20 +1,18 @@
 # Multi lingual with react-i18n
 
 You can check ./src/i18n folder.\
-i18n settings are included in index.js from i18n folder.\\
+i18n settings are included in index.js from i18n folder.\
 If you want to add another multi lingual page, you can check the folder .json files inside en folder.\
 Korean translations are not done yet. So please check English translations from src/i18n/en\
 Don't forget to import language file(*.json) index.js which is located in language folder.\
 \
 ## The example below shows how to load i18n multilingual texts.
-import `{ useTranslation }` from "react-i18next";\
+`import { useTranslation } from "react-i18next";`\
 You need to import useTranslation first.\
 Then, make t to load your locale files.\
 `const { t }  = useTranslation(['locale'])`
 Finally, this is how I load texts in multi lingual.\
-ex`) t('marketplace:TOTAL')`\
- 
-
+example: `t('marketplace:TOTAL')`
 
 ## Available Scripts
 

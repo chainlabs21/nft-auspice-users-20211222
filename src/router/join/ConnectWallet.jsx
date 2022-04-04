@@ -92,7 +92,7 @@ function ConnectWallet({ Setmyinfo, Setaddress }) {
   // }
   // const accounts = await select(TYPE)
   //const accounts = await ethereum.request({method: 'eth_requestAccounts'})
-
+  if (!klaytn){alert('install klaytn please'); return;}
   window.klaytn.enable().then((account)=>{
     dispatch({ type: SET_ADDRESS, payload: {value: account[0] }}); 
 

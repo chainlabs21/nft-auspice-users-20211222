@@ -48,6 +48,9 @@ export default function SupportTicket(props) {
     window.klaytn.enable().then((account)=>{
       axios.post(`${process.env.REACT_APP_API_SERVER}/support/sendticket`,{
         title: title, description: desc, lang: lang, username: account[0]
+      }).then((resp)=>{
+        console.log(resp);
+        navigate('/support')
       })
     })
   }
