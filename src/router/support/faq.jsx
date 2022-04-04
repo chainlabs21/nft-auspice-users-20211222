@@ -43,7 +43,7 @@ import i18n from "i18next";
 
 
 export default function FAQ() {
-  const { t }  = useTranslation(['faq'])
+  const { t }  = useTranslation(['locale'])
   const D_Category = ["제목", "본문"];
   const navigate = useNavigate();
   const params = useParams();

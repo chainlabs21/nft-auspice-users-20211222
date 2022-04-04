@@ -7,5 +7,6 @@
     "NO_HISTORY"        : "No ticket history found",
     "REQUEST"           : "Request",
     "PENDING"           : "Pending",
-    "SOLVED"            : "Solved"
+    "SOLVED"            : "Solved",
+    "REJECTED"          : "Rejected"
 }

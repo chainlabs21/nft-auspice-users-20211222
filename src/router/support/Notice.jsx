@@ -58,7 +58,7 @@ export default function Notice(props) {
 
 
   useEffect(() => {
-    i18n.changeLanguage('en')
+    
     axios.get(`${API.API_GET_ANNOUNCES}`).then((resp) => {
       console.log(resp);
       let { rows, count } = resp.data.list;

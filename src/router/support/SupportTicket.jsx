@@ -90,6 +90,7 @@ export default function SupportTicket(props) {
                       
                       {v.status==1&&<span className='status'>{t('support:PENDING')}</span>}
                       {v.status==2&&<span className="status done">{t('support:SOLVED')}</span>}
+                      {v.status==3&&<span className="status reject">{t('support:REJECTED')}</span>}
                       <img className="arwImg" src={I_dnArrow} alt="" />
                       
                     </summary>
@@ -299,6 +300,9 @@ flex-direction: column;
             }
             .done{
               color: #7a7a7a;
+            }
+            .reject{
+              color: red;
             }
   
             .arwImg {

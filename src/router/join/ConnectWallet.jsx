@@ -18,7 +18,7 @@ import { useTranslation} from "react-i18next"
 
 // function ConnectWallet( Setmyinfo ) {
 function ConnectWallet({ Setmyinfo, Setaddress }) {
-  const { t }  = useTranslation(['faq'])
+  const { t }  = useTranslation(['locale'])
   const navigate = useNavigate();
   const { walletAddress, userData } = useSelector((state) => state.user);
   const isMobile = useSelector((state) => state.common.isMobile);
