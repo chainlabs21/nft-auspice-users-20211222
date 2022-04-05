@@ -16,6 +16,7 @@ import { LOGGER } from "../../util/common";
 import { API } from "../../config/api";
 import userEvent from "@testing-library/user-event";
 import { useTranslation } from "react-i18next";
+import { writeSig } from "../../util/verifySig";
 
 export default function MyPageHeader({ address, targetData }) {
   const {t} = useTranslation(['locale']);
@@ -68,6 +69,15 @@ export default function MyPageHeader({ address, targetData }) {
     }
   }, [targettData]);
 
+ function handleSetting(){
+    console.log('henlo')
+    window.ethereum.enable().then(async (accounts)=>{
+      console.log(accounts[0])
+      const result = await writeSig(accounts[0], '1', 'hello')
+      console.log(result)
+    })
+  }
+
   // useEffect(()=>{
   //   if (userData instanceof Object && userData['myinfo_maria'] !== undefined){
   //     setNickname(userData.myinfo_maria.nickname)
@@ -98,7 +108,7 @@ export default function MyPageHeader({ address, targetData }) {
               backgroundSize: "cover",
             }}/>
             <div className="btnBox">
-              <button className="" onClick={() => {}}>
+              <button className="" onClick={() => {handleSetting()}}>
                 <img src={re} alt="" />
               </button>
               <button className="" onClick={() => {}}>
@@ -141,7 +151,7 @@ export default function MyPageHeader({ address, targetData }) {
             }}>{isOwner?<img src={I_edit}/>:undefined}</div>
               {/* <div className="change"><img src={I_edit}/></div> */}
               <div className="btnBox">
-                <button className="" onClick={() => {}}>
+                <button className="" onClick={() => {handleSetting()}}>
                   <img src={re} alt="" />
                 </button>
                 <button className="" onClick={() => {}}>

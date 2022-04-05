@@ -15,6 +15,7 @@ import { encodeBase64ImageFile, getuseraddress } from "../../util/common";
 import { ERR_MSG } from "../../config/messages";
 import axios from "axios";
 import { API } from "../../config/api";
+import DefaultHeader from "../../components/header/DefaultHeader";
 
 import { useTranslation } from 'react-i18next'
 import i18n from "i18next";
@@ -403,6 +404,7 @@ export default function Signup({ store, setConnect }) {
   else
     return (
       <>
+      <DefaultHeader/>
       {signupsuccess && <SentEmailDetail email={email}/>}
       <PsignPopupBox>
         
@@ -744,20 +746,21 @@ const PsignPopupBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #fff;
   position: relative;
+  padding-bottom: 150px;
+  padding-top: 190px;
 
   .popupBox {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     width: 900px;
-    max-height: 90vh;
+    min-height: 90vh;
     padding: 56px 50px 40px 50px;
     background: #fff;
     border-radius: 20px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
     overflow-y: scroll;
 
     &::-webkit-scrollbar {

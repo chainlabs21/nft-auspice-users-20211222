@@ -1,8 +1,14 @@
 {
-    "TITLE"     : "Please connect an available wallet",
-    "EXPLAIN"   : "Please connect an available wallet or create a new one",
-    "COPYRIGHT" : "Copyright © 2021 AUSPICE. All rights reserved.",
-    "PRIVACY"   : "Privacy Policy",
-    "TOS"       : "Terms of Service"
+    "TITLE"         : "Please connect an available wallet",
+    "EXPLAIN"       : "Please connect an available wallet or create a new one",
+    "COPYRIGHT"     : "Copyright © 2021 AUSPICE. All rights reserved.",
+    "PRIVACY"       : "Privacy Policy",
+    "TOS"           : "Terms of Service",
+    "P_MY_WALLET"   : "My wallet",
+    "METAMASK"      : "Metamask",
+    "KAIKAS"        : "Kaikas",
+    "P_DESC"        : "* Please select your wallet from the list to continue our service.",
+    "P_GUIDE"       : "Guide",
+    "LOGOUT"        : "Log out"
 
 }

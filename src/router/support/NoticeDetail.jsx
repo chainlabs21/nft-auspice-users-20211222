@@ -162,7 +162,8 @@ const Mannouncements = styled.div``;
 
 const Pannouncements = styled.div`
 flex-direction: column;
-  padding-top: 160px;
+padding-top: 180px;
+margin-bottom: 50px;
   display: flex;
   justify-content: center;
   align-items: center;

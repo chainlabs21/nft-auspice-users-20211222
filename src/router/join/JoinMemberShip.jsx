@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import WalletConnectSDK from "walletconnect";
 import axios from "axios";
 
-export default function JoinMemberShip() {
+export default function JoinMemberShip({off}) {
   const { t }  = useTranslation(['locale'])
   const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ export default function JoinMemberShip() {
             </p>
           </article>
           <article className="btnBox">
-            <button className="cancelBtn" onClick={() => navigate(-1)}>
+            <button className="cancelBtn" onClick={() => off(false)}>
               Cancel
             </button>
             <button className="sendBtn" onClick={navigate("/signup")}>
@@ -50,7 +50,7 @@ export default function JoinMemberShip() {
             </p>
           </article>
           <article className="btnBox">
-            <button className="cancelBtn" onClick={() => navigate(-1)}>
+            <button className="cancelBtn" onClick={() => off(false)}>
               {t('joinmembership:CANCEL')}
             </button>
             <button className="sendBtn" onClick={()=>{navigate("/signup")}}>
@@ -130,7 +130,10 @@ const PjoinMemberShip = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.2);
-  position: relative;
+  position: fixed;
+  top:0;
+  left:0;
+  z-index: 999;
 
   .popupBox {
     display: flex;

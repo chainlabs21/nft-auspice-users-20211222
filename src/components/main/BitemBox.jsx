@@ -50,7 +50,7 @@ export default function BitemBox({ category }) {
   return (
     <PBitemBox>
       <article className="vvisual">
-        <div className="titleContainerr" style={enlarged?{maxWidth:'0%'}:{maxWidth:'50%'}}>
+        <div className="titleContainerr" style={enlarged?{display:'none'}:{}}>
           <div className="titleInnerBox">
             <div className="titleBox">
               <img className="titleImg" src={title} />
@@ -83,11 +83,11 @@ export default function BitemBox({ category }) {
           </div>
         </div>
 
-        <div className="sswiperContainer" >{/** style={enlarged?{left:'-660px', justifyContent: 'center'}:{left:'0'}}>*/} 
+        <div className="sswiperContainer" style={enlarged?{width:'1312px', justifyContent: 'flex-end'}:{}}>
         {/* <div className="gradientBox">
           <div className="activeGradient"></div>
         </div> */}
-          <div className="swiperBox" style={enlarged?{width:'1310px'}:{width:'800px'}} >{/* style={enlarged?{width:'1310px'}:{width:'800px'}}>  onClickVisualSwiperBtn();*/}
+          <div className="swiperBox" style={enlarged?{width:'100%'}:{width:'800px'}} >{/* style={enlarged?{width:'1310px'}:{width:'800px'}}>  onClickVisualSwiperBtn();*/}
           <div className="activeGradient"></div>
             <ul className="swiperList" ref={visualSwiperRef}>
               {items

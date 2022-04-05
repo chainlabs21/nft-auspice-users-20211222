@@ -1094,23 +1094,23 @@ const McreateItemBox = styled.div`
           &.categoryBox{
             ul{
               display: flex;
-      flex-wrap: wrap;
-      margin: 0vw 0 0 0;
-      border-radius: 4vw;
-      background: #f6f6f6;
+              flex-wrap: wrap;
+              margin: 0vw 0 0 0;
+              border-radius: 4vw;
+              background: #f6f6f6;
               li{
                 flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        max-width: 25vw;
-        height: 8vw;
-        padding: 0 35px;
-        font-size: 4.33vw;
-        font-weight: 500;
-        white-space: nowrap;
-        border-radius: 4vw;
-        cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                max-width: 25vw;
+                height: 8vw;
+                padding: 0 35px;
+                font-size: 4.33vw;
+                font-weight: 500;
+                white-space: nowrap;
+                border-radius: 4vw;
+                cursor: pointer;
               }
             }
           }

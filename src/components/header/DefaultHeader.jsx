@@ -33,6 +33,9 @@ import {API} from "../../config/api"
 import i18n from "../../i18n";
 import {SET_SEARCH} from "../../reducers/filterReducer"
 import { useTranslation } from "react-i18next";
+import ConnectWalletPopup from "./ConnectWalletPopup";
+import MyWalletPopup from "./MyWalletPopup";
+import ConfirmationPopup from "../ConfirmationPopup"
 
 export default function DefaultHeader(props) {
   const { t }  = useTranslation(['locale'])
@@ -46,6 +49,8 @@ export default function DefaultHeader(props) {
   const [search, setSearch] = useState('')
   const [mMenuPopup, setMenuPopup] = useState(false);
   const [categoryGroup, setCategoryGroup]=useState([])
+  const [ toggleConnectWallet, setToggleConnectWallet] = useState(false);
+  const [toggleAlert, setToggleAlert] = useState(false);
 
   useEffect(()=>{
     setSearch(ssearch)
@@ -60,6 +65,13 @@ export default function DefaultHeader(props) {
 
   function onClickConnectWallet() {
     !isloggedin && navigate("/connectwallet");
+  }
+  
+  function checklogin(localtion){
+    if(!isloggedin)
+    setToggleAlert(true)
+    else
+    navigate("/support")
   }
 
   function handleSearch(e={key:'Enter'}){
@@ -108,28 +120,14 @@ export default function DefaultHeader(props) {
     );
   else
     return (
+      <>{toggleAlert&&<ConfirmationPopup off={setToggleAlert} content={t('header:PLEASE_LOGIN')}/>}
       <PdefaultHeaderBox>
         <section className="innerBox">
           <article className="leftBox">
             <button className="logoBtn" onClick={() => navigate("/")}>
-              <img src={logo} alt="" />
+              <img className="logo" src={logo} alt="" />
             </button>
 
-            <div className="searchBox">
-              <button className="searchBtn" onClick={() => {handleSearch()}}>
-                <img src={search_form} alt="" />
-              </button>
-
-              <input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyPress={e=>{handleSearch(e)}}
-                placeholder={t('header:SEARCH_HOLDER')}
-              />
-            </div>
-          </article>
-
-          <article className="rightBox">
             <nav>
               <li className="marketPlaceBox">
                 <span className="posBox">
@@ -202,7 +200,7 @@ export default function DefaultHeader(props) {
                   <ul className="popupBox notice">
                     <li onClick={() => navigate("/notice")}>Notice</li>
                     <li onClick={() => navigate("/faq")}>FAQ</li>
-                    <li onClick={() => navigate("/support")}>Support Ticket</li>
+                    <li onClick={() => checklogin('/support')}>Support Ticket</li>
                   </ul>
                 </span>
               </li>
@@ -228,38 +226,81 @@ export default function DefaultHeader(props) {
                   </ul>
                 </span>
               </li>
+              </nav>
 
+            {/* <div className="searchBox">
+              <button className="searchBtn" onClick={() => {handleSearch()}}>
+                <img src={search_form} alt="" />
+              </button>
+
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyPress={e=>{handleSearch(e)}}
+                placeholder={t('header:SEARCH_HOLDER')}
+              />
+            </div> */}
+          </article>
+
+          <article className="rightBox">
+          <div className="topRight">
+            <nav>
               <li>
                 <span className="posBox langBox">
-                  <span className="blank" />
+                <div className="langHolder">
+                <img src={menu_virtualworlds} alt="" style={{filter: "brightness(40%"}} />
                   <button className="lang">
-                    ENG
+                    Eng
                   </button>
-                  <img src={I_dnArw} alt="" />
+                  </div>
+                  <span className="blank"></span>
                   <ul className="popupBox notice">
                     <li onClick={() => i18n.changeLanguage('kr')}>KOR</li>
                     <li onClick={() => i18n.changeLanguage('en')}>ENG</li>
                   </ul>
                 </span>
               </li>
-            </nav>
-
-            <button
+              <li>
+              <span className="connectBox">
+              <button
               className="connectBtn"
               onClick={() => {
-                if(isloggedin && walletAddress){
-                  onClickCopy(walletAddress);
-                  SetErrorBar(messages.MSG_COPIED);
-                }else{
-                  onClickConnectWallet();
-                }
+                setToggleConnectWallet(!toggleConnectWallet)
+                
+                // if(isloggedin && walletAddress){
+                //   onClickCopy(walletAddress);
+                //   SetErrorBar(messages.MSG_COPIED);
+                // }else{
+                //   onClickConnectWallet();
+                // }
               }}
             >
               {(isloggedin && walletAddress) ? strDot(walletAddress, 8, 0) : "Connect Wallet"}
             </button>
+            {toggleConnectWallet && !isloggedin && <ConnectWalletPopup />}
+            {toggleConnectWallet && isloggedin && <MyWalletPopup  />}
+            </span>
+              </li>
+            </nav>
+
+
+            </div>
+            <div className="searchBox">
+              <button className="searchBtn" onClick={() => {handleSearch()}}>
+                <img src={search_form} alt="" />
+              </button>
+
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyPress={e=>{handleSearch(e)}}
+                placeholder={t('header:SEARCH_HOLDER')}
+              />
+            </div> 
           </article>
         </section>
       </PdefaultHeaderBox>
+      </>
     );
 }
 
@@ -312,7 +353,7 @@ const PdefaultHeaderBox = styled.header`
   display: flex;
   justify-content: center;
   width: 100%;
-  height: 120px;
+  height: 163px;
   background: #fff;
   top: 0;
   z-index: 20;
@@ -320,9 +361,10 @@ const PdefaultHeaderBox = styled.header`
   box-shadow: 0 3px 20px 0 rgb(0 0 0 / 10%);
 
   .innerBox {
+    margin-top: 23px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    //align-items: center;
     width: 100%;
     max-width: 1680px;
 
@@ -332,41 +374,18 @@ const PdefaultHeaderBox = styled.header`
 
     .leftBox {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 40px;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 29px;
       width: 100%;
       height: 56px;
       max-width: 530px;
-
-      .searchBox {
-        flex: 1;
+      .logoBtn{
         display: flex;
-        align-items: center;
-        gap: 10px;
-        max-width: 290px;
-        height: 56px;
-        padding: 0 18px;
-        border: solid 1px #bbb;
-        border-radius: 28px;
-
-        input {
-          flex: 1;
-          font-size: 14px;
-
-          &::placeholder {
-          }
-        }
+      .logo{
+        height:57px;
       }
-    }
-
-    .rightBox {
-      display: flex;
-      align-items: center;
-      max-width: 700px;
-      height: 56px;
-      gap: 26px;
-
+      }
       nav {
         display: flex;
         height: 100%;
@@ -375,11 +394,12 @@ const PdefaultHeaderBox = styled.header`
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 120px;
-
+          width: 150px;
+          height: 40px;
           &.marketPlaceBox {
             margin: 0 10px 0 0;
           }
+
 
           .posBox {
             display: flex;
@@ -419,7 +439,7 @@ const PdefaultHeaderBox = styled.header`
               background-color: #fff;
               border-radius: 8px;
               box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
-              top: 56px;
+              top: 40px;
               position: absolute;
               overflow: hidden;
 
@@ -455,14 +475,164 @@ const PdefaultHeaderBox = styled.header`
         }
       }
 
-      .connectBtn {
-        width: 182px;
-        height: 100%;
-        font-size: 20px;
-        font-weight: 500;
-        color: #fff;
-        background: #222;
+      
+    }
+
+    .rightBox {
+      
+      display: flex;
+      align-items: center;
+      max-width: 700px;
+      height: 56px;
+      gap: 20px;
+
+      flex-direction: column;
+      .topRight{
+        display: flex;
+        height: 57px;
+      nav {
+        display: flex;
+        height: 57px;
+
+        & > li {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 120px;
+
+          .connectBox{
+            display: flex;
+            justify-content: flex-end;
+            align-items: left;
+            position: relative;
+            height: 100%;
+            .connectBtn {
+              //justify-content: center;
+              //align-items: center;
+              //position: relative;
+              width: 182px;
+              height: 100%;
+              font-size: 20px;
+              font-weight: 500;
+              color: #fff;
+              background: #222;
+              border-radius: 28px;
+              //display: flex;
+            
+      }
+
+          }
+
+          .posBox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            height: 100%;
+
+            &.langBox {
+              width: 100%;
+              padding: 0 8px;
+              justify-content: space-between;
+              .langHolder{
+                display: flex;
+
+                .lang{
+                  margin-left: 7px;
+                font-size: 16px;
+                font-weight: normal;
+                color: #656565;
+
+              }
+              }
+              
+
+              img,
+              .blank {
+                width: 24px;
+              }
+            }
+
+            &:hover {
+              .popupBox {
+                right: 40px;
+                display: flex;
+              }
+            }
+
+            button {
+              display: flex;
+              align-items: center;
+              font-size: 20px;
+              font-weight: 500;
+            }
+
+            .popupBox {
+              display: none;
+              flex-direction: column;
+              width: 100px;
+              background-color: #fff;
+              border-radius: 8px;
+              box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+              top: 56px;
+              position: absolute;
+              overflow: hidden;
+
+              li {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                width: 100%;
+                height: 48px;
+                padding: 0 0 0 11px;
+                font-size: 16px;
+                font-weight: 500;
+                cursor: pointer;
+
+                .onImg {
+                  display: none;
+                }
+
+                &:hover {
+                  color: #fff;
+                  background: #222;
+
+                  .offImg {
+                    display: none;
+                  }
+                  .onImg {
+                    display: block;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
+
+      
+    }
+    .searchBox {
+      display: flex;
+      justify-content: flex-end;
+        flex: 1;
+        width: 293px;
+        align-items: center;
+        gap: 10px;
+        
+        padding: 0 18px;
+        border: solid 1px #bbb;
         border-radius: 28px;
+
+        input {
+          flex: 1;
+          font-size: 14px;
+          height: 38px;
+          width: 100%;
+          &::placeholder {
+          }
+        }
       }
     }
   }

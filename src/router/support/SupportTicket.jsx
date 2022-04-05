@@ -157,7 +157,8 @@ const Mannouncements = styled.div``;
 const Pannouncements = styled.div`
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 flex-direction: column;
-  padding-top: 150px;
+padding-top: 180px;
+margin-bottom: 50px;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -179,12 +179,13 @@ export default function Notice(props) {
 const Mannouncements = styled.div``;
 
 const Pannouncements = styled.div`
-  padding-top: 150px;
+  padding-top: 180px;
+  margin-bottom: 50px;
   display: flex;
   justify-content: center;
   //align-items: center;
-  width: 100vw;
-  height: 100vh;
+  //width: 100vw;
+  //height: 100vh;
   font-family: "Noto Sans KR", sans-serif;
   //background-color: rgba(0, 0, 0, 0.2);
   position: relative;

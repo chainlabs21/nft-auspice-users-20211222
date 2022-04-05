@@ -4,11 +4,13 @@ export const initialState = {
   userData: null
   , isloggedin: false
   , walletAddress: null
+  , walletType: null
 };
 
 export const SET_USER_DATA = "SET_USER_DATA"
 export const SET_LOGIN = "SET_LOGIN"
 export const SET_ADDRESS = "SET_ADDRESS"
+export const SET_WALLET_TYPE = "SET_WALLET_TYPE"
 
 const userReducer = (state = initialState, action)=>{
   switch (action.type){
@@ -24,6 +26,10 @@ const userReducer = (state = initialState, action)=>{
       return produce(state, (draft)=>{
         draft.walletAddress = action.payload.value;
       })
+      case SET_WALLET_TYPE:
+        return produce(state, (draft)=>{
+          draft.walletType = action.payload.value;
+        })
     default:
       return state;
   }

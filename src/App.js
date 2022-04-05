@@ -213,7 +213,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
       if (resp.data.status=="OK"){
         dispatch({ type: SET_LOGIN, payload: { value: true }});
         dispatch({type: SET_ADDRESS, payload:{value: account}})
-        dispatch({type: SET_USER_DATA, payload:{ value: resp.data.payload}})
+        dispatch({type: SET_USER_DATA, payload:{ value: resp.data.list}})
         //console.log(resp)
         //dispatch({ type: SET_USER_DATA, payload: { value: true }});
       }else if(resp.data.status=="ERR"){

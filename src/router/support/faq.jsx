@@ -250,7 +250,8 @@ export default function FAQ() {
 const Mannouncements = styled.div``;
 
 const Pannouncements = styled.div`
-  padding-top: 150px;
+  padding-top: 180px;
+  margin-bottom: 50px;
   display: flex;
   justify-content: center;
   //align-items: center;

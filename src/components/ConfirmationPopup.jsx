@@ -3,6 +3,7 @@ import icon_close from "../img/sub/icon_close.png";
 
 export default function ConfirmationPopup({ off, content }) {
   return (
+    <Bg>
     <ConfirmationPopupBox>
 
       <article className="contBox">
@@ -15,8 +16,18 @@ export default function ConfirmationPopup({ off, content }) {
         </button>
       </article>
     </ConfirmationPopupBox>
+    </Bg>
   );
 }
+const Bg = styled.div`
+width: 100vw;
+height: 100vh;
+z-index: 1001;
+background-color: rgba(0,0,0,0.2);
+position: fixed;
+top:0;
+left:0;
+`;
 
 const ConfirmationPopupBox = styled.div`
   width: 438px;

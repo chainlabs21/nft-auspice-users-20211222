@@ -1,16 +1,22 @@
-// import Web3 from "web3";
+ import Web3 from "web3";
 import Eth from "web3-eth";
+
 import { getuseraddress } from "../util/common";
 import Caver from "caver-js";
+
 import keccak256 from "keccak256";
 import axios from "axios";
 
+
 // const caver = new Caver("https://api.baobab.klaytn.net:8651" );
-const web3 = require ( '../config/configweb3' ) // new Web3(" https://cloudflare-eth.com");
+//const web3 = require ( '../config/configweb3' ) // new Web3(" https://cloudflare-eth.com");
 // const eth = new Eth(Eth.givenProvider || "ws://some.local-or-remote.node:8546");
+//const eth = new Eth(Eth.givenProvider)
+//const caver = new Caver(window.klaytn)
 
 export const signOrderData =  (orderData) => {
   const { klaytn } = window;
+  const caver = new Caver(klaytn)
   const useraddr = getuseraddress();
   const rawdata_to_sign = JSON.stringify(orderData);
 	const rawdatahash = keccak256(rawdata_to_sign).toString("hex");
@@ -37,10 +43,38 @@ export const signOrderData =  (orderData) => {
 };
 
 export const verifySig = (signatureObject, pubKey) => {
+	const { klaytn, ethereum } = window;
+	const web3 = new Web3(ethereum)
   const recoverStr = web3.eth.accounts.recover(signatureObject); //사인풀기
   if (recoverStr === pubKey) {
     return true;
   } else {
     return false;
   }
+};
+
+export const writeSig = async (maker, type, message)=>{
+	const { klaytn, ethereum } = window;
+  const caver = new Caver(klaytn)
+  const web3 = new Web3(ethereum)
+//   const encoded = web3.eth.abi.encodeParameters(['address', 'uint', 'string'], [maker, type, message])
+//   console.log(encoded)
+//   const priKey = "0xcaceedbd0912a415744beaea5cf3f2fbca535ca7ccbe0dc780ac005488657132"; //개인키 (maker만 가짐)
+// const pubKey = "0xaeC2f4Dd8b08EeF0C71B02F97978106D875464Ed"; //주소(공개키로 쓰임, maker와 taker 모두 가짐(전송교환했다고 가정))
+//   const signatureObject = web3.eth.accounts.sign(web3.utils.sha3(encoded), priKey)
+	console.log(maker)
+	console.log(type)
+	console.log(message)
+	const msgParams=JSON.stringify({
+		
+	})
+	web3.currentProvider.sendAsync({
+		method: "eth_signTypedData_v4",
+		params: [maker, message],
+		from: maker
+	})
+	//const signedMsg = await caver.klay.sign(message, maker)
+
+	//return signatureObject
+
 };
