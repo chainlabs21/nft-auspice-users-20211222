@@ -55,8 +55,7 @@ export const verifySig = (signatureObject, pubKey) => {
 
 export const writeSig = async (maker, type, message)=>{
 	const { klaytn, ethereum } = window;
-  const caver = new Caver(klaytn)
-  const web3 = new Web3(ethereum)
+  const web3 = new Web3(klaytn)
 //   const encoded = web3.eth.abi.encodeParameters(['address', 'uint', 'string'], [maker, type, message])
 //   console.log(encoded)
 //   const priKey = "0xcaceedbd0912a415744beaea5cf3f2fbca535ca7ccbe0dc780ac005488657132"; //개인키 (maker만 가짐)
@@ -68,13 +67,23 @@ export const writeSig = async (maker, type, message)=>{
 	const msgParams=JSON.stringify({
 		
 	})
-	web3.currentProvider.sendAsync({
-		method: "eth_signTypedData_v4",
-		params: [maker, message],
-		from: maker
-	})
+	//web3.eth.
+	
+
+	// web3.currentProvider.sendAsync({
+	// 	method: "eth_signTypedData_v4",
+	// 	params: [maker, message],
+	// 	from: maker
+	// })
 	//const signedMsg = await caver.klay.sign(message, maker)
 
 	//return signatureObject
+};
 
+export const klaywriteSig = async (maker, type, msg)=>{
+
+	const {klaytn} = window;
+	const caver = new Caver(klaytn);
+
+	caver.klay.sign(msg, maker);
 };
