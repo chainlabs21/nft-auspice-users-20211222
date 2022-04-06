@@ -51,6 +51,9 @@ export default function PopupNotice({off, content, index, id}) {
     axios.get(`${API.API_GET_ANNOUNCES}`).then((resp) => {});
   }, []);
 
+  function closeForaDay(){
+  }
+
   if (isMobile)
     return (
       <>
@@ -69,7 +72,7 @@ export default function PopupNotice({off, content, index, id}) {
             </div>
             <div className="content" dangerouslySetInnerHTML={{ __html: totalNotice }} />
             <div className="footer">
-            <p className="idontwantBtn"><img src={I_Chk}/>24시간 동안 보지 않기</p>
+            <p className="idontwantBtn" onClick={()=>{closeForaDay();}}><img src={I_Chk}/>24시간 동안 보지 않기</p>
             </div>
             
           </div>

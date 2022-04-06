@@ -76,6 +76,11 @@ function MyWalletPopUp({ Setmyinfo, Setaddress }) {
   const [amount, setAmount] =useState(0)
   const dispatch = useDispatch();
   const [toggleJoin, setToggleJoin] = useState(false);
+  const [wType, setWType] = useState(-1);
+
+  useState(()=>{
+    setWType(localStorage.getItem("walletType"))
+  }, [localStorage])
 
   //-onClick 충전하기
   function handleCharge(){
@@ -102,6 +107,7 @@ function MyWalletPopUp({ Setmyinfo, Setaddress }) {
           localStorage.removeItem("token");
           localStorage.removeItem("address");
           localStorage.removeItem("provider");
+          localStorage.removeItem("walletType");
           dispatch({
             type: SET_LOGIN,
             payload:{
@@ -147,6 +153,7 @@ function MyWalletPopUp({ Setmyinfo, Setaddress }) {
             console.log("tokeeen"+respdata)
             axios.defaults.headers.common["token"] = resp.data.respdata;
             localStorage.setItem("address", address);
+            localStorage.setItem("walletType", type);
             dispatch({
               type: SET_ADDRESS,
               payload:{
@@ -179,9 +186,12 @@ function MyWalletPopUp({ Setmyinfo, Setaddress }) {
   const getUserInfo = async () => {
     try {
       const resp = await axios.get(API.API_GET_MY_INFO);
+      console.log(resp)
       dispatch({
         type: SET_USER_DATA,
-        payload: resp.data.payload.myinfo_maria,
+        payload: {
+          value: resp.data.payload.myinfo_maria
+        }
       });
       if (resp.data.payload.maria.emailverified === 0) {
         navigate("/emailrequired");
@@ -266,7 +276,7 @@ useEffect(()=>{
               {walletList.map((v, i)=>{
                 console.log(v)
                 return(
-                  <li className={"listitem " + (v.id == walletType &&'listitem-selected')}>
+                  <li key={i} className={"listitem " + (v.id == wType &&'listitem-selected')}>
                   <button onClick={()=>{connectWallet(v.id)}}>
                     <img src={v.icon} alt="" />
                     <p>{v.name}</p>

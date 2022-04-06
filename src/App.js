@@ -80,6 +80,8 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const {walletAddress} = useSelector((state)=> state.user);
   const [popups, setPopups] = useState([])
   const [closePopups, setClosePopups]=useState([])
+
+  const [popUpindex, setPopupIndex] = useState(0)
   const dispatch = useDispatch();
   //const navigate =useNavigate();
   const login = (address) => {
@@ -222,13 +224,13 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
     })
 
   }
-  useEffect(async ()=>{
+  useEffect(()=>{
     axios.get(`${API.API_GET_NOTICE_CONTENT}/all`)
     .then((resp)=>{
       console.log(resp)
       let {list} = resp.data;
       if(list){
-        setPopups([list])
+        setPopups(list)
       }
     })
 
@@ -246,6 +248,10 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
       }
     })
   }, [])
+
+  useEffect(()=>{
+    console.log(closePopups)
+  },[closePopups])
 
 
   return (
@@ -276,9 +282,10 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         {
         
         popups.map((v, i)=>{
-          if(i in closePopups){return;}
+          if(closePopups.includes(v.id)){console.log(v.id); return;}
+          else
           return(
-          <PopupNotice key={i} content={v.contentbody} index={i} id={v.id} off={e=>setClosePopups([...closePopups, e])}/>
+          <PopupNotice key={i} content={v.contentbody} index={v.id} off={e=>setClosePopups([...closePopups, e])} style={{zIndex: i+10}}/>
           )
         })}
         

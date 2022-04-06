@@ -41,10 +41,17 @@ function ConnectWalletPopup({ Setmyinfo, Setaddress }) {
             console.log("tokeeen"+respdata)
             axios.defaults.headers.common["token"] = resp.data.respdata;
             localStorage.setItem("address", address);
+            localStorage.setItem("walletType", TYPE);
             dispatch({
               type: SET_ADDRESS,
               payload:{
                 value: address
+              }
+            });
+            dispatch({
+              type: SET_USER_DATA,
+              payload:{ 
+              value: resp.data.payload.myinfo_maria,
               }
             });
             dispatch({
@@ -59,7 +66,7 @@ function ConnectWalletPopup({ Setmyinfo, Setaddress }) {
                 value: true
               }
             });
-            getUserInfo()
+            //getUserInfo()
             navigate("/")
             SetErrorBar(messages.MSG_ADDRESS_CHANGED + `: ${address}`);
           } else if (status === "ERR") {
@@ -73,9 +80,10 @@ function ConnectWalletPopup({ Setmyinfo, Setaddress }) {
   const getUserInfo = async () => {
     try {
       const resp = await axios.get(API.API_GET_MY_INFO);
+      console.log(resp.data.payload.maria)
       dispatch({
         type: SET_USER_DATA,
-        payload: resp.data.payload,
+        payload: resp.data.payload.maria,
       });
       if (resp.data.payload.maria.emailverified === 0) {
         navigate("/emailrequired");
@@ -107,7 +115,7 @@ function ConnectWalletPopup({ Setmyinfo, Setaddress }) {
     dispatch({ type: SET_ADDRESS, payload: {value: account[0] }}); 
 
     axios.get(`${API.API_USER_INFO}/${account[0]}`).then(async(resp)=>{
-      console.log("DATA:: "+resp)
+      console.log("DATA:: "+resp.data.payload)
       await dispatch({
         type: SET_USER_DATA,
         payload: {value: resp.data.payload},
@@ -156,7 +164,7 @@ useEffect(()=>{
 
             <ul className="walletList">
               <li className="listitem">
-                <button onClick={()=>{connectWallet(2)}}>
+                <button onClick={()=>{connectWallet(0)}}>
                   <img src={I_klaytn} alt="" />
                   <p>Kaikas</p>
                 </button>

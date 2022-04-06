@@ -50,7 +50,7 @@ export default function BitemBox({ category }) {
   return (
     <PBitemBox>
       <article className="vvisual">
-        <div className="titleContainerr" style={enlarged?{display:'none'}:{}}>
+        <div className="titleContainerr">
           <div className="titleInnerBox">
             <div className="titleBox">
               <img className="titleImg" src={title} />
@@ -83,11 +83,11 @@ export default function BitemBox({ category }) {
           </div>
         </div>
 
-        <div className="sswiperContainer" style={enlarged?{width:'1312px', justifyContent: 'flex-end'}:{}}>
+        <div className="sswiperContainer" >
         {/* <div className="gradientBox">
           <div className="activeGradient"></div>
         </div> */}
-          <div className="swiperBox" style={enlarged?{width:'100%'}:{width:'800px'}} >{/* style={enlarged?{width:'1310px'}:{width:'800px'}}>  onClickVisualSwiperBtn();*/}
+          <div className="swiperBox" style={enlarged?{width:'1500px', right: '200px'}:{width:'800px', right: '0'}} >{/* style={enlarged?{width:'1310px'}:{width:'800px'}}>  onClickVisualSwiperBtn();*/}
           <div className="activeGradient"></div>
             <ul className="swiperList" ref={visualSwiperRef}>
               {items
@@ -99,7 +99,7 @@ export default function BitemBox({ category }) {
             </ul>
           </div>
 
-          <button className="nextBtn" onClick={()=>{setEnlarged(!enlarged);console.log(enlarged)}}>
+          <button className="nextBtn" onClick={()=>{setEnlarged(!enlarged);console.log(enlarged)}} style={enlarged?{left: '-200px'}:{}}>
             <img src={I_ltArw3BlackBtn} alt="" />
           </button>
         </div>
@@ -109,19 +109,22 @@ export default function BitemBox({ category }) {
 }
 const PBitemBox = styled.div`
 .vvisual {
-      display: flex;
+      //display: flex;
+      max-width: 1310px;
+      margin: 0 auto;
       align-items: flex-start;
       height: 606px;
       justify-content: space-between;
+      position: relative;
       
 
       .titleContainerr {
         overflow: hidden;
         transition: max-width 1s ease;
-        position: relative;
+        position: absolute;
         
-        flex:1;
-        display: flex;
+        //flex:1;
+        //display: flex;
         justify-content: flex-end;
         //width: 50%;
         height: inherit;
@@ -182,16 +185,18 @@ const PBitemBox = styled.div`
 
 
       .sswiperContainer {
-        transition: left .7s ease;
+        //transition: .7s ease;
+        //margin-left: 624px;
         
-        left: 0px;
+        //width: 100%
+        right: -100px;
         background-color: #fff;
         z-index:2;
-        flex:1;
-        display: flex;
+        //flex:1;
+        //display: flex;
         align-items: center;
         justify-content: start;
-        position: relative;
+        position: absolute;
         max-width: 100%;
         padding: 42px 0 42px 0;
 
@@ -217,7 +222,7 @@ const PBitemBox = styled.div`
         
 
         .swiperBox {
-          transition: width 1s ease;
+          transition: 0.4s ease;
           //justify-content: center;
           width: 800px;
           //max-width: 1310px;
@@ -226,9 +231,9 @@ const PBitemBox = styled.div`
           height: 600px;
           padding-left: 20px;
           padding-top: 20px;
-          display: flex;
+          //display: flex;
           position: relative;
-
+          
           .activeGradient{
             z-index: 9;
             height: 600px;
@@ -424,6 +429,7 @@ const PBitemBox = styled.div`
         .nextBtn {
           position: absolute;
           left: -14px;
+          top: 50%;
           z-index: 3;
 
           img {
