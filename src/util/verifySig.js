@@ -55,8 +55,7 @@ export const verifySig = (signatureObject, pubKey) => {
 
 export const writeSig = async (maker, message)=>{
 	const { klaytn, ethereum } = window;
-  const caver = new Caver(klaytn)
-  const web3 = new Web3(ethereum)
+  const web3 = new Web3(klaytn)
 //   const encoded = web3.eth.abi.encodeParameters(['address', 'uint', 'string'], [maker, type, message])
 //   console.log(encoded)
 //   const priKey = "0xcaceedbd0912a415744beaea5cf3f2fbca535ca7ccbe0dc780ac005488657132"; //개인키 (maker만 가짐)
@@ -66,12 +65,20 @@ export const writeSig = async (maker, message)=>{
 	console.log(message)
 	// const msgParams=JSON.stringify({
 		
+<<<<<<< HEAD
 	// })
+=======
+	})
+	//web3.eth.
+	
+
+>>>>>>> 71b890109321f7ec39a37ed29ddc4903c033d997
 	// web3.currentProvider.sendAsync({
 	// 	method: "eth_signTypedData_v4",
 	// 	params: [maker, message],
 	// 	from: maker
 	// })
+<<<<<<< HEAD
 	const msg=`\n\n 서명을 하시어 Artube 이용약관에 동의해주세요. \n\n 이 과정은 블록체인 트랜잭션을 일으키거나, 가스비가 소모되지 않습니다. \n\n 계정 인증은 24시간 후, 말소됩니다. \n\n 지갑 주소: \n${maker}\n\nNonce:\n${message}`;
 	const msgg = `Welcome ${maker} \n\n ${message}`
 
@@ -83,6 +90,19 @@ export const writeSig = async (maker, message)=>{
 
 	//return signatureObject
 	//new Caver().klay.sign(_hashed.toString(), maker).then(console.log)
+=======
+	//const signedMsg = await caver.klay.sign(message, maker)
+
+	//return signatureObject
+};
+
+export const klaywriteSig = async (maker, type, msg)=>{
+
+	const {klaytn} = window;
+	const caver = new Caver(klaytn);
+
+	caver.klay.sign(msg, maker);
+>>>>>>> 71b890109321f7ec39a37ed29ddc4903c033d997
 };
 
 
