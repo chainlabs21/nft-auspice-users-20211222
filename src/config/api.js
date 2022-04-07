@@ -15,6 +15,7 @@ export const API = {
   API_USER_PROF_UPLOAD:`${apiServer}/users/upload/file`,
   API_MYINFO: `${apiServer}/users/user/myinfo`,
   API_VERIFY_EMAIL_SEND: `${apiServer}/users/email/verifycode`,
+  API_GET_NONCE: `${apiServer}/users/login/secure/crypto`,
   API_LOGOUT: `${apiServer}/users/logout`,
   API_ITEM_UPLOAD_BASE64: `${apiServer}/mint/store/base64`,
   API_ITEM_UPLOAD_OVER: `${apiServer}/mint/store/file`,

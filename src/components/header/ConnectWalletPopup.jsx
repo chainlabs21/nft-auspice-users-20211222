@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { setaddress, setConnect, setmyinfo } from "../../util/store";
 import styled, { ThemeConsumer } from "styled-components";
+import { writeSig } from "../../util/verifySig";
 
 import I_klaytn from "../../img/sub/I_klaytn.svg";
 import I_metamask from "../../img/sub/I_metamask.svg";
@@ -18,6 +19,8 @@ import { STRINGER, LOGGER } from "../../util/common";
 import JoinMemberShip from "../../router/join/JoinMemberShip";
 
 import { useTranslation} from "react-i18next"
+
+import Caver from "caver-js";
 
 // function ConnectWallet( Setmyinfo ) {
 function ConnectWalletPopup({ Setmyinfo, Setaddress }) {
@@ -136,7 +139,15 @@ function ConnectWalletPopup({ Setmyinfo, Setaddress }) {
         return
       }
       else{
-        login(account[0], TYPE)
+        axios.get(`${API.API_GET_NONCE}/${account[0]}`).then((nonce)=>{
+          console.log(nonce)
+          writeSig(account[0], nonce.data.code)
+          //const caver = new Caver(klaytn);
+          //caver.klay.sign()
+
+
+        })
+        //login(account[0], TYPE)
         console.log('hello')
       }
     })
