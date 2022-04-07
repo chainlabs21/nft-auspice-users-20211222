@@ -24,6 +24,7 @@ export const API = {
   API_ITEM_SAVE_META: `${apiServer}/mint/metadata`,
   API_REPORT_TX_MINT: `${apiServer}/mint/report/mint`,
   API_LAZY_MINT: `${apiServer}/mint/mint/lazy`,
+  API_NOTIFICATIONS: `${apiServer}/users/notifications`,
 //	API_GET_ITEM_CATEGORIES: `${apiServer}/queries/categories`,
   API_GET_I_LIKE:`${apiServer}/queries/ilike`,// /:itemid CHECK IF I LIKED THIS ITEM
 	API_GET_ITEM_CATEGORIES: `${apiServer}/queries/rows/categories/group_/items/0/100/displayOrder/ASC`,
