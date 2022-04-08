@@ -30,6 +30,8 @@ import DetailHeader from "../../components/header/DetailHeader";
 import AccountLeftBar from "../../components/accountSetting/AccountLeftBar";
 import DefaultHeader from "../../components/header/DefaultHeader";
 import { D_toggleList } from "../../data/D_account";
+import axios from "axios";
+//import { API } from "../../config/api";
 
 export default function NotificationSettings({ store, setConnect }) {
   const navigate = useNavigate();
@@ -42,15 +44,81 @@ export default function NotificationSettings({ store, setConnect }) {
   const [nickname, setNickname] = useState("");
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
-  const [toggleList, setToggleList] = useState(D_toggleList);
-  const [tokenPrice, setTokenPrice] = useState("");
-  const [exchangePrice, setExchangePrice] = useState("");
+  const [ toggle, setToggle] = useState({})
+  const [toggleSales, setToggleSales] = useState(false)
+  const [toggleExceed, setToggleExceed] = useState(false)
+  const [toggleExpire, setToggleExpire] = useState(false)
+  const [toggleNewbid, setToggleNewbid] = useState(false)
+  const [toggleReferral, setToggleReferral] = useState(false)
+  const [toggleList, setToggleList] = useState([
+    {
+      title: "Sales of products",
+      explain:
+        "Notification when someone purchases an item that is registered for sale",
+      toggle: false,
+    },
+    {
+      title: "Bidding",
+      explain: "Notify when someone has participated in a bid for an item",
+      toggle: false,
+    },
+    // {
+    //   title: "Accept the offer",
+    //   explain: "If the item owner who offered the price accepts the offer",
+    //   toggle: false,
+    // },
+    {
+      title: "Auction Period Expired",
+      explain: "Notification when the period of an auction set has expired",
+      toggle: false,
+    },
+    {
+      title: "Bid exceeded",
+      explain: "When there is a higher bid for an item you bid on",
+      toggle: false,
+    },
+    {
+      title: "Referral Sales",
+      explain: "When someone you refer purchases an item",
+      toggle: false,
+    },
+  ]);
+
+  const [tokenPrice, setTokenPrice] = useState(0);
+  const [exchangePrice, setExchangePrice] = useState(0);
+
+  useEffect(()=>{
+    axios.get(`${API.API_NOTIFICATIONS}`).then((res)=>{
+      let {resp} = res.data;
+      setToggleExceed(resp.exceed);
+      setToggleExpire(resp.expire);
+      setToggleNewbid(resp.newbid);
+      setToggleSales(resp.sales);
+      setToggleReferral(resp.referral);
+    })
+
+  },[])
 
   function onClickToggleBtn(index) {
     let dataList = toggleList;
 
     dataList[index].toggle = !dataList[index].toggle;
     setToggleList([...dataList]);
+
+  }
+
+  function onSave(){
+    axios.put(API.API_NOTIFICATIONS,{
+      sales:toggleSales,
+      newbid:toggleNewbid,
+      expire: toggleExpire,
+      exceed: toggleExceed,
+      referral:toggleReferral,
+      klay: tokenPrice,
+      usd: exchangePrice
+    }).then((resp)=>{
+      alert('DONE')
+    })
   }
 
   if (isMobile)
@@ -109,6 +177,7 @@ export default function NotificationSettings({ store, setConnect }) {
                       </div>
 
                       <input
+                        type="number"
                         className="value"
                         value={tokenPrice}
                         onChange={(e) => setTokenPrice(e.target.value)}
@@ -123,6 +192,7 @@ export default function NotificationSettings({ store, setConnect }) {
                       </div>
 
                       <input
+                        type="number"
                         className="value"
                         value={exchangePrice}
                         onChange={(e) => setExchangePrice(e.target.value)}
@@ -159,23 +229,84 @@ export default function NotificationSettings({ store, setConnect }) {
 
             <article className="contArea">
               <ul className="setList">
-                {toggleList.map((cont, index) => (
+
                   <li className="toggleBox">
                     <div className="leftBox">
-                      <strong className="optTitle">{cont.title}</strong>
-                      <p className="explain">{cont.explain}</p>
+                      <strong className="optTitle">Sales of products</strong>
+                      <p className="explain">Notification when someone purchases an item that is registered for sale</p>
                     </div>
 
                     <button
                       className={
-                        toggleList[index].toggle ? "toggleBtn on" : "toggleBtn"
+                        toggleSales ? "toggleBtn on" : "toggleBtn"
                       }
-                      onClick={() => onClickToggleBtn(index)}
+                      onClick={() => setToggleSales(!toggleSales)}
                     >
                       <span />
                     </button>
                   </li>
-                ))}
+
+                  <li className="toggleBox">
+                    <div className="leftBox">
+                      <strong className="optTitle">Bidding</strong>
+                      <p className="explain">Notify when someone has participated in a bid for an item</p>
+                    </div>
+
+                    <button
+                      className={
+                        toggleNewbid ? "toggleBtn on" : "toggleBtn"
+                      }
+                      onClick={() => setToggleNewbid(!toggleNewbid)}
+                    >
+                      <span />
+                    </button>
+                  </li>
+                  <li className="toggleBox">
+                    <div className="leftBox">
+                      <strong className="optTitle">Auction Period Expired</strong>
+                      <p className="explain">Notification when the period of an auction set has expired</p>
+                    </div>
+
+                    <button
+                      className={
+                        toggleExpire ? "toggleBtn on" : "toggleBtn"
+                      }
+                      onClick={() => setToggleExpire(!toggleExpire)}
+                    >
+                      <span />
+                    </button>
+                  </li>
+                  <li className="toggleBox">
+                    <div className="leftBox">
+                      <strong className="optTitle">Bid exceeded</strong>
+                      <p className="explain">When there is a higher bid for an item you bid on</p>
+                    </div>
+
+                    <button
+                      className={
+                        toggleExceed ? "toggleBtn on" : "toggleBtn"
+                      }
+                      onClick={() => setToggleExceed(!toggleExceed)}
+                    >
+                      <span />
+                    </button>
+                  </li>
+                  <li className="toggleBox">
+                    <div className="leftBox">
+                      <strong className="optTitle">Referral Sales</strong>
+                      <p className="explain">When someone you refer purchases an item</p>
+                    </div>
+
+                    <button
+                      className={
+                        toggleReferral ? "toggleBtn on" : "toggleBtn"
+                      }
+                      onClick={() => setToggleReferral(!toggleReferral)}
+                    >
+                      <span />
+                    </button>
+                  </li>
+                
 
                 <li className="priceContainer">
                   <div className="leftBox">
@@ -218,7 +349,7 @@ export default function NotificationSettings({ store, setConnect }) {
                 </li>
               </ul>
 
-              <button className="saveBtn" onClick={() => {}}>
+              <button className="saveBtn" onClick={() => {onSave()}}>
                 Save
               </button>
             </article>
@@ -372,7 +503,7 @@ const MnotificationSettings = styled.div`
 `;
 
 const PnotificationSettings = styled.div`
-  padding: 120px 0 0 350px;
+  padding: 170px 0 0 350px;
 
   .innerBox {
     display: flex;

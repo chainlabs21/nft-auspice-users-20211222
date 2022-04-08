@@ -183,7 +183,7 @@ const PaccountLeftBar = styled.nav`
   width: 350px;
   background: #fff;
   border-right: 1px solid #d9d9d9;
-  top: 120px;
+  top: 163px;
   bottom: 0;
   left: 0;
   position: fixed;

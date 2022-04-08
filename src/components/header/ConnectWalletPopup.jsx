@@ -147,7 +147,7 @@ function ConnectWalletPopup({ Setmyinfo, Setaddress }) {
 
 
         })
-        //login(account[0], TYPE)
+        login(account[0], TYPE)
         console.log('hello')
       }
     })

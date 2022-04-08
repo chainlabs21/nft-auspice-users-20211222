@@ -293,7 +293,7 @@ const MgeneralSettingsBox = styled.div`
 `;
 
 const PgeneralSettingsBox = styled.div`
-  padding: 120px 0 0 350px;
+  padding: 170px 0 0 350px;
 
   .innerBox {
     display: flex;

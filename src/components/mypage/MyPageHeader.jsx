@@ -70,12 +70,13 @@ export default function MyPageHeader({ address, targetData }) {
   }, [targettData]);
 
  function handleSetting(){
-    console.log('henlo')
-    window.ethereum.enable().then(async (accounts)=>{
-      console.log(accounts[0])
-      const result = await writeSig(accounts[0], '1', 'hello')
-      console.log(result)
-    })
+   navigate('/generalsettings')
+    // console.log('henlo')
+    // window.ethereum.enable().then(async (accounts)=>{
+    //   console.log(accounts[0])
+    //   const result = await writeSig(accounts[0], '1', 'hello')
+    //   console.log(result)
+    // })
   }
 
   // useEffect(()=>{
