@@ -77,4 +77,13 @@ export function getStyle(ref, getStyle) {
   return Number(styleGap.replace("px", ""));
 }
 
+export function sigToRSV(signature){
+  const sig = signature;
+
+const r = '0x' + sig.substring(2).substring(0, 64);
+const s = '0x' + sig.substring(2).substring(64, 128);
+const v = '0x' + sig.substring(2).substring(128, 130);
+return([v, r, s])
+}
+
 export { putCommaAtPrice, strDot, displayTime, splitTime, isUserMobile };

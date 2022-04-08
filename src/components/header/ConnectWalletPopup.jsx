@@ -114,7 +114,7 @@ function ConnectWalletPopup({ Setmyinfo, Setaddress }) {
   // const accounts = await select(TYPE)
   //const accounts = await ethereum.request({method: 'eth_requestAccounts'})
   if (!klaytn){alert('install klaytn please'); return;}
-  window.klaytn.enable().then((account)=>{
+  window.klaytn.enable().then(async (account)=>{
     dispatch({ type: SET_ADDRESS, payload: {value: account[0] }}); 
 
     axios.get(`${API.API_USER_INFO}/${account[0]}`).then(async(resp)=>{
@@ -139,15 +139,18 @@ function ConnectWalletPopup({ Setmyinfo, Setaddress }) {
         return
       }
       else{
-        axios.get(`${API.API_GET_NONCE}/${account[0]}`).then((nonce)=>{
+        axios.get(`${API.API_GET_NONCE}/${account[0]}`).then(async (nonce)=>{
           console.log(nonce)
-          writeSig(account[0], nonce.data.code)
+          let result = await writeSig(account[0], nonce.data.code)
+          if(result == true){
+            login(account[0], TYPE)
+          }
           //const caver = new Caver(klaytn);
           //caver.klay.sign()
 
 
         })
-        login(account[0], TYPE)
+        //login(account[0], TYPE)
         console.log('hello')
       }
     })
