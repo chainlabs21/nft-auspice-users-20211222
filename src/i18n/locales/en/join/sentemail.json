@@ -1,5 +1,9 @@
 {
-    "TITLE"     : "A verification email has been sent",
-    "EXPLAIN"   : "If you do not receive an email, please check your spam mailbox.",
-    "OK"        : "OK"
+  "TITLE": "A verification email has been sent.",
+  "PLEASECHK": "Please check the verification email in your mailbox",
+  "EXPLAIN": "If you do not receive an email, please check your spam mailbox.",
+  "OK": "OK",
+  "NOTICE1": "The verification email is only valid for 24 hours from the time it was sent, and the existing verification code expires when re-sent. Be sure to check the last received email.",
+  "NOTICE2": "If you do not receive the email, please check your spam folder.",
+  "RESEND": "Resend Email"
 }

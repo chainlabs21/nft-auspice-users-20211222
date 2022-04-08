@@ -305,7 +305,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           );
         })}
 
-        {popups.length && <PopupBg bg />}
+        {popups.length ? <PopupBg bg /> : <></>}
 
         <GlobalStyle />
 

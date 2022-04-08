@@ -1,0 +1,23 @@
+{
+  "TITLE": "Sign up",
+  "USERNAME": "User name",
+  "USERNAME_PLACEHOLDER": "Less than 5-20 characters, only Korean, English uppercase and lowercase letters, and special characters (- , _) are allowed.",
+  "USERNAME_CANBE": "Usernames that can be used",
+  "IMG_UPLOAD": "Image upload",
+  "PROF_IMG": "프로필 사진",
+  "PROF_BANNER": "프로필 배너",
+  "IMG_EXP1": "* 파일 용량 2MB 이하 / jpg,png,gif 확장자만 업로드 가능합니다.",
+  "IMG_EXP2": "* 지금 설정 안 해도 회원 가입 이후에 설정에서 변경할 수 있습니다.",
+  "WALLET_ADD": "Wallet adress",
+  "EMAIL": "EMAIL",
+  "EMAIL_PLACEHOLDER": "Please enter your email address",
+  "EMAIL_EXPLORE": "*이메일 인증을 완료해야 가입이 됩니다. 유효한 이메일을 입력해주세요.",
+  "REQUIRE": "(required)",
+  "CHKLIST1": "19 years of age or older",
+  "CHKLIST2": "Subscribe",
+  "CHKLIST2_U": "Terms of Service",
+  "CHKLIST3_U": "Personal Information Collection and Usage",
+  "CHKLIST3": "Subscribe",
+  "CANCEL": "cancel",
+  "SIGNUP": "Sign Up"
+}

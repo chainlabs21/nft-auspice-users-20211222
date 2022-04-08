@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { setConnect } from "../../util/store";
-import {useState}from'react';
+import { useState } from "react";
 import styled from "styled-components";
 
 import I_x from "../../img/icons/I_x.svg";
@@ -16,45 +16,47 @@ import { useEffect } from "react";
 import SetErrorBar from "../../util/SetErrorBar";
 import { useTranslation } from "react-i18next";
 
-export default function SentEmailDetail({email}) {
+export default function SentEmailDetail({ email }) {
   const navigate = useNavigate();
-  const { t }  = useTranslation(['locale'])
+  const { t } = useTranslation(["locale"]);
 
-  const { userData, walletAddress, isloggedin} = useSelector((state) => state.user);
+  const { userData, walletAddress, isloggedin } = useSelector(
+    (state) => state.user
+  );
   const isMobile = useSelector((state) => state.common.isMobile);
   const [emailAddress, setEmailAddress] = useState();
 
-
-  function getEmailAddr(walletaddr){
-    axios.get('http://itemverse1.net:32287/users/mailaddr/'+walletaddr).then((resp)=>{
-      //let{email} = 
-      //console.log(email)
-      setEmailAddress(resp.data.resp?.email)
-    })
+  function getEmailAddr(walletaddr) {
+    axios
+      .get("http://itemverse1.net:32287/users/mailaddr/" + walletaddr)
+      .then((resp) => {
+        //let{email} =
+        //console.log(email)
+        setEmailAddress(resp.data.resp?.email);
+      });
   }
 
-  useEffect(async ()=>{
-    console.log(email)
-    if(email==''||!email){
-      let tmpAddress = await getEmailAddr(walletAddress)
-      setEmailAddress(tmpAddress)
-    }else{
-      setEmailAddress(email)
+  useEffect(async () => {
+    console.log(email);
+    if (email == "" || !email) {
+      let tmpAddress = await getEmailAddr(walletAddress);
+      setEmailAddress(tmpAddress);
+    } else {
+      setEmailAddress(email);
     }
-  },[email])
-  
+  }, [email]);
+
   function onClickResend() {
     window.location.reload();
   }
 
-  useEffect(async()=>{
-    if(emailAddress){
-    handleSendEmail()
-    }else{
-      SetErrorBar('WRONG ACCESS')
+  useEffect(async () => {
+    if (emailAddress) {
+      handleSendEmail();
+    } else {
+      SetErrorBar("WRONG ACCESS");
     }
-
-  },[emailAddress])
+  }, [emailAddress]);
 
   const handleSendEmail = () => {
     const useraddress = getuseraddress();
@@ -63,7 +65,7 @@ export default function SentEmailDetail({email}) {
         alert(ERR_MSG.ERR_NO_ADDRESS);
         return;
       }
-      
+
       try {
         const resp = await axios.get(
           API.API_VERIFY_EMAIL_SEND + `/${emailAddress}`
@@ -74,8 +76,12 @@ export default function SentEmailDetail({email}) {
       }
     };
     // navigate("/resent")
-    if(isloggedin){SetErrorBar('ALREADY LOGGED IN');return;}else{asyncSendEmail();}
-    
+    if (isloggedin) {
+      SetErrorBar("ALREADY LOGGED IN");
+      return;
+    } else {
+      asyncSendEmail();
+    }
   };
 
   if (isMobile)
@@ -90,16 +96,15 @@ export default function SentEmailDetail({email}) {
 
           <article className="contBox">
             <div className="titleBox">
-              <strong className="title">
-                {t('sentemaildetail:TITLE')}
-              </strong>
-              <p className="explain">
-                Please check the verification email in your mailbox
-                ({emailAddress}).
-                <br />
-                If you select the verification button in the email, membership
-                registration is complete.
-              </p>
+              <strong className="title">{t("sentemail:TITLE")}</strong>
+
+              <div className="explainBox">
+                <p className="explain">{t("sentemail:PLEASECHK")}</p>
+
+                <strong>({emailAddress})</strong>
+
+                <p className="explain">{t("sentemail:EXPLAIN")}</p>
+              </div>
             </div>
 
             <div className="noticeContainer">
@@ -108,19 +113,12 @@ export default function SentEmailDetail({email}) {
               <ul className="noticeList">
                 <li>
                   <img src={I_noticeChk} alt="" />
-                  <p>
-                    The verification email is only valid for 24 hours from the
-                    time it was sent, and the existing verification code expires
-                    when re-sent. Be sure to check the last received email.
-                  </p>
+                  <p>{t("sentemail:NOTICE1")}</p>
                 </li>
 
                 <li>
                   <img src={I_noticeChk} alt="" />
-                  <p>
-                    If you do not receive the email, please check your spam
-                    folder.
-                  </p>
+                  <p>{t("sentemail:NOTICE2")}</p>
                 </li>
               </ul>
             </div>
@@ -128,7 +126,7 @@ export default function SentEmailDetail({email}) {
 
           <div className="btnBox">
             <button className="cancelBtn" onClick={handleSendEmail}>
-              OK
+              {t("sentemail:RESEND")}
             </button>
           </div>
         </section>
@@ -146,15 +144,11 @@ export default function SentEmailDetail({email}) {
 
           <article className="contBox">
             <div className="titleBox">
-              <strong className="title">
-                A verification email has been sent.
-              </strong>
+              <strong className="title">{t("sentemail:TITLE")}</strong>
               <p className="explain">
-                Please check the verification email in your mailbox
-                ({emailAddress}).
+                {t("sentemail:PLEASECHK")} ({emailAddress}).
                 <br />
-                If you select the verification button in the email, membership
-                registration is complete.
+                {t("sentemail:EXPLAIN")}
               </p>
             </div>
 
@@ -164,27 +158,25 @@ export default function SentEmailDetail({email}) {
               <ul className="noticeList">
                 <li>
                   <img src={I_noticeChk} alt="" />
-                  <p>
-                    The verification email is only valid for 24 hours from the
-                    time it was sent, and the existing verification code expires
-                    when re-sent. Be sure to check the last received email.
-                  </p>
+                  <p>{t("sentemail:NOTICE1")}</p>
                 </li>
 
                 <li>
                   <img src={I_noticeChk} alt="" />
-                  <p>
-                    If you do not receive the email, please check your spam
-                    folder.
-                  </p>
+                  <p>{t("sentemail:NOTICE2")}</p>
                 </li>
               </ul>
             </div>
           </article>
 
           <div className="btnBox">
-            <button className="cancelBtn" onClick={()=>{navigate('/')}}>
-              OK
+            <button
+              className="cancelBtn"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              {t("sentemail:RESEND")}
             </button>
           </div>
         </section>
@@ -215,6 +207,7 @@ const MsentEmailDetailBox = styled.div`
     .topBar {
       display: flex;
       justify-content: flex-end;
+
       .exitBtn {
         width: 5.55vw;
       }
@@ -224,7 +217,7 @@ const MsentEmailDetailBox = styled.div`
       display: flex;
       flex-direction: column;
       gap: 10vw;
-      margin: 5vw 0 0 0;
+      margin: 3.33vw 0 0 0;
 
       .titleBox {
         display: flex;
@@ -235,9 +228,16 @@ const MsentEmailDetailBox = styled.div`
           font-size: 4.44vw;
         }
 
-        .explain {
+        .explainBox {
+          display: flex;
+          flex-direction: column;
+          gap: 3.33vw;
           font-size: 3.33vw;
           font-weight: 500;
+
+          strong {
+            font-size: 3.88vw;
+          }
         }
       }
 
@@ -245,8 +245,8 @@ const MsentEmailDetailBox = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 7.77vw;
-        padding: 9.44vw 4.44vw 11.11vw 4.44vw;
+        gap: 6.66vw;
+        padding: 6.11vw 4.16vw 11.11vw 4.16vw;
         background: #f3f3f3;
         border-radius: 2.22vw;
 
@@ -258,13 +258,13 @@ const MsentEmailDetailBox = styled.div`
         .noticeList {
           display: flex;
           flex-direction: column;
-          gap: 24px;
+          gap: 5.55vw;
 
           li {
             display: flex;
             flex-direction: column;
             gap: 2.77vw;
-            font-size: 3.33vw;
+            font-size: 3.88vw;
             font-weight: 500;
             line-height: 5.55vw;
 
