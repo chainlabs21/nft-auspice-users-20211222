@@ -356,7 +356,7 @@ const PdefaultHeaderBox = styled.header`
   height: 163px;
   background: #fff;
   top: 0;
-  z-index: 20;
+  z-index: 3;
   position: fixed;
   box-shadow: 0 3px 20px 0 rgb(0 0 0 / 10%);
 

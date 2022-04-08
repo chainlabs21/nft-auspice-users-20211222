@@ -82,14 +82,13 @@ import "./css/swiper.min.css";
 import { SET_ADDRESS, SET_LOGIN, SET_USER_DATA } from "./reducers/userReducer";
 import SupportTicket from "./router/support/SupportTicket";
 import { ToastContainer } from "react-toastify";
+import PopupBg from "./components/PopupBg";
 
 function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const { mHeaderPopup } = useSelector((state) => state.store);
   const { walletAddress } = useSelector((state) => state.user);
   const [popups, setPopups] = useState([]);
-  const [closePopups, setClosePopups] = useState([]);
 
-  const [popUpindex, setPopupIndex] = useState(0);
   const dispatch = useDispatch();
   //const navigate =useNavigate();
   const login = (address) => {
@@ -139,6 +138,13 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         }
       });
     });
+  };
+
+  const onClickClosePopup = (index) => {
+    let popupList = popups;
+
+    popupList = popupList.filter((v) => v.id !== index);
+    setPopups(popupList);
   };
 
   useEffect(
@@ -231,11 +237,17 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
       }
     });
   }
+
   useEffect(() => {
     axios.get(`${API.API_GET_NOTICE_CONTENT}/all`).then((resp) => {
-      console.log(resp);
+      console.log("popup", resp);
       let { list } = resp.data;
+
       if (list) {
+        list = list.filter(
+          (v) => !localStorage.getItem(`disableNoticePopup${v.id}`)
+        );
+
         setPopups(list);
       }
     });
@@ -255,10 +267,6 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
       }
     });
   }, []);
-
-  useEffect(() => {
-    console.log(closePopups);
-  }, [closePopups]);
 
   return (
     <AppBox className="appBox">
@@ -286,20 +294,18 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         {/* <Header /> */}
         <EventListener />
         {popups.map((v, i) => {
-          if (closePopups.includes(v.id)) {
-            console.log(v.id);
-            return;
-          } else
-            return (
-              <PopupNotice
-                key={i}
-                content={v.contentbody}
-                index={v.id}
-                off={(e) => setClosePopups([...closePopups, e])}
-                style={{ zIndex: i + 10 }}
-              />
-            );
+          return (
+            <PopupNotice
+              key={i}
+              content={v.contentbody}
+              index={v.id}
+              off={onClickClosePopup}
+              style={{ zIndex: i + 10 }}
+            />
+          );
         })}
+
+        {popups.length && <PopupBg bg />}
 
         <GlobalStyle />
 
