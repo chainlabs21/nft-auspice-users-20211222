@@ -1,9 +1,16 @@
 import { connect, useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import {
+  HashRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import styled from "styled-components";
 import Main from "./Main";
 //import "./css/bootstrap.css"
+import "react-toastify/dist/ReactToastify.css";
 
 import ConnectWallet from "./router/join/ConnectWallet";
 import EmailRequired from "./router/join/EmailRequired";
@@ -13,13 +20,13 @@ import EmailFailed from "./router/join/EmailFailed";
 import SignupComplete from "./router/join/SignupComplete";
 import SentEmail from "./router/join/SentEmail";
 import EmailChange from "./router/join/EmailChange";
-import MyPage from "./router/mypage/MyPage"
-import Notice from "./router/support/Notice"
-import SendTicket from "./router/support/SendTicket"
-import FAQ from "./router/support/faq"
+import MyPage from "./router/mypage/MyPage";
+import Notice from "./router/support/Notice";
+import SendTicket from "./router/support/SendTicket";
+import FAQ from "./router/support/faq";
 //import NoticeTest from "./router/support/NoticeTest"
-import NoticeDetail from "./router/support/NoticeDetail"
-import PopupNotice from "./router/support/PopupNotice"
+import NoticeDetail from "./router/support/NoticeDetail";
+import PopupNotice from "./router/support/PopupNotice";
 //import FAQ from "./router/support/faq"
 
 import MarketPlace from "./router/market/MarketPlace";
@@ -62,7 +69,7 @@ import { API } from "./config/api";
 import { messages } from "./config/messages";
 import GlobalStyle from "./components/globalStyle";
 import { setmyinfo, setaddress } from "./util/store";
-import { LOGGER} from "./util/common";
+import { LOGGER } from "./util/common";
 import { is_two_addresses_same } from "./util/eth";
 import EditItem from "./router/EditItem";
 import EventListener from "./components/common/EventListener";
@@ -74,39 +81,40 @@ import "./css/style.css";
 import "./css/swiper.min.css";
 import { SET_ADDRESS, SET_LOGIN, SET_USER_DATA } from "./reducers/userReducer";
 import SupportTicket from "./router/support/SupportTicket";
+import { ToastContainer } from "react-toastify";
 
 function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
   const { mHeaderPopup } = useSelector((state) => state.store);
-  const {walletAddress} = useSelector((state)=> state.user);
-  const [popups, setPopups] = useState([])
-  const [closePopups, setClosePopups]=useState([])
+  const { walletAddress } = useSelector((state) => state.user);
+  const [popups, setPopups] = useState([]);
+  const [closePopups, setClosePopups] = useState([]);
 
-  const [popUpindex, setPopupIndex] = useState(0)
+  const [popUpindex, setPopupIndex] = useState(0);
   const dispatch = useDispatch();
   //const navigate =useNavigate();
   const login = (address) => {
-    console.log("로그인 시도"+address)
+    console.log("로그인 시도" + address);
     //--------LET LOGIN
     axios
       .post(API.API_USERS_LOGIN, { address: address, cryptotype: "ETH" })
       .then((resp) => {
-        console.log(resp)
+        console.log(resp);
         let { status, respdata } = resp.data;
         if (status === "OK") {
           localStorage.setItem("token", respdata);
           axios.defaults.headers.common["token"] = resp.data.respdata;
           localStorage.setItem("address", address);
           Setaddress(address);
-          dispatch({type:SET_ADDRESS, payload:{value: address}})
-          console.log(address)
+          dispatch({ type: SET_ADDRESS, payload: { value: address } });
+          console.log(address);
           SetErrorBar(messages.MSG_ADDRESS_CHANGED + `: ${address}`);
         } else if (status === "ERR") {
           localStorage.removeItem("token");
           axios.defaults.headers.common["token"] = "";
-          console.log("NO DATA FOUND")
+          console.log("NO DATA FOUND");
         }
       });
-      //--------------------------------------
+    //--------------------------------------
   };
 
   const on_wallet_disconnect = (_) => {
@@ -141,8 +149,8 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         return;
       }
       klaytn.on("accountsChanged", async (accounts) => {
-        dispatch({type:SET_LOGIN, payload:{value:false}})
-        dispatch({type:SET_ADDRESS, payload:{value: null}})
+        dispatch({ type: SET_LOGIN, payload: { value: false } });
+        dispatch({ type: SET_ADDRESS, payload: { value: null } });
         console.log(accounts);
         let address = accounts[0];
         let address_local = localStorage.getItem("address");
@@ -151,7 +159,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
           address_local &&
           is_two_addresses_same(address, address_local)
         ) {
-          console.log('같애?')
+          console.log("같애?");
           return;
         } else {
         }
@@ -198,61 +206,59 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
     }, 3 * 1000);
   });
 
-    useEffect(()=>{
-      if (localStorage.getItem('address') == walletAddress){return;}
+  useEffect(() => {
+    if (localStorage.getItem("address") == walletAddress) {
+      return;
+    }
     //login(walletAddress)
-   }, [walletAddress])
+  }, [walletAddress]);
 
-
-  function checklogin(account){
+  function checklogin(account) {
     //console.log(isloggedin+" : "+walletAddress)
-    if (!localStorage.getItem("token")||!account) return;
+    if (!localStorage.getItem("token") || !account) return;
     //if (localStorage.getItem("address") != window.klaytn.enable()[0])
     axios.defaults.headers.common["token"] = localStorage.getItem("token");
-    axios.get(`${API.API_USER_CHECK}/${account}`)
-    .then((resp) => {
-      console.log(resp)
-      if (resp.data.status=="OK"){
-        dispatch({ type: SET_LOGIN, payload: { value: true }});
-        dispatch({type: SET_ADDRESS, payload:{value: account}})
-        dispatch({type: SET_USER_DATA, payload:{ value: resp.data.list}})
+    axios.get(`${API.API_USER_CHECK}/${account}`).then((resp) => {
+      console.log(resp);
+      if (resp.data.status == "OK") {
+        dispatch({ type: SET_LOGIN, payload: { value: true } });
+        dispatch({ type: SET_ADDRESS, payload: { value: account } });
+        dispatch({ type: SET_USER_DATA, payload: { value: resp.data.list } });
         //console.log(resp)
         //dispatch({ type: SET_USER_DATA, payload: { value: true }});
-      }else if(resp.data.status=="ERR"){
-        console.log(resp.data.message)
+      } else if (resp.data.status == "ERR") {
+        console.log(resp.data.message);
       }
-    })
-
+    });
   }
-  useEffect(()=>{
-    axios.get(`${API.API_GET_NOTICE_CONTENT}/all`)
-    .then((resp)=>{
-      console.log(resp)
-      let {list} = resp.data;
-      if(list){
-        setPopups(list)
+  useEffect(() => {
+    axios.get(`${API.API_GET_NOTICE_CONTENT}/all`).then((resp) => {
+      console.log(resp);
+      let { list } = resp.data;
+      if (list) {
+        setPopups(list);
       }
-    })
+    });
 
-
-    dispatch({ type: SET_LOGIN, payload: { value: false }});
-    if(!window.klaytn){return}
-    window.klaytn._kaikas.isUnlocked().then((resp)=>{
-      if (resp){
-        window.klaytn._kaikas.isApproved().then((rresp)=>{
-          window.klaytn.enable().then((rresp)=>{
-            console.log(rresp)
-            checklogin(rresp[0])
-          })
-        })
+    dispatch({ type: SET_LOGIN, payload: { value: false } });
+    if (!window.klaytn) {
+      return;
+    }
+    window.klaytn._kaikas.isUnlocked().then((resp) => {
+      if (resp) {
+        window.klaytn._kaikas.isApproved().then((rresp) => {
+          window.klaytn.enable().then((rresp) => {
+            console.log(rresp);
+            checklogin(rresp[0]);
+          });
+        });
       }
-    })
-  }, [])
+    });
+  }, []);
 
-  useEffect(()=>{
-    console.log(closePopups)
-  },[closePopups])
-
+  useEffect(() => {
+    console.log(closePopups);
+  }, [closePopups]);
 
   return (
     <AppBox className="appBox">
@@ -279,22 +285,27 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
       <HashRouter>
         {/* <Header /> */}
         <EventListener />
-        {
-        
-        popups.map((v, i)=>{
-          if(closePopups.includes(v.id)){console.log(v.id); return;}
-          else
-          return(
-          <PopupNotice key={i} content={v.contentbody} index={v.id} off={e=>setClosePopups([...closePopups, e])} style={{zIndex: i+10}}/>
-          )
+        {popups.map((v, i) => {
+          if (closePopups.includes(v.id)) {
+            console.log(v.id);
+            return;
+          } else
+            return (
+              <PopupNotice
+                key={i}
+                content={v.contentbody}
+                index={v.id}
+                off={(e) => setClosePopups([...closePopups, e])}
+                style={{ zIndex: i + 10 }}
+              />
+            );
         })}
-        
+
         <GlobalStyle />
 
         <Routes>
           <Route path="/index" element={<List />} />
           <Route path="/" element={<Main />} />
-          
 
           <Route path="/connectwallet" element={<ConnectWallet />} />
           <Route path="/notice/:id" element={<NoticeDetail />} />
@@ -361,6 +372,18 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
         {mHeaderPopup && <MheaderPopup />}
         {store.maccountPopup && <MaccountPopup />}
       </HashRouter>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </AppBox>
   );
 }
