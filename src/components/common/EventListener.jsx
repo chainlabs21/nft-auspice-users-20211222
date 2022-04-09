@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Fragment, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { API } from "../../config/api";
 import { setMobile } from "../../reducers/commonSlice";
@@ -9,6 +9,7 @@ export default function EventListener() {
   const dispatch = useDispatch();
 
   function handleResize() {
+    //const { isloggedin } = useSelector((state) => state.user);
     if (window.innerWidth > 1280) dispatch(setMobile(false));
     else dispatch(setMobile(true));
   }
@@ -25,7 +26,9 @@ export default function EventListener() {
 
   useEffect(() => {
     setInterval(() => {
+
       let token_sec = localStorage.getItem("token");
+      if(!token_sec) {return;}
       axios.defaults.headers.get.token = token_sec;
       axios.defaults.headers.post.token = token_sec;
 

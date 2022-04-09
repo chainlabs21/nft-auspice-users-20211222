@@ -262,7 +262,7 @@ useEffect(()=>{
           
             <div className="topBar">
               <div className="titleBox">
-              <img style={{ width: '32px', height: '32px', margin: '8px'}}
+              <img style={{ width: '32px', height: '32px', margin: '8px', borderRadius: '50%'}}
               src={userData?.profileimageurl || I_klaytn} 
               alt="" />
                 <strong className="title">

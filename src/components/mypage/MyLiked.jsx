@@ -61,7 +61,7 @@ export default function MyLiked() {
     console.log(walletAddress)
     axios
       .get(API.API_USER_FAVORITES+`/username/${walletAddress}/0/100/id/DESC`,
-        { params: { itemdetail: 1 } }
+        { params: { itemdetail: 1, filterkey: 'status', filterval:1 } }
       )
       .then((resp) => {
         LOGGER("zz", resp.data);
