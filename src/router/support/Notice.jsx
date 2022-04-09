@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router";
 import { useLocation, useHistory, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import I_ltArw3 from "../../img/icons/I_ltArw3.png"
 
 import { useState, useEffect, useLayoutEffect } from "react";
 import I_lArrow from "../../img/icons/I_lArrow.svg";
@@ -73,8 +74,70 @@ export default function Notice(props) {
   if (isMobile)
     return (
       <>
-        <DefaultHeader />
-        <Mannouncements></Mannouncements>
+        {/* <DefaultHeader /> */}
+        <Mannouncements>
+          <section className="mopupBox">
+          <strong className="title" style={{fontSize:'3vh', fontWeight: 'bold'}}>
+            <img style={{height: '2vh'}} src={I_ltArw3} onClick={()=>{navigate('/'); console.log('help')}}/>  {t('notice:NOTICE')}
+            </strong>
+            <p className="subtitle">
+            {t('notice:NOTICE_DESC')}
+            </p>
+            <div className="search">
+            <div className="posBox">
+                <button
+                  className="selectBtn"
+                  onClick={() => setCategoryPopup(true)}
+                >
+                  <p>{D_Category[selected]}</p>
+                  <img src={I_dnArrow} alt="" />
+                </button>
+                {categoryPopup && (
+                  <>
+                    <SelectPopup
+                      off={setCategoryPopup}
+                      contList={D_Category}
+                      selectCont={setSelected}
+                    />
+                    <PopupBg off={setCategoryPopup} />
+                  </>
+                )}
+              </div>
+              <div className="searchBox">
+                <input
+                  value={searchKey}
+                  onChange={(e) => setSearchKey(e.target.value)}
+                  placeholder=""
+                />
+              </div>
+              </div>
+
+              <p className="description">
+              <Trans i18nKey='notice:DESCRIPTION'>
+                <p className="highlighted">( {{ totalNotice }} )</p>
+              </Trans>
+                (<span className="highlighted">{currentPage}</span>/{totalPage})
+              </p>
+              <div className="contentBody">
+
+              <ul className="list">
+                {announces.map((v, i) => {
+                  if(currentPage*10>i && i>=(currentPage-1)*10)
+                  return (
+                    <li key={i} onClick={()=>{navigate(`/Notice/${v.id}`);}}>
+                      <span><p className="listCode">{v.category == "COMMON" ? "공지" : i+1}</p><p className="listTitle">{v.title}</p></span>
+                      <span>{moment(v.createdat).format("YYYY-MM-DD")}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+            <Pagination totalPage={totalPage} currentPage={setCurrentPage}/>
+
+          </section>
+
+
+        </Mannouncements>
       </>
     );
   else
@@ -176,7 +239,135 @@ export default function Notice(props) {
     );
 }
 
-const Mannouncements = styled.div``;
+const Mannouncements = styled.div`
+padding: 5vw;
+.subtitle{
+  margin-top: 4vh;
+  font-size: 4vw;
+  font-weight: 500;
+}
+.search{
+  display: flex;
+  margin-top: 4vh;
+  justify-content: space-between;
+.posBox {
+        display: flex;
+        justify-content: flex-start;
+
+        button {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 30vw;
+          height: 6vh;
+          padding: 0 4.5vw;
+          font-size: 4.3vw;
+          font-weight: 500;
+          border: solid 1px #d9d9d9;
+          border-radius: 8px;
+
+          img {
+            width: 20px;
+          }
+        }
+      }
+      .searchBox {
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
+        max-width: 283px;
+
+        //border: solid 1px #d9d9d9;
+        
+        //overflow: auto;
+        
+
+        input {
+          //overflow: auto;
+          width: 56vw;
+          height: 6vh;
+          padding: 0 12px;
+          font-size: 16px;
+          //text-align: end;
+          background: #fff;
+          border: 1px solid #d9d9d9;
+          border-radius: 8px;
+        }
+      }
+    }
+    .description {
+        display: flex;
+        margin-top: 3vh;
+        flex: 1;
+        line-height: 5vh;
+        vertical-align: middle;
+        font-size: 4vw;
+        font-weight: 500;
+      }
+      p {
+        .highlighted {
+          color: #1c7eff;
+        }
+      }
+      .contentBody {
+      padding-top: 0.5vh;
+      
+      height: 100%;
+
+      .list {
+        border-bottom: 1px solid #000;
+        width: 100%;
+        overflow: hidden;
+        li {
+          display: flex;
+          align-items: center;
+          height: 8vh;
+          width: 100%;
+          border-top: 1px solid #000;
+          overflow: hidden;
+        }
+        li + li {
+          border-top: 1px solid #e5e5e5;
+        }
+      }
+
+      .listHeader li,
+      .list li span {
+        &:nth-of-type(1) {
+          display: flex;
+          //flex: 1;
+          justify-content: space-between;
+          width: 60vw;
+          height: 100%;
+          padding: 2.5vw;
+          flex-direction: column;
+          .listCode{
+            color: #7a7a7a;
+            font-size: 4vw;
+            font-weight: 500;
+          }
+          .listTitle{
+            font-size: 4vw;
+            font-weight: 500;
+          }
+        }
+
+        &:nth-of-type(2) {
+          height: 100%;
+          padding: 2.5vw;
+          display: flex;
+          flex: 1;
+          cursor: pointer;
+          flex-direction: column;
+          justify-content: flex-start;
+          text-align: right;
+          color: #7a7a7a;
+          font-size: 3.3vw;
+          font-weight: 500;
+        }
+      }
+    }
+`;
 
 const Pannouncements = styled.div`
   padding-top: 180px;

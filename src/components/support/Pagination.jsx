@@ -77,8 +77,90 @@ export default function Pagination({ totalPage, currentPage }) {
   if (isMobile)
     return (
       <>
-        <Mannouncements></Mannouncements>
-      </>
+      <Pannouncements>
+        <ul className="Pagination">
+          <li
+            className="img leArrw"
+            onClick={() => {
+              setPage(1);
+            }}
+          >
+            <img src={I_leArrow} />
+          </li>
+          <li
+            className="img lArrw"
+            onClick={() => {
+              page > 1 && setPage(page - 1);
+            }}
+          >
+            <img src={I_lArrow} />
+          </li>
+          {[...Array(totalPage)].map((v, i) => {
+            //if(i<paginationpaging || i>paginationpaging+4){return;}
+
+            if(page<3){
+                if(i<5)
+              return (
+                  <li
+                    className={page == i + 1 ? "on" : ""}
+                    onClick={() => {
+                      setPage(i + 1);
+                      setPaginationpaging(0);
+                    }}
+                  >
+                    {i + 1}
+                  </li>
+                );
+            }else if(page<totalPage-2){
+            
+              if (i > page - 4 && page + 2 > i) {
+                return (
+                  <li
+                    className={page == i + 1 ? "on" : ""}
+                    onClick={() => {
+                      setPage(i + 1);
+                      setPaginationpaging(0);
+                    }}
+                  >
+                    {i + 1}
+                  </li>
+                );
+              }
+          }else{
+              if(i>totalPage-6)
+              return (
+                  <li
+                    className={page == i + 1 ? "on" : ""}
+                    onClick={() => {
+                      setPage(i + 1);
+                      setPaginationpaging(0);
+                    }}
+                  >
+                    {i + 1}
+                  </li>
+                );
+          }
+            
+          })}
+          <li
+            className="img rArrw"
+            onClick={() => {
+              page < totalPage && setPage(page + 1);
+            }}
+          >
+            <img className="flip" src={I_lArrow} />
+          </li>
+          <li
+            className="img reArrw"
+            onClick={() => {
+              setPage(totalPage);
+            }}
+          >
+            <img className="flip" src={I_leArrow} />
+          </li>
+        </ul>
+      </Pannouncements>
+    </>
     );
   else
     return (
