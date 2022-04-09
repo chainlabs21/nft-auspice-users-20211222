@@ -151,15 +151,15 @@ export default function ExploreDeal() {
 
             <article className="listArea">
               <ul className="list">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((cont, index) => {
+                {dataList.map((cont, index) => {
                   return (
                     <li>
                       <div className="topBar">
                         <div className="leftBox">
-                          <span className="profImg" />
+                        <img className="profImg" src={cont.item?.url} onClick={()=>{navigate('/singleitem?itemid='+cont.item.itemid)}}/>
                           <div className="textBox">
-                            <p className="category">Sale</p>
-                            <p className="contTitle">Summer Pool</p>
+                            <p className="category">{EVENT_TYPE[cont.typestr]}</p>
+                            <p className="contTitle">{cont.item?.titlename}</p>
                             <button
                               className="moreLessBtn"
                               onClick={() => onClickMoreLessBtn(index)}
@@ -172,13 +172,18 @@ export default function ExploreDeal() {
                         <div className="rightBox">
                           <div className="token">
                             <img src={I_klaytn} alt="" />
-                            <p>0.005</p>
+                            <p>{cont.price}</p>
                           </div>
 
                           <div className="time">
-                            <p>1 minutes left</p>
+                            <p>{moment(cont.createdat).fromNow()}</p>
 
-                            <button className="linkBtn" onClick={() => {}}>
+                            <button className="linkBtn" onClick={() => {window
+                        .open(
+                          URL_TX_SCAN[cont.item.nettype] + `/${cont.txhash}`,
+                          "_blank"
+                        )
+                        .focus();}}>
                               <img src={icon_link_on} alt="" />
                             </button>
                           </div>
@@ -189,15 +194,15 @@ export default function ExploreDeal() {
                         <ul className="infoList">
                           <li>
                             <p className="key">Quantity</p>
-                            <p className="value">1</p>
+                            <p className="value">{cont.amount}</p>
                           </li>
                           <li>
                             <p className="key">From</p>
-                            <p className="value">VOE83754899999999</p>
+                            <p className="value">{cont.from_||cont.buyer}</p>
                           </li>
                           <li>
                             <p className="key">To</p>
-                            <p className="value">TIDREDQ349999999</p>
+                            <p className="value">{cont.to_||cont.seller}</p>
                           </li>
                         </ul>
                       )}

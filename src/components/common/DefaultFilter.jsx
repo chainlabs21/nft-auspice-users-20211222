@@ -401,7 +401,7 @@ const MdefaultfilterBox = styled.section`
   bottom: 0;
   left: 0;
   position: fixed;
-  z-index: 3;
+  z-index: 15;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {

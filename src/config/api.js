@@ -18,6 +18,7 @@ export const API = {
   API_VERIFY_EMAIL_SEND: `${apiServer}/users/email/verifycode`,
   API_GET_NONCE: `${apiServer}/users/login/secure/crypto`,
   API_LOGOUT: `${apiServer}/users/logout`,
+  API_UPDATE_IMG: `${apiServer}/users/update`,
   API_ITEM_UPLOAD_BASE64: `${apiServer}/mint/store/base64`,
   API_ITEM_UPLOAD_OVER: `${apiServer}/mint/store/file`,
   API_GET_ITEM_DATA: `${apiServer}/items/item`, // /:itemid

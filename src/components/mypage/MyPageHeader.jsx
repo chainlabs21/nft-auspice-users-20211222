@@ -19,6 +19,9 @@ import { useTranslation } from "react-i18next";
 import { writeSig } from "../../util/verifySig";
 
 export default function MyPageHeader({ address, targetData }) {
+
+  const profImgRef = useRef();
+  const bannerImgRef = useRef(); 
   const {t} = useTranslation(['locale']);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -35,10 +38,30 @@ export default function MyPageHeader({ address, targetData }) {
   const [targettData, setTargettData] = useState();
   const [isOwner, setIsOwner] = useState(false);
   const [myAddress, setMyAddress] = useState();
+  const [fileChk, setFileChk] = useState();
+  const [profbannerUrl, setProfbannerUrl] = useState();
+  const [profUrl, setProfUrl]= useState()
+
+  const kiloBytes = 1024;
+const megaBytes = 1024 * kiloBytes;
+const MAP_fileextension_contentype = {
+  jpg: "image",
+  jpeg: "image",
+  png: "image",
+  gif: "image",
+  svg: "image",
+  mp4: "video",
+  webm: "video",
+  mp3: "audio",
+  wav: "audio",
+  ogg: "audio",
+};
 
   const { userData, isloggedin, walletAddress } = useSelector(
     (state) => state.user
   );
+
+
 
   useEffect(() => {
     console.log(targetData)
@@ -58,7 +81,7 @@ export default function MyPageHeader({ address, targetData }) {
         setTargettData(userData.myinfo_maria);
       }
     }
-  },[address, targetData]);
+  },[address, targetData, pathname]);
   useEffect(() => {
     if (targettData) {
       setNickname(targettData.nickname);
@@ -79,13 +102,52 @@ export default function MyPageHeader({ address, targetData }) {
     // })
   }
 
-  // useEffect(()=>{
-  //   if (userData instanceof Object && userData['myinfo_maria'] !== undefined){
-  //     setNickname(userData.myinfo_maria.nickname)
-  //     setDesc(userData.myinfo_maria.description)
-  //     setImageUrl(userData.myinfo_maria.profileimageurl)
-  //   }
-  // }, [userData])
+  const fileUpload = async (file, type) => {
+    if (!file) {
+      return;
+    }
+    const fileLength = file.length;
+    const fileDot = file.name.lastIndexOf(".");
+    const fileType = file.name.substring(fileDot + 1, fileLength).toLowerCase();
+
+    if (MAP_fileextension_contentype[fileType] != "image") {
+      //SetErrorBar("This is not an image file");
+      return;
+    }
+    let filesize = file.size;
+    if (file && filesize > 0) {
+      setFileChk(true);
+      try {
+        if (filesize <= 40 * megaBytes) {
+          let formData = new FormData();
+          formData.append("file", file);
+          formData.append("filename", file.name);
+          formData.append("username", walletAddress);
+          const resp = await axios.post(
+            `${API.API_USER_PROF_UPLOAD}/${type}`,
+            formData
+          );
+          console.log("eERWguRnGR", resp.data);
+          let { status, payload, respdata } = resp.data;
+          if (status == "OK") {
+            if (type == "bg") {
+              axios.put(`${API.API_UPDATE_IMG}`, {target: 'coverimageurl', val: payload.url}).then((res)=>{window.location.reload()})
+              setProfbannerUrl(payload.url);
+            } else {
+              axios.put(`${API.API_UPDATE_IMG}`, {target: 'profileimageurl', val: payload.url}).then((res)=>{window.location.reload()})
+              setProfUrl(payload.url);
+            }
+          }
+        } else {
+          //SetErrorBar(ERR_MSG.ERR_FILE_SIZE_EXCEEDED);
+          return;
+        }
+      } catch (error) {
+        //SetErrorBar(ERR_MSG.ERR_FILE_UPLOAD_FAILED);
+        console.log(error);
+      }
+    }
+  };
 
   if (isMobile)
     return (
@@ -103,7 +165,7 @@ export default function MyPageHeader({ address, targetData }) {
 
           <div className="contBox">
             <div className="profImg" style={{
-              backgroundImage: '',//`url(${imageUrl})`,
+              backgroundImage: `url(${imageUrl})`,
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               backgroundSize: "cover",
@@ -134,22 +196,54 @@ export default function MyPageHeader({ address, targetData }) {
         <PMyPageHeader style={{ padding: toggleFilter && "120px 0 0 350px" }}>
           <header className="myProfHeader">
             <div
+            onClick={()=>{
+              if (!isOwner)return;
+              bannerImgRef.current.click()
+            }}
               className={isOwner?"bg":"viewerbg"}
               style={{
                 backgroundImage: `url(${coverimageUrl})`,
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
                 backgroundSize: "cover",
+                
               }}
-            >{isOwner?<img src={I_edit}/>:undefined}</div>
+            >{isOwner?<img src={I_edit}/>:undefined}
+            <input
+                    className="nospace"
+                    type="file"
+                    accept="image/*"
+                    ref={bannerImgRef}
+                    onChange={(e) => {
+                      fileUpload(e.target.files[0], "bg");
+                      //onChangeImg(e.target.files[0], "bg");
+                    }}
+                  />
+            </div>
 
             <div className="contBox">
-            <div className={isOwner?"profImg":"viwerprofImg"} style={{
+            <div
+            onClick={()=>{
+              if (!isOwner)return;
+              profImgRef.current.click()
+            }} 
+            className={isOwner?"profImg":"viwerprofImg"} style={{
               backgroundImage: `url(${imageUrl})`,
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               backgroundSize: "cover",
-            }}>{isOwner?<img src={I_edit}/>:undefined}</div>
+            }}>{isOwner?<img src={I_edit}/>:undefined}
+            <input
+                    className="nospace"
+                    type="file"
+                    accept="image/*"
+                    ref={profImgRef}
+                    onChange={(e) => {
+                      fileUpload(e.target.files[0], "bg");
+                      //onChangeImg(e.target.files[0], "bg");
+                    }}
+                  />
+            </div>
               {/* <div className="change"><img src={I_edit}/></div> */}
               <div className="btnBox">
                 <button className="" onClick={() => {handleSetting()}}>

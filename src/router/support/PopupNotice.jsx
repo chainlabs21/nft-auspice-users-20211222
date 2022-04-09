@@ -61,7 +61,25 @@ export default function PopupNotice({ off, content, index, id }) {
   if (isMobile)
     return (
       <>
-        <Mannouncements></Mannouncements>
+        <Mannouncements>
+        <div className="container">
+            <div className="topBar">
+              <div className="closeBtn" onClick={() => off(index)}>
+                <img src={I_x} style={{ width: "14px" }} />
+              </div>
+            </div>
+            <div
+              className="content"
+              dangerouslySetInnerHTML={{ __html: totalNotice }}
+            />
+            <div className="footer">
+              <p className="idontwantBtn" onClick={closeForaDay}>
+                <img src={I_Chk} />
+                24시간 동안 보지 않기
+              </p>
+            </div>
+          </div>
+        </Mannouncements>
       </>
     );
   else
@@ -90,7 +108,82 @@ export default function PopupNotice({ off, content, index, id }) {
     );
 }
 
-const Mannouncements = styled.div``;
+const Mannouncements = styled.div`
+z-index: 10000;
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-family: "Noto Sans KR", sans-serif;
+  /* background-color: rgba(0, 0, 0, 0.8); */
+
+  .container {
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+
+    .topBar {
+      justify-content: flex-end;
+      display: flex;
+      width: 100%;
+      .closeBtn {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        margin-bottom: 10px;
+
+        &:hover {
+          background-color: #000;
+          color: #fff;
+          img {
+            filter: invert(100%);
+          }
+        }
+      }
+    }
+    .content {
+      display: flex;
+      overflow: hidden;
+      height: 60vh;
+      border-radius: 21px;
+      .image {
+        //max-height: 60vh;
+        img {
+          height: 60vh;
+        }
+      }
+    }
+    .footer {
+      display: flex;
+      p {
+        cursor: pointer;
+        margin-top: 10px;
+        color: white;
+        line-height: 24px;
+        vertical-align: middle;
+        align-items: center;
+        font-weight: normal;
+        img {
+          vertical-align: middle;
+          width: 24px;
+          filter: invert(100%);
+          margin-right: 8px;
+        }
+      }
+    }
+  }`;
 
 const Pannouncements = styled.div`
   z-index: 6;

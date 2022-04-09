@@ -300,7 +300,7 @@ function App({ store, setHref, setConnect, Setmyinfo, Setaddress }) {
               content={v.contentbody}
               index={v.id}
               off={onClickClosePopup}
-              style={{ zIndex: i + 10 }}
+              style={{ zIndex: i + 100 }}
             />
           );
         })}

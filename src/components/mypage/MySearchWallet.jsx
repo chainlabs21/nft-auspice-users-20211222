@@ -304,7 +304,7 @@ export default function SearchWallet({ address }) {
               <ul className="itemsList">
               {listitems.length == 0 && "등록된 아이템을 확인할 수 없습니다."}
               {listitems.sort(sortingmachine).map((cont, index) => (
-                <SearchWalletItembox cont={cont} index={index} address={address}/>
+                <SearchWalletItembox key={index} cont={cont} index={index} address={address}/>
                 // <li
                 //   key={index}
                 //   className="itemBox"
