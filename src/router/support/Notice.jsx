@@ -275,7 +275,7 @@ padding: 5vw;
         display: flex;
         flex: 1;
         justify-content: flex-end;
-        max-width: 283px;
+        //max-width: 283px;
 
         //border: solid 1px #d9d9d9;
         
@@ -321,7 +321,7 @@ padding: 5vw;
         li {
           display: flex;
           align-items: center;
-          height: 8vh;
+          //height: 10vh;
           width: 100%;
           border-top: 1px solid #000;
           overflow: hidden;

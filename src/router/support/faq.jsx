@@ -6,6 +6,7 @@ import {
   D_instructionList,
   D_timeList,
 } from "../../data/D_saleItem";
+import I_ltArw3 from "../../img/icons/I_ltArw3.png"
 
 import { useState, useEffect, useLayoutEffect } from "react";
 import I_klaytn from "../../img/sub/I_klaytn.svg";
@@ -104,8 +105,116 @@ export default function FAQ() {
   if (isMobile)
     return (
       <>
-        <DefaultHeader />
-        <Mannouncements></Mannouncements>
+        <Mannouncements>
+          <section className="mopupBox">
+          <strong className="title" style={{fontSize:'3vh', fontWeight: 'bold'}}>
+            <img style={{height: '2vh'}} src={I_ltArw3} onClick={()=>{navigate('/'); console.log('help')}}/>  {t('faq:FAQ')}
+            </strong>
+            <p className="subtitle">
+            {t('faq:FAQ_DESC')}
+            </p>
+            <div className="search">
+            <div className="posBox">
+                <button
+                  className="selectBtn"
+                  onClick={() => setCategoryPopup(true)}
+                >
+                  <p>{D_Category[selected]}</p>
+                  <img src={I_dnArrow} alt="" />
+                </button>
+                {categoryPopup && (
+                  <>
+                    <SelectPopup
+                      off={setCategoryPopup}
+                      contList={D_Category}
+                      selectCont={setSelected}
+                    />
+                    <PopupBg off={setCategoryPopup} />
+                  </>
+                )}
+              </div>
+              <div className="searchBox">
+                <input
+                  value={searchKey}
+                  onChange={(e) => setSearchKey(e.target.value)}
+                  placeholder=""
+                />
+              </div>
+              </div>
+              <div className="categoryBox"> {/*{style={{display: 'none'}}>} */}
+                          <div className="categoryList">
+                            <ul>
+                            <li onClick={() => {
+                                    setCurCategory(0);
+                                  }}
+                                  style={
+                                    curCategory === 0
+                                      ? {
+                                          backgroundColor: "#222",
+                                          color: "white",
+                                        }
+                                      : {}
+                                  }
+                                >
+                                  <span>{t('faq:ALL')}</span>
+                                </li>
+                              {categories.map((cate, idx) => (
+                                
+                                <li
+                                  key={idx}
+                                  onClick={() => {
+                                    setCurCategory(cate.id);
+                                  }}
+                                  style={
+                                    curCategory === cate.id
+                                      ? {
+                                          backgroundColor: "#222",
+                                          color: "white",
+                                        }
+                                      : {}
+                                  }
+                                >
+                                  <span>{cate.textdisp}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div className="contentBody">
+              <div className="instructionBox">
+                
+                {list.map((v, i)=>{return(
+                  <details className="instructionDetail">
+                  <summary className="instructionSummary">
+                    <div className="catAndTitle">
+                      <div className="category">
+                        <strong>{v.category_info.textdisp}</strong>
+                      </div>
+                      <div className="textBox">
+                        {v.title}
+                      </div>
+                    </div>
+
+                    <img className="arwImg" src={I_dnArrow} alt="" />
+                  </summary>
+
+                  <div className="content">
+                  {v.description}
+
+                  </div>
+                </details>)
+                })}
+                
+                
+
+              </div>
+            </div>
+
+          </section>
+
+
+        </Mannouncements>
       </>
     );
   else
@@ -247,7 +356,169 @@ export default function FAQ() {
     );
 }
 
-const Mannouncements = styled.div``;
+const Mannouncements = styled.div`
+padding: 5vw;
+.subtitle{
+  margin-top: 4vh;
+  font-size: 4vw;
+  font-weight: 500;
+}
+.search{
+  display: flex;
+  margin-top: 4vh;
+  justify-content: space-between;
+.posBox {
+        display: flex;
+        justify-content: flex-start;
+
+        button {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 30vw;
+          height: 6vh;
+          padding: 0 4.5vw;
+          font-size: 4.3vw;
+          font-weight: 500;
+          border: solid 1px #d9d9d9;
+          border-radius: 8px;
+
+          img {
+            width: 20px;
+          }
+        }
+      }
+      .searchBox {
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
+        
+
+        input {
+          //overflow: auto;
+          width: 56vw;
+          height: 6vh;
+          padding: 0 12px;
+          font-size: 16px;
+          //text-align: end;
+          background: #fff;
+          border: 1px solid #d9d9d9;
+          border-radius: 8px;
+        }
+      }
+    }
+    .categoryBox{
+      ul{
+        display: flex;
+        //flex-wrap: wrap;
+        overflow-x: scroll;
+        margin: 3vh 0 3vh 0;
+        border-radius: 3vh;
+        background: #f6f6f6;
+        &::-webkit-scrollbar {
+  display: none;
+}
+        li{
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          max-width: 30vw;
+          height: 6vh;
+          padding: 0 35px;
+          font-size: 18px;
+          font-weight: 700;
+          white-space: nowrap;
+          border-radius: 3vh;
+          cursor: pointer;
+        }
+      }
+    }
+    
+    .description {
+        display: flex;
+        margin-top: 3vh;
+        flex: 1;
+        line-height: 5vh;
+        vertical-align: middle;
+        font-size: 4vw;
+        font-weight: 500;
+      }
+      p {
+        .highlighted {
+          color: #1c7eff;
+        }
+      }
+      .contentBody {
+      //padding-top: 46px;
+      .instructionBox {
+        .instructionDetail {
+          border: solid 1px #d9d9d9;
+          border-radius: 2vw;
+  
+          &[open] {
+            border-radius: 2vw;
+            border: solid 2px #1c7eff;
+            background-color: #fbfbfb;
+            summary {
+              .arwImg {
+                transform: rotate(180deg);
+              }
+            }
+          }
+  
+          .instructionSummary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            //height: 80px;
+            padding: 3vw;
+            .catAndTitle{
+              .category{
+              display: flex;
+              justify-content: flex-start;
+              //width: 131px;
+              font-size: 3.5vw;
+              font-weight: bold;
+              color: #727272;
+            }
+  
+            .textBox {
+              display: flex;
+              justify-content: flex-start;
+              width: 100%;
+              font-size: 3.5vw;
+              font-weight: bold;
+            }
+
+            }
+           
+  
+            .arwImg {
+              justify-content: flex-end;
+              width: 3.3vw;
+            }
+          }
+  
+          .content{
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            //padding: 16px 20px;
+            padding-left: 3vw;
+            padding-bottom: 3vw;
+            padding-right: 3vw;
+            font-size: 3.5vw;
+            font-weight: normal;
+            //border-top: 1px solid #d9d9d9;
+          }
+        }
+        .instructionDetail + .instructionDetail{
+          margin-top: 10px;
+        }
+      }
+    }
+`;
 
 const Pannouncements = styled.div`
   padding-top: 180px;

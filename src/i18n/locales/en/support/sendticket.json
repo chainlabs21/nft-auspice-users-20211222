@@ -5,5 +5,7 @@
     "CONTENT"       : "Description",
     "CONTENT_HOLDER": "Write description under 300 characters.",
     "SEND"          : "Send",
-    "CANCEL"        : "Cancel"
+    "CANCEL"        : "Cancel",
+    "DESC"          : "* Answers may delayed by the amount of tickets we receive. We are trying hard to answer all the answers as soon as possible so, please be patient. You can also look for a brief guide from FAQ",
+    "DESC_KR":"* 문의 내용이 많을 경우에 답변이 늦어질 수 있습니다. 최대한 빠른 시간내에 답변 드리고자 하오니 조금만 시간을 가지고 기다려 주시기 바랍니다. 간단한 사이트 이용일 경우 자주하는 질문에 자세한 내용이 안내되어 있으니 확인해주시기 바랍니다."
 }

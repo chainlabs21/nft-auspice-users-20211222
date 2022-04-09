@@ -10,13 +10,18 @@ export default function UsersItems({val, index}) {
       <li className="swiperContBox" onClick={()=>{navigate("/mypage/searchwallet/"+val.username)}}>
         <div
           className="bg"
+          
           style={{
+            backgroundColor: "#ccc",
+            backgroundImage: `url(${val.user?.coverimageurl})`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             backgroundSize: "cover",
-            background: "#ccc",
+            
           }}
-        />
+          >
+            
+        </div>
 
         <div className="infoContainer">
           <img

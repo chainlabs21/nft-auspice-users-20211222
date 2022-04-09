@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router";
 import { useLocation, useHistory, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import I_ltArw3 from "../../img/icons/I_ltArw3.png"
 
 import { useState, useEffect, useLayoutEffect } from "react";
 import I_lArrow from "../../img/icons/I_lArrow.svg";
@@ -43,6 +44,7 @@ export default function SupportTicket(props) {
 
 
   useEffect(() => {
+
     axios.get(`${process.env.REACT_APP_API_SERVER}/queries/findcount/supporttickets`).then((resp) => {
       if(resp.data.message=='PLEASE-LOGIN'){navigate('/'); return}
       console.log(resp);
@@ -58,30 +60,25 @@ export default function SupportTicket(props) {
   if (isMobile)
     return (
       <>
-        <DefaultHeader />
-        <Mannouncements></Mannouncements>
-      </>
-    );
-  else
-    return (
-      <>
-        <DefaultHeader />
-        <Pannouncements>
-          <section className="popupBox">
-            <strong className="title" style={{fontSize:'24px', fontWeight: 'bold'}}>{t('support:SUPPORT')}</strong>
+        {/* <DefaultHeader /> */}
+        <Mannouncements>
+          <strong className="title" style={{fontSize:'3vh', fontWeight: 'bold'}}>
+            <img style={{height: '2vh'}} src={I_ltArw3} onClick={()=>{navigate('/'); console.log('help')}}/>  {t('support:SUPPORT')}
+            </strong>
             <p className="subtitle">
             {t('support:SUPPORT_DESC_1')}
             </p>
             <p className="description">{t('support:SUPPORT_DESC_2')}</p>
-
-            <div className="contentBody">
+              <div className="contentBody">
               <ul className="listHeader">
                 <li>{t('support:TITLE')}</li>
                 <li>{t('support:STATUS')}</li>
               </ul>
               <ul className="list">
                 {countTickets==0&&<div className="empty">{t('support:NO_HISTORY')}</div>}
-                {tickets.map((v, i)=>(<><li>
+                {tickets.map((v, i)=>{
+                  if(currentPage*10>i && i>=(currentPage-1)*10)
+                  return(<><li>
                   <details className="ticketDetail">
                     <summary className="ticketSummary">
                       <div className="textBox">
@@ -105,42 +102,70 @@ export default function SupportTicket(props) {
                     </span>}
                     </div>
                   </details>
-                </li></>))}
-                {/* {announces.map((v, i) => {
-                  if(currentPage*10>i && i>=(currentPage-1)*10)
-                  return (
-                    <li key={i}>
-                      <span
-                        onClick={() => {
-                          navigate(`/Notice/${v.id}`);
-                        }}
-                      >
-                        {v.title}
-                      </span>
-                      <span>{moment(v.createdat).format("YYYY-MM-DD")}</span>
-                    </li>
-                  );
-                })} */}
+                </li></>)})}
               </ul>
             </div>
             {(countTickets>10)?<Pagination totalPage={totalPage} currentPage={setCurrentPage}/>:undefined}
-            {/* <ul className="Pagination">
-              <li className="img leArrw">
-                <img src={I_leArrow} />
-              </li>
-              <li className="img lArrw">
-                <img src={I_lArrow} />
-              </li>
-              {[1, 2, 3, 4, 5].map((v, i) => {
-                return <li className={currentPage == v ? "on" : ""}>{v}</li>;
-              })}
-              <li className="img rArrw">
-                <img className="flip" src={I_lArrow} />
-              </li>
-              <li className="img reArrw">
-                <img className="flip" src={I_leArrow} />
-              </li>
-            </ul> */}
+            
+          <article className="btnArea">
+            <button className="ListBtn" onClick={()=>{navigate('/sendticket')}}>
+            {t('support:REQUEST')}
+            </button>
+          </article>
+
+
+        </Mannouncements>
+      </>
+    );
+  else
+    return (
+      <>
+        <DefaultHeader />
+        <Pannouncements>
+          <section className="popupBox">
+            <strong className="title" style={{fontSize:'24px', fontWeight: 'bold'}}>{t('support:SUPPORT')}</strong>
+            <p className="subtitle">
+            {t('support:SUPPORT_DESC_1')}
+            </p>
+            <p className="description">{t('support:SUPPORT_DESC_2')}</p>
+
+            <div className="contentBody">
+              <ul className="listHeader">
+                <li>{t('support:TITLE')}</li>
+                <li>{t('support:STATUS')}</li>
+              </ul>
+              <ul className="list">
+                {countTickets==0&&<div className="empty">{t('support:NO_HISTORY')}</div>}
+                {tickets.map((v, i)=>{
+                  if(currentPage*10>i && i>=(currentPage-1)*10)
+                  return(<><li>
+                  <details className="ticketDetail">
+                    <summary className="ticketSummary">
+                      <div className="textBox">
+                      Q. {v.title}
+                      </div>
+                      
+                      {v.status==1&&<span className='status'>{t('support:PENDING')}</span>}
+                      {v.status==2&&<span className="status done">{t('support:SOLVED')}</span>}
+                      {v.status==3&&<span className="status reject">{t('support:REJECTED')}</span>}
+                      <img className="arwImg" src={I_dnArrow} alt="" />
+                      
+                    </summary>
+
+                    <div className="content">
+                      <span className="quest">
+                      {v.description}
+                      </span>
+                    {v.answer &&<span className="answer">
+                    {"A. "+v.answer}
+
+                    </span>}
+                    </div>
+                  </details>
+                </li></>)})}
+              </ul>
+            </div>
+            {(countTickets>10)?<Pagination totalPage={totalPage} currentPage={setCurrentPage}/>:undefined}
           </section>
           <article className="btnArea">
             <button className="ListBtn" onClick={()=>{navigate('/sendticket')}}>
@@ -152,7 +177,207 @@ export default function SupportTicket(props) {
     );
 }
 
-const Mannouncements = styled.div``;
+const Mannouncements = styled.div`
+padding: 5vw;
+.subtitle{
+  margin-top: 4vh;
+  font-size: 4vw;
+  font-weight: 500;
+}
+.description{
+  color: #7a7a7a;
+  margin-top: 1vh;
+  font-size: 4vw;
+  font-weight: 500;
+}
+
+.contentBody {
+      padding-top: 2vh;
+      //height: 100%;
+      border-bottom: 1px solid #000;
+      min-height: 60vh;
+        //height: 100%;
+
+      .listHeader {
+        border-bottom: 1px solid #000;
+        display: flex;
+        align-items: center;
+        height: 4vh;
+        padding: 0 6px 0 6px;
+
+        li {
+          font-size: 16px;
+          font-weight: bold;
+        }
+      }
+
+      .list {
+        
+
+        overflow: hidden;
+        padding: 0 6px 0 6px;
+        font-size: 16px;
+        font-weight: 500;
+        //overflow-y: scroll;
+        
+        .empty{
+          width: 100%;
+          height: 60vh;
+          text-align: center;
+          vertical-align: middle;
+          font-size: 2.5vh;
+          font-weight: bold;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 60vh;
+          letter-spacing: normal;
+          text-align: center;
+          color: #727272;
+        }
+
+        li {
+          display: flex;
+          align-items: center;
+          padding: 1vh 0;
+          //height: 56px;
+          
+          //overflow: hidden;
+
+          .ticketDetail {
+            width: 100%;
+          //border: solid 1px #d9d9d9;
+          //border-radius: 8px;
+  
+          &[open] {
+            //border-radius: 8px;
+            //border: solid 2px #1c7eff;
+            //background-color: #fbfbfb;
+            summary {
+              .arwImg {
+                transform: rotate(180deg);
+              }
+            }
+          }
+  
+          .ticketSummary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 56px;
+            padding: 0 3vw;
+  
+            .textBox {
+              display: flex;
+              justify-content: flex-start;
+              //width: 100%;
+              font-size: 16px;
+              font-weight: bold;
+            }
+            .status{
+              font-family: "Noto Sans KR", sans-serif;
+              justify-content: flex-end;
+              font-size: 16px;
+              font-weight: bold;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: normal;
+              letter-spacing: normal;
+              text-align: center;
+              color: #1c7eff;
+            }
+            .done{
+              color: #7a7a7a;
+            }
+            .reject{
+              color: red;
+            }
+  
+            .arwImg {
+              justify-content: flex-end;
+              width: 24px;
+            }
+          }
+  
+          .content{
+            font-family: "Noto Sans KR", sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 3vh;
+            padding: 0 3vw;
+            padding-top: 3vh;
+            padding-bottom: 3vh;
+            //padding-left: 20px;
+            //padding-right: 50px;
+            font-size: 16px;
+            font-weight: normal;
+            //width: 80vw;
+            .quest{
+              padding: 0;
+              width: 84vw;
+            }
+            .answer{
+              justify-content: flex-start;
+              padding-top: 28px;
+              //width: 80vw;
+              color: #1c7eff;
+              
+            }
+          }
+        }
+        }
+        li + li {
+          border-top: 1px solid #e5e5e5;
+        }
+        
+      }
+
+      .listHeader li,
+      .list li span {
+
+        &:nth-of-type(1) {
+          padding: 18px 18px 18px 18px;
+          display: flex;
+          flex: 1;
+          cursor: pointer;
+        }
+
+        &:nth-of-type(2) {
+          display: flex;
+          width: 30vw;
+          justify-content: center;
+        }
+      }
+    }
+    .btnArea {
+      display: flex;
+      width: 90vw;
+      justify-content: flex-end;
+      align-items: center;
+      height: 10vh;
+      //padding: 0 36px;
+      //border-top: 1px solid #d9d9d9;
+
+      .ListBtn {
+        width: 40vw;
+        height: 14vw;
+        font-size: 22px;
+        font-weight: 500;
+        color: #000;
+        background: #fff;
+        //border-radius: 44px;
+        text-align: center;
+        padding-top: auto;
+        border-radius: 7vw;
+        border: solid 2px #222;
+        
+      }
+      .ListBtn:hover{
+        background: #222;
+        color: #fff;
+      }
+    }
+
+`;
 
 const Pannouncements = styled.div`
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);

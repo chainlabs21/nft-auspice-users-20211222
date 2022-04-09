@@ -107,7 +107,7 @@ export default function SitemItems({ val, index }) {
             <source src={val.item.url} />
           </video>
         )}
-        <div className="infoBox">
+        <div className="infoBox" style={{backdropFilter: 'blur(6px)'}}>
           <div className="topBar">
             <button
               className="likeBtn"

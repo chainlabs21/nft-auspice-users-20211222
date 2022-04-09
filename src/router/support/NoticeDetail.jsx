@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router";
 import { useLocation, useHistory, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import I_ltArw3 from "../../img/icons/I_ltArw3.png"
 
 import { useState, useEffect, useLayoutEffect } from "react";
 import I_klaytn from "../../img/sub/I_klaytn.svg";
@@ -67,8 +68,31 @@ console.log(content)
   if (isMobile)
     return (
       <>
-        <DefaultHeader />
-        <Mannouncements></Mannouncements>
+        {/* <DefaultHeader /> */}
+        <Mannouncements>
+          <strong className="title" style={{fontSize:'3vh', fontWeight: 'bold'}}>
+            <img style={{height: '2vh'}} src={I_ltArw3} onClick={()=>{navigate('/'); console.log('help')}}/>  {t('notice:NOTICE')}
+            </strong>
+            <div className="contentBody">
+              <div className="header">
+              <p className="title">{title}</p>
+              <p className="desc">
+                <span className="type">{type}</span>
+                <span className="date">{moment(date).format('YYYY-MM-DD')}</span>
+              </p>
+              <div className="ck-content" dangerouslySetInnerHTML={{__html: content}} />
+              </div>
+
+            </div>
+            
+            <article className="btnArea">
+            <button className="ListBtn" onClick={()=>{navigate('/Notice')}}>
+              목록 보기
+            </button>
+          </article>
+
+
+        </Mannouncements>
       </>
     );
   else
@@ -86,67 +110,6 @@ console.log(content)
               </p>
             </div>
             <div className="ck-content" dangerouslySetInnerHTML={{__html: content}} />
-            {/* <p className="subtitle">
-              아이템버스에서 전하는 새로운 소식을 확인하세요.
-            </p>
-            <div className="midHeader">
-              <p className="description">
-                전체 <span className="highlighted">{totalNotice}</span>건의
-                게시물이 있습니다. (
-                <span className="highlighted">{currentPage}</span>/{totalPage})
-              </p>
-
-              <div className="posBox">
-                  <button
-                    className="selectBtn"
-                    onClick={() => setCategoryPopup(true)}
-                  >
-                    <p>{D_Category[selected]}</p>
-                    <img src={I_dnArrow} alt="" />
-                  </button>
-                  {categoryPopup && (
-                    <>
-                      <SelectPopup off={setCategoryPopup} contList={D_Category} selectCont={setSelected}/>
-                      <PopupBg off={setCategoryPopup} />
-                    </>
-                  )}
-                </div>
-
-              <div className="searchBox">
-                <input
-                  value={searchKey}
-                  onChange={(e) => setSearchKey(e.target.value)}
-                  placeholder=""
-                />
-              </div>
-            </div>
-            <div className="contentBody">
-              <ul className="listHeader">
-                <li>No</li>
-                <li>제목</li>
-                <li>등록일</li>
-              </ul>
-              <ul className="list">
-                {announces.map((v, i) => {
-                  return (
-                    <li key={i}>
-                      <span>{v.category == "COMMON" ? "공지" : i}</span>
-                      <span className="col">{v.title}</span>
-                      <span className="col">
-                        {moment(v.createdat).format("YYYY-MM-DD")}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-            <ul className="Pagination">
-              <li className="on">1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>4</li>
-              <li>5</li>
-            </ul> */}
           </section>
           <article className="btnArea">
             <button className="ListBtn" onClick={()=>{navigate('/Notice')}}>
@@ -158,7 +121,113 @@ console.log(content)
     );
 }
 
-const Mannouncements = styled.div``;
+const Mannouncements = styled.div`
+
+padding: 5vw;
+.subtitle{
+  margin-top: 4vh;
+  font-size: 4vw;
+  font-weight: 500;
+}
+    .description {
+        display: flex;
+        margin-top: 3vh;
+        flex: 1;
+        line-height: 5vh;
+        vertical-align: middle;
+        font-size: 4vw;
+        font-weight: 500;
+      }
+      p {
+        .highlighted {
+          color: #1c7eff;
+        }
+      }
+      .contentBody {
+      padding-top:1vh;
+      margin-top: 2vh;
+      border-top: solid 1px #000;
+      height: 100%;
+      .header{
+        font-size: 2vh;
+        
+        .title{
+          font-weight: bold;
+        }
+        .desc{
+          margin-top: 1.5vh;
+          font-weight: normal;
+          line-height: 3vh;
+          .type + .date{
+            margin-left: 3vw;
+          }
+          .date{
+            color: #7a7a7a;
+            font-size: 1.5vh;
+            //line-height: 2vh;
+          }
+        }
+      }
+      .ck-content{
+        margin-top: 4vh;
+        font-weight: normal;
+      font-stretch: normal;
+      img{
+        max-width: 90vw;
+      }
+    }
+
+    }
+    .ListBtn {
+        width: 176px;
+        height: 56px;
+        font-size: 22px;
+        font-weight: 500;
+        color: #000;
+        background: #fff;
+        border-radius: 44px;
+        text-align: center;
+        padding-top: auto;
+        border-radius: 28px;
+        border: solid 2px #222;
+        align-self: right;
+
+        &:hover{
+          background: #222;
+        color: #fff;
+        }
+        
+      }
+     .btnArea {
+      display: flex;
+      width: 90vw;
+      justify-content: flex-end;
+      align-items: center;
+      height: 20vh;
+      //padding: 0 36px;
+      //border-top: 1px solid #d9d9d9;
+
+      .ListBtn {
+        width: 30vw;
+        height: 10vw;
+        font-size: 4vw;
+        font-weight: 500;
+        color: #000;
+        background: #fff;
+        border-radius: 3.5vw;
+        text-align: center;
+        padding-top: auto;
+        border-radius: 5vw;
+        border: solid 1px #222;
+        
+      }
+      .ListBtn:hover{
+        background: #000;
+        color: #fff;
+      }
+    } 
+
+`;
 
 const Pannouncements = styled.div`
 flex-direction: column;

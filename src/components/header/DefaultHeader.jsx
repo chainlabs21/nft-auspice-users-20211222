@@ -48,9 +48,11 @@ export default function DefaultHeader(props) {
   const ssearch = useSelector((state)=>state.filter.search)
   const [search, setSearch] = useState('')
   const [mMenuPopup, setMenuPopup] = useState(false);
-  const [categoryGroup, setCategoryGroup]=useState([])
+  
   const [ toggleConnectWallet, setToggleConnectWallet] = useState(false);
   const [toggleAlert, setToggleAlert] = useState(false);
+
+  const [categoryGroup, setCategoryGroup]=useState([])
 
   useEffect(()=>{
     setSearch(ssearch)

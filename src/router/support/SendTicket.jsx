@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router";
 import { useLocation, useHistory, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import I_ltArw3 from "../../img/icons/I_ltArw3.png"
 
 import { useState, useEffect, useLayoutEffect } from "react";
 import I_lArrow from "../../img/icons/I_lArrow.svg";
@@ -61,8 +62,45 @@ export default function SupportTicket(props) {
   if (isMobile)
     return (
       <>
-        <DefaultHeader />
-        <Mannouncements></Mannouncements>
+        <Mannouncements>
+          <strong className="title" style={{fontSize:'3vh', fontWeight: 'bold'}}>
+            <img style={{height: '2vh'}} src={I_ltArw3} onClick={()=>{navigate('/'); console.log('help')}}/>  {t('faq:FAQ')}
+            </strong>
+
+            <div className="header">Send Ticket</div>
+            <div className="contentBody">
+              <p className="titlename">{t('sendticket:TYPE')}</p>
+              <div className="titleBox">
+              <input
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder={t('sendticket:TYPE_HOLDER')}
+                />
+                </div>
+
+              <p className="titlename">{t('sendticket:CONTENT')}</p>
+              <div className="ContentBox">
+              <textarea
+                  rows="24"
+                  maxLength={300}
+                  value={desc}
+                  onChange={(e) => setDesc(e.target.value)}
+                  placeholder={t('sendticket:CONTENT_HOLDER')}
+                />
+                </div>
+            </div>
+            <p className="desc">{t('sendticket:DESC')}</p>
+            <article className="btnArea">
+          <button className="ListBtn" onClick={()=>{handleCancel()}}>
+            {t('sendticket:CANCEL')}
+            </button>
+            <button className="ListBtn" onClick={()=>{handleSubmit()}}>
+            {t('sendticket:SEND')}
+            </button>
+          </article>
+
+
+        </Mannouncements>
       </>
     );
   else
@@ -79,6 +117,7 @@ export default function SupportTicket(props) {
                   <div className="Title">{t('sendticket:TYPE')+" : "}</div>
                   <div className="TitleBox">
                 <input
+                className="titleinput"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder={t('sendticket:TYPE_HOLDER')}
@@ -113,7 +152,94 @@ export default function SupportTicket(props) {
     );
 }
 
-const Mannouncements = styled.div``;
+const Mannouncements = styled.div`
+padding: 5vw;
+.subtitle{
+  margin-top: 4vh;
+  font-size: 4vw;
+  font-weight: 500;
+}
+.description{
+  color: #7a7a7a;
+  margin-top: 1vh;
+  font-size: 4vw;
+  font-weight: 500;
+}
+
+.header{
+  padding-top: 3vh;
+  padding-bottom: 1.5vh;
+  margin-bottom: 3vh;
+  border-bottom: solid 1px #000;
+  font-weight: normal;
+}
+
+
+
+.contentBody {
+  .titlename{
+  color: #616161;
+  font-weight: normal;
+}
+
+
+      .titleBox{
+        width: 100%;
+        height: 5vh;
+        border: solid 1px #e5e5e5;
+        border-radius: 1vw;
+        margin-top: 1.5vh;
+        margin-bottom: 4vh;
+        input{
+          padding: 2vw;
+          height: 5vh;
+          
+        }
+      }
+
+        
+        
+        textarea{
+          margin-top: 1.5vh;
+        margin-bottom: 2vh;
+          width: 100%;
+          padding: 2vw;
+          height: 30vh;
+          border: solid 1px #e5e5e5;
+        border-radius: 1vw;
+        }
+      
+}
+
+.desc{
+  color: #7a7a7a;
+  font-size: 3.33vw;
+  margin-bottom: 3vh;
+}
+
+.btnArea{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  .ListBtn{
+    width: 35vw;
+        height: 11vw;
+        font-size: 22px;
+        font-weight: 500;
+        color: #222;
+        background: #fff;
+        border-radius: 5.5vw;
+        text-align: center;
+        padding-top: auto;
+        border: solid 2px #222;
+        &:nth-of-type(2) {
+          color: #fff;
+        background: #222;
+        }
+  }
+}
+`;
 
 const Pannouncements = styled.div`
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);

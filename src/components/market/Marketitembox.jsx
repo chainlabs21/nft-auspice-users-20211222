@@ -219,6 +219,8 @@ const MMarketitem = styled.div`
       z-index: 9;
       width: 100%;
       padding: 5.55vw;
+      -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
       background: linear-gradient(
         to bottom,
         rgba(0, 0, 0, 0.3),
@@ -326,6 +328,8 @@ const PMarketitem = styled.div`
       z-index: 9;
       width: 100%;
       padding: 16px;
+      -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
       background: linear-gradient(
         to bottom,
         rgba(0, 0, 0, 0.3),

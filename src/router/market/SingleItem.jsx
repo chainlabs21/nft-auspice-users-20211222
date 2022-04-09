@@ -158,6 +158,8 @@ function SingleItem({
   const [imageurl, setImageurl] = useState("");
   const [chartXdata, setChartXdata] = useState([]);
   const [chartYdata, setChartYdata] = useState([]);
+  const [sellOrderBids, setSellOrderBids] = useState([]);
+  const [sellOrderOnspot, setSellOrderOnspot] = useState([]);
   let [reportcatlist, setreportcatlist] = useState([]);
   let tokenid; //	let itemid =get_last_part_of_path ( window.location.href )
   let axios = applytoken();
@@ -479,6 +481,7 @@ function SingleItem({
         let { status, respdata } = res.data;
         if (status == "OK") {
           setitemdata(respdata);
+          
           let { orders_sellside } = respdata;
           console.log(orders_sellside);
 
@@ -592,6 +595,18 @@ function SingleItem({
         }
       });
   };
+  useEffect(()=>{
+    setSellOrderBids([]);
+    setSellOrderOnspot([]);
+    orders_sell.map((v)=>{
+      if(v.typestr=="COMMON"){
+        setSellOrderOnspot(pre=>[...pre, v])
+      }
+      else{
+        setSellOrderOnspot(pre=>[...pre, v])
+      }
+    })
+  },[orders_sell])
 
   function onClickSwiperPreBtn(swiperRef, items, index, setIndex) {
     const wrapWidth = swiperRef.current.offsetWidth;
@@ -757,7 +772,7 @@ window.scrollTo({top:0});
         )}
         <MsignPopupBox>
           <section className="innerBox" style={{ paddingTop: myItem && 0 }}>
-            {myItem && (
+            {isOwner && (
               <article className="myItemBar">
                 <div className="titleBox">
                   <button className="exitBtn" onClick={() => navigate(-1)}>
@@ -765,7 +780,7 @@ window.scrollTo({top:0});
                   </button>
 
                   <strong className="title">
-                    Philip van Kouwenbergh's item
+                  {itemdata?.author?.nickname}'s item
                   </strong>
                 </div>
 
@@ -780,7 +795,7 @@ window.scrollTo({top:0});
               </article>
             )}
 
-            {myItem && (
+            {!myItem && (
               <article className="myItemBar">
                 <div className="titleBox">
                   <button className="exitBtn" onClick={() => navigate(-1)}>
@@ -874,24 +889,34 @@ window.scrollTo({top:0});
                   <div className="priceBox">
                     <p className="listTitle">Current Bid</p>
                     <div className="price">
-                      <p className="value">2.867</p>
-                      <p className="key">AUSP</p>
+                      <p className="value">{sellorder?.asset_amount_ask || 0}</p>
+                      <p className="key">KLAY</p>
                     </div>
-                    <p className="exchange">$1,234.25</p>
+                    <p className="exchange">${(priceklay*sellorder?.asset_amount_ask).toFixed(4) || '0.00'}</p>
                   </div>
 
                   <div className="timeBox">
                     <p className="listTitle">Auction ending in</p>
-                    <strong className="time">05:32:21</strong>
+                    <strong className="time">{moment.unix(sellorder?.expiry).fromNow()}</strong>
                   </div>
                 </div>
 
-                <button
-                  className="bidBtn"
-                  onClick={() => setPurchasePopup(true)}
-                >
-                  Place a Bid2
-                </button>
+                {productType === "COMMON" && (
+                    <button
+                      className="bidBtn"
+                      onClick={() => setPurchasePopup(true)}
+                    >
+                      {t('singleitem:PURCHASE')}
+                    </button>
+                  )}
+                  {productType === "AUCTION_ENGLISH" && (
+                    <button
+                      className="bidBtn"
+                      onClick={() => setBidPopup(true)}
+                    >
+                      {t('singleitem:PLACE_A_BID')}
+                    </button>
+                  )}
               </div>
             </article>
 
@@ -1027,7 +1052,7 @@ window.scrollTo({top:0});
                   </ul>
 
                   <ul className="list">
-                  {orders_sell
+                  {fixed_orders
                       .sort((a, b) => {
                         return +a.asset_amount_ask == +b.asset_amount_ask
                           ? a.createdat > b.createdat
@@ -1095,15 +1120,17 @@ window.scrollTo({top:0});
                   </ul>
 
                   <ul className="list">
-                    {[1, 2, 3, 4, 5, 6].map((cont, index) => (
+                    {auction_orders
+                    .sort((a, b) => (a.createdat > b.createdat ? -1 : +1))
+                    .map((cont, index) => (
                       <li key={index}>
                         <span className="infoBox">
                           <div className="leftBox">
                             <img src={I_klaytn} alt="" />
 
                             <div className="priceTimeBox">
-                              <p className="price">0.015 KLAY ($30.11)</p>
-                              <p className="time">3 days later</p>
+                              <p className="price">{cont.price} KLAY (${cont?.price * priceklay})</p>
+                              <p className="time">{moment(cont.createdat).fromNow()}</p>
                             </div>
                           </div>
 
@@ -1112,7 +1139,7 @@ window.scrollTo({top:0});
                           </button>
                         </span>
 
-                        <span className="seller">Philip van Kouwenbergh</span>
+                        <span className="seller">{convertLongString(8, 8, cont.buyer)}</span>
                       </li>
                     ))}
                   </ul>
@@ -1628,7 +1655,7 @@ window.scrollTo({top:0});
 
                 <div className="scrollBox">
                   <ul className="offerList">
-                    {orders_sell
+                    {sellOrderOnspot
                       .sort((a, b) => {
                         return +a.asset_amount_ask == +b.asset_amount_ask
                           ? a.createdat > b.createdat

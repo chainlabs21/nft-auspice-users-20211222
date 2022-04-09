@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import {useState, useEffect} from "react";
 import styled from "styled-components";
 import { D_NavList } from "../../data/D_header";
 import I_dnArrow from "../../img/icons/I_dnArrow.svg";
@@ -8,10 +9,23 @@ import { onClickCopy } from "../../util/common";
 import { strDot } from "../../util/Util";
 import SetErrorBar from "../../util/SetErrorBar";
 import { messages } from "../../config/messages";
+import axios from "axios";
+import { API } from "../../config/api";
 
 export default function MmenuPopup({ off }) {
   const navigate = useNavigate();
   const {isloggedin, walletAddress} = useSelector((state)=>state.user)
+  const [categoryGroup, setCategoryGroup]=useState([])
+
+  useEffect(()=>{
+    setCategoryGroup([])
+    axios.get(`${API.API_GET_ITEM_CATEGORIES}`).then((resp)=>{
+      let categories = resp.data.list
+      categories.map((v, i)=>{
+        setCategoryGroup(pre=> [...pre, {code:v.category, text: v.textdisp}])
+      })
+    })
+  },[])
 
   function onClickNav(url) {
     navigate(url);
@@ -21,7 +35,98 @@ export default function MmenuPopup({ off }) {
   return (
     <MmenuPopupBox>
       <article className="navArticle">
-        {D_NavList.map((nav, index) => (
+
+      <details className="statusDetail">
+            <summary className="filterSummary">
+              <p className="title">Market Place</p>
+              <img className="arwImg off" src={I_dnArrow} alt="" />
+              <img className="arwImg on" src={I_upArwWhite} alt="" />
+            </summary>
+
+            <ul className="navList">
+
+            {categoryGroup.map((cont, index)=>{
+              return(<li
+                        key={index}
+                        onClick={() =>
+                          navigate("/marketplace/"+cont.code)
+                        }
+                      >
+                        <p>{cont.text}</p>
+                      </li>)
+                })
+            }
+              
+            </ul>
+          </details>
+
+          <details className="statusDetail">
+            <summary className="filterSummary">
+              <p className="title">EXPLORE</p>
+              <img className="arwImg off" src={I_dnArrow} alt="" />
+              <img className="arwImg on" src={I_upArwWhite} alt="" />
+            </summary>
+
+            <ul className="navList">
+              
+                <li onClick={() => onClickNav('/exploredealhistory')}>
+                  Transaction details
+                </li>
+              
+            </ul>
+          </details>
+
+          <details className="statusDetail">
+            <summary className="filterSummary">
+              <p className="title">MY ACCOUNT</p>
+              <img className="arwImg off" src={I_dnArrow} alt="" />
+              <img className="arwImg on" src={I_upArwWhite} alt="" />
+            </summary>
+
+            <ul className="navList">
+              
+                <li onClick={() => onClickNav("/mypage/searchwallet/"+walletAddress)}>
+                My Profile
+                </li>
+                <li onClick={() => onClickNav("/mypage/liked/"+walletAddress)}>
+                Bookmark
+                </li>
+                <li onClick={() => onClickNav("/mywallet")}>
+                Account Setting
+                </li>
+              
+            </ul>
+          </details>
+
+          <details className="statusDetail">
+            <summary className="filterSummary">
+              <p className="title">SUPPORT</p>
+              <img className="arwImg off" src={I_dnArrow} alt="" />
+              <img className="arwImg on" src={I_upArwWhite} alt="" />
+            </summary>
+
+            <ul className="navList">
+              
+                <li onClick={() => onClickNav("/notice")}>
+                NOTICE
+                </li>
+                <li onClick={() => onClickNav("/faq")}>
+                FAQ
+                </li>
+                <li onClick={() => onClickNav("/support")}>
+                Support Ticket
+                </li>
+              
+            </ul>
+          </details>
+
+
+
+
+
+
+
+        {/* {D_NavList.map((nav, index) => (
           <details key={index} className="statusDetail">
             <summary className="filterSummary">
               <p className="title">{nav.title}</p>
@@ -38,7 +143,7 @@ export default function MmenuPopup({ off }) {
               ))}
             </ul>
           </details>
-        ))}
+        ))} */}
       </article>
 
       <button className="connectBtn"
