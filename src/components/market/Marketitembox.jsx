@@ -216,7 +216,7 @@ const MMarketitem = styled.div`
     }
 
     .infoBox {
-      z-index: 9;
+      z-index: 1;
       width: 100%;
       padding: 5.55vw;
       -webkit-backdrop-filter: blur(6px);
@@ -325,7 +325,7 @@ const PMarketitem = styled.div`
     }
 
     .infoBox {
-      z-index: 9;
+      z-index: 1;
       width: 100%;
       padding: 16px;
       -webkit-backdrop-filter: blur(6px);

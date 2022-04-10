@@ -740,7 +740,7 @@ const PdefaultfilterBox = styled.section`
   box-sizing: content-box;
   background: #fff;
   border-right: 1px solid #d9d9d9;
-  top: 120px;
+  top: 163px;
   left: 0;
   bottom: 0;
   position: fixed;

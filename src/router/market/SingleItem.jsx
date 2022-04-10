@@ -1550,16 +1550,16 @@ window.scrollTo({top:0});
                     <div className="priceBox">
                       <p className="title">{t('singleitem:CURRENT_BID')}</p>
                       <div className="price">
-                        <p className="value">{sellorder?.asset_amount_ask}</p>
+                        <p className="value">{sellorder?.asset_amount_ask || '0.00'}</p>
                         <p className="key">KLAY</p>
                       </div>
                       <p className="exchange">${(priceklay*sellorder?.asset_amount_ask).toFixed(4) || '0.00'}</p>
                     </div>
 
                     <div className="timeBox">
-                      <p className="title">{productType} {t('singleitem:ENDING')}</p>
+                      <p className="title">{productType} {productType?t('singleitem:ENDING'):''}</p>
                       <strong className="time">
-                        {moment.unix(sellorder?.expiry).fromNow()}
+                        {sellorder?.expiry? moment.unix(sellorder?.expiry).fromNow(): 'No Listings'}
                       </strong>
                     </div>
                   </div>
@@ -1790,7 +1790,7 @@ window.scrollTo({top:0});
                               <p>(Qty. {v.asset_amount_bid})</p>
                             </div>
                           </span>
-                          <span>{moment(v.createdat).fromNow()}</span>
+                          <span>{moment(v.createdat).fromNow('HH:mm:ss')}</span>
                           <span>{convertLongString(8, 8, v.buyer)}</span>
                         </li>
                       )})}
