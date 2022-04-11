@@ -73,19 +73,19 @@ export const writeSig = async (maker, message)=>{
 	// 	params: [maker, message],
 	// 	from: maker
 	// })
-	const msg=`\n\n 서명을 하시어 Artube 이용약관에 동의해주세요. \n\n 이 과정은 블록체인 트랜잭션을 일으키거나, 가스비가 소모되지 않습니다. \n\n 계정 인증은 24시간 후, 말소됩니다. \n\n 지갑 주소: \n${maker}\n\nNonce:\n${message}`;
-	const msgg = `Welcome 0xbd059f4f38fc8fdf848a5326a65b51fd781aca43 \n\n ddb8954c-b5a3-5eb2-9a35-6f2b6a0ee27b`
+	const msg=`서명을 하시어 Artube 이용약관에 동의해주세요.\n\n이 과정은 블록체인 트랜잭션을 일으키거나, 가스비가 소모되지 않습니다.\n\n계정 인증은 24시간 후, 말소됩니다.\n\n지갑 주소: ${maker}\n\nNonce:${message}`;
+	const msgg = `Welcome ${maker} \n\n ${message}`
 	//Welcome ${maker} \n\n ${message}
 
 	const hashed= keccak256(msgg).toString("hex");
-	console.log(hashed)
+	//console.log(hashed)
 	const signedMsg = await caver.klay.sign(hashed, maker)
 	console.log(signedMsg)
 	console.log(sigToRSV(signedMsg))
 	console.log(await caver.utils.recover(hashed, sigToRSV(signedMsg)))
-	let result = await caver.validator.validateSignedMessage(hashed, sigToRSV(signedMsg), maker)
+	//let result = await caver.validator.validateSignedMessage(hashed, sigToRSV(signedMsg), maker)
 
-	return result
+	return {hashed, signature: signedMsg, address: maker}
 	//console.log(await caver.klay.getAccountKey)
 	//console.log(sigToRSV(signedMsg))
 	//console.log(caver.utils.recover(hashed.toString(), signedMsg))

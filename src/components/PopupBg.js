@@ -24,7 +24,7 @@ const PopupBgBox = styled.div`
   top: 0;
   left: 0;
   position: fixed;
-  z-index: 5;
+  z-index: 20;
   cursor: pointer;
 `;
 

@@ -186,7 +186,7 @@ z-index: 10000;
   }`;
 
 const Pannouncements = styled.div`
-  z-index: 6;
+  z-index: 1000;
   position: fixed;
   top: 0;
   display: flex;
@@ -196,7 +196,7 @@ const Pannouncements = styled.div`
   width: 100%;
   height: 100%;
   font-family: "Noto Sans KR", sans-serif;
-  /* background-color: rgba(0, 0, 0, 0.8); */
+  /* background-color: rgba(0, 0, 0, 0.3); */
 
   .container {
     padding: 0;

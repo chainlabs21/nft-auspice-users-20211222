@@ -142,9 +142,15 @@ function ConnectWalletPopup({ Setmyinfo, Setaddress }) {
         axios.get(`${API.API_GET_NONCE}/${account[0]}`).then(async (nonce)=>{
           console.log(nonce)
           let result = await writeSig(account[0], nonce.data.code)
-          if(result == true){
-            login(account[0], TYPE)
-          }
+          axios.post(`${API.API_GET_NONCE}/check`, result).then((res)=>{
+            let {message} = res.data.message;
+            if (message == 'verified'){
+              login(account[0], TYPE)
+            }
+          })
+          // if(result == true){
+          //   login(account[0], TYPE)
+          // }
           //const caver = new Caver(klaytn);
           //caver.klay.sign()
 
