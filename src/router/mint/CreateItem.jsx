@@ -206,8 +206,6 @@ export default function CreateItem({ store, setConnect }) {
           alert(`tokenid:${resp}`);
         }
       });
-      //			return
-      //			let txhash = resp.transactionHash
       awaitTransactionMined
         .awaitTx(web3, txhash, TX_POLL_OPTIONS)
         .then((minedtxreceipt) => {
